@@ -39,6 +39,8 @@
   @keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
 
   .answer { max-width:1040px; margin:0 auto; padding:38px 24px 12px; }
+  .backlink { display:inline-block; margin-bottom:16px; font-size:13px; font-weight:600; color:#1F3A5F; }
+  .backlink:hover { color:#A87B1F; }
   .eyebrow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12.5px; color:#9AA2AA; margin-bottom:14px; }
   .eyebrow .rid { color:#66707A; font-weight:600; }
   .headline { font-family:'Newsreader',serif; font-weight:400; font-size:clamp(24px,3.6vw,34px); line-height:1.28; max-width:880px; }
@@ -103,7 +105,8 @@
 
 <main>
   <section class="answer">
-    <div class="eyebrow">
+    <a class="backlink" href="/">&#8592; Back to DataLabs</a>
+      <div class="eyebrow">
       <span>Transportation &amp; MBTA</span>
       <span class="rid">DL-12</span>
     </div>

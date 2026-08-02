@@ -197,11 +197,6 @@
     "u": "https://massopenbooks.org/payrolls/commonwealth-employees"
    },
    {
-    "t": "Taxation Rates",
-    "s": "US",
-    "u": "https://usdatalabs.org/taxation/taxation-rates"
-   },
-   {
     "t": "Taxpayer Migration",
     "s": "US",
     "u": "https://usdatalabs.org/taxation/irs-taxpayer-migration"
@@ -801,6 +796,11 @@
   "st": "archive",
   "tgt": "",
   "legacy": [
+   {
+    "t": "Taxation Rates",
+    "s": "US",
+    "u": "https://usdatalabs.org/taxation/taxation-rates"
+   },
    {
     "t": "Tracking COVID-19",
     "s": "MA",

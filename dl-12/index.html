@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transportation & MBTA · Pioneer DataLabs (Flagship Prototype)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:#FAFAF7; --ink:#14273D; --slate:#44515E; --gold:#B08428;
+    --gold-soft:#F3EAD3; --hairline:#DAD6CB; --card:#FFFFFF;
+    --live:#2E6B4F; --live-soft:#E4EFE8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
+  body { background:var(--paper); color:var(--ink); font-family:'Public Sans',system-ui,sans-serif; font-size:16px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  button { font-family:inherit; cursor:pointer; }
+  a { color:var(--ink); text-decoration:none; }
+  input:focus-visible, button:focus-visible, a:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+  .proto { background:var(--gold-soft); color:#6E5312; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.05em; text-align:center; padding:7px 14px; }
+
+  .masthead { position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--hairline); }
+  .masthead-inner { max-width:1040px; margin:0 auto; padding:12px 24px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  .wordmark { font-family:'Libre Caslon Text',serif; font-size:18px; white-space:nowrap; }
+  .wordmark .labs { color:var(--gold); font-style:italic; }
+  .mini-ask { flex:1; min-width:220px; display:flex; background:var(--card); border:1.5px solid var(--ink); border-radius:5px; overflow:hidden; }
+  .mini-ask input { flex:1; border:none; outline:none; font-family:inherit; font-size:14px; padding:9px 12px; background:transparent; color:var(--ink); min-width:0; }
+  .mini-ask button { border:none; background:var(--ink); color:#fff; font-size:13px; font-weight:600; padding:0 16px; }
+  .mini-ask button:disabled { background:#7A8794; cursor:wait; }
+  .mini-ask:focus-within { border-color:var(--gold); }
+
+  .ask-answer { max-width:1040px; margin:0 auto; padding:0 24px; }
+  .ask-answer .box { margin-top:14px; border:1px solid var(--hairline); border-left:4px solid var(--gold); background:var(--card); border-radius:6px; padding:14px 18px; font-size:15px; }
+  .ask-answer .src { display:inline-block; margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6E5312; background:var(--gold-soft); border-radius:4px; padding:2px 7px; }
+  .thinking { color:var(--slate); font-style:italic; }
+  .dots::after { content:''; animation:dots 1.2s steps(4,end) infinite; }
+  @keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
+
+  .answer { max-width:1040px; margin:0 auto; padding:38px 24px 12px; }
+  .eyebrow { display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); margin-bottom:14px; }
+  .eyebrow .rid { color:var(--gold); }
+  .headline { font-family:'Libre Caslon Text',serif; font-weight:400; font-size:clamp(24px,3.6vw,34px); line-height:1.28; max-width:880px; }
+  .headline strong { font-weight:700; }
+  .headline .figure { color:var(--gold); font-weight:700; }
+  .badges { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
+  .badge { font-family:'IBM Plex Mono',monospace; font-size:11.5px; border:1px solid var(--hairline); background:var(--card); border-radius:4px; padding:3px 9px; color:var(--slate); }
+  .badge.warn { border-color:var(--gold); color:#6E5312; background:var(--gold-soft); }
+
+  .proof { max-width:1040px; margin:0 auto; padding:22px 24px 8px; }
+  .chart-card { background:var(--card); border:1px solid var(--hairline); border-radius:6px; padding:22px 24px 16px; }
+  .chart-card h2 { font-size:15px; font-weight:600; margin-bottom:4px; }
+  .chart-card .sub { font-size:13px; color:var(--slate); margin-bottom:14px; }
+  .chart-card svg { width:100%; height:auto; display:block; }
+  .chart-note { font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8A8F96; margin-top:10px; }
+
+  .actions { max-width:1040px; margin:0 auto; padding:16px 24px 8px; display:flex; gap:10px; flex-wrap:wrap; }
+  .act { border:1.5px solid var(--ink); background:var(--card); color:var(--ink); border-radius:5px; font-size:13.5px; font-weight:600; padding:9px 15px; }
+  .act:hover { background:var(--ink); color:#fff; }
+  .act.disabled { border-color:var(--hairline); color:#9AA3AC; pointer-events:none; }
+
+  .story { max-width:1040px; margin:0 auto; padding:36px 24px 8px; }
+  .layer-head { display:flex; align-items:baseline; justify-content:space-between; border-bottom:2px solid var(--ink); padding-bottom:8px; gap:12px; flex-wrap:wrap; }
+  .layer-head h2 { font-family:'Libre Caslon Text',serif; font-weight:400; font-size:22px; }
+  .layer-head span { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); }
+  .story-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:18px; }
+  .story-card { background:var(--card); border:1px solid var(--hairline); border-radius:6px; padding:18px 18px 14px; }
+  .story-card h3 { font-family:'Libre Caslon Text',serif; font-size:16.5px; font-weight:700; margin-bottom:8px; }
+  .story-card p { font-size:13.5px; color:var(--slate); margin-top:10px; }
+  .story-card .src { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6E5312; background:var(--gold-soft); border-radius:3px; padding:2px 6px; display:inline-block; margin-top:8px; }
+  .story-card svg { width:100%; height:auto; display:block; }
+
+  .workbench { max-width:1040px; margin:40px auto 0; padding:0 24px 56px; }
+  .bench-grid { margin-top:18px; overflow-x:auto; }
+  table.register { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--hairline); font-size:13px; min-width:720px; }
+  table.register th { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; text-align:left; background:#EFEDE6; padding:9px 12px; border-bottom:2px solid var(--ink); white-space:nowrap; }
+  table.register td { padding:9px 12px; border-bottom:1px solid var(--hairline); vertical-align:top; }
+  table.register td:first-child { font-weight:600; }
+  .bench-actions { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
+  .bench-note { margin-top:12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8A8F96; }
+
+  footer { border-top:1px solid var(--hairline); padding:20px 24px 32px; text-align:center; font-size:12.5px; color:var(--slate); }
+  .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; font-size:13.5px; border-radius:6px; padding:10px 18px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:99; }
+  .toast.show { opacity:1; }
+</style>
+</head>
+<body>
+
+<div class="proto">WORKING PROTOTYPE · DATA RECOVERED FROM THE LEGACY DATALABS WORKBOOK · PENDING RECONCILIATION AGAINST FTA NTD · NOT FOR CITATION</div>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="wordmark">Pioneer <span class="labs">DataLabs</span></div>
+    <div class="mini-ask">
+      <input id="askInput" type="text" placeholder="Ask about the T: Is commuter rail back to pre-pandemic levels?" aria-label="Ask a question" maxlength="400">
+      <button id="askBtn" type="button">Ask</button>
+    </div>
+  </div>
+</header>
+
+<div class="ask-answer" id="askAnswerWrap"></div>
+
+<main>
+  <section class="answer">
+    <div class="eyebrow">
+      <span>Transportation &amp; MBTA</span>
+      <span class="rid">DL-12</span>
+    </div>
+    <h1 class="headline" id="headline"></h1>
+    <div class="badges">
+      <span class="badge" id="vintageBadge"></span>
+      <span class="badge">Source: legacy extract LEG-MBTA-01</span>
+      <span class="badge warn">Pending NTD reconciliation</span>
+      <span class="badge warn">Derived figures labeled</span>
+    </div>
+  </section>
+
+  <section class="proof">
+    <div class="chart-card">
+      <h2>MBTA monthly ridership, all modes, 2014 to today</h2>
+      <div class="sub">Unlinked passenger trips per month. The pandemic crater and the incomplete climb back.</div>
+      <div id="mainChart"></div>
+      <div class="chart-note">Source: recovered legacy extract (LEG-MBTA-01), format consistent with FTA NTD monthly module. Recovery percentages are derived: month vs. same month 2019.</div>
+    </div>
+  </section>
+
+  <section class="actions">
+    <button class="act" id="copyCite" type="button">Copy citation</button>
+    <button class="act" id="dlChart" type="button">Download chart</button>
+    <button class="act disabled" type="button" title="Coming with district briefs">District brief PDF</button>
+    <a class="act" href="#workbench">See the data and sources</a>
+  </section>
+
+  <section class="story">
+    <div class="layer-head">
+      <h2>The story behind the number</h2>
+      <span>Curated views · No filters needed</span>
+    </div>
+    <div class="story-row">
+      <div class="story-card">
+        <h3>Two different recoveries</h3>
+        <div id="recoveryChart"></div>
+        <p id="recoveryCaption"></p>
+        <span class="src">LEG-MBTA-01 · derived vs 2019</span>
+      </div>
+      <div class="story-card">
+        <h3>What a trip costs to provide</h3>
+        <div id="costChart"></div>
+        <p>Operating cost per unlinked trip by mode. Subway trips are the cheapest to provide; paratransit is two orders of magnitude more expensive. Reporting year to be confirmed at reconciliation.</p>
+        <span class="src">LEG-MBTA-01 · annual table</span>
+      </div>
+      <div class="story-card">
+        <h3>Riders pay a shrinking share</h3>
+        <div id="fareChart"></div>
+        <p>Farebox recovery, the share of operating cost covered by fares, by mode. Every point below 100 is covered by taxpayers. The policy question DataLabs exists to sharpen.</p>
+        <span class="src">LEG-MBTA-01 · annual table</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="workbench" id="workbench">
+    <div class="layer-head">
+      <h2>The evidence</h2>
+      <span>Every number traces to a register row</span>
+    </div>
+    <div class="bench-grid">
+      <table class="register">
+        <thead><tr><th>Source</th><th>Publisher Cadence</th><th>What It Supports in This Tool</th><th>Data Vintage in This Tool</th><th>Next Release</th></tr></thead>
+        <tbody>
+          <tr><td>LEG-MBTA-01 · Recovered legacy DataLabs extract</td><td>n/a (one-time recovery)</td><td>All figures on this page, pending reconciliation</td><td>Through March 2026</td><td>Superseded by SRC-301 at reconciliation</td></tr>
+          <tr><td>SRC-301 · FTA National Transit Database, monthly module (planned)</td><td>Monthly, roughly 2 to 3 month lag</td><td>Ridership and service series</td><td>To be pulled and archived</td><td>Monthly</td></tr>
+          <tr><td>SRC-302 · FTA NTD annual agency data (planned)</td><td>Annual</td><td>Cost per trip and farebox recovery</td><td>To be pulled; year confirmed</td><td>Annual</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="bench-actions">
+      <button class="act" id="dlData" type="button">Download answer data (JSON)</button>
+      <button class="act disabled" type="button" title="Live after reconciliation">Archived source documents</button>
+    </div>
+    <div class="bench-note">The AI above answers only from the JSON on this page, cites its source id on every figure, labels derived numbers, and declines questions outside scope (safety, reliability, debt, fares charged).</div>
+  </section>
+</main>
+
+<footer>Pioneer Institute · DataLabs flagship prototype · Report an error: datalabs@pioneerinstitute.org (placeholder)</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+const ANSWERS = {"as_of": "2026-03", "vintage_note": "Recovered from legacy DataLabs workbook August 2, 2026; pending reconciliation against a fresh FTA NTD pull (SRC-301, planned).", "source_id": "LEG-MBTA-01", "mode_names": {"HR": "Heavy Rail (subway)", "MB": "Bus", "CR": "Commuter Rail", "LR": "Light Rail (Green Line)", "RB": "Bus Rapid Transit", "FB": "Ferry", "DR": "The RIDE (paratransit)"}, "monthly_total_upt": [{"m": "2014-01", "v": 32011705}, {"m": "2014-02", "v": 31145302}, {"m": "2014-03", "v": 35093882}, {"m": "2014-04", "v": 36291455}, {"m": "2014-05", "v": 35975732}, {"m": "2014-06", "v": 34343954}, {"m": "2014-07", "v": 35023307}, {"m": "2014-08", "v": 33070013}, {"m": "2014-09", "v": 35801632}, {"m": "2014-10", "v": 38353487}, {"m": "2014-11", "v": 32694446}, {"m": "2014-12", "v": 32784011}, {"m": "2015-01", "v": 30239978}, {"m": "2015-02", "v": 25199508}, {"m": "2015-03", "v": 35214665}, {"m": "2015-04", "v": 35821917}, {"m": "2015-05", "v": 35063761}, {"m": "2015-06", "v": 35008646}, {"m": "2015-07", "v": 34261401}, {"m": "2015-08", "v": 32380233}, {"m": "2015-09", "v": 34739673}, {"m": "2015-10", "v": 36055006}, {"m": "2015-11", "v": 31728195}, {"m": "2015-12", "v": 31568547}, {"m": "2016-01", "v": 30393116}, {"m": "2016-02", "v": 30827465}, {"m": "2016-03", "v": 35075784}, {"m": "2016-04", "v": 34980228}, {"m": "2016-05", "v": 34668233}, {"m": "2016-06", "v": 35012033}, {"m": "2016-07", "v": 31545283}, {"m": "2016-08", "v": 32540849}, {"m": "2016-09", "v": 33071083}, {"m": "2016-10", "v": 33140559}, {"m": "2016-11", "v": 31143883}, {"m": "2016-12", "v": 29146622}, {"m": "2017-01", "v": 30714323}, {"m": "2017-02", "v": 28372329}, {"m": "2017-03", "v": 33012115}, {"m": "2017-04", "v": 31972892}, {"m": "2017-05", "v": 33330261}, {"m": "2017-06", "v": 32697368}, {"m": "2017-07", "v": 31164479}, {"m": "2017-08", "v": 32769850}, {"m": "2017-09", "v": 32786827}, {"m": "2017-10", "v": 33316115}, {"m": "2017-11", "v": 30021425}, {"m": "2017-12", "v": 27334253}, {"m": "2018-01", "v": 28390706}, {"m": "2018-02", "v": 27977544}, {"m": "2018-03", "v": 30080916}, {"m": "2018-04", "v": 31429525}, {"m": "2018-05", "v": 32892497}, {"m": "2018-06", "v": 31664409}, {"m": "2018-07", "v": 31181364}, {"m": "2018-08", "v": 31706170}, {"m": "2018-09", "v": 30948374}, {"m": "2018-10", "v": 34335325}, {"m": "2018-11", "v": 30009517}, {"m": "2018-12", "v": 26953818}, {"m": "2019-01", "v": 29019553}, {"m": "2019-02", "v": 27086850}, {"m": "2019-03", "v": 30099111}, {"m": "2019-04", "v": 31158897}, {"m": "2019-05", "v": 31598147}, {"m": "2019-06", "v": 29598527}, {"m": "2019-07", "v": 31889612}, {"m": "2019-08", "v": 31409193}, {"m": "2019-09", "v": 31852041}, {"m": "2019-10", "v": 33517504}, {"m": "2019-11", "v": 28766967}, {"m": "2019-12", "v": 27336893}, {"m": "2020-01", "v": 30218272}, {"m": "2020-02", "v": 27742911}, {"m": "2020-03", "v": 16482112}, {"m": "2020-04", "v": 4297427}, {"m": "2020-05", "v": 5067286}, {"m": "2020-06", "v": 7126347}, {"m": "2020-07", "v": 8993350}, {"m": "2020-08", "v": 9366946}, {"m": "2020-09", "v": 10155956}, {"m": "2020-10", "v": 10428270}, {"m": "2020-11", "v": 9404225}, {"m": "2020-12", "v": 8770947}, {"m": "2021-01", "v": 8427678}, {"m": "2021-02", "v": 8185023}, {"m": "2021-03", "v": 10146275}, {"m": "2021-04", "v": 10697489}, {"m": "2021-05", "v": 12103450}, {"m": "2021-06", "v": 13830696}, {"m": "2021-07", "v": 14551911}, {"m": "2021-08", "v": 15237441}, {"m": "2021-09", "v": 17968914}, {"m": "2021-10", "v": 18813404}, {"m": "2021-11", "v": 17210703}, {"m": "2021-12", "v": 15890316}, {"m": "2022-01", "v": 12960378}, {"m": "2022-02", "v": 14764398}, {"m": "2022-03", "v": 18612843}, {"m": "2022-04", "v": 18365734}, {"m": "2022-05", "v": 18987201}, {"m": "2022-06", "v": 19187063}, {"m": "2022-07", "v": 18686619}, {"m": "2022-08", "v": 18981577}, {"m": "2022-09", "v": 19611300}, {"m": "2022-10", "v": 21238938}, {"m": "2022-11", "v": 19703746}, {"m": "2022-12", "v": 17867801}, {"m": "2023-01", "v": 18732687}, {"m": "2023-02", "v": 17331958}, {"m": "2023-03", "v": 20684643}, {"m": "2023-04", "v": 19791522}, {"m": "2023-05", "v": 21502697}, {"m": "2023-06", "v": 20723443}, {"m": "2023-07", "v": 20586685}, {"m": "2023-08", "v": 21824825}, {"m": "2023-09", "v": 21276920}, {"m": "2023-10", "v": 22093365}, {"m": "2023-11", "v": 20241410}, {"m": "2023-12", "v": 18459910}, {"m": "2024-01", "v": 20583659}, {"m": "2024-02", "v": 19955172}, {"m": "2024-03", "v": 21375659}, {"m": "2024-04", "v": 21764665}, {"m": "2024-05", "v": 22475891}, {"m": "2024-06", "v": 21086724}, {"m": "2024-07", "v": 22281763}, {"m": "2024-08", "v": 22139896}, {"m": "2024-09", "v": 23401537}, {"m": "2024-10", "v": 25723012}, {"m": "2024-11", "v": 21416061}, {"m": "2024-12", "v": 20008994}, {"m": "2025-01", "v": 21461986}, {"m": "2025-02", "v": 20106135}, {"m": "2025-03", "v": 22331366}, {"m": "2025-04", "v": 23619155}, {"m": "2025-05", "v": 23796675}, {"m": "2025-06", "v": 22281887}, {"m": "2025-07", "v": 23230254}, {"m": "2025-08", "v": 21793618}, {"m": "2025-09", "v": 23604887}, {"m": "2025-10", "v": 25760373}, {"m": "2025-11", "v": 22666596}, {"m": "2025-12", "v": 21151472}, {"m": "2026-01", "v": 20465502}, {"m": "2026-02", "v": 19971156}, {"m": "2026-03", "v": 24867521}], "annual_upt_by_mode": {"2014": {"HR": 179299422, "MB": 117268320, "CR": 35560409, "LR": 67403174, "RB": 9517114, "FB": 1380660, "DR": 2159827}, "2015": {"HR": 173533799, "MB": 116854336, "CR": 32244598, "LR": 60408797, "RB": 10713289, "FB": 1367433, "DR": 2159278}, "2016": {"HR": 169059896, "MB": 109171667, "CR": 33857423, "LR": 65097937, "RB": 10750758, "FB": 1505718, "DR": 2101739}, "2017": {"HR": 164535915, "MB": 105827105, "CR": 33748866, "LR": 59315480, "RB": 10609392, "FB": 1486565, "DR": 1968914}, "2018": {"HR": 160782497, "MB": 102299632, "CR": 31605591, "LR": 58225834, "RB": 11223790, "FB": 1521759, "DR": 1911062}, "2019": {"HR": 159102449, "MB": 100888185, "CR": 31883589, "LR": 56383908, "RB": 11626928, "FB": 1636006, "DR": 1812230}, "2020": {"HR": 56416768, "MB": 53646501, "CR": 12867097, "LR": 18339785, "RB": 5573228, "FB": 362448, "DR": 848222}, "2021": {"HR": 64040522, "MB": 58652054, "CR": 8901241, "LR": 24065640, "RB": 6155359, "FB": 394176, "DR": 854308}, "2022": {"HR": 81361484, "MB": 75271529, "CR": 18984423, "LR": 33388741, "RB": 8241025, "FB": 797835, "DR": 922561}, "2023": {"HR": 85911125, "MB": 81248091, "CR": 26443813, "LR": 38001004, "RB": 9473738, "FB": 1250070, "DR": 922224}, "2024": {"HR": 86380035, "MB": 91305573, "CR": 30966271, "LR": 41057879, "RB": 10027766, "FB": 1424831, "DR": 1050678}, "2025": {"HR": 101656916, "MB": 85313786, "CR": 29797929, "LR": 42423232, "RB": 9961636, "FB": 1502610, "DR": 1148295}}, "latest_month": {"month": "2026-03", "total_upt": 24867521, "by_mode": {"HR": 9530565, "MB": 7644102, "CR": 2807991, "LR": 3819625, "RB": 876150, "FB": 82061, "DR": 107027}}, "recovery_vs_2019_same_month_pct": {"TOTAL": 82.6, "HR": 71.6, "MB": 91.4, "CR": 106.8, "LR": 83.6, "RB": 89.9, "FB": 79.7, "DR": 69.4}, "yoy_change_pct": 11.4, "annual_cost_and_farebox": [{"mode": "Bus", "tos": "DO", "cost_per_trip": 7.24, "recovery_ratio": 12.3}, {"mode": "Bus", "tos": "PT", "cost_per_trip": 13.8, "recovery_ratio": 1.0}, {"mode": "Bus Rapid Transit", "tos": "DO", "cost_per_trip": 6.55, "recovery_ratio": 10.3}, {"mode": "Commuter Rail", "tos": "PT", "cost_per_trip": 19.51, "recovery_ratio": 23.4}, {"mode": "Demand Response", "tos": "PT", "cost_per_trip": 161.25, "recovery_ratio": 1.8}, {"mode": "Ferryboat", "tos": "PT", "cost_per_trip": 18.1, "recovery_ratio": 35.8}, {"mode": "Heavy Rail", "tos": "DO", "cost_per_trip": 4.8, "recovery_ratio": 33.7}, {"mode": "Light Rail", "tos": "DO", "cost_per_trip": 7.25, "recovery_ratio": 19.6}], "annual_cost_note": "Reporting year not recorded in the legacy extract; to be confirmed at reconciliation.", "scope": "Covers MBTA ridership (unlinked passenger trips), service levels, and per-trip cost/farebox by mode. Does NOT cover: safety, reliability/on-time performance, capital budget, debt, fares charged to riders, or other transit agencies."};
+
+const toastEl=document.getElementById('toast');
+function toast(m){toastEl.textContent=m;toastEl.classList.add('show');clearTimeout(toastEl._t);toastEl._t=setTimeout(()=>toastEl.classList.remove('show'),2200);}
+function esc(s){const d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+const fmtM = n => (n/1e6).toFixed(1) + 'M';
+
+/* ---------- Layer 1 ---------- */
+const rec = ANSWERS.recovery_vs_2019_same_month_pct;
+const [yy, mm] = ANSWERS.as_of.split('-');
+const monthName = new Date(yy, mm-1).toLocaleString('en-US',{month:'long'});
+document.getElementById('headline').innerHTML =
+  'The T carried <span class="figure">' + fmtM(ANSWERS.latest_month.total_upt) + ' trips</span> in ' +
+  monthName + ' ' + yy + ', <strong>' + rec.TOTAL + '%</strong> of its pre-pandemic level, ' +
+  'but commuter rail is above 2019 while the subway is still a quarter below it.';
+document.getElementById('vintageBadge').textContent = 'Through ' + monthName + ' ' + yy + ' · monthly';
+
+/* ---------- Main chart: monthly total line ---------- */
+(function(){
+  const s = ANSWERS.monthly_total_upt;
+  const W=940,H=280,padL=46,padR=14,padT=16,padB=30;
+  const max = Math.max(...s.map(d=>d.v));
+  const x = i => padL + i*((W-padL-padR)/(s.length-1));
+  const y = v => padT + (1 - v/max)*(H-padT-padB);
+  let svg = '<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Monthly MBTA ridership">';
+  // gridlines at 10M/20M/30M
+  [10e6,20e6,30e6].forEach(g=>{ if(g<max){ svg+='<line x1="'+padL+'" y1="'+y(g)+'" x2="'+(W-padR)+'" y2="'+y(g)+'" stroke="#EAE7DE"/><text x="4" y="'+(y(g)+4)+'" font-family="IBM Plex Mono" font-size="10" fill="#8A8F96">'+(g/1e6)+'M</text>'; }});
+  // 2019 reference band label
+  svg += '<polyline fill="none" stroke="#14273D" stroke-width="2" points="' + s.map((d,i)=>x(i)+','+y(d.v)).join(' ') + '"/>';
+  // covid marker
+  const covidIdx = s.findIndex(d=>d.m==='2020-04');
+  if(covidIdx>0) svg += '<circle cx="'+x(covidIdx)+'" cy="'+y(s[covidIdx].v)+'" r="4" fill="#B08428"/><text x="'+(x(covidIdx)+8)+'" y="'+(y(s[covidIdx].v)-8)+'" font-family="Public Sans" font-size="11" fill="#6E5312">Apr 2020</text>';
+  // latest marker
+  svg += '<circle cx="'+x(s.length-1)+'" cy="'+y(s[s.length-1].v)+'" r="4" fill="#B08428"/>';
+  // year labels
+  s.forEach((d,i)=>{ if(d.m.endsWith('-01') && (parseInt(d.m)%2===0)) svg+='<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#8A8F96">'+d.m.slice(0,4)+'</text>'; });
+  svg += '</svg>';
+  document.getElementById('mainChart').innerHTML = svg;
+})();
+
+/* ---------- Story: recovery by mode ---------- */
+(function(){
+  const order=['CR','MB','RB','LR','FB','HR','DR'];
+  const W=420,rowH=30,H=order.length*rowH+8;
+  let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Recovery by mode vs 2019">';
+  order.forEach((md,i)=>{
+    const v=rec[md]; const y=4+i*rowH; const w=(Math.min(v,115)/115)*(W-215);
+    const full = v>=100;
+    svg+='<text x="0" y="'+(y+15)+'" font-family="Public Sans" font-size="12" fill="#14273D">'+esc(ANSWERS.mode_names[md].split(' (')[0])+'</text>';
+    svg+='<rect x="145" y="'+(y+4)+'" width="'+w+'" height="15" rx="2" fill="'+(full?'#2E6B4F':'#14273D')+'"/>';
+    svg+='<text x="'+(151+w)+'" y="'+(y+16)+'" font-family="IBM Plex Mono" font-size="11" fill="'+(full?'#2E6B4F':'#44515E')+'">'+v+'%</text>';
+  });
+  // 100% reference
+  const refX=145+(100/115)*(420-215);
+  svg+='<line x1="'+refX+'" y1="0" x2="'+refX+'" y2="'+H+'" stroke="#B08428" stroke-dasharray="3,3"/>';
+  svg+='</svg>';
+  document.getElementById('recoveryChart').innerHTML=svg;
+  document.getElementById('recoveryCaption').textContent =
+    'Share of same-month 2019 ridership, '+monthName+' '+yy+' (derived). Commuter rail has fully recovered at '+rec.CR+
+    '% while heavy rail sits at '+rec.HR+'%: the suburbs came back to the T before the urban core did.';
+})();
+
+/* ---------- Story: cost per trip ---------- */
+(function(){
+  const rows = ANSWERS.annual_cost_and_farebox.filter(r=>r.mode!=='Demand Response');
+  rows.sort((a,b)=>a.cost_per_trip-b.cost_per_trip);
+  const W=420,rowH=26,H=rows.length*rowH+26;
+  const max=Math.max(...rows.map(r=>r.cost_per_trip));
+  let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Cost per trip by mode">';
+  rows.forEach((r,i)=>{
+    const y=4+i*rowH; const w=(r.cost_per_trip/max)*(W-215);
+    svg+='<text x="0" y="'+(y+14)+'" font-family="Public Sans" font-size="11.5" fill="#14273D">'+esc(r.mode)+(r.tos==='PT'?' (contracted)':'')+'</text>';
+    svg+='<rect x="150" y="'+(y+3)+'" width="'+w+'" height="14" rx="2" fill="#14273D" opacity="0.85"/>';
+    svg+='<text x="'+(156+w)+'" y="'+(y+14)+'" font-family="IBM Plex Mono" font-size="11" fill="#44515E">$'+r.cost_per_trip.toFixed(2)+'</text>';
+  });
+  svg+='<text x="0" y="'+(H-6)+'" font-family="IBM Plex Mono" font-size="10" fill="#8A8F96">The RIDE (paratransit): $161.25 per trip, off scale</text>';
+  svg+='</svg>';
+  document.getElementById('costChart').innerHTML=svg;
+})();
+
+/* ---------- Story: farebox recovery ---------- */
+(function(){
+  const rows = ANSWERS.annual_cost_and_farebox.filter(r=>!(r.mode==='Bus'&&r.tos==='PT'));
+  rows.sort((a,b)=>b.recovery_ratio-a.recovery_ratio);
+  const W=420,rowH=26,H=rows.length*rowH+8;
+  let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Farebox recovery by mode">';
+  rows.forEach((r,i)=>{
+    const y=4+i*rowH; const w=(r.recovery_ratio/40)*(W-215);
+    svg+='<text x="0" y="'+(y+14)+'" font-family="Public Sans" font-size="11.5" fill="#14273D">'+esc(r.mode)+'</text>';
+    svg+='<rect x="150" y="'+(y+3)+'" width="'+Math.max(w,3)+'" height="14" rx="2" fill="#B08428" opacity="0.9"/>';
+    svg+='<text x="'+(156+Math.max(w,3))+'" y="'+(y+14)+'" font-family="IBM Plex Mono" font-size="11" fill="#44515E">'+r.recovery_ratio+'%</text>';
+  });
+  svg+='</svg>';
+  document.getElementById('fareChart').innerHTML=svg;
+})();
+
+/* ---------- Actions ---------- */
+document.getElementById('copyCite').addEventListener('click',()=>{
+  const c='MBTA ridership, '+monthName+' '+yy+': '+fmtM(ANSWERS.latest_month.total_upt)+' unlinked trips, '+rec.TOTAL+'% of same-month 2019 (derived). Pioneer Institute DataLabs, Transportation & MBTA (DL-12), source LEG-MBTA-01, pending NTD reconciliation. PROTOTYPE, not for citation.';
+  navigator.clipboard.writeText(c).then(()=>toast('Citation copied'));
+});
+document.getElementById('dlChart').addEventListener('click',()=>{
+  const svg=document.querySelector('#mainChart svg').outerHTML;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
+  a.download='mbta_ridership_PROTOTYPE.svg'; a.click(); toast('Chart downloaded');
+});
+document.getElementById('dlData').addEventListener('click',()=>{
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([JSON.stringify(ANSWERS,null,1)],{type:'application/json'}));
+  a.download='dl12_answers_PROTOTYPE.json'; a.click(); toast('Data downloaded');
+});
+
+/* ---------- Ask, answering only from ANSWERS ---------- */
+const SYSTEM_PROMPT = `You are the answer engine for Pioneer Institute DataLabs flagship DL-12, Transportation and MBTA. You receive a question and a JSON dataset. Hard rules:
+- Answer ONLY from the dataset. Outside knowledge is forbidden even if you know the answer.
+- Every figure gets a citation in parentheses: (LEG-MBTA-01) for values, and derived values must say derived, e.g. (derived vs same month 2019, LEG-MBTA-01).
+- The dataset's scope field lists what is NOT covered (safety, reliability, debt, fares charged to riders, other agencies). Decline those in one honest sentence and do not improvise.
+- Numbers through ` + ANSWERS.as_of + ` only. Questions about later dates: say the data runs through that month.
+- Maximum three sentences. Plain language. No em dashes.
+- Always end with: "Prototype data, pending verification."
+Respond with plain text only.`;
+
+async function ask(){
+  const q=document.getElementById('askInput').value.trim();
+  if(!q) return;
+  const wrap=document.getElementById('askAnswerWrap');
+  const btn=document.getElementById('askBtn');
+  btn.disabled=true;
+  wrap.innerHTML='<div class="box thinking">Checking the data<span class="dots"></span></div>';
+  try{
+    const response=await fetch('/.netlify/functions/ask',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({question:q})
+    });
+    const data=await response.json();
+    const text = data.type==='answer' ? data.text
+      : data.type==='route' ? 'This page covers T ridership and costs; that question belongs to another DataLabs tool. Try it on the home page.'
+      : (data.note || 'This page cannot answer that.');
+    wrap.innerHTML='<div class="box">'+esc(text)+'<br><span class="src">Answered from page data only · LEG-MBTA-01 · through '+esc(ANSWERS.as_of)+'</span></div>';
+  }catch(err){
+    console.error(err);
+    wrap.innerHTML='<div class="box">The answer engine hit a snag. Try again in a moment.</div>';
+  }finally{ btn.disabled=false; }
+}
+document.getElementById('askBtn').addEventListener('click',ask);
+document.getElementById('askInput').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});
+</script>
+</body>
+</html>

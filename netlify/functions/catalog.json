@@ -1,0 +1,226 @@
+[
+ {
+  "id": "DL-01",
+  "title": "Public Pension Ledger",
+  "q": "What state and teacher retirees collect, and fund performance.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "tgt": "Oct 2026",
+  "topics": [
+   "pensions",
+   "retirees",
+   "retirement",
+   "PRIM"
+  ]
+ },
+ {
+  "id": "DL-02",
+  "title": "State Payroll & Checkbook",
+  "q": "State payroll and vendor payments, agency by agency.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "tgt": "Dec 2026",
+  "topics": [
+   "payroll",
+   "salaries",
+   "vendors",
+   "spending",
+   "checkbook"
+  ]
+ },
+ {
+  "id": "DL-03",
+  "title": "State Revenue & Budget Monitor",
+  "q": "Collections, spending growth, rainy day funds, 62F.",
+  "g": [
+   "MA",
+   "US"
+  ],
+  "st": "build",
+  "tgt": "Dec 2026",
+  "topics": [
+   "revenue",
+   "budget",
+   "62F",
+   "collections",
+   "rainy day"
+  ]
+ },
+ {
+  "id": "DL-04",
+  "title": "Tax & Migration Atlas",
+  "q": "State tax codes compared; where taxpayers move.",
+  "g": [
+   "US"
+  ],
+  "st": "live",
+  "tgt": "",
+  "topics": [
+   "tax rates",
+   "wealth tax",
+   "surtax",
+   "migration",
+   "income tax"
+  ]
+ },
+ {
+  "id": "DL-05",
+  "title": "K-12 Achievement & Accountability",
+  "q": "Student performance by district, charter, and state.",
+  "g": [
+   "MA",
+   "US"
+  ],
+  "st": "build",
+  "tgt": "Nov 2026",
+  "topics": [
+   "MCAS",
+   "reading",
+   "math",
+   "charter schools",
+   "graduation"
+  ]
+ },
+ {
+  "id": "DL-06",
+  "title": "School Finance Explorer",
+  "q": "Per-pupil spending by district, line by line.",
+  "g": [
+   "MA",
+   "US"
+  ],
+  "st": "build",
+  "tgt": "Dec 2026",
+  "topics": [
+   "per pupil",
+   "school budgets",
+   "school spending"
+  ]
+ },
+ {
+  "id": "DL-07",
+  "title": "Higher Education Monitor",
+  "q": "Admissions, enrollment, and public higher-ed cost.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "tgt": "Q1 2027",
+  "topics": [
+   "college",
+   "admissions",
+   "enrollment",
+   "university"
+  ]
+ },
+ {
+  "id": "DL-08",
+  "title": "State Competitiveness Monitor",
+  "q": "Jobs, wages, business formation, cost of living.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "tgt": "Q1 2027",
+  "topics": [
+   "jobs",
+   "wages",
+   "GDP",
+   "business formation",
+   "cost of living"
+  ]
+ },
+ {
+  "id": "DL-09",
+  "title": "Housing Monitor",
+  "q": "Permits, production, and prices by state.",
+  "g": [
+   "US",
+   "FL"
+  ],
+  "st": "build",
+  "tgt": "Q1 2027",
+  "topics": [
+   "housing",
+   "permits",
+   "prices"
+  ]
+ },
+ {
+  "id": "DL-10",
+  "title": "Florida Risk Ledger",
+  "q": "Homeowners insurance costs, county by county.",
+  "g": [
+   "FL"
+  ],
+  "st": "live",
+  "tgt": "",
+  "topics": [
+   "insurance",
+   "Florida",
+   "premiums",
+   "takeouts"
+  ]
+ },
+ {
+  "id": "DL-11",
+  "title": "Your City & Town",
+  "q": "Taxes, crime, schools, peers: 351 towns plus Boston.",
+  "g": [
+   "MA",
+   "BOS"
+  ],
+  "st": "build",
+  "tgt": "Nov 2026",
+  "topics": [
+   "municipal",
+   "town",
+   "crime",
+   "property tax",
+   "Boston",
+   "rankings"
+  ]
+ },
+ {
+  "id": "DL-12",
+  "title": "Transportation & MBTA",
+  "q": "T performance vs peer systems nationwide. AI answers live.",
+  "g": [
+   "MA",
+   "US"
+  ],
+  "st": "live",
+  "tgt": "Pilot",
+  "topics": [
+   "MBTA",
+   "transit",
+   "subway",
+   "ridership",
+   "commuter rail",
+   "bus"
+  ],
+  "qa": true,
+  "url": "/dl-12/"
+ },
+ {
+  "id": "DL-13",
+  "title": "Healthcare & 340B",
+  "q": "Hospital pricing, charity care, 340B growth.",
+  "g": [
+   "MA",
+   "US"
+  ],
+  "st": "build",
+  "tgt": "Q1 2027",
+  "topics": [
+   "hospitals",
+   "340B",
+   "Medicaid",
+   "health costs"
+  ]
+ }
+]

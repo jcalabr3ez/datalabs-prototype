@@ -7,306 +7,343 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+  /* ============ Pioneer DataLabs design system (matched to datalabs landing + State Tax Atlas) ============ */
   :root{
-    --blue:#14294d; --accent:#3e6db0; --blue-lt:#e9eef5; --ink:#1a1f26;
-    --g1:#39424c; --g2:#55606b; --g3:#5f6b77;
-    --rule:#d3dae1; --rule-lt:#e6eaee;
-    --pos:#1a7a4c; --neg:#a32c2c; --warn:#b45309;
-    --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
-    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --ink:#14181D; --grey:#66707A; --faint:#9AA2AA; --rule:#E4E6E9; --rule-dk:#14181D; --rule-lt:#EEF1F4;
+    --navy:#1F3A5F; --gold:#A87B1F; --goldlt:#E9C46A; --wash:#F7F7F5; --hover:#F6F8FB;
+    --bar:#12213A; --hero2:#0D1930; --hero3:#0B1526;
+    --blue:#1F3A5F; --accent:#A87B1F; --blue-lt:#F6F8FB;
+    --g1:#3D454E; --g2:#66707A; --g3:#9AA2AA;
+    --pos:#177245; --neg:#8C2532; --warn:#A87B1F;
+    --serif:'Newsreader',Georgia,serif;
+    --sans:'Public Sans',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+    --bleed:clamp(18px,2.6vw,48px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{width:100%}
-  body{background:#f2f4f6;color:var(--ink);font:15px/1.6 var(--sans);
-       -webkit-font-smoothing:antialiased;padding:clamp(14px,2vw,34px) clamp(12px,2vw,32px) 70px}
-  .wrap{width:100%;max-width:1040px;margin:0 auto;background:#fff;border:1px solid var(--rule);
-        padding:clamp(20px,2.4vw,42px) clamp(18px,2.6vw,48px) 44px}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
 
   /* Pioneer masthead */
-  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--blue);
-           padding:14px clamp(18px,2.6vw,48px);
-           margin:calc(-1 * clamp(20px,2.4vw,42px)) calc(-1 * clamp(18px,2.6vw,48px)) clamp(22px,2.4vw,34px)}
-  .sitebar img{height:26px;width:auto;display:block}
-  .sitebar .tag{font:600 10.5px/1 var(--sans);letter-spacing:1.6px;text-transform:uppercase;color:#c3cede}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);
+           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
   @media(max-width:520px){.sitebar .tag{display:none}}
 
-  header{border-bottom:3px solid var(--blue);padding-bottom:16px}
-  .org{font:700 10.5px/1 var(--sans);letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:9px}
-  h1{font:700 27px/1.2 var(--sans);color:var(--blue);letter-spacing:-.5px}
-  .standfirst{font-size:14.5px;color:var(--g1);margin-top:7px;max-width:none}
-  .dateline{display:flex;gap:26px;flex-wrap:wrap;margin-top:14px;
-            font:600 10.5px/1 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--g2)}
-  .proto{display:flex;align-items:center;gap:13px;flex-wrap:wrap;
-         border-top:2px solid var(--warn);border-bottom:2px solid var(--warn);padding:11px 0;margin:22px 0 4px}
-  .proto-tag{font:700 12px/1 var(--sans);letter-spacing:1.6px;text-transform:uppercase;color:#fff;background:var(--warn);padding:6px 11px}
-  .proto-txt{font:600 13px/1.45 var(--sans);color:var(--warn)}
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,#12213A 0%,#0D1930 70%,#0B1526 100%);
+         margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
+    background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%);
+    mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%)}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:500 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);
+         margin:0 calc(-1 * var(--bleed)) 8px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);
+             border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
 
   /* ---- audience toggle ---- */
-  .toggle{display:flex;gap:0;margin-top:22px;border:2px solid var(--blue);width:min(600px,100%)}
-  .toggle button{flex:1 1 0;font:700 12.5px/1.25 var(--sans);letter-spacing:.4px;padding:13px 20px;border:none;
-                 background:#fff;color:var(--blue);cursor:pointer;white-space:normal;text-align:left}
-  .toggle button.on{background:var(--blue);color:#fff}
-  .toggle button:not(.on):hover{background:var(--blue-lt)}
-  .toggle .who{display:block;font:400 10.5px/1.3 var(--sans);letter-spacing:0;text-transform:none;
-               margin-top:4px;opacity:.85}
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(700px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
+                 font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle button:not(.on):hover{color:var(--navy)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
+  .toggle button.on .who{color:var(--grey)}
   @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
 
   /* ---- shared blocks ---- */
-  section{margin-top:44px}
-  h2{font:700 17px/1.3 var(--sans);color:var(--blue);border-bottom:2px solid var(--blue);
-     padding-bottom:8px;margin-bottom:6px}
-  .lede{font-size:14px;color:var(--g1);margin:12px 0 22px;max-width:none}
+  section{margin-top:52px}
+  h2{font:500 clamp(21px,2.4vw,26px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
+     border-bottom:none;padding-bottom:0;margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:none}
   .body-p{font-size:15px;margin-bottom:14px;max-width:none}
-  .body-p.big{font-size:17px;line-height:1.55}
+  .body-p.big{font-size:17px;line-height:1.6}
 
   .strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
   .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
   .cell:last-child{border-right:0;padding-right:0}
-  .cl{font:600 10.5px/1.35 var(--sans);letter-spacing:.7px;text-transform:uppercase;color:var(--g2);
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
       margin-bottom:10px;min-height:30px}
-  .cv{font:700 26px/1 var(--sans);color:var(--blue);letter-spacing:-.8px;font-variant-numeric:tabular-nums lining-nums}
-  .cv.warn{color:var(--warn)} .cv.pos{color:var(--pos)}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cv.warn{color:var(--gold)} .cv.pos{color:var(--pos)}
   .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
   .cd .up{color:var(--pos);font-weight:600} .cd .dn{color:var(--neg);font-weight:600}
   @media(max-width:900px){.strip{grid-template-columns:repeat(2,1fr)}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
   @media(max-width:520px){.strip{grid-template-columns:1fr}}
 
-  /* top KPI band: centered, sharper, framed */
-  .metrics{border-top:2px solid var(--blue);border-bottom:2px solid var(--blue)}
-  .metrics .cell{text-align:center;padding:18px 16px}
-  .metrics .cl{min-height:26px;margin-bottom:10px;color:var(--g2)}
-  .metrics .cv{font-size:clamp(20px,1.9vw,26px);line-height:1.05;letter-spacing:-.6px}
+  /* top KPI band */
+  .metrics{border-top:1px solid var(--rule-dk);border-bottom:1px solid var(--rule)}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .metrics .cl{min-height:26px;margin-bottom:10px;color:var(--grey)}
+  .metrics .cv{font-size:clamp(22px,2vw,28px);line-height:1.05}
   .metrics .cd{margin-top:12px;max-width:32ch;margin-left:auto;margin-right:auto}
   .metrics .csrc{border-top:0;margin-top:10px}
 
   .exhibit{margin-top:30px}
-  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:7px;margin-bottom:16px}
-  .ex-n{font:700 10px/1 var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);white-space:nowrap}
-  .ex-t{font:600 14px/1.35 var(--sans);flex:1}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
   .plot-tall{height:clamp(350px,44vh,560px)}
   .plot-sm{height:clamp(240px,28vh,360px)}
 
   /* ---- county map + selector ---- */
-  .mtoggle{display:flex;gap:0;border:2px solid var(--blue);width:fit-content;margin:2px 0 16px;flex-wrap:wrap}
-  .mtoggle button{font:700 11.5px/1.2 var(--sans);letter-spacing:.3px;padding:9px 14px;border:none;background:#fff;color:var(--blue);cursor:pointer}
-  .mtoggle button.on{background:var(--blue);color:#fff}
-  .mtoggle button:not(.on):hover{background:var(--blue-lt)}
+  .mtoggle{display:flex;gap:6px;width:fit-content;margin:2px 0 16px;flex-wrap:wrap;border:none}
+  .mtoggle button{font:600 12px/1.3 var(--sans);padding:8px 13px;border:1px solid var(--rule);border-radius:3px;
+                  background:#fff;color:var(--navy);cursor:pointer}
+  .mtoggle button.on{background:var(--bar);border-color:var(--bar);color:#fff}
+  .mtoggle button:not(.on):hover{border-color:var(--navy);background:var(--hover)}
   .maprow{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
   .mapbox{flex:1 1 420px;min-width:300px;position:relative}
   .cty{cursor:pointer}
-  .cty:hover{stroke:#1a1f26;stroke-width:1.3}
-  #tip{position:absolute;pointer-events:none;background:#1a1f26;color:#fff;font:600 11.5px/1.5 var(--sans);
-       padding:7px 10px;display:none;z-index:5;max-width:230px}
-  #tip small{display:block;font-weight:400;color:#c3cede}
+  .cty:hover{stroke:#14181D;stroke-width:1.3}
+  #tip{position:absolute;pointer-events:none;background:var(--bar);color:#fff;font:600 11.5px/1.5 var(--sans);
+       padding:7px 10px;border-radius:3px;display:none;z-index:5;max-width:230px}
+  #tip small{display:block;font-weight:400;color:#AEBDD2}
   .legend{margin-top:12px}
-  .legbar{height:10px;width:min(320px,100%);border:1px solid var(--rule)}
-  .leglab{display:flex;justify-content:space-between;width:min(320px,100%);font:600 10px/1 var(--sans);color:var(--g2);margin-top:5px}
-  .legex{display:none;align-items:center;gap:7px;font:600 10px/1 var(--sans);color:var(--g2);margin-top:8px}
-  .legex .sw{width:16px;height:11px;border:1px solid var(--rule);
-       background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 3px,#b6bec7 3px,#b6bec7 4.5px)}
-  .readout{flex:0 1 320px;min-width:270px;border:1px solid var(--rule);padding:16px 18px}
-  .readout h3{font:700 14px/1.3 var(--sans);color:var(--blue);margin-bottom:8px}
+  .legbar{height:10px;width:min(320px,100%);border:1px solid var(--rule);border-radius:2px}
+  .leglab{display:flex;justify-content:space-between;width:min(320px,100%);font:600 10px/1.4 var(--sans);color:var(--grey);margin-top:5px}
+  .legex{display:none;align-items:center;gap:7px;font:600 10px/1.4 var(--sans);color:var(--grey);margin-top:8px}
+  .legex .sw{width:16px;height:11px;border:1px solid var(--rule);border-radius:2px;
+       background:repeating-linear-gradient(45deg,#EEF1F4,#EEF1F4 3px,#B6BEC7 3px,#B6BEC7 4.5px)}
+  .readout{flex:0 1 320px;min-width:270px;border:1px solid #D8DDE3;border-radius:4px;padding:16px 18px}
+  .readout h3{font:500 16px/1.35 var(--serif);color:var(--ink);margin-bottom:8px}
   .readout .rrow{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:7px 0;border-bottom:1px solid var(--rule-lt)}
   .readout .rrow b{font-variant-numeric:tabular-nums;text-align:right}
-  .readout .hint{font-size:11px;color:var(--g3);margin-top:10px;line-height:1.55}
+  .readout .hint{font-size:11px;color:var(--faint);margin-top:10px;line-height:1.55}
   .findrow{margin-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .sel-lab{font:700 10.5px/1 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--g2);display:block;width:100%;margin-bottom:2px}
-  .findrow select{font:600 13px/1.4 var(--sans);color:var(--blue);border:2px solid var(--blue);padding:9px 12px;background:#fff;width:100%}
-  .note{font-size:11.5px;line-height:1.7;color:var(--g2);margin-top:13px;padding-top:10px;
+  .sel-lab{font:600 10.5px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);display:block;width:100%;margin-bottom:2px}
+  .findrow select{font:600 13px/1.4 var(--sans);color:var(--ink);border:1px solid #D8DDE3;border-radius:3px;padding:9px 12px;background:#fff;width:100%}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;
         border-top:1px solid var(--rule-lt);max-width:none}
   .note b{color:var(--g1);font-weight:700}
-  .note a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .note a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .note a:hover{border-bottom-color:var(--gold)}
 
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
-  th{font:700 10px/1.35 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--g2);
-     text-align:left;padding:0 14px 8px 0;border-bottom:2px solid var(--blue);vertical-align:bottom}
-  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-lt);vertical-align:top}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
+     text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
   th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
   th.n{white-space:normal}
-  th.key,td.key{background:#f2f6fb}
+  th.key,td.key{background:var(--hover)}
   table.tc th,table.tc td{text-align:center;padding-left:10px;padding-right:10px;vertical-align:middle}
   td.m{font-weight:600}
-  tr.hl td{background:var(--blue-lt);font-weight:600}
-  .neg{color:var(--neg)} .pos{color:var(--pos)} .dim{color:var(--g2);font-size:12px;font-weight:400}
+  tr.hl td{background:var(--wash);font-weight:600}
+  .neg{color:var(--neg)} .pos{color:var(--pos)} .dim{color:var(--grey);font-size:12px;font-weight:400}
 
-      /* analysis rendered as report prose (no indent, no box) */
+  /* analysis rendered as report prose */
   .answer{margin-top:20px}
-  .answer h3{font:700 15px/1.45 var(--sans);color:var(--blue);margin-bottom:9px}
+  .answer h3{font:500 17px/1.45 var(--serif);color:var(--ink);margin-bottom:9px}
   .answer p{font-size:15px;line-height:1.66;margin-bottom:13px;max-width:none}
   .answer p:last-child{margin-bottom:0}
   .answer b{color:var(--ink);font-weight:700}
   /* field-research pull quote */
   .callout{margin:30px 0}
-  .callout h3{font:700 10.5px/1.3 var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--g2);margin-bottom:14px}
+  .callout h3{font:600 10.5px/1.5 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--grey);margin-bottom:14px}
   .callout p{font-size:15px;line-height:1.66;margin-bottom:13px;max-width:none}
   .callout p:last-child{margin-bottom:0}
-  .callout .quote{font:400 23px/1.42 Georgia,serif;color:var(--blue);margin:10px 0 18px;letter-spacing:-.2px}
+  .callout .quote{font:400 italic 23px/1.45 var(--serif);color:var(--navy);margin:10px 0 18px;letter-spacing:-.005em}
   .answer .srcline,.callout .srcline{margin-top:13px}
 
   details{margin-top:18px;border-top:1px solid var(--rule-lt)}
-  summary{cursor:pointer;font:700 10.5px/1 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--blue);
+  summary{cursor:pointer;font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
           list-style:none;padding:11px 0}
   summary::-webkit-details-marker{display:none}
-  summary:after{content:" [+]";color:var(--g3)} details[open] summary:after{content:" [\2212]"}
-  .work{font:12px/1.7 var(--mono);white-space:pre;overflow-x:auto;color:var(--g1);background:#f7f9fa;
-        border:1px solid var(--rule-lt);border-left:3px solid var(--blue);padding:15px 17px;margin-bottom:14px}
+  summary:after{content:"\25B6";font-size:9px;color:var(--gold);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
+  details[open]>summary:after{transform:translateY(-1px) rotate(90deg)}
+  summary:hover{color:var(--ink)}
+  .work{font:12px/1.7 var(--mono);white-space:pre;overflow-x:auto;color:var(--g1);background:var(--wash);
+        border:none;border-left:3px solid var(--gold);padding:15px 17px;margin-bottom:14px}
 
-  sup.f{font:700 9px/1 var(--sans);color:var(--blue);vertical-align:super;margin-left:2px}
-  .csrc{font-size:10px;color:var(--g3);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
-  .csrc a{color:var(--g2);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .srcline{font-size:11px;color:var(--g3);margin-top:12px;line-height:1.55}
-  .srcline a{color:var(--g2);text-decoration:none;border-bottom:1px solid var(--rule)}
+  sup.f{font:700 9px/1 var(--sans);color:var(--navy);vertical-align:super;margin-left:2px}
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  .csrc a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .csrc a:hover{border-bottom-color:var(--gold)}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .srcline a:hover{border-bottom-color:var(--gold)}
 
-    ol.lim{list-style:none;counter-reset:l;max-width:none;margin-top:16px}
+  ol.lim{list-style:none;counter-reset:l;max-width:none;margin-top:16px}
   ol.lim li{counter-increment:l;position:relative;padding-left:24px;margin-bottom:12px;font-size:14.5px;line-height:1.62}
-  ol.lim li:before{content:counter(l) ".";position:absolute;left:0;top:0;font:700 14.5px/1.62 var(--sans);color:var(--blue)}
+  ol.lim li:before{content:counter(l) ".";position:absolute;left:0;top:0;font:700 14.5px/1.62 var(--sans);color:var(--gold)}
   ol.lim b{font-weight:700;color:var(--ink)}
 
-  footer{margin-top:50px;padding-top:18px;border-top:3px solid var(--blue);font-size:11.5px;line-height:1.8;color:var(--g2)}
-  footer b{color:var(--g1)}
-  footer a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .disclaimer{margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-lt);color:var(--g3);line-height:1.75}
-  .disclaimer b{color:var(--g2)}
-  .fbrand{margin-bottom:16px;font-size:11.5px;line-height:1.7;color:var(--g2)}
-  .fbrand .pi{font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--blue)}
-  .fbrand a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);
+         padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  footer a:hover{color:var(--goldlt);border-bottom-color:var(--goldlt)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .disclaimer b{color:#C9D2E0}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .fbrand a{color:#fff;border-bottom:1px solid rgba(255,255,255,.25)}
 
-  /* collapsible secondary detail (keeps rigor, reduces page weight) */
-  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fbfcfd;margin-top:10px}
-  .simplify summary{cursor:pointer;list-style:none;padding:15px 18px;font:700 15px/1.35 var(--sans);color:var(--blue)}
+  /* collapsible secondary detail */
+  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:10px}
+  .simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
+                    font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
   .simplify summary::-webkit-details-marker{display:none}
-  .simplify summary:after{content:"  +  Show detail";font:600 11.5px var(--sans);color:var(--g2);letter-spacing:.3px}
-  .simplify[open] summary:after{content:"  \2212  Hide detail"}
-  .simplify .dt-body{padding:0 18px 16px}
+  .simplify summary:hover{background:var(--hover);color:var(--navy)}
+  .simplify summary:after{content:none}
+  .simplify summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  .simplify[open] summary .car{transform:rotate(90deg)}
+  .simplify[open] summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
+  .simplify .dt-body{padding:14px 18px 16px}
   .simplify .dt-body > :first-child{margin-top:0}
-
 
   /* embed mode: host page supplies the frame */
   body.embed{background:#fff;padding:0}
   body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
   body.embed .sitebar,body.embed footer .fbrand{display:none}
+  body.embed header,body.embed .proto,body.embed footer{margin-left:0;margin-right:0}
+
   /* policy recommendation cards */
   .rec{display:flex;gap:18px;align-items:flex-start;padding:22px 0;border-top:1px solid var(--rule-lt)}
-  .rec:first-of-type{border-top:2px solid var(--blue)}
-  .rec-n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;
+  .rec:first-of-type{border-top:1px solid var(--rule-dk)}
+  .rec-n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--bar);color:#fff;
          font:700 16px/34px var(--sans);text-align:center}
-  .rec-b h3{font:700 18px/1.3 var(--sans);color:var(--blue);margin-bottom:9px}
+  .rec-b h3{font:500 19px/1.3 var(--serif);color:var(--ink);margin-bottom:9px}
   .rec-b p{font-size:15px;line-height:1.65;margin-bottom:11px}
   .rec-b p:last-child{margin-bottom:0}
-  .rec-do{background:var(--blue-lt);border-left:3px solid var(--blue);padding:10px 13px}
+  .rec-do{background:var(--wash);border-left:3px solid var(--gold);padding:10px 13px}
   .rec-ex{color:var(--g1);border-left:3px solid var(--rule);padding:0 0 0 13px}
 
-  h3.sub{font:700 16px/1.35 var(--sans);color:var(--blue);margin:26px 0 4px;padding-top:18px;border-top:1px solid var(--rule-lt)}
+  h3.sub{font:500 17px/1.4 var(--serif);color:var(--ink);margin:26px 0 4px;padding-top:18px;border-top:1px solid var(--rule-lt)}
 
   /* inline calculation disclosure */
   details.math{margin-top:12px;border-top:1px solid var(--rule-lt)}
   details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
-    font:700 10.5px/1 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--blue)}
+    font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
   details.math > summary::-webkit-details-marker{display:none}
-  details.math > summary:after{content:"  +  show the calculation";letter-spacing:.2px;text-transform:none;
-    font:600 11px var(--sans);color:var(--g2)}
-  details.math[open] > summary:after{content:"  \2212  hide the calculation"}
-  .mathbox{background:#f7f9fa;border:1px solid var(--rule-lt);border-left:3px solid var(--blue);
+  .mathbox{background:var(--wash);border:none;border-left:3px solid var(--gold);
     padding:13px 15px;margin-bottom:10px}
   .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
-  .mathbox .lbl{font:700 10px/1 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--g2);margin-bottom:7px}
-  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--blue)}
-  .mathsrc{font-size:11px;color:var(--g3);line-height:1.55;margin-top:2px}
+  .mathbox .lbl{font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
+  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--navy)}
+  .mathsrc{font-size:11px;color:var(--faint);line-height:1.55;margin-top:2px}
 
   /* ask box */
   #askbox .ask-wrap{margin-top:6px}
   .ask-row{display:flex;gap:9px;flex-wrap:wrap}
-  #askq{flex:1 1 340px;font:15px/1.4 var(--sans);color:var(--ink);border:2px solid var(--blue);
+  #askq{flex:1 1 340px;font:15px/1.4 var(--sans);color:var(--ink);border:1px solid #D8DDE3;
         padding:12px 14px;background:#fff;border-radius:3px}
-  #askq:focus{outline:2px solid var(--accent);outline-offset:1px}
-  .askbtn{font:700 14px/1 var(--sans);color:#fff;background:var(--blue);border:0;border-radius:3px;
+  #askq:focus{outline:2px solid var(--gold);outline-offset:1px}
+  .askbtn{font:700 14px/1 var(--sans);color:#fff;background:var(--bar);border:0;border-radius:3px;
           padding:0 22px;cursor:pointer}
-  .askbtn:hover{background:#0f1f3b}
+  .askbtn:hover{background:var(--gold)}
   .ask-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
-  .chip{font:600 11.5px/1 var(--sans);color:var(--blue);background:var(--blue-lt);border:0;border-radius:20px;
+  .chip{font:600 11.5px/1 var(--sans);color:var(--navy);background:#fff;border:1px solid var(--rule);border-radius:3px;
         padding:8px 13px;cursor:pointer}
-  .chip:hover{background:#dbe4f0}
-  .ask-out{position:relative;margin-top:18px;border:1px solid var(--rule);border-left:3px solid var(--blue);background:#fbfcfd;padding:18px 46px 18px 20px}
-  .ask-close{position:absolute;top:10px;right:10px;width:28px;height:28px;line-height:26px;text-align:center;border:1px solid var(--rule);background:#fff;color:var(--g2);border-radius:3px;cursor:pointer;font:700 15px/26px var(--sans)}
-  .ask-close:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
-  .ask-again{margin-top:12px;font-size:11.5px;color:var(--g2)}
+  .chip:hover{border-color:var(--gold);background:var(--hover)}
+  .ask-out{position:relative;margin-top:18px;border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;background:#fff;padding:18px 46px 18px 20px}
+  .ask-close{position:absolute;top:10px;right:10px;width:28px;height:28px;line-height:26px;text-align:center;border:1px solid var(--rule);background:#fff;color:var(--grey);border-radius:3px;cursor:pointer;font:700 15px/26px var(--sans)}
+  .ask-close:hover{background:var(--bar);color:#fff;border-color:var(--bar)}
+  .ask-again{margin-top:12px;font-size:11.5px;color:var(--grey)}
   #askbox.answered .lede{display:none}
   #askbox.answered .ask-chips{display:none}
-  #askbox .reopen{display:none;font:600 11.5px/1 var(--sans);color:var(--blue);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline}
+  #askbox .reopen{display:none;font:600 11.5px/1 var(--sans);color:var(--navy);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline}
   #askbox.answered .reopen{display:inline-block}
-  .ask-head{font:700 30px/1.1 var(--sans);color:var(--blue);letter-spacing:-.6px;margin-bottom:8px}
+  .ask-head{font:500 30px/1.15 var(--serif);color:var(--ink);letter-spacing:-.01em;margin-bottom:8px}
   .ask-stmt{font-size:15px;line-height:1.65;margin-bottom:12px}
-  .ask-calc{font:12px/1.7 var(--mono);white-space:pre-wrap;background:#f2f5f8;border:1px solid var(--rule-lt);
+  .ask-calc{font:12px/1.7 var(--mono);white-space:pre-wrap;background:var(--wash);border:none;border-left:3px solid var(--gold);
             padding:12px 14px;color:var(--ink);margin-bottom:10px}
-  .ask-src{font-size:11.5px;color:var(--g2);line-height:1.6}
-  .ask-src a{color:var(--blue)}
+  .ask-src{font-size:11.5px;color:var(--grey);line-height:1.6}
+  .ask-src a{color:var(--navy)}
   .ask-miss{font-size:14.5px;line-height:1.6}
   .ask-tips{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap}
 
-  /* ---- release apparatus: beta strip links, feedback loop, collapsible sources, changelog ---- */
-  .proto-txt a{color:inherit;text-decoration:underline}
-  .subhead{font-size:14px;line-height:1.6;color:var(--g1);margin:12px 0 22px;max-width:none}
-  .feedback{border:1px solid var(--rule);border-left:3px solid var(--accent);padding:16px 20px;margin:22px 0}
-  .feedback h3{font:700 14px/1.3 var(--sans);color:var(--blue);margin-bottom:6px}
+  /* ---- release apparatus: beta strip, collapsible sources, changelog ---- */
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .feedback{border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;padding:16px 20px;margin:22px 0}
+  .feedback h3{font:500 16px/1.35 var(--serif);color:var(--ink);margin-bottom:6px}
   .feedback p{font-size:13.5px;color:var(--g1);line-height:1.6;margin-bottom:10px;max-width:none}
-  .feedback .fb-btn{display:inline-block;font:700 13px/1 var(--sans);color:#fff;background:var(--blue);padding:10px 16px;margin:2px 0}
-  .feedback .fb-btn:hover{background:#0f1f3b}
-  .feedback .fb-norm{font-size:11.5px;color:var(--g3);line-height:1.6;margin:10px 0 0}
-  details.srcfold{border:1px solid var(--rule);background:#fbfcfd;margin-top:14px}
-  details.srcfold>summary{cursor:pointer;list-style:none;padding:15px 18px;font:700 15px/1.35 var(--sans);color:var(--blue);letter-spacing:0;text-transform:none}
+  .feedback .fb-btn{display:inline-block;font:700 13px/1 var(--sans);color:#fff;background:var(--bar);border-radius:3px;padding:10px 16px;margin:2px 0;border-bottom:none}
+  .feedback .fb-btn:hover{background:var(--gold);color:#fff}
+  .feedback .fb-norm{font-size:11.5px;color:var(--faint);line-height:1.6;margin:10px 0 0}
+  details.srcfold{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
+                          font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
   details.srcfold>summary::-webkit-details-marker{display:none}
-  details.srcfold>summary:after{content:"  +  Show sources";font:600 11.5px var(--sans);color:var(--g2);letter-spacing:.3px;text-transform:none}
-  details.srcfold[open]>summary:after{content:"  \2212  Hide sources"}
-  details.srcfold .fold-body{padding:0 18px 16px}
+  details.srcfold>summary:after{content:none}
+  details.srcfold>summary:hover{background:var(--hover);color:var(--navy)}
+  details.srcfold>summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  details.srcfold[open]>summary .car{transform:rotate(90deg)}
+  details.srcfold[open]>summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
+  details.srcfold .fold-body{padding:14px 18px 16px}
   details.srcfold .fold-body>:first-child{margin-top:0}
   table.reg{font-size:11.5px;line-height:1.55}
   table.reg th{width:20%}
   table.reg th:first-child{width:26%}
   table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
   table.reg td.src{color:var(--ink);font-weight:600}
-  table.reg td.src a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
-  table.reg td.src a:hover{border-bottom-color:var(--blue)}
-  table.reg tr.grp td{background:var(--blue-lt);font:700 10px/1.35 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--blue);padding:8px 10px;border-bottom:1px solid var(--rule)}
-  td.ver{font:700 12px/1.6 var(--mono);color:var(--ink);white-space:nowrap}
-  td.cdate{white-space:nowrap;color:var(--g3)}
-  .kind{display:inline-block;font:700 9.5px/1 var(--mono);letter-spacing:.6px;text-transform:uppercase;color:var(--g3);border:1px solid var(--rule);padding:3px 7px;white-space:nowrap}
-  .kind.fix{color:var(--accent);border-color:var(--accent)}
-  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  table.reg td.src a:hover{border-bottom-color:var(--gold)}
+  table.reg tr.grp td{background:var(--hover);font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--rule)}
+  td.ver{font:500 12px/1.6 var(--mono);color:var(--ink);white-space:nowrap}
+  td.cdate{white-space:nowrap;color:var(--faint)}
+  .kind{display:inline-block;font:600 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);border:1px solid var(--rule);border-radius:3px;padding:3px 8px;white-space:nowrap}
+  .kind.fix{color:var(--gold);border-color:var(--gold)}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+
+  .scroll{overflow-x:auto;max-width:100%}
+  .ask-out{overflow-wrap:anywhere}
+  .strip.cols3{grid-template-columns:repeat(3,1fr)}
+  @media(max-width:900px){.strip.cols3{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:520px){.strip.cols3{grid-template-columns:1fr}}
 
   [hidden]{display:none !important}
 </style>
 </head>
-<body>
-<div style="max-width:1120px;margin:0 auto;padding:14px 24px 0;">
-  <a href="/" style="display:inline-block;font-family:'Public Sans',system-ui,sans-serif;font-size:13px;font-weight:600;color:#1F3A5F;text-decoration:none;">&#8592; Back to DataLabs</a>
-</div><div class="wrap">
+<body><div class="wrap">
 
 <div class="sitebar">
   <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
-  <span class="tag">Florida Insurance Watch</span>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Florida Insurance Watch</span>
 </div>
 
-<div class="proto"><span class="proto-tag">Beta v1.0</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Every figure traces to a primary source in the register below, with its vintage and next scheduled release. Corrections and data refreshes are logged in the <a href="#changelog">changelog</a>, with credit to readers who report them. See something wrong? <a href="#feedback">Report it</a>.</span></div>
-
 <header>
-  <div class="org">Florida Program</div>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">Economic Opportunity <span class="sub">/ Florida Homeowners Insurance</span></div>
   <h1>Florida Insurance Watch</h1>
   <div class="standfirst" id="standfirst">What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings.</div>
   <div class="dateline">
-    <span>Data through June 30, 2026</span>
-    <span>Revised July 23, 2026</span>
-    <span>Version 1.0 Beta</span>
+    <span>Data through <b>Jun 30, 2026</b></span>
+    <span>Revised <b>Jul 23, 2026</b></span>
+    <span>Version <b>1.0 Beta</b></span>
   </div>
-  <div class="toggle" role="tablist" aria-label="Choose a view">
+</header>
+
+<div class="proto"><span class="proto-tag">Beta v1.0</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail [PLACEHOLDER].</span></div>
+
+<div class="toggle" role="tablist" aria-label="Choose a view">
     <button id="btn-home" class="on" onclick="showView('home')">
       For homeowners <span class="who">What households pay, and what it means</span></button>
     <button id="btn-policy" onclick="showView('policy')">
       For policymakers <span class="who">State risk, market health, transferable lessons</span></button>
-  </div>
-</header>
+</div>
 
 <!-- ==================================================================== -->
 <!-- ============================ HOMEOWNER ============================== -->
@@ -319,7 +356,7 @@
 
   <section>
     <h2>What are the key takeaways?</h2>
-    <div class="strip metrics">
+    <div class="strip metrics cols3">
       <div class="cell">
         <div class="cl">Your 2026 rate, state insurer</div>
         <div class="cv pos">&minus;8.8%</div>
@@ -331,12 +368,6 @@
         <div class="cv warn">Declining</div>
         <div class="cd">Average premiums fell partly because people bought less protection: higher deductibles, lower limits, sometimes dropping wind coverage. Per dollar of protection, the price went up.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> A lower premium may reflect reduced coverage. Deductibles and wind coverage should be reviewed alongside the total.</div>
         <div class="csrc">Pioneer Institute calculation from Citizens premium and coverage filings. See "Are premiums falling, or is less coverage being purchased?" below</div>
-      </div>
-      <div class="cell">
-        <div class="cl">Extra charge after a big storm</div>
-        <div class="cv pos">None expected</div>
-        <div class="cd">After a bad storm the state insurer can add a charge to almost every policy in Florida, including auto. It now expects none unless a storm worse than a 1-in-360-year event hits.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> This charge can reach policyholders who are not customers of the state insurer. The risk is currently low, but the figure is an annual projection rather than a guarantee.</div>
-        <div class="csrc">Source: <a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank">Citizens, June 23, 2026</a></div>
       </div>
       <div class="cell">
         <div class="cl">Insurers coming back</div>
@@ -365,7 +396,6 @@
         <button class="chip" data-q="What is the price per $1,000 of coverage?">Price per $1,000 of coverage</button>
         <button class="chip" data-q="What was the combined ratio in 2025?">Combined ratio in 2025</button>
         <button class="chip" data-q="When did Citizens peak?">When did Citizens peak?</button>
-        <button class="chip" data-q="What is the assessment threshold?">Assessment threshold</button>
       </div>
       <button class="reopen" id="askreopen">Show examples and description</button>
       <div id="askout" class="ask-out" hidden></div>
@@ -527,7 +557,7 @@ wind share = (premium with wind - premium without wind) / premium with wind x 10
 
   <section>
     <details class="simplify">
-      <summary>Why some questions cannot be answered yet</summary>
+      <summary><span class="car">&#9654;</span><span>Why some questions cannot be answered yet</span></summary>
       <div class="dt-body">
     <div class="lede">Florida maintains a public market report intended to reflect the entire homeowners market. It no longer does so, a limitation relevant to any claim about coverage across the market.</div>
     <p class="body-p">Insurers are allowed to mark their data a trade secret, so it is withheld from the public report.
@@ -540,17 +570,6 @@ wind share = (premium with wind - premium without wind) / premium with wind x 10
     secrets under <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0624/Sections/0624.4213.html" target="_blank">s. 624.4213, Florida Statutes</a>; the reporting mandate and the statewide-aggregation requirement sit in <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0624/Sections/0624.424.html" target="_blank">s. 624.424(10)</a>. <b>Calculation:</b> Pioneer Institute.</div>
 </div>
     </details>
-  </section>
-
-  <section>
-    <h2>Could you be charged extra after a big storm?</h2>
-    <div class="answer">
-      <h3>The state currently projects none.</h3>
-      <p>The mechanism is often overlooked, and it works in stages. After a major storm, Citizens, the state-run insurer of last resort, first levies surcharges of up to 15 percent per account on its own policyholders. If a deficit remains, regular and then emergency assessments can reach nearly every property and casualty policy in Florida, including auto and homeowners policies held by non-customers. A Citizens shortfall can therefore be distributed across the wider market.</p>
-      <p>Because Citizens is substantially smaller than at its peak and now holds $9.6 billion in claims-paying resources, it projects no surcharge unless a storm exceeds a 1-in-360-year event. At its peak size, that margin did not exist.</p>
-      <p>This is a modeled projection, not a guarantee. Two major storms in a single season would alter the outlook.</p>
-      <div class="srcline">Source: <a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank">Citizens, June 23, 2026</a> and 2026 Risk Transfer Program materials; surcharge and assessment authority under <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0627/Sections/0627.351.html" target="_blank">s. 627.351(6), Florida Statutes</a>.</div>
-    </div>
   </section>
 
   <section>
@@ -580,7 +599,7 @@ policies change  = (278,246 - 1,407,805) / 1,407,805 x 100  = -80.24%</code><div
 
   <section>
     <details class="simplify">
-      <summary>What this page cannot tell you</summary>
+      <summary><span class="car">&#9654;</span><span>What this page cannot tell you</span></summary>
       <div class="dt-body">
     <ol class="lim">
       <li><b>An individual premium.</b> These are statewide and county figures. A specific premium depends on the home, county, coverage, and insurer.</li>
@@ -868,25 +887,15 @@ per 100        = implied inflow / gross takeouts x 100
     official documents locatable through the issuing body. Derived measures are Pioneer Institute calculations, disclosed
     as such in the final rows.</div>
 
-    <div class="feedback" id="feedback">
-      <h3>Report an issue</h3>
-      <p>If a figure looks wrong, a source has published a revision this page has not picked up, or a definitional choice
-      deserves a challenge, we want to hear it. Include the exhibit or figure you are looking at and, if you have one, a
-      link to the filing you are checking against.</p>
-      <a class="fb-btn" href="mailto:datalabs@pioneerinstitute.org?subject=Data%20tool%20issue%20report%3A%20Florida%20Insurance%20Watch">Report an issue</a>
-      <p class="fb-norm">Our standard: every report is checked against the primary source within five business days, the
-      outcome is logged in the changelog either way, and the reporter is credited unless they ask not to be.</p>
-    </div>
-
     <details class="srcfold">
-      <summary>Source register: cadence, vintage, and next release</summary>
+      <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
       <div class="fold-body">
         <div class="note" style="border-top:0;padding-top:4px">A quarterly refresh updates the monthly Citizens series every
         cycle. Figures from the Office of Insurance Regulation and NAIC change only when those bodies republish, so several
         may hold the same value for two to four quarters. Each carries its own as-of date, so a refresh never implies a
         number is newer than its source.</div>
         <div style="overflow-x:auto">
-        <table class="reg">
+        <div class="scroll"><table class="reg">
           <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports in the dashboard</th><th>Data vintage in this tool</th><th>Next release</th></tr></thead>
           <tbody>
             <tr class="grp"><td colspan="5">Citizens Property Insurance Corporation</td></tr>
@@ -915,7 +924,7 @@ per 100        = implied inflow / gross takeouts x 100
             <tr class="grp"><td colspan="5">Derived measures</td></tr>
             <tr><td class="src">Pioneer Institute calculations (this tool)</td><td>With each quarterly refresh</td><td>Depopulation efficiency, price per $1,000 of insured value, coverage-adjusted comparisons, and other measures identified in source lines as Pioneer calculations</td><td>As of the July 23, 2026 revision</td><td>Quarterly refresh cycle</td></tr>
           </tbody>
-        </table>
+        </table></div>
         </div>
       </div>
     </details>
@@ -923,9 +932,9 @@ per 100        = implied inflow / gross takeouts x 100
 
   <section id="changelog">
     <h2>Changelog</h2>
-    <div class="subhead">One row per release. Corrections and data refreshes are logged here and never deleted;
-    reader-reported issues are credited.</div>
-    <table>
+    <div class="subhead">One row per release. Corrections and data refreshes are logged here and never deleted.
+    Entries begin with the first public release.</div>
+    <div class="scroll"><table>
       <thead><tr><th style="width:9%">Version</th><th style="width:13%">Date</th><th style="width:12%">Type</th><th>What changed</th></tr></thead>
       <tbody>
         <!-- Template rows for future entries. Copy, fill, and place above the row below (newest first).
@@ -937,12 +946,15 @@ per 100        = implied inflow / gross takeouts x 100
         Data refresh:
         <tr><td class="ver">v1.1</td><td class="cdate">Month D, 2026</td><td><span class="kind">Refresh</span></td>
         <td>Updated [series] to reflect [source]'s [month] release.</td></tr>
-        -->
-        <tr><td class="ver">v1.0</td><td class="cdate">August 1, 2026</td><td><span class="kind">Launch</span></td>
+
+        Launch (populate at first public release):
+        <tr><td class="ver">v1.0</td><td class="cdate">Month D, 2026</td><td><span class="kind">Launch</span></td>
         <td>Initial public release. All figures verified against the primary sources in the register; Citizens series
-        through June 30, 2026; page revised July 23, 2026.</td></tr>
+        through [date]; verification scope as disclosed in the register.</td></tr>
+        -->
+        <tr><td class="cdate" colspan="4" style="color:var(--faint)">No public releases yet. The first entry will be logged at launch.</td></tr>
       </tbody>
-    </table>
+    </table></div>
   </section>
 
 <footer>
@@ -964,10 +976,13 @@ per 100        = implied inflow / gross takeouts x 100
     since been updated.
     <div style="margin-top:12px"><b>About this tool.</b> Florida Insurance Watch is a Pioneer Institute DataLabs research
     tool, published in beta and versioned: corrections and data refreshes are logged in the changelog above, and the
-    version and data vintage should be cited alongside any figure taken from this page. It is provided for research and
-    educational purposes and does not constitute financial, legal, insurance, or investment advice. If a figure appears
-    to be in error, use the report link in the Data Sources section; every report is checked against the underlying
-    filing within five business days and the outcome is logged either way.</div>
+    version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a
+    static report. Every figure traces to a source in the register above, with its vintage and next scheduled release.
+    <b>This tool is provided strictly for research and educational purposes only. It does not constitute financial,
+    legal, insurance, tax, or investment advice, and it should not be relied upon for any coverage, financial, or legal
+    decision; consult a qualified professional before acting on any matter addressed here.</b> For all corrections,
+    please e-mail [PLACEHOLDER]; every report is checked against the underlying filing and the outcome is logged in the
+    changelog.</div>
   </div>
 </footer>
 
@@ -978,11 +993,11 @@ const pif=[["2020-04",453911],["2020-05",463247],["2020-06",474630],["2020-07",4
 const qtr=[["2022-06",931357,2468517548,318849646819],["2022-12",1145809,3219057962,422952769945],["2023-03",1239396,3653256519,478754194461],["2023-06",1317174,4371464295,561675811689],["2023-09",1407805,4833074611,618104511066],["2023-12",1228718,4258689982,552759991285],["2024-03",1168919,4064248867,518995281167],["2024-06",1213495,4237394767,520378213499],["2024-09",1263055,4477186272,533231527195],["2024-12",936182,3313825028,385821635974],["2025-03",841470,2824160391,336516399897],["2025-06",779552,2485819333,295140160591],["2025-09",769316,2438497431,285501334537],["2025-12",395337,1135816999,128482188755],["2026-03",321957,885436090,97748983364],["2026-06",278246,737991504,79644625492]];
 
 const cty=[["Alachua",2525,1804,2527],["Baker",2346,2913,2317],["Bay",3465,1577,3478],["Bradford",2623,1950,2650],["Brevard",3532,1975,3560],["Broward",6136,3008,6220],["Calhoun",3122,2649,3149],["Charlotte",3160,1661,3222],["Citrus",2456,1560,2472],["Clay",2540,2047,2550],["Collier",5534,3169,5565],["Columbia",2557,2118,2558],["Desoto",3421,2167,3449],["Dixie",2748,1559,2806],["Duval",2786,2095,2801],["Escambia",3702,1670,3706],["Flagler",2488,1641,2526],["Franklin",5221,1954,5235],["Gadsden",2723,2226,2737],["Gilchrist",2513,1872,2478],["Glades",3477,2019,3475],["Gulf",3752,1612,3759],["Hamilton",2711,2044,2745],["Hardee",3376,2246,3396],["Hendry",2999,1983,3030],["Hernando",2360,1985,2342],["Highlands",2736,1599,2732],["Hillsborough",3525,2676,3514],["Holmes",2942,2560,2944],["Indian River",4334,2744,4453],["Jackson",2851,2300,2840],["Jefferson",2782,2083,2792],["Lafayette",2903,1649,2943],["Lake",2650,1988,2642],["Lee",3576,2119,3646],["Leon",2538,1710,2554],["Levy",2698,1634,2706],["Liberty",2880,1872,2877],["Madison",2735,1482,2772],["Manatee",3181,1859,3187],["Marion",2191,1766,2217],["Martin",5899,2471,5993],["Miami-Dade",5975,3779,6023],["Monroe",7863,1871,7829],["Nassau",3051,1608,3061],["Okaloosa",3889,1889,3891],["Okeechobee",3730,1973,3754],["Orange",3610,2565,3585],["Osceola",2940,2433,2911],["Palm Beach",6323,3175,6412],["Pasco",2756,1917,2758],["Pinellas",4063,2034,4044],["Polk",2767,2185,2771],["Putnam",2621,1768,2636],["Santa Rosa",3512,1951,3541],["Sarasota",3457,1482,3482],["Seminole",3545,2372,3527],["St. Johns",2883,2055,2889],["St. Lucie",3491,1932,3522],["Sumter",2105,1352,2111],["Suwannee",2749,1783,2792],["Taylor",2698,1300,2727],["Union",2667,3475,2656],["Volusia",2808,1637,2819],["Wakulla",2292,1956,2335],["Walton",5409,1891,5401],["Washington",2871,2628,2933]]; // [county, avg incl wind 2026-03, avg ex wind 2026-03, avg incl wind 2025-09]
-const BLUE='#14294d',INK='#1a1f26',G2='#6b7681',G3='#9aa4ae',RULE='#e6eaee', SANS='"Inter","Helvetica Neue",Helvetica,Arial,sans-serif';
+const BLUE='#1F3A5F',INK='#12213A',G2='#66707A',G3='#9AA2AA',RULE='#E4E6E9', SANS='"Public Sans",system-ui,sans-serif';
 Chart.defaults.font.family=SANS; Chart.defaults.font.size=11; Chart.defaults.color=G2;
 Chart.defaults.plugins.legend.display=false;
 Chart.defaults.plugins.tooltip.backgroundColor=INK;
-Chart.defaults.plugins.tooltip.cornerRadius=0;
+Chart.defaults.plugins.tooltip.cornerRadius=3;
 Chart.defaults.plugins.tooltip.displayColors=false;
 const AX={grid:{display:false},border:{color:G3},ticks:{padding:8,color:G2}};
 const AY={grid:{color:RULE,drawTicks:false},border:{display:false},ticks:{padding:10,color:G2}};
@@ -991,7 +1006,7 @@ const band=()=>({id:'band',beforeDatasetsDraw(c){
   const{ctx,chartArea:{top,bottom},scales:{x}}=c;
   const a=x.getPixelForValue(c.data.labels.indexOf('2022-05'));
   const b=x.getPixelForValue(c.data.labels.indexOf('2023-03'));
-  ctx.save(); ctx.fillStyle='rgba(20,41,77,.10)'; ctx.fillRect(a,top,b-a,bottom-top);
+  ctx.save(); ctx.fillStyle='rgba(31,58,95,.10)'; ctx.fillRect(a,top,b-a,bottom-top);
   ctx.fillStyle=BLUE; ctx.font='700 10px '+SANS; ctx.textAlign='center';
   ctx.fillText('Reforms passed',(a+b)/2,top-6); ctx.restore();}});
 
@@ -1017,7 +1032,7 @@ function renderHome(){
   const price=q.map(r=>(r[2]*1000/r[3])/b0.price*100);
   new Chart(document.getElementById('hChart2'),{type:'line',
     data:{labels:q.map(r=>r[0]),datasets:[
-      {label:'Price per $1,000 of coverage',data:price,borderColor:'#a32c2c',
+      {label:'Price per $1,000 of coverage',data:price,borderColor:'#8C2532',
        backgroundColor:'transparent',borderWidth:2.5,pointRadius:0,pointHoverRadius:4,tension:0},
       {label:'Average premium per policy',data:prem,borderColor:G2,
        backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:0,pointHoverRadius:4,tension:0}]},
@@ -1028,9 +1043,9 @@ function renderHome(){
         x:{...AX,ticks:{...AX.ticks,maxTicksLimit:8,maxRotation:0,autoSkip:true}}}},
     plugins:[{id:'base100',afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
-      ctx.save(); ctx.strokeStyle='#9aa4ae'; ctx.setLineDash([3,3]); ctx.beginPath();
+      ctx.save(); ctx.strokeStyle='#9AA2AA'; ctx.setLineDash([3,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#6b7681'; ctx.font='600 10px '+SANS; ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillStyle='#66707A'; ctx.font='600 10px '+SANS; ctx.textAlign='left'; ctx.textBaseline='bottom';
       ctx.fillText('2023 starting point',left+4,py-3); ctx.restore();}}]});
   }
 function renderPolicy(){
@@ -1042,10 +1057,10 @@ function renderPolicy(){
   const d=[]; for(let i=1;i<pif.length;i++) d.push([pif[i][0],pif[i][1]-pif[i-1][1]]);
   new Chart(document.getElementById('pChart3'),{type:'bar',
     data:{labels:d.map(x=>x[0]),datasets:[{data:d.map(x=>x[1]),
-      backgroundColor:d.map(x=>x[1]<0?BLUE:'#a32c2c'),borderWidth:0}]},
+      backgroundColor:d.map(x=>x[1]<0?BLUE:'#8C2532'),borderWidth:0}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
       plugins:{tooltip:{callbacks:{label:c=>(c.parsed.y>0?'+':'')+c.parsed.y.toLocaleString()+' homes'}}},
-      scales:{y:{...AY,grid:{color:ctx=>ctx.tick.value===0?'#9aa4ae':RULE,drawTicks:false},
+      scales:{y:{...AY,grid:{color:ctx=>ctx.tick.value===0?'#9AA2AA':RULE,drawTicks:false},
           ticks:{...AY.ticks,callback:v=>(v/1000).toLocaleString()+'k'}},
         x:{...AX,ticks:{...AX.ticks,maxTicksLimit:12,maxRotation:0,autoSkip:true}}}}});
   new Chart(document.getElementById('pChart2'),{type:'line',
@@ -1057,17 +1072,17 @@ function renderPolicy(){
       scales:{y:{...AY,min:72,max:126,ticks:{...AY.ticks,stepSize:10,callback:v=>v+'%'}},x:{...AX}}},
     plugins:[{id:'be',afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
-      ctx.save(); ctx.strokeStyle='#a32c2c'; ctx.setLineDash([4,3]); ctx.beginPath();
+      ctx.save(); ctx.strokeStyle='#8C2532'; ctx.setLineDash([4,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#a32c2c'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
+      ctx.fillStyle='#8C2532'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
       ctx.fillText('100%, break-even',right,py-4); ctx.restore();}}]});
   // Florida share of nationwide homeowners suits vs claims (NAIC MCAS, via OIR ISU July 2026; 2025 preliminary)
   const mc=[[2016,7.75,64.43],[2017,16.46,68.07],[2018,11.85,79.91],[2019,8.16,76.45],[2020,8.81,79.16],
             [2021,6.91,76.00],[2022,14.93,70.83],[2023,9.73,71.59],[2024,12.33,73.15],[2025,4.85,41.29]];
   new Chart(document.getElementById('mChart'),{type:'line',
     data:{labels:mc.map(r=>r[0]),datasets:[
-      {label:'Share of nationwide homeowners suits',data:mc.map(r=>r[2]),borderColor:'#a32c2c',
-       backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#a32c2c',tension:0},
+      {label:'Share of nationwide homeowners suits',data:mc.map(r=>r[2]),borderColor:'#8C2532',
+       backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8C2532',tension:0},
       {label:'Share of nationwide homeowners claims',data:mc.map(r=>r[1]),borderColor:BLUE,
        backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:3,pointBackgroundColor:BLUE,tension:0}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
@@ -1101,15 +1116,15 @@ renderHome(); // homeowner view is the default
   function lerp(a,b,u){const h=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16));const A=h(a),B=h(b);
     return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*u).toString(16).padStart(2,'0')).join('');}
   const scales={
-    chg:{f:r=>{const v=r[1]-r[3];return v<0?lerp('#dce5f1','#14294d',Math.min(1,Math.abs(v)/120)):lerp('#f8e8d2','#b45309',Math.min(1,v/40));},
-         grad:'linear-gradient(90deg,#14294d,#dce5f1 60%,#f8e8d2 62%,#b45309)',lo:'\u2212$120',mid:'$0',hi:'+$40',
+    chg:{f:r=>{const v=r[1]-r[3];return v<0?lerp('#D9E2EE','#1F3A5F',Math.min(1,Math.abs(v)/120)):lerp('#F3E7CB','#A87B1F',Math.min(1,v/40));},
+         grad:'linear-gradient(90deg,#1F3A5F,#D9E2EE 60%,#F3E7CB 62%,#A87B1F)',lo:'\u2212$120',mid:'$0',hi:'+$40',
          tip:r=>sgn(r[1]-r[3])+' since Sept 2025<small>'+fmt(r[3])+' to '+fmt(r[1])+'</small>'},
-    wind:{f:r=>EXCL.has(r[0])?'url(#exclx)':lerp('#e6ecf3','#b45309',Math.min(1,wind(r)/80)),
-         grad:'linear-gradient(90deg,#e6ecf3,#b45309)',lo:'0%',mid:'40%',hi:'80% of premium',
+    wind:{f:r=>EXCL.has(r[0])?'url(#exclx)':lerp('#E8EDF4','#A87B1F',Math.min(1,wind(r)/80)),
+         grad:'linear-gradient(90deg,#E8EDF4,#A87B1F)',lo:'0%',mid:'40%',hi:'80% of premium',
          tip:r=>EXCL.has(r[0])?'Excluded from the wind analysis<small>small sample size; see note below the map</small>'
               :wind(r)+'% of premium buys wind<small>'+fmt(r[1])+' with wind, '+fmt(r[2])+' without</small>'},
-    lvl:{f:r=>lerp('#e6ecf3','#14294d',Math.min(1,Math.max(0,(r[1]-2000)/6000))),
-         grad:'linear-gradient(90deg,#e6ecf3,#14294d)',lo:'$2,000',mid:'$5,000',hi:'$8,000',
+    lvl:{f:r=>lerp('#E8EDF4','#1F3A5F',Math.min(1,Math.max(0,(r[1]-2000)/6000))),
+         grad:'linear-gradient(90deg,#E8EDF4,#1F3A5F)',lo:'$2,000',mid:'$5,000',hi:'$8,000',
          tip:r=>fmt(r[1])+' average premium<small>including wind, March 2026</small>'}};
   let metric='chg';
   const paths=[...document.querySelectorAll('.cty')];
@@ -1158,7 +1173,7 @@ renderHome(); // homeowner view is the default
     if(!fromMap) sel.value=n; 
     document.querySelectorAll('path.cty').forEach(p=>{
       p.style.strokeWidth = (p.dataset.n===n) ? '2.4' : '0.7';
-      p.style.stroke = (p.dataset.n===n) ? '#14294d' : '#ffffff';
+      p.style.stroke = (p.dataset.n===n) ? '#12213A' : '#ffffff';
     });
   }
   sel.addEventListener('change',()=>{ if(sel.value) selectCounty(sel.value,false); });
@@ -1240,7 +1255,7 @@ renderHome(); // homeowner view is the default
     var rows=build(), bad=rows.filter(function(r){return !r.ok;});
     if(bad.length){
       console.warn('%cFlorida Insurance Watch, self-check: '+bad.length+' figure(s) not found in page text',
-                   'color:#a32c2c;font-weight:700');
+                   'color:#8C2532;font-weight:700');
       console.table(bad.map(function(r){return {figure:r.label, computed:r.needle, found_in_text:'NO'};}));
       console.info('These numbers were recomputed from the data arrays but do not appear in the prose. '
                  + 'Either the text is stale after a data refresh, or the figure is rounded differently.');
@@ -1257,10 +1272,10 @@ renderHome(); // homeowner view is the default
     if(d){ d.remove(); return; }
     d=document.createElement('div'); d.id='selfcheck-panel';
     d.setAttribute('style','position:fixed;right:14px;bottom:14px;z-index:9999;max-width:430px;'
-      +'background:#fff;border:2px solid '+(bad.length?'#a32c2c':'#1a7a4c')+';border-radius:4px;'
+      +'background:#fff;border:2px solid '+(bad.length?'#8C2532':'#1a7a4c')+';border-radius:4px;'
       +'padding:14px 16px;font:12.5px/1.55 "Inter",Helvetica,Arial,sans-serif;'
       +'box-shadow:0 6px 26px rgba(20,41,77,.20);max-height:70vh;overflow:auto');
-    var h='<div style="font-weight:700;color:'+(bad.length?'#a32c2c':'#1a7a4c')+';margin-bottom:8px">'
+    var h='<div style="font-weight:700;color:'+(bad.length?'#8C2532':'#1a7a4c')+';margin-bottom:8px">'
       +(bad.length? bad.length+' figure(s) need attention' : 'All '+rows.length+' derived figures match')
       +'</div>';
     if(bad.length){

@@ -31,7 +31,7 @@
    }
   ],
   "heritage": "Formerly MassPensions",
-  "fresh": "Freshest: Nov 2025"
+  "fresh": "Updated Nov 2025"
  },
  {
   "id": "DL-02",
@@ -90,7 +90,7 @@
    }
   ],
   "heritage": "Formerly MassOpenBooks",
-  "fresh": "Freshest: May 2026"
+  "fresh": "Updated May 2026"
  },
  {
   "id": "DL-03",
@@ -154,7 +154,7 @@
     "u": "https://usdatalabs.org/Government/state-finance-overview/state-rainy-day-funds"
    }
   ],
-  "fresh": "Freshest: May 2026"
+  "fresh": "Updated May 2026"
  },
  {
   "id": "DL-04",
@@ -213,7 +213,7 @@
    }
   ],
   "heritage": "Formerly MassIRSDataDiscovery",
-  "fresh": "Freshest: May 2026"
+  "fresh": "Updated May 2026"
  },
  {
   "id": "DL-05",
@@ -288,7 +288,7 @@
    }
   ],
   "heritage": "Formerly MassReportCards",
-  "fresh": "Freshest: Jul 2026"
+  "fresh": "Updated Jul 2026"
  },
  {
   "id": "DL-06",
@@ -323,7 +323,7 @@
    }
   ],
   "heritage": "Formerly MassReportCards",
-  "fresh": "Freshest: Oct 2025"
+  "fresh": "Updated Oct 2025"
  },
  {
   "id": "DL-07",
@@ -356,7 +356,7 @@
     "u": "https://usdatalabs.org/education/higher-education/higher-education-student-data"
    }
   ],
-  "fresh": "Freshest: May 2026"
+  "fresh": "Updated May 2026"
  },
  {
   "id": "DL-08",
@@ -514,7 +514,7 @@
     "u": "https://madatalabs.org/economy/weekly-wages"
    }
   ],
-  "fresh": "Freshest: Jul 2026"
+  "fresh": "Updated Jul 2026"
  },
  {
   "id": "DL-09",
@@ -538,7 +538,7 @@
     "u": "https://usdatalabs.org/economy/housing"
    }
   ],
-  "fresh": "Freshest: Jul 2026"
+  "fresh": "Updated Jul 2026"
  },
  {
   "id": "DL-10",
@@ -556,7 +556,7 @@
     "u": "https://usdatalabs.org/infrastructure/national-risk-index"
    }
   ],
-  "fresh": "Freshest: Jan 2026"
+  "fresh": "Updated Jan 2026"
  },
  {
   "id": "DL-11",
@@ -646,7 +646,7 @@
    }
   ],
   "heritage": "Formerly MassAnalysis",
-  "fresh": "Freshest: Mar 2026"
+  "fresh": "Updated Mar 2026"
  },
  {
   "id": "DL-12",
@@ -756,7 +756,7 @@
     "u": "https://usdatalabs.org/health/state-medicaid-expenses"
    }
   ],
-  "fresh": "Freshest: May 2026"
+  "fresh": "Updated May 2026"
  },
  {
   "id": "DL-14",
@@ -789,7 +789,7 @@
     "u": "https://usdatalabs.org/crime-justice/juvenile-incarceration"
    }
   ],
-  "fresh": "Freshest: Apr 2026"
+  "fresh": "Updated Apr 2026"
  },
  {
   "id": "ARCHIVE",
@@ -807,6 +807,6 @@
     "u": "https://madatalabs.org/healthcare/tracking-covid-19"
    }
   ],
-  "fresh": "Freshest: Apr 2023"
+  "fresh": "Updated Apr 2023"
  }
 ]

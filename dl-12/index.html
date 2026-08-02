@@ -6,11 +6,11 @@
 <title>Transportation & MBTA · Pioneer DataLabs (Flagship Prototype)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper:#FAFAF7; --ink:#14273D; --slate:#44515E; --gold:#B08428;
-    --gold-soft:#F3EAD3; --hairline:#DAD6CB; --card:#FFFFFF;
+    --paper:#FFFFFF; --ink:#14181D; --slate:#66707A; --gold:#A87B1F;
+    --gold-soft:#F5F0E4; --hairline:#E4E6E9; --card:#FFFFFF;
     --live:#2E6B4F; --live-soft:#E4EFE8;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -19,82 +19,82 @@
   button { font-family:inherit; cursor:pointer; }
   a { color:var(--ink); text-decoration:none; }
   input:focus-visible, button:focus-visible, a:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
-  .proto { background:var(--gold-soft); color:#6E5312; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.05em; text-align:center; padding:7px 14px; }
+  .proto { color:#9AA2AA; font-size:11.5px; text-align:center; padding:8px 14px; border-bottom:1px solid #E4E6E9; }
 
   .masthead { position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--hairline); }
   .masthead-inner { max-width:1040px; margin:0 auto; padding:12px 24px; display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-  .wordmark { font-family:'Libre Caslon Text',serif; font-size:18px; white-space:nowrap; }
-  .wordmark .labs { color:var(--gold); font-style:italic; }
-  .mini-ask { flex:1; min-width:220px; display:flex; background:var(--card); border:1.5px solid var(--ink); border-radius:5px; overflow:hidden; }
+  .wordmark { font-family:'Newsreader',serif; font-size:18px; white-space:nowrap; }
+  .wordmark .labs { color:#66707A; font-style:italic; font-weight:400; }
+  .mini-ask { flex:1; min-width:220px; display:flex; background:none; border:none; border-bottom:1px solid var(--ink); overflow:hidden; }
   .mini-ask input { flex:1; border:none; outline:none; font-family:inherit; font-size:14px; padding:9px 12px; background:transparent; color:var(--ink); min-width:0; }
-  .mini-ask button { border:none; background:var(--ink); color:#fff; font-size:13px; font-weight:600; padding:0 16px; }
-  .mini-ask button:disabled { background:#7A8794; cursor:wait; }
-  .mini-ask:focus-within { border-color:var(--gold); }
+  .mini-ask button { border:none; background:none; color:#1F3A5F; font-size:13px; font-weight:600; padding:0 4px 6px; }
+  .mini-ask button:disabled { color:#B9BFC6; cursor:wait; }
+  .mini-ask:focus-within { border-color:#A87B1F; }
 
   .ask-answer { max-width:1040px; margin:0 auto; padding:0 24px; }
-  .ask-answer .box { margin-top:14px; border:1px solid var(--hairline); border-left:4px solid var(--gold); background:var(--card); border-radius:6px; padding:14px 18px; font-size:15px; }
-  .ask-answer .src { display:inline-block; margin-top:6px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:#6E5312; background:var(--gold-soft); border-radius:4px; padding:2px 7px; }
+  .ask-answer .box { margin-top:14px; border:none; border-top:1px solid var(--ink); background:none; padding:12px 0 0; font-size:15px; max-width:760px; }
+  .ask-answer .src { display:inline-block; margin-top:8px; font-size:11.5px; color:#9AA2AA; background:none; padding:0; }
   .thinking { color:var(--slate); font-style:italic; }
   .dots::after { content:''; animation:dots 1.2s steps(4,end) infinite; }
   @keyframes dots { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
 
   .answer { max-width:1040px; margin:0 auto; padding:38px 24px 12px; }
-  .eyebrow { display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-family:'IBM Plex Mono',monospace; font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); margin-bottom:14px; }
-  .eyebrow .rid { color:var(--gold); }
-  .headline { font-family:'Libre Caslon Text',serif; font-weight:400; font-size:clamp(24px,3.6vw,34px); line-height:1.28; max-width:880px; }
+  .eyebrow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; font-size:12.5px; color:#9AA2AA; margin-bottom:14px; }
+  .eyebrow .rid { color:#66707A; font-weight:600; }
+  .headline { font-family:'Newsreader',serif; font-weight:400; font-size:clamp(24px,3.6vw,34px); line-height:1.28; max-width:880px; }
   .headline strong { font-weight:700; }
   .headline .figure { color:var(--gold); font-weight:700; }
-  .badges { margin-top:16px; display:flex; gap:8px; flex-wrap:wrap; }
-  .badge { font-family:'IBM Plex Mono',monospace; font-size:11.5px; border:1px solid var(--hairline); background:var(--card); border-radius:4px; padding:3px 9px; color:var(--slate); }
-  .badge.warn { border-color:var(--gold); color:#6E5312; background:var(--gold-soft); }
+  .badges { margin-top:14px; font-size:12.5px; color:#9AA2AA; display:block; }
+  .badge { border:none; background:none; padding:0; color:inherit; font-size:inherit; }
+  .badge.warn { color:inherit; background:none; }
 
   .proof { max-width:1040px; margin:0 auto; padding:22px 24px 8px; }
-  .chart-card { background:var(--card); border:1px solid var(--hairline); border-radius:6px; padding:22px 24px 16px; }
+  .chart-card { background:transparent; border:none; border-bottom:1px solid var(--hairline); padding:6px 0 18px; }
   .chart-card h2 { font-size:15px; font-weight:600; margin-bottom:4px; }
   .chart-card .sub { font-size:13px; color:var(--slate); margin-bottom:14px; }
   .chart-card svg { width:100%; height:auto; display:block; }
   .chart-note { font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8A8F96; margin-top:10px; }
 
   .actions { max-width:1040px; margin:0 auto; padding:16px 24px 8px; display:flex; gap:10px; flex-wrap:wrap; }
-  .act { border:1.5px solid var(--ink); background:var(--card); color:var(--ink); border-radius:5px; font-size:13.5px; font-weight:600; padding:9px 15px; }
-  .act:hover { background:var(--ink); color:#fff; }
-  .act.disabled { border-color:var(--hairline); color:#9AA3AC; pointer-events:none; }
+  .act { border:none; background:none; color:#1F3A5F; font-size:13.5px; font-weight:600; padding:0; margin-right:22px; }
+  .act:hover { text-decoration:underline; background:none; color:var(--ink); }
+  .act.disabled { color:#B9BFC6; pointer-events:none; }
 
   .story { max-width:1040px; margin:0 auto; padding:36px 24px 8px; }
-  .layer-head { display:flex; align-items:baseline; justify-content:space-between; border-bottom:2px solid var(--ink); padding-bottom:8px; gap:12px; flex-wrap:wrap; }
-  .layer-head h2 { font-family:'Libre Caslon Text',serif; font-weight:400; font-size:22px; }
-  .layer-head span { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--slate); }
+  .layer-head { display:flex; align-items:baseline; justify-content:space-between; border-bottom:1px solid var(--ink); padding-bottom:8px; gap:12px; flex-wrap:wrap; }
+  .layer-head h2 { font-family:'Newsreader',serif; font-weight:400; font-size:22px; }
+  .layer-head span { font-size:12px; color:#9AA2AA; }
   .story-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; margin-top:18px; }
-  .story-card { background:var(--card); border:1px solid var(--hairline); border-radius:6px; padding:18px 18px 14px; }
-  .story-card h3 { font-family:'Libre Caslon Text',serif; font-size:16.5px; font-weight:700; margin-bottom:8px; }
+  .story-card { background:transparent; border:none; padding:0; }
+  .story-card h3 { font-family:'Newsreader',serif; font-size:16.5px; font-weight:700; margin-bottom:8px; }
   .story-card p { font-size:13.5px; color:var(--slate); margin-top:10px; }
   .story-card .src { font-family:'IBM Plex Mono',monospace; font-size:10.5px; color:#6E5312; background:var(--gold-soft); border-radius:3px; padding:2px 6px; display:inline-block; margin-top:8px; }
   .story-card svg { width:100%; height:auto; display:block; }
 
   .workbench { max-width:1040px; margin:40px auto 0; padding:0 24px 56px; }
   .bench-grid { margin-top:18px; overflow-x:auto; }
-  table.register { width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--hairline); font-size:13px; min-width:720px; }
-  table.register th { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; text-align:left; background:#EFEDE6; padding:9px 12px; border-bottom:2px solid var(--ink); white-space:nowrap; }
+  table.register { width:100%; border-collapse:collapse; background:none; border:none; font-size:13px; min-width:720px; }
+  table.register th { font-size:11.5px; font-weight:700; text-align:left; background:none; padding:9px 12px 7px; border-bottom:1.5px solid var(--ink); white-space:nowrap; }
   table.register td { padding:9px 12px; border-bottom:1px solid var(--hairline); vertical-align:top; }
   table.register td:first-child { font-weight:600; }
   .bench-actions { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
   .bench-note { margin-top:12px; font-family:'IBM Plex Mono',monospace; font-size:11px; color:#8A8F96; }
 
   footer { border-top:1px solid var(--hairline); padding:20px 24px 32px; text-align:center; font-size:12.5px; color:var(--slate); }
-  .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; font-size:13.5px; border-radius:6px; padding:10px 18px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:99; }
+  .toast { position:fixed; bottom:22px; left:50%; transform:translateX(-50%); background:var(--ink); color:#fff; font-size:13.5px; border-radius:0; padding:10px 18px; opacity:0; pointer-events:none; transition:opacity .25s ease; z-index:99; }
   .toast.show { opacity:1; }
 </style>
 </head>
 <body>
 
-<div class="proto">WORKING PROTOTYPE · DATA RECOVERED FROM THE LEGACY DATALABS WORKBOOK · PENDING RECONCILIATION AGAINST FTA NTD · NOT FOR CITATION</div>
+<div class="proto">Working copy. Recovered from the legacy workbook, pending verification against FTA NTD. Not for citation.</div>
 
 <header class="masthead">
   <div class="masthead-inner">
     <div class="wordmark">Pioneer <span class="labs">DataLabs</span></div>
     <div class="mini-ask">
-      <input id="askInput" type="text" placeholder="Ask about the T: Is commuter rail back to pre-pandemic levels?" aria-label="Ask a question" maxlength="400">
-      <button id="askBtn" type="button">Ask</button>
+      <input id="askInput" type="text" placeholder="Ask the record: Is commuter rail back to pre-pandemic levels?" aria-label="Ask a question" maxlength="400">
+      <button id="askBtn" type="button">Answer &#8594;</button>
     </div>
   </div>
 </header>
@@ -109,14 +109,11 @@
     </div>
     <h1 class="headline" id="headline"></h1>
     <div class="badges">
-      <span class="badge" id="vintageBadge"></span>
-      <span class="badge">Source: legacy extract LEG-MBTA-01</span>
-      <span class="badge warn">Pending NTD reconciliation</span>
-      <span class="badge warn">Derived figures labeled</span>
+      <span class="badge" id="vintageBadge"></span><span class="badge"> · Source: legacy extract LEG-MBTA-01 · Pending NTD reconciliation · Derived figures labeled</span>
     </div>
   </section>
 
-  <section class="proof">
+  <section class="proof" id="view-monthly_trend">
     <div class="chart-card">
       <h2>MBTA monthly ridership, all modes, 2014 to today</h2>
       <div class="sub">Unlinked passenger trips per month. The pandemic crater and the incomplete climb back.</div>
@@ -134,24 +131,24 @@
 
   <section class="story">
     <div class="layer-head">
-      <h2>The story behind the number</h2>
-      <span>Curated views · No filters needed</span>
+      <h2>What the record shows</h2>
+      <span>Three readings, no filters needed</span>
     </div>
     <div class="story-row">
       <div class="story-card">
-        <h3>Two different recoveries</h3>
+        <a id="view-recovery_by_mode"></a><h3>Two different recoveries</h3>
         <div id="recoveryChart"></div>
         <p id="recoveryCaption"></p>
         <span class="src">LEG-MBTA-01 · derived vs 2019</span>
       </div>
       <div class="story-card">
-        <h3>What a trip costs to provide</h3>
+        <a id="view-cost_per_trip"></a><h3>What a trip costs to provide</h3>
         <div id="costChart"></div>
         <p>Operating cost per unlinked trip by mode. Subway trips are the cheapest to provide; paratransit is two orders of magnitude more expensive. Reporting year to be confirmed at reconciliation.</p>
         <span class="src">LEG-MBTA-01 · annual table</span>
       </div>
       <div class="story-card">
-        <h3>Riders pay a shrinking share</h3>
+        <a id="view-farebox"></a><h3>Riders pay a shrinking share</h3>
         <div id="fareChart"></div>
         <p>Farebox recovery, the share of operating cost covered by fares, by mode. Every point below 100 is covered by taxpayers. The policy question DataLabs exists to sharpen.</p>
         <span class="src">LEG-MBTA-01 · annual table</span>
@@ -161,7 +158,7 @@
 
   <section class="workbench" id="workbench">
     <div class="layer-head">
-      <h2>The evidence</h2>
+      <h2>Show the work</h2>
       <span>Every number traces to a register row</span>
     </div>
     <div class="bench-grid">
@@ -214,12 +211,12 @@ document.getElementById('vintageBadge').textContent = 'Through ' + monthName + '
   // gridlines at 10M/20M/30M
   [10e6,20e6,30e6].forEach(g=>{ if(g<max){ svg+='<line x1="'+padL+'" y1="'+y(g)+'" x2="'+(W-padR)+'" y2="'+y(g)+'" stroke="#EAE7DE"/><text x="4" y="'+(y(g)+4)+'" font-family="IBM Plex Mono" font-size="10" fill="#8A8F96">'+(g/1e6)+'M</text>'; }});
   // 2019 reference band label
-  svg += '<polyline fill="none" stroke="#14273D" stroke-width="2" points="' + s.map((d,i)=>x(i)+','+y(d.v)).join(' ') + '"/>';
+  svg += '<polyline fill="none" stroke="#14181D" stroke-width="2" points="' + s.map((d,i)=>x(i)+','+y(d.v)).join(' ') + '"/>';
   // covid marker
   const covidIdx = s.findIndex(d=>d.m==='2020-04');
-  if(covidIdx>0) svg += '<circle cx="'+x(covidIdx)+'" cy="'+y(s[covidIdx].v)+'" r="4" fill="#B08428"/><text x="'+(x(covidIdx)+8)+'" y="'+(y(s[covidIdx].v)-8)+'" font-family="Public Sans" font-size="11" fill="#6E5312">Apr 2020</text>';
+  if(covidIdx>0) svg += '<circle cx="'+x(covidIdx)+'" cy="'+y(s[covidIdx].v)+'" r="4" fill="#A87B1F"/><text x="'+(x(covidIdx)+8)+'" y="'+(y(s[covidIdx].v)-8)+'" font-family="Public Sans" font-size="11" fill="#6E5312">Apr 2020</text>';
   // latest marker
-  svg += '<circle cx="'+x(s.length-1)+'" cy="'+y(s[s.length-1].v)+'" r="4" fill="#B08428"/>';
+  svg += '<circle cx="'+x(s.length-1)+'" cy="'+y(s[s.length-1].v)+'" r="4" fill="#A87B1F"/>';
   // year labels
   s.forEach((d,i)=>{ if(d.m.endsWith('-01') && (parseInt(d.m)%2===0)) svg+='<text x="'+x(i)+'" y="'+(H-8)+'" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#8A8F96">'+d.m.slice(0,4)+'</text>'; });
   svg += '</svg>';
@@ -234,13 +231,13 @@ document.getElementById('vintageBadge').textContent = 'Through ' + monthName + '
   order.forEach((md,i)=>{
     const v=rec[md]; const y=4+i*rowH; const w=(Math.min(v,115)/115)*(W-215);
     const full = v>=100;
-    svg+='<text x="0" y="'+(y+15)+'" font-family="Public Sans" font-size="12" fill="#14273D">'+esc(ANSWERS.mode_names[md].split(' (')[0])+'</text>';
-    svg+='<rect x="145" y="'+(y+4)+'" width="'+w+'" height="15" rx="2" fill="'+(full?'#2E6B4F':'#14273D')+'"/>';
-    svg+='<text x="'+(151+w)+'" y="'+(y+16)+'" font-family="IBM Plex Mono" font-size="11" fill="'+(full?'#2E6B4F':'#44515E')+'">'+v+'%</text>';
+    svg+='<text x="0" y="'+(y+15)+'" font-family="Public Sans" font-size="12" fill="#14181D">'+esc(ANSWERS.mode_names[md].split(' (')[0])+'</text>';
+    svg+='<rect x="145" y="'+(y+4)+'" width="'+w+'" height="15" rx="2" fill="'+(full?'#2E6B4F':'#14181D')+'"/>';
+    svg+='<text x="'+(151+w)+'" y="'+(y+16)+'" font-family="IBM Plex Mono" font-size="11" fill="'+(full?'#2E6B4F':'#66707A')+'">'+v+'%</text>';
   });
   // 100% reference
   const refX=145+(100/115)*(420-215);
-  svg+='<line x1="'+refX+'" y1="0" x2="'+refX+'" y2="'+H+'" stroke="#B08428" stroke-dasharray="3,3"/>';
+  svg+='<line x1="'+refX+'" y1="0" x2="'+refX+'" y2="'+H+'" stroke="#A87B1F" stroke-dasharray="3,3"/>';
   svg+='</svg>';
   document.getElementById('recoveryChart').innerHTML=svg;
   document.getElementById('recoveryCaption').textContent =
@@ -257,9 +254,9 @@ document.getElementById('vintageBadge').textContent = 'Through ' + monthName + '
   let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Cost per trip by mode">';
   rows.forEach((r,i)=>{
     const y=4+i*rowH; const w=(r.cost_per_trip/max)*(W-215);
-    svg+='<text x="0" y="'+(y+14)+'" font-family="Public Sans" font-size="11.5" fill="#14273D">'+esc(r.mode)+(r.tos==='PT'?' (contracted)':'')+'</text>';
-    svg+='<rect x="150" y="'+(y+3)+'" width="'+w+'" height="14" rx="2" fill="#14273D" opacity="0.85"/>';
-    svg+='<text x="'+(156+w)+'" y="'+(y+14)+'" font-family="IBM Plex Mono" font-size="11" fill="#44515E">$'+r.cost_per_trip.toFixed(2)+'</text>';
+    svg+='<text x="0" y="'+(y+14)+'" font-family="Public Sans" font-size="11.5" fill="#14181D">'+esc(r.mode)+(r.tos==='PT'?' (contracted)':'')+'</text>';
+    svg+='<rect x="150" y="'+(y+3)+'" width="'+w+'" height="14" rx="2" fill="#14181D" opacity="0.85"/>';
+    svg+='<text x="'+(156+w)+'" y="'+(y+14)+'" font-family="IBM Plex Mono" font-size="11" fill="#66707A">$'+r.cost_per_trip.toFixed(2)+'</text>';
   });
   svg+='<text x="0" y="'+(H-6)+'" font-family="IBM Plex Mono" font-size="10" fill="#8A8F96">The RIDE (paratransit): $161.25 per trip, off scale</text>';
   svg+='</svg>';
@@ -274,9 +271,9 @@ document.getElementById('vintageBadge').textContent = 'Through ' + monthName + '
   let svg='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Farebox recovery by mode">';
   rows.forEach((r,i)=>{
     const y=4+i*rowH; const w=(r.recovery_ratio/40)*(W-215);
-    svg+='<text x="0" y="'+(y+14)+'" font-family="Public Sans" font-size="11.5" fill="#14273D">'+esc(r.mode)+'</text>';
-    svg+='<rect x="150" y="'+(y+3)+'" width="'+Math.max(w,3)+'" height="14" rx="2" fill="#B08428" opacity="0.9"/>';
-    svg+='<text x="'+(156+Math.max(w,3))+'" y="'+(y+14)+'" font-family="IBM Plex Mono" font-size="11" fill="#44515E">'+r.recovery_ratio+'%</text>';
+    svg+='<text x="0" y="'+(y+14)+'" font-family="Public Sans" font-size="11.5" fill="#14181D">'+esc(r.mode)+'</text>';
+    svg+='<rect x="150" y="'+(y+3)+'" width="'+Math.max(w,3)+'" height="14" rx="2" fill="#A87B1F" opacity="0.9"/>';
+    svg+='<text x="'+(156+Math.max(w,3))+'" y="'+(y+14)+'" font-family="IBM Plex Mono" font-size="11" fill="#66707A">'+r.recovery_ratio+'%</text>';
   });
   svg+='</svg>';
   document.getElementById('fareChart').innerHTML=svg;
@@ -325,7 +322,7 @@ async function ask(){
     const text = data.type==='answer' ? data.text
       : data.type==='route' ? 'This page covers T ridership and costs; that question belongs to another DataLabs tool. Try it on the home page.'
       : (data.note || 'This page cannot answer that.');
-    wrap.innerHTML='<div class="box">'+esc(text)+'<br><span class="src">Answered from page data only · LEG-MBTA-01 · through '+esc(ANSWERS.as_of)+'</span></div>';
+    wrap.innerHTML='<div class="box">'+esc(text)+'<br><span class="src">Answered from page data · LEG-MBTA-01 · through '+esc(ANSWERS.as_of)+'</span></div>';
   }catch(err){
     console.error(err);
     wrap.innerHTML='<div class="box">The answer engine hit a snag. Try again in a moment.</div>';

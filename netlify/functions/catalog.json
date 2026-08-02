@@ -1553,6 +1553,16 @@
   "fresh": "Updated May 2026"
  },
  {
+  "id": "DL-04",
+  "t": "State Tax Atlas",
+  "q": "Every state\u2019s wealth-tax, surtax, and intangibles provisions, mapped provision by provision.",
+  "g": [
+   "US"
+  ],
+  "st": "live",
+  "url": "/dl-04/"
+ },
+ {
   "id": "DL-10",
   "t": "Florida Insurance Watch",
   "q": "Why Florida homeowners insurance costs what it costs, county by county.",

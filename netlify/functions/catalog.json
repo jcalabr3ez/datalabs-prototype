@@ -29,7 +29,9 @@
     "s": "MA",
     "u": "https://madatalabs.org/pensions/state-and-teacher-retirees"
    }
-  ]
+  ],
+  "heritage": "Formerly MassPensions",
+  "fresh": "Freshest: Nov 2025"
  },
  {
   "id": "DL-02",
@@ -86,7 +88,9 @@
     "s": "MA",
     "u": "https://massopenbooks.org/vendor-payments-state-government"
    }
-  ]
+  ],
+  "heritage": "Formerly MassOpenBooks",
+  "fresh": "Freshest: May 2026"
  },
  {
   "id": "DL-03",
@@ -149,7 +153,8 @@
     "s": "US",
     "u": "https://usdatalabs.org/Government/state-finance-overview/state-rainy-day-funds"
    }
-  ]
+  ],
+  "fresh": "Freshest: May 2026"
  },
  {
   "id": "DL-04",
@@ -206,7 +211,9 @@
     "s": "US",
     "u": "https://usdatalabs.org/taxation/adjusted-gross-income-percentile-data"
    }
-  ]
+  ],
+  "heritage": "Formerly MassIRSDataDiscovery",
+  "fresh": "Freshest: May 2026"
  },
  {
   "id": "DL-05",
@@ -279,7 +286,9 @@
     "s": "US",
     "u": "https://usdatalabs.org/education/school-districts/charter-schools"
    }
-  ]
+  ],
+  "heritage": "Formerly MassReportCards",
+  "fresh": "Freshest: Jul 2026"
  },
  {
   "id": "DL-06",
@@ -312,7 +321,9 @@
     "s": "MA",
     "u": "https://madatalabs.org/education/education-school-finances"
    }
-  ]
+  ],
+  "heritage": "Formerly MassReportCards",
+  "fresh": "Freshest: Oct 2025"
  },
  {
   "id": "DL-07",
@@ -344,7 +355,8 @@
     "s": "US",
     "u": "https://usdatalabs.org/education/higher-education/higher-education-student-data"
    }
-  ]
+  ],
+  "fresh": "Freshest: May 2026"
  },
  {
   "id": "DL-08",
@@ -501,7 +513,8 @@
     "s": "MA",
     "u": "https://madatalabs.org/economy/weekly-wages"
    }
-  ]
+  ],
+  "fresh": "Freshest: Jul 2026"
  },
  {
   "id": "DL-09",
@@ -524,7 +537,8 @@
     "s": "US",
     "u": "https://usdatalabs.org/economy/housing"
    }
-  ]
+  ],
+  "fresh": "Freshest: Jul 2026"
  },
  {
   "id": "DL-10",
@@ -541,7 +555,8 @@
     "s": "US",
     "u": "https://usdatalabs.org/infrastructure/national-risk-index"
    }
-  ]
+  ],
+  "fresh": "Freshest: Jan 2026"
  },
  {
   "id": "DL-11",
@@ -629,7 +644,9 @@
     "s": "MA",
     "u": "https://madatalabs.org/cities-and-towns/tariff-impacts"
    }
-  ]
+  ],
+  "heritage": "Formerly MassAnalysis",
+  "fresh": "Freshest: Mar 2026"
  },
  {
   "id": "DL-12",
@@ -683,7 +700,9 @@
     "s": "US",
     "u": "https://usdatalabs.org/infrastructure/roadway-transportation"
    }
-  ]
+  ],
+  "heritage": "Formerly MBTAAnalysis",
+  "fresh": "Data through May 2026"
  },
  {
   "id": "DL-13",
@@ -736,7 +755,8 @@
     "s": "US",
     "u": "https://usdatalabs.org/health/state-medicaid-expenses"
    }
-  ]
+  ],
+  "fresh": "Freshest: May 2026"
  },
  {
   "id": "DL-14",
@@ -768,7 +788,8 @@
     "s": "US",
     "u": "https://usdatalabs.org/crime-justice/juvenile-incarceration"
    }
-  ]
+  ],
+  "fresh": "Freshest: Apr 2026"
  },
  {
   "id": "ARCHIVE",
@@ -785,6 +806,7 @@
     "s": "MA",
     "u": "https://madatalabs.org/healthcare/tracking-covid-19"
    }
-  ]
+  ],
+  "fresh": "Freshest: Apr 2023"
  }
 ]

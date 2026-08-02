@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pioneer DataLabs | Numbers that show their work</title>
+<title>Pioneer DataLabs — Numbers that show their work</title>
 <meta name="description" content="Ask about Boston, Massachusetts, any of the fifty states, or Florida. Every answer cites its primary source.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -53,7 +53,7 @@
     border-top:3px solid var(--gold); backdrop-filter:blur(2px); padding:30px 32px; max-width:820px; margin-left:auto; margin-right:auto; }
   .askline { border-bottom:1px solid rgba(255,255,255,.75); display:flex; align-items:flex-end; gap:16px; padding-bottom:13px; }
   .askline input { flex:1; border:none; outline:none; font-family:'Newsreader',serif;
-    font-size:clamp(21px,2.8vw,27px); color:#fff; background:transparent; min-width:0; padding:3px 0; }
+    font-size:clamp(16px,2vw,19px); color:#fff; background:transparent; min-width:0; padding:3px 0; }
   .askline input::placeholder { color:#8DA0B5; }
   .askline button { font-size:16px; font-weight:700; color:#fff; padding-bottom:5px; white-space:nowrap; background:none; border:none; }
   .askline button:hover { color:#E9C46A; }
@@ -87,7 +87,9 @@
   .dashlink:hover { color:var(--gold); }
   .noans { max-width:720px; border-top:1px solid var(--rule-dk); margin-top:28px; padding-top:14px; font-size:14px; color:var(--grey); }
   .noans b { color:var(--ink); }
-  .load { max-width:720px; margin-top:24px; font-size:13px; color:var(--faint); }
+  .load { max-width:720px; margin:28px auto 0; font-family:'Newsreader',serif; font-size:20px; color:var(--grey); text-align:center; }
+  .load::after { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; border:2px solid var(--gold); border-top-color:transparent; margin-left:10px; vertical-align:middle; animation:spin .8s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
 
   /* ---------- sections ---------- */
   .sec { padding-top:84px; }

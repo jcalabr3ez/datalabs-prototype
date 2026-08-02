@@ -1,0 +1,1676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Florida Insurance Watch | Pioneer Institute</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#14294d; --accent:#3e6db0; --blue-lt:#e9eef5; --ink:#1a1f26;
+    --g1:#39424c; --g2:#55606b; --g3:#5f6b77;
+    --rule:#d3dae1; --rule-lt:#e6eaee;
+    --pos:#1a7a4c; --neg:#a32c2c; --warn:#b45309;
+    --sans:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#f2f4f6;color:var(--ink);font:15px/1.6 var(--sans);
+       -webkit-font-smoothing:antialiased;padding:clamp(14px,2vw,34px) clamp(12px,2vw,32px) 70px}
+  .wrap{width:100%;max-width:1040px;margin:0 auto;background:#fff;border:1px solid var(--rule);
+        padding:clamp(20px,2.4vw,42px) clamp(18px,2.6vw,48px) 44px}
+
+  /* Pioneer masthead */
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--blue);
+           padding:14px clamp(18px,2.6vw,48px);
+           margin:calc(-1 * clamp(20px,2.4vw,42px)) calc(-1 * clamp(18px,2.6vw,48px)) clamp(22px,2.4vw,34px)}
+  .sitebar img{height:26px;width:auto;display:block}
+  .sitebar .tag{font:600 10.5px/1 var(--sans);letter-spacing:1.6px;text-transform:uppercase;color:#c3cede}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+
+  header{border-bottom:3px solid var(--blue);padding-bottom:16px}
+  .org{font:700 10.5px/1 var(--sans);letter-spacing:1.5px;text-transform:uppercase;color:var(--blue);margin-bottom:9px}
+  h1{font:700 27px/1.2 var(--sans);color:var(--blue);letter-spacing:-.5px}
+  .standfirst{font-size:14.5px;color:var(--g1);margin-top:7px;max-width:none}
+  .dateline{display:flex;gap:26px;flex-wrap:wrap;margin-top:14px;
+            font:600 10.5px/1 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--g2)}
+  .proto{display:flex;align-items:center;gap:13px;flex-wrap:wrap;
+         border-top:2px solid var(--warn);border-bottom:2px solid var(--warn);padding:11px 0;margin:22px 0 4px}
+  .proto-tag{font:700 12px/1 var(--sans);letter-spacing:1.6px;text-transform:uppercase;color:#fff;background:var(--warn);padding:6px 11px}
+  .proto-txt{font:600 13px/1.45 var(--sans);color:var(--warn)}
+
+  /* ---- audience toggle ---- */
+  .toggle{display:flex;gap:0;margin-top:22px;border:2px solid var(--blue);width:min(600px,100%)}
+  .toggle button{flex:1 1 0;font:700 12.5px/1.25 var(--sans);letter-spacing:.4px;padding:13px 20px;border:none;
+                 background:#fff;color:var(--blue);cursor:pointer;white-space:normal;text-align:left}
+  .toggle button.on{background:var(--blue);color:#fff}
+  .toggle button:not(.on):hover{background:var(--blue-lt)}
+  .toggle .who{display:block;font:400 10.5px/1.3 var(--sans);letter-spacing:0;text-transform:none;
+               margin-top:4px;opacity:.85}
+  @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
+
+  /* ---- shared blocks ---- */
+  section{margin-top:44px}
+  h2{font:700 17px/1.3 var(--sans);color:var(--blue);border-bottom:2px solid var(--blue);
+     padding-bottom:8px;margin-bottom:6px}
+  .lede{font-size:14px;color:var(--g1);margin:12px 0 22px;max-width:none}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:none}
+  .body-p.big{font-size:17px;line-height:1.55}
+
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.35 var(--sans);letter-spacing:.7px;text-transform:uppercase;color:var(--g2);
+      margin-bottom:10px;min-height:30px}
+  .cv{font:700 26px/1 var(--sans);color:var(--blue);letter-spacing:-.8px;font-variant-numeric:tabular-nums lining-nums}
+  .cv.warn{color:var(--warn)} .cv.pos{color:var(--pos)}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .cd .up{color:var(--pos);font-weight:600} .cd .dn{color:var(--neg);font-weight:600}
+  @media(max-width:900px){.strip{grid-template-columns:repeat(2,1fr)}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+  @media(max-width:520px){.strip{grid-template-columns:1fr}}
+
+  /* top KPI band: centered, sharper, framed */
+  .metrics{border-top:2px solid var(--blue);border-bottom:2px solid var(--blue)}
+  .metrics .cell{text-align:center;padding:18px 16px}
+  .metrics .cl{min-height:26px;margin-bottom:10px;color:var(--g2)}
+  .metrics .cv{font-size:clamp(20px,1.9vw,26px);line-height:1.05;letter-spacing:-.6px}
+  .metrics .cd{margin-top:12px;max-width:32ch;margin-left:auto;margin-right:auto}
+  .metrics .csrc{border-top:0;margin-top:10px}
+
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--ink);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:700 10px/1 var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--blue);white-space:nowrap}
+  .ex-t{font:600 14px/1.35 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-tall{height:clamp(350px,44vh,560px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
+
+  /* ---- county map + selector ---- */
+  .mtoggle{display:flex;gap:0;border:2px solid var(--blue);width:fit-content;margin:2px 0 16px;flex-wrap:wrap}
+  .mtoggle button{font:700 11.5px/1.2 var(--sans);letter-spacing:.3px;padding:9px 14px;border:none;background:#fff;color:var(--blue);cursor:pointer}
+  .mtoggle button.on{background:var(--blue);color:#fff}
+  .mtoggle button:not(.on):hover{background:var(--blue-lt)}
+  .maprow{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
+  .mapbox{flex:1 1 420px;min-width:300px;position:relative}
+  .cty{cursor:pointer}
+  .cty:hover{stroke:#1a1f26;stroke-width:1.3}
+  #tip{position:absolute;pointer-events:none;background:#1a1f26;color:#fff;font:600 11.5px/1.5 var(--sans);
+       padding:7px 10px;display:none;z-index:5;max-width:230px}
+  #tip small{display:block;font-weight:400;color:#c3cede}
+  .legend{margin-top:12px}
+  .legbar{height:10px;width:min(320px,100%);border:1px solid var(--rule)}
+  .leglab{display:flex;justify-content:space-between;width:min(320px,100%);font:600 10px/1 var(--sans);color:var(--g2);margin-top:5px}
+  .legex{display:none;align-items:center;gap:7px;font:600 10px/1 var(--sans);color:var(--g2);margin-top:8px}
+  .legex .sw{width:16px;height:11px;border:1px solid var(--rule);
+       background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 3px,#b6bec7 3px,#b6bec7 4.5px)}
+  .readout{flex:0 1 320px;min-width:270px;border:1px solid var(--rule);padding:16px 18px}
+  .readout h3{font:700 14px/1.3 var(--sans);color:var(--blue);margin-bottom:8px}
+  .readout .rrow{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:7px 0;border-bottom:1px solid var(--rule-lt)}
+  .readout .rrow b{font-variant-numeric:tabular-nums;text-align:right}
+  .readout .hint{font-size:11px;color:var(--g3);margin-top:10px;line-height:1.55}
+  .findrow{margin-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .sel-lab{font:700 10.5px/1 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--g2);display:block;width:100%;margin-bottom:2px}
+  .findrow select{font:600 13px/1.4 var(--sans);color:var(--blue);border:2px solid var(--blue);padding:9px 12px;background:#fff;width:100%}
+  .note{font-size:11.5px;line-height:1.7;color:var(--g2);margin-top:13px;padding-top:10px;
+        border-top:1px solid var(--rule-lt);max-width:none}
+  .note b{color:var(--g1);font-weight:700}
+  .note a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:700 10px/1.35 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--g2);
+     text-align:left;padding:0 14px 8px 0;border-bottom:2px solid var(--blue);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule-lt);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  th.n{white-space:normal}
+  th.key,td.key{background:#f2f6fb}
+  table.tc th,table.tc td{text-align:center;padding-left:10px;padding-right:10px;vertical-align:middle}
+  td.m{font-weight:600}
+  tr.hl td{background:var(--blue-lt);font-weight:600}
+  .neg{color:var(--neg)} .pos{color:var(--pos)} .dim{color:var(--g2);font-size:12px;font-weight:400}
+
+      /* analysis rendered as report prose (no indent, no box) */
+  .answer{margin-top:20px}
+  .answer h3{font:700 15px/1.45 var(--sans);color:var(--blue);margin-bottom:9px}
+  .answer p{font-size:15px;line-height:1.66;margin-bottom:13px;max-width:none}
+  .answer p:last-child{margin-bottom:0}
+  .answer b{color:var(--ink);font-weight:700}
+  /* field-research pull quote */
+  .callout{margin:30px 0}
+  .callout h3{font:700 10.5px/1.3 var(--sans);letter-spacing:1.2px;text-transform:uppercase;color:var(--g2);margin-bottom:14px}
+  .callout p{font-size:15px;line-height:1.66;margin-bottom:13px;max-width:none}
+  .callout p:last-child{margin-bottom:0}
+  .callout .quote{font:400 23px/1.42 Georgia,serif;color:var(--blue);margin:10px 0 18px;letter-spacing:-.2px}
+  .answer .srcline,.callout .srcline{margin-top:13px}
+
+  details{margin-top:18px;border-top:1px solid var(--rule-lt)}
+  summary{cursor:pointer;font:700 10.5px/1 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--blue);
+          list-style:none;padding:11px 0}
+  summary::-webkit-details-marker{display:none}
+  summary:after{content:" [+]";color:var(--g3)} details[open] summary:after{content:" [\2212]"}
+  .work{font:12px/1.7 var(--mono);white-space:pre;overflow-x:auto;color:var(--g1);background:#f7f9fa;
+        border:1px solid var(--rule-lt);border-left:3px solid var(--blue);padding:15px 17px;margin-bottom:14px}
+
+  sup.f{font:700 9px/1 var(--sans);color:var(--blue);vertical-align:super;margin-left:2px}
+  .csrc{font-size:10px;color:var(--g3);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  .csrc a{color:var(--g2);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .srcline{font-size:11px;color:var(--g3);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--g2);text-decoration:none;border-bottom:1px solid var(--rule)}
+
+    ol.lim{list-style:none;counter-reset:l;max-width:none;margin-top:16px}
+  ol.lim li{counter-increment:l;position:relative;padding-left:24px;margin-bottom:12px;font-size:14.5px;line-height:1.62}
+  ol.lim li:before{content:counter(l) ".";position:absolute;left:0;top:0;font:700 14.5px/1.62 var(--sans);color:var(--blue)}
+  ol.lim b{font-weight:700;color:var(--ink)}
+
+  footer{margin-top:50px;padding-top:18px;border-top:3px solid var(--blue);font-size:11.5px;line-height:1.8;color:var(--g2)}
+  footer b{color:var(--g1)}
+  footer a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .disclaimer{margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-lt);color:var(--g3);line-height:1.75}
+  .disclaimer b{color:var(--g2)}
+  .fbrand{margin-bottom:16px;font-size:11.5px;line-height:1.7;color:var(--g2)}
+  .fbrand .pi{font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--blue)}
+  .fbrand a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
+
+  /* collapsible secondary detail (keeps rigor, reduces page weight) */
+  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fbfcfd;margin-top:10px}
+  .simplify summary{cursor:pointer;list-style:none;padding:15px 18px;font:700 15px/1.35 var(--sans);color:var(--blue)}
+  .simplify summary::-webkit-details-marker{display:none}
+  .simplify summary:after{content:"  +  Show detail";font:600 11.5px var(--sans);color:var(--g2);letter-spacing:.3px}
+  .simplify[open] summary:after{content:"  \2212  Hide detail"}
+  .simplify .dt-body{padding:0 18px 16px}
+  .simplify .dt-body > :first-child{margin-top:0}
+
+
+  /* embed mode: host page supplies the frame */
+  body.embed{background:#fff;padding:0}
+  body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+  /* policy recommendation cards */
+  .rec{display:flex;gap:18px;align-items:flex-start;padding:22px 0;border-top:1px solid var(--rule-lt)}
+  .rec:first-of-type{border-top:2px solid var(--blue)}
+  .rec-n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;
+         font:700 16px/34px var(--sans);text-align:center}
+  .rec-b h3{font:700 18px/1.3 var(--sans);color:var(--blue);margin-bottom:9px}
+  .rec-b p{font-size:15px;line-height:1.65;margin-bottom:11px}
+  .rec-b p:last-child{margin-bottom:0}
+  .rec-do{background:var(--blue-lt);border-left:3px solid var(--blue);padding:10px 13px}
+  .rec-ex{color:var(--g1);border-left:3px solid var(--rule);padding:0 0 0 13px}
+
+  h3.sub{font:700 16px/1.35 var(--sans);color:var(--blue);margin:26px 0 4px;padding-top:18px;border-top:1px solid var(--rule-lt)}
+
+  /* inline calculation disclosure */
+  details.math{margin-top:12px;border-top:1px solid var(--rule-lt)}
+  details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
+    font:700 10.5px/1 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--blue)}
+  details.math > summary::-webkit-details-marker{display:none}
+  details.math > summary:after{content:"  +  show the calculation";letter-spacing:.2px;text-transform:none;
+    font:600 11px var(--sans);color:var(--g2)}
+  details.math[open] > summary:after{content:"  \2212  hide the calculation"}
+  .mathbox{background:#f7f9fa;border:1px solid var(--rule-lt);border-left:3px solid var(--blue);
+    padding:13px 15px;margin-bottom:10px}
+  .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
+  .mathbox .lbl{font:700 10px/1 var(--sans);letter-spacing:.9px;text-transform:uppercase;color:var(--g2);margin-bottom:7px}
+  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--blue)}
+  .mathsrc{font-size:11px;color:var(--g3);line-height:1.55;margin-top:2px}
+
+  /* ask box */
+  #askbox .ask-wrap{margin-top:6px}
+  .ask-row{display:flex;gap:9px;flex-wrap:wrap}
+  #askq{flex:1 1 340px;font:15px/1.4 var(--sans);color:var(--ink);border:2px solid var(--blue);
+        padding:12px 14px;background:#fff;border-radius:3px}
+  #askq:focus{outline:2px solid var(--accent);outline-offset:1px}
+  .askbtn{font:700 14px/1 var(--sans);color:#fff;background:var(--blue);border:0;border-radius:3px;
+          padding:0 22px;cursor:pointer}
+  .askbtn:hover{background:#0f1f3b}
+  .ask-chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
+  .chip{font:600 11.5px/1 var(--sans);color:var(--blue);background:var(--blue-lt);border:0;border-radius:20px;
+        padding:8px 13px;cursor:pointer}
+  .chip:hover{background:#dbe4f0}
+  .ask-out{position:relative;margin-top:18px;border:1px solid var(--rule);border-left:3px solid var(--blue);background:#fbfcfd;padding:18px 46px 18px 20px}
+  .ask-close{position:absolute;top:10px;right:10px;width:28px;height:28px;line-height:26px;text-align:center;border:1px solid var(--rule);background:#fff;color:var(--g2);border-radius:3px;cursor:pointer;font:700 15px/26px var(--sans)}
+  .ask-close:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .ask-again{margin-top:12px;font-size:11.5px;color:var(--g2)}
+  #askbox.answered .lede{display:none}
+  #askbox.answered .ask-chips{display:none}
+  #askbox .reopen{display:none;font:600 11.5px/1 var(--sans);color:var(--blue);background:none;border:0;padding:6px 0;cursor:pointer;text-decoration:underline}
+  #askbox.answered .reopen{display:inline-block}
+  .ask-head{font:700 30px/1.1 var(--sans);color:var(--blue);letter-spacing:-.6px;margin-bottom:8px}
+  .ask-stmt{font-size:15px;line-height:1.65;margin-bottom:12px}
+  .ask-calc{font:12px/1.7 var(--mono);white-space:pre-wrap;background:#f2f5f8;border:1px solid var(--rule-lt);
+            padding:12px 14px;color:var(--ink);margin-bottom:10px}
+  .ask-src{font-size:11.5px;color:var(--g2);line-height:1.6}
+  .ask-src a{color:var(--blue)}
+  .ask-miss{font-size:14.5px;line-height:1.6}
+  .ask-tips{margin-top:9px;display:flex;gap:7px;flex-wrap:wrap}
+
+  /* ---- release apparatus: beta strip links, feedback loop, collapsible sources, changelog ---- */
+  .proto-txt a{color:inherit;text-decoration:underline}
+  .subhead{font-size:14px;line-height:1.6;color:var(--g1);margin:12px 0 22px;max-width:none}
+  .feedback{border:1px solid var(--rule);border-left:3px solid var(--accent);padding:16px 20px;margin:22px 0}
+  .feedback h3{font:700 14px/1.3 var(--sans);color:var(--blue);margin-bottom:6px}
+  .feedback p{font-size:13.5px;color:var(--g1);line-height:1.6;margin-bottom:10px;max-width:none}
+  .feedback .fb-btn{display:inline-block;font:700 13px/1 var(--sans);color:#fff;background:var(--blue);padding:10px 16px;margin:2px 0}
+  .feedback .fb-btn:hover{background:#0f1f3b}
+  .feedback .fb-norm{font-size:11.5px;color:var(--g3);line-height:1.6;margin:10px 0 0}
+  details.srcfold{border:1px solid var(--rule);background:#fbfcfd;margin-top:14px}
+  details.srcfold>summary{cursor:pointer;list-style:none;padding:15px 18px;font:700 15px/1.35 var(--sans);color:var(--blue);letter-spacing:0;text-transform:none}
+  details.srcfold>summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after{content:"  +  Show sources";font:600 11.5px var(--sans);color:var(--g2);letter-spacing:.3px;text-transform:none}
+  details.srcfold[open]>summary:after{content:"  \2212  Hide sources"}
+  details.srcfold .fold-body{padding:0 18px 16px}
+  details.srcfold .fold-body>:first-child{margin-top:0}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg th{width:20%}
+  table.reg th:first-child{width:26%}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--blue);text-decoration:none;border-bottom:1px solid var(--rule)}
+  table.reg td.src a:hover{border-bottom-color:var(--blue)}
+  table.reg tr.grp td{background:var(--blue-lt);font:700 10px/1.35 var(--sans);letter-spacing:1px;text-transform:uppercase;color:var(--blue);padding:8px 10px;border-bottom:1px solid var(--rule)}
+  td.ver{font:700 12px/1.6 var(--mono);color:var(--ink);white-space:nowrap}
+  td.cdate{white-space:nowrap;color:var(--g3)}
+  .kind{display:inline-block;font:700 9.5px/1 var(--mono);letter-spacing:.6px;text-transform:uppercase;color:var(--g3);border:1px solid var(--rule);padding:3px 7px;white-space:nowrap}
+  .kind.fix{color:var(--accent);border-color:var(--accent)}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px}
+
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div style="max-width:1120px;margin:0 auto;padding:14px 24px 0;">
+  <a href="/" style="display:inline-block;font-family:'Public Sans',system-ui,sans-serif;font-size:13px;font-weight:600;color:#1F3A5F;text-decoration:none;">&#8592; Back to DataLabs</a>
+</div><div class="wrap">
+
+<div class="sitebar">
+  <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+  <span class="tag">Florida Insurance Watch</span>
+</div>
+
+<div class="proto"><span class="proto-tag">Beta v1.0</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Every figure traces to a primary source in the register below, with its vintage and next scheduled release. Corrections and data refreshes are logged in the <a href="#changelog">changelog</a>, with credit to readers who report them. See something wrong? <a href="#feedback">Report it</a>.</span></div>
+
+<header>
+  <div class="org">Florida Program</div>
+  <h1>Florida Insurance Watch</h1>
+  <div class="standfirst" id="standfirst">What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings.</div>
+  <div class="dateline">
+    <span>Data through June 30, 2026</span>
+    <span>Revised July 23, 2026</span>
+    <span>Version 1.0 Beta</span>
+  </div>
+  <div class="toggle" role="tablist" aria-label="Choose a view">
+    <button id="btn-home" class="on" onclick="showView('home')">
+      For homeowners <span class="who">What households pay, and what it means</span></button>
+    <button id="btn-policy" onclick="showView('policy')">
+      For policymakers <span class="who">State risk, market health, transferable lessons</span></button>
+  </div>
+</header>
+
+<!-- ==================================================================== -->
+<!-- ============================ HOMEOWNER ============================== -->
+<!-- ==================================================================== -->
+<div id="view-home">
+
+  <section style="margin-top:30px">
+    <p class="body-p big"><b>Premiums remain high even as the market stabilizes. Both facts are accurate.</b> Affordability was the dominant theme in a July 2026 Tampa focus group, where participants described their premiums as "just as burdensome as mortgage payments." The market did stabilize and average rates have begun to fall. Florida nonetheless remains the most expensive state in the country, the relief arrived late and is small against several years of increases, and part of the decline reflects reduced coverage rather than lower prices. This page sets out what changed, drawn from state filings, and what it means for a household.</p>
+  </section>
+
+  <section>
+    <h2>What are the key takeaways?</h2>
+    <div class="strip metrics">
+      <div class="cell">
+        <div class="cl">Your 2026 rate, state insurer</div>
+        <div class="cv pos">&minus;8.8%</div>
+        <div class="cd">Citizens cut homeowners rates for 2026, its first broad decrease since 2015. Some private insurers are filing decreases too.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> Premiums are declining, but a single 8.8 percent reduction does not offset several years of increases.</div>
+        <div class="csrc">Sources: <a href="https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" target="_blank">Citizens, March 4, 2026</a> and <a href="https://www.citizensfla.com/-/20251210-citizens-recommends-rate-cuts-for-most-policyholders" target="_blank">December 10, 2025</a></div>
+      </div>
+      <div class="cell">
+        <div class="cl">What your policy covers</div>
+        <div class="cv warn">Declining</div>
+        <div class="cd">Average premiums fell partly because people bought less protection: higher deductibles, lower limits, sometimes dropping wind coverage. Per dollar of protection, the price went up.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> A lower premium may reflect reduced coverage. Deductibles and wind coverage should be reviewed alongside the total.</div>
+        <div class="csrc">Pioneer Institute calculation from Citizens premium and coverage filings. See "Are premiums falling, or is less coverage being purchased?" below</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Extra charge after a big storm</div>
+        <div class="cv pos">None expected</div>
+        <div class="cd">After a bad storm the state insurer can add a charge to almost every policy in Florida, including auto. It now expects none unless a storm worse than a 1-in-360-year event hits.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> This charge can reach policyholders who are not customers of the state insurer. The risk is currently low, but the figure is an annual projection rather than a guarantee.</div>
+        <div class="csrc">Source: <a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank">Citizens, June 23, 2026</a></div>
+      </div>
+      <div class="cell">
+        <div class="cl">Insurers coming back</div>
+        <div class="cv">21 entrants</div>
+        <div class="cd">Twenty-one new insurers have been approved to write home policies in Florida since the 2022 and 2023 reforms, bringing more than $850 million in new money.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> More insurers competing for policies puts downward pressure on price and gives households an alternative to the state insurer.</div>
+        <div class="csrc">Sources: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a> (entrant count); <a href="https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" target="_blank">FL OIR, May 20, 2026</a> (capital)</div>
+      </div>
+    </div>
+  </section>
+
+  
+  <section id="askbox">
+    <h2>Ask the data a question</h2>
+    <div class="lede">Type a question in plain language. The answer is computed from the same verified series that
+    draw the charts on this page, and is shown with its arithmetic and its source. No language model produces any
+    figure here, so every answer is reproducible.</div>
+    <div class="ask-wrap">
+      <div class="ask-row">
+        <input id="askq" type="text" autocomplete="off"
+               placeholder="For example: how many policies did Citizens have in June 2026?"
+               aria-label="Ask a question about the Florida insurance data">
+        <button id="askgo" class="askbtn">Answer</button>
+      </div>
+      <div class="ask-chips">
+        <button class="chip" data-q="How many policies were taken out in 2024?">Policies taken out in 2024</button>
+        <button class="chip" data-q="What is the price per $1,000 of coverage?">Price per $1,000 of coverage</button>
+        <button class="chip" data-q="What was the combined ratio in 2025?">Combined ratio in 2025</button>
+        <button class="chip" data-q="When did Citizens peak?">When did Citizens peak?</button>
+        <button class="chip" data-q="What is the assessment threshold?">Assessment threshold</button>
+      </div>
+      <button class="reopen" id="askreopen">Show examples and description</button>
+      <div id="askout" class="ask-out" hidden></div>
+    </div>
+  </section>
+
+  <!-- the trust bridge -->
+  <section>
+    <h2>Why have premiums risen despite reports of market improvement?</h2>
+    <div class="answer">
+      <h3>Both are accurate, and they are consistent.</h3>
+      <p>The reforms addressed what they were designed to address: the market stopped contracting, insurers re-entered, and the state moved away from a near-term solvency crisis. That progress is the reason rate decreases have replaced double-digit increases.</p>
+      <p>Rate relief nonetheless arrived late and modest relative to the preceding increases. Between 2019 and 2022 the average Florida premium rose from about $1,988 to $2,677, while the national average rose more slowly, from $1,272 to $1,569. An 8.8 percent reduction in 2026 does not offset several years of increases, so premiums are below the prior year yet remain well above earlier levels.</p>
+      <p>A second factor complicates the averages. A decline in average premium can indicate lower prices, or reduced purchase of coverage through higher deductibles, lower limits, or removal of wind coverage. Measured per $1,000 of coverage, the price of Citizens coverage rose about 18 percent from 2023 to 2026, even as average premium per policy fell.</p>
+      <div class="srcline">Sources: premium run-up, NAIC average HO-3 premium by state, 2019 and 2022, via the <a href="https://content.naic.org/sites/default/files/publication-hmr-zu-homeowners-report.pdf" target="_blank">Insurance Information Institute</a>; price per $1,000 of coverage, Pioneer calculation from Citizens premium and exposure filings.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Are premiums falling, or is less coverage being purchased?</h2>
+    <div class="lede">The exhibit compares two measures, both indexed to 100 in 2023: the average premium a policyholder pays, and the price for each $1,000 of coverage. The two move in opposite directions.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t">Average premium versus the price of coverage, both set to 100 in 2023</span></div>
+      <div class="plot plot-sm"><canvas id="hChart2"></canvas></div>
+      <div class="note">The average premium fell about 23 percent, largely because policyholders purchased less coverage through higher deductibles, lower limits, and in some cases no wind coverage. The price for each $1,000 of coverage rose about 18 percent over the same period. A lower premium accompanied by reduced coverage falls in the gap between these two lines. Over the same period the average amount of coverage carried per policy fell about 35 percent, a steeper decline than the premium itself. <b>Source:</b> Citizens premium and coverage filings. <b>Calculation:</b> Pioneer Institute.</div><details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Price per $1,000 of insured value</div><code>price per $1,000 = direct premium / (total insured value / 1,000)
+
+Sep 2023 = $4,833,074,611 / ($618,104,511,066 / 1,000) = $7.82
+Jun 2026 = $737,991,504 / ($79,644,625,492 / 1,000)   = $9.27
+
+change   = ($9.27 - $7.82) / $7.82 x 100</code><div class="out">Result: up 18.50 percent, while average premium per policy fell 22.74 percent and coverage per policy fell 34.81 percent.</div></div><div class="mathsrc">Inputs: Citizens quarterly premium and exposure filings, September 2023 and June 2026.</div></details><div class="note" style="border-top:0;padding-top:0"><b>Scope: Citizens only, not statewide.</b> Citizens is the only insurer whose premium and coverage can be tracked together on a consistent basis. No statewide equivalent exists: the state publishes no coverage-adjusted premium measure, and its market-wide report excludes trade-secret filers.</div>
+    </div>
+  </section>
+
+
+  <section>
+    <h2>What do Floridians actually pay?</h2>
+    <div class="lede">Florida publishes no single official statewide average premium. The state reports averages for each of the 67 counties, and they vary widely.</div>
+    <div class="strip">
+      <div class="cell"><div class="cl">Lowest county average</div><div class="cv">$2,105</div>
+        <div class="cd">Sumter County, homeowners including wind, as of March 2026.</div><div class="csrc">Source: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR county premium tables, Jul 1, 2026</a></div></div>
+      <div class="cell"><div class="cl">Highest county average</div><div class="cv">$7,863</div>
+        <div class="cd">Monroe County (the Keys), including wind, as of March 2026. Coastal counties pay the most.</div><div class="csrc">Source: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR county premium tables, Jul 1, 2026</a></div></div>
+      <div class="cell"><div class="cl">Direction in 2026</div><div class="cv pos">Falling</div>
+        <div class="cd">Average premiums fell in 51 of 67 counties between the September 2025 and March 2026 reports. For residential policies effective in 2024 or later, 44 insurers have requested rate decreases and 48 have requested no increase.</div><div class="csrc">Source: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a></div></div>
+      <div class="cell"><div class="cl">Still versus the nation</div><div class="cv warn">Far above</div>
+        <div class="cd">On the latest NAIC data (2022), Florida's $2,677 average was about 70 percent above the national average of $1,569, the highest of any state. Market quote comparisons show larger gaps.</div><div class="csrc">Source: <a href="https://content.naic.org/sites/default/files/publication-hmr-zu-homeowners-report.pdf" target="_blank">NAIC average HO-3 premium, 2022 (latest published), via the Insurance Information Institute</a></div></div>
+    </div>
+    <div class="note">By statute (<a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0627/Sections/0627.7154.html" target="_blank">s. 627.7154, Florida Statutes</a>) the state reports premiums county by county and publishes no statewide average. Any statewide claim about premium changes is therefore an estimate. Sources:
+    Florida Office of Insurance Regulation county premium tables; Citizens rate filings.</div>
+  </section>
+
+  <section>
+    <h2>What is happening in your county?</h2>
+    <div class="lede">One map, three views of the county tables the state publishes twice a year. Premiums fell in 51 of 67 counties between the September 30, 2025 and March 31, 2026 reports, with the median county down $14. Wind is the highest-risk component of a Florida policy, the coverage most likely to be dropped under cost pressure, and along the coasts it is most of the bill. Hover or tap any county, or use the selector below.</div>
+    <div class="mtoggle" id="mtog" role="tablist" aria-label="Choose a map view">
+      <button data-m="chg" class="on">Change since Sept 2025</button>
+      <button data-m="wind">Share of premium buying wind</button>
+      <button data-m="lvl">Average premium</button>
+    </div>
+    <div class="maprow">
+      <div class="mapbox" id="mapbox">
+        <svg id="flmap" viewBox="0 0 520 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;height:auto;display:block">
+<defs><pattern id="exclx" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><rect width="6" height="6" fill="#eef1f4"/><line x1="0" y1="0" x2="0" y2="6" stroke="#b6bec7" stroke-width="1.6"/></pattern></defs>
+<path class="cty" data-n="Okaloosa" data-incl="3889" data-excl="1889" data-prev="3891" data-chg="-2" data-wind="51" d="M62.1,4.3L68.6,4.5L88.6,4.5L88.1,52.5L72.2,51.2L61.1,51.9Z" fill="#d9e2ee" stroke="#ffffff" stroke-width="0.7"><title>Okaloosa</title></path>
+<path class="cty" data-n="Glades" data-incl="3477" data-excl="2019" data-prev="3475" data-chg="2" data-wind="42" d="M412.4,308.4L432.1,308.4L432.1,301.8L438.9,301.7L438.6,295.1L453.8,295.0L456.0,297.8L458.6,299.3L457.6,314.0L453.8,328.3L412.1,328.2Z" fill="#f5e1c8" stroke="#ffffff" stroke-width="0.7"><title>Glades</title></path>
+<path class="cty" data-n="Desoto" data-incl="3421" data-excl="2167" data-prev="3449" data-chg="-28" data-wind="37" d="M379.2,295.2L379.2,285.4L412.1,285.3L412.4,308.4L384.2,308.2L379.2,308.5Z" fill="#adb9cb" stroke="#ffffff" stroke-width="0.7"><title>Desoto</title></path>
+<path class="cty" data-n="Dixie" data-incl="2748" data-excl="1559" data-prev="2806" data-chg="-58" data-wind="43" d="M288.2,107.7L291.3,107.7L293.2,100.4L294.4,99.1L294.4,95.6L321.1,95.5L321.1,97.8L319.2,100.9L319.9,105.0L317.8,110.9L319.0,113.9L320.2,113.5L317.5,117.4L317.1,122.8L314.2,126.7L314.4,128.3L311.5,130.3L311.8,132.1L307.9,134.6L306.5,134.1L304.8,136.8L304.1,132.5L302.4,128.7L299.7,125.7L296.1,125.3L294.9,122.4L289.1,119.2L289.1,111.9Z" fill="#7b8aa2" stroke="#ffffff" stroke-width="0.7"><title>Dixie</title></path>
+<path class="cty" data-n="Martin" data-incl="5899" data-excl="2471" data-prev="5993" data-chg="-94" data-wind="58" d="M471.6,295.4L498.1,295.4L498.1,291.0L503.9,291.1L506.3,296.4L507.7,302.5L509.4,305.5L511.8,313.2L507.7,313.1L507.7,314.2L457.6,314.0L471.6,301.8Z" fill="#3f5271" stroke="#ffffff" stroke-width="0.7"><title>Martin</title></path>
+<path class="cty" data-n="Hardee" data-incl="3376" data-excl="2246" data-prev="3396" data-chg="-20" data-wind="33" d="M379.4,262.1L412.4,262.1L412.1,285.3L379.2,285.4Z" fill="#bbc6d6" stroke="#ffffff" stroke-width="0.7"><title>Hardee</title></path>
+<path class="cty" data-n="Bay" data-incl="3465" data-excl="1577" data-prev="3478" data-chg="-13" data-wind="54" d="M115.1,51.7L117,50.0L122.5,50.0L124.5,47.7L149.0,48.0L149.3,37.8L152.6,37.8L156,37.9L155.5,66.3L155.8,87.8L153.1,85.8L149.0,84.9L145.4,82.2L141.6,77.5L135.1,74.4L129.8,69.8L119.9,63.5L115.1,61.1Z" fill="#c6d1df" stroke="#ffffff" stroke-width="0.7"><title>Bay</title></path>
+<path class="cty" data-n="Flagler" data-incl="2488" data-excl="1641" data-prev="2526" data-chg="-38" data-wind="34" d="M415.0,111.1L428.3,110.9L432.1,107.9L435.7,107.3L443.2,126.2L439.6,127.4L440.1,138.5L422.0,138.9L421.8,128.3L421.1,128.3L418.2,128.5L417.4,124.7L415.0,120.5Z" fill="#9da9bd" stroke="#ffffff" stroke-width="0.7"><title>Flagler</title></path>
+<path class="cty" data-n="Orange" data-incl="3610" data-excl="2565" data-prev="3585" data-chg="25" data-wind="29" d="M422.3,175.4L421.8,179.1L419.1,180.9L419.4,186.5L428.0,186.6L428.0,188.8L450.9,188.6L453.3,189.2L454.5,194.1L458.1,197.0L458.6,199.4L456.7,202.3L459.3,208.9L405.9,208.9L405.9,176.8L406.6,175.4Z" fill="#ce8b54" stroke="#ffffff" stroke-width="0.7"><title>Orange</title></path>
+<path class="cty" data-n="Walton" data-incl="5409" data-excl="1891" data-prev="5401" data-chg="8" data-wind="65" d="M88.6,4.5L102.1,4.5L112.4,4.6L112.2,27.2L125.2,27.3L123.5,30.4L120.4,32.4L120.4,35.5L122.8,38.7L122.3,41.5L124.2,43.8L121.3,47.4L117.2,47.8L115.1,51.7L115.1,61.1L108.6,58.4L94.6,53.7L88.1,52.5Z" fill="#eacaaa" stroke="#ffffff" stroke-width="0.7"><title>Walton</title></path>
+<path class="cty" data-n="Pasco" data-incl="2756" data-excl="1917" data-prev="2758" data-chg="-2" data-wind="30" d="M337.5,202.3L365.9,202.2L366.2,198.9L379.4,198.9L379.2,211.5L379.2,215.6L375.8,215.6L375.8,222.2L355.3,222.3L339.2,222.1L329.1,222.2L331.7,218.6L332.0,215.9L333.9,213.1L333.9,210.6L335.6,207.3L335.6,204.8ZM327.4,222.2L325.2,222.2L325.2,218.8L327.4,218.7Z" fill="#d9e2ee" stroke="#ffffff" stroke-width="0.7"><title>Pasco</title></path>
+<path class="cty" data-n="St. Lucie" data-incl="3491" data-excl="1932" data-prev="3522" data-chg="-31" data-wind="45" d="M471.6,268.8L495.7,268.8L497.4,273.2L500.0,282.3L503.9,291.1L498.1,291.0L498.1,295.4L471.6,295.4Z" fill="#a8b4c7" stroke="#ffffff" stroke-width="0.7"><title>St. Lucie</title></path>
+<path class="cty" data-n="Washington" data-incl="2871" data-excl="2628" data-prev="2933" data-chg="-62" data-wind="8" d="M125.2,27.3L126.6,24.5L126.6,20.4L131.4,20.5L132.4,23.9L140.4,24.1L140.1,22.0L141.6,17.3L149.5,17.4L149.5,20.8L152.9,20.9L152.6,37.8L149.3,37.8L149.0,48.0L124.5,47.7L122.5,50.0L117,50.0L115.1,51.7L117.2,47.8L121.3,47.4L124.2,43.8L122.3,41.5L122.8,38.7L120.4,35.5L120.4,32.4L123.5,30.4Z" fill="#75849c" stroke="#ffffff" stroke-width="0.7"><title>Washington</title></path>
+<path class="cty" data-n="Sumter" data-incl="2105" data-excl="1352" data-prev="2111" data-chg="-6" data-wind="36" d="M362.1,162.0L386.1,162.1L386.1,193.3L385.9,209.0L385.9,211.8L381.6,210.6L379.2,211.5L379.4,198.9L379.4,195.6L376.5,195.3L373.6,192.2L368.8,191.6L364.5,185.3L365.4,184.4L366.2,180.6L370.3,177.5L371.7,174.8L370.7,172.7L364.7,166.9Z" fill="#d2dce9" stroke="#ffffff" stroke-width="0.7"><title>Sumter</title></path>
+<path class="cty" data-n="Palm Beach" data-incl="6323" data-excl="3175" data-prev="6412" data-chg="-89" data-wind="50" d="M457.6,314.0L507.7,314.2L507.7,313.1L511.8,313.2L514.9,326.2L514.7,341.4L513.0,352.6L512.1,361.9L503.4,361.4L497.1,359.3L497.1,360.9L458.1,360.9L457.6,330.1Z" fill="#485a77" stroke="#ffffff" stroke-width="0.7"><title>Palm Beach</title></path>
+<path class="cty" data-n="Alachua" data-incl="2525" data-excl="1804" data-prev="2527" data-chg="-2" data-wind="29" d="M338.7,95.1L343.5,92.2L344.3,88.5L347.4,86.5L354.9,87.9L356.3,90.6L360.4,91.3L364.7,94.1L370.3,93.7L374.1,94.6L375.6,98.7L377.7,99.3L379.2,103.7L379.4,107.5L379.2,122.8L379.2,125.2L373.9,125.6L370.0,126.6L368.8,125.9L368.8,121.8L355.8,121.7L345.7,122.1L345.7,117.6L339.0,117.8L339.0,115.6L339.0,95.7Z" fill="#d9e2ee" stroke="#ffffff" stroke-width="0.7"><title>Alachua</title></path>
+<path class="cty" data-n="Lafayette" data-incl="2903" data-excl="1649" data-prev="2943" data-chg="-40" data-wind="43" d="M291.3,61.7L299.2,61.7L299.2,67.7L300.7,73.1L303.6,74.6L305.3,73.4L311.3,75.6L311.5,76.8L315.1,79.4L315.6,81.0L318.5,82.4L320.7,85.2L320.9,88.0L324.0,90.7L323.1,95.3L321.1,95.5L294.4,95.6L292.3,95.7L292.3,90.6L291.1,90.6Z" fill="#99a6ba" stroke="#ffffff" stroke-width="0.7"><title>Lafayette</title></path>
+<path class="cty" data-n="Okeechobee" data-incl="3730" data-excl="1973" data-prev="3754" data-chg="-24" data-wind="47" d="M440.6,262.3L458.6,262.5L464.9,262.3L465.1,268.8L471.6,268.8L471.6,295.4L471.6,301.8L457.6,314.0L458.6,299.3L456.0,297.8L453.8,295.0L450.4,292.0L450.2,288.7L448.5,288.2L446.8,285.3L447.8,283.8L444.6,281.8L443.4,282.3L440.6,279.9L440.8,278.2L436.2,274.0L435.7,271.0L440.6,265.8Z" fill="#b4bfd0" stroke="#ffffff" stroke-width="0.7"><title>Okeechobee</title></path>
+<path class="cty" data-n="Hernando" data-incl="2360" data-excl="1985" data-prev="2342" data-chg="18" data-wind="16" d="M338.2,182.4L354.9,182.3L354.9,184.6L365.4,184.4L364.5,185.3L368.8,191.6L373.6,192.2L376.5,195.3L379.4,195.6L379.4,198.9L366.2,198.9L365.9,202.2L337.5,202.3L338.5,198.4L338,195.7L339.2,190.3L337.8,185.9Z" fill="#d9a578" stroke="#ffffff" stroke-width="0.7"><title>Hernando</title></path>
+<path class="cty" data-n="Charlotte" data-incl="3160" data-excl="1661" data-prev="3222" data-chg="-62" data-wind="47" d="M357.7,315.0L365.9,315.0L365.9,308.4L379.2,308.5L384.2,308.2L412.4,308.4L412.1,328.2L378.9,328.1L379.4,325.8L378.9,320.2L377,319.3L377,316.7L378.9,316.1L378.0,314.1L375.1,314.3L373.9,316.5L371.2,317.2L373.1,326.7L368.3,328.3L364.7,326.7L363.5,323.9Z" fill="#75849c" stroke="#ffffff" stroke-width="0.7"><title>Charlotte</title></path>
+<path class="cty" data-n="Lee" data-incl="3576" data-excl="2119" data-prev="3646" data-chg="-70" data-wind="41" d="M378.9,328.1L412.1,328.2L412.1,347.5L412.4,354.2L405.9,354.4L405.9,362.2L395.1,362.2L393.4,361.2L391.7,357.5L384.9,350.3L382.3,349.7L382.1,346.3L379.2,344.8L379.2,349.0L375.8,349.7L375.6,345.4L373.6,338.1L370.7,334.9L371.5,333.3L374.6,333.5L376.8,336.0ZM365.2,333.6L366.4,334.7L371.0,348.3L372.9,350.1L377,351.8L378.7,350.7L382.1,352.1L378.7,354.1L376.5,354.1L371.5,350.9L369.8,349.1L366.6,341.7L365.2,336.8ZM364.7,326.7L368.3,328.3L366.2,328.7L365.0,332.0Z" fill="#677791" stroke="#ffffff" stroke-width="0.7"><title>Lee</title></path>
+<path class="cty" data-n="Lake" data-incl="2650" data-excl="1988" data-prev="2642" data-chg="8" data-wind="25" d="M386.1,162.1L405.9,162.0L405.9,155.3L407.3,155.3L407.1,137.7L408.8,143.1L412.4,143.6L414.3,145.4L416.5,151.5L418.9,151.6L419.4,154.1L426.4,160.2L426.4,166.9L425.4,168.3L422.0,172.4L422.3,175.4L406.6,175.4L405.9,176.8L405.9,208.9L397.0,208.9L397.0,207.8L392.6,207.8L392.6,208.9L385.9,209.0L386.1,193.3Z" fill="#eacaaa" stroke="#ffffff" stroke-width="0.7"><title>Lake</title></path>
+<path class="cty" data-n="Suwannee" data-incl="2749" data-excl="1783" data-prev="2792" data-chg="-43" data-wind="35" d="M299.2,61.7L301.9,57.7L301.6,55.2L304.5,52.0L305.5,49.5L310.3,47.9L310.8,48.8L315.9,48.6L318.3,49.5L323.8,53.6L329.6,55.8L329.8,83.0L332.0,84.6L329.3,87.2L325,88.8L324.0,90.7L320.9,88.0L320.7,85.2L318.5,82.4L315.6,81.0L315.1,79.4L311.5,76.8L311.3,75.6L305.3,73.4L303.6,74.6L300.7,73.1L299.2,67.7Z" fill="#94a2b6" stroke="#ffffff" stroke-width="0.7"><title>Suwannee</title></path>
+<path class="cty" data-n="Levy" data-incl="2698" data-excl="1634" data-prev="2706" data-chg="-8" data-wind="39" d="M304.8,136.8L306.5,134.1L307.9,134.6L311.8,132.1L311.5,130.3L314.4,128.3L314.2,126.7L317.1,122.8L317.5,117.4L320.2,113.5L331.3,114.0L332.2,115.7L339.0,115.6L339.0,117.8L345.7,117.6L345.7,122.1L355.8,121.7L356.1,142.4L347.1,142.5L347.1,155.5L343.1,156.7L341.9,158.2L336.8,156.4L335.1,156.6L332.0,159.5L332.0,154.8L328.1,153.1L329.3,150.9L329.1,147.7L327.4,146.8L316.1,145.3L313.9,148.7L312.2,148.9L310.1,142.3L310.8,139.4L307.4,137.3Z" fill="#cfd8e6" stroke="#ffffff" stroke-width="0.7"><title>Levy</title></path>
+<path class="cty" data-n="Nassau" data-incl="3051" data-excl="1608" data-prev="3061" data-chg="-10" data-wind="47" d="M389.5,18.1L391.7,20.3L395.8,20.5L400.1,22.3L401.8,24.0L409.7,25.3L413.8,26.5L417.2,25.5L420.3,26.8L421.3,27.6L420.3,35.2L420.3,42.3L415.5,37.9L414.6,41.0L411.4,40.1L410.9,38.1L409.0,38.9L409.5,36.5L405.2,38.3L401.6,37.5L400.6,40.4L398.9,40.3L394.3,45.6L379.6,60.7L379.6,53.8L380.6,52.0L380.4,48.2L381.8,45.0L382.5,37.1L379.6,31.0L380.6,27.0L380.4,23.7L382.3,22.6L381.3,21.0L384.2,21.5L386.4,17.6Z" fill="#cbd5e3" stroke="#ffffff" stroke-width="0.7"><title>Nassau</title></path>
+<path class="cty" data-n="Madison" data-incl="2735" data-excl="1482" data-prev="2772" data-chg="-37" data-wind="46" d="M274.9,31.3L292.0,32.4L297.6,32.8L300.0,41.9L299.5,45.2L301.4,46.5L300.9,49.0L303.8,50.1L304.5,52.0L301.6,55.2L301.9,57.7L299.2,61.7L291.3,61.7L284.6,61.7L284.6,58.3L261.0,58.4L263.1,56.2L261.9,54.5L262.6,52.0L265.1,52.0L267.5,48.2L266.5,42.5L270.8,38.9L273.2,39.0L275.4,36.7Z" fill="#9eabbe" stroke="#ffffff" stroke-width="0.7"><title>Madison</title></path>
+<path class="cty" data-n="Columbia" data-incl="2557" data-excl="2118" data-prev="2558" data-chg="-1" data-wind="17" d="M329.3,87.2L332.0,84.6L329.8,83.0L329.6,55.8L332.9,57.3L336.8,56.0L339.7,51.2L338.5,46.7L336.1,45.0L334.1,38.5L336.8,35.5L343.8,35.9L352.2,36.5L352.2,71.3L352.4,73.7L348.1,76.1L346.4,80.4L344.3,82.6L347.4,86.5L344.3,88.5L343.5,92.2L338.7,95.1L333.7,92.7L331.5,89.9L331.3,87.5Z" fill="#dae3f0" stroke="#ffffff" stroke-width="0.7"><title>Columbia</title></path>
+<path class="cty" data-n="Calhoun" data-incl="3122" data-excl="2649" data-prev="3149" data-chg="-27" data-wind="15" d="M156,37.9L170.2,38.1L170.4,34.7L186.3,34.8L182.5,41.1L181.8,46.5L183.0,47.6L179.6,49.3L180.8,50.2L176.2,64.2L174.1,66.4L155.5,66.3Z" fill="#afbbcc" stroke="#ffffff" stroke-width="0.7"><title>Calhoun</title></path>
+<path class="cty" data-n="Citrus" data-incl="2456" data-excl="1560" data-prev="2472" data-chg="-16" data-wind="36" d="M347.1,155.5L352.2,155.3L354.9,158.0L360.1,159.9L362.1,162.0L364.7,166.9L370.7,172.7L371.7,174.8L370.3,177.5L366.2,180.6L365.4,184.4L354.9,184.6L354.9,182.3L338.2,182.4L335.1,180.3L336.1,177.6L333.9,170.4L336.8,166.2L333.7,161.0L332.0,159.5L335.1,156.6L336.8,156.4L341.9,158.2L343.1,156.7Z" fill="#c1ccdb" stroke="#ffffff" stroke-width="0.7"><title>Citrus</title></path>
+<path class="cty" data-n="Franklin" data-incl="5221" data-excl="1954" data-prev="5235" data-chg="-14" data-wind="63" d="M203.9,97.8L210.9,94.7L210.9,96.6L207.0,99.1L204.4,99.5ZM180.1,84.1L181.3,80.8L212.3,81.0L214.3,82.8L217.4,81.8L219.6,83.7L226.1,85.0L225.8,89.7L223.4,90.2L219.8,89.2L218.6,87.4L212.8,88.9L205.4,93.7L189.7,102.5L188.3,102.4L189.9,99.5L187.5,98.7L185.9,101.2L182.2,104.0L173.6,103.9L176.7,107.1L177.2,109.7L181.0,111.1L188.3,107.6L195.2,105.0L201.7,99.4L202.5,100.2L196.7,105.7L189.9,108.5L181.5,112.9L178.6,113.8L176.2,111.7L172.4,110.2L166.6,106.8L168.0,104.2L174.5,99.2L179.1,98.9L180.3,96.8L178.1,88.8L180.6,85.7Z" fill="#c5cfde" stroke="#ffffff" stroke-width="0.7"><title>Franklin</title></path>
+<path class="cty" data-n="Gadsden" data-incl="2723" data-excl="2226" data-prev="2737" data-chg="-14" data-wind="18" d="M190.9,26.6L223.4,28.3L229.9,28.6L226.3,35.6L223.9,36.8L222.7,40.8L222.7,40.8L222.2,44.4L220.8,45.9L214.0,46.8L205.6,51.8L203.2,51.8L203.2,49.5L201.0,49.5L201.0,46.2L196.4,46.2L196.4,41.6L194.0,40.5L189.7,40.5L189.7,34.9L186.3,34.8L188.0,33.8Z" fill="#c5cfde" stroke="#ffffff" stroke-width="0.7"><title>Gadsden</title></path>
+<path class="cty" data-n="Gulf" data-incl="3752" data-excl="1612" data-prev="3759" data-chg="-7" data-wind="57" d="M155.8,87.8L155.5,66.3L174.1,66.4L171.4,74.8L172.6,75.3L172.6,78.6L174.1,80.1L179.8,82.9L180.1,84.1L180.6,85.7L178.1,88.8L180.3,96.8L179.1,98.9L174.5,99.2L168.0,104.2L166.6,106.8L162.3,106.4L158.2,108.2L155.0,102.0L153.8,94.1L155.8,91.3L155.8,98.3L157.2,104.3L158.9,105.8L161.3,103.2L161.5,96.7Z" fill="#d0dae7" stroke="#ffffff" stroke-width="0.7"><title>Gulf</title></path>
+<path class="cty" data-n="Jefferson" data-incl="2782" data-excl="2083" data-prev="2792" data-chg="-10" data-wind="25" d="M243.9,60.7L243.9,48.2L246.0,45.2L246.0,41.3L250.4,41.3L248.4,34.6L248.4,29.7L266.0,30.8L274.9,31.3L275.4,36.7L273.2,39.0L270.8,38.9L266.5,42.5L267.5,48.2L265.1,52.0L262.6,52.0L261.9,54.5L263.1,56.2L261.0,58.4L259.8,60.1L254.5,62.9L253.5,67.3L252.1,67.5L249.4,75.4L247.2,73.9L243.6,74.5Z" fill="#cbd5e3" stroke="#ffffff" stroke-width="0.7"><title>Jefferson</title></path>
+<path class="cty" data-n="Pinellas" data-incl="4063" data-excl="2034" data-prev="4044" data-chg="19" data-wind="50" d="M327.4,222.2L328.4,230.6L330.5,231.0L330.1,223.7L329.1,222.2L339.2,222.1L339.4,233.7L336.8,233.2L337.0,237.4L334.4,239.3L337.0,241.7L340.9,242.1L343.5,249.2L341.1,252.0L341.1,256.0L340.2,257.8L335.1,258.2L334.4,260.2L336.1,262.7L333.9,264.7L332.9,262.1L333.4,256.7L330.1,251.1L327.9,249.4L326.0,245.7L327.4,233.8L326.2,229.5L325.2,222.2Z" fill="#d8a173" stroke="#ffffff" stroke-width="0.7"><title>Pinellas</title></path>
+<path class="cty" data-n="Clay" data-incl="2540" data-excl="2047" data-prev="2550" data-chg="-10" data-wind="19" d="M379.6,67.4L404.4,67.1L404.4,72.5L403.7,78.6L404.2,80.6L409.5,84.8L409.3,88.4L411.2,94.3L395.5,94.5L392.2,97.4L389.0,97.9L387.1,101.4L382.5,102.0L379.6,103.6L379.9,101.4L379.6,70.8Z" fill="#cbd5e3" stroke="#ffffff" stroke-width="0.7"><title>Clay</title></path>
+<path class="cty" data-n="Santa Rosa" data-incl="3512" data-excl="1951" data-prev="3541" data-chg="-29" data-wind="44" d="M36.6,4.1L62.1,4.3L61.1,51.9L53.0,53.2L53.0,51.9L42.6,53.8L35.6,56.0L32.0,54.8L32.3,52.1L37.3,50.4L39.2,43.1L37.1,40.3L33.5,38.8L30.3,34.4L29.4,26.1L27.4,26.0L26.7,20.7L27.9,18.7L26.5,16.0L28.6,12.8L28.4,9.9L30.6,9.4L32.3,7.1Z" fill="#acb8c9" stroke="#ffffff" stroke-width="0.7"><title>Santa Rosa</title></path>
+<path class="cty" data-n="Seminole" data-incl="3545" data-excl="2372" data-prev="3527" data-chg="18" data-wind="33" d="M422.3,175.4L422.0,172.4L425.4,168.3L426.1,170.6L428.5,171.7L435.0,171.8L435.5,173.6L438.1,175.7L440.8,175.0L443.0,172.1L445.6,173.3L446.6,176.3L445.9,178.1L449.0,182.5L448.7,183.9L450.9,188.6L428.0,188.8L428.0,186.6L419.4,186.5L419.1,180.9L421.8,179.1Z" fill="#d9a578" stroke="#ffffff" stroke-width="0.7"><title>Seminole</title></path>
+<path class="cty" data-n="Volusia" data-incl="2808" data-excl="1637" data-prev="2819" data-chg="-11" data-wind="42" d="M404.4,134.0L420.1,129.8L421.1,128.3L421.8,128.3L422.0,138.9L440.1,138.5L439.6,127.4L443.2,126.2L446.8,135.3L453.8,150.5L468,175.0L452.1,175.0L452.4,188.6L450.9,188.6L448.7,183.9L449.0,182.5L445.9,178.1L446.6,176.3L445.6,173.3L443.0,172.1L440.8,175.0L438.1,175.7L435.5,173.6L435.0,171.8L428.5,171.7L426.1,170.6L425.4,168.3L426.4,166.9L426.4,160.2L419.4,154.1L418.9,151.6L416.5,151.5L414.3,145.4L412.4,143.6L408.8,143.1L407.1,137.7Z" fill="#cad4e2" stroke="#ffffff" stroke-width="0.7"><title>Volusia</title></path>
+<path class="cty" data-n="Monroe" data-incl="7863" data-excl="1871" data-prev="7829" data-chg="34" data-wind="76" d="M483.9,445.4L483.9,443.4L488.9,442.6L490.6,441.4L491.8,437.5L494.5,438.7L497.6,436.5L499.1,434.0L500.3,434.8L495.2,443.6L493.0,448.8L487.0,454.7L478.8,463.6L473.1,467.8L472.3,467.0L480.5,459.3L483.9,456.7L485.6,453.3L486.3,448.2L487.5,446.2L486.1,444.7ZM466.8,470.7L470.2,466.9L471.4,469.0L468,471.8ZM460.1,474.7L462.2,472.2L464.9,472.0L463.7,474.1ZM441.8,481.8L454.3,476.1L455.7,478.0L444.9,483.1ZM418.6,400.5L458.6,400.4L458.6,433.2L459.3,433.2L459.6,447.1L456.7,448.2L456.7,449.8L450.2,451.0L444.6,451.4L440.6,448.1L438.6,443.7L439.1,438.7L440.6,434.9L442,435.1L441.5,431.9L438.6,425.8L436.0,422.8L436.5,420.6L434.5,416.6L431.9,414.6L430.7,409.1L429.2,408.0L426.6,409.0L424.4,402.5ZM395.5,492.0L400.1,485.3L404.9,482.4L410.9,479.6L411.7,478.2L420.3,474.0L429.5,478.3L430.4,481.6L433.8,484.3L432.9,485.0L423.2,488.0L422.5,486.3L416,486.6L415.3,488.1L404.2,492.8L395.5,493.7ZM382.1,493.9L391.4,492.4L389.0,495.1L384.9,496L381.8,495.5ZM371.9,492.5L373.4,490.2L376.3,490.9L375.1,493.5ZM320.4,487.3L324.0,486.5L325,488.0L320.2,488.6Z" fill="#be6927" stroke="#ffffff" stroke-width="0.7"><title>Monroe</title></path>
+<path class="cty" data-n="St. Johns" data-incl="2883" data-excl="2055" data-prev="2889" data-chg="-6" data-wind="29" d="M404.4,72.5L408.3,71.5L413.8,72.6L413.8,73.9L421.1,73.7L420.8,62.3L424.7,62.3L429.2,84.3L432.4,92.9L432.4,96.3L435.7,107.3L432.1,107.9L428.3,110.9L415.0,111.1L414.8,100.5L412.1,97.1L411.2,94.3L409.3,88.4L409.5,84.8L404.2,80.6L403.7,78.6Z" fill="#d2dce9" stroke="#ffffff" stroke-width="0.7"><title>St. Johns</title></path>
+<path class="cty" data-n="Osceola" data-incl="2940" data-excl="2433" data-prev="2911" data-chg="29" data-wind="17" d="M405.9,208.9L459.3,208.9L459.3,228.3L458.9,228.9L458.9,248.8L457.9,248.8L458.6,262.5L440.6,262.3L440.3,257.2L436.0,248.8L434.5,247.3L429.7,245.8L429.2,241.2L424.9,236.9L424.2,235.0L422.3,235.4L419.1,231.4L423.7,233.2L424.4,234.4L425.4,230.6L426.8,228.9L419.4,228.8L419.4,224.4L414.8,224.4L414.8,220.0L412.6,215.6L405.9,215.6Z" fill="#c77c40" stroke="#ffffff" stroke-width="0.7"><title>Osceola</title></path>
+<path class="cty" data-n="Sarasota" data-incl="3457" data-excl="1482" data-prev="3482" data-chg="-25" data-wind="57" d="M339.9,281.6L366.2,281.8L365.9,295.0L379.2,295.2L379.2,308.5L365.9,308.4L365.9,315.0L357.7,315.0L353.2,306.4L351,300.3L346.4,291.2Z" fill="#b2becf" stroke="#ffffff" stroke-width="0.7"><title>Sarasota</title></path>
+<path class="cty" data-n="Gilchrist" data-incl="2513" data-excl="1872" data-prev="2478" data-chg="35" data-wind="26" d="M321.1,95.5L323.1,95.3L324.0,90.7L325,88.8L329.3,87.2L331.3,87.5L331.5,89.9L333.7,92.7L338.7,95.1L339.0,95.7L339.0,115.6L332.2,115.7L331.3,114.0L320.2,113.5L319.0,113.9L317.8,110.9L319.9,105.0L319.2,100.9L321.1,97.8Z" fill="#bd6622" stroke="#ffffff" stroke-width="0.7"><title>Gilchrist</title></path>
+<path class="cty" data-n="Hendry" data-incl="2999" data-excl="1983" data-prev="3030" data-chg="-31" data-wind="34" d="M412.1,328.2L453.8,328.3L457.6,314.0L457.6,330.1L458.1,360.9L458.1,366.5L432.1,367.0L431.9,347.2L412.1,347.5Z" fill="#a8b4c7" stroke="#ffffff" stroke-width="0.7"><title>Hendry</title></path>
+<path class="cty" data-n="Highlands" data-incl="2736" data-excl="1599" data-prev="2732" data-chg="4" data-wind="42" d="M412.4,262.1L440.6,262.3L440.6,265.8L435.7,271.0L436.2,274.0L440.8,278.2L440.6,279.9L443.4,282.3L444.6,281.8L447.8,283.8L446.8,285.3L448.5,288.2L450.2,288.7L450.4,292.0L453.8,295.0L438.6,295.1L438.9,301.7L432.1,301.8L432.1,308.4L412.4,308.4L412.1,285.3Z" fill="#f1d9be" stroke="#ffffff" stroke-width="0.7"><title>Highlands</title></path>
+<path class="cty" data-n="Indian River" data-incl="4334" data-excl="2744" data-prev="4453" data-chg="-119" data-wind="37" d="M458.9,248.8L482.9,248.8L484.1,246.3L487.3,245.8L491.4,255.0L495.7,268.8L471.6,268.8L465.1,268.8L464.9,262.3L458.6,262.5L457.9,248.8Z" fill="#162b4e" stroke="#ffffff" stroke-width="0.7"><title>Indian River</title></path>
+<path class="cty" data-n="Manatee" data-incl="3181" data-excl="1859" data-prev="3187" data-chg="-6" data-wind="42" d="M345.7,262.2L379.4,262.1L379.2,285.4L379.2,295.2L365.9,295.0L366.2,281.8L339.9,281.6L336.6,277.9L335.6,274.2L333.2,270.2L335.6,271.4L335.8,273.4L339.4,271.4L341.9,266.7L344.7,264.9Z" fill="#d2dce9" stroke="#ffffff" stroke-width="0.7"><title>Manatee</title></path>
+<path class="cty" data-n="Union" data-incl="2667" data-excl="3475" data-prev="2656" data-chg="11" data-wind="-30" d="M352.2,71.3L373.4,70.8L373.1,73.4L367.9,79.2L365.4,79.7L362.3,85.3L354.9,87.9L347.4,86.5L344.3,82.6L346.4,80.4L348.1,76.1L352.4,73.7Z" fill="#e5bf9b" stroke="#ffffff" stroke-width="0.7"><title>Union</title></path>
+<path class="cty" data-n="Duval" data-incl="2786" data-excl="2095" data-prev="2801" data-chg="-15" data-wind="25" d="M379.6,60.7L394.3,45.6L398.9,40.3L400.6,40.4L401.6,37.5L405.2,38.3L409.5,36.5L409.0,38.9L410.9,38.1L411.4,40.1L414.6,41.0L415.5,37.9L420.3,42.3L422.5,44.5L423.5,50.8L423.7,58.4L424.7,62.3L420.8,62.3L421.1,73.7L413.8,73.9L413.8,72.6L408.3,71.5L404.4,72.5L404.4,67.1L379.6,67.4Z" fill="#c3cedd" stroke="#ffffff" stroke-width="0.7"><title>Duval</title></path>
+<path class="cty" data-n="Wakulla" data-incl="2292" data-excl="1956" data-prev="2335" data-chg="-43" data-wind="15" d="M201.0,58.7L231.8,58.4L232.6,60.7L243.9,60.7L243.6,74.5L238.3,76.3L230.9,74.3L230.6,76.7L224.4,81.2L226.1,85.0L219.6,83.7L217.4,81.8L214.3,82.8L212.3,81.0L209.2,79.6L206.8,77.0L203.9,72.0L203.9,67.8L202.0,62.9L199.3,61.3Z" fill="#94a2b6" stroke="#ffffff" stroke-width="0.7"><title>Wakulla</title></path>
+<path class="cty" data-n="Jackson" data-incl="2851" data-excl="2300" data-prev="2840" data-chg="11" data-wind="19" d="M148.3,4.3L149.0,4.3L181.5,4L183.0,9.3L185.6,12.8L186.1,18.4L187.5,23.4L190.2,25.3L190.9,26.6L188.0,33.8L186.3,34.8L170.4,34.7L170.2,38.1L156,37.9L152.6,37.8L152.9,20.9L149.5,20.8L149.5,17.4L141.6,17.3L141.8,15.1L146.4,6.1Z" fill="#e5bf9b" stroke="#ffffff" stroke-width="0.7"><title>Jackson</title></path>
+<path class="cty" data-n="Leon" data-incl="2538" data-excl="1710" data-prev="2554" data-chg="-16" data-wind="33" d="M205.6,51.8L214.0,46.8L220.8,45.9L222.2,44.4L222.7,40.8L222.7,40.8L223.9,36.8L226.3,35.6L229.9,28.6L243.1,29.4L248.4,29.7L248.4,34.6L250.4,41.3L246.0,41.3L246.0,45.2L243.9,48.2L243.9,60.7L232.6,60.7L231.8,58.4L201.0,58.7L200.8,56.0Z" fill="#c1ccdb" stroke="#ffffff" stroke-width="0.7"><title>Leon</title></path>
+<path class="cty" data-n="Escambia" data-incl="3702" data-excl="1670" data-prev="3706" data-chg="-4" data-wind="55" d="M7.5,4.3L36.6,4.1L32.3,7.1L30.6,9.4L28.4,9.9L28.6,12.8L26.5,16.0L27.9,18.7L26.7,20.7L27.4,26.0L29.4,26.1L30.3,34.4L33.5,38.8L37.1,40.3L39.2,43.1L37.3,50.4L32.3,52.1L32.0,54.8L35.6,56.0L42.6,53.8L53.0,51.9L53.0,53.2L37.3,56.5L29.6,57.5L27.9,56.8L12.8,60.2L16.4,58.5L14.7,56.9L16.9,55.8L18.8,50.4L23.1,48.0L18.3,44.6L17.6,40.9L21.2,34.1L20.5,29.5L11.8,24.1L11.1,21.4L5.5,16.1L5.1,14.5L8.2,6.8Z" fill="#d5dfec" stroke="#ffffff" stroke-width="0.7"><title>Escambia</title></path>
+<path class="cty" data-n="Miami-Dade" data-incl="5975" data-excl="3779" data-prev="6023" data-chg="-48" data-wind="37" d="M499.1,434.0L503.6,424.2L505.3,421.5L505.3,424.2L503.4,429.5L500.3,434.8ZM458.6,400.4L458.6,387.4L471.6,387.4L471.6,389.0L496.4,389.0L497.4,388.1L509.2,387.7L509.2,397.7L508.4,402.8L506.8,408.0L506.8,410.8L505.3,409.3L506.0,406.1L504.8,404.8L501.0,406.4L498.6,412.9L497.1,414.0L496.9,418.1L495.0,420.6L494.5,425.6L495.7,427.7L495.2,430.7L496.6,431.7L494.7,435.1L491.8,437.5L490.6,441.4L488.9,442.6L483.9,443.4L483.9,445.4L482.2,443.7L480.8,444.9L472.6,446.3L469.2,448.9L467.0,449.3L462.7,446.4L459.6,447.1L459.3,433.2L458.6,433.2Z" fill="#8c9aaf" stroke="#ffffff" stroke-width="0.7"><title>Miami-Dade</title></path>
+<path class="cty" data-n="Bradford" data-incl="2623" data-excl="1950" data-prev="2650" data-chg="-27" data-wind="26" d="M354.9,87.9L362.3,85.3L365.4,79.7L367.9,79.2L373.1,73.4L373.4,70.8L379.6,70.8L379.9,101.4L379.6,103.6L379.2,103.7L377.7,99.3L375.6,98.7L374.1,94.6L370.3,93.7L364.7,94.1L360.4,91.3L356.3,90.6Z" fill="#afbbcc" stroke="#ffffff" stroke-width="0.7"><title>Bradford</title></path>
+<path class="cty" data-n="Taylor" data-incl="2698" data-excl="1300" data-prev="2727" data-chg="-29" data-wind="52" d="M261.0,58.4L284.6,58.3L284.6,61.7L291.3,61.7L291.1,90.6L292.3,90.6L292.3,95.7L294.4,95.6L294.4,99.1L293.2,100.4L291.3,107.7L288.2,107.7L285.3,107.0L282.9,104.4L279.7,103.3L276.6,99.3L276.6,96.5L274.4,94.1L273.2,90.8L269.9,87.8L263.1,83.7L253.5,78.9L249.4,75.4L252.1,67.5L253.5,67.3L254.5,62.9L259.8,60.1Z" fill="#acb8c9" stroke="#ffffff" stroke-width="0.7"><title>Taylor</title></path>
+<path class="cty" data-n="Broward" data-incl="6136" data-excl="3008" data-prev="6220" data-chg="-84" data-wind="51" d="M458.1,360.9L497.1,360.9L497.1,359.3L503.4,361.4L512.1,361.9L511.1,368.5L509.2,387.7L497.4,388.1L496.4,389.0L471.6,389.0L471.6,387.4L458.6,387.4L458.1,366.5Z" fill="#50617e" stroke="#ffffff" stroke-width="0.7"><title>Broward</title></path>
+<path class="cty" data-n="Polk" data-incl="2767" data-excl="2185" data-prev="2771" data-chg="-4" data-wind="21" d="M379.2,211.5L381.6,210.6L385.9,211.8L385.9,209.0L392.6,208.9L392.6,207.8L397.0,207.8L397.0,208.9L405.9,208.9L405.9,215.6L412.6,215.6L414.8,220.0L414.8,224.4L419.4,224.4L419.4,228.8L426.8,228.9L425.4,230.6L424.4,234.4L423.7,233.2L419.1,231.4L422.3,235.4L424.2,235.0L424.9,236.9L429.2,241.2L429.7,245.8L434.5,247.3L436.0,248.8L440.3,257.2L440.6,262.3L412.4,262.1L379.4,262.1L379.4,242.3L379.2,240.8L379.2,222.2L375.8,222.2L375.8,215.6L379.2,215.6Z" fill="#d5dfec" stroke="#ffffff" stroke-width="0.7"><title>Polk</title></path>
+<path class="cty" data-n="Brevard" data-incl="3532" data-excl="1975" data-prev="3560" data-chg="-28" data-wind="44" d="M468,175.0L469.4,177.6L478.6,190.7L479.6,194.9L482.0,200.3L477.6,204.0L476.7,207.6L476.4,213.3L477.6,221.8L479.1,228.0L482.9,237.5L487.3,245.8L484.1,246.3L482.9,248.8L458.9,248.8L458.9,228.9L459.3,228.3L459.3,208.9L456.7,202.3L458.6,199.4L458.1,197.0L454.5,194.1L453.3,189.2L450.9,188.6L452.4,188.6L452.1,175.0Z" fill="#adb9cb" stroke="#ffffff" stroke-width="0.7"><title>Brevard</title></path>
+<path class="cty" data-n="Hamilton" data-incl="2711" data-excl="2044" data-prev="2745" data-chg="-34" data-wind="25" d="M297.6,32.8L306.7,33.5L336.8,35.5L334.1,38.5L336.1,45.0L338.5,46.7L339.7,51.2L336.8,56.0L332.9,57.3L329.6,55.8L323.8,53.6L318.3,49.5L315.9,48.6L310.8,48.8L310.3,47.9L305.5,49.5L304.5,52.0L303.8,50.1L300.9,49.0L301.4,46.5L299.5,45.2L300.0,41.9Z" fill="#a3b0c3" stroke="#ffffff" stroke-width="0.7"><title>Hamilton</title></path>
+<path class="cty" data-n="Collier" data-incl="5534" data-excl="3169" data-prev="5565" data-chg="-31" data-wind="43" d="M393.4,361.2L395.1,362.2L405.9,362.2L405.9,354.4L412.4,354.2L412.1,347.5L431.9,347.2L432.1,367.0L458.1,366.5L458.6,387.4L458.6,400.4L418.6,400.5L418.4,399.5L413.4,397.1L408.3,393.5L405.6,394.4L403.7,396.9L399.9,388.8L396.3,379.3L395.1,368.2Z" fill="#a8b4c7" stroke="#ffffff" stroke-width="0.7"><title>Collier</title></path>
+<path class="cty" data-n="Baker" data-incl="2346" data-excl="2913" data-prev="2317" data-chg="29" data-wind="-24" d="M352.2,36.5L354.9,36.7L368.6,37.7L367.4,38.7L367.9,42.5L369.5,44.2L368.8,49.0L371.5,54.0L376.0,53.3L379.6,53.8L379.6,60.7L379.6,67.4L379.6,70.8L373.4,70.8L352.2,71.3Z" fill="#c77c40" stroke="#ffffff" stroke-width="0.7"><title>Baker</title></path>
+<path class="cty" data-n="Liberty" data-incl="2880" data-excl="1872" data-prev="2877" data-chg="3" data-wind="35" d="M174.1,66.4L176.2,64.2L180.8,50.2L179.6,49.3L183.0,47.6L181.8,46.5L182.5,41.1L186.3,34.8L189.7,34.9L189.7,40.5L194.0,40.5L196.4,41.6L196.4,46.2L201.0,46.2L201.0,49.5L203.2,49.5L203.2,51.8L205.6,51.8L200.8,56.0L201.0,58.7L199.3,61.3L202.0,62.9L203.9,67.8L203.9,72.0L206.8,77.0L209.2,79.6L212.3,81.0L181.3,80.8L180.1,84.1L179.8,82.9L174.1,80.1L172.6,78.6L172.6,75.3L171.4,74.8Z" fill="#f3ddc3" stroke="#ffffff" stroke-width="0.7"><title>Liberty</title></path>
+<path class="cty" data-n="Holmes" data-incl="2942" data-excl="2560" data-prev="2944" data-chg="-2" data-wind="13" d="M112.4,4.6L148.3,4.3L146.4,6.1L141.8,15.1L141.6,17.3L140.1,22.0L140.4,24.1L132.4,23.9L131.4,20.5L126.6,20.4L126.6,24.5L125.2,27.3L112.2,27.2Z" fill="#d9e2ee" stroke="#ffffff" stroke-width="0.7"><title>Holmes</title></path>
+<path class="cty" data-n="Putnam" data-incl="2621" data-excl="1768" data-prev="2636" data-chg="-15" data-wind="33" d="M379.2,103.7L379.6,103.6L382.5,102.0L387.1,101.4L389.0,97.9L392.2,97.4L395.5,94.5L411.2,94.3L412.1,97.1L414.8,100.5L415.0,111.1L415.0,120.5L417.4,124.7L418.2,128.5L421.1,128.3L420.1,129.8L404.4,134.0L406.1,133.0L405.2,130.4L400.4,130.5L400.4,126.0L398.2,126.0L397.9,121.5L393.6,121.6L393.6,118.9L387.6,119.3L382.8,120.4L379.2,122.8L379.4,107.5Z" fill="#c3cedd" stroke="#ffffff" stroke-width="0.7"><title>Putnam</title></path>
+<path class="cty" data-n="Marion" data-incl="2191" data-excl="1766" data-prev="2217" data-chg="-26" data-wind="19" d="M355.8,121.7L368.8,121.8L368.8,125.9L370.0,126.6L373.9,125.6L379.2,125.2L379.2,122.8L382.8,120.4L387.6,119.3L393.6,118.9L393.6,121.6L397.9,121.5L398.2,126.0L400.4,126.0L400.4,130.5L405.2,130.4L406.1,133.0L404.4,134.0L407.1,137.7L407.3,155.3L405.9,155.3L405.9,162.0L386.1,162.1L362.1,162.0L360.1,159.9L354.9,158.0L352.2,155.3L347.1,155.5L347.1,142.5L356.1,142.4Z" fill="#b1bccd" stroke="#ffffff" stroke-width="0.7"><title>Marion</title></path>
+<path class="cty" data-n="Hillsborough" data-incl="3525" data-excl="2676" data-prev="3514" data-chg="11" data-wind="24" d="M339.2,222.1L355.3,222.3L375.8,222.2L379.2,222.2L379.2,240.8L379.4,242.3L379.4,262.1L345.7,262.2L347.9,258.5L351,256.3L350.5,254.8L353.9,253.1L356.5,247.7L355.3,242.8L350.0,241.4L351.2,248.8L345.9,246.8L347.4,244.6L347.1,240.4L345.9,237.8L340.6,235.4L339.4,233.7Z" fill="#e5bf9b" stroke="#ffffff" stroke-width="0.7"><title>Hillsborough</title></path>
+</svg>
+        <div id="tip"></div>
+        <div class="legend"><div class="legbar" id="legbar"></div><div class="leglab"><span id="leglo"></span><span id="legmid"></span><span id="leghi"></span></div>
+        <div class="legex" id="legex"><span class="sw"></span><span>Baker and Union: excluded from the wind analysis (small sample; see note)</span></div></div>
+      </div>
+      <div class="readout">
+        <div class="findrow" style="margin:0 0 14px"><label for="csel" class="sel-lab">Find your county</label>
+        <select id="csel" aria-label="Find your county"><option value="">Find your county...</option></select></div>
+        <h3 id="ro-name">Tap or hover a county</h3>
+        <div class="rrow"><span>Average premium, Mar 2026</span><b id="ro-incl">&nbsp;</b></div>
+        <div class="rrow"><span>Change since Sept 2025</span><b id="ro-chg">&nbsp;</b></div>
+        <div class="rrow"><span>Average without wind coverage</span><b id="ro-excl">&nbsp;</b></div>
+        <div class="rrow"><span>Share of premium buying wind</span><b id="ro-wind">&nbsp;</b></div>
+        <div class="rrow"><span>Statewide rank, most expensive</span><b id="ro-rank">&nbsp;</b></div>
+        <div class="hint">Homeowners policies including wind, from the state's county averages. County averages reflect policy mix and depopulation as well as rates, so a county's figure is not any individual policyholder's rate change.</div>
+      </div>
+    </div>
+<div class="note"><b>Change view.</b> The largest declines came in Indian River (&minus;$119), Martin (&minus;$94), Palm Beach (&minus;$89), and Broward (&minus;$84), consistent with the largest approved Citizens cuts landing in South Florida; sixteen counties rose modestly, led by Gilchrist (+$35) and Monroe (+$34). <b>Wind view.</b> In Monroe County (the Keys), 76 percent of the average premium pays for wind coverage; dropping it reduces the premium by roughly three-quarters while removing protection in the most hurricane-prone county in the state. Eleven counties pay at least half of the average premium for wind. This view represents the financial incentive to reduce coverage, not a count of policyholders who have done so; that count cannot be tracked reliably from the state's public market report, which excludes trade-secret filers. See &ldquo;What can the state's own market report no longer show?&rdquo; below. <b>Exclusions.</b> Baker and Union counties are excluded from the wind analysis because of small sample size: each reports so few policies without wind coverage that the derived wind cost is negative (the ex-wind county average exceeds the with-wind average), an artifact of comparing two very different sets of homes rather than a real price of wind. Both counties remain in the change and premium views, which rest on the well-populated with-wind averages. <b>Sources:</b> <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/january-2026-isu-report-final.pdf" target="_blank">FL OIR Property Insurance Stability Report, Jan 1, 2026</a> (county averages as of Sep 30, 2025) and <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">Jul 1, 2026</a> (county averages as of Mar 31, 2026). County boundaries: US Census Bureau, via the us-atlas project. <b>Calculation:</b> Pioneer Institute.</div>
+  </section><details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">County measures</div><code>counties with a decline = count(premium_Mar2026 < premium_Sep2025) = 51 of 67
+
+median change = 34th of 67 changes sorted ascending = -$14
+  range: -$119 (Indian River) to +$35 (Gilchrist)
+
+wind share = (premium with wind - premium without wind) / premium with wind x 100
+  Monroe = ($7,863 - $1,871) / $7,863 x 100 = 76.21%
+  counties at or above 50% = 11</code><div class="out">Result: premiums fell in 51 of 67 counties; wind is 76 percent of the Monroe premium.</div></div><div class="mathsrc">Inputs: FL OIR Stability Reports, Jan 1 and Jul 1, 2026. Baker and Union excluded from the wind measure.</div></details>
+
+
+  <section>
+    <details class="simplify">
+      <summary>Why some questions cannot be answered yet</summary>
+      <div class="dt-body">
+    <div class="lede">Florida maintains a public market report intended to reflect the entire homeowners market. It no longer does so, a limitation relevant to any claim about coverage across the market.</div>
+    <p class="body-p">Insurers are allowed to mark their data a trade secret, so it is withheld from the public report.
+    As reform moved policies off the state insurer and onto private carriers, a larger share of the market became unreported. The homeowners
+    policies visible in that report fell from about 1.29 million at the end of 2022 to about 405,000 at the end of 2025,
+    even though the real market did not shrink that way.</p>
+    <p class="body-p">As a result, any statement about coverage across the full market now draws on a report that captures less than half of it. The only consistent, like-for-like coverage measure on this page is the Citizens book above, a single insurer reported on the same basis each quarter.</p>
+    <div class="srcline">Source: FL OIR Property Market Intelligence Report (Totals Report), reporting periods ending
+    December 31, 2022 and December 31, 2025, generated through the OIR Market Intelligence interface; individual filings withheld as trade
+    secrets under <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0624/Sections/0624.4213.html" target="_blank">s. 624.4213, Florida Statutes</a>; the reporting mandate and the statewide-aggregation requirement sit in <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0624/Sections/0624.424.html" target="_blank">s. 624.424(10)</a>. <b>Calculation:</b> Pioneer Institute.</div>
+</div>
+    </details>
+  </section>
+
+  <section>
+    <h2>Could you be charged extra after a big storm?</h2>
+    <div class="answer">
+      <h3>The state currently projects none.</h3>
+      <p>The mechanism is often overlooked, and it works in stages. After a major storm, Citizens, the state-run insurer of last resort, first levies surcharges of up to 15 percent per account on its own policyholders. If a deficit remains, regular and then emergency assessments can reach nearly every property and casualty policy in Florida, including auto and homeowners policies held by non-customers. A Citizens shortfall can therefore be distributed across the wider market.</p>
+      <p>Because Citizens is substantially smaller than at its peak and now holds $9.6 billion in claims-paying resources, it projects no surcharge unless a storm exceeds a 1-in-360-year event. At its peak size, that margin did not exist.</p>
+      <p>This is a modeled projection, not a guarantee. Two major storms in a single season would alter the outlook.</p>
+      <div class="srcline">Source: <a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank">Citizens, June 23, 2026</a> and 2026 Risk Transfer Program materials; surcharge and assessment authority under <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0600-0699/0627/Sections/0627.351.html" target="_blank">s. 627.351(6), Florida Statutes</a>.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why does a smaller state insurer help you?</h2>
+    <div class="lede">Citizens became Florida's largest home insurer during the crisis. Because of its surcharge authority, a large Citizens represents a risk to every policyholder. It is now smaller than at any point since before the pandemic.<span class="srcline" style="display:block"> Source: <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens, Policies in Force</a>.</span></div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
+        <span class="ex-t">Homes insured by Citizens, the state insurer of last resort</span></div>
+      <div class="plot plot-tall"><canvas id="hChart1"></canvas></div>
+      <div class="note">The shaded band marks the period the main reforms passed. Citizens continued to grow for months afterward, then declined sharply as private insurers assumed policies. The series is month-end; Citizens' own releases cite a weekly peak of about 1.41 million in early October 2023. A smaller state insurer reduces the likelihood of a statewide surcharge.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Exposure removed and change in size</div><code>exposure removed = $618,104,511,066 - $79,644,625,492
+                 = $538,459,885,574
+
+exposure change  = -538,459,885,574 / 618,104,511,066 x 100 = -87.11%
+policies change  = (278,246 - 1,407,805) / 1,407,805 x 100  = -80.24%</code><div class="out">Result: $538.5 billion of catastrophe exposure removed, 87.1 percent; policies down 80.2 percent.</div></div><div class="mathsrc">Inputs: Citizens Policies in Force and quarterly exposure filings.</div></details> And as it shrinks, the coverage Citizens keeps is getting more expensive per dollar of protection: its price per $1,000 of insured value rose from $7.82 to $9.27, up 18.5 percent, consistent with private carriers taking the easier risks and leaving the harder ones behind. <b>Source:</b> Citizens Property Insurance Corporation, Policies in Force; price per $1,000 is a Pioneer Institute calculation from Citizens exposure and premium filings.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Does a homeowners policy cover flooding? No, and it matters</h2>
+    <div class="answer">
+      <h3>Nearly half of Citizens' 2024 hurricane claims closed without payment, largely because the damage was flood.</h3>
+      <p>Of the roughly 79,000 Citizens claims filed after hurricanes Debby, Helene, and Milton, 44 percent had closed without payment and 11 percent remained open. For Debby and Helene, only 24 and 28 percent of claims were paid, because most of the damage was flooding, which a standard homeowners policy excludes in every state. Citizens paid about $823 million on the season's claims overall.</p>
+      <p>Flood coverage requires a separate policy, through the National Flood Insurance Program or a private flood insurer, and typically carries a waiting period before it takes effect. A homeowner who drops wind coverage to cut cost and carries no flood policy retains very little hurricane protection at all.</p>
+      <div class="srcline">Source: testimony of Citizens President/CEO Tim Cerio to the Florida Senate Banking and Insurance Committee, January 14, 2025, <a href="https://www.yahoo.com/news/citizens-property-insurance-paid-823-183255074.html" target="_blank">as reported by the Florida Phoenix</a>. Claim counts and payment rates are Citizens figures presented in that testimony.</div>
+    </div>
+  </section>
+
+  <section>
+    <details class="simplify">
+      <summary>What this page cannot tell you</summary>
+      <div class="dt-body">
+    <ol class="lim">
+      <li><b>An individual premium.</b> These are statewide and county figures. A specific premium depends on the home, county, coverage, and insurer.</li>
+      <li><b>Whether lower cost means better value.</b> A lower average premium can mask reduced coverage; deductibles and wind coverage matter alongside the total premium.</li>
+      <li><b>Post-storm outcomes.</b> The no-surcharge projection is a model, not a guarantee.</li>
+      <li><b>Prototype status.</b> Figures are drawn from public state filings and do not constitute financial or insurance advice.</li>
+    </ol>
+</div>
+    </details>
+  </section>
+
+</div>
+
+<!-- ==================================================================== -->
+<!-- =========================== POLICYMAKER ============================= -->
+<!-- ==================================================================== -->
+<div id="view-policy" hidden>
+
+
+  <section>
+    <p class="body-p big"><b>The reforms worked on the risk the state was carrying. They have not yet been shown to work on affordability, and the state does not measure it.</b>
+    Taxpayer catastrophe exposure is down 87 percent and the projected post-storm assessment is zero below a 1-in-360-year event. The market is profitable again,
+    litigation has fallen sharply, and capital is returning. Three findings below qualify that conclusion: headline takeout numbers overstate progress until
+    new policies entering are netted out, the price of coverage per dollar of protection has risen even as average premiums fell, and Florida publishes no
+    coverage-adjusted affordability figure, so no one can say whether protection actually became cheaper. This view lays out what changed, what it cost, and what is
+    still unmeasured.</p>
+  </section>
+  <section>
+    <h2>How healthy is the market?</h2>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t">Combined ratio, Florida domestic insurers. Below 100 is an underwriting profit</span></div>
+      <div class="plot plot-sm"><canvas id="pChart2"></canvas></div>
+      <div class="note">Claims plus expenses over premiums. Florida domestics moved from deep loss in 2020
+      to profit in 2023 and 83 percent in 2025, the lowest in more than a decade and the precondition for rate relief rather than evidence of it. OIR computes
+      this as a pooled (weighted) average. <b>Source:</b> <a href="https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" target="_blank">FL OIR press release, May 20, 2026</a>; <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a>.</div>
+    </div>
+    <div class="answer">
+      <h3>Capital is entering, not merely returning.</h3>
+      <p>Twenty-one new companies have been approved to write residential property in Florida since the reforms, bringing more than $850 million in new capital. Competition is reappearing in the hardest niches: writers of wind-only condominium association coverage in Broward, Miami-Dade, and Palm Beach counties have grown from one to five. And the risk-transfer market has repriced Florida risk directly: Citizens' 2026 catastrophe bond, Everglades Re II 2026-1, was upsized by a third to $600 million and priced below guidance.</p>
+      <div class="srcline">Sources: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a> (entrant count); <a href="https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" target="_blank">FL OIR, May 20, 2026</a> (capital and condominium writers); <a href="https://www.artemis.bm/news/florida-citizens-secures-one-third-upsized-600m-everglades-re-ii-2026-1-catastrophe-bond/" target="_blank">Artemis, May 13, 2026</a> (catastrophe bond pricing).</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What did the reforms actually change? Litigation</h2>
+    <div class="lede">The exhibits above show outcomes. This one shows the mechanism the 2022 and 2023 reforms targeted. For a decade Florida generated a wildly disproportionate share of the nation's homeowners insurance lawsuits relative to its share of claims. That wedge is now closing.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
+        <span class="ex-t">Florida's share of nationwide homeowners suits versus its share of homeowners claims</span></div>
+      <div class="plot plot-sm"><canvas id="mChart"></canvas></div>
+      <div class="note">In 2021, Florida produced 6.9 percent of the nation's homeowners claims and 76 percent of its homeowners suits. The preliminary 2025 figures are 4.9 percent of claims and 41.3 percent of suits, still disproportionate but the lowest suit share in the series; final 2025 data arrives in the third quarter of 2026. Defense and cost containment expense per claim fell from $947 in 2022 to $720 in 2025 on the restated basis of the 2025 annual statements. <b>Source:</b> <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Property Insurance Stability Report, Jul 1, 2026</a>, NAIC MCAS data and NAIC annual statement data.</div>
+    </div>
+  </section>
+
+
+
+  <section>
+    <h2>How long does reform take to show up?</h2>
+    <p class="body-p">SB 2-A passed in December 2022. Citizens then grew for nine more months to an all-time peak in
+    September 2023, and did not fall below its passage-day size until October 2024, twenty-two months later. Claims are
+    governed by the law in force when the policy was written, so the pre-reform litigation tail runs for years.</p>
+    <p class="body-p">Implication for states considering reform: a legislature evaluating its reform at twelve months would conclude it had failed, and could begin reversing it at the point it begins to take effect.</p><details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Time to first effect</div><code>policies(Dec 2022, at passage) = 1,145,809
+
+scan forward for the first month below that level:
+  Sep 2023  1,407,805   all-time peak, 9 months after passage
+  Oct 2024  1,036,913   first month below the passage-day level
+
+elapsed = Dec 2022 to Oct 2024</code><div class="out">Result: 22 months to first effect, after nine further months of growth.</div></div><div class="mathsrc">Inputs: Citizens Policies in Force, 75 monthly observations.</div></details>
+    <div class="srcline">Source: <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens, Policies in Force</a> (month-end). Statutes: <a href="https://www.flsenate.gov/Session/Bill/2022D/2D" target="_blank">Ch. 2022-268 (SB 2-D)</a>, <a href="https://www.flsenate.gov/Session/Bill/2022A/2A" target="_blank">Ch. 2022-271 (SB 2-A)</a>, <a href="https://www.flsenate.gov/Session/Bill/2023/837" target="_blank">Ch. 2023-15 (HB 837)</a>, Laws of Florida.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 3</span>
+        <span class="ex-t">Citizens policies in force, monthly, with the reform window shaded</span></div>
+      <div class="plot plot-tall"><canvas id="pChart1"></canvas></div>
+      <div class="note">Shaded region marks SB 2-D through HB 837. Shading marks the policy interval and is
+      not a claim of causation; see Limitations. As the book contracts, the risk it retains concentrates: Citizens' price per $1,000 of insured value rose from $7.82 to $9.27, up 18.5 percent, as private carriers took the easier risks, an adverse-selection signal worth watching in any depopulation program. <b>Source:</b> Citizens Property Insurance Corporation, Policies in Force, 75 monthly observations; price per $1,000 is a Pioneer Institute calculation from Citizens exposure and premium filings.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Do gross takeout figures overstate progress?</h2>
+    <div class="lede">Citizens reports how many policies private carriers take out, but not how many enter behind them. Gross takeouts are the figure usually cited, and they overstate net progress: a heavy takeout year can still end with a larger book. What matters is the net change in the book and the inflow implied behind it, both derived here from Citizens' month-end counts rather than reported directly.</div>
+    <table class="tc">
+      <thead><tr>
+        <th style="width:14%">Period</th>
+        <th class="n" style="width:16%">Taken out (gross)</th>
+        <th class="n" style="width:18%">Implied inflow</th>
+        <th class="n key" style="width:22%">Entered per 100 taken out</th>
+        <th style="width:30%">Net change in Citizens</th>
+      </tr></thead>
+      <tbody>
+        <tr><td class="m">2023</td><td class="n">275,324</td><td class="n">358,233</td><td class="n key neg">130</td><td class="neg">Grew by 82,909</td></tr>
+        <tr><td class="m">2024</td><td class="n">477,821</td><td class="n">185,285</td><td class="n key">39</td><td class="pos">Shrank by 292,536</td></tr>
+        <tr><td class="m">2025</td><td class="n">585,432</td><td class="n">44,587</td><td class="n key">8</td><td class="pos">Shrank by 540,845</td></tr>
+        <tr class="hl"><td class="m">2026, first half</td><td class="n">109,161</td><td class="n neg">7,930 net outflow</td><td class="n key">n/a</td><td class="pos">Shrank by 117,091</td></tr>
+      </tbody>
+    </table>
+    <div class="note">In 2023, for every 100 policies taken out, about 130 entered behind them, so the book grew despite active takeouts. That ratio fell to 39 in 2024 and 8 in 2025, and in the first half of 2026 it turned negative: departures outside the takeout process exceeded new business, so Citizens contracted by more than takeouts alone. Implied inflow is the net change in policies in force plus gross takeouts; it captures new and returning policies net of other departures, and is not a figure Citizens reports directly. <b>Source:</b> Citizens 2014-2026 Exposure Summary,
+    Business Overview, and Depopulation Statistics. <b>Calculation:</b> Pioneer Institute, validated against a closed
+    accounting identity.</div><details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Implied inflow and the takeout ratio</div><code>net change     = policies(end) - policies(start)
+implied inflow = net change + gross takeouts
+per 100        = implied inflow / gross takeouts x 100
+
+2023   net  +82,909  + 275,324 = 358,233  ->  130 per 100
+2024   net -292,536  + 477,821 = 185,285  ->   39 per 100
+2025   net -540,845  + 585,432 =  44,587  ->    8 per 100
+2026H1 net -117,091  + 109,161 =  -7,930  ->  net outflow</code><div class="out">Result: the identity closes in every period, so an error in any column would break it.</div></div><div class="mathsrc">Inputs: Citizens month-end Policies in Force; gross takeouts from Citizens depopulation filings.</div></details>
+    <h3 class="sub">A further caution: any single quarter misleads</h3>
+    <div class="lede">Assumption rounds pause during the heart of hurricane season and resume in the fall. The result is a predictable pattern: the book grows or flattens each summer and declines sharply each autumn. The autumn declines are also deepening.</div>
+<div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 4</span>
+        <span class="ex-t">Month-over-month change in Citizens policies. Bars below the line are months it shrank</span></div>
+      <div class="plot plot-sm"><canvas id="pChart3"></canvas></div>
+      <div class="note">A third-quarter reading appears as stagnation and a fourth-quarter reading as rapid progress, reflecting the seasonal pause and resumption of assumption rounds rather than the underlying trend. The autumn decline grew from about 179,000 in late 2023 to about 374,000 in late 2025. The trajectory is best assessed on twelve-month movements rather than quarters.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Autumn declines</div><code>autumn decline = policies(September) - policies(December)
+
+2023 = 1,407,805 - 1,228,718 = 179,087
+2025 =   769,316 -   395,337 = 373,979</code><div class="out">Result: the autumn drawdown roughly doubled between 2023 and 2025.</div></div><div class="mathsrc">Inputs: Citizens Policies in Force, month-end.</div></details> <b>Source:</b> Citizens
+      Policies in Force. <b>Calculation:</b> Pioneer Institute.</div>
+    </div>
+  </section>
+
+
+
+  <!-- merged policy recommendations -->
+  <section>
+    <h2>What should Florida do next?</h2>
+    <div class="lede">Five recommendations. The first two close gaps in what the state measures and publishes; the last
+    three define what a finished job looks like, so the gains are secured rather than reversed. These are
+    Pioneer Institute recommendations offered for debate, not figures drawn from a state filing.</div>
+
+    <div class="rec">
+      <div class="rec-n">1</div>
+      <div class="rec-b">
+        <h3>Publish a coverage-adjusted statewide premium</h3>
+        <p class="rec-do"><b>Do this:</b> require the state to publish one statewide premium figure that adjusts for how much coverage people actually buy.</p>
+        <p>Right now the state publishes an average premium for each of the 67 counties and no statewide number at all,
+        and the national series stops at 2022. So during the biggest insurance reform in the country, nobody can say what
+        the average Floridian actually paid in 2023, 2024 or 2025. Worse, a plain average can fall for the wrong reason.
+        If people raise their deductible and drop wind coverage, the average bill goes down while the protection goes down
+        further. An adjusted figure prices a fixed amount of coverage, so it shows whether insurance got cheaper or just smaller.</p>
+        <p class="rec-ex"><b>For example:</b> on the state insurer's book, the average premium per policy fell about 23 percent
+        from the 2023 peak, which suggests substantial relief. The price for each $1,000 of coverage rose 18.5 percent over the same period. Both figures are accurate; only the second measures the cost of a fixed amount of protection.</p>
+      </div>
+    </div>
+
+    <div class="rec">
+      <div class="rec-n">2</div>
+      <div class="rec-b">
+        <h3>Restore visibility into the full market</h3>
+        <p class="rec-do"><b>Do this:</b> confirm the state's market report is publishing the statewide totals the law already requires, then publish a consistent panel of insurers over time.</p>
+        <p>Florida runs a public report meant to cover the entire homeowners market. Insurers may withhold their own
+        numbers as a trade secret, and as reform moved policies from the state insurer to private companies, a larger share of the market became unreported. This is primarily a question of oversight rather than new legislation. Section 624.424(10)(b) already requires the state to aggregate those filings statewide, publish the aggregate within one month, and provides that the statewide aggregate is not a trade secret. The first question is whether the published report satisfies that requirement.</p>
+        <p class="rec-ex"><b>For example:</b> the homeowners policies visible in that public report fell from about 1.29
+        million at the end of 2022 to about 405,000 at the end of 2025. Florida's housing market did not contract by two-thirds. Those policies were not withdrawn; they ceased to be reported, so any characterization of the full market now rests on a report covering less than half of it.</p>
+      </div>
+    </div>
+
+    <div class="rec">
+      <div class="rec-n">3</div>
+      <div class="rec-b">
+        <h3>Define a target size for the state insurer</h3>
+        <p class="rec-do"><b>Do this:</b> define a market-share band the state insurer should stay inside, and manage to it in both directions.</p>
+        <p>The state insurer exists as a last resort, and its size is a rough gauge of whether the private market is
+        working. It has contracted substantially, but there is no stated target, so nobody can say whether it is
+        now right-sized or has overshot. A band matters in both directions: a floor stops it being run down past the point
+        where it can do its job, and a ceiling requires action before it expands again in the next hard market.</p>
+        <p class="rec-ex"><b>For example:</b> the state insurer's share of homeowners policies fell from 8.81 percent in
+        September 2025 to 1.93 percent by March 2026. Without a defined band, the next time it grows, one side will call it
+        proof the reforms failed and the other will call it noise, and neither will have a benchmark to point to.</p>
+      </div>
+    </div>
+
+    <div class="rec">
+      <div class="rec-n">4</div>
+      <div class="rec-b">
+        <h3>Make the assessment protection permanent</h3>
+        <p class="rec-do"><b>Do this:</b> write a minimum storm-severity standard into law, so no post-storm charge can be levied for anything short of it.</p>
+        <p>After a bad storm the state insurer can add a charge to almost every insurance policy in Florida, including auto,
+        and including policies held by people who are not its customers. Today the protection against that is real but
+        temporary: it depends on the reinsurance bought this year and is re-earned every season. Putting a floor in statute
+        means the protection survives a hard reinsurance market and a bad hurricane year instead of quietly eroding.</p>
+        <p class="rec-ex"><b>For example:</b> the state insurer currently projects no charge unless a storm worse than a
+        1-in-360-year event hits. A statutory 1-in-100 floor would secure protection well inside what has already been achieved, making it a conservative standard rather than an aspirational one.</p>
+      </div>
+    </div>
+
+    <div class="rec">
+      <div class="rec-n">5</div>
+      <div class="rec-b">
+        <h3>Preserve the litigation and eligibility reforms</h3>
+        <p class="rec-do"><b>Do this:</b> protect the 2022 and 2023 litigation and eligibility changes from rollback while the effects are still working through.</p>
+        <p>The improvement is not self-sustaining, and the timing creates a risk of premature reversal. Reform took about 22 months to show up
+        in the numbers, and claims are governed by the law in force when the policy was written, so pre-reform costs continue to work through the system for years. That leaves an extended period in which the reforms may be judged complete and relaxed while still taking effect.</p>
+        <p class="rec-ex"><b>For example:</b> in 2023, for every 100 policies private carriers took off the state insurer,
+        about 130 new ones came in behind them, so the book grew during a record takeout year. The trend reversed only after the underlying cost drivers changed; reversing those measures would restore the same dynamic.</p>
+      </div>
+    </div>
+
+    <div class="answer">
+      <h3>One objective is substantially met; the other is not.</h3>
+      <p>On the question the reforms were built to answer, whether the state was carrying too much hurricane risk, the work
+      is nearly complete: taxpayer exposure is down 87 percent and no post-storm charge is projected below a 1-in-360-year
+      storm. On affordability, the work is at an early stage and the state does not yet measure it. Defining the finish line is also what protects the gains, because a reform with no
+      stated endpoint can be unwound before it is secure.</p>
+      <div class="srcline">Recommendations are Pioneer Institute framing, offered for debate; target values are illustrative
+      starting points, not settled positions. Supporting figures: s. 627.7154, s. 624.424(10) and s. 624.4213, Florida
+      Statutes; <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Reports, Jan 1 and Jul 1, 2026</a>;
+      <a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank">Citizens, June 23, 2026</a>;
+      OIR Property Market Intelligence Report (Totals), periods ending December 2022 and December 2025; price per $1,000 of
+      coverage is a Pioneer Institute calculation from Citizens filings.</div>
+    </div>
+  </section>
+
+
+  <section>
+    <h2>What are the limitations?</h2>
+    <ol class="lim">
+      <li><b>Causation is not established.</b> The period coincided with a softening reinsurance market (preliminary 2026 data show risk-adjusted reinsurance costs down 15 to 25 percent for nearly half of insurers), a 14.0 percent Cat Fund rate reduction for the 2025 contract year (the 2026 contract year rate change is an increase of 0.43 percent), and a 2025 season with no Florida landfall. Separating reform from cycle needs a counterfactual;
+      Louisiana is the natural comparison.</li>
+      <li><b>Rate relief is real but modest.</b> Filed rates turned negative before charged premiums did, and the cuts
+      are small against the 2019 to 2022 run-up.</li>
+      <li><b>Premium in force is volume, not price.</b> It fell because the book contracted, a distinct fact from the
+      rate reduction.</li>
+      <li><b>Exit from the market is not captured.</b> Non-renewals and the uninsured share are not confirmed against
+      primary sources and are excluded from analysis.</li>
+    </ol>
+  </section>
+
+</div>
+
+  <section style="margin-top:30px">
+    <div class="strip metrics">
+      <div class="cell">
+        <div class="cl">Taxpayer exposure removed</div>
+        <div class="cv">$538.5B</div>
+        <div class="cd"><span class="up">Down 87.1%</span> from the September 2023 month-end peak of $618.1B. Catastrophe risk
+        moved off the state's books in 33 months.</div>
+        <div class="csrc">Source: Citizens exposure filings; Pioneer calculation</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Citizens policies in force</div>
+        <div class="cv">278,246</div>
+        <div class="cd"><span class="up">Down 80.2%</span> from the September 2023 month-end peak of 1,407,805 (Citizens cites a weekly peak near 1.41 million in early October 2023). Below its April 2020 level.</div>
+        <div class="csrc">Source: <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens, Policies in Force</a></div>
+      </div>
+      <div class="cell">
+        <div class="cl">Assessment threshold</div>
+        <div class="cv">1-in-360</div>
+        <div class="cd">No projected policyholder assessment below this event. $9.6B claims-paying ability, 2026 season.</div>
+        <div class="csrc">Source: <a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank">Citizens, June 23, 2026</a></div>
+      </div>
+      <div class="cell">
+        <div class="cl">Citizens market share</div>
+        <div class="cv">1.93%</div>
+        <div class="cd">Homeowners policies, March 31, 2026, down from 8.81% in September 2025. Voluntary market holds 98.07%. No longer the largest carrier.</div>
+        <div class="csrc">Source: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- the governance finding -->
+  <!-- takeout math -->
+  <!-- retention: the missing metric -->
+  <!-- seasonality -->
+  <!-- market health -->
+  <!-- premium vs loss cost: does claim experience justify the price -->
+  <!-- the litigation mechanism -->
+  <!-- the void as a recommendation hook -->
+  <!-- constituent bridge -->
+  <!-- goal / what done looks like -->
+  <section>
+    <div class="callout">
+      <h3>Constituent sentiment</h3>
+      <p>A July 2026 Tampa focus group found affordability dominating every discussion, with insurance described as
+      "just as burdensome as mortgage payments." Participants were broadly frustrated and skeptical of positive top-line messaging, while giving state leadership a passing grade overall.</p>
+      <p class="quote">"Working just to afford basic living means you can't actually enjoy living."</p>
+      <p>The systemic figures above and that frustration are not in conflict. The state balance sheet improved materially. Household costs improved late, modestly, and unevenly, and part of the apparent improvement reflects coverage reduction rather than price relief. Messaging that declares affordability resolved is unlikely to align with constituent experience; messaging that the market has stabilized and rate relief is beginning, with further work required, is more defensible.</p>
+    </div>
+  </section>
+
+  <section id="sources">
+    <h2>Data Sources</h2>
+    <div class="subhead">Every figure on this page traces to a source below, and charts and metrics carry their own source
+    lines where they appear. Hyperlinks appear only where the source was directly reviewed; entries without links reference
+    official documents locatable through the issuing body. Derived measures are Pioneer Institute calculations, disclosed
+    as such in the final rows.</div>
+
+    <div class="feedback" id="feedback">
+      <h3>Report an issue</h3>
+      <p>If a figure looks wrong, a source has published a revision this page has not picked up, or a definitional choice
+      deserves a challenge, we want to hear it. Include the exhibit or figure you are looking at and, if you have one, a
+      link to the filing you are checking against.</p>
+      <a class="fb-btn" href="mailto:datalabs@pioneerinstitute.org?subject=Data%20tool%20issue%20report%3A%20Florida%20Insurance%20Watch">Report an issue</a>
+      <p class="fb-norm">Our standard: every report is checked against the primary source within five business days, the
+      outcome is logged in the changelog either way, and the reporter is credited unless they ask not to be.</p>
+    </div>
+
+    <details class="srcfold">
+      <summary>Source register: cadence, vintage, and next release</summary>
+      <div class="fold-body">
+        <div class="note" style="border-top:0;padding-top:4px">A quarterly refresh updates the monthly Citizens series every
+        cycle. Figures from the Office of Insurance Regulation and NAIC change only when those bodies republish, so several
+        may hold the same value for two to four quarters. Each carries its own as-of date, so a refresh never implies a
+        number is newer than its source.</div>
+        <div style="overflow-x:auto">
+        <table class="reg">
+          <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports in the dashboard</th><th>Data vintage in this tool</th><th>Next release</th></tr></thead>
+          <tbody>
+            <tr class="grp"><td colspan="5">Citizens Property Insurance Corporation</td></tr>
+            <tr><td class="src"><a href="https://www.citizensfla.com/policies-in-force" target="_blank" rel="noopener noreferrer">Citizens, Policies in Force</a></td><td>Monthly</td><td>The policy count series, the headline count of 278,246, and the depopulation trajectory</td><td>June 30, 2026</td><td>Monthly; July 2026 month-end expected August 2026</td></tr>
+            <tr><td class="src">Citizens month-end Detail reports and 2014&ndash;2026 Exposure Summary</td><td>Monthly</td><td>Exposure removed ($538.5B from the $618.1B peak), premium in force, and price per $1,000 of insured value</td><td>June 30, 2026</td><td>Monthly; July 2026 month-end expected August 2026</td></tr>
+            <tr><td class="src">Citizens Depopulation Statistics</td><td>Monthly to quarterly</td><td>Gross and net takeout accounting and depopulation efficiency</td><td>Through June 16, 2026</td><td>Next assumption cycle as published</td></tr>
+            <tr><td class="src"><a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank" rel="noopener noreferrer">Citizens Annual PML Report, February 2026; Risk Transfer Program Executive Summary and press release, June 23, 2026</a></td><td>Annual, February and June</td><td>The 1-in-360 assessment threshold and $9.6B claims-paying ability for the 2026 season</td><td>2026 season, modeled December 31, 2025</td><td>2027 PML report, February 2027</td></tr>
+            <tr><td class="src"><a href="https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" target="_blank" rel="noopener noreferrer">Citizens rate materials: March 4, 2026 announcement</a> and <a href="https://www.citizensfla.com/-/20251210-citizens-recommends-rate-cuts-for-most-policyholders" target="_blank" rel="noopener noreferrer">December 10, 2025 recommendation</a></td><td>Annual</td><td>The 2026 approved statewide decrease of 8.8%, the first broad decrease since 2015</td><td>2026 rates, approved January 2026</td><td>2027 rate filing cycle, expected late 2026</td></tr>
+            <tr><td class="src">Citizens Business Overview, March 31, 2026</td><td>Periodic</td><td>Book composition and market context</td><td>March 31, 2026</td><td>As published</td></tr>
+            <tr><td class="src"><a href="https://www.yahoo.com/news/citizens-property-insurance-paid-823-183255074.html" target="_blank" rel="noopener noreferrer">Testimony of Tim Cerio to the Florida Senate Banking and Insurance Committee, January 14, 2025, as reported</a></td><td>One-off</td><td>2024 hurricane claims outcomes</td><td>January 14, 2025</td><td>Not applicable</td></tr>
+            <tr class="grp"><td colspan="5">Florida Office of Insurance Regulation</td></tr>
+            <tr><td class="src"><a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank" rel="noopener noreferrer">Property Insurance Stability Reports, July 1, 2026</a> and <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/january-2026-isu-report-final.pdf" target="_blank" rel="noopener noreferrer">January 1, 2026</a></td><td>Semi-annual, January 1 and July 1</td><td>Citizens market share of 1.93%, the 21 approved entrants, private rate-request counts, and litigation shares (NAIC MCAS and PCLR data)</td><td>July 1, 2026 report; market share as of March 31, 2026; MCAS 2025 preliminary, final expected Q3 2026</td><td>January 1, 2027 report</td></tr>
+            <tr><td class="src"><a href="https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" target="_blank" rel="noopener noreferrer">OIR press releases, January 13 and May 20, 2026</a></td><td>Event-driven</td><td>New-entrant capital of more than $850 million</td><td>May 20, 2026</td><td>Event-driven</td></tr>
+            <tr><td class="src">OIR Property Market Intelligence Report (Totals)</td><td>Quarterly and monthly</td><td>Market-wide policies, premium, and exposure; trade-secret filers excluded</td><td>Period ending December 31, 2025</td><td>Next reporting period as published</td></tr>
+            <tr><td class="src">Florida domestic combined ratio, via the OIR Stability Reports</td><td>Annual</td><td>The market health section; the weighted-average basis OIR now uses</td><td>Year-end 2025</td><td>Year-end 2026 results, expected 2027</td></tr>
+            <tr><td class="src">County average premiums (OIR)</td><td>Semi-annual</td><td>The county map, legend scale, and county readout</td><td>March 31, 2026</td><td>January 1, 2027 cycle</td></tr>
+            <tr class="grp"><td colspan="5">NAIC and industry</td></tr>
+            <tr><td class="src"><a href="https://content.naic.org/sites/default/files/publication-hmr-zu-homeowners-report.pdf" target="_blank" rel="noopener noreferrer">NAIC Homeowners Insurance Report</a>, data via the Insurance Information Institute</td><td>Annual, roughly two-year lag</td><td>The Florida versus US average premium comparison</td><td>Data year 2022</td><td>Next data year as published; the series runs on an approximately two-year lag</td></tr>
+            <tr><td class="src"><a href="https://www.artemis.bm/news/florida-citizens-secures-one-third-upsized-600m-everglades-re-ii-2026-1-catastrophe-bond/" target="_blank" rel="noopener noreferrer">Artemis, Everglades Re II 2026-1 catastrophe bond coverage</a></td><td>Event-driven</td><td>Catastrophe bond detail within the risk transfer program</td><td>May 13, 2026</td><td>Event-driven</td></tr>
+            <tr class="grp"><td colspan="5">Reform legislation and statutes</td></tr>
+            <tr><td class="src"><a href="https://www.flsenate.gov/Session/Bill/2022D/2D" target="_blank" rel="noopener noreferrer">SB 2-D (May 2022 special session)</a>, <a href="https://www.flsenate.gov/Session/Bill/2022A/2A" target="_blank" rel="noopener noreferrer">SB 2-A (December 2022 special session)</a>, and <a href="https://www.flsenate.gov/Session/Bill/2023/837" target="_blank" rel="noopener noreferrer">HB 837 (2023)</a></td><td>One-time enactments</td><td>The reform timeline and the litigation mechanism analysis</td><td>As enacted</td><td>Not applicable</td></tr>
+            <tr><td class="src">Florida Statutes: <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0624/Sections/0624.4213.html" target="_blank" rel="noopener noreferrer">s. 624.4213</a> (trade secret filings), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0624/Sections/0624.424.html" target="_blank" rel="noopener noreferrer">s. 624.424</a> (insurer financial reporting), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.351.html" target="_blank" rel="noopener noreferrer">s. 627.351</a> (Citizens), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.7154.html" target="_blank" rel="noopener noreferrer">s. 627.7154</a> (Property Insurer Stability Unit)</td><td>Codified law</td><td>Statutory provisions cited in the analysis</td><td>Text in force July 2026</td><td>Not applicable</td></tr>
+            <tr class="grp"><td colspan="5">Geography and field research</td></tr>
+            <tr><td class="src">US Census Bureau cartographic boundary files, via the us-atlas project</td><td>Annual</td><td>County map geometry</td><td>As bundled in this tool</td><td>Not applicable</td></tr>
+            <tr><td class="src">Pioneer Institute focus group, Tampa, July 2, 2026</td><td>One-off</td><td>The constituent sentiment section</td><td>July 2, 2026</td><td>Not applicable</td></tr>
+            <tr class="grp"><td colspan="5">Derived measures</td></tr>
+            <tr><td class="src">Pioneer Institute calculations (this tool)</td><td>With each quarterly refresh</td><td>Depopulation efficiency, price per $1,000 of insured value, coverage-adjusted comparisons, and other measures identified in source lines as Pioneer calculations</td><td>As of the July 23, 2026 revision</td><td>Quarterly refresh cycle</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <section id="changelog">
+    <h2>Changelog</h2>
+    <div class="subhead">One row per release. Corrections and data refreshes are logged here and never deleted;
+    reader-reported issues are credited.</div>
+    <table>
+      <thead><tr><th style="width:9%">Version</th><th style="width:13%">Date</th><th style="width:12%">Type</th><th>What changed</th></tr></thead>
+      <tbody>
+        <!-- Template rows for future entries. Copy, fill, and place above the row below (newest first).
+
+        Correction:
+        <tr><td class="ver">v1.1</td><td class="cdate">Month D, 2026</td><td><span class="kind fix">Correction</span></td>
+        <td>Corrected [figure] in [exhibit] per reader report from [name / an anonymous reader]; verified against [primary source].</td></tr>
+
+        Data refresh:
+        <tr><td class="ver">v1.1</td><td class="cdate">Month D, 2026</td><td><span class="kind">Refresh</span></td>
+        <td>Updated [series] to reflect [source]'s [month] release.</td></tr>
+        -->
+        <tr><td class="ver">v1.0</td><td class="cdate">August 1, 2026</td><td><span class="kind">Launch</span></td>
+        <td>Initial public release. All figures verified against the primary sources in the register; Citizens series
+        through June 30, 2026; page revised July 23, 2026.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+    <div>Florida Insurance Watch &middot; Version 1.0 Beta &middot; Data through June 30, 2026 &middot; Revised July 23, 2026</div>
+    <div>19 sources across 6 categories; see the register above</div>
+  </div>
+
+  <div class="disclaimer">
+    <b>Data accuracy and discrepancies.</b> The figures on this page are compiled in good faith from public filings
+    issued by third parties, principally Citizens Property Insurance Corporation and the Florida Office of Insurance
+    Regulation. Those bodies publish on their own schedules and may revise, restate, or withdraw prior figures without
+    notice. The same measure is sometimes reported on different bases or as of different dates: for example, gross
+    assumptions here are stated as of June 16, 2026 against policies in force as of June 30, and the combined ratio is
+    the weighted average OIR now uses, where its earlier reports used a straight average. Derived measures, including
+    depopulation efficiency and price per $1,000 of insured value, are Pioneer Institute's own calculations and have not
+    been reviewed or endorsed by the issuing agencies. All figures are point-in-time and may not match a source that has
+    since been updated.
+    <div style="margin-top:12px"><b>About this tool.</b> Florida Insurance Watch is a Pioneer Institute DataLabs research
+    tool, published in beta and versioned: corrections and data refreshes are logged in the changelog above, and the
+    version and data vintage should be cited alongside any figure taken from this page. It is provided for research and
+    educational purposes and does not constitute financial, legal, insurance, or investment advice. If a figure appears
+    to be in error, use the report link in the Data Sources section; every report is checked against the underlying
+    filing within five business days and the outcome is logged either way.</div>
+  </div>
+</footer>
+
+</div>
+<script>
+const pif=[["2020-04",453911],["2020-05",463247],["2020-06",474630],["2020-07",486773],["2020-08",499056],["2020-09",511055],["2020-10",521289],["2020-11",532788],["2020-12",542739],["2021-01",554537],["2021-02",552340],["2021-03",569868],["2021-04",589041],["2021-05",609805],["2021-06",638263],["2021-07",661150],["2021-08",687079],["2021-09",708919],["2021-10",725942],["2021-11",741420],["2021-12",759305],["2022-01",776790],["2022-02",792616],["2022-03",817926],["2022-04",851006],["2022-05",883333],["2022-06",931357],["2022-07",994456],["2022-08",1026829],["2022-09",1071850],["2022-10",1111283],["2022-11",1126319],["2022-12",1145809],["2023-01",1167579],["2023-02",1193725],["2023-03",1239396],["2023-04",1272815],["2023-05",1304332],["2023-06",1317174],["2023-07",1348834],["2023-08",1377425],["2023-09",1407805],["2023-10",1334620],["2023-11",1260430],["2023-12",1228718],["2024-01",1165867],["2024-02",1169427],["2024-03",1168919],["2024-04",1188800],["2024-05",1193484],["2024-06",1213495],["2024-07",1232161],["2024-08",1250791],["2024-09",1263055],["2024-10",1036913],["2024-11",988051],["2024-12",936182],["2025-01",941156],["2025-02",847571],["2025-03",841470],["2025-04",809984],["2025-05",819027],["2025-06",779552],["2025-07",782424],["2025-08",771916],["2025-09",769316],["2025-10",568914],["2025-11",437095],["2025-12",395337],["2026-01",392689],["2026-02",336393],["2026-03",321957],["2026-04",294894],["2026-05",293772],["2026-06",278246]];
+
+const qtr=[["2022-06",931357,2468517548,318849646819],["2022-12",1145809,3219057962,422952769945],["2023-03",1239396,3653256519,478754194461],["2023-06",1317174,4371464295,561675811689],["2023-09",1407805,4833074611,618104511066],["2023-12",1228718,4258689982,552759991285],["2024-03",1168919,4064248867,518995281167],["2024-06",1213495,4237394767,520378213499],["2024-09",1263055,4477186272,533231527195],["2024-12",936182,3313825028,385821635974],["2025-03",841470,2824160391,336516399897],["2025-06",779552,2485819333,295140160591],["2025-09",769316,2438497431,285501334537],["2025-12",395337,1135816999,128482188755],["2026-03",321957,885436090,97748983364],["2026-06",278246,737991504,79644625492]];
+
+const cty=[["Alachua",2525,1804,2527],["Baker",2346,2913,2317],["Bay",3465,1577,3478],["Bradford",2623,1950,2650],["Brevard",3532,1975,3560],["Broward",6136,3008,6220],["Calhoun",3122,2649,3149],["Charlotte",3160,1661,3222],["Citrus",2456,1560,2472],["Clay",2540,2047,2550],["Collier",5534,3169,5565],["Columbia",2557,2118,2558],["Desoto",3421,2167,3449],["Dixie",2748,1559,2806],["Duval",2786,2095,2801],["Escambia",3702,1670,3706],["Flagler",2488,1641,2526],["Franklin",5221,1954,5235],["Gadsden",2723,2226,2737],["Gilchrist",2513,1872,2478],["Glades",3477,2019,3475],["Gulf",3752,1612,3759],["Hamilton",2711,2044,2745],["Hardee",3376,2246,3396],["Hendry",2999,1983,3030],["Hernando",2360,1985,2342],["Highlands",2736,1599,2732],["Hillsborough",3525,2676,3514],["Holmes",2942,2560,2944],["Indian River",4334,2744,4453],["Jackson",2851,2300,2840],["Jefferson",2782,2083,2792],["Lafayette",2903,1649,2943],["Lake",2650,1988,2642],["Lee",3576,2119,3646],["Leon",2538,1710,2554],["Levy",2698,1634,2706],["Liberty",2880,1872,2877],["Madison",2735,1482,2772],["Manatee",3181,1859,3187],["Marion",2191,1766,2217],["Martin",5899,2471,5993],["Miami-Dade",5975,3779,6023],["Monroe",7863,1871,7829],["Nassau",3051,1608,3061],["Okaloosa",3889,1889,3891],["Okeechobee",3730,1973,3754],["Orange",3610,2565,3585],["Osceola",2940,2433,2911],["Palm Beach",6323,3175,6412],["Pasco",2756,1917,2758],["Pinellas",4063,2034,4044],["Polk",2767,2185,2771],["Putnam",2621,1768,2636],["Santa Rosa",3512,1951,3541],["Sarasota",3457,1482,3482],["Seminole",3545,2372,3527],["St. Johns",2883,2055,2889],["St. Lucie",3491,1932,3522],["Sumter",2105,1352,2111],["Suwannee",2749,1783,2792],["Taylor",2698,1300,2727],["Union",2667,3475,2656],["Volusia",2808,1637,2819],["Wakulla",2292,1956,2335],["Walton",5409,1891,5401],["Washington",2871,2628,2933]]; // [county, avg incl wind 2026-03, avg ex wind 2026-03, avg incl wind 2025-09]
+const BLUE='#14294d',INK='#1a1f26',G2='#6b7681',G3='#9aa4ae',RULE='#e6eaee', SANS='"Inter","Helvetica Neue",Helvetica,Arial,sans-serif';
+Chart.defaults.font.family=SANS; Chart.defaults.font.size=11; Chart.defaults.color=G2;
+Chart.defaults.plugins.legend.display=false;
+Chart.defaults.plugins.tooltip.backgroundColor=INK;
+Chart.defaults.plugins.tooltip.cornerRadius=0;
+Chart.defaults.plugins.tooltip.displayColors=false;
+const AX={grid:{display:false},border:{color:G3},ticks:{padding:8,color:G2}};
+const AY={grid:{color:RULE,drawTicks:false},border:{display:false},ticks:{padding:10,color:G2}};
+
+const band=()=>({id:'band',beforeDatasetsDraw(c){
+  const{ctx,chartArea:{top,bottom},scales:{x}}=c;
+  const a=x.getPixelForValue(c.data.labels.indexOf('2022-05'));
+  const b=x.getPixelForValue(c.data.labels.indexOf('2023-03'));
+  ctx.save(); ctx.fillStyle='rgba(20,41,77,.10)'; ctx.fillRect(a,top,b-a,bottom-top);
+  ctx.fillStyle=BLUE; ctx.font='700 10px '+SANS; ctx.textAlign='center';
+  ctx.fillText('Reforms passed',(a+b)/2,top-6); ctx.restore();}});
+
+function pifChart(id){
+  return new Chart(document.getElementById(id),{type:'line',
+    data:{labels:pif.map(r=>r[0]),datasets:[{data:pif.map(r=>r[1]),borderColor:BLUE,
+      backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:0}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22,right:6}},
+      plugins:{tooltip:{callbacks:{label:c=>c.parsed.y.toLocaleString()+' homes'}}},
+      scales:{y:{...AY,beginAtZero:true,ticks:{...AY.ticks,callback:v=>(v/1000).toLocaleString()+'k'}},
+        x:{...AX,ticks:{...AX.ticks,maxTicksLimit:12,maxRotation:0,autoSkip:true}}}},
+    plugins:[band()]});
+}
+
+const rendered={};
+function renderHome(){
+  if(rendered.home) return; rendered.home=true;
+  pifChart('hChart1');
+  // paying less vs buying less: index both to 100 at the 2023 peak
+  const q=qtr.slice(4);                 // 2023-09 onward
+  const b0={prem:q[0][2]/q[0][1], price:q[0][2]*1000/q[0][3]};
+  const prem=q.map(r=>(r[2]/r[1])/b0.prem*100);
+  const price=q.map(r=>(r[2]*1000/r[3])/b0.price*100);
+  new Chart(document.getElementById('hChart2'),{type:'line',
+    data:{labels:q.map(r=>r[0]),datasets:[
+      {label:'Price per $1,000 of coverage',data:price,borderColor:'#a32c2c',
+       backgroundColor:'transparent',borderWidth:2.5,pointRadius:0,pointHoverRadius:4,tension:0},
+      {label:'Average premium per policy',data:prem,borderColor:G2,
+       backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:0,pointHoverRadius:4,tension:0}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+      plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(0)+' (2023 = 100)'}}},
+      scales:{y:{...AY,ticks:{...AY.ticks,callback:v=>v}},
+        x:{...AX,ticks:{...AX.ticks,maxTicksLimit:8,maxRotation:0,autoSkip:true}}}},
+    plugins:[{id:'base100',afterDatasetsDraw(c){
+      const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
+      ctx.save(); ctx.strokeStyle='#9aa4ae'; ctx.setLineDash([3,3]); ctx.beginPath();
+      ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#6b7681'; ctx.font='600 10px '+SANS; ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillText('2023 starting point',left+4,py-3); ctx.restore();}}]});
+  }
+function renderPolicy(){
+  
+
+  if(rendered.policy) return; rendered.policy=true;
+  pifChart('pChart1');
+  // seasonality: month-over-month change, coloured by direction
+  const d=[]; for(let i=1;i<pif.length;i++) d.push([pif[i][0],pif[i][1]-pif[i-1][1]]);
+  new Chart(document.getElementById('pChart3'),{type:'bar',
+    data:{labels:d.map(x=>x[0]),datasets:[{data:d.map(x=>x[1]),
+      backgroundColor:d.map(x=>x[1]<0?BLUE:'#a32c2c'),borderWidth:0}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+      plugins:{tooltip:{callbacks:{label:c=>(c.parsed.y>0?'+':'')+c.parsed.y.toLocaleString()+' homes'}}},
+      scales:{y:{...AY,grid:{color:ctx=>ctx.tick.value===0?'#9aa4ae':RULE,drawTicks:false},
+          ticks:{...AY.ticks,callback:v=>(v/1000).toLocaleString()+'k'}},
+        x:{...AX,ticks:{...AX.ticks,maxTicksLimit:12,maxRotation:0,autoSkip:true}}}}});
+  new Chart(document.getElementById('pChart2'),{type:'line',
+    data:{labels:['2020','2021','2022','2023','2024','2025'],
+      datasets:[{data:[116,110,109,99,94,83],borderColor:BLUE,backgroundColor:'transparent',
+        borderWidth:2.5,pointRadius:4,pointBackgroundColor:BLUE,tension:0}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:10}},
+      plugins:{tooltip:{callbacks:{label:c=>c.parsed.y+'% '+(c.parsed.y>100?'(loss)':'(profit)')}}},
+      scales:{y:{...AY,min:72,max:126,ticks:{...AY.ticks,stepSize:10,callback:v=>v+'%'}},x:{...AX}}},
+    plugins:[{id:'be',afterDatasetsDraw(c){
+      const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
+      ctx.save(); ctx.strokeStyle='#a32c2c'; ctx.setLineDash([4,3]); ctx.beginPath();
+      ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='#a32c2c'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
+      ctx.fillText('100%, break-even',right,py-4); ctx.restore();}}]});
+  // Florida share of nationwide homeowners suits vs claims (NAIC MCAS, via OIR ISU July 2026; 2025 preliminary)
+  const mc=[[2016,7.75,64.43],[2017,16.46,68.07],[2018,11.85,79.91],[2019,8.16,76.45],[2020,8.81,79.16],
+            [2021,6.91,76.00],[2022,14.93,70.83],[2023,9.73,71.59],[2024,12.33,73.15],[2025,4.85,41.29]];
+  new Chart(document.getElementById('mChart'),{type:'line',
+    data:{labels:mc.map(r=>r[0]),datasets:[
+      {label:'Share of nationwide homeowners suits',data:mc.map(r=>r[2]),borderColor:'#a32c2c',
+       backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#a32c2c',tension:0},
+      {label:'Share of nationwide homeowners claims',data:mc.map(r=>r[1]),borderColor:BLUE,
+       backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:3,pointBackgroundColor:BLUE,tension:0}]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+      plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)+'%'+(c.label==='2025'?' (preliminary)':'')}}},
+      scales:{y:{...AY,min:0,max:90,ticks:{...AY.ticks,callback:v=>v+'%'}},x:{...AX}}}});
+}
+
+function showView(v){
+  const home=v==='home';
+  document.getElementById('view-home').hidden=!home;
+  document.getElementById('view-policy').hidden=home;
+  document.getElementById('btn-home').classList.toggle('on',home);
+  document.getElementById('btn-policy').classList.toggle('on',!home);
+  document.getElementById('standfirst').textContent = home
+    ? "What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings."
+    : "What the 2022 and 2023 reforms did to the risk taxpayers carry, to the health of the market, and to what households pay. Every figure traced to a state filing.";
+  if(home) renderHome(); else renderPolicy();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+renderHome(); // homeowner view is the default
+
+/* ============ county map and selector (homeowner view) ============ */
+(function(){
+  const byN={}; cty.forEach(r=>byN[r[0]]=r);
+  const EXCL=new Set(['Baker','Union']); // excluded from the wind analysis: small sample, see note
+  const fmt=n=>'$'+Math.abs(n).toLocaleString();
+  const sgn=n=>n<0?'\u2212'+fmt(n):'+'+fmt(n);
+  const wind=r=>Math.round(100*(r[1]-r[2])/r[1]);
+  function lerp(a,b,u){const h=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16));const A=h(a),B=h(b);
+    return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*u).toString(16).padStart(2,'0')).join('');}
+  const scales={
+    chg:{f:r=>{const v=r[1]-r[3];return v<0?lerp('#dce5f1','#14294d',Math.min(1,Math.abs(v)/120)):lerp('#f8e8d2','#b45309',Math.min(1,v/40));},
+         grad:'linear-gradient(90deg,#14294d,#dce5f1 60%,#f8e8d2 62%,#b45309)',lo:'\u2212$120',mid:'$0',hi:'+$40',
+         tip:r=>sgn(r[1]-r[3])+' since Sept 2025<small>'+fmt(r[3])+' to '+fmt(r[1])+'</small>'},
+    wind:{f:r=>EXCL.has(r[0])?'url(#exclx)':lerp('#e6ecf3','#b45309',Math.min(1,wind(r)/80)),
+         grad:'linear-gradient(90deg,#e6ecf3,#b45309)',lo:'0%',mid:'40%',hi:'80% of premium',
+         tip:r=>EXCL.has(r[0])?'Excluded from the wind analysis<small>small sample size; see note below the map</small>'
+              :wind(r)+'% of premium buys wind<small>'+fmt(r[1])+' with wind, '+fmt(r[2])+' without</small>'},
+    lvl:{f:r=>lerp('#e6ecf3','#14294d',Math.min(1,Math.max(0,(r[1]-2000)/6000))),
+         grad:'linear-gradient(90deg,#e6ecf3,#14294d)',lo:'$2,000',mid:'$5,000',hi:'$8,000',
+         tip:r=>fmt(r[1])+' average premium<small>including wind, March 2026</small>'}};
+  let metric='chg';
+  const paths=[...document.querySelectorAll('.cty')];
+  function paint(){
+    const s=scales[metric];
+    paths.forEach(p=>p.setAttribute('fill',s.f(byN[p.dataset.n])));
+    document.getElementById('legbar').style.background=s.grad;
+    document.getElementById('leglo').textContent=s.lo;
+    document.getElementById('legmid').textContent=s.mid;
+    document.getElementById('leghi').textContent=s.hi;
+    document.getElementById('legex').style.display=metric==='wind'?'flex':'none';
+  }
+  document.getElementById('mtog').addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b)return;
+    metric=b.dataset.m;
+    [...document.querySelectorAll('#mtog button')].forEach(x=>x.classList.toggle('on',x===b));
+    paint();});
+  const ranks={}; [...cty].sort((a,b)=>b[1]-a[1]).forEach((r,i)=>ranks[r[0]]=i+1);
+  function fill(pre,r){
+    document.getElementById(pre+'name').textContent=r[0]+' County';
+    document.getElementById(pre+'incl').textContent=fmt(r[1]);
+    const c=r[1]-r[3], el=document.getElementById(pre+'chg');
+    el.textContent=sgn(c); el.className=c<0?'pos':'neg';
+    document.getElementById(pre+'excl').textContent=fmt(r[2]);
+    document.getElementById(pre+'wind').textContent=EXCL.has(r[0])?'Excluded (small sample)':wind(r)+'%';
+    document.getElementById(pre+'rank').textContent=ranks[r[0]]+' of 67';
+  }
+  const tip=document.getElementById('tip'), box=document.getElementById('mapbox');
+  paths.forEach(p=>{
+    p.addEventListener('mousemove',e=>{
+      const r=byN[p.dataset.n], b=box.getBoundingClientRect();
+      tip.style.display='block';
+      tip.innerHTML='<b>'+r[0]+'</b><br>'+scales[metric].tip(r);
+      tip.style.left=Math.min(e.clientX-b.left+14,b.width-240)+'px';
+      tip.style.top=(e.clientY-b.top+16)+'px';
+      fill('ro-',r); sel.value=r[0];});
+    p.addEventListener('mouseleave',()=>tip.style.display='none');
+    p.addEventListener('click',()=>selectCounty(p.dataset.n,true));
+  });
+  paint();
+  const sel=document.getElementById('csel');
+  cty.map(r=>r[0]).sort().forEach(n=>{const o=document.createElement('option');o.value=n;o.textContent=n;sel.appendChild(o);});
+  function selectCounty(n,fromMap){
+    const r=byN[n]; if(!r) return;
+    fill('ro-',r);
+    if(!fromMap) sel.value=n; 
+    document.querySelectorAll('path.cty').forEach(p=>{
+      p.style.strokeWidth = (p.dataset.n===n) ? '2.4' : '0.7';
+      p.style.stroke = (p.dataset.n===n) ? '#14294d' : '#ffffff';
+    });
+  }
+  sel.addEventListener('change',()=>{ if(sel.value) selectCounty(sel.value,false); });
+})();
+
+/* ---- embed support: strip chrome and report height to the parent ---- */
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
+  function postHeight(){
+    var h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
+    if(window.parent!==window) window.parent.postMessage({type:'fiw:height',height:h},'*');
+  }
+  window.addEventListener('load',postHeight);
+  window.addEventListener('resize',postHeight);
+  if(window.ResizeObserver) new ResizeObserver(postHeight).observe(document.body);
+  document.addEventListener('click',function(){setTimeout(postHeight,320);});
+  setInterval(postHeight,1500);
+})();
+
+/* =====================================================================
+   QUARTERLY SELF-CHECK
+   Recomputes every volatile figure from the data arrays above and
+   confirms the number still appears in the page text. Run after a data
+   refresh: open the page, press the key combo below or open the console.
+   Silent when everything agrees. Loud when prose has gone stale.
+   Toggle the on-screen panel with  Ctrl+Shift+K  (or ?selfcheck=1).
+   ===================================================================== */
+(function(){
+  function txt(){
+    var c=document.body.cloneNode(true);
+    c.querySelectorAll('script,style,svg').forEach(function(n){n.remove();});
+    return c.textContent.replace(/\s+/g,' ');
+  }
+  function num(n,d){return Number(n).toFixed(d==null?1:d);}
+  function comma(n){return Math.round(n).toLocaleString('en-US');}
+
+  function build(){
+    var T=txt(), out=[];
+    function need(label, needle, note){
+      out.push({label:label, needle:String(needle), ok:T.indexOf(String(needle))!==-1, note:note||''});
+    }
+    var Q=function(m){for(var i=0;i<qtr.length;i++)if(qtr[i][0]===m)return qtr[i];return null;};
+    var P=function(m){for(var i=0;i<pif.length;i++)if(pif[i][0]===m)return pif[i][1];return null;};
+    var pk=Q('2023-09'), la=qtr[qtr.length-1];
+
+    // --- state risk ---
+    need('exposure removed, $B', num((pk[3]-la[3])/1e9), 'headline');
+    need('exposure change, %', num(Math.abs((la[3]-pk[3])/pk[3]*100)));
+    need('policies change, %', num(Math.abs((la[1]-pk[1])/pk[1]*100)));
+    need('peak policies', comma(pk[1]));
+    need('latest policies', comma(la[1]));
+
+    // --- price and coverage ---
+    var pr=function(x){return x[2]*1000/x[3];};
+    need('price per $1,000, start', num(pr(pk),2));
+    need('price per $1,000, latest', num(pr(la),2));
+    need('price per $1,000 change, %', num((pr(la)/pr(pk)-1)*100));
+
+    // --- seasonality (nearest thousand, as written) ---
+    need('autumn 2023 decline', comma(Math.round((P('2023-09')-P('2023-12'))/1000)*1000));
+    need('autumn 2025 decline', comma(Math.round((P('2025-09')-P('2025-12'))/1000)*1000));
+
+    // --- county measures ---
+    var fell=0, deltas=[];
+    for(var i=0;i<cty.length;i++){ if(cty[i][1]<cty[i][3]) fell++; deltas.push(cty[i][1]-cty[i][3]); }
+    deltas.sort(function(a,b){return a-b;});
+    need('counties with a decline', fell+' of '+cty.length);
+    need('median county change, $', Math.abs(deltas[Math.floor(deltas.length/2)]));
+    var mon=null; for(var j=0;j<cty.length;j++) if(cty[j][0]==='Monroe') mon=cty[j];
+    if(mon) need('Monroe wind share, %', Math.round((mon[1]-mon[2])/mon[1]*100)+' percent');
+    var hi=0; for(var k=0;k<cty.length;k++){ var w=(cty[k][1]-cty[k][2])/cty[k][1]*100; if(w>=50) hi++; }
+    need('counties at or above 50% wind', hi);
+
+    return out;
+  }
+
+  function report(){
+    var rows=build(), bad=rows.filter(function(r){return !r.ok;});
+    if(bad.length){
+      console.warn('%cFlorida Insurance Watch, self-check: '+bad.length+' figure(s) not found in page text',
+                   'color:#a32c2c;font-weight:700');
+      console.table(bad.map(function(r){return {figure:r.label, computed:r.needle, found_in_text:'NO'};}));
+      console.info('These numbers were recomputed from the data arrays but do not appear in the prose. '
+                 + 'Either the text is stale after a data refresh, or the figure is rounded differently.');
+    } else {
+      console.info('%cFlorida Insurance Watch, self-check: all '+rows.length+' derived figures match the page text.',
+                   'color:#1a7a4c;font-weight:700');
+    }
+    return rows;
+  }
+
+  function panel(){
+    var rows=report(), bad=rows.filter(function(r){return !r.ok;});
+    var d=document.getElementById('selfcheck-panel');
+    if(d){ d.remove(); return; }
+    d=document.createElement('div'); d.id='selfcheck-panel';
+    d.setAttribute('style','position:fixed;right:14px;bottom:14px;z-index:9999;max-width:430px;'
+      +'background:#fff;border:2px solid '+(bad.length?'#a32c2c':'#1a7a4c')+';border-radius:4px;'
+      +'padding:14px 16px;font:12.5px/1.55 "Inter",Helvetica,Arial,sans-serif;'
+      +'box-shadow:0 6px 26px rgba(20,41,77,.20);max-height:70vh;overflow:auto');
+    var h='<div style="font-weight:700;color:'+(bad.length?'#a32c2c':'#1a7a4c')+';margin-bottom:8px">'
+      +(bad.length? bad.length+' figure(s) need attention' : 'All '+rows.length+' derived figures match')
+      +'</div>';
+    if(bad.length){
+      h+='<div style="color:#55606b;margin-bottom:9px">Recomputed from the data but not found in the page text. '
+        +'After a data refresh, update these sentences.</div><table style="width:100%;border-collapse:collapse">';
+      bad.forEach(function(r){
+        h+='<tr><td style="padding:4px 8px 4px 0;border-bottom:1px solid #eaedf1">'+r.label
+          +'</td><td style="padding:4px 0;border-bottom:1px solid #eaedf1;font-weight:700;text-align:right">'+r.needle+'</td></tr>';
+      });
+      h+='</table>';
+    } else {
+      h+='<div style="color:#55606b">Charts and prose are consistent. Safe to publish this refresh.</div>';
+    }
+    h+='<div style="margin-top:10px;color:#8b939c;font-size:11px">Ctrl+Shift+K to close. '
+      +'This panel is a maintenance tool and is hidden from readers.</div>';
+    d.innerHTML=h; document.body.appendChild(d);
+  }
+
+  window.fiwSelfCheck=report;
+  document.addEventListener('keydown',function(e){
+    if(e.ctrlKey&&e.shiftKey&&(e.key==='K'||e.key==='k')){e.preventDefault();panel();}
+  });
+  window.addEventListener('load',function(){
+    report();
+    try{ if(new URLSearchParams(location.search).get('selfcheck')==='1') panel(); }catch(err){}
+  });
+})();
+
+/* ============ ASK ENGINE (deterministic; no generative model touches a figure) ============ */
+const FIWAsk=(function(){
+/* =========================================================================
+   THE FLORIDA RISK LEDGER  ::  ASK ENGINE
+   Deterministic. Parses a question, computes from the verified series,
+   returns the real number with its arithmetic and source.
+   No generative model touches any figure.
+   ========================================================================= */
+
+const PIF = pif;   /* uses the page arrays; no duplicate data */
+
+// quarterly: [date, pif, premium, exposure]
+const QTR = qtr;
+
+const DEPOP = [
+  { period:"2023",    gross:275324, net:-82909, ratio:-30.1, inflow:358233 },
+  { period:"2024",    gross:477821, net:292536, ratio:61.2,  inflow:185285 },
+  { period:"2025",    gross:585432, net:540845, ratio:92.4,  inflow:44587  },
+  { period:"2026 H1", gross:109161, net:117091, ratio:107.3, inflow:-7930  },
+];
+
+const RATIO = [[2020,116],[2021,110],[2022,109],[2023,99],[2024,94],[2025,83]];
+
+const SRC = {
+  pif:   { label:"Citizens, Policies in Force", url:"https://www.citizensfla.com/policies-in-force" },
+  detail:{ label:"Citizens month-end Detail reports", url:"https://www.citizensfla.com/policies-in-force" },
+  depop: { label:"Citizens, 2014-2026 Exposure Summary and Depopulation Statistics", url:"https://www.citizensfla.com/depopulation-resources" },
+  oir:   { label:"FL OIR, Property Insurance Stability Report, January 1, 2026", url:"https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/january-2026-isu-report-final.pdf" },
+  oirpr: { label:"FL OIR press release, May 20, 2026", url:"https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" },
+  rt:    { label:"Citizens, 2026 Risk Transfer Program Executive Summary", url:"https://www.citizensfla.com/documents/20702/40967396/20260623+03Aa+Risk+Transfer+Exec+Summary+and+Layer+Charts.pdf/c46a09fa-2686-ef25-2caa-d76afa76f029" },
+  rate:  { label:"Citizens press release, March 4, 2026", url:"https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" },
+};
+
+const MONTHS = { january:1,february:2,march:3,april:4,may:5,june:6,july:7,august:8,september:9,october:10,november:11,december:12,
+                 jan:1,feb:2,mar:3,apr:4,jun:6,jul:7,aug:8,sep:9,sept:9,oct:10,nov:11,dec:12 };
+
+// ---------- formatting ----------
+const fNum  = n => Math.round(n).toLocaleString('en-US');
+const fUSD  = n => {
+  const a = Math.abs(n);
+  if (a >= 1e9) return '$' + (n/1e9).toFixed(1) + ' billion';
+  if (a >= 1e6) return '$' + (n/1e6).toFixed(1) + ' million';
+  return '$' + fNum(n);
+};
+const fPct  = n => (n>0?'+':'') + n.toFixed(1) + '%';
+const label = d => {
+  const [y,m] = d.split('-');
+  const nm = ['','January','February','March','April','May','June','July','August','September','October','November','December'];
+  return nm[+m] + ' ' + y;
+};
+
+// ---------- series access ----------
+const pifMap = Object.fromEntries(PIF);
+const qtrMap = Object.fromEntries(QTR.map(r => [r[0], { pif:r[1], premium:r[2], exposure:r[3] }]));
+
+const LATEST = "2026-06";
+const PEAK   = "2023-09";
+
+// prefer = 'first' | 'last'. A bare year used as the START of a comparison
+// anchors to the beginning of that year; used alone or as an END, to its close.
+function nearestPif(key, prefer){
+  if (pifMap[key] !== undefined) return key;
+  if (/^\d{4}$/.test(key)) {
+    const inYear = PIF.filter(r => r[0].startsWith(key)).map(r => r[0]);
+    if (!inYear.length) return null;
+    return prefer === 'first' ? inYear[0] : inYear[inYear.length-1];
+  }
+  return null;
+}
+function nearestQtr(key, prefer){
+  if (qtrMap[key]) return key;
+  if (/^\d{4}$/.test(key)) {
+    const inYear = QTR.filter(r => r[0].startsWith(key)).map(r => r[0]);
+    if (!inYear.length) return null;
+    return prefer === 'first' ? inYear[0] : inYear[inYear.length-1];
+  }
+  const keys = QTR.map(r => r[0]).filter(k => k <= key);
+  return keys.length ? keys[keys.length-1] : null;
+}
+
+// ---------- parsing ----------
+function parseTimes(q){
+  const out = [];
+  // "june 2024"
+  const mRe = new RegExp('\\b(' + Object.keys(MONTHS).join('|') + ')\\s+(20\\d\\d)\\b','g');
+  let m;
+  while ((m = mRe.exec(q))) out.push(m[2] + '-' + String(MONTHS[m[1]]).padStart(2,'0'));
+  // bare years, excluding ones already consumed by a month match
+  const consumed = new Set(out.map(d => d.slice(0,4)));
+  const yRe = /\b(20[12]\d)\b/g;
+  while ((m = yRe.exec(q))) if (!consumed.has(m[1])) out.push(m[1]);
+  return out;
+}
+
+function parseMetric(q){
+  if (/\bprice per|per \$?1,?000|per thousand|unit of cover|unit price|cost of cover|rate per/.test(q))            return 'price';
+  if (/\bcombined ratio|profitab|underwrit|making money|losing money|insurer health|carrier health/.test(q))       return 'ratio';
+  if (/\bmarket share|share of the market|share of homeowners|how much of the market/.test(q))                    return 'share';
+  if (/\brate (change|cut|decrease|reduction|relief)|rates (fall|fell|drop|went down)|premium cut/.test(q))        return 'raterow';
+  if (/\bassessment|threshold|taxpayer|1-in-|claims-paying|capacity|on the hook|bail ?out/.test(q))                return 'threshold';
+  if (/\bdepopulat|take ?-?out|taken out|took out|moved out|removed from citizens|assumed|transferred to private|net.*gross|gross.*net/.test(q)) return 'depop';
+  if (/\baverage exposure per|exposure per polic|per policy/.test(q))                                              return 'avgexp';
+  if (/\bpremium|revenue|written/.test(q))                                                                         return 'premium';
+  if (/\bexposure|insured value|\btiv\b|liabilit|risk on the books|on the books|catastrophe risk/.test(q))        return 'exposure';
+  if (/\bpolic|\bpif\b|count|how many|how big|book of business|portfolio|customers|homeowners covered/.test(q))   return 'pif';
+  return null;
+}
+
+function parseOp(q){
+  if (/\bbiggest (drop|fall|decline|loss)|largest (drop|monthly|fall|decline)|worst month|biggest month|single worst/.test(q)) return 'largest';
+
+  // month-over-month change
+  if (/\bmonthly (change|numbers|trend|movement|drop|decline|growth|loss)/.test(q))                 return 'delta';
+  if (/\bmonth.?over.?month|month on month|month to month|per month|each month|by month|a month/.test(q)) return 'delta';
+  if (/\blast month|latest month|most recent month|this month|what happened/.test(q))                return 'delta';
+  if (/\bshrink|contract|losing|lose|gaining|growing|how fast/.test(q))                              return 'delta';
+  if (/\b(change|move|happen|gain|los[et])\w*\s+(in|during|for)\s/.test(q))                        return 'delta';
+
+  // the level, plotted over time
+  if (/\bover time|history|historical|time series|the trend|trend\b|chart|graph|plot|show me/.test(q)) return 'series';
+
+  if (/\bwhen did|what month|what date|when was/.test(q))                                            return 'when';
+  if (/\bpeak|highest|maximum|the most|all-?time high/.test(q))                                       return 'peak';
+  if (/\bchang|fallen|fell|drop|declin|reduc|since|compared|versus|\bvs\b|difference|how much less|from .* to /.test(q)) return 'change';
+  return 'value';
+}
+
+// ---------- graceful fallback: suggest the nearest answerable questions ----------
+const CANNED = [
+  { q:"What is Citizens' exposure?",                    kw:"exposure insured value risk tiv books catastrophe how much big" },
+  { q:"How many policies does Citizens have?",          kw:"policies many count number size book portfolio customers" },
+  { q:"What was the monthly change in policies?",       kw:"monthly month change trend movement shrink shrinking grow losing lose fast rate numbers happened last" },
+  { q:"Show me policies over time",                     kw:"over time history historical trend chart graph plot series show" },
+  { q:"What was the peak?",                             kw:"peak highest maximum most high top" },
+  { q:"How much has exposure fallen since 2023?",       kw:"fallen fell drop decline since reduced change compared exposure" },
+  { q:"What was the biggest monthly drop?",             kw:"biggest largest worst drop fall decline single month" },
+  { q:"How many policies were taken out in 2025?",      kw:"taken took out depopulation takeout assumed transferred private carriers" },
+  { q:"What is the price per $1,000 of coverage?",      kw:"price per thousand 1000 unit cost coverage cheaper expensive" },
+  { q:"What is the combined ratio?",                    kw:"combined ratio profit profitable insurer carrier making losing money health" },
+  { q:"What is the assessment threshold?",              kw:"assessment threshold taxpayer hook capacity bailout surcharge" },
+  { q:"What is Citizens' market share?",                kw:"market share percent of market largest insurer" },
+  { q:"What was the rate change for 2026?",             kw:"rate change cut decrease reduction relief premium lower" },
+];
+
+function suggest(q){
+  const words = q.toLowerCase().replace(/[^a-z0-9$ ]/g,' ').split(/\s+/).filter(w => w.length > 2);
+  const scored = CANNED.map(c => {
+    const bag = c.kw.split(' ');
+    let n = 0;
+    words.forEach(w => { if (bag.some(k => k.startsWith(w.slice(0,4)) || w.startsWith(k.slice(0,4)))) n++; });
+    return { q:c.q, n };
+  }).filter(x => x.n > 0).sort((a,b) => b.n - a.n);
+  return scored.slice(0,3).map(x => x.q);
+}
+
+// ---------- answer builders ----------
+const A = (headline, statement, calc, src, series, kind) => ({ ok:true, headline, statement, calc, src, series, kind });
+
+function valueOf(metric, dateKey, prefer){
+  if (metric === 'pif'){
+    const k = nearestPif(dateKey, prefer); if (!k) return null;
+    return { key:k, v:pifMap[k], fmt:fNum(pifMap[k]) + ' policies', src:SRC.pif };
+  }
+  const k = nearestQtr(dateKey, prefer); if (!k) return null;
+  const row = qtrMap[k];
+  if (metric === 'exposure') return { key:k, v:row.exposure, fmt:fUSD(row.exposure), src:SRC.detail };
+  if (metric === 'premium')  return { key:k, v:row.premium,  fmt:fUSD(row.premium),  src:SRC.detail };
+  if (metric === 'price'){
+    const p = row.premium / (row.exposure/1000);
+    return { key:k, v:p, fmt:'$' + p.toFixed(2) + ' per $1,000 of insured value', src:SRC.detail,
+             calc:`premium ${fUSD(row.premium)} / (exposure ${fUSD(row.exposure)} / 1,000) = $${p.toFixed(2)}` };
+  }
+  if (metric === 'avgexp'){
+    const a = row.exposure / row.pif;
+    return { key:k, v:a, fmt:'$' + fNum(a) + ' per policy', src:SRC.detail,
+             calc:`exposure ${fUSD(row.exposure)} / ${fNum(row.pif)} policies = $${fNum(a)}` };
+  }
+  return null;
+}
+
+const NAME = { pif:'Policies in force', exposure:'Total insured exposure', premium:'Premium in force',
+               price:'Price per $1,000 of insured value', avgexp:'Average exposure per policy' };
+
+function ask(question){
+  const q = (question||'').toLowerCase().trim();
+  if (!q) return { ok:false, msg:'Ask a question about the Florida data.', tips:CANNED.slice(0,3).map(c=>c.q) };
+
+  let   metric = parseMetric(q);
+  const op     = parseOp(q);
+  const times  = parseTimes(q);
+
+  // 'what was the peak', 'biggest monthly drop' imply policies in force
+  if (!metric && ['peak','largest','when','delta','series'].includes(op)) metric = 'pif';
+
+  // ---- static facts ----
+  if (metric === 'threshold')
+    return A('1-in-360', 'Citizens reports that its 2026 reinsurance program allows it to pay claims following a 1-in-360-year hurricane without levying assessments on Florida insurance consumers. At a 1-in-100-year event the probability of a policyholder surcharge or emergency assessment is eliminated.',
+      'Claims-paying ability, 2026 season:\n  Citizens surplus                    $5.34B\n  Florida Hurricane Catastrophe Fund  $1.44B\n  Private reinsurance                 $2.82B\n                                      ------\n  Total                               $9.60B\n\nModelled as of 31 Dec 2025, AIR Hurricane Model v2.0.0.\nThese are projections, not guarantees.', SRC.rt);
+
+  if (metric === 'share')
+    return A('1.93%', 'Citizens held 1.93 percent of Florida homeowners policies as of March 31, 2026, down from 8.81 percent in September 2025. Voluntary insurers held 98.07 percent. Figures exclude tenants and condominium unit owners.',
+      null, SRC.oir);
+
+  if (metric === 'raterow')
+    return A('-8.8%', 'Citizens reduced homeowners multiperil rates by an average of 8.8 percent for 2026. Wind-only policies fell 5.5 percent. Across all personal lines the approved statewide change was -5.9 percent.',
+      'The widely quoted -8.7% is the HO-3 multiperil statewide\naverage, not the all-lines figure. They are not\ninterchangeable.', SRC.rate);
+
+  if (metric === 'ratio'){
+    const yr = times.find(t => /^\d{4}$/.test(t));
+    const row = yr ? RATIO.find(r => String(r[0]) === yr) : RATIO[RATIO.length-1];
+    if (!row) return { ok:false, msg:'The combined ratio series covers 2020 to 2025.' };
+    return A(row[1] + '%',
+      `The pooled combined ratio for Florida domestic property insurers was ${row[1]} percent in ${row[0]}. Below 100 percent indicates an underwriting profit.`,
+      'Pooled combined ratio:\n' + RATIO.map(r => `  ${r[0]}   ${r[1]}%`).join('\n') +
+      '\n\nOIR computes this as a weighted average. This measures\ninsurer condition, not consumer cost.', SRC.oirpr,
+      RATIO.map(r => [String(r[0]), r[1]]));
+  }
+
+  if (metric === 'depop'){
+    const yr = times.find(t => /^\d{4}$/.test(t));
+    const row = yr ? DEPOP.find(d => d.period.startsWith(yr)) : DEPOP[DEPOP.length-1];
+    if (!row) return { ok:false, msg:'Depopulation figures run from 2023 to the first half of 2026.' };
+    return A(fNum(row.gross) + ' assumed',
+      `In ${row.period}, private carriers assumed ${fNum(row.gross)} policies from Citizens. The net reduction in Citizens was ${fNum(row.net)}, which is ${row.ratio.toFixed(1)} percent of the gross figure.` +
+      (row.net < 0 ? ' Citizens grew over the period despite the transfers.' : ''),
+      'Citizens publishes the outflow but not the inflow, so the\nresidual is solved:\n\n  implied_inflow = gross_assumed - (PIF_start - PIF_end)\n\n' +
+      DEPOP.map(d => `  ${d.period.padEnd(8)} gross ${String(fNum(d.gross)).padStart(8)}  net ${String(fNum(d.net)).padStart(8)}  ${d.ratio.toFixed(1)}%`).join('\n') +
+      '\n\nImplied inflow is not a count of policies returning to\nCitizens. It is new business net of other attrition.', SRC.depop,
+      DEPOP.map(d => [d.period, d.ratio]));
+  }
+
+  if (!metric) return { ok:false, msg:'I could not match that to a measure on the Ledger.', tips:suggest(q).length?suggest(q):CANNED.slice(0,4).map(c=>c.q) };
+
+
+
+  // ---- the level, plotted over time ----
+  if (op === 'series'){
+    if (metric === 'pif'){
+      return A(fNum(pifMap[LATEST]),
+        `Policies in force stand at ${fNum(pifMap[LATEST])} as of ${label(LATEST)}, against a peak of ${fNum(pifMap[PEAK])} in ${label(PEAK)} and ${fNum(PIF[0][1])} at the start of the record in ${label(PIF[0][0])}.`,
+        `Start   ${label(PIF[0][0])}   ${fNum(PIF[0][1])}\nPeak    ${label(PEAK)}   ${fNum(pifMap[PEAK])}\nLatest  ${label(LATEST)}   ${fNum(pifMap[LATEST])}\n\n75 monthly observations.`,
+        SRC.pif, PIF.map(r=>[r[0],r[1]]));
+    }
+    const v = valueOf(metric, LATEST);
+    if (v) return A(v.fmt, `${NAME[metric]} was ${v.fmt} at ${label(v.key)}. The series below runs from June 2022.`,
+      v.calc||null, v.src,
+      QTR.map(r=>[r[0], metric==='exposure'?r[3] : metric==='premium'?r[2] : metric==='avgexp'? r[3]/r[1] : r[2]/(r[3]/1000)]));
+  }
+
+  // ---- month-over-month change ----
+  if (op === 'delta'){
+    const deltas = [];
+    for (let i=1;i<PIF.length;i++) deltas.push([PIF[i][0], PIF[i][1]-PIF[i-1][1]]);
+    const dMap = Object.fromEntries(deltas);
+
+    const wanted = times.find(t => dMap[t] !== undefined);
+    const seasonNote =
+'Monthly change is strongly seasonal. Citizens grows or flattens\nthrough hurricane season, when depopulation pauses, then falls\nsharply in the autumn when takeouts resume. Four of the five\nlargest declines on record fall in October or November.';
+
+    if (wanted){
+      const v = dMap[wanted];
+      const i = PIF.findIndex(r => r[0] === wanted);
+      return A((v>0?'+':'') + fNum(v) + ' policies',
+        `Policies in force ${v<0?'fell':'rose'} by ${fNum(Math.abs(v))} in ${label(wanted)}, from ${fNum(PIF[i-1][1])} to ${fNum(PIF[i][1])}.`,
+        `${label(PIF[i-1][0])}   ${fNum(PIF[i-1][1])}\n${label(wanted)}   ${fNum(PIF[i][1])}\n${'-'.repeat(30)}\nchange       ${v>0?'+':''}${fNum(v)}\n\n` + seasonNote,
+        SRC.pif, deltas, 'bar');
+    }
+
+    const last = deltas[deltas.length-1];
+    const biggestFall = deltas.reduce((a,b)=> b[1] < a[1] ? b : a);
+    const biggestRise = deltas.reduce((a,b)=> b[1] > a[1] ? b : a);
+    const recent = deltas.slice(-6).map(d => `  ${d[0]}   ${(d[1]>0?'+':'') + fNum(d[1])}`).join('\n');
+
+    return A((last[1]>0?'+':'') + fNum(last[1]) + ' policies',
+      `Policies in force ${last[1]<0?'fell':'rose'} by ${fNum(Math.abs(last[1]))} in ${label(last[0])}, the most recent month published. Across the record the monthly change has run from ${fNum(biggestFall[1])} in ${label(biggestFall[0])} to +${fNum(biggestRise[1])} in ${label(biggestRise[0])}.`,
+      'Last six months:\n' + recent + '\n\n' + seasonNote,
+      SRC.pif, deltas, 'bar');
+  }
+
+  // ---- largest monthly move ----
+  if (op === 'largest'){
+    let best = null;
+    for (let i=1;i<PIF.length;i++){
+      const d = PIF[i][1] - PIF[i-1][1];
+      if (!best || d < best.d) best = { d, at:PIF[i][0], from:PIF[i-1][1], to:PIF[i][1] };
+    }
+    return A(fNum(best.d) + ' policies',
+      `The largest single-month decline on record was ${label(best.at)}, when policies in force fell by ${fNum(Math.abs(best.d))}, from ${fNum(best.from)} to ${fNum(best.to)}.`,
+      'Five largest monthly declines:\n' + PIF.slice(1).map((r,i)=>({d:r[1]-PIF[i][1],at:r[0]}))
+        .sort((a,b)=>a.d-b.d).slice(0,5).map(x=>`  ${x.at}   ${fNum(x.d)}`).join('\n') +
+      '\n\nThe largest drops cluster in October and November,\nwhen depopulation resumes after hurricane season.', SRC.pif);
+  }
+
+  // ---- peak ----
+  if (op === 'peak' || (op === 'when' && /peak|highest/.test(q))){
+    if (metric === 'pif')
+      return A(fNum(pifMap[PEAK]), `Policies in force peaked at ${fNum(pifMap[PEAK])} in ${label(PEAK)}. They now stand at ${fNum(pifMap[LATEST])}, a decline of ${((pifMap[PEAK]-pifMap[LATEST])/pifMap[PEAK]*100).toFixed(1)} percent.`,
+        null, SRC.pif, PIF.map(r=>[r[0],r[1]]));
+    const v = valueOf(metric, PEAK);
+    if (v) return A(v.fmt, `${NAME[metric]} peaked at ${v.fmt} in ${label(PEAK)}.`, v.calc||null, v.src);
+  }
+
+  // ---- change between two points ----
+  if (op === 'change'){
+    let from, to;
+    if (times.length >= 2){ from = times[0]; to = times[1]; }
+    else if (times.length === 1){ from = times[0]; to = LATEST; }
+    else { from = PEAK; to = LATEST; }
+    if (/peak/.test(q)) from = PEAK;
+
+    const a = valueOf(metric, from, 'first'), b = valueOf(metric, to, 'last');
+    if (!a || !b) return { ok:false, msg:'I could not find both dates in the series. It runs from April 2020 to June 2026.', tips:suggest(q) };
+    const diff = b.v - a.v, pct = (diff / a.v) * 100;
+    const isMoney = metric !== 'pif';
+    const dTxt = isMoney ? fUSD(Math.abs(diff)) : fNum(Math.abs(diff)) + ' policies';
+
+    return A(fPct(pct),
+      `${NAME[metric]} went from ${a.fmt} in ${label(a.key)} to ${b.fmt} in ${label(b.key)}, a ${diff<0?'decrease':'increase'} of ${dTxt}, or ${Math.abs(pct).toFixed(1)} percent.`,
+      `${label(a.key)}   ${a.fmt}\n${label(b.key)}   ${b.fmt}\n${'-'.repeat(34)}\nchange      ${diff<0?'-':'+'}${dTxt}\n\n${Math.abs(diff).toFixed(0)} / ${Math.abs(a.v).toFixed(0)} = ${Math.abs(pct).toFixed(1)}%`,
+      a.src,
+      metric === 'pif' ? PIF.map(r=>[r[0],r[1]]) : QTR.map(r=>[r[0], metric==='exposure'?r[3]:metric==='premium'?r[2]:r[2]/(r[3]/1000)]));
+  }
+
+  // ---- plain value ----
+  const key = times.length ? times[0] : LATEST;
+  const v = valueOf(metric, key);
+  if (!v) return { ok:false, msg:'That date is outside the series, which runs from April 2020 to June 2026.', tips:suggest(q) };
+  return A(v.fmt.split(' ')[0] === '$' ? v.fmt : v.fmt,
+    `${NAME[metric]} was ${v.fmt} at ${label(v.key)}.` + (v.key !== key && /^\d{4}$/.test(key) ? ` That is the last observation held for ${key}.` : ''),
+    v.calc || null, v.src,
+    metric === 'pif' ? PIF.map(r=>[r[0],r[1]]) : null);
+}
+
+if (typeof module !== 'undefined') module.exports = { ask };
+
+return { ask: ask };
+})();
+
+/* ---- ask box wiring ---- */
+(function(){
+  var inp=document.getElementById('askq'), btn=document.getElementById('askgo'), out=document.getElementById('askout');
+  if(!inp||!btn||!out) return;
+  function esc(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  var box=document.getElementById('askbox');
+  function clear(){
+    out.hidden=true; out.innerHTML='';
+    if(box) box.classList.remove('answered');
+    inp.value=''; inp.focus();
+  }
+  function render(r){
+    out.hidden=false;
+    if(box) box.classList.add('answered');
+    if(!r||!r.ok){
+      var h='<button class="ask-close" id="askx" title="Clear (Esc)" aria-label="Clear answer">&times;</button>'
+        +'<div class="ask-miss">'+esc((r&&r.msg)||'That question could not be matched to a measure on this page.')+'</div>';
+      if(r&&r.tips&&r.tips.length){
+        h+='<div class="ask-tips">'+r.tips.map(function(t){
+          return '<button class="chip" data-q="'+esc(t)+'">'+esc(t)+'</button>';}).join('')+'</div>';
+      }
+      out.innerHTML=h; return;
+    }
+    var h='<button class="ask-close" id="askx" title="Clear (Esc)" aria-label="Clear answer">&times;</button>'
+      +'<div class="ask-head">'+esc(r.headline)+'</div><div class="ask-stmt">'+esc(r.statement)+'</div>';
+    if(r.calc) h+='<div class="ask-calc">'+esc(r.calc)+'</div>';
+    if(r.src)  h+='<div class="ask-src">Source: '+(r.src.url
+        ? '<a href="'+r.src.url+'" target="_blank" rel="noopener">'+esc(r.src.name||r.src.url)+'</a>'
+        : esc(r.src.name||r.src))+'</div>';
+    h+='<div class="ask-again">Press Esc, or use the button above, to clear this and ask something else.</div>';
+    out.innerHTML=h;
+  }
+  function go(q){ if(q) inp.value=q; render(FIWAsk.ask(inp.value)); }
+  btn.addEventListener('click',function(){go();});
+  inp.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();go();} });
+  document.addEventListener('click',function(e){
+    var c=e.target.closest?e.target.closest('.chip'):null;
+    if(c&&c.dataset.q){ go(c.dataset.q); return; }
+    if(e.target&&e.target.id==='askx'){ clear(); return; }
+    if(e.target&&e.target.id==='askreopen'){ if(box) box.classList.remove('answered'); }
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'&&!out.hidden) clear();
+  });
+})();
+</script>
+</body></html>

@@ -3,191 +3,168 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pioneer DataLabs</title>
-<meta name="description" content="Ask a question about Boston, Massachusetts, all 50 states, or Florida. Every answer cites its source.">
+<title>Pioneer DataLabs — Numbers that show their work</title>
+<meta name="description" content="Ask about Boston, Massachusetts, any of the fifty states, or Florida. Every answer cites its primary source.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#FFFFFF; --ink:#0F1B2A; --sub:#5B6674; --line:#E8EAEE; --line2:#D5D9E0;
-    --navy:#1F3A5F; --gold:#B08428; --gold-bg:#FAF5E8;
-    --live:#177245; --live-bg:#EAF5EF; --band:#F7F8FA;
+    --ink:#14181D; --grey:#66707A; --faint:#9AA2AA; --rule:#E4E6E9; --rule-dk:#14181D;
+    --navy:#1F3A5F; --gold:#A87B1F; --wash:#F7F7F5;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior:smooth; scroll-padding-top:70px; }
-  body { background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+  html { scroll-behavior:smooth; scroll-padding-top:64px; }
+  body { background:#fff; color:var(--ink); font-family:'Public Sans',system-ui,sans-serif;
     font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
-  button { font-family:inherit; cursor:pointer; }
+  button { font-family:inherit; cursor:pointer; background:none; border:none; }
   a { color:inherit; text-decoration:none; }
-  input:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
+  a:hover { color:var(--navy); }
+  input:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+  .mono { font-family:'IBM Plex Mono',monospace; }
+  .frame { max-width:960px; margin:0 auto; padding:0 24px; }
 
-  .nav { position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(8px);
-    border-bottom:1px solid var(--line); }
-  .nav-in { max-width:1060px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
-  .wm { font-weight:800; font-size:16px; letter-spacing:-.01em; }
-  .wm span { color:var(--gold); font-weight:600; }
-  .nav-links { display:flex; gap:26px; font-size:13.5px; font-weight:500; color:var(--sub); }
-  .nav-links a:hover { color:var(--ink); }
+  /* ---------- masthead ---------- */
+  .top { border-bottom:1px solid var(--rule); position:sticky; top:0; background:rgba(255,255,255,.96); backdrop-filter:blur(6px); z-index:40; }
+  .top .frame { display:flex; align-items:baseline; justify-content:space-between; padding-top:16px; padding-bottom:14px; }
+  .wm { font-family:'Newsreader',serif; font-size:19px; font-weight:600; letter-spacing:-.01em; }
+  .wm em { font-style:italic; font-weight:400; color:var(--grey); }
+  .topnav { display:flex; gap:24px; font-size:13px; font-weight:500; color:var(--grey); }
+  @media (max-width:560px){ .topnav{ display:none; } }
 
-  .hero { max-width:760px; margin:0 auto; padding:84px 24px 30px; text-align:center; }
-  .hero .eyebrow { display:inline-block; font-size:11.5px; font-weight:600; letter-spacing:.12em;
-    text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
-  .hero h1 { font-size:clamp(32px,5.4vw,52px); font-weight:800; letter-spacing:-.03em; line-height:1.06; }
-  .hero .dek { color:var(--sub); font-size:17px; margin:18px auto 36px; max-width:520px; }
-  .ask { display:flex; background:#fff; border:1px solid var(--line2); border-radius:12px;
-    box-shadow:0 1px 2px rgba(15,27,42,.05), 0 8px 28px rgba(15,27,42,.07); overflow:hidden; }
-  .ask input { flex:1; border:none; outline:none; font-family:inherit; font-size:16px;
-    padding:17px 20px; min-width:0; color:var(--ink); }
-  .ask input::placeholder { color:#9AA3AE; }
-  .ask button { border:none; background:var(--ink); color:#fff; font-size:14.5px; font-weight:600; padding:0 26px; }
-  .ask button:hover { background:var(--navy); }
-  .ask button:disabled { background:#98A2B0; cursor:wait; }
-  .samples { margin-top:16px; font-size:13.5px; color:var(--sub); display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:center; }
-  .samples a { border-bottom:1px solid var(--line2); padding-bottom:1px; }
-  .samples a:hover { color:var(--ink); border-color:var(--gold); }
-  .hero .fine { margin-top:26px; font-size:12px; color:#9AA3AE; }
+  /* ---------- hero ---------- */
+  .hero { padding:88px 0 22px; }
+  .hero .place { font-size:12.5px; letter-spacing:.02em; color:var(--faint); margin-bottom:24px; }
+  .hero h1 { font-family:'Newsreader',serif; font-weight:500; font-size:clamp(38px,6.6vw,64px);
+    line-height:1.02; letter-spacing:-.02em; max-width:760px; }
+  .hero .dek { margin-top:20px; font-size:16.5px; color:var(--grey); max-width:560px; }
 
-  /* response */
-  .resp { max-width:760px; margin:0 auto; padding:0 24px; }
-  .card { border:1px solid var(--line); border-radius:12px; background:#fff; padding:22px 24px;
-    box-shadow:0 1px 2px rgba(15,27,42,.04); animation:up .3s ease both; margin-top:8px; }
-  @keyframes up { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
-  .card .k { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
-  .card .t { font-size:16.5px; line-height:1.6; }
-  .chartwrap { margin-top:16px; border:1px solid var(--line); border-radius:8px; padding:14px 14px 10px; background:var(--band); }
-  .chartwrap .ch { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--sub); margin-bottom:8px; }
-  .chartwrap svg { width:100%; height:auto; display:block; }
-  .more { display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:13.5px; font-weight:600; color:var(--navy); }
-  .more:hover { color:var(--gold); }
-  .pills { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
-  .pill { font-size:11px; font-weight:500; border:1px solid var(--line); border-radius:6px; padding:3px 9px; color:var(--sub); background:var(--band); }
-  .pill.g { border-color:#E3D3A8; background:var(--gold-bg); color:#7A5C13; }
-  .fups { margin-top:14px; font-size:13px; color:var(--sub); }
-  .fups a { margin-right:16px; border-bottom:1px solid var(--line2); }
-  .fups a:hover { color:var(--ink); border-color:var(--gold); }
-  .routecard { display:flex; align-items:center; gap:16px; }
-  .routecard .rid { font-size:11px; font-weight:700; color:var(--navy); background:var(--band);
-    border:1px solid var(--line); border-radius:6px; padding:4px 8px; }
-  .routecard h4 { font-size:15px; font-weight:700; }
-  .routecard .why { font-size:13px; color:var(--sub); }
-  .routecard .open { margin-left:auto; font-size:13px; font-weight:600; color:var(--navy); white-space:nowrap; }
-  .dashlinks { margin-top:12px; display:flex; flex-direction:column; gap:8px; }
-  .dashlink { display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:8px;
-    padding:10px 14px; font-size:13.5px; font-weight:600; color:var(--navy); background:var(--band); }
-  .dashlink:hover { border-color:var(--gold); color:var(--gold); }
-  .dashlink .site { font-size:9.5px; font-weight:700; color:var(--sub); background:#fff; border:1px solid var(--line); border-radius:4px; padding:1px 6px; }
-  .none { border:1px dashed var(--line2); border-radius:12px; padding:18px 20px; font-size:14px; color:var(--sub); margin-top:8px; }
-  .none b { color:var(--ink); }
-  .load { text-align:center; color:var(--sub); font-size:14px; padding:14px 0; }
+  /* the ask line — the signature */
+  .askline { margin-top:42px; border-bottom:1px solid var(--ink); display:flex; align-items:flex-end; gap:14px; padding-bottom:10px; max-width:720px; }
+  .askline .pre { font-family:'IBM Plex Mono',monospace; font-size:13px; color:var(--gold); padding-bottom:5px; letter-spacing:.06em; }
+  .askline input { flex:1; border:none; outline:none; font-family:'Newsreader',serif;
+    font-size:clamp(19px,2.6vw,24px); color:var(--ink); background:transparent; min-width:0; padding:2px 0; }
+  .askline input::placeholder { color:#B9BFC6; }
+  .askline button { font-size:14px; font-weight:600; color:var(--navy); padding-bottom:4px; white-space:nowrap; }
+  .askline button:hover { color:var(--ink); }
+  .askline button:disabled { color:var(--faint); cursor:wait; }
+  .tryline { margin-top:14px; font-size:13px; color:var(--grey); max-width:760px; }
+  .tryline a { border-bottom:1px solid var(--rule); padding-bottom:1px; margin-right:16px; }
+  .tryline a:hover { border-color:var(--gold); color:var(--ink); }
+  .credo { margin-top:26px; font-size:12.5px; color:var(--faint); }
 
-  .sec { max-width:1060px; margin:0 auto; padding:64px 24px 0; }
-  .sec-head { margin-bottom:26px; }
-  .sec-head .sk { font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); }
-  .sec-head h2 { font-size:26px; font-weight:800; letter-spacing:-.02em; margin-top:6px; }
-  .sec-head p { color:var(--sub); font-size:14.5px; margin-top:6px; max-width:640px; }
+  /* ---------- response ---------- */
+  .resp { padding-top:8px; }
+  .entry { max-width:720px; border-top:1px solid var(--rule-dk); margin-top:28px; padding-top:16px; animation:up .3s ease both; }
+  @keyframes up { from{opacity:0; transform:translateY(5px)} to{opacity:1; transform:none} }
+  .entry .k { font-size:12px; font-weight:600; color:var(--faint); margin-bottom:10px; }
+  .entry .ans { font-family:'Newsreader',serif; font-size:clamp(18px,2.4vw,22px); line-height:1.45; }
+  .figure { margin-top:22px; padding:0; border:none; border-bottom:1px solid var(--rule); padding-bottom:14px; }
+  .figure .cap { font-size:12px; font-weight:600; color:var(--grey); margin-bottom:12px; }
+  .figure svg { width:100%; height:auto; display:block; }
+  .srcline { margin-top:12px; font-size:12px; color:var(--faint); line-height:1.7; }
+  .srcline b { color:var(--grey); font-weight:600; }
+  .goline { margin-top:14px; font-size:14px; font-weight:600; }
+  .goline a { color:var(--navy); }
+  .goline a:hover { color:var(--ink); text-decoration:underline; }
+  .fups { margin-top:16px; font-size:13px; color:var(--grey); }
+  .fups a { border-bottom:1px solid var(--rule); margin-right:16px; }
+  .fups a:hover { border-color:var(--gold); color:var(--ink); }
+  .routes .rt { border:none; border-top:1px solid var(--rule); padding:13px 0; }
+  .routes .rt:first-child { border-top:none; padding-top:2px; }
+  .routes .rt .name { font-weight:700; font-size:14.5px; }
+  .routes .rt .why { font-size:13px; color:var(--grey); margin-top:2px; }
+  .dashlinks { margin-top:10px; display:flex; flex-direction:column; gap:6px; }
+  .dashlink { font-size:13.5px; font-weight:600; color:var(--navy); }
+  .dashlink .site { font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--grey); margin-right:8px; }
+  .dashlink:hover { color:var(--gold); }
+  .noans { max-width:720px; border-top:1px solid var(--rule-dk); margin-top:28px; padding-top:14px; font-size:14px; color:var(--grey); }
+  .noans b { color:var(--ink); }
+  .load { max-width:720px; margin-top:24px; font-size:13px; color:var(--faint); }
 
-  /* AI tier */
-  .ai-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
-  .ai-card { border:1px solid var(--line2); border-radius:14px; padding:24px; background:
-    linear-gradient(180deg,#FFFFFF, var(--band)); box-shadow:0 1px 2px rgba(15,27,42,.04); position:relative; }
-  .ai-card .badge { position:absolute; top:18px; right:18px; font-size:10.5px; font-weight:700;
-    letter-spacing:.08em; color:#7A5C13; background:var(--gold-bg); border:1px solid #E3D3A8;
-    border-radius:999px; padding:4px 10px; }
-  .ai-card .rid { font-size:11px; font-weight:700; color:var(--navy); }
-  .ai-card h3 { font-size:18px; font-weight:800; letter-spacing:-.01em; margin:6px 0 6px; }
-  .ai-card p { font-size:13.5px; color:var(--sub); }
-  .ai-card .go { display:inline-flex; margin-top:16px; font-size:13.5px; font-weight:700; color:var(--navy); }
-  .ai-card .go:hover { color:var(--gold); }
-  .ai-card.coming { opacity:.75; }
-  .ai-card.coming .badge { color:var(--sub); background:var(--band); border-color:var(--line2); }
+  /* ---------- sections ---------- */
+  .sec { padding-top:84px; }
+  .sec .lab { font-size:12px; font-weight:600; color:var(--faint); }
+  .sec h2 { font-family:'Newsreader',serif; font-weight:500; font-size:clamp(24px,3.6vw,34px); letter-spacing:-.015em; margin-top:8px; }
+  .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
-  /* flagship grid */
-  .fgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
-  .fcard { border:1px solid var(--line); border-radius:12px; padding:18px 20px; background:#fff; display:flex; flex-direction:column; }
-  .fcard .top { display:flex; justify-content:space-between; align-items:baseline; }
-  .fcard .rid { font-size:11px; font-weight:700; color:var(--navy); }
-  .st { font-size:10.5px; font-weight:700; letter-spacing:.05em; border-radius:6px; padding:3px 8px; }
-  .st.live { color:var(--live); background:var(--live-bg); }
-  .st.build { color:#7A5C13; background:var(--gold-bg); }
-  .fcard h3 { font-size:15.5px; font-weight:700; margin:8px 0 4px; }
-  .fcard p { font-size:13px; color:var(--sub); flex:1; }
-  .fcard .foot { margin-top:14px; display:flex; align-items:center; gap:6px; }
-  .geo { font-size:10px; font-weight:600; color:var(--sub); background:var(--band); border:1px solid var(--line); border-radius:5px; padding:2px 7px; }
-  .fcard .open { margin-left:auto; font-size:12.5px; font-weight:700; color:var(--navy); }
-  .fcard .open.soon { color:#9AA3AE; font-weight:500; }
+  /* direct answers */
+  .desk { margin-top:26px; border-top:1px solid var(--rule-dk); padding:18px 0 4px; display:grid;
+    grid-template-columns:1fr auto; gap:8px 30px; align-items:start; max-width:720px; }
+  .desk .id { font-size:11.5px; font-weight:600; color:var(--faint); }
+  .desk h3 { font-family:'Newsreader',serif; font-size:24px; font-weight:600; margin-top:4px; }
+  .desk p { margin-top:6px; font-size:14.5px; color:var(--grey); max-width:520px; }
+  .desk .open { grid-row:span 3; align-self:center; font-size:14px; font-weight:600; color:var(--navy); white-space:nowrap; }
+  .desk .open:hover { text-decoration:underline; }
+  .desk .live { font-size:12px; color:var(--faint); margin-top:8px; }
+  .desk .live i { display:none; }
 
   /* directory */
-  .dir details { border:1px solid var(--line); border-radius:10px; margin-bottom:10px; background:#fff; }
-  .dir summary { list-style:none; cursor:pointer; padding:14px 18px; display:flex; align-items:baseline; gap:12px; font-weight:600; font-size:14px; }
+  .dir { margin-top:26px; max-width:960px; }
+  .dir details { border-top:1px solid var(--rule); }
+  .dir details:last-child { border-bottom:1px solid var(--rule); }
+  .dir summary { list-style:none; cursor:pointer; padding:15px 2px; display:flex; align-items:baseline; gap:14px; }
   .dir summary::-webkit-details-marker { display:none; }
-  .dir summary .rid { font-size:11px; font-weight:700; color:var(--navy); }
-  .dir summary .n { margin-left:auto; font-size:12px; font-weight:500; color:var(--sub); }
-  .dir summary .car { color:var(--gold); transition:transform .15s; }
-  .dir details[open] .car { transform:rotate(90deg); }
-  .dir ul { list-style:none; border-top:1px solid var(--line); padding:6px 18px 12px; columns:2; column-gap:40px; }
-  .dir li { padding:6px 0; font-size:13px; break-inside:avoid; display:flex; gap:8px; align-items:baseline; }
-  .dir li .site { font-size:9.5px; font-weight:700; color:var(--sub); background:var(--band); border-radius:4px; padding:1px 6px; }
+  .dir summary .rid { font-size:11px; font-weight:600; color:var(--faint); }
+  .dir summary .name { font-weight:600; font-size:15px; }
+  .dir summary .n { margin-left:auto; font-size:12px; color:var(--faint); }
+  .dir summary:hover .name { color:var(--navy); }
+  .dir ul { list-style:none; padding:2px 0 16px 0; columns:2; column-gap:48px; }
+  .dir li { padding:5px 0; font-size:13.5px; break-inside:avoid; }
+  .dir li .site { font-size:10px; color:var(--faint); margin-right:8px; }
   .dir li a { color:var(--navy); }
   .dir li a:hover { color:var(--gold); }
-  @media (max-width:640px){ .dir ul { columns:1; } .nav-links { display:none; } }
+  @media (max-width:640px){ .dir ul { columns:1; } }
 
-  footer { margin-top:70px; border-top:1px solid var(--line); }
-  .foot-in { max-width:1060px; margin:0 auto; padding:26px 24px 40px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--sub); }
+  footer { margin-top:96px; border-top:1px solid var(--rule); }
+  footer .frame { padding:20px 24px 44px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap;
+    font-size:12px; color:var(--faint); }
 </style>
 </head>
 <body>
 
-<nav class="nav"><div class="nav-in">
-  <div class="wm">Pioneer <span>DataLabs</span></div>
-  <div class="nav-links">
-    <a href="#ask">Ask</a><a href="#ai">Ask the Data</a><a href="#directory">Dashboard Directory</a>
-  </div>
-</div></nav>
+<header class="top"><div class="frame">
+  <div class="wm">Pioneer <em>DataLabs</em></div>
+  <nav class="topnav"><a href="#ask">Ask</a><a href="#answers">Direct answers</a><a href="#directory">Directory</a></nav>
+</div></header>
 
 <main>
-  <section class="hero" id="ask">
-    <span class="eyebrow">Boston · Massachusetts · All 50 States · Florida</span>
-    <h1>Ask a question.<br>Get a sourced answer.</h1>
-    <p class="dek">Public data from city hall to all fifty statehouses. Every figure traces to a primary source.</p>
-    <div class="ask">
+  <section class="hero frame" id="ask">
+    <div class="place">Boston · Massachusetts · The fifty states · Florida</div>
+    <h1>From city hall to all fifty states, ask a question.</h1>
+    <p class="dek">Public money, schools, taxes, transit. Every answer cites its primary source.</p>
+    <div class="askline">
       <input id="q" type="text" placeholder="Is the T back to pre-pandemic ridership?" aria-label="Ask a question" maxlength="400">
       <button id="askBtn" type="button">Ask</button>
     </div>
-    <div class="samples">
+    <div class="tryline">
       <a href="#" data-q="Is commuter rail back to 2019 levels?">Is commuter rail back to 2019?</a>
       <a href="#" data-q="What does a subway trip cost to provide?">What does a subway trip cost?</a>
       <a href="#" data-q="Is my town safe?">Is my town safe?</a>
       <a href="#" data-q="Which states tax wealth?">Which states tax wealth?</a>
     </div>
-    <div class="fine">Answers cite their source and vintage. Questions we cannot answer are logged and shape what Pioneer builds next.</div>
+    <div class="credo">Questions we cannot answer are logged and inform what we build next.</div>
   </section>
 
-  <div class="resp" id="resp" aria-live="polite"></div>
+  <div class="resp frame" id="resp" aria-live="polite"></div>
 
-  <section class="sec" id="ai">
-    <div class="sec-head">
-      <span class="sk">Ask the Data</span>
-      <h2>Tools that answer in plain English</h2>
-      <p>These tools carry an AI answer layer chained to verified data: it can only cite figures from the register-linked dataset, and it declines what it cannot source.</p>
-    </div>
-    <div class="ai-grid" id="aiGrid"></div>
+  <section class="sec frame" id="answers">
+    <div class="lab">Direct answers</div>
+    <h2>Transportation and the MBTA</h2>
+    <p class="sub">One tool currently answers questions directly. Its answers draw only from verified data, cite their source, and decline what they cannot support. Additional tools will follow as their data is verified.</p>
+    <div id="deskList"></div>
   </section>
 
-
-
-  <section class="sec dir" id="directory">
-    <div class="sec-head">
-      <span class="sk">All Dashboards</span>
-      <h2>Complete dashboard directory</h2>
-      <p>Every working DataLabs dashboard, grouped by topic. Ask a question above and we will point you to the right one.</p>
-    </div>
-    <div id="dirList"></div>
+  <section class="sec frame dir-sec" id="directory">
+    <div class="lab">Directory</div>
+    <h2>All dashboards, by topic</h2>
+    <p class="sub">One hundred working dashboards covering Boston, Massachusetts, the fifty states, and Florida.</p>
+    <div class="dir" id="dirList"></div>
   </section>
 </main>
 
-<footer><div class="foot-in">
-  <span>Pioneer Institute · DataLabs</span>
+<footer><div class="frame">
+  <span>Pioneer Institute, Boston</span>
   <span>Report an error: datalabs@pioneerinstitute.org</span>
 </div></footer>
 
@@ -198,32 +175,32 @@ const DL12 = DATA.answers;
 const TOOLMAP = Object.fromEntries(CATALOG.map(t=>[t.id,t]));
 function esc(s){const d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
 
-/* ---------- AI tier ---------- */
-document.getElementById('aiGrid').innerHTML =
-  CATALOG.filter(t=>t.ai).map(t =>
-    '<div class="ai-card"><span class="badge">ASK AI · LIVE</span>' +
-    '<div class="rid">'+t.id+'</div><h3>'+esc(t.t)+'</h3><p>'+esc(t.q)+'</p>' +
-    '<a class="go" href="'+esc(t.url)+'">Open and ask &#8594;</a></div>').join('');
-
+/* ---------- Direct answers ---------- */
+document.getElementById('deskList').innerHTML = CATALOG.filter(t=>t.ai).map(t =>
+  '<div class="desk"><div><span class="id">'+t.id+'</span>' +
+  '<h3>'+esc(t.t)+'</h3>' +
+  '<p>Ridership by mode since 2014, recovery against 2019, and what every trip costs to provide. Ask in your own words.</p>' +
+  '<div class="live">Live. Data through March 2026.</div></div>' +
+  '<a class="open" href="'+esc(t.url)+'">Open &#8594;</a></div>').join('');
 
 /* ---------- Directory ---------- */
 document.getElementById('dirList').innerHTML = CATALOG.filter(t=>t.legacy.length || (t.st==='live'&&t.url&&t.url!=='#'&&!t.ai)).map(t => {
   const extra = (t.st==='live' && t.url && t.url!=='#' && !t.ai)
-    ? '<li><span class="site">NEW</span><a href="'+esc(t.url)+'" target="_blank" rel="noopener">'+esc(t.t)+' (flagship)</a></li>' : '';
+    ? '<li><span class="site">NEW</span><a href="'+esc(t.url)+'" target="_blank" rel="noopener">'+esc(t.t)+'</a></li>' : '';
   const n = t.legacy.length + (extra?1:0);
-  return '<details id="dir-'+t.id+'"><summary><span class="car">&#9656;</span><span class="rid">'+t.id+'</span>' +
-  esc(t.t)+'<span class="n">'+n+' dashboard'+(n===1?'':'s')+'</span></summary>' +
+  return '<details id="dir-'+t.id+'"><summary><span class="rid">'+t.id+'</span>' +
+  '<span class="name">'+esc(t.t)+'</span><span class="n">'+n+'</span></summary>' +
   '<ul>'+extra+t.legacy.map(l =>
     '<li><span class="site">'+esc(l.s)+'</span><a href="'+esc(l.u)+'" target="_blank" rel="noopener">'+esc(l.t)+'</a></li>'
   ).join('')+'</ul></details>';
 }).join('');
 
-/* ---------- Chart library (AI selects; numbers come only from DL12) ---------- */
+/* ---------- Chart library (numbers come only from the data file) ---------- */
 const CHART_TITLES = {
   monthly_trend:'MBTA monthly ridership, all modes',
-  recovery_by_mode:'Recovery vs same month 2019, by mode',
+  recovery_by_mode:'Recovery vs. same month 2019, by mode',
   cost_per_trip:'Operating cost per trip, by mode',
-  farebox:'Share of cost covered by fares, by mode'
+  farebox:'Share of cost covered by fares'
 };
 function chartSVG(kind, hot){
   if(!DL12) return '';
@@ -232,10 +209,10 @@ function chartSVG(kind, hot){
     const max=Math.max(...sr.map(d=>d.v));
     const x=i=>pl+i*((W-pl-pr)/(sr.length-1)),y=v=>pt+(1-v/max)*(H-pt-pb);
     let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    [10e6,20e6,30e6].forEach(v=>{if(v<max)g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#E8EAEE"/><text x="2" y="'+(y(v)+4)+'" font-size="9" fill="#9AA3AE">'+(v/1e6)+'M</text>';});
+    [10e6,20e6,30e6].forEach(v=>{if(v<max)g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">'+(v/1e6)+'M</text>';});
     g+='<polyline fill="none" stroke="#1F3A5F" stroke-width="2" points="'+sr.map((d,i)=>x(i)+','+y(d.v)).join(' ')+'"/>';
-    g+='<circle cx="'+x(sr.length-1)+'" cy="'+y(sr[sr.length-1].v)+'" r="3.5" fill="#B08428"/>';
-    sr.forEach((d,i)=>{if(d.m.endsWith('-01')&&parseInt(d.m)%2===0)g+='<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" fill="#9AA3AE">'+d.m.slice(0,4)+'</text>';});
+    g+='<circle cx="'+x(sr.length-1)+'" cy="'+y(sr[sr.length-1].v)+'" r="3.5" fill="#A87B1F"/>';
+    sr.forEach((d,i)=>{if(d.m.endsWith('-01')&&parseInt(d.m)%2===0)g+='<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">'+d.m.slice(0,4)+'</text>';});
     return g+'</svg>';
   }
   if(kind==='recovery_by_mode'){
@@ -246,12 +223,12 @@ function chartSVG(kind, hot){
     order.forEach((m,i)=>{
       const v=rec[m],yy=3+i*rh,w=(Math.min(v,115)/115)*(W-265);
       const h=m===hot,full=v>=100;
-      g+='<text x="0" y="'+(yy+13)+'" font-size="11" fill="#0F1B2A" font-weight="'+(h?'700':'400')+'">'+DL12.mode_names[m].split(' (')[0]+'</text>';
-      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" rx="2" fill="'+(h?'#B08428':(full?'#177245':'#1F3A5F'))+'"/>';
-      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" fill="#5B6674">'+v+'%</text>';
+      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Public Sans" fill="#14181D" font-weight="'+(h?'700':'400')+'">'+DL12.mode_names[m].split(' (')[0]+'</text>';
+      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#A87B1F':(full?'#177245':'#1F3A5F'))+'"/>';
+      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" font-family="IBM Plex Mono" fill="#66707A">'+v+'%</text>';
     });
     const rx=155+(100/115)*(W-265);
-    g+='<line x1="'+rx+'" y1="0" x2="'+rx+'" y2="'+H+'" stroke="#B08428" stroke-dasharray="3,3"/>';
+    g+='<line x1="'+rx+'" y1="0" x2="'+rx+'" y2="'+H+'" stroke="#A87B1F" stroke-dasharray="3,3"/>';
     return g+'</svg>';
   }
   if(kind==='cost_per_trip'||kind==='farebox'){
@@ -264,9 +241,9 @@ function chartSVG(kind, hot){
     rows.forEach((r,i)=>{
       const yy=3+i*rh,w=(r[key]/max)*(W-275);
       const h=hot&&DL12.mode_names[hot]&&DL12.mode_names[hot].indexOf(r.mode)===0;
-      g+='<text x="0" y="'+(yy+13)+'" font-size="11" fill="#0F1B2A" font-weight="'+(h?'700':'400')+'">'+r.mode+'</text>';
-      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" rx="2" fill="'+(h?'#B08428':'#1F3A5F')+'" opacity="0.92"/>';
-      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" fill="#5B6674">'+(kind==='cost_per_trip'?'$'+r[key].toFixed(2):r[key]+'%')+'</text>';
+      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Public Sans" fill="#14181D" font-weight="'+(h?'700':'400')+'">'+r.mode+'</text>';
+      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#A87B1F':'#1F3A5F')+'" opacity="0.92"/>';
+      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" font-family="IBM Plex Mono" fill="#66707A">'+(kind==='cost_per_trip'?'$'+r[key].toFixed(2):r[key]+'%')+'</text>';
     });
     return g+'</svg>';
   }
@@ -286,22 +263,21 @@ async function ask(){
     const p=await r.json();
     if(p.type==='answer'){
       const kind=p.chart&&p.chart!=='none'?p.chart:null;
-      resp.innerHTML='<div class="card"><div class="k">Answered from DataLabs sources</div>' +
-        '<div class="t">'+esc(p.text)+'</div>' +
-        (kind?'<div class="chartwrap"><div class="ch">'+esc(CHART_TITLES[kind]||'')+'</div>'+
-          chartSVG(kind,p.highlight||null)+'</div>' +
-          '<a class="more" href="/dl-12/#view-'+kind+'">Full analysis: charts, story, and every source &#8594;</a>':'' ) +
-        '<div class="pills"><span class="pill g">Source: LEG-MBTA-01</span>' +
-        '<span class="pill">Through Mar 2026</span><span class="pill">Prototype, pending verification</span></div>' +
-        (p.followups&&p.followups.length?'<div class="fups">Also answerable: '+
+      resp.innerHTML='<div class="entry"><div class="k">Answer</div>' +
+        '<div class="ans">'+esc(p.text)+'</div>' +
+        (kind?'<div class="figure"><div class="cap">'+esc(CHART_TITLES[kind]||'')+'</div>'+
+          chartSVG(kind,p.highlight||null)+'</div>':'') +
+        '<div class="srcline"><b>Source:</b> LEG-MBTA-01, through March 2026. Prototype, pending verification.</div>' +
+        (kind?'<div class="goline"><a href="/dl-12/#view-'+kind+'">The full picture: charts, story, and every source &#8594;</a></div>':'') +
+        (p.followups&&p.followups.length?'<div class="fups">Related: '+
           p.followups.map(f=>'<a href="#" data-q="'+esc(f)+'">'+esc(f)+'</a>').join('')+'</div>':'') +
         '</div>';
       resp.querySelectorAll('.fups a').forEach(a=>a.addEventListener('click',e=>{
         e.preventDefault(); document.getElementById('q').value=a.dataset.q; ask();}));
     } else if(p.type==='route'&&p.matches&&p.matches.length){
-      resp.innerHTML=p.matches.map(m=>{
+      resp.innerHTML='<div class="entry"><div class="k">Where to find this</div><div class="routes">' +
+        p.matches.map(m=>{
         const t=TOOLMAP[m.id]; if(!t) return '';
-        // Resolve the engine's picked dashboard titles to their real links (forgiving match)
         const norm = x => String(x).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
         let links=[];
         (m.dashboards||[]).forEach(name=>{
@@ -311,10 +287,9 @@ async function ask(){
           if(hit&&hit.u&&hit.u!=='#'&&!links.includes(hit)) links.push(hit);
         });
         if(!links.length && t.st==='live' && t.url && t.url!=='#'){
-          links.push({t:t.t+' (flagship)', u:t.url, s:'NEW'});
+          links.push({t:t.t, u:t.url, s:'NEW'});
         }
         if(!links.length && (t.legacy||[]).length){
-          // Score dashboard titles against the question words; synonyms for common civic terms
           const SYN={safe:'crime',safety:'crime',cops:'crime',police:'crime',
                      cost:'spending',pay:'payroll',salary:'payroll',salaries:'payroll',
                      kids:'education',schools:'education',school:'education',
@@ -324,29 +299,28 @@ async function ask(){
             const hay=norm(l.t);
             return {l, s: words.reduce((a,w)=>a+(hay.includes(w)?1:0),0)};
           }).sort((a,b)=>b.s-a.s);
-          links = (scored[0]&&scored[0].s>0 ? scored.filter(x=>x.s>0).slice(0,2)
-                                            : scored.slice(0,2)).map(x=>x.l);
+          links=(scored[0]&&scored[0].s>0?scored.filter(x=>x.s>0).slice(0,2):scored.slice(0,2)).map(x=>x.l);
         }
         const linkRows = links.length
           ? links.map(l=>'<a class="dashlink" href="'+esc(l.u)+'" target="_blank" rel="noopener">' +
               '<span class="site">'+esc(l.s)+'</span>'+esc(l.t)+' &#8594;</a>').join('')
           : '<a class="dashlink" href="#dir-'+t.id+'">Browse this topic in the directory &#8594;</a>';
-        return '<div class="card"><div class="routecard"><span class="rid">'+t.id+'</span>' +
-          '<span><h4>'+esc(t.t)+'</h4><span class="why">'+esc(m.reason||t.q)+'</span></span></div>' +
+        return '<div class="rt"><div class="name">'+esc(t.t)+'</div>' +
+          '<div class="why">'+esc(m.reason||t.q)+'</div>' +
           '<div class="dashlinks">'+linkRows+'</div></div>';
-      }).join('');
+      }).join('')+'</div></div>';
     } else {
-      resp.innerHTML='<div class="none"><b>DataLabs does not cover this yet.</b> ' +
-        esc(p.note||p.error||'Nothing in the catalog answers that.') +
-        ' Your question was logged; the log shapes what Pioneer builds next.</div>';
+      resp.innerHTML='<div class="noans"><b>We do not cover this yet.</b> ' +
+        esc(p.note||p.error||'Nothing we publish answers that.') +
+        ' Your question has been logged and will inform what we build next.</div>';
     }
   }catch(err){
-    resp.innerHTML='<div class="none"><b>The engine hit a snag.</b> Confirm the Netlify function is deployed and the API key is set, then try again.</div>';
+    resp.innerHTML='<div class="noans"><b>Something went wrong.</b> Try again in a moment. Every dashboard below works regardless.</div>';
   }finally{ b.disabled=false; }
 }
 document.getElementById('askBtn').addEventListener('click',ask);
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});
-document.querySelectorAll('.samples a').forEach(a=>a.addEventListener('click',e=>{
+document.querySelectorAll('.tryline a').forEach(a=>a.addEventListener('click',e=>{
   e.preventDefault(); document.getElementById('q').value=a.dataset.q; ask();}));
 </script>
 </body>

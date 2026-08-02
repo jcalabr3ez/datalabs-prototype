@@ -228,25 +228,24 @@
 </div></footer>
 
 <script>
-const TOOLS = [
-  { id:'DL-01', t:'Public Pension Ledger', q:'What state and teacher retirees collect, and fund performance.', g:['MA'], st:'build', tgt:'Oct 2026' },
-  { id:'DL-02', t:'State Payroll & Checkbook', q:'State payroll and vendor payments, agency by agency.', g:['MA'], st:'build', tgt:'Dec 2026' },
-  { id:'DL-03', t:'State Revenue & Budget Monitor', q:'Collections, spending growth, rainy day funds, 62F.', g:['MA','US'], st:'build', tgt:'Dec 2026' },
-  { id:'DL-04', t:'Tax & Migration Atlas', q:'State tax codes compared; where taxpayers move.', g:['US'], st:'live', tgt:'' },
-  { id:'DL-05', t:'K-12 Achievement & Accountability', q:'Student performance by district, charter, and state.', g:['MA','US'], st:'build', tgt:'Nov 2026' },
-  { id:'DL-06', t:'School Finance Explorer', q:'Per-pupil spending by district, line by line.', g:['MA','US'], st:'build', tgt:'Dec 2026' },
-  { id:'DL-07', t:'Higher Education Monitor', q:'Admissions, enrollment, and public higher-ed cost.', g:['US'], st:'build', tgt:'Q1 2027' },
-  { id:'DL-08', t:'State Competitiveness Monitor', q:'Jobs, wages, business formation, cost of living.', g:['US'], st:'build', tgt:'Q1 2027' },
-  { id:'DL-09', t:'Housing Monitor', q:'Permits, production, and prices by state.', g:['US','FL'], st:'build', tgt:'Q1 2027' },
-  { id:'DL-10', t:'Florida Risk Ledger', q:'Homeowners insurance costs, county by county.', g:['FL'], st:'live', tgt:'' },
-  { id:'DL-11', t:'Your City & Town', q:'Taxes, crime, schools, peers: 351 towns plus Boston.', g:['MA','BOS'], st:'build', tgt:'Nov 2026' },
-  { id:'DL-12', t:'Transportation & MBTA', q:'T performance vs peer systems nationwide. AI answers live.', g:['MA','US'], st:'live', tgt:'Pilot' },
-  { id:'DL-13', t:'Healthcare & 340B', q:'Hospital pricing, charity care, 340B growth.', g:['MA','US'], st:'build', tgt:'Q1 2027' }
-];
+let TOOLS = [];
+async function boot(){
+  try {
+    const r = await fetch('catalog.json');
+    TOOLS = await r.json();
+  } catch(e) {
+    document.getElementById('grid').innerHTML =
+      '<div style="padding:14px;color:#8C2F1B;border:1px solid var(--line)">catalog.json failed to load. Check it exists at the repo root and is valid JSON.</div>';
+    return;
+  }
+  renderAll();
+}
 const GLBL = { US:'50 STATES', MA:'MASS', BOS:'BOSTON', FL:'FLA' };
 const GCLS = { US:'us', MA:'ma', BOS:'bos', FL:'fl' };
 function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
 
+function renderAll(){
+TOOLS.forEach(t=>TOOLMAP[t.id]=t);
 /* tiles */
 document.getElementById('grid').innerHTML = TOOLS.map(t =>
   '<div class="tile" data-g="'+t.g.join(' ')+'">' +
@@ -275,12 +274,13 @@ document.getElementById('geoblocks').innerHTML = GEOS.map(([g,name])=>{
   '</ul></div>';
 }).join('');
 
+}
 /* tabs */
 document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
   document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));
   document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on', p.id==='p-'+b.dataset.p));
 }));
-const TOOLMAP = Object.fromEntries(TOOLS.map(t=>[t.id,t]));
+const TOOLMAP = {};
 const resp = document.getElementById('resp');
 async function ask(){
   const q = document.getElementById('q').value.trim();
@@ -331,6 +331,7 @@ document.querySelectorAll('.samples a').forEach(a=>a.addEventListener('click',e=
   document.getElementById('q').value = a.dataset.q;
   ask();
 }));
+boot();
 </script>
 </body>
 </html>

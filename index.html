@@ -4,334 +4,336 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pioneer DataLabs</title>
+<meta name="description" content="Ask a question about Boston, Massachusetts, all 50 states, or Florida. Every answer cites its source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#FFFFFF; --ink:#1A2A3A; --muted:#5A6875; --line:#C9CFD6;
-    --navy:#1F3A5F; --navy-dk:#16293F; --gold:#B08428; --band:#F4F5F7;
-    --live:#2E6B4F; --live-bg:#EAF2ED; --build:#8A6A1F; --build-bg:#F6F0DF;
-    --us:#EDF1F6; --us-t:#33506E; --ma:#F6F0DF; --ma-t:#6E5312;
-    --bos:#EFEAF4; --bos-t:#5A4470; --fl:#EAF2ED; --fl-t:#2E6B4F;
+    --bg:#FFFFFF; --ink:#0F1B2A; --sub:#5B6674; --line:#E8EAEE; --line2:#D5D9E0;
+    --navy:#1F3A5F; --gold:#B08428; --gold-bg:#FAF5E8;
+    --live:#177245; --live-bg:#EAF5EF; --band:#F7F8FA;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { background:var(--bg); color:var(--ink);
-    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size:14px; line-height:1.45; }
+  html { scroll-behavior:smooth; scroll-padding-top:70px; }
+  body { background:var(--bg); color:var(--ink); font-family:'Inter',system-ui,sans-serif;
+    font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
   button { font-family:inherit; cursor:pointer; }
-  a { color:var(--navy); text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  input:focus-visible, button:focus-visible { outline:2px solid var(--gold); outline-offset:1px; }
+  a { color:inherit; text-decoration:none; }
+  input:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline:2px solid var(--gold); outline-offset:2px; }
 
-  /* ---------- Report-style header block ---------- */
-  .hdr { background:var(--navy-dk); color:#fff; }
-  .hdr-in { max-width:1120px; margin:0 auto; padding:22px 28px 18px; }
-  .hdr .org { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#B9C4D0; margin-bottom:4px; }
-  .hdr h1 { font-size:26px; font-weight:700; letter-spacing:-.01em; }
-  .hdr h1 span { color:var(--gold); font-weight:400; }
-  .hdr .cover { margin-top:6px; font-size:12.5px; color:#B9C4D0; }
-  .hdr .cover b { color:#fff; font-weight:600; }
+  .nav { position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line); }
+  .nav-in { max-width:1060px; margin:0 auto; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; gap:16px; }
+  .wm { font-weight:800; font-size:16px; letter-spacing:-.01em; }
+  .wm span { color:var(--gold); font-weight:600; }
+  .nav-links { display:flex; gap:26px; font-size:13.5px; font-weight:500; color:var(--sub); }
+  .nav-links a:hover { color:var(--ink); }
 
-  /* ---------- Tab bar ---------- */
-  .tabs { background:var(--navy); }
-  .tabs-in { max-width:1120px; margin:0 auto; padding:0 28px; display:flex; gap:2px; overflow-x:auto; }
-  .tab { border:none; background:transparent; color:#C6D0DB; font-size:13px; font-weight:600;
-    padding:11px 18px 10px; border-bottom:3px solid transparent; white-space:nowrap; }
-  .tab:hover { color:#fff; }
-  .tab.on { color:#fff; border-bottom-color:var(--gold); background:rgba(255,255,255,.06); }
+  .hero { max-width:760px; margin:0 auto; padding:84px 24px 30px; text-align:center; }
+  .hero .eyebrow { display:inline-block; font-size:11.5px; font-weight:600; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
+  .hero h1 { font-size:clamp(32px,5.4vw,52px); font-weight:800; letter-spacing:-.03em; line-height:1.06; }
+  .hero .dek { color:var(--sub); font-size:17px; margin:18px auto 36px; max-width:520px; }
+  .ask { display:flex; background:#fff; border:1px solid var(--line2); border-radius:12px;
+    box-shadow:0 1px 2px rgba(15,27,42,.05), 0 8px 28px rgba(15,27,42,.07); overflow:hidden; }
+  .ask input { flex:1; border:none; outline:none; font-family:inherit; font-size:16px;
+    padding:17px 20px; min-width:0; color:var(--ink); }
+  .ask input::placeholder { color:#9AA3AE; }
+  .ask button { border:none; background:var(--ink); color:#fff; font-size:14.5px; font-weight:600; padding:0 26px; }
+  .ask button:hover { background:var(--navy); }
+  .ask button:disabled { background:#98A2B0; cursor:wait; }
+  .samples { margin-top:16px; font-size:13.5px; color:var(--sub); display:flex; flex-wrap:wrap; gap:6px 18px; justify-content:center; }
+  .samples a { border-bottom:1px solid var(--line2); padding-bottom:1px; }
+  .samples a:hover { color:var(--ink); border-color:var(--gold); }
+  .hero .fine { margin-top:26px; font-size:12px; color:#9AA3AE; }
 
-  .wrap { max-width:1120px; margin:0 auto; padding:0 28px 40px; }
-  .pane { display:none; }
-  .pane.on { display:block; }
+  /* response */
+  .resp { max-width:760px; margin:0 auto; padding:0 24px; }
+  .card { border:1px solid var(--line); border-radius:12px; background:#fff; padding:22px 24px;
+    box-shadow:0 1px 2px rgba(15,27,42,.04); animation:up .3s ease both; margin-top:8px; }
+  @keyframes up { from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+  .card .k { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); margin-bottom:10px; }
+  .card .t { font-size:16.5px; line-height:1.6; }
+  .chartwrap { margin-top:16px; border:1px solid var(--line); border-radius:8px; padding:14px 14px 10px; background:var(--band); }
+  .chartwrap .ch { font-size:11px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--sub); margin-bottom:8px; }
+  .chartwrap svg { width:100%; height:auto; display:block; }
+  .more { display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:13.5px; font-weight:600; color:var(--navy); }
+  .more:hover { color:var(--gold); }
+  .pills { margin-top:14px; display:flex; gap:8px; flex-wrap:wrap; }
+  .pill { font-size:11px; font-weight:500; border:1px solid var(--line); border-radius:6px; padding:3px 9px; color:var(--sub); background:var(--band); }
+  .pill.g { border-color:#E3D3A8; background:var(--gold-bg); color:#7A5C13; }
+  .fups { margin-top:14px; font-size:13px; color:var(--sub); }
+  .fups a { margin-right:16px; border-bottom:1px solid var(--line2); }
+  .fups a:hover { color:var(--ink); border-color:var(--gold); }
+  .routecard { display:flex; align-items:center; gap:16px; }
+  .routecard .rid { font-size:11px; font-weight:700; color:var(--navy); background:var(--band);
+    border:1px solid var(--line); border-radius:6px; padding:4px 8px; }
+  .routecard h4 { font-size:15px; font-weight:700; }
+  .routecard .why { font-size:13px; color:var(--sub); }
+  .routecard .open { margin-left:auto; font-size:13px; font-weight:600; color:var(--navy); white-space:nowrap; }
+  .dashlinks { margin-top:12px; display:flex; flex-direction:column; gap:8px; }
+  .dashlink { display:flex; align-items:center; gap:10px; border:1px solid var(--line); border-radius:8px;
+    padding:10px 14px; font-size:13.5px; font-weight:600; color:var(--navy); background:var(--band); }
+  .dashlink:hover { border-color:var(--gold); color:var(--gold); }
+  .dashlink .site { font-size:9.5px; font-weight:700; color:var(--sub); background:#fff; border:1px solid var(--line); border-radius:4px; padding:1px 6px; }
+  .none { border:1px dashed var(--line2); border-radius:12px; padding:18px 20px; font-size:14px; color:var(--sub); margin-top:8px; }
+  .none b { color:var(--ink); }
+  .load { text-align:center; color:var(--sub); font-size:14px; padding:14px 0; }
 
-  /* ---------- ASK pane ---------- */
-  .askband { background:var(--band); border:1px solid var(--line); margin-top:22px; padding:20px 22px 18px; }
-  .askband .lbl { font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:9px; font-weight:600; }
-  .askrow { display:flex; }
-  .askrow input { flex:1; border:1px solid var(--line); border-right:none; font-size:15px;
-    padding:11px 13px; font-family:inherit; color:var(--ink); background:#fff; min-width:0; }
-  .askrow button { border:1px solid var(--navy); background:var(--navy); color:#fff;
-    font-size:14px; font-weight:600; padding:0 22px; }
-  .askrow button:hover { background:var(--navy-dk); }
-  .samples { margin-top:12px; font-size:12.5px; color:var(--muted); }
-  .samples b { font-weight:600; color:var(--ink); }
-  .samples a { margin-right:14px; }
-  .asknote { margin-top:14px; padding-top:12px; border-top:1px solid var(--line);
-    font-size:12px; color:var(--muted); }
+  .sec { max-width:1060px; margin:0 auto; padding:64px 24px 0; }
+  .sec-head { margin-bottom:26px; }
+  .sec-head .sk { font-size:11.5px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); }
+  .sec-head h2 { font-size:26px; font-weight:800; letter-spacing:-.02em; margin-top:6px; }
+  .sec-head p { color:var(--sub); font-size:14.5px; margin-top:6px; max-width:640px; }
 
-  #resp .ansbox { margin-top:14px; border:1px solid var(--line); border-left:4px solid var(--gold); background:#fff; padding:14px 16px; }
-  #resp .ansbox .k { font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); font-weight:700; margin-bottom:6px; }
-  #resp .ansbox .t { font-size:14.5px; line-height:1.5; }
-  #resp .pills { margin-top:9px; display:flex; gap:6px; flex-wrap:wrap; }
-  #resp .pill { font-size:10.5px; border:1px solid var(--line); background:var(--band); padding:2px 7px; color:var(--muted); }
-  #resp .pill.g { border-color:var(--gold); background:var(--ma); color:var(--ma-t); }
-  #resp .rrow { margin-top:10px; border:1px solid var(--line); background:#fff; padding:11px 14px; display:grid; grid-template-columns:56px 1fr auto; gap:12px; align-items:center; }
-  #resp .rrow .id { font-size:11px; font-weight:700; color:var(--navy); }
-  #resp .rrow h4 { font-size:13.5px; }
-  #resp .rrow .why { font-size:12px; color:var(--muted); }
-  #resp .fups { margin-top:10px; font-size:12.5px; }
-  #resp .fups a { margin-right:14px; }
-  #resp .none { margin-top:14px; border:1px dashed var(--line); background:#fff; padding:13px 16px; font-size:13px; color:var(--muted); }
-  #resp .none b { color:var(--ink); }
-  #resp .load { margin-top:12px; font-size:13px; color:var(--muted); }
-  .statrow { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:0;
-    border:1px solid var(--line); border-top:none; }
-  .stat { padding:13px 18px; border-right:1px solid var(--line); }
-  .stat:last-child { border-right:none; }
-  .stat .n { font-size:22px; font-weight:700; color:var(--navy); }
-  .stat .t { font-size:11.5px; color:var(--muted); margin-top:1px; }
+  /* AI tier */
+  .ai-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:16px; }
+  .ai-card { border:1px solid var(--line2); border-radius:14px; padding:24px; background:
+    linear-gradient(180deg,#FFFFFF, var(--band)); box-shadow:0 1px 2px rgba(15,27,42,.04); position:relative; }
+  .ai-card .badge { position:absolute; top:18px; right:18px; font-size:10.5px; font-weight:700;
+    letter-spacing:.08em; color:#7A5C13; background:var(--gold-bg); border:1px solid #E3D3A8;
+    border-radius:999px; padding:4px 10px; }
+  .ai-card .rid { font-size:11px; font-weight:700; color:var(--navy); }
+  .ai-card h3 { font-size:18px; font-weight:800; letter-spacing:-.01em; margin:6px 0 6px; }
+  .ai-card p { font-size:13.5px; color:var(--sub); }
+  .ai-card .go { display:inline-flex; margin-top:16px; font-size:13.5px; font-weight:700; color:var(--navy); }
+  .ai-card .go:hover { color:var(--gold); }
+  .ai-card.coming { opacity:.75; }
+  .ai-card.coming .badge { color:var(--sub); background:var(--band); border-color:var(--line2); }
 
-  /* ---------- TOOLS pane: tile grid like the state tiles ---------- */
-  .toolbar { margin-top:20px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-  .toolbar .lbl { font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); font-weight:600; }
-  .gf { border:1px solid var(--line); background:#fff; font-size:12px; font-weight:600;
-    padding:5px 12px; color:var(--muted); }
-  .gf.on { background:var(--navy); border-color:var(--navy); color:#fff; }
-  .grid { margin-top:14px; display:grid; grid-template-columns:repeat(auto-fill,minmax(255px,1fr)); gap:12px; }
-  .tile { border:1px solid var(--line); background:#fff; padding:0; display:flex; flex-direction:column; }
-  .tile.hide { display:none; }
-  .tile .top { background:var(--band); border-bottom:1px solid var(--line);
-    padding:8px 13px; display:flex; justify-content:space-between; align-items:center; }
-  .tile .id { font-size:11px; font-weight:700; color:var(--navy); letter-spacing:.04em; }
-  .tile .st { font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; padding:2px 7px; }
+  /* flagship grid */
+  .fgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+  .fcard { border:1px solid var(--line); border-radius:12px; padding:18px 20px; background:#fff; display:flex; flex-direction:column; }
+  .fcard .top { display:flex; justify-content:space-between; align-items:baseline; }
+  .fcard .rid { font-size:11px; font-weight:700; color:var(--navy); }
+  .st { font-size:10.5px; font-weight:700; letter-spacing:.05em; border-radius:6px; padding:3px 8px; }
   .st.live { color:var(--live); background:var(--live-bg); }
-  .st.build { color:var(--build); background:var(--build-bg); }
-  .tile .body { padding:11px 13px 12px; flex:1; }
-  .tile h3 { font-size:14.5px; font-weight:700; margin-bottom:4px; }
-  .tile .q { font-size:12.5px; color:var(--muted); }
-  .tile .foot { border-top:1px solid var(--line); padding:7px 13px;
-    display:flex; justify-content:space-between; align-items:center; }
-  .geos { display:flex; gap:4px; }
-  .geo { font-size:9.5px; font-weight:700; letter-spacing:.04em; padding:2px 6px; }
-  .geo.us { background:var(--us); color:var(--us-t); }
-  .geo.ma { background:var(--ma); color:var(--ma-t); }
-  .geo.bos { background:var(--bos); color:var(--bos-t); }
-  .geo.fl { background:var(--fl); color:var(--fl-t); }
-  .tile .open { font-size:12px; font-weight:700; }
-  .tile .open.soon { color:var(--muted); font-weight:400; }
+  .st.build { color:#7A5C13; background:var(--gold-bg); }
+  .fcard h3 { font-size:15.5px; font-weight:700; margin:8px 0 4px; }
+  .fcard p { font-size:13px; color:var(--sub); flex:1; }
+  .fcard .foot { margin-top:14px; display:flex; align-items:center; gap:6px; }
+  .geo { font-size:10px; font-weight:600; color:var(--sub); background:var(--band); border:1px solid var(--line); border-radius:5px; padding:2px 7px; }
+  .fcard .open { margin-left:auto; font-size:12.5px; font-weight:700; color:var(--navy); }
+  .fcard .open.soon { color:#9AA3AE; font-weight:500; }
 
-  /* ---------- BY GEOGRAPHY pane ---------- */
-  .geoblocks { margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
-  .gblock { border:1px solid var(--line); }
-  .gblock .gh { padding:10px 14px; border-bottom:1px solid var(--line); font-weight:700; font-size:13px;
-    display:flex; justify-content:space-between; align-items:baseline; }
-  .gblock .gh small { font-weight:400; font-size:11px; color:var(--muted); }
-  .gblock ul { list-style:none; padding:6px 0; }
-  .gblock li { padding:6px 14px; font-size:12.5px; border-bottom:1px solid #EEF0F2; }
-  .gblock li:last-child { border-bottom:none; }
-  .gblock li b { font-weight:600; color:var(--navy); margin-right:6px; font-size:11px; }
-  .gblock li .soon { color:var(--muted); font-size:11px; }
+  /* directory */
+  .dir details { border:1px solid var(--line); border-radius:10px; margin-bottom:10px; background:#fff; }
+  .dir summary { list-style:none; cursor:pointer; padding:14px 18px; display:flex; align-items:baseline; gap:12px; font-weight:600; font-size:14px; }
+  .dir summary::-webkit-details-marker { display:none; }
+  .dir summary .rid { font-size:11px; font-weight:700; color:var(--navy); }
+  .dir summary .n { margin-left:auto; font-size:12px; font-weight:500; color:var(--sub); }
+  .dir summary .car { color:var(--gold); transition:transform .15s; }
+  .dir details[open] .car { transform:rotate(90deg); }
+  .dir ul { list-style:none; border-top:1px solid var(--line); padding:6px 18px 12px; columns:2; column-gap:40px; }
+  .dir li { padding:6px 0; font-size:13px; break-inside:avoid; display:flex; gap:8px; align-items:baseline; }
+  .dir li .site { font-size:9.5px; font-weight:700; color:var(--sub); background:var(--band); border-radius:4px; padding:1px 6px; }
+  .dir li a { color:var(--navy); }
+  .dir li a:hover { color:var(--gold); }
+  @media (max-width:640px){ .dir ul { columns:1; } .nav-links { display:none; } }
 
-  /* ---------- SOURCES pane: the register ---------- */
-  .regwrap { margin-top:20px; overflow-x:auto; }
-  table.reg { width:100%; border-collapse:collapse; font-size:12.5px; min-width:760px; }
-  table.reg th { background:var(--navy); color:#fff; text-align:left; font-size:11px;
-    letter-spacing:.06em; text-transform:uppercase; padding:8px 11px; font-weight:600; }
-  table.reg td { border:1px solid var(--line); padding:7px 11px; vertical-align:top; }
-  table.reg tr:nth-child(even) td { background:var(--band); }
-  .regnote { margin-top:10px; font-size:12px; color:var(--muted); }
-
-  .pane h2.sec { margin-top:22px; font-size:15px; font-weight:700; border-bottom:2px solid var(--navy);
-    padding-bottom:6px; }
-  .pane p.lead { margin-top:10px; font-size:13px; color:var(--muted); max-width:760px; }
-
-  .ftr { border-top:1px solid var(--line); margin-top:8px; }
-  .ftr-in { max-width:1120px; margin:0 auto; padding:14px 28px 26px; font-size:11.5px; color:var(--muted);
-    display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  footer { margin-top:70px; border-top:1px solid var(--line); }
+  .foot-in { max-width:1060px; margin:0 auto; padding:26px 24px 40px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; font-size:12.5px; color:var(--sub); }
 </style>
 </head>
 <body>
 
-<header class="hdr"><div class="hdr-in">
-  <div class="org">Pioneer Institute</div>
-  <h1>DataLabs <span>| Public Data, Sourced</span></h1>
-  <div class="cover">Coverage: <b>Boston</b> · <b>Massachusetts</b> (351 municipalities) · <b>All 50 states + DC</b> · <b>Florida</b> &nbsp;|&nbsp; 13 tools consolidated from 120 dashboards &nbsp;|&nbsp; Updated Aug 2026</div>
-</div></header>
-
-<nav class="tabs"><div class="tabs-in">
-  <button class="tab on" data-p="ask">Ask</button>
-  <button class="tab" data-p="tools">All Tools</button>
-  <button class="tab" data-p="geo">By Geography</button>
-  <button class="tab" data-p="src">Sources &amp; Methods</button>
+<nav class="nav"><div class="nav-in">
+  <div class="wm">Pioneer <span>DataLabs</span></div>
+  <div class="nav-links">
+    <a href="#ask">Ask</a><a href="#ai">Ask the Data</a><a href="#directory">Dashboard Directory</a>
+  </div>
 </div></nav>
 
-<div class="wrap">
-
-  <!-- ============ ASK ============ -->
-  <section class="pane on" id="p-ask">
-    <div class="askband">
-      <div class="lbl">Ask a question</div>
-      <div class="askrow">
-        <input id="q" type="text" placeholder="Compare Massachusetts and Florida on jobs since 2020" aria-label="Ask a question">
-        <button type="button">Ask</button>
-      </div>
-      <div class="samples">
-        <b>Examples:</b>
-        <a href="#" data-q="Which states tax wealth?">Which states tax wealth? [50 states]</a>
-        <a href="#" data-q="Is my town safe?">Is my town safe? [MA]</a>
-        <a href="#" data-q="What does Boston spend per resident?">Boston spending per resident [Boston]</a>
-        <a href="#" data-q="Why did my homeowners insurance go up?">Why did my insurance go up? [FL]</a>
-      </div>
-      <div class="asknote">Answers cite their source and vintage. Questions outside current coverage are declined and logged; the log shapes what Pioneer builds next. AI answering is live on Transportation &amp; MBTA (pilot); other tools route to the relevant dashboard.</div>
+<main>
+  <section class="hero" id="ask">
+    <span class="eyebrow">Boston · Massachusetts · All 50 States · Florida</span>
+    <h1>Ask a question.<br>Get a sourced answer.</h1>
+    <p class="dek">Public data from city hall to all fifty statehouses. Every figure traces to a primary source.</p>
+    <div class="ask">
+      <input id="q" type="text" placeholder="Is the T back to pre-pandemic ridership?" aria-label="Ask a question" maxlength="400">
+      <button id="askBtn" type="button">Ask</button>
     </div>
-    <div id="resp"></div>
-    <div class="statrow">
-      <div class="stat"><div class="n">13</div><div class="t">Data tools</div></div>
-      <div class="stat"><div class="n">51</div><div class="t">States + DC covered</div></div>
-      <div class="stat"><div class="n">351</div><div class="t">MA cities and towns</div></div>
-      <div class="stat"><div class="n">100%</div><div class="t">Of figures traced to a register row</div></div>
+    <div class="samples">
+      <a href="#" data-q="Is commuter rail back to 2019 levels?">Is commuter rail back to 2019?</a>
+      <a href="#" data-q="What does a subway trip cost to provide?">What does a subway trip cost?</a>
+      <a href="#" data-q="Is my town safe?">Is my town safe?</a>
+      <a href="#" data-q="Which states tax wealth?">Which states tax wealth?</a>
     </div>
+    <div class="fine">Answers cite their source and vintage. Questions we cannot answer are logged and shape what Pioneer builds next.</div>
   </section>
 
-  <!-- ============ ALL TOOLS ============ -->
-  <section class="pane" id="p-tools">
-    <div class="toolbar">
-      <span class="lbl">Filter by geography</span>
-      <button class="gf on" data-g="ALL">All</button>
-      <button class="gf" data-g="US">50 States</button>
-      <button class="gf" data-g="MA">Massachusetts</button>
-      <button class="gf" data-g="BOS">Boston</button>
-      <button class="gf" data-g="FL">Florida</button>
+  <div class="resp" id="resp" aria-live="polite"></div>
+
+  <section class="sec" id="ai">
+    <div class="sec-head">
+      <span class="sk">Ask the Data</span>
+      <h2>Tools that answer in plain English</h2>
+      <p>These tools carry an AI answer layer chained to verified data: it can only cite figures from the register-linked dataset, and it declines what it cannot source.</p>
     </div>
-    <div class="grid" id="grid"></div>
+    <div class="ai-grid" id="aiGrid"></div>
   </section>
 
-  <!-- ============ BY GEOGRAPHY ============ -->
-  <section class="pane" id="p-geo">
-    <h2 class="sec">Tools by geography</h2>
-    <p class="lead">The former MA DataLabs, US DataLabs, and Boston DataLabs sites now share this front door. Every tool is listed under each geography it covers.</p>
-    <div class="geoblocks" id="geoblocks"></div>
-  </section>
 
-  <!-- ============ SOURCES ============ -->
-  <section class="pane" id="p-src">
-    <h2 class="sec">Sources and methods</h2>
-    <p class="lead">Every figure on every DataLabs tool traces to a register row identifying the primary source, vintage, and verification. The platform-level register below covers the live tools; each tool carries its own full register.</p>
-    <div class="regwrap">
-      <table class="reg">
-        <thead><tr><th>Source</th><th>Publisher Cadence</th><th>What It Supports</th><th>Data Vintage</th><th>Next Release</th></tr></thead>
-        <tbody>
-          <tr><td>State Tax Atlas register (47 sources: statutes, DOR publications, ballot filings)</td><td>Varies; reviewed post-session</td><td>Tax &amp; Migration Atlas (DL-04)</td><td>2026 provisions</td><td>Continuous review</td></tr>
-          <tr><td>FTA National Transit Database, monthly module</td><td>Monthly, 2 to 3 month lag</td><td>Transportation &amp; MBTA (DL-12) ridership and service</td><td>Through Mar 2026 (pending reconciliation)</td><td>Monthly</td></tr>
-          <tr><td>FTA NTD annual agency data</td><td>Annual</td><td>DL-12 cost per trip and farebox recovery</td><td>Year TBC at reconciliation</td><td>Annual</td></tr>
-          <tr><td>FLOIR filings and takeout data</td><td>Quarterly and event-driven</td><td>Florida Risk Ledger (DL-10)</td><td>Through 2026 filings</td><td>Quarterly</td></tr>
-          <tr><td>Legacy DataLabs extracts (recovered)</td><td>One-time recovery</td><td>Reconciliation baseline for all rebuilt tools</td><td>As of each workbook's last refresh</td><td>Superseded at each rebuild</td></tr>
-        </tbody>
-      </table>
+
+  <section class="sec dir" id="directory">
+    <div class="sec-head">
+      <span class="sk">All Dashboards</span>
+      <h2>Complete dashboard directory</h2>
+      <p>Every working DataLabs dashboard, grouped by topic. Ask a question above and we will point you to the right one.</p>
     </div>
-    <p class="regnote">In-build tools (marked in All Tools) publish their registers at launch. Register format: source_id, primary URL, archived copy, pinpoint, vintage, verified date, verifier.</p>
+    <div id="dirList"></div>
   </section>
+</main>
 
-</div>
-
-<footer class="ftr"><div class="ftr-in">
-  <span>Pioneer Institute · 185 Devonshire Street, Boston (placeholder) · datalabs@pioneerinstitute.org</span>
-  <span>Front door mockup · Aug 2, 2026</span>
+<footer><div class="foot-in">
+  <span>Pioneer Institute · DataLabs</span>
+  <span>Report an error: datalabs@pioneerinstitute.org</span>
 </div></footer>
 
 <script>
-let TOOLS = [];
-async function boot(){
-  try {
-    const r = await fetch('catalog.json');
-    TOOLS = await r.json();
-  } catch(e) {
-    document.getElementById('grid').innerHTML =
-      '<div style="padding:14px;color:#8C2F1B;border:1px solid var(--line)">catalog.json failed to load. Check it exists at the repo root and is valid JSON.</div>';
-    return;
-  }
-  renderAll();
-}
-const GLBL = { US:'50 STATES', MA:'MASS', BOS:'BOSTON', FL:'FLA' };
-const GCLS = { US:'us', MA:'ma', BOS:'bos', FL:'fl' };
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+const DATA = {"catalog": [{"id": "DL-01", "t": "Public Pension Ledger", "q": "What state and teacher retirees collect, and how the funds perform.", "g": ["MA"], "st": "build", "tgt": "Oct 2026", "legacy": [{"t": "Overview", "s": "MA", "u": "https://madatalabs.org/pensions/pensions-x"}, {"t": "Performance", "s": "MA", "u": "https://madatalabs.org/pensions/pensions-performance"}, {"t": "Public Pensions", "s": "US", "u": "https://usdatalabs.org/Government/public-pensions"}, {"t": "State & Teacher Retirees", "s": "MA", "u": "https://madatalabs.org/pensions/state-and-teacher-retirees"}]}, {"id": "DL-02", "t": "State Payroll & Checkbook", "q": "State payroll and vendor payments, agency by agency.", "g": ["MA"], "st": "build", "tgt": "Dec 2026", "legacy": [{"t": "Financial Transparency", "s": "US", "u": "https://usdatalabs.org/Government/financial-transparency"}, {"t": "Payroll State Agencies", "s": "MA", "u": "https://madatalabs.org/state-government/payroll-state-agencies"}, {"t": "Payroll-Higher Education", "s": "MA", "u": "https://massopenbooks.org/payrolls/payroll-higher-education"}, {"t": "Payroll-Quasi Public Agencies", "s": "MA", "u": "https://madatalabs.org/state-government/payroll-quasi-public-agencies"}, {"t": "Spending Total", "s": "MA", "u": "https://madatalabs.org/state-government/spending-total"}, {"t": "State Employees", "s": "US", "u": "https://usdatalabs.org/Government/public-employees"}, {"t": "Tax Credits", "s": "MA", "u": "https://massopenbooks.org/tax-credits"}, {"t": "Vendor Payments Quasi-Public Agencies", "s": "MA", "u": "https://massopenbooks.org/vendor-payments-quasi-public-agencies"}, {"t": "Vendor Payments-State", "s": "MA", "u": "https://massopenbooks.org/vendor-payments-state-government"}]}, {"id": "DL-03", "t": "State Revenue & Budget Monitor", "q": "Collections, spending growth, rainy day funds, and 62F.", "g": ["MA", "US"], "st": "build", "tgt": "Dec 2026", "legacy": [{"t": "Revenue Tax", "s": "MA", "u": "https://madatalabs.org/state-government/revenue-tax"}, {"t": "Revenue Total", "s": "MA", "u": "https://madatalabs.org/state-government/revenue-total"}, {"t": "State Dependency", "s": "US", "u": "https://usdatalabs.org/indexes/state-dependency-index"}, {"t": "State Finance-State & Local Expenses", "s": "US", "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-expenses"}, {"t": "State Finance-State & Local Revenues", "s": "US", "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-revenues"}, {"t": "State Finance-State Only Expenses", "s": "US", "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-expenses"}, {"t": "State Finance-State Only Revenues", "s": "US", "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-revenues"}, {"t": "State Finance-State Rainy Day Funds", "s": "US", "u": "https://usdatalabs.org/Government/state-finance-overview/state-rainy-day-funds"}]}, {"id": "DL-04", "t": "Tax & Migration Atlas", "q": "State tax codes compared, and where taxpayers move.", "g": ["US"], "st": "live", "url": "https://jcalabr3ez.github.io/us-wealth-tax-atlas/", "legacy": [{"t": "County to County Migration", "s": "MA", "u": "https://madatalabs.org/taxation/county-to-county-migration"}, {"t": "Individual Statistics", "s": "US", "u": "https://usdatalabs.org/taxation/individual-income-tax-statistics"}, {"t": "State to State Tax Migration", "s": "US", "u": "https://usdatalabs.org/taxation/taxation-irs-taxpayer-migration-state-state"}, {"t": "Tax Statistics-County", "s": "MA", "u": "https://madatalabs.org/taxation/tax-statistics-counties"}, {"t": "Tax Statistics-Municipalities", "s": "MA", "u": "https://massopenbooks.org/payrolls/commonwealth-employees"}, {"t": "Taxation Rates", "s": "US", "u": "https://usdatalabs.org/taxation/taxation-rates"}, {"t": "Taxpayer Migration", "s": "US", "u": "https://usdatalabs.org/taxation/irs-taxpayer-migration"}, {"t": "Tracking Wealth", "s": "US", "u": "https://usdatalabs.org/taxation/adjusted-gross-income-percentile-data"}]}, {"id": "DL-05", "t": "K-12 Achievement & Accountability", "q": "Student performance by district, charter, and state.", "g": ["MA", "US"], "st": "build", "tgt": "Nov 2026", "legacy": [{"t": "Demographics", "s": "MA", "u": "https://madatalabs.org/education/education-demographics"}, {"t": "Discipline & Security", "s": "US", "u": "https://usdatalabs.org/education/discipline-safety-and-security-measures"}, {"t": "Dropouts & Graduates", "s": "MA", "u": "https://madatalabs.org/education/education-dropouts-and-graduates"}, {"t": "Education Fast Facts", "s": "MA", "u": "https://madatalabs.org/education/education-fast-facts"}, {"t": "Enrollment by Grade", "s": "MA", "u": "https://madatalabs.org/education/education-enrollment-grade"}, {"t": "High School Completion", "s": "US", "u": "https://usdatalabs.org/education/high-school-completion-and-dropouts"}, {"t": "K-12 Enrollment", "s": "US", "u": "https://usdatalabs.org/education/k-12-enrollment"}, {"t": "MCAS NEXTGEN", "s": "MA", "u": "https://madatalabs.org/education/education-mcas-nextgen"}, {"t": "Reading/Math Achievement", "s": "US", "u": "https://usdatalabs.org/education/reading-mathematics-achievement"}, {"t": "School Districts-Charter Schools", "s": "US", "u": "https://usdatalabs.org/education/school-districts/charter-schools"}]}, {"id": "DL-06", "t": "School Finance Explorer", "q": "Per-pupil spending by district, line by line.", "g": ["MA", "US"], "st": "build", "tgt": "Dec 2026", "legacy": [{"t": "K-12 School Finance", "s": "US", "u": "https://usdatalabs.org/education/k-12-school-finance"}, {"t": "School Districts-District Directory", "s": "US", "u": "https://usdatalabs.org/education/school-districts/directory-of-school-districts"}, {"t": "School Districts-Education Staff", "s": "US", "u": "https://usdatalabs.org/education/school-districts/education-staff"}, {"t": "School Finances", "s": "MA", "u": "https://madatalabs.org/education/education-school-finances"}]}, {"id": "DL-07", "t": "Higher Education Monitor", "q": "Admissions, enrollment, and public higher-ed cost.", "g": ["US"], "st": "build", "tgt": "Q1 2027", "legacy": [{"t": "Higher Education-College Admissions", "s": "US", "u": "https://usdatalabs.org/education/higher-education/college-admission-tests"}, {"t": "Higher Education-College Enrollment", "s": "US", "u": "https://usdatalabs.org/education/higher-education/college-enrollment"}, {"t": "Higher Education-Faculty and Staff", "s": "US", "u": "https://usdatalabs.org/education/higher-education/faculty-and-staff"}, {"t": "Higher Education-Student Data", "s": "US", "u": "https://usdatalabs.org/education/higher-education/higher-education-student-data"}]}, {"id": "DL-08", "t": "State Competitiveness Monitor", "q": "Jobs, wages, business formation, and cost of living.", "g": ["US"], "st": "build", "tgt": "Q1 2027", "legacy": [{"t": "Business Births and Deaths", "s": "MA", "u": "https://madatalabs.org/economy/business-births-and-deaths"}, {"t": "Business Dynamics", "s": "US", "u": "https://usdatalabs.org/economy/business-dynamics"}, {"t": "Cost of Living", "s": "US", "u": "https://usdatalabs.org/economy/cost-of-living"}, {"t": "Demographics", "s": "US", "u": "https://usdatalabs.org/population/demographics"}, {"t": "Economic Profile", "s": "MA", "u": "https://madatalabs.org/economy/economic-profile"}, {"t": "Economic Profile", "s": "US", "u": "https://usdatalabs.org/economy/economic-profile"}, {"t": "Employment and Establishments", "s": "MA", "u": "https://madatalabs.org/economy/employment-and-establishments"}, {"t": "Employment and Wages", "s": "US", "u": "https://usdatalabs.org/economy/employment-and-wages"}, {"t": "GDP by NAICS Code", "s": "US", "u": "https://usdatalabs.org/economy/gdp-by-naics-codes"}, {"t": "Gross Domestic Product", "s": "MA", "u": "https://madatalabs.org/economy/gross-domestic-product"}, {"t": "Labor Demographics", "s": "US", "u": "https://usdatalabs.org/economy/labor-demographics"}, {"t": "Labor Market", "s": "MA", "u": "https://madatalabs.org/economy/labor-market"}, {"t": "Monthly Employment", "s": "US", "u": "https://usdatalabs.org/economy/monthly-employment"}, {"t": "Patents by State and Sector", "s": "US", "u": "https://usdatalabs.org/economy/patents-by-state-and-class"}, {"t": "Personal Income", "s": "US", "u": "https://usdatalabs.org/economy/personal-income"}, {"t": "Population Change", "s": "US", "u": "https://usdatalabs.org/population/population-change"}, {"t": "Retail-Price Electricity", "s": "US", "u": "https://usdatalabs.org/energy/retail-price-electriciy"}, {"t": "Rural to Urban", "s": "US", "u": "https://usdatalabs.org/population/rural-urban-continuum"}, {"t": "Tariff Impacts", "s": "US", "u": "https://usdatalabs.org/economy/tariff-impacts"}, {"t": "Total Labor Force", "s": "US", "u": "https://usdatalabs.org/economy/labor-force"}, {"t": "Unemployment insurance", "s": "US", "u": "https://usdatalabs.org/economy/unemployment-insurance"}, {"t": "Weekly Wages", "s": "MA", "u": "https://madatalabs.org/economy/weekly-wages"}]}, {"id": "DL-09", "t": "Housing Monitor", "q": "Permits, production, and prices by state.", "g": ["US", "FL"], "st": "build", "tgt": "Q1 2027", "legacy": [{"t": "Housing Prices", "s": "US", "u": "https://usdatalabs.org/economy/residential-housing-prices"}, {"t": "Housing Production", "s": "US", "u": "https://usdatalabs.org/economy/housing"}]}, {"id": "DL-10", "t": "Florida Risk Ledger", "q": "Homeowners insurance costs, county by county.", "g": ["FL"], "st": "live", "url": "#", "legacy": [{"t": "Natl Risk Index", "s": "US", "u": "https://usdatalabs.org/infrastructure/national-risk-index"}]}, {"id": "DL-11", "t": "Your City & Town", "q": "Taxes, crime, schools, and peers for 351 towns plus Boston.", "g": ["MA", "Boston"], "st": "build", "tgt": "Nov 2026", "legacy": [{"t": "Boston Budget Dashboard", "s": "Boston", "u": "https://pioneerinstitute.org/boston-data-labs/"}, {"t": "Boston Payroll Dashboard", "s": "Boston", "u": "https://pioneerinstitute.org/boston-data-labs/"}, {"t": "Choose a City or Town", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/choose-a-city-or-town"}, {"t": "Economic Snapshot", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/economic-snapshot"}, {"t": "Find Peers", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/find-peers"}, {"t": "Peer Finder", "s": "US", "u": "https://usdatalabs.org/peer-finder"}, {"t": "Rankings-Crime", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/crime"}, {"t": "Rankings-Debt", "s": "MA", "u": "https://massanalysis.com/index.php/metrics"}, {"t": "Rankings-Education", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/education"}, {"t": "Rankings-Expenditures", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/expenditures"}, {"t": "Rankings-Financial Strength", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/financial-strength"}, {"t": "Rankings-Local Public Employees", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/local-public-employees"}, {"t": "Rankings-Revenues", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/revenues"}, {"t": "Rankings-Taxes", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/taxes"}, {"t": "Tariff Impacts", "s": "MA", "u": "https://madatalabs.org/cities-and-towns/tariff-impacts"}]}, {"id": "DL-12", "t": "Transportation & MBTA", "q": "How the T performs, mode by mode, against 2019 and its costs.", "g": ["MA", "US"], "st": "live", "url": "/dl-12/", "ai": true, "legacy": [{"t": "Compare Systems", "s": "MA", "u": "https://madatalabs.org/mbta/compare-systems"}, {"t": "MBTA", "s": "MA", "u": "https://madatalabs.org/mbta/mbta"}, {"t": "MassTransit-Comparing Systems", "s": "US", "u": "https://usdatalabs.org/infrastructure/mass-transit/comparing-systems"}, {"t": "Rail, Air and Water", "s": "US", "u": "https://usdatalabs.org/infrastructure/rail-air-and-water-transportation"}, {"t": "Roadway Transport", "s": "US", "u": "https://usdatalabs.org/infrastructure/roadway-transportation"}]}, {"id": "DL-13", "t": "Healthcare & 340B", "q": "Hospital pricing, charity care, and 340B growth.", "g": ["MA", "US"], "st": "build", "tgt": "Q1 2027", "legacy": [{"t": "340B Program Growth", "s": "PI", "u": "https://pioneerinstitute.org/340b-abuse/"}, {"t": "Hospital Charity Care", "s": "PI", "u": "https://pioneerinstitute.org/340b-abuse/"}, {"t": "Hospital Tracker", "s": "MA", "u": "https://madatalabs.org/healthcare/hospital-tracker"}, {"t": "Legislative Mapping", "s": "PI", "u": "https://pioneerinstitute.org/340b-abuse/"}, {"t": "Medicaid Fraud", "s": "US", "u": "https://usdatalabs.org/health/medicaid-fraud"}, {"t": "Relative Price Tracker", "s": "MA", "u": "https://madatalabs.org/healthcare/relative-price-tracker"}, {"t": "State Health Expenses", "s": "US", "u": "https://usdatalabs.org/health/state-health-expenses"}, {"t": "State Medicaid Expenses", "s": "US", "u": "https://usdatalabs.org/health/state-medicaid-expenses"}]}], "answers": {"as_of": "2026-03", "vintage_note": "Recovered from legacy DataLabs workbook August 2, 2026; pending reconciliation against a fresh FTA NTD pull (SRC-301, planned).", "source_id": "LEG-MBTA-01", "mode_names": {"HR": "Heavy Rail (subway)", "MB": "Bus", "CR": "Commuter Rail", "LR": "Light Rail (Green Line)", "RB": "Bus Rapid Transit", "FB": "Ferry", "DR": "The RIDE (paratransit)"}, "monthly_total_upt": [{"m": "2014-01", "v": 32011705}, {"m": "2014-02", "v": 31145302}, {"m": "2014-03", "v": 35093882}, {"m": "2014-04", "v": 36291455}, {"m": "2014-05", "v": 35975732}, {"m": "2014-06", "v": 34343954}, {"m": "2014-07", "v": 35023307}, {"m": "2014-08", "v": 33070013}, {"m": "2014-09", "v": 35801632}, {"m": "2014-10", "v": 38353487}, {"m": "2014-11", "v": 32694446}, {"m": "2014-12", "v": 32784011}, {"m": "2015-01", "v": 30239978}, {"m": "2015-02", "v": 25199508}, {"m": "2015-03", "v": 35214665}, {"m": "2015-04", "v": 35821917}, {"m": "2015-05", "v": 35063761}, {"m": "2015-06", "v": 35008646}, {"m": "2015-07", "v": 34261401}, {"m": "2015-08", "v": 32380233}, {"m": "2015-09", "v": 34739673}, {"m": "2015-10", "v": 36055006}, {"m": "2015-11", "v": 31728195}, {"m": "2015-12", "v": 31568547}, {"m": "2016-01", "v": 30393116}, {"m": "2016-02", "v": 30827465}, {"m": "2016-03", "v": 35075784}, {"m": "2016-04", "v": 34980228}, {"m": "2016-05", "v": 34668233}, {"m": "2016-06", "v": 35012033}, {"m": "2016-07", "v": 31545283}, {"m": "2016-08", "v": 32540849}, {"m": "2016-09", "v": 33071083}, {"m": "2016-10", "v": 33140559}, {"m": "2016-11", "v": 31143883}, {"m": "2016-12", "v": 29146622}, {"m": "2017-01", "v": 30714323}, {"m": "2017-02", "v": 28372329}, {"m": "2017-03", "v": 33012115}, {"m": "2017-04", "v": 31972892}, {"m": "2017-05", "v": 33330261}, {"m": "2017-06", "v": 32697368}, {"m": "2017-07", "v": 31164479}, {"m": "2017-08", "v": 32769850}, {"m": "2017-09", "v": 32786827}, {"m": "2017-10", "v": 33316115}, {"m": "2017-11", "v": 30021425}, {"m": "2017-12", "v": 27334253}, {"m": "2018-01", "v": 28390706}, {"m": "2018-02", "v": 27977544}, {"m": "2018-03", "v": 30080916}, {"m": "2018-04", "v": 31429525}, {"m": "2018-05", "v": 32892497}, {"m": "2018-06", "v": 31664409}, {"m": "2018-07", "v": 31181364}, {"m": "2018-08", "v": 31706170}, {"m": "2018-09", "v": 30948374}, {"m": "2018-10", "v": 34335325}, {"m": "2018-11", "v": 30009517}, {"m": "2018-12", "v": 26953818}, {"m": "2019-01", "v": 29019553}, {"m": "2019-02", "v": 27086850}, {"m": "2019-03", "v": 30099111}, {"m": "2019-04", "v": 31158897}, {"m": "2019-05", "v": 31598147}, {"m": "2019-06", "v": 29598527}, {"m": "2019-07", "v": 31889612}, {"m": "2019-08", "v": 31409193}, {"m": "2019-09", "v": 31852041}, {"m": "2019-10", "v": 33517504}, {"m": "2019-11", "v": 28766967}, {"m": "2019-12", "v": 27336893}, {"m": "2020-01", "v": 30218272}, {"m": "2020-02", "v": 27742911}, {"m": "2020-03", "v": 16482112}, {"m": "2020-04", "v": 4297427}, {"m": "2020-05", "v": 5067286}, {"m": "2020-06", "v": 7126347}, {"m": "2020-07", "v": 8993350}, {"m": "2020-08", "v": 9366946}, {"m": "2020-09", "v": 10155956}, {"m": "2020-10", "v": 10428270}, {"m": "2020-11", "v": 9404225}, {"m": "2020-12", "v": 8770947}, {"m": "2021-01", "v": 8427678}, {"m": "2021-02", "v": 8185023}, {"m": "2021-03", "v": 10146275}, {"m": "2021-04", "v": 10697489}, {"m": "2021-05", "v": 12103450}, {"m": "2021-06", "v": 13830696}, {"m": "2021-07", "v": 14551911}, {"m": "2021-08", "v": 15237441}, {"m": "2021-09", "v": 17968914}, {"m": "2021-10", "v": 18813404}, {"m": "2021-11", "v": 17210703}, {"m": "2021-12", "v": 15890316}, {"m": "2022-01", "v": 12960378}, {"m": "2022-02", "v": 14764398}, {"m": "2022-03", "v": 18612843}, {"m": "2022-04", "v": 18365734}, {"m": "2022-05", "v": 18987201}, {"m": "2022-06", "v": 19187063}, {"m": "2022-07", "v": 18686619}, {"m": "2022-08", "v": 18981577}, {"m": "2022-09", "v": 19611300}, {"m": "2022-10", "v": 21238938}, {"m": "2022-11", "v": 19703746}, {"m": "2022-12", "v": 17867801}, {"m": "2023-01", "v": 18732687}, {"m": "2023-02", "v": 17331958}, {"m": "2023-03", "v": 20684643}, {"m": "2023-04", "v": 19791522}, {"m": "2023-05", "v": 21502697}, {"m": "2023-06", "v": 20723443}, {"m": "2023-07", "v": 20586685}, {"m": "2023-08", "v": 21824825}, {"m": "2023-09", "v": 21276920}, {"m": "2023-10", "v": 22093365}, {"m": "2023-11", "v": 20241410}, {"m": "2023-12", "v": 18459910}, {"m": "2024-01", "v": 20583659}, {"m": "2024-02", "v": 19955172}, {"m": "2024-03", "v": 21375659}, {"m": "2024-04", "v": 21764665}, {"m": "2024-05", "v": 22475891}, {"m": "2024-06", "v": 21086724}, {"m": "2024-07", "v": 22281763}, {"m": "2024-08", "v": 22139896}, {"m": "2024-09", "v": 23401537}, {"m": "2024-10", "v": 25723012}, {"m": "2024-11", "v": 21416061}, {"m": "2024-12", "v": 20008994}, {"m": "2025-01", "v": 21461986}, {"m": "2025-02", "v": 20106135}, {"m": "2025-03", "v": 22331366}, {"m": "2025-04", "v": 23619155}, {"m": "2025-05", "v": 23796675}, {"m": "2025-06", "v": 22281887}, {"m": "2025-07", "v": 23230254}, {"m": "2025-08", "v": 21793618}, {"m": "2025-09", "v": 23604887}, {"m": "2025-10", "v": 25760373}, {"m": "2025-11", "v": 22666596}, {"m": "2025-12", "v": 21151472}, {"m": "2026-01", "v": 20465502}, {"m": "2026-02", "v": 19971156}, {"m": "2026-03", "v": 24867521}], "annual_upt_by_mode": {"2014": {"HR": 179299422, "MB": 117268320, "CR": 35560409, "LR": 67403174, "RB": 9517114, "FB": 1380660, "DR": 2159827}, "2015": {"HR": 173533799, "MB": 116854336, "CR": 32244598, "LR": 60408797, "RB": 10713289, "FB": 1367433, "DR": 2159278}, "2016": {"HR": 169059896, "MB": 109171667, "CR": 33857423, "LR": 65097937, "RB": 10750758, "FB": 1505718, "DR": 2101739}, "2017": {"HR": 164535915, "MB": 105827105, "CR": 33748866, "LR": 59315480, "RB": 10609392, "FB": 1486565, "DR": 1968914}, "2018": {"HR": 160782497, "MB": 102299632, "CR": 31605591, "LR": 58225834, "RB": 11223790, "FB": 1521759, "DR": 1911062}, "2019": {"HR": 159102449, "MB": 100888185, "CR": 31883589, "LR": 56383908, "RB": 11626928, "FB": 1636006, "DR": 1812230}, "2020": {"HR": 56416768, "MB": 53646501, "CR": 12867097, "LR": 18339785, "RB": 5573228, "FB": 362448, "DR": 848222}, "2021": {"HR": 64040522, "MB": 58652054, "CR": 8901241, "LR": 24065640, "RB": 6155359, "FB": 394176, "DR": 854308}, "2022": {"HR": 81361484, "MB": 75271529, "CR": 18984423, "LR": 33388741, "RB": 8241025, "FB": 797835, "DR": 922561}, "2023": {"HR": 85911125, "MB": 81248091, "CR": 26443813, "LR": 38001004, "RB": 9473738, "FB": 1250070, "DR": 922224}, "2024": {"HR": 86380035, "MB": 91305573, "CR": 30966271, "LR": 41057879, "RB": 10027766, "FB": 1424831, "DR": 1050678}, "2025": {"HR": 101656916, "MB": 85313786, "CR": 29797929, "LR": 42423232, "RB": 9961636, "FB": 1502610, "DR": 1148295}}, "latest_month": {"month": "2026-03", "total_upt": 24867521, "by_mode": {"HR": 9530565, "MB": 7644102, "CR": 2807991, "LR": 3819625, "RB": 876150, "FB": 82061, "DR": 107027}}, "recovery_vs_2019_same_month_pct": {"TOTAL": 82.6, "HR": 71.6, "MB": 91.4, "CR": 106.8, "LR": 83.6, "RB": 89.9, "FB": 79.7, "DR": 69.4}, "yoy_change_pct": 11.4, "annual_cost_and_farebox": [{"mode": "Bus", "tos": "DO", "cost_per_trip": 7.24, "recovery_ratio": 12.3}, {"mode": "Bus", "tos": "PT", "cost_per_trip": 13.8, "recovery_ratio": 1.0}, {"mode": "Bus Rapid Transit", "tos": "DO", "cost_per_trip": 6.55, "recovery_ratio": 10.3}, {"mode": "Commuter Rail", "tos": "PT", "cost_per_trip": 19.51, "recovery_ratio": 23.4}, {"mode": "Demand Response", "tos": "PT", "cost_per_trip": 161.25, "recovery_ratio": 1.8}, {"mode": "Ferryboat", "tos": "PT", "cost_per_trip": 18.1, "recovery_ratio": 35.8}, {"mode": "Heavy Rail", "tos": "DO", "cost_per_trip": 4.8, "recovery_ratio": 33.7}, {"mode": "Light Rail", "tos": "DO", "cost_per_trip": 7.25, "recovery_ratio": 19.6}], "annual_cost_note": "Reporting year not recorded in the legacy extract; to be confirmed at reconciliation.", "scope": "Covers MBTA ridership (unlinked passenger trips), service levels, and per-trip cost/farebox by mode. Does NOT cover: safety, reliability/on-time performance, capital budget, debt, fares charged to riders, or other transit agencies."}};
+const CATALOG = DATA.catalog;
+const DL12 = DATA.answers;
+const TOOLMAP = Object.fromEntries(CATALOG.map(t=>[t.id,t]));
+function esc(s){const d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
 
-function renderAll(){
-TOOLS.forEach(t=>TOOLMAP[t.id]=t);
-/* tiles */
-document.getElementById('grid').innerHTML = TOOLS.map(t =>
-  '<div class="tile" data-g="'+t.g.join(' ')+'">' +
-    '<div class="top"><span class="id">'+t.id+'</span>' +
-      '<span class="st '+t.st+'">'+(t.st==='live'?'Live':'In build')+'</span></div>' +
-    '<div class="body"><h3>'+esc(t.t)+'</h3><div class="q">'+esc(t.q)+'</div></div>' +
-    '<div class="foot"><span class="geos">'+t.g.map(g=>'<span class="geo '+GCLS[g]+'">'+GLBL[g]+'</span>').join('')+'</span>' +
-      (t.st==='live' ? '<a class="open" href="#">Open &#8594;</a>'
-        : '<span class="open soon">'+t.tgt+'</span>') + '</div>' +
-  '</div>').join('');
+/* ---------- AI tier ---------- */
+document.getElementById('aiGrid').innerHTML =
+  CATALOG.filter(t=>t.ai).map(t =>
+    '<div class="ai-card"><span class="badge">ASK AI · LIVE</span>' +
+    '<div class="rid">'+t.id+'</div><h3>'+esc(t.t)+'</h3><p>'+esc(t.q)+'</p>' +
+    '<a class="go" href="'+esc(t.url)+'">Open and ask &#8594;</a></div>').join('');
 
-document.querySelectorAll('.gf').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.gf').forEach(x=>x.classList.toggle('on',x===b));
-  const g=b.dataset.g;
-  document.querySelectorAll('.tile').forEach(t=>
-    t.classList.toggle('hide', g!=='ALL' && !t.dataset.g.split(' ').includes(g)));
-}));
 
-/* geography blocks */
-const GEOS = [['BOS','Boston'],['MA','Massachusetts'],['US','All 50 States'],['FL','Florida']];
-document.getElementById('geoblocks').innerHTML = GEOS.map(([g,name])=>{
-  const list = TOOLS.filter(t=>t.g.includes(g));
-  return '<div class="gblock"><div class="gh">'+name+'<small>'+list.length+' tools</small></div><ul>'+
-    list.map(t=>'<li><b>'+t.id+'</b>'+esc(t.t)+
-      (t.st!=='live'?' <span class="soon">('+t.tgt+')</span>':'')+'</li>').join('')+
-  '</ul></div>';
+/* ---------- Directory ---------- */
+document.getElementById('dirList').innerHTML = CATALOG.filter(t=>t.legacy.length || (t.st==='live'&&t.url&&t.url!=='#'&&!t.ai)).map(t => {
+  const extra = (t.st==='live' && t.url && t.url!=='#' && !t.ai)
+    ? '<li><span class="site">NEW</span><a href="'+esc(t.url)+'" target="_blank" rel="noopener">'+esc(t.t)+' (flagship)</a></li>' : '';
+  const n = t.legacy.length + (extra?1:0);
+  return '<details id="dir-'+t.id+'"><summary><span class="car">&#9656;</span><span class="rid">'+t.id+'</span>' +
+  esc(t.t)+'<span class="n">'+n+' dashboard'+(n===1?'':'s')+'</span></summary>' +
+  '<ul>'+extra+t.legacy.map(l =>
+    '<li><span class="site">'+esc(l.s)+'</span><a href="'+esc(l.u)+'" target="_blank" rel="noopener">'+esc(l.t)+'</a></li>'
+  ).join('')+'</ul></details>';
 }).join('');
 
-}
-/* tabs */
-document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===b));
-  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on', p.id==='p-'+b.dataset.p));
-}));
-const TOOLMAP = {};
-const resp = document.getElementById('resp');
-async function ask(){
-  const q = document.getElementById('q').value.trim();
-  if(!q) return;
-  resp.innerHTML = '<div class="load">Checking the sources&#8230;</div>';
-  try{
-    const r = await fetch('/.netlify/functions/ask', {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({question:q})
+/* ---------- Chart library (AI selects; numbers come only from DL12) ---------- */
+const CHART_TITLES = {
+  monthly_trend:'MBTA monthly ridership, all modes',
+  recovery_by_mode:'Recovery vs same month 2019, by mode',
+  cost_per_trip:'Operating cost per trip, by mode',
+  farebox:'Share of cost covered by fares, by mode'
+};
+function chartSVG(kind, hot){
+  if(!DL12) return '';
+  if(kind==='monthly_trend'){
+    const sr=DL12.monthly_total_upt,W=660,H=170,pl=38,pr=10,pt=10,pb=24;
+    const max=Math.max(...sr.map(d=>d.v));
+    const x=i=>pl+i*((W-pl-pr)/(sr.length-1)),y=v=>pt+(1-v/max)*(H-pt-pb);
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    [10e6,20e6,30e6].forEach(v=>{if(v<max)g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#E8EAEE"/><text x="2" y="'+(y(v)+4)+'" font-size="9" fill="#9AA3AE">'+(v/1e6)+'M</text>';});
+    g+='<polyline fill="none" stroke="#1F3A5F" stroke-width="2" points="'+sr.map((d,i)=>x(i)+','+y(d.v)).join(' ')+'"/>';
+    g+='<circle cx="'+x(sr.length-1)+'" cy="'+y(sr[sr.length-1].v)+'" r="3.5" fill="#B08428"/>';
+    sr.forEach((d,i)=>{if(d.m.endsWith('-01')&&parseInt(d.m)%2===0)g+='<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" fill="#9AA3AE">'+d.m.slice(0,4)+'</text>';});
+    return g+'</svg>';
+  }
+  if(kind==='recovery_by_mode'){
+    const rec=DL12.recovery_vs_2019_same_month_pct;
+    const order=['CR','MB','RB','LR','FB','HR','DR'].filter(m=>rec[m]!=null);
+    const W=660,rh=25,H=order.length*rh+6;
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    order.forEach((m,i)=>{
+      const v=rec[m],yy=3+i*rh,w=(Math.min(v,115)/115)*(W-265);
+      const h=m===hot,full=v>=100;
+      g+='<text x="0" y="'+(yy+13)+'" font-size="11" fill="#0F1B2A" font-weight="'+(h?'700':'400')+'">'+DL12.mode_names[m].split(' (')[0]+'</text>';
+      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" rx="2" fill="'+(h?'#B08428':(full?'#177245':'#1F3A5F'))+'"/>';
+      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" fill="#5B6674">'+v+'%</text>';
     });
-    const p = await r.json();
+    const rx=155+(100/115)*(W-265);
+    g+='<line x1="'+rx+'" y1="0" x2="'+rx+'" y2="'+H+'" stroke="#B08428" stroke-dasharray="3,3"/>';
+    return g+'</svg>';
+  }
+  if(kind==='cost_per_trip'||kind==='farebox'){
+    let rows=DL12.annual_cost_and_farebox.filter(r=>r.mode!=='Demand Response'&&!(r.mode==='Bus'&&r.tos==='PT'));
+    const key=kind==='cost_per_trip'?'cost_per_trip':'recovery_ratio';
+    rows=rows.slice().sort((a,b)=>kind==='cost_per_trip'?a[key]-b[key]:b[key]-a[key]);
+    const max=Math.max(...rows.map(r=>r[key]));
+    const W=660,rh=25,H=rows.length*rh+6;
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    rows.forEach((r,i)=>{
+      const yy=3+i*rh,w=(r[key]/max)*(W-275);
+      const h=hot&&DL12.mode_names[hot]&&DL12.mode_names[hot].indexOf(r.mode)===0;
+      g+='<text x="0" y="'+(yy+13)+'" font-size="11" fill="#0F1B2A" font-weight="'+(h?'700':'400')+'">'+r.mode+'</text>';
+      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" rx="2" fill="'+(h?'#B08428':'#1F3A5F')+'" opacity="0.92"/>';
+      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" fill="#5B6674">'+(kind==='cost_per_trip'?'$'+r[key].toFixed(2):r[key]+'%')+'</text>';
+    });
+    return g+'</svg>';
+  }
+  return '';
+}
+
+/* ---------- Ask ---------- */
+const resp=document.getElementById('resp');
+async function ask(){
+  const q=document.getElementById('q').value.trim();
+  if(!q) return;
+  const b=document.getElementById('askBtn'); b.disabled=true;
+  resp.innerHTML='<div class="load">Checking the sources&#8230;</div>';
+  try{
+    const r=await fetch('/.netlify/functions/ask',{method:'POST',
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q})});
+    const p=await r.json();
     if(p.type==='answer'){
-      const t = TOOLMAP[p.tool_id];
-      resp.innerHTML =
-        '<div class="ansbox"><div class="k">Answered from DataLabs sources</div>' +
+      const kind=p.chart&&p.chart!=='none'?p.chart:null;
+      resp.innerHTML='<div class="card"><div class="k">Answered from DataLabs sources</div>' +
         '<div class="t">'+esc(p.text)+'</div>' +
+        (kind?'<div class="chartwrap"><div class="ch">'+esc(CHART_TITLES[kind]||'')+'</div>'+
+          chartSVG(kind,p.highlight||null)+'</div>' +
+          '<a class="more" href="/dl-12/#view-'+kind+'">Full analysis: charts, story, and every source &#8594;</a>':'' ) +
         '<div class="pills"><span class="pill g">Source: LEG-MBTA-01</span>' +
-        '<span class="pill">Through Mar 2026</span><span class="pill">Prototype</span></div></div>' +
-        (t ? '<div class="rrow"><span class="id">'+t.id+'</span>' +
-          '<span><h4>'+esc(t.t)+'</h4><span class="why">Full charts, story, and sources</span></span>' +
-          '<a href="'+(t.id==='DL-12'?'/dl-12/':'#')+'">Open &#8594;</a></div>' : '') +
-        (p.followups && p.followups.length ?
-          '<div class="fups"><b>Also answerable:</b> ' +
-          p.followups.map(f=>'<a href="#" data-q="'+esc(f)+'">'+esc(f)+'</a>').join('')+'</div>' : '');
+        '<span class="pill">Through Mar 2026</span><span class="pill">Prototype, pending verification</span></div>' +
+        (p.followups&&p.followups.length?'<div class="fups">Also answerable: '+
+          p.followups.map(f=>'<a href="#" data-q="'+esc(f)+'">'+esc(f)+'</a>').join('')+'</div>':'') +
+        '</div>';
       resp.querySelectorAll('.fups a').forEach(a=>a.addEventListener('click',e=>{
-        e.preventDefault(); document.getElementById('q').value=a.dataset.q; ask();
-      }));
-    } else if(p.type==='route' && p.matches && p.matches.length){
-      resp.innerHTML = p.matches.map(m=>{
+        e.preventDefault(); document.getElementById('q').value=a.dataset.q; ask();}));
+    } else if(p.type==='route'&&p.matches&&p.matches.length){
+      resp.innerHTML=p.matches.map(m=>{
         const t=TOOLMAP[m.id]; if(!t) return '';
-        return '<div class="rrow"><span class="id">'+t.id+'</span>' +
-          '<span><h4>'+esc(t.t)+'</h4><span class="why">'+esc(m.reason||t.q)+'</span></span>' +
-          '<span class="why">'+(t.st==='live'?'<a href="'+(t.id==='DL-12'?'/dl-12/':'#')+'">Open &#8594;</a>':'In build')+'</span></div>';
+        // Resolve the engine's picked dashboard titles to their real links
+        let links=[];
+        (m.dashboards||[]).forEach(name=>{
+          const hit=(t.legacy||[]).find(l=>l.t===name);
+          if(hit&&hit.u&&hit.u!=='#') links.push(hit);
+        });
+        if(!links.length && t.st==='live' && t.url && t.url!=='#'){
+          links.push({t:t.t+' (flagship)', u:t.url, s:'NEW'});
+        }
+        if(!links.length && (t.legacy||[]).length){
+          links=t.legacy.filter(l=>l.u&&l.u!=='#').slice(0,2);
+        }
+        const linkRows = links.length
+          ? links.map(l=>'<a class="dashlink" href="'+esc(l.u)+'" target="_blank" rel="noopener">' +
+              '<span class="site">'+esc(l.s)+'</span>'+esc(l.t)+' &#8594;</a>').join('')
+          : '<a class="dashlink" href="#dir-'+t.id+'">Browse this topic in the directory &#8594;</a>';
+        return '<div class="card"><div class="routecard"><span class="rid">'+t.id+'</span>' +
+          '<span><h4>'+esc(t.t)+'</h4><span class="why">'+esc(m.reason||t.q)+'</span></span></div>' +
+          '<div class="dashlinks">'+linkRows+'</div></div>';
       }).join('');
     } else {
-      resp.innerHTML = '<div class="none"><b>DataLabs does not cover this yet.</b> ' +
+      resp.innerHTML='<div class="none"><b>DataLabs does not cover this yet.</b> ' +
         esc(p.note||p.error||'Nothing in the catalog answers that.') +
-        ' Logged for the research team.</div>';
+        ' Your question was logged; the log shapes what Pioneer builds next.</div>';
     }
   }catch(err){
-    resp.innerHTML = '<div class="none"><b>The engine hit a snag.</b> Check that the Netlify function is deployed and the API key is set.</div>';
-  }
+    resp.innerHTML='<div class="none"><b>The engine hit a snag.</b> Confirm the Netlify function is deployed and the API key is set, then try again.</div>';
+  }finally{ b.disabled=false; }
 }
-document.querySelector('.askrow button').addEventListener('click',ask);
+document.getElementById('askBtn').addEventListener('click',ask);
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});
 document.querySelectorAll('.samples a').forEach(a=>a.addEventListener('click',e=>{
-  e.preventDefault();
-  document.getElementById('q').value = a.dataset.q;
-  ask();
-}));
-boot();
+  e.preventDefault(); document.getElementById('q').value=a.dataset.q; ask();}));
 </script>
 </body>
 </html>

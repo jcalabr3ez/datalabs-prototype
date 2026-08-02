@@ -301,17 +301,31 @@ async function ask(){
     } else if(p.type==='route'&&p.matches&&p.matches.length){
       resp.innerHTML=p.matches.map(m=>{
         const t=TOOLMAP[m.id]; if(!t) return '';
-        // Resolve the engine's picked dashboard titles to their real links
+        // Resolve the engine's picked dashboard titles to their real links (forgiving match)
+        const norm = x => String(x).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
         let links=[];
         (m.dashboards||[]).forEach(name=>{
-          const hit=(t.legacy||[]).find(l=>l.t===name);
-          if(hit&&hit.u&&hit.u!=='#') links.push(hit);
+          const nn=norm(name);
+          const hit=(t.legacy||[]).find(l=>norm(l.t)===nn) ||
+                    (t.legacy||[]).find(l=>norm(l.t).includes(nn)||nn.includes(norm(l.t)));
+          if(hit&&hit.u&&hit.u!=='#'&&!links.includes(hit)) links.push(hit);
         });
         if(!links.length && t.st==='live' && t.url && t.url!=='#'){
           links.push({t:t.t+' (flagship)', u:t.url, s:'NEW'});
         }
         if(!links.length && (t.legacy||[]).length){
-          links=t.legacy.filter(l=>l.u&&l.u!=='#').slice(0,2);
+          // Score dashboard titles against the question words; synonyms for common civic terms
+          const SYN={safe:'crime',safety:'crime',cops:'crime',police:'crime',
+                     cost:'spending',pay:'payroll',salary:'payroll',salaries:'payroll',
+                     kids:'education',schools:'education',school:'education',
+                     homes:'housing',house:'housing',rent:'housing'};
+          const words=norm(q).split(' ').filter(w=>w.length>2).map(w=>SYN[w]||w);
+          const scored=(t.legacy||[]).filter(l=>l.u&&l.u!=='#').map(l=>{
+            const hay=norm(l.t);
+            return {l, s: words.reduce((a,w)=>a+(hay.includes(w)?1:0),0)};
+          }).sort((a,b)=>b.s-a.s);
+          links = (scored[0]&&scored[0].s>0 ? scored.filter(x=>x.s>0).slice(0,2)
+                                            : scored.slice(0,2)).map(x=>x.l);
         }
         const linkRows = links.length
           ? links.map(l=>'<a class="dashlink" href="'+esc(l.u)+'" target="_blank" rel="noopener">' +

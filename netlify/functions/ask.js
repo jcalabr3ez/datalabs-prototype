@@ -3,8 +3,26 @@
 // Receives {question}, decides: answer from DL-12 data, route to a tool,
 // or honestly decline. Returns the engine JSON to the page.
 
-const CATALOG = require('./catalog.json');
+const BUNDLED_CATALOG = require('./catalog.json'); // fallback only
 const DL12 = require('./dl12-answers.json');
+
+let catalogCache = { data: null, at: 0 };
+async function getCatalog() {
+  // Single source of truth: the site's own catalog.json, cached 5 minutes.
+  const now = Date.now();
+  if (catalogCache.data && now - catalogCache.at < 300000) return catalogCache.data;
+  try {
+    const base = process.env.URL || process.env.DEPLOY_URL;
+    if (base) {
+      const r = await fetch(base + '/catalog.json');
+      if (r.ok) {
+        catalogCache = { data: await r.json(), at: now };
+        return catalogCache.data;
+      }
+    }
+  } catch (e) { console.error('catalog fetch failed, using bundled copy:', e.message); }
+  return BUNDLED_CATALOG;
+}
 
 const SYSTEM_PROMPT = `You are the engine behind Pioneer Institute DataLabs' main question box. You receive: a CATALOG of 13 data tools (with topics and a qa flag), a DATASET for tool DL-12 (Transportation and MBTA, the only qa-enabled tool in this pilot), and a visitor QUESTION.
 
@@ -63,7 +81,7 @@ exports.handler = async function (event) {
         system: SYSTEM_PROMPT,
         messages: [{
           role: 'user',
-          content: 'CATALOG:\n' + JSON.stringify(CATALOG) +
+          content: 'CATALOG:\n' + JSON.stringify(await getCatalog()) +
                    '\n\nDL-12 DATASET:\n' + JSON.stringify(DL12) +
                    '\n\nQUESTION: ' + question
         }]

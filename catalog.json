@@ -9,7 +9,7 @@
     "u": "https://madatalabs.org/pensions/pensions-x",
     "days": null,
     "views": null,
-    "pub": "no metadata",
+    "pub": "",
     "vint": "",
     "flags": [
      "no backup"
@@ -21,7 +21,7 @@
     "u": "https://madatalabs.org/pensions/pensions-performance",
     "days": 389,
     "views": 1287,
-    "pub": "6/28/2025",
+    "pub": "Jun 28, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -33,7 +33,7 @@
     "u": "https://madatalabs.org/pensions/state-and-teacher-retirees",
     "days": 389,
     "views": 236378,
-    "pub": "6/28/2025",
+    "pub": "Jun 28, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -52,7 +52,7 @@
     "u": "https://pioneerinstitute.org/boston-data-labs/",
     "days": 415,
     "views": 1523,
-    "pub": "6/2/2025",
+    "pub": "Jun 2, 2025",
     "vint": "",
     "flags": [
      "shared URL",
@@ -65,7 +65,7 @@
     "u": "https://pioneerinstitute.org/boston-data-labs/",
     "days": 415,
     "views": 1523,
-    "pub": "6/2/2025",
+    "pub": "Jun 2, 2025",
     "vint": "",
     "flags": [
      "shared URL",
@@ -78,7 +78,7 @@
     "u": "https://madatalabs.org/cities-and-towns/choose-a-city-or-town",
     "days": 394,
     "views": 14932,
-    "pub": "6/23/2025",
+    "pub": "Jun 23, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -90,7 +90,7 @@
     "u": "https://madatalabs.org/cities-and-towns/economic-snapshot",
     "days": 328,
     "views": 498,
-    "pub": "8/28/2025",
+    "pub": "Aug 28, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -102,7 +102,7 @@
     "u": "https://madatalabs.org/cities-and-towns/find-peers",
     "days": 1100,
     "views": 2859,
-    "pub": "7/18/2023",
+    "pub": "Jul 18, 2023",
     "vint": "",
     "flags": [
      "no backup"
@@ -114,7 +114,7 @@
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/crime",
     "days": 372,
     "views": 62105,
-    "pub": "7/15/2025",
+    "pub": "Jul 15, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -126,7 +126,7 @@
     "u": "https://massanalysis.com/index.php/metrics",
     "days": 391,
     "views": 4667,
-    "pub": "6/26/2025",
+    "pub": "Jun 26, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -138,7 +138,7 @@
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/education",
     "days": 136,
     "views": 59,
-    "pub": "3/8/2026",
+    "pub": "Mar 8, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -150,7 +150,7 @@
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/expenditures",
     "days": 143,
     "views": 32,
-    "pub": "3/1/2026",
+    "pub": "Mar 1, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -162,7 +162,7 @@
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/financial-strength",
     "days": 140,
     "views": 1564,
-    "pub": "3/4/2026",
+    "pub": "Mar 4, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -174,7 +174,7 @@
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/local-public-employees",
     "days": 391,
     "views": 84,
-    "pub": "6/26/2025",
+    "pub": "Jun 26, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -186,7 +186,7 @@
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/revenues",
     "days": 335,
     "views": 42,
-    "pub": "8/21/2025",
+    "pub": "Aug 21, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -198,7 +198,7 @@
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/taxes",
     "days": 140,
     "views": 231,
-    "pub": "3/4/2026",
+    "pub": "Mar 4, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -217,7 +217,7 @@
     "u": "https://usdatalabs.org/education/discipline-safety-and-security-measures",
     "days": 398,
     "views": 2360,
-    "pub": "6/19/2025",
+    "pub": "Jun 19, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -229,7 +229,7 @@
     "u": "https://madatalabs.org/education/education-dropouts-and-graduates",
     "days": 19,
     "views": 705,
-    "pub": "7/3/2026",
+    "pub": "Jul 3, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -241,7 +241,7 @@
     "u": "https://madatalabs.org/education/education-fast-facts",
     "days": 382,
     "views": 8383,
-    "pub": "7/5/2025",
+    "pub": "Jul 5, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -253,7 +253,7 @@
     "u": "https://madatalabs.org/education/education-enrollment-grade",
     "days": 138,
     "views": 589,
-    "pub": "3/6/2026",
+    "pub": "Mar 6, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -265,7 +265,7 @@
     "u": "https://usdatalabs.org/education/high-school-completion-and-dropouts",
     "days": 271,
     "views": 7386,
-    "pub": "10/24/2025",
+    "pub": "Oct 24, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -277,7 +277,7 @@
     "u": "https://usdatalabs.org/education/higher-education/college-admission-tests",
     "days": 406,
     "views": 6339,
-    "pub": "6/11/2025",
+    "pub": "Jun 11, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -289,7 +289,7 @@
     "u": "https://usdatalabs.org/education/higher-education/college-enrollment",
     "days": 435,
     "views": 3071,
-    "pub": "5/13/2025",
+    "pub": "May 13, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -301,7 +301,7 @@
     "u": "https://usdatalabs.org/education/higher-education/faculty-and-staff",
     "days": 75,
     "views": 231,
-    "pub": "5/8/2026",
+    "pub": "May 8, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -313,7 +313,7 @@
     "u": "https://usdatalabs.org/education/higher-education/higher-education-student-data",
     "days": 77,
     "views": 189,
-    "pub": "5/6/2026",
+    "pub": "May 6, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -325,7 +325,7 @@
     "u": "https://usdatalabs.org/education/k-12-enrollment",
     "days": 438,
     "views": 2205,
-    "pub": "5/10/2025",
+    "pub": "May 10, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -337,7 +337,7 @@
     "u": "https://usdatalabs.org/education/k-12-school-finance",
     "days": 511,
     "views": 1456,
-    "pub": "2/26/2025",
+    "pub": "Feb 26, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -349,7 +349,7 @@
     "u": "https://madatalabs.org/education/education-mcas-legacy",
     "days": 382,
     "views": 99,
-    "pub": "7/5/2025",
+    "pub": "Jul 5, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -361,7 +361,7 @@
     "u": "https://madatalabs.org/education/education-mcas-nextgen",
     "days": 288,
     "views": 508,
-    "pub": "10/7/2025",
+    "pub": "Oct 7, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -373,7 +373,7 @@
     "u": "https://usdatalabs.org/education/reading-mathematics-achievement",
     "days": 364,
     "views": 35354,
-    "pub": "7/23/2025",
+    "pub": "Jul 23, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -385,7 +385,7 @@
     "u": "https://madatalabs.org/education/education-school-attendance",
     "days": 382,
     "views": 93,
-    "pub": "7/5/2025",
+    "pub": "Jul 5, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -397,7 +397,7 @@
     "u": "https://usdatalabs.org/education/school-districts/charter-schools",
     "days": 110,
     "views": 186,
-    "pub": "4/3/2026",
+    "pub": "Apr 3, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -409,7 +409,7 @@
     "u": "https://usdatalabs.org/education/school-districts/directory-of-school-districts",
     "days": 723,
     "views": 950,
-    "pub": "7/29/2024",
+    "pub": "Jul 29, 2024",
     "vint": "",
     "flags": [
      "no backup"
@@ -421,7 +421,7 @@
     "u": "https://usdatalabs.org/education/school-districts/education-staff",
     "days": 351,
     "views": 509,
-    "pub": "8/5/2025",
+    "pub": "Aug 5, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -433,7 +433,7 @@
     "u": "https://madatalabs.org/education/education-school-finances",
     "days": 269,
     "views": 192,
-    "pub": "10/26/2025",
+    "pub": "Oct 26, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -452,7 +452,7 @@
     "u": "https://usdatalabs.org/Government/financial-transparency",
     "days": 238,
     "views": 300,
-    "pub": "11/26/2025",
+    "pub": "Nov 26, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -464,7 +464,7 @@
     "u": "https://usdatalabs.org/Government/government-organizations",
     "days": 446,
     "views": 470,
-    "pub": "5/2/2025",
+    "pub": "May 2, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -476,7 +476,7 @@
     "u": "https://usdatalabs.org/Government/party-dominance",
     "days": 600,
     "views": 486,
-    "pub": "11/29/2024",
+    "pub": "Nov 29, 2024",
     "vint": "",
     "flags": [
      "no backup"
@@ -488,7 +488,7 @@
     "u": "https://madatalabs.org/state-government/payroll-state-agencies",
     "days": 55,
     "views": 126,
-    "pub": "5/28/2026",
+    "pub": "May 28, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -500,7 +500,7 @@
     "u": "https://massopenbooks.org/payrolls/payroll-higher-education",
     "days": 394,
     "views": 12600,
-    "pub": "6/23/2025",
+    "pub": "Jun 23, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -512,7 +512,7 @@
     "u": "https://madatalabs.org/state-government/payroll-quasi-public-agencies",
     "days": 394,
     "views": 1600,
-    "pub": "6/23/2025",
+    "pub": "Jun 23, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -524,7 +524,7 @@
     "u": "https://usdatalabs.org/Government/public-pensions",
     "days": 255,
     "views": 646,
-    "pub": "11/9/2025",
+    "pub": "Nov 9, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -536,7 +536,7 @@
     "u": "https://madatalabs.org/state-government/revenue-tax",
     "days": 58,
     "views": 3190,
-    "pub": "5/25/2026",
+    "pub": "May 25, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -548,7 +548,7 @@
     "u": "https://madatalabs.org/state-government/revenue-total",
     "days": 327,
     "views": 3357,
-    "pub": "8/29/2025",
+    "pub": "Aug 29, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -560,7 +560,7 @@
     "u": "https://madatalabs.org/state-government/spending-total",
     "days": 156,
     "views": 155,
-    "pub": "2/16/2026",
+    "pub": "Feb 16, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -572,7 +572,7 @@
     "u": "https://usdatalabs.org/Government/public-employees",
     "days": 399,
     "views": 1350,
-    "pub": "6/18/2025",
+    "pub": "Jun 18, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -584,7 +584,7 @@
     "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-expenses",
     "days": 443,
     "views": 481,
-    "pub": "5/5/2025",
+    "pub": "May 5, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -596,7 +596,7 @@
     "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-revenues",
     "days": 370,
     "views": 507,
-    "pub": "7/17/2025",
+    "pub": "Jul 17, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -608,7 +608,7 @@
     "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-expenses",
     "days": 190,
     "views": 215,
-    "pub": "1/13/2026",
+    "pub": "Jan 13, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -620,7 +620,7 @@
     "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-revenues",
     "days": 191,
     "views": 113,
-    "pub": "1/12/2026",
+    "pub": "Jan 12, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -632,7 +632,7 @@
     "u": "https://usdatalabs.org/Government/state-finance-overview/state-rainy-day-funds",
     "days": 111,
     "views": 247,
-    "pub": "4/2/2026",
+    "pub": "Apr 2, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -644,7 +644,7 @@
     "u": "https://massopenbooks.org/tax-credits",
     "days": 579,
     "views": 2560,
-    "pub": "12/20/2024",
+    "pub": "Dec 20, 2024",
     "vint": "",
     "flags": [
      "no backup"
@@ -656,7 +656,7 @@
     "u": "https://massopenbooks.org/vendor-payments-quasi-public-agencies",
     "days": 534,
     "views": 2511,
-    "pub": "2/3/2025",
+    "pub": "Feb 3, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -668,7 +668,7 @@
     "u": "https://massopenbooks.org/vendor-payments-state-government",
     "days": 394,
     "views": 6851,
-    "pub": "6/23/2025",
+    "pub": "Jun 23, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -687,7 +687,7 @@
     "u": "https://madatalabs.org/economy/business-births-and-deaths",
     "days": 387,
     "views": 97,
-    "pub": "6/30/2025",
+    "pub": "Jun 30, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -699,7 +699,7 @@
     "u": "https://usdatalabs.org/economy/business-dynamics",
     "days": 145,
     "views": 531,
-    "pub": "2/27/2026",
+    "pub": "Feb 27, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -711,7 +711,7 @@
     "u": "https://usdatalabs.org/economy/cost-of-living",
     "days": 14,
     "views": 1639,
-    "pub": "7/8/2026",
+    "pub": "Jul 8, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -723,7 +723,7 @@
     "u": "https://usdatalabs.org/economy/defense-impact",
     "days": 285,
     "views": 220,
-    "pub": "10/10/2025",
+    "pub": "Oct 10, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -735,7 +735,7 @@
     "u": "https://madatalabs.org/education/education-demographics",
     "days": 350,
     "views": 1161,
-    "pub": "8/6/2025",
+    "pub": "Aug 6, 2025",
     "vint": "",
     "flags": [
      "duplicate title",
@@ -748,7 +748,7 @@
     "u": "https://usdatalabs.org/population/demographics",
     "days": 350,
     "views": 1161,
-    "pub": "8/6/2025",
+    "pub": "Aug 6, 2025",
     "vint": "",
     "flags": [
      "duplicate title",
@@ -761,7 +761,7 @@
     "u": "https://usdatalabs.org/population/domestic-migration",
     "days": null,
     "views": null,
-    "pub": "no metadata",
+    "pub": "",
     "vint": "",
     "flags": [
      "no backup"
@@ -773,7 +773,7 @@
     "u": "https://madatalabs.org/economy/economic-profile",
     "days": 439,
     "views": 470,
-    "pub": "5/9/2025",
+    "pub": "May 9, 2025",
     "vint": "2024",
     "flags": [
      "duplicate title",
@@ -786,7 +786,7 @@
     "u": "https://usdatalabs.org/economy/economic-profile",
     "days": 439,
     "views": 470,
-    "pub": "5/9/2025",
+    "pub": "May 9, 2025",
     "vint": "2024",
     "flags": [
      "duplicate title",
@@ -799,7 +799,7 @@
     "u": "https://madatalabs.org/economy/employment-and-establishments",
     "days": 186,
     "views": 5,
-    "pub": "1/17/2026",
+    "pub": "Jan 17, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -811,7 +811,7 @@
     "u": "https://usdatalabs.org/economy/employment-and-wages",
     "days": 14,
     "views": 5521,
-    "pub": "7/8/2026",
+    "pub": "Jul 8, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -823,7 +823,7 @@
     "u": "https://usdatalabs.org/economy/gdp-by-naics-codes",
     "days": 285,
     "views": 781,
-    "pub": "10/10/2025",
+    "pub": "Oct 10, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -835,7 +835,7 @@
     "u": "https://madatalabs.org/economy/gross-domestic-product",
     "days": 387,
     "views": 832,
-    "pub": "6/30/2025",
+    "pub": "Jun 30, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -847,7 +847,7 @@
     "u": "https://usdatalabs.org/economy/residential-housing-prices",
     "days": 322,
     "views": 552,
-    "pub": "9/3/2025",
+    "pub": "Sep 3, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -859,7 +859,7 @@
     "u": "https://usdatalabs.org/economy/housing",
     "days": 16,
     "views": 1075,
-    "pub": "7/6/2026",
+    "pub": "Jul 6, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -871,7 +871,7 @@
     "u": "https://madatalabs.org/economy/industry-clusters",
     "days": 1323,
     "views": 614,
-    "pub": "12/7/2022",
+    "pub": "Dec 7, 2022",
     "vint": "",
     "flags": [
      "no backup"
@@ -883,7 +883,7 @@
     "u": "https://usdatalabs.org/economy/labor-demographics",
     "days": 7,
     "views": 23,
-    "pub": "7/15/2026",
+    "pub": "Jul 15, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -895,7 +895,7 @@
     "u": "https://madatalabs.org/economy/labor-market",
     "days": 184,
     "views": 432,
-    "pub": "1/19/2026",
+    "pub": "Jan 19, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -907,7 +907,7 @@
     "u": "https://usdatalabs.org/economy/monthly-employment",
     "days": 64,
     "views": 551,
-    "pub": "5/19/2026",
+    "pub": "May 19, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -919,7 +919,7 @@
     "u": "https://madatalabs.org/economy/naics-code-detail",
     "days": 1323,
     "views": 683,
-    "pub": "12/7/2022",
+    "pub": "Dec 7, 2022",
     "vint": "",
     "flags": [
      "no backup"
@@ -931,7 +931,7 @@
     "u": "https://usdatalabs.org/economy/patents-by-state-and-class",
     "days": 15,
     "views": 452,
-    "pub": "7/7/2026",
+    "pub": "Jul 7, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -943,7 +943,7 @@
     "u": "https://usdatalabs.org/peer-finder",
     "days": 523,
     "views": 550,
-    "pub": "2/14/2025",
+    "pub": "Feb 14, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -955,7 +955,7 @@
     "u": "https://usdatalabs.org/economy/personal-income",
     "days": 14,
     "views": 584,
-    "pub": "7/8/2026",
+    "pub": "Jul 8, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -967,7 +967,7 @@
     "u": "https://usdatalabs.org/population/population-change",
     "days": 78,
     "views": 3818,
-    "pub": "5/5/2026",
+    "pub": "May 5, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -979,7 +979,7 @@
     "u": "https://usdatalabs.org/population/rural-urban-continuum",
     "days": 47,
     "views": 396,
-    "pub": "6/5/2026",
+    "pub": "Jun 5, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -991,7 +991,7 @@
     "u": "https://usdatalabs.org/indexes/state-dependency-index",
     "days": 85,
     "views": 7631,
-    "pub": "4/28/2026",
+    "pub": "Apr 28, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1003,7 +1003,7 @@
     "u": "https://usdatalabs.org/economy/tariff-impacts",
     "days": 295,
     "views": 537,
-    "pub": "9/30/2025",
+    "pub": "Sep 30, 2025",
     "vint": "",
     "flags": [
      "duplicate title",
@@ -1016,7 +1016,7 @@
     "u": "https://madatalabs.org/cities-and-towns/tariff-impacts",
     "days": 295,
     "views": 537,
-    "pub": "9/30/2025",
+    "pub": "Sep 30, 2025",
     "vint": "",
     "flags": [
      "duplicate title",
@@ -1029,7 +1029,7 @@
     "u": "https://usdatalabs.org/economy/labor-force",
     "days": 439,
     "views": 382,
-    "pub": "5/9/2025",
+    "pub": "May 9, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1041,7 +1041,7 @@
     "u": "https://usdatalabs.org/economy/unemployment-insurance",
     "days": 201,
     "views": 190,
-    "pub": "1/2/2026",
+    "pub": "Jan 2, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1053,7 +1053,7 @@
     "u": "https://madatalabs.org/economy/weekly-wages",
     "days": 387,
     "views": 587,
-    "pub": "6/30/2025",
+    "pub": "Jun 30, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1072,7 +1072,7 @@
     "u": "https://pioneerinstitute.org/340b-abuse/",
     "days": 547,
     "views": 6964,
-    "pub": "1/21/2025",
+    "pub": "Jan 21, 2025",
     "vint": "",
     "flags": [
      "shared URL",
@@ -1085,7 +1085,7 @@
     "u": "https://pioneerinstitute.org/340b-abuse/",
     "days": 549,
     "views": 4481,
-    "pub": "1/19/2025",
+    "pub": "Jan 19, 2025",
     "vint": "",
     "flags": [
      "shared URL",
@@ -1098,7 +1098,7 @@
     "u": "https://madatalabs.org/healthcare/hospital-tracker",
     "days": 387,
     "views": 792,
-    "pub": "6/30/2025",
+    "pub": "Jun 30, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1110,7 +1110,7 @@
     "u": "https://pioneerinstitute.org/340b-abuse/",
     "days": 812,
     "views": 3876,
-    "pub": "5/1/2024",
+    "pub": "May 1, 2024",
     "vint": "",
     "flags": [
      "shared URL",
@@ -1123,7 +1123,7 @@
     "u": "https://usdatalabs.org/health/medicaid-fraud",
     "days": 98,
     "views": 114,
-    "pub": "4/15/2026",
+    "pub": "Apr 15, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1135,7 +1135,7 @@
     "u": "https://madatalabs.org/healthcare/relative-price-tracker",
     "days": 387,
     "views": 2163,
-    "pub": "6/30/2025",
+    "pub": "Jun 30, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1147,7 +1147,7 @@
     "u": "https://usdatalabs.org/health/state-health-expenses",
     "days": 68,
     "views": 111,
-    "pub": "5/15/2026",
+    "pub": "May 15, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1159,7 +1159,7 @@
     "u": "https://usdatalabs.org/health/state-medicaid-expenses",
     "days": 68,
     "views": 248,
-    "pub": "5/15/2026",
+    "pub": "May 15, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1178,7 +1178,7 @@
     "u": "https://madatalabs.org/taxation/county-to-county-migration",
     "days": 388,
     "views": 1786,
-    "pub": "6/29/2025",
+    "pub": "Jun 29, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1190,7 +1190,7 @@
     "u": "https://usdatalabs.org/taxation/individual-income-tax-statistics",
     "days": 502,
     "views": 444,
-    "pub": "3/7/2025",
+    "pub": "Mar 7, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1202,7 +1202,7 @@
     "u": "https://usdatalabs.org/taxation/taxation-irs-taxpayer-migration-state-state",
     "days": 68,
     "views": 499,
-    "pub": "5/15/2026",
+    "pub": "May 15, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1214,7 +1214,7 @@
     "u": "https://madatalabs.org/taxation/tax-statistics-counties",
     "days": 387,
     "views": 463,
-    "pub": "6/30/2025",
+    "pub": "Jun 30, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1226,7 +1226,7 @@
     "u": "https://massopenbooks.org/payrolls/commonwealth-employees",
     "days": 534,
     "views": 2774,
-    "pub": "2/3/2025",
+    "pub": "Feb 3, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1238,7 +1238,7 @@
     "u": "https://usdatalabs.org/taxation/irs-taxpayer-migration",
     "days": 122,
     "views": 398,
-    "pub": "3/22/2026",
+    "pub": "Mar 22, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1250,7 +1250,7 @@
     "u": "https://usdatalabs.org/taxation/adjusted-gross-income-percentile-data",
     "days": 117,
     "views": 1181,
-    "pub": "3/27/2026",
+    "pub": "Mar 27, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1269,7 +1269,7 @@
     "u": "https://madatalabs.org/mbta/compare-systems",
     "days": 389,
     "views": 6512,
-    "pub": "6/28/2025",
+    "pub": "Jun 28, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1281,7 +1281,7 @@
     "u": "https://usdatalabs.org/infrastructure/fema-obligations",
     "days": 317,
     "views": 199,
-    "pub": "9/8/2025",
+    "pub": "Sep 8, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1293,7 +1293,7 @@
     "u": "https://usdatalabs.org/infrastructure/heating-and-cooling-days",
     "days": 255,
     "views": 295,
-    "pub": "11/9/2025",
+    "pub": "Nov 9, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1305,7 +1305,7 @@
     "u": "https://usdatalabs.org/infrastructure/national-inventory-of-dams",
     "days": 380,
     "views": 186,
-    "pub": "7/7/2025",
+    "pub": "Jul 7, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1317,7 +1317,7 @@
     "u": "https://madatalabs.org/mbta/mbta",
     "days": 58,
     "views": 61,
-    "pub": "5/25/2026",
+    "pub": "May 25, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1329,7 +1329,7 @@
     "u": "https://usdatalabs.org/infrastructure/mass-transit/comparing-systems",
     "days": 391,
     "views": 574,
-    "pub": "6/26/2025",
+    "pub": "Jun 26, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1341,7 +1341,7 @@
     "u": "https://usdatalabs.org/infrastructure/national-risk-index",
     "days": 180,
     "views": 405,
-    "pub": "1/23/2026",
+    "pub": "Jan 23, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1353,7 +1353,7 @@
     "u": "https://usdatalabs.org/infrastructure/rail-air-and-water-transportation",
     "days": 734,
     "views": 301,
-    "pub": "7/18/2024",
+    "pub": "Jul 18, 2024",
     "vint": "",
     "flags": [
      "no backup"
@@ -1365,7 +1365,7 @@
     "u": "https://usdatalabs.org/infrastructure/roadway-transportation",
     "days": 24,
     "views": 51,
-    "pub": "6/28/2026",
+    "pub": "Jun 28, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1384,7 +1384,7 @@
     "u": "https://usdatalabs.org/crime-justice/adult-incarceration",
     "days": 149,
     "views": 379,
-    "pub": "2/23/2026",
+    "pub": "Feb 23, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1396,7 +1396,7 @@
     "u": "https://usdatalabs.org/crime-justice/crime-rates",
     "days": 329,
     "views": 2861,
-    "pub": "8/27/2025",
+    "pub": "Aug 27, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1408,7 +1408,7 @@
     "u": "https://usdatalabs.org/crime-justice/internet-crime",
     "days": 89,
     "views": 158,
-    "pub": "4/24/2026",
+    "pub": "Apr 24, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1420,7 +1420,7 @@
     "u": "https://usdatalabs.org/crime-justice/juvenile-incarceration",
     "days": 387,
     "views": 243,
-    "pub": "6/30/2025",
+    "pub": "Jun 30, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1439,7 +1439,7 @@
     "u": "https://usdatalabs.org/energy/CO2-emissions",
     "days": 163,
     "views": 385,
-    "pub": "2/9/2026",
+    "pub": "Feb 9, 2026",
     "vint": "",
     "flags": [
      "no backup"
@@ -1451,7 +1451,7 @@
     "u": "https://usdatalabs.org/energy/energy-consumption",
     "days": 431,
     "views": 421,
-    "pub": "5/17/2025",
+    "pub": "May 17, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1463,7 +1463,7 @@
     "u": "https://usdatalabs.org/energy/energy-production",
     "days": 216,
     "views": 570,
-    "pub": "12/18/2025",
+    "pub": "Dec 18, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1475,7 +1475,7 @@
     "u": "https://usdatalabs.org/energy/energy-storage",
     "days": 213,
     "views": 66,
-    "pub": "12/21/2025",
+    "pub": "Dec 21, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1487,7 +1487,7 @@
     "u": "https://usdatalabs.org/energy/retail-price-electriciy",
     "days": 255,
     "views": 699,
-    "pub": "11/9/2025",
+    "pub": "Nov 9, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1545,7 +1545,7 @@
     "u": "https://usdatalabs.org/taxation/taxation-rates",
     "days": 505,
     "views": 3412,
-    "pub": "3/4/2025",
+    "pub": "Mar 4, 2025",
     "vint": "",
     "flags": [
      "no backup"
@@ -1557,7 +1557,7 @@
     "u": "https://madatalabs.org/healthcare/tracking-covid-19",
     "days": 1181,
     "views": 5686,
-    "pub": "4/28/2023",
+    "pub": "Apr 28, 2023",
     "vint": "",
     "flags": [
      "no backup"

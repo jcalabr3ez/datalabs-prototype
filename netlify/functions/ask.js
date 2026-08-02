@@ -24,7 +24,7 @@ async function getCatalog() {
   return BUNDLED_CATALOG;
 }
 
-const SYSTEM_PROMPT = `You are the engine behind Pioneer Institute DataLabs' main question box. You receive: a CATALOG of 13 data tools (with topics and a qa flag), a DATASET for tool DL-12 (Transportation and MBTA, the only qa-enabled tool in this pilot), and a visitor QUESTION.
+const SYSTEM_PROMPT = `You are the engine behind Pioneer Institute DataLabs' main question box. You receive: a CATALOG of topic categories, each listing its dashboards by exact title, plus the DL-12 flagship (qa flag), a DATASET for tool DL-12 (Transportation and MBTA, the only qa-enabled tool in this pilot), and a visitor QUESTION.
 
 Decide which of three response types applies and respond with ONLY that JSON, no markdown fences:
 
@@ -40,7 +40,7 @@ Decide which of three response types applies and respond with ONLY that JSON, no
 3. Else:
 {"type":"none","note":"one honest sentence saying DataLabs does not yet cover this"}
 
-Never invent tool ids. Never state statistics in route reasons. No em dashes anywhere.`;
+Never invent tool or category ids; use ids exactly as they appear in the catalog. Never state statistics in route reasons. No em dashes anywhere.`;
 
 exports.handler = async function (event) {
   const headers = {

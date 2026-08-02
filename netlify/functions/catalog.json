@@ -1,367 +1,73 @@
 [
  {
-  "id": "DL-01",
-  "t": "Public Pension Ledger",
-  "q": "What state and teacher retirees collect, and how the funds perform.",
-  "g": [
-   "MA"
-  ],
-  "st": "build",
-  "tgt": "Oct 2026",
+  "id": "340b",
+  "t": "340B",
   "legacy": [
    {
-    "t": "Overview",
-    "s": "MA",
-    "u": "https://madatalabs.org/pensions/pensions-x"
+    "t": "340B Program Growth",
+    "s": "PI",
+    "u": "https://pioneerinstitute.org/340b-abuse/"
    },
    {
-    "t": "Performance",
-    "s": "MA",
-    "u": "https://madatalabs.org/pensions/pensions-performance"
+    "t": "Hospital Charity Care",
+    "s": "PI",
+    "u": "https://pioneerinstitute.org/340b-abuse/"
    },
    {
-    "t": "Public Pensions",
-    "s": "US",
-    "u": "https://usdatalabs.org/Government/public-pensions"
-   },
-   {
-    "t": "State & Teacher Retirees",
-    "s": "MA",
-    "u": "https://madatalabs.org/pensions/state-and-teacher-retirees"
+    "t": "Legislative Mapping",
+    "s": "PI",
+    "u": "https://pioneerinstitute.org/340b-abuse/"
    }
   ],
-  "heritage": "Formerly MassPensions",
-  "fresh": "Updated Nov 2025"
+  "fresh": "Updated Jan 2025"
  },
  {
-  "id": "DL-02",
-  "t": "State Payroll & Checkbook",
-  "q": "State payroll and vendor payments, agency by agency.",
-  "g": [
-   "MA"
-  ],
-  "st": "build",
-  "tgt": "Dec 2026",
+  "id": "boston",
+  "t": "Boston",
   "legacy": [
    {
-    "t": "Financial Transparency",
-    "s": "US",
-    "u": "https://usdatalabs.org/Government/financial-transparency"
+    "t": "Boston Budget Dashboard",
+    "s": "Boston",
+    "u": "https://pioneerinstitute.org/boston-data-labs/"
    },
    {
-    "t": "Payroll State Agencies",
-    "s": "MA",
-    "u": "https://madatalabs.org/state-government/payroll-state-agencies"
-   },
-   {
-    "t": "Payroll-Higher Education",
-    "s": "MA",
-    "u": "https://massopenbooks.org/payrolls/payroll-higher-education"
-   },
-   {
-    "t": "Payroll-Quasi Public Agencies",
-    "s": "MA",
-    "u": "https://madatalabs.org/state-government/payroll-quasi-public-agencies"
-   },
-   {
-    "t": "Spending Total",
-    "s": "MA",
-    "u": "https://madatalabs.org/state-government/spending-total"
-   },
-   {
-    "t": "State Employees",
-    "s": "US",
-    "u": "https://usdatalabs.org/Government/public-employees"
-   },
-   {
-    "t": "Tax Credits",
-    "s": "MA",
-    "u": "https://massopenbooks.org/tax-credits"
-   },
-   {
-    "t": "Vendor Payments Quasi-Public Agencies",
-    "s": "MA",
-    "u": "https://massopenbooks.org/vendor-payments-quasi-public-agencies"
-   },
-   {
-    "t": "Vendor Payments-State",
-    "s": "MA",
-    "u": "https://massopenbooks.org/vendor-payments-state-government"
+    "t": "Boston Payroll Dashboard",
+    "s": "Boston",
+    "u": "https://pioneerinstitute.org/boston-data-labs/"
    }
   ],
-  "heritage": "Formerly MassOpenBooks",
-  "fresh": "Updated May 2026"
+  "fresh": "Updated Jun 2025"
  },
  {
-  "id": "DL-03",
-  "t": "State Revenue & Budget Monitor",
-  "q": "Collections, spending growth, rainy day funds, and 62F.",
-  "g": [
-   "MA",
-   "US"
-  ],
-  "st": "build",
-  "tgt": "Dec 2026",
+  "id": "crime-justice",
+  "t": "Crime & Justice",
   "legacy": [
    {
-    "t": "Government Organizations",
+    "t": "Adult Incarceration",
     "s": "US",
-    "u": "https://usdatalabs.org/Government/government-organizations"
+    "u": "https://usdatalabs.org/crime-justice/adult-incarceration"
    },
    {
-    "t": "Party Dominance",
+    "t": "Crime Rates",
     "s": "US",
-    "u": "https://usdatalabs.org/Government/party-dominance"
+    "u": "https://usdatalabs.org/crime-justice/crime-rates"
    },
    {
-    "t": "Revenue Tax",
-    "s": "MA",
-    "u": "https://madatalabs.org/state-government/revenue-tax"
-   },
-   {
-    "t": "Revenue Total",
-    "s": "MA",
-    "u": "https://madatalabs.org/state-government/revenue-total"
-   },
-   {
-    "t": "State Dependency",
+    "t": "Internet Crime",
     "s": "US",
-    "u": "https://usdatalabs.org/indexes/state-dependency-index"
+    "u": "https://usdatalabs.org/crime-justice/internet-crime"
    },
    {
-    "t": "State Finance-State & Local Expenses",
+    "t": "Juvinile Incarceration",
     "s": "US",
-    "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-expenses"
-   },
-   {
-    "t": "State Finance-State & Local Revenues",
-    "s": "US",
-    "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-revenues"
-   },
-   {
-    "t": "State Finance-State Only Expenses",
-    "s": "US",
-    "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-expenses"
-   },
-   {
-    "t": "State Finance-State Only Revenues",
-    "s": "US",
-    "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-revenues"
-   },
-   {
-    "t": "State Finance-State Rainy Day Funds",
-    "s": "US",
-    "u": "https://usdatalabs.org/Government/state-finance-overview/state-rainy-day-funds"
+    "u": "https://usdatalabs.org/crime-justice/juvenile-incarceration"
    }
   ],
-  "fresh": "Updated May 2026"
+  "fresh": "Updated Apr 2026"
  },
  {
-  "id": "DL-04",
-  "t": "Tax & Migration Atlas",
-  "q": "State tax codes compared, and where taxpayers move.",
-  "g": [
-   "US"
-  ],
-  "st": "live",
-  "url": "https://jcalabr3ez.github.io/us-wealth-tax-atlas/",
-  "legacy": [
-   {
-    "t": "County to County Migration",
-    "s": "MA",
-    "u": "https://madatalabs.org/taxation/county-to-county-migration"
-   },
-   {
-    "t": "Domestic Migration",
-    "s": "US",
-    "u": "https://usdatalabs.org/population/domestic-migration"
-   },
-   {
-    "t": "Individual Statistics",
-    "s": "US",
-    "u": "https://usdatalabs.org/taxation/individual-income-tax-statistics"
-   },
-   {
-    "t": "State to State Tax Migration",
-    "s": "US",
-    "u": "https://usdatalabs.org/taxation/taxation-irs-taxpayer-migration-state-state"
-   },
-   {
-    "t": "Tax Statistics-County",
-    "s": "MA",
-    "u": "https://madatalabs.org/taxation/tax-statistics-counties"
-   },
-   {
-    "t": "Tax Statistics-Municipalities",
-    "s": "MA",
-    "u": "https://massopenbooks.org/payrolls/commonwealth-employees"
-   },
-   {
-    "t": "Taxpayer Migration",
-    "s": "US",
-    "u": "https://usdatalabs.org/taxation/irs-taxpayer-migration"
-   },
-   {
-    "t": "Tracking Wealth",
-    "s": "US",
-    "u": "https://usdatalabs.org/taxation/adjusted-gross-income-percentile-data"
-   }
-  ],
-  "heritage": "Formerly MassIRSDataDiscovery",
-  "fresh": "Updated May 2026"
- },
- {
-  "id": "DL-05",
-  "t": "K-12 Achievement & Accountability",
-  "q": "Student performance by district, charter, and state.",
-  "g": [
-   "MA",
-   "US"
-  ],
-  "st": "build",
-  "tgt": "Nov 2026",
-  "legacy": [
-   {
-    "t": "Demographics",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-demographics"
-   },
-   {
-    "t": "Discipline & Security",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/discipline-safety-and-security-measures"
-   },
-   {
-    "t": "Dropouts & Graduates",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-dropouts-and-graduates"
-   },
-   {
-    "t": "Education Fast Facts",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-fast-facts"
-   },
-   {
-    "t": "Enrollment by Grade",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-enrollment-grade"
-   },
-   {
-    "t": "High School Completion",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/high-school-completion-and-dropouts"
-   },
-   {
-    "t": "K-12 Enrollment",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/k-12-enrollment"
-   },
-   {
-    "t": "MCAS Legacy",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-mcas-legacy"
-   },
-   {
-    "t": "MCAS NEXTGEN",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-mcas-nextgen"
-   },
-   {
-    "t": "Reading/Math Achievement",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/reading-mathematics-achievement"
-   },
-   {
-    "t": "School Attendence",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-school-attendance"
-   },
-   {
-    "t": "School Districts-Charter Schools",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/school-districts/charter-schools"
-   }
-  ],
-  "heritage": "Formerly MassReportCards",
-  "fresh": "Updated Jul 2026"
- },
- {
-  "id": "DL-06",
-  "t": "School Finance Explorer",
-  "q": "Per-pupil spending by district, line by line.",
-  "g": [
-   "MA",
-   "US"
-  ],
-  "st": "build",
-  "tgt": "Dec 2026",
-  "legacy": [
-   {
-    "t": "K-12 School Finance",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/k-12-school-finance"
-   },
-   {
-    "t": "School Districts-District Directory",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/school-districts/directory-of-school-districts"
-   },
-   {
-    "t": "School Districts-Education Staff",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/school-districts/education-staff"
-   },
-   {
-    "t": "School Finances",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-school-finances"
-   }
-  ],
-  "heritage": "Formerly MassReportCards",
-  "fresh": "Updated Oct 2025"
- },
- {
-  "id": "DL-07",
-  "t": "Higher Education Monitor",
-  "q": "Admissions, enrollment, and public higher-ed cost.",
-  "g": [
-   "US"
-  ],
-  "st": "build",
-  "tgt": "Q1 2027",
-  "legacy": [
-   {
-    "t": "Higher Education-College Admissions",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/higher-education/college-admission-tests"
-   },
-   {
-    "t": "Higher Education-College Enrollment",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/higher-education/college-enrollment"
-   },
-   {
-    "t": "Higher Education-Faculty and Staff",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/higher-education/faculty-and-staff"
-   },
-   {
-    "t": "Higher Education-Student Data",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/higher-education/higher-education-student-data"
-   }
-  ],
-  "fresh": "Updated May 2026"
- },
- {
-  "id": "DL-08",
-  "t": "State Competitiveness Monitor",
-  "q": "Jobs, wages, business formation, and cost of living.",
-  "g": [
-   "US"
-  ],
-  "st": "build",
-  "tgt": "Q1 2027",
+  "id": "economy",
+  "t": "Economy",
   "legacy": [
    {
     "t": "Business Births and Deaths",
@@ -374,11 +80,6 @@
     "u": "https://usdatalabs.org/economy/business-dynamics"
    },
    {
-    "t": "CO2 Emissions",
-    "s": "US",
-    "u": "https://usdatalabs.org/energy/CO2-emissions"
-   },
-   {
     "t": "Cost of Living",
     "s": "US",
     "u": "https://usdatalabs.org/economy/cost-of-living"
@@ -387,11 +88,6 @@
     "t": "Defense Impact",
     "s": "US",
     "u": "https://usdatalabs.org/economy/defense-impact"
-   },
-   {
-    "t": "Demographics",
-    "s": "US",
-    "u": "https://usdatalabs.org/population/demographics"
    },
    {
     "t": "Economic Profile",
@@ -414,21 +110,6 @@
     "u": "https://usdatalabs.org/economy/employment-and-wages"
    },
    {
-    "t": "Energy Consumption",
-    "s": "US",
-    "u": "https://usdatalabs.org/energy/energy-consumption"
-   },
-   {
-    "t": "Energy Production",
-    "s": "US",
-    "u": "https://usdatalabs.org/energy/energy-production"
-   },
-   {
-    "t": "Energy Storage",
-    "s": "US",
-    "u": "https://usdatalabs.org/energy/energy-storage"
-   },
-   {
     "t": "GDP by NAICS Code",
     "s": "US",
     "u": "https://usdatalabs.org/economy/gdp-by-naics-codes"
@@ -437,6 +118,16 @@
     "t": "Gross Domestic Product",
     "s": "MA",
     "u": "https://madatalabs.org/economy/gross-domestic-product"
+   },
+   {
+    "t": "Housing Prices",
+    "s": "US",
+    "u": "https://usdatalabs.org/economy/residential-housing-prices"
+   },
+   {
+    "t": "Housing Production",
+    "s": "US",
+    "u": "https://usdatalabs.org/economy/housing"
    },
    {
     "t": "Industry Clusters",
@@ -474,24 +165,14 @@
     "u": "https://usdatalabs.org/economy/personal-income"
    },
    {
-    "t": "Population Change",
-    "s": "US",
-    "u": "https://usdatalabs.org/population/population-change"
-   },
-   {
-    "t": "Retail-Price Electricity",
-    "s": "US",
-    "u": "https://usdatalabs.org/energy/retail-price-electriciy"
-   },
-   {
-    "t": "Rural to Urban",
-    "s": "US",
-    "u": "https://usdatalabs.org/population/rural-urban-continuum"
-   },
-   {
     "t": "Tariff Impacts",
     "s": "US",
     "u": "https://usdatalabs.org/economy/tariff-impacts"
+   },
+   {
+    "t": "Tariff Impacts",
+    "s": "MA",
+    "u": "https://madatalabs.org/cities-and-towns/tariff-impacts"
    },
    {
     "t": "Total Labor Force",
@@ -512,68 +193,310 @@
   "fresh": "Updated Jul 2026"
  },
  {
-  "id": "DL-09",
-  "t": "Housing Monitor",
-  "q": "Permits, production, and prices by state.",
-  "g": [
-   "US",
-   "FL"
-  ],
-  "st": "build",
-  "tgt": "Q1 2027",
+  "id": "education",
+  "t": "Education",
   "legacy": [
    {
-    "t": "Housing Prices",
+    "t": "Discipline & Security",
     "s": "US",
-    "u": "https://usdatalabs.org/economy/residential-housing-prices"
+    "u": "https://usdatalabs.org/education/discipline-safety-and-security-measures"
    },
    {
-    "t": "Housing Production",
+    "t": "Dropouts & Graduates",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-dropouts-and-graduates"
+   },
+   {
+    "t": "Education Fast Facts",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-fast-facts"
+   },
+   {
+    "t": "Enrollment by Grade",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-enrollment-grade"
+   },
+   {
+    "t": "High School Completion",
     "s": "US",
-    "u": "https://usdatalabs.org/economy/housing"
+    "u": "https://usdatalabs.org/education/high-school-completion-and-dropouts"
+   },
+   {
+    "t": "Higher Education-College Admissions",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/higher-education/college-admission-tests"
+   },
+   {
+    "t": "Higher Education-College Enrollment",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/higher-education/college-enrollment"
+   },
+   {
+    "t": "Higher Education-Faculty and Staff",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/higher-education/faculty-and-staff"
+   },
+   {
+    "t": "Higher Education-Student Data",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/higher-education/higher-education-student-data"
+   },
+   {
+    "t": "K-12 Enrollment",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/k-12-enrollment"
+   },
+   {
+    "t": "K-12 School Finance",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/k-12-school-finance"
+   },
+   {
+    "t": "MCAS Legacy",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-mcas-legacy"
+   },
+   {
+    "t": "MCAS NEXTGEN",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-mcas-nextgen"
+   },
+   {
+    "t": "Reading/Math Achievement",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/reading-mathematics-achievement"
+   },
+   {
+    "t": "School Attendence",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-school-attendance"
+   },
+   {
+    "t": "School Districts-Charter Schools",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/school-districts/charter-schools"
+   },
+   {
+    "t": "School Districts-District Directory",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/school-districts/directory-of-school-districts"
+   },
+   {
+    "t": "School Districts-Education Staff",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/school-districts/education-staff"
+   },
+   {
+    "t": "School Finances",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-school-finances"
    }
   ],
   "fresh": "Updated Jul 2026"
  },
  {
-  "id": "DL-10",
-  "t": "Florida Risk Ledger",
-  "q": "Homeowners insurance costs, county by county.",
-  "g": [
-   "FL"
-  ],
-  "st": "live",
-  "url": "#",
+  "id": "energy",
+  "t": "Energy",
   "legacy": [
+   {
+    "t": "CO2 Emissions",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/CO2-emissions"
+   },
+   {
+    "t": "Energy Consumption",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/energy-consumption"
+   },
+   {
+    "t": "Energy Production",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/energy-production"
+   },
+   {
+    "t": "Energy Storage",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/energy-storage"
+   },
+   {
+    "t": "Retail-Price Electricity",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/retail-price-electriciy"
+   }
+  ],
+  "fresh": "Updated Feb 2026"
+ },
+ {
+  "id": "government",
+  "t": "Government",
+  "legacy": [
+   {
+    "t": "Financial Transparency",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/financial-transparency"
+   },
+   {
+    "t": "Government Organizations",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/government-organizations"
+   },
+   {
+    "t": "Party Dominance",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/party-dominance"
+   },
+   {
+    "t": "Public Pensions",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/public-pensions"
+   },
+   {
+    "t": "State Employees",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/public-employees"
+   },
+   {
+    "t": "State Finance-State & Local Expenses",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-expenses"
+   },
+   {
+    "t": "State Finance-State & Local Revenues",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/state-finance-overview/state-and-local-revenues"
+   },
+   {
+    "t": "State Finance-State Only Expenses",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-expenses"
+   },
+   {
+    "t": "State Finance-State Only Revenues",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/state-finance-overview/state-only-revenues"
+   },
+   {
+    "t": "State Finance-State Rainy Day Funds",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/state-finance-overview/state-rainy-day-funds"
+   }
+  ],
+  "fresh": "Updated Apr 2026"
+ },
+ {
+  "id": "health",
+  "t": "Health",
+  "legacy": [
+   {
+    "t": "Medicaid Fraud",
+    "s": "US",
+    "u": "https://usdatalabs.org/health/medicaid-fraud"
+   },
+   {
+    "t": "State Health Expenses",
+    "s": "US",
+    "u": "https://usdatalabs.org/health/state-health-expenses"
+   },
+   {
+    "t": "State Medicaid Expenses",
+    "s": "US",
+    "u": "https://usdatalabs.org/health/state-medicaid-expenses"
+   }
+  ],
+  "fresh": "Updated May 2026"
+ },
+ {
+  "id": "healthcare",
+  "t": "Healthcare",
+  "legacy": [
+   {
+    "t": "Hospital Tracker",
+    "s": "MA",
+    "u": "https://madatalabs.org/healthcare/hospital-tracker"
+   },
+   {
+    "t": "Relative Price Tracker",
+    "s": "MA",
+    "u": "https://madatalabs.org/healthcare/relative-price-tracker"
+   }
+  ],
+  "fresh": "Updated Jul 2025"
+ },
+ {
+  "id": "indexes",
+  "t": "Indexes",
+  "legacy": [
+   {
+    "t": "State Dependency",
+    "s": "US",
+    "u": "https://usdatalabs.org/indexes/state-dependency-index"
+   }
+  ],
+  "fresh": "Updated Apr 2026"
+ },
+ {
+  "id": "infrastructure",
+  "t": "Infrastructure",
+  "legacy": [
+   {
+    "t": "FEMA Obligations",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/fema-obligations"
+   },
+   {
+    "t": "Heat/Cool Days",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/heating-and-cooling-days"
+   },
+   {
+    "t": "Inventory of Dams",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/national-inventory-of-dams"
+   },
+   {
+    "t": "MassTransit-Comparing Systems",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/mass-transit/comparing-systems"
+   },
    {
     "t": "Natl Risk Index",
     "s": "US",
     "u": "https://usdatalabs.org/infrastructure/national-risk-index"
+   },
+   {
+    "t": "Rail, Air and Water",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/rail-air-and-water-transportation"
+   },
+   {
+    "t": "Roadway Transport",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/roadway-transportation"
    }
   ],
-  "fresh": "Updated Jan 2026"
+  "fresh": "Updated Jun 2026"
  },
  {
-  "id": "DL-11",
-  "t": "Your City & Town",
-  "q": "Taxes, crime, schools, and peers for 351 towns plus Boston.",
-  "g": [
-   "MA",
-   "Boston"
-  ],
-  "st": "build",
-  "tgt": "Nov 2026",
+  "id": "mbta",
+  "t": "MBTA",
   "legacy": [
    {
-    "t": "Boston Budget Dashboard",
-    "s": "Boston",
-    "u": "https://pioneerinstitute.org/boston-data-labs/"
+    "t": "Compare Systems",
+    "s": "MA",
+    "u": "https://madatalabs.org/mbta/compare-systems"
    },
    {
-    "t": "Boston Payroll Dashboard",
-    "s": "Boston",
-    "u": "https://pioneerinstitute.org/boston-data-labs/"
-   },
+    "t": "MBTA",
+    "s": "MA",
+    "u": "https://madatalabs.org/mbta/mbta"
+   }
+  ],
+  "fresh": "Data through May 2026"
+ },
+ {
+  "id": "municipalities",
+  "t": "Municipalities",
+  "legacy": [
    {
     "t": "Choose a City or Town",
     "s": "MA",
@@ -588,11 +511,6 @@
     "t": "Find Peers",
     "s": "MA",
     "u": "https://madatalabs.org/cities-and-towns/find-peers"
-   },
-   {
-    "t": "Peer Finder",
-    "s": "US",
-    "u": "https://usdatalabs.org/peer-finder"
    },
    {
     "t": "Rankings-Crime",
@@ -633,15 +551,169 @@
     "t": "Rankings-Taxes",
     "s": "MA",
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/taxes"
-   },
-   {
-    "t": "Tariff Impacts",
-    "s": "MA",
-    "u": "https://madatalabs.org/cities-and-towns/tariff-impacts"
    }
   ],
-  "heritage": "Formerly MassAnalysis",
   "fresh": "Updated Mar 2026"
+ },
+ {
+  "id": "peer-finder",
+  "t": "Peer Finder",
+  "legacy": [
+   {
+    "t": "Peer Finder",
+    "s": "US",
+    "u": "https://usdatalabs.org/peer-finder"
+   }
+  ],
+  "fresh": "Updated Feb 2025"
+ },
+ {
+  "id": "population",
+  "t": "Population",
+  "legacy": [
+   {
+    "t": "Demographics",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-demographics"
+   },
+   {
+    "t": "Demographics",
+    "s": "US",
+    "u": "https://usdatalabs.org/population/demographics"
+   },
+   {
+    "t": "Domestic Migration",
+    "s": "US",
+    "u": "https://usdatalabs.org/population/domestic-migration"
+   },
+   {
+    "t": "Population Change",
+    "s": "US",
+    "u": "https://usdatalabs.org/population/population-change"
+   },
+   {
+    "t": "Rural to Urban",
+    "s": "US",
+    "u": "https://usdatalabs.org/population/rural-urban-continuum"
+   }
+  ],
+  "fresh": "Updated Jun 2026"
+ },
+ {
+  "id": "public-pensions",
+  "t": "Public Pensions",
+  "legacy": [
+   {
+    "t": "Overview",
+    "s": "MA",
+    "u": "https://madatalabs.org/pensions/pensions-x"
+   },
+   {
+    "t": "Performance",
+    "s": "MA",
+    "u": "https://madatalabs.org/pensions/pensions-performance"
+   },
+   {
+    "t": "State & Teacher Retirees",
+    "s": "MA",
+    "u": "https://madatalabs.org/pensions/state-and-teacher-retirees"
+   }
+  ],
+  "fresh": "Updated Jun 2025"
+ },
+ {
+  "id": "state-government",
+  "t": "State Government",
+  "legacy": [
+   {
+    "t": "Payroll State Agencies",
+    "s": "MA",
+    "u": "https://madatalabs.org/state-government/payroll-state-agencies"
+   },
+   {
+    "t": "Payroll-Higher Education",
+    "s": "MA",
+    "u": "https://massopenbooks.org/payrolls/payroll-higher-education"
+   },
+   {
+    "t": "Payroll-Quasi Public Agencies",
+    "s": "MA",
+    "u": "https://madatalabs.org/state-government/payroll-quasi-public-agencies"
+   },
+   {
+    "t": "Revenue Tax",
+    "s": "MA",
+    "u": "https://madatalabs.org/state-government/revenue-tax"
+   },
+   {
+    "t": "Revenue Total",
+    "s": "MA",
+    "u": "https://madatalabs.org/state-government/revenue-total"
+   },
+   {
+    "t": "Spending Total",
+    "s": "MA",
+    "u": "https://madatalabs.org/state-government/spending-total"
+   },
+   {
+    "t": "Tax Credits",
+    "s": "MA",
+    "u": "https://massopenbooks.org/tax-credits"
+   },
+   {
+    "t": "Vendor Payments Quasi-Public Agencies",
+    "s": "MA",
+    "u": "https://massopenbooks.org/vendor-payments-quasi-public-agencies"
+   },
+   {
+    "t": "Vendor Payments-State",
+    "s": "MA",
+    "u": "https://massopenbooks.org/vendor-payments-state-government"
+   }
+  ],
+  "fresh": "Updated May 2026"
+ },
+ {
+  "id": "taxation",
+  "t": "Taxation",
+  "legacy": [
+   {
+    "t": "County to County Migration",
+    "s": "MA",
+    "u": "https://madatalabs.org/taxation/county-to-county-migration"
+   },
+   {
+    "t": "Individual Statistics",
+    "s": "US",
+    "u": "https://usdatalabs.org/taxation/individual-income-tax-statistics"
+   },
+   {
+    "t": "State to State Tax Migration",
+    "s": "US",
+    "u": "https://usdatalabs.org/taxation/taxation-irs-taxpayer-migration-state-state"
+   },
+   {
+    "t": "Tax Statistics-County",
+    "s": "MA",
+    "u": "https://madatalabs.org/taxation/tax-statistics-counties"
+   },
+   {
+    "t": "Tax Statistics-Municipalities",
+    "s": "MA",
+    "u": "https://massopenbooks.org/payrolls/commonwealth-employees"
+   },
+   {
+    "t": "Taxpayer Migration",
+    "s": "US",
+    "u": "https://usdatalabs.org/taxation/irs-taxpayer-migration"
+   },
+   {
+    "t": "Tracking Wealth",
+    "s": "US",
+    "u": "https://usdatalabs.org/taxation/adjusted-gross-income-percentile-data"
+   }
+  ],
+  "fresh": "Updated May 2026"
  },
  {
   "id": "DL-12",
@@ -654,137 +726,7 @@
   "st": "live",
   "url": "/dl-12/",
   "ai": true,
-  "legacy": [
-   {
-    "t": "Compare Systems",
-    "s": "MA",
-    "u": "https://madatalabs.org/mbta/compare-systems"
-   },
-   {
-    "t": "FEMA Obligations",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/fema-obligations"
-   },
-   {
-    "t": "Heat/Cool Days",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/heating-and-cooling-days"
-   },
-   {
-    "t": "Inventory of Dams",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/national-inventory-of-dams"
-   },
-   {
-    "t": "MBTA",
-    "s": "MA",
-    "u": "https://madatalabs.org/mbta/mbta"
-   },
-   {
-    "t": "MassTransit-Comparing Systems",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/mass-transit/comparing-systems"
-   },
-   {
-    "t": "Rail, Air and Water",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/rail-air-and-water-transportation"
-   },
-   {
-    "t": "Roadway Transport",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/roadway-transportation"
-   }
-  ],
-  "heritage": "Formerly MBTAAnalysis",
-  "fresh": "Data through May 2026"
- },
- {
-  "id": "DL-13",
-  "t": "Healthcare & 340B",
-  "q": "Hospital pricing, charity care, and 340B growth.",
-  "g": [
-   "MA",
-   "US"
-  ],
-  "st": "build",
-  "tgt": "Q1 2027",
-  "legacy": [
-   {
-    "t": "340B Program Growth",
-    "s": "PI",
-    "u": "https://pioneerinstitute.org/340b-abuse/"
-   },
-   {
-    "t": "Hospital Charity Care",
-    "s": "PI",
-    "u": "https://pioneerinstitute.org/340b-abuse/"
-   },
-   {
-    "t": "Hospital Tracker",
-    "s": "MA",
-    "u": "https://madatalabs.org/healthcare/hospital-tracker"
-   },
-   {
-    "t": "Legislative Mapping",
-    "s": "PI",
-    "u": "https://pioneerinstitute.org/340b-abuse/"
-   },
-   {
-    "t": "Medicaid Fraud",
-    "s": "US",
-    "u": "https://usdatalabs.org/health/medicaid-fraud"
-   },
-   {
-    "t": "Relative Price Tracker",
-    "s": "MA",
-    "u": "https://madatalabs.org/healthcare/relative-price-tracker"
-   },
-   {
-    "t": "State Health Expenses",
-    "s": "US",
-    "u": "https://usdatalabs.org/health/state-health-expenses"
-   },
-   {
-    "t": "State Medicaid Expenses",
-    "s": "US",
-    "u": "https://usdatalabs.org/health/state-medicaid-expenses"
-   }
-  ],
-  "fresh": "Updated May 2026"
- },
- {
-  "id": "DL-14",
-  "t": "Crime & Justice",
-  "q": "Crime rates and incarceration across the fifty states.",
-  "g": [
-   "US"
-  ],
-  "st": "build",
-  "tgt": "",
-  "legacy": [
-   {
-    "t": "Adult Incarceration",
-    "s": "US",
-    "u": "https://usdatalabs.org/crime-justice/adult-incarceration"
-   },
-   {
-    "t": "Crime Rates",
-    "s": "US",
-    "u": "https://usdatalabs.org/crime-justice/crime-rates"
-   },
-   {
-    "t": "Internet Crime",
-    "s": "US",
-    "u": "https://usdatalabs.org/crime-justice/internet-crime"
-   },
-   {
-    "t": "Juvinile Incarceration",
-    "s": "US",
-    "u": "https://usdatalabs.org/crime-justice/juvenile-incarceration"
-   }
-  ],
-  "fresh": "Updated Apr 2026"
+  "heritage": "Formerly MBTAAnalysis"
  },
  {
   "id": "ARCHIVE",

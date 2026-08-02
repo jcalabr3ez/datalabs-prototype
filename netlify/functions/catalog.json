@@ -100,6 +100,16 @@
   "tgt": "Dec 2026",
   "legacy": [
    {
+    "t": "Government Organizations",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/government-organizations"
+   },
+   {
+    "t": "Party Dominance",
+    "s": "US",
+    "u": "https://usdatalabs.org/Government/party-dominance"
+   },
+   {
     "t": "Revenue Tax",
     "s": "MA",
     "u": "https://madatalabs.org/state-government/revenue-tax"
@@ -155,6 +165,11 @@
     "t": "County to County Migration",
     "s": "MA",
     "u": "https://madatalabs.org/taxation/county-to-county-migration"
+   },
+   {
+    "t": "Domestic Migration",
+    "s": "US",
+    "u": "https://usdatalabs.org/population/domestic-migration"
    },
    {
     "t": "Individual Statistics",
@@ -240,6 +255,11 @@
     "u": "https://usdatalabs.org/education/k-12-enrollment"
    },
    {
+    "t": "MCAS Legacy",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-mcas-legacy"
+   },
+   {
     "t": "MCAS NEXTGEN",
     "s": "MA",
     "u": "https://madatalabs.org/education/education-mcas-nextgen"
@@ -248,6 +268,11 @@
     "t": "Reading/Math Achievement",
     "s": "US",
     "u": "https://usdatalabs.org/education/reading-mathematics-achievement"
+   },
+   {
+    "t": "School Attendence",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-school-attendance"
    },
    {
     "t": "School Districts-Charter Schools",
@@ -342,9 +367,19 @@
     "u": "https://usdatalabs.org/economy/business-dynamics"
    },
    {
+    "t": "CO2 Emissions",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/CO2-emissions"
+   },
+   {
     "t": "Cost of Living",
     "s": "US",
     "u": "https://usdatalabs.org/economy/cost-of-living"
+   },
+   {
+    "t": "Defense Impact",
+    "s": "US",
+    "u": "https://usdatalabs.org/economy/defense-impact"
    },
    {
     "t": "Demographics",
@@ -372,6 +407,21 @@
     "u": "https://usdatalabs.org/economy/employment-and-wages"
    },
    {
+    "t": "Energy Consumption",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/energy-consumption"
+   },
+   {
+    "t": "Energy Production",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/energy-production"
+   },
+   {
+    "t": "Energy Storage",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/energy-storage"
+   },
+   {
     "t": "GDP by NAICS Code",
     "s": "US",
     "u": "https://usdatalabs.org/economy/gdp-by-naics-codes"
@@ -380,6 +430,11 @@
     "t": "Gross Domestic Product",
     "s": "MA",
     "u": "https://madatalabs.org/economy/gross-domestic-product"
+   },
+   {
+    "t": "Industry Clusters",
+    "s": "MA",
+    "u": "https://madatalabs.org/economy/industry-clusters"
    },
    {
     "t": "Labor Demographics",
@@ -395,6 +450,11 @@
     "t": "Monthly Employment",
     "s": "US",
     "u": "https://usdatalabs.org/economy/monthly-employment"
+   },
+   {
+    "t": "NAICS Code Detail",
+    "s": "MA",
+    "u": "https://madatalabs.org/economy/naics-code-detail"
    },
    {
     "t": "Patents by State and Sector",
@@ -589,6 +649,21 @@
     "u": "https://madatalabs.org/mbta/compare-systems"
    },
    {
+    "t": "FEMA Obligations",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/fema-obligations"
+   },
+   {
+    "t": "Heat/Cool Days",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/heating-and-cooling-days"
+   },
+   {
+    "t": "Inventory of Dams",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/national-inventory-of-dams"
+   },
+   {
     "t": "MBTA",
     "s": "MA",
     "u": "https://madatalabs.org/mbta/mbta"
@@ -660,6 +735,55 @@
     "t": "State Medicaid Expenses",
     "s": "US",
     "u": "https://usdatalabs.org/health/state-medicaid-expenses"
+   }
+  ]
+ },
+ {
+  "id": "DL-14",
+  "t": "Crime & Justice",
+  "q": "Crime rates and incarceration across the fifty states.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "tgt": "",
+  "legacy": [
+   {
+    "t": "Adult Incarceration",
+    "s": "US",
+    "u": "https://usdatalabs.org/crime-justice/adult-incarceration"
+   },
+   {
+    "t": "Crime Rates",
+    "s": "US",
+    "u": "https://usdatalabs.org/crime-justice/crime-rates"
+   },
+   {
+    "t": "Internet Crime",
+    "s": "US",
+    "u": "https://usdatalabs.org/crime-justice/internet-crime"
+   },
+   {
+    "t": "Juvinile Incarceration",
+    "s": "US",
+    "u": "https://usdatalabs.org/crime-justice/juvenile-incarceration"
+   }
+  ]
+ },
+ {
+  "id": "ARCHIVE",
+  "t": "Archive",
+  "q": "Dashboards no longer maintained, retained for the record.",
+  "g": [
+   "MA"
+  ],
+  "st": "archive",
+  "tgt": "",
+  "legacy": [
+   {
+    "t": "Tracking COVID-19",
+    "s": "MA",
+    "u": "https://madatalabs.org/healthcare/tracking-covid-19"
    }
   ]
  }

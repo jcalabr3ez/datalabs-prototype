@@ -304,6 +304,9 @@
   </details>
 
   <h2>Methodology</h2>
+  <details class="srcfold">
+  <summary><span class="car">&#9654;</span><span class="name">How each view is built and verified</span></summary>
+  <div class="fold-body">
   <div class="meth">
     <p><b>Rates.</b> All 51 top marginal rates are verified against primary and authoritative sources current to July 28, 2026: the Tax Foundation&rsquo;s 2026 rate table as the base, with every post-publication enactment layered in from primary sources, including Georgia HB 463 (4.99%, retroactive to Jan 1), Arkansas Acts 1 and 2 (3.7%, May 2026), South Carolina H.4216 (5.21% restructure), Maryland&rsquo;s 2025 millionaire brackets, the Maine and Rhode Island surtaxes, Washington SB 6346, and Hawaii&rsquo;s Act 24, which enacts a 13% bracket on income over $1M effective tax year 2027 (the 2026 top rate remains 11%). The Massachusetts surtax threshold reflects the indexed 2026 figure of $1,107,750. Where the compilation and primary law diverge, primary law controls: Washington&rsquo;s capital gains top tier is 9.9% (7% plus a 2.9% surcharge over $1M) per the Department of Revenue&rsquo;s special notice, correcting the 9% figure carried in the Tax Foundation table.</p>
     <p><b>Risk model.</b> The 2-year outlook scores each jurisdiction&rsquo;s likelihood of new enactment or material expansion of a high-income or wealth tax beyond current enacted law within a 24-month window. Enacted law with a future effective date is certainty, not risk: those changes are recorded as slated changes in each state&rsquo;s Current Status panel and are excluded from the score. Five weighted factors: live legislative vehicles, political composition, activist infrastructure, budget pressure, and contagion, with constitutional barriers applied as a cap rather than a weight. Tiers map to probability bands (Very High above 70%, High 40&ndash;70%, Moderate 15&ndash;40%, Low 5&ndash;15%, Very Low below 5%). Ratings move only on documented events, and each call is timestamped so accuracy can be scored over time. These are analytical judgments, not verified facts.</p>
@@ -312,8 +315,14 @@
     <p><b>Events.</b> The fifth view is a dated watch list of twenty-five events through 2028: compliance deadlines, elections, court rulings, effective dates, and filing windows, in chronological order with the anchoring background for each. Dates are verified to the sources in the register; items with no set date carry the best documented window. Impact characterizations are model judgments. Resolved items will be marked, not removed, so the list doubles as the model&rsquo;s graded event record.</p>
     <p><b>The mid-2026 state of play.</b> Rhode Island&rsquo;s phased surtax was signed June 12 alongside a second-home surcharge effective July 1; New York&rsquo;s pied-&agrave;-terre tax took effect July 1 with implementation rules proposed; California&rsquo;s Proposition 40 qualified June 17 and survived the withdrawal deadline; Hawaii&rsquo;s 13% bracket arrives in 2027; Washington&rsquo;s Initiative 645, repealing the 9.9% tax, was certified for the November ballot on July 15. Not everything advances: Massachusetts&rsquo; income tax cut initiative was removed by the SJC on June 18 (its Chapter 62F tax-cap companion remains on the November ballot), and Oregon&rsquo;s IP 70 wealth tax failed to qualify. Massachusetts reported final FY2026 Fair Share collections of $3.38 billion, up 13%, more than twice the original estimate for a third straight year.</p>
   </div>
+  </div>
+  </details>
 
   <h2>Risk Model <span style="font-weight:400;color:var(--g2);font-size:13px">(draft modeling)</span></h2>
+  <details class="srcfold">
+  <summary><span class="car">&#9654;</span><span class="name">How the 2-year outlook is scored, and what the numbers are not</span></summary>
+  <div class="fold-body">
+
   <div class="mathnote"><b>Draft modeling disclaimer.</b> The scoring framework below is draft modeling under active development. Factor weights, bands, and ceilings reflect calibrated analytical judgment, not statistically validated parameters, and both the rubric and individual scores are expected to be revised as the model is reviewed and as its timestamped calls begin to resolve. Nothing in this section is a prediction of certainty, and no rating should be relied on as one.</div>
   <div class="mathnote">Each jurisdiction receives a composite score from five weighted factors. Structural obstacles are then applied as a ceiling rather than a deduction, because momentum cannot compress a multi-year constitutional path into a two-year window. The score determines the tier; the tier implies a probability band.</div>
 
@@ -373,12 +382,10 @@
   <div class="mathnote"><b>Overrides.</b> The published tier equals the computed tier in all fifty-one jurisdictions. No manual overrides are applied. Massachusetts, the second-highest composite in the country at 68 points, publishes at its computed tier of High; the Current Policy view carries the Commonwealth&rsquo;s exposure story, the largest realized surtax collections in the country and the most developed expansion coalition, which the risk score intentionally does not double-count.</div>
 
   <div class="mathnote"><b>What the numbers are and are not.</b> The bands are calibrated judgment, not estimates fitted to historical frequencies, and there is no claim that a composite of 60 has been observed to convert 40 to 70 percent of the time. The rubric exists so that ratings are reproducible, so that changes can be attributed to a specific factor moving, and so that the record can be graded. Every rating is timestamped; resolved calls are scored at the close of the window or when the underlying event resolves.</div>
+  </div>
+  </details>
 
   <h2>Data Sources</h2>
-  <div class="subhead">Every figure in this tool traces to one of 40 sources across 8 categories; state panels carry the
-  specific citations. Hyperlinks appear only where the source was directly reviewed; entries without links reference
-  official documents locatable through the relevant legislature, court, or agency. Risk tiers are this tool&rsquo;s own
-  analytical output, disclosed as such in the final row.</div>
 
   <details class="srcfold">
   <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
@@ -442,9 +449,7 @@
   </details>
 
   <h2 id="changelog">Changelog</h2>
-  <div class="subhead">One row per release. Corrections and data refreshes are logged here and never deleted.
-  Resolved watch-list events are marked resolved in the Events view, not removed. Entries begin with the first
-  public release.</div>
+  <div class="subhead">One row per release.</div>
   <div class="scroll">
   <table>
     <thead><tr><th style="width:9%">Version</th><th style="width:13%">Date</th><th style="width:12%">Type</th><th>What changed</th></tr></thead>
@@ -476,18 +481,40 @@
       <div>State Tax Atlas &middot; Version 1.0 Beta &middot; Data verified July 28, 2026</div>
       <div>40 sources across 8 categories; see the register above</div>
     </div>
-    <div class="disc"><b>About this tool.</b> The State Tax Atlas is a Pioneer Institute DataLabs research tool,
-    published in beta and versioned: corrections and data refreshes are logged in the changelog above, and the version
-    and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static
-    report. Every figure traces to a source in the register above, with its vintage and next scheduled release. Rates
-    reflect enacted law as of the verification date shown in the masthead; legislatures and agencies act on their own
-    schedules, and figures may change in future versions as those actions are incorporated. Risk tiers and event-impact
-    characterizations are forward-looking analytical model outputs, disclosed as such in the register, not predictions
-    of certainty. <b>This tool is provided strictly for research and educational purposes only. It does not constitute
-    legal, tax, accounting, or investment advice, and it should not be relied upon for any tax filing, financial, or
-    legal decision; consult a qualified professional before acting on any matter addressed here.</b> For all
-    corrections, please e-mail [PLACEHOLDER]; every report is checked against the primary source and the outcome is
-    logged in the changelog.</div>
+    <div class="disc">
+    <div><b>About this tool.</b> The State Tax Atlas is a Pioneer Institute DataLabs research tool, published in beta
+    and versioned. Corrections and data refreshes are logged in the changelog above, and the version and data vintage
+    should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
+
+    <div style="margin-top:12px"><b>Research and educational use only.</b> This tool is provided strictly for research
+    and educational purposes. It does not constitute legal, tax, accounting, financial, or investment advice, it
+    creates no professional or advisory relationship, and it should not be relied upon for any tax filing, residency,
+    financial, or legal decision. Consult a qualified professional before acting on any matter addressed here.</div>
+
+    <div style="margin-top:12px"><b>Data sources, accuracy, and revisions.</b> Figures are compiled in good faith from
+    primary and authoritative sources, principally enacted session laws, state revenue departments, elections
+    authorities, court records, and the Tax Foundation&rsquo;s 2026 compilation, and are accurate to the verification
+    date shown in the masthead. Legislatures, courts, and agencies act on their own schedules and may amend, enjoin, or
+    supersede any provision without notice; all figures here are point-in-time and may not reflect a source that has
+    since changed. Verification depth varies by jurisdiction and is disclosed in the register: some rates are confirmed
+    against primary rate schedules while others rest on the compilation pending schedule-level checks. This tool and
+    its contents are provided as is, without warranty of any kind, express or implied, including accuracy,
+    completeness, or fitness for a particular purpose.</div>
+
+    <div style="margin-top:12px"><b>Derived figures and model outputs.</b> Risk tiers, probability bands, and
+    event-impact characterizations are Pioneer Institute&rsquo;s own forward-looking analytical model outputs, produced
+    under the draft scoring framework disclosed on this page. They are calibrated judgments, not statistically
+    validated estimates, not predictions of certainty, and not reviewed or endorsed by any government body. Every
+    rating is timestamped so the record can be graded as calls resolve.</div>
+
+    <div style="margin-top:12px"><b>Known limits of what this page can show.</b> Rates reflect enacted law as of the
+    verification date, not proposals, and thresholds and brackets shown are top-line summaries that omit filing-status
+    detail, phase-ins, and interactions an individual taxpayer would face. Whether any measure passes, survives
+    litigation, or takes effect cannot be predicted here. Ballot access and legislative posture can change at any
+    point in a cycle.</div>
+
+    <div style="margin-top:12px"><b>Corrections.</b> For all corrections, please e-mail [PLACEHOLDER].</div>
+  </div>
   </footer>
 
 </main>

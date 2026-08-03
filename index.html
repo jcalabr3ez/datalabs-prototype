@@ -42,14 +42,14 @@
     background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px); background-size:26px 26px;
     -webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 68%);
     mask-image:radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 68%); }
-  .heroA-in { position:relative; padding-top:70px; padding-bottom:66px; max-width:860px; margin:0 auto; text-align:center; }
+  .heroA-in { position:relative; padding-top:62px; padding-bottom:56px; max-width:860px; margin:0 auto; text-align:center; }
   .kick { font-size:11.5px; font-weight:700; letter-spacing:.18em; color:#E9C46A; }
   .heroA h1 { font-family:'Newsreader',serif; font-weight:500; font-size:clamp(32px,5vw,54px);
     line-height:1.07; letter-spacing:-.015em; margin-top:16px; }
   .heroA .heroL { display:contents; }
   .heroA h1 em { font-style:italic; color:#E9C46A; }
-  .heroA .dek { margin-top:14px; color:#AEBDD2; font-size:15.5px; max-width:480px; margin-left:auto; margin-right:auto; }
-  .askpanel { margin-top:36px; text-align:left; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
+  .heroA .dek { margin-top:12px; color:#AEBDD2; font-size:15.5px; max-width:480px; margin-left:auto; margin-right:auto; }
+  .askpanel { margin-top:30px; text-align:left; background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.15);
     border-top:3px solid var(--gold); backdrop-filter:blur(2px); padding:30px 32px; max-width:820px; margin-left:auto; margin-right:auto; }
   .askline { border-bottom:1px solid rgba(255,255,255,.75); display:flex; align-items:flex-end; gap:16px; padding-bottom:13px; }
   .askline input { flex:1; border:none; outline:none; font-family:'Newsreader',serif;
@@ -58,11 +58,11 @@
   .askline button { font-size:16px; font-weight:700; color:#fff; padding-bottom:5px; white-space:nowrap; background:none; border:none; }
   .askline button:hover { color:#E9C46A; }
   .askline button:disabled { color:#6E8093; cursor:wait; }
-  .credo { margin-top:22px; font-size:12.5px; color:#6E8093; }
+  .credo { margin-top:20px; font-size:12.5px; color:#6E8093; }
 
   /* ---------- response ---------- */
-  .resp { padding-top:20px; }
-  .entry { max-width:720px; border-top:1px solid var(--rule-dk); margin-top:28px; padding-top:16px; animation:up .3s ease both; }
+  .resp { padding-top:0; }
+  .entry { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:18px; animation:up .3s ease both; }
   @keyframes up { from{opacity:0; transform:translateY(5px)} to{opacity:1; transform:none} }
   .entry .k { font-size:12px; font-weight:600; color:var(--faint); margin-bottom:10px; }
   .entry .ans { font-family:'Newsreader',serif; font-size:clamp(18px,2.4vw,22px); line-height:1.45; }
@@ -85,20 +85,21 @@
   .dashlink { font-size:13.5px; font-weight:600; color:var(--navy); }
   .dashlink .site { font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--grey); margin-right:8px; }
   .dashlink:hover { color:var(--gold); }
-  .noans { max-width:720px; border-top:1px solid var(--rule-dk); margin-top:28px; padding-top:14px; font-size:14px; color:var(--grey); }
+  .noans { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:16px; font-size:14px; color:var(--grey); }
   .noans b { color:var(--ink); }
-  .load { max-width:720px; margin:28px auto 0; font-family:'Newsreader',serif; font-size:20px; color:var(--grey); text-align:center; }
+  .load { max-width:720px; margin:0 auto; padding:46px 0 42px; font-family:'Newsreader',serif; font-size:20px; color:var(--grey); text-align:center; }
+  .load .slow { font-family:'Public Sans',sans-serif; font-size:12.5px; color:var(--faint); margin-top:10px; }
   .load::after { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; border:2px solid var(--gold); border-top-color:transparent; margin-left:10px; vertical-align:middle; animation:spin .8s linear infinite; }
   @keyframes spin { to { transform:rotate(360deg); } }
 
   /* ---------- sections ---------- */
-  .sec { padding-top:84px; }
+  .sec { padding-top:72px; }
   .sec .lab { font-size:12px; font-weight:600; color:var(--faint); }
   .sec h2 { font-family:'Newsreader',serif; font-weight:500; font-size:clamp(24px,3.6vw,34px); letter-spacing:-.015em; margin-top:8px; }
   .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
   /* direct answers: application tiles */
-  .appgrid { margin-top:26px; display:grid; grid-template-columns:repeat(auto-fill, 300px); gap:18px; }
+  .appgrid { margin-top:24px; display:grid; grid-template-columns:repeat(auto-fill, 300px); gap:18px; }
   .app { display:flex; flex-direction:column; aspect-ratio:1/1; min-height:300px; }
   .app .body { flex:1; }
   .appnext { border:1.5px dashed #C9D4E0; border-radius:6px; aspect-ratio:1/1; min-height:300px;
@@ -130,38 +131,58 @@
     padding:8px 16px; border-radius:3px; letter-spacing:.02em; }
   .app:hover .openbtn { background:#A87B1F; }
 
-  /* directory */
-  .dir { margin-top:26px; }
-  .dir details { border:1px solid #E4E6E9; border-bottom:none; background:#fff; }
-  .dir details:first-child { border-radius:4px 4px 0 0; }
-  .dir details:last-child { border-bottom:1px solid #E4E6E9; border-radius:0 0 4px 4px; }
-  .dir summary { list-style:none; cursor:pointer; padding:14px 18px; display:flex; align-items:baseline; gap:14px; transition:background .12s; }
-  .dir summary::-webkit-details-marker { display:none; }
-  .dir summary:hover { background:#F6F8FB; }
-  .dir summary .car { color:#A87B1F; font-size:11px; transition:transform .15s; flex:none; }
-  .dir details[open] .car { transform:rotate(90deg); }
-  .dir details[open] summary { background:#F6F8FB; border-bottom:1px solid #E4E6E9; }
-  .dir summary .name { font-weight:600; font-size:14.5px; margin-right:auto; }
-  .dir summary:hover .name { color:#1F3A5F; }
-  .dir summary .herit { font-size:11.5px; color:var(--faint); font-style:italic; }
-  .dir summary .fresh { font-size:10.5px; font-weight:600; color:#177245; background:#EAF5EF; border-radius:3px; padding:2px 8px; white-space:nowrap; }
-  .dir summary .n { font-size:11.5px; color:#9AA6B4; font-variant-numeric:tabular-nums; width:26px; text-align:right; flex:none; }
-  .dir ul { list-style:none; padding:8px 18px 16px 44px; }
-  .dir li { padding:5px 0; font-size:13.5px; display:flex; align-items:baseline; gap:10px; }
-  .dir li .lead { flex:1; border-bottom:1px dotted #D5D9E0; transform:translateY(-4px); min-width:24px; }
-  .dir li .pub { font-size:12px; color:var(--faint); white-space:nowrap; font-variant-numeric:tabular-nums; }
-  .dir li .pub.amb { color:#B26A00; }
-  .dir li .pub.old { color:#8C2F1B; font-weight:600; }
-  .dir li .pub.nr { color:#C4C9CF; font-style:italic; }
-  .dir li .site { font-size:9.5px; font-weight:700; color:#9AA6B4; margin-right:8px; }
-  .dir li a { color:#1F3A5F; }
-  .dir li a:hover { color:#A87B1F; }
-  .dir details.archive summary .name { color:var(--faint); font-weight:500; }
-  .dir details.archive li a { color:var(--grey); }
-  .arch-note { font-size:12.5px; color:var(--faint); padding:8px 18px 0 44px; }
-  @media (max-width:640px){ .dir ul { padding-left:18px; } .dir li .lead { min-width:10px; } }
+  /* directory: finder */
+  .finder { display:grid; grid-template-columns:210px 1fr; gap:40px; margin-top:26px; align-items:start; }
+  @media (max-width:800px){
+    .finder { grid-template-columns:1fr; gap:18px; }
+    .fgroup { margin-top:12px; border-top:none; padding-top:0; display:flex; gap:8px; overflow-x:auto;
+      -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:4px; }
+    .fgroup::-webkit-scrollbar { display:none; }
+    .fb { width:auto; flex:none; border:1px solid var(--rule); border-radius:999px; padding:7px 13px;
+      font-size:12.5px; background:#fff; white-space:nowrap; }
+    .fb.on { border-color:var(--navy); background:var(--navy); color:#fff; }
+    .fb.on span { color:var(--goldlt); }
+    .fb span { margin-left:5px; }
+    .clearall { margin-top:6px; }
+  }
+  .rail .srch { width:100%; border:1px solid var(--rule); border-radius:4px; padding:10px 12px;
+    font-family:inherit; font-size:13.5px; color:var(--ink); outline:none; background:#fff; }
+  .rail .srch:focus { border-color:var(--gold); }
+  .srchwrap { position:relative; }
+  .srchx { position:absolute; right:6px; top:50%; transform:translateY(-50%); border:none; background:none;
+    font-size:17px; color:var(--faint); padding:4px 7px; line-height:1; }
+  .srchx:hover { color:var(--ink); }
+  .clearall { margin-top:14px; border:none; background:none; font-size:12px; font-weight:600;
+    color:var(--gold); padding:2px 0; display:none; }
+  .clearall.show { display:block; }
+  .fgroup { margin-top:20px; border-top:1px solid var(--rule); padding-top:10px; }
+  .fb { display:flex; width:100%; justify-content:space-between; align-items:center; gap:10px;
+    border:none; background:none; text-align:left; font-size:13.5px; color:var(--grey); padding:6px 2px; }
+  .fb span { font-size:11px; color:var(--faint); font-variant-numeric:tabular-nums; }
+  .fb:hover { color:var(--ink); }
+  .fb.on { color:var(--navy); font-weight:700; }
+  .fb.on span { color:var(--gold); }
+  .rcount { font-size:12px; color:var(--faint); padding-bottom:10px; border-bottom:1px solid var(--rule); }
+  .drow { display:flex; align-items:baseline; gap:14px; padding:10px 2px; border-bottom:1px solid #F1F3F5; font-size:13.5px; }
+  .drow.hide { display:none; }
+  .drow .site { font-size:10px; font-weight:700; color:#9AA6B4; width:52px; flex:none; }
+  .drow a { color:var(--navy2); font-weight:600; }
+  .drow a:hover { color:var(--gold); }
+  .drow .new { font-size:9.5px; font-weight:800; letter-spacing:.06em; color:#7A5C13; background:#F7F0DE; border-radius:3px; padding:1px 6px; }
+  .drow .lead { flex:1; border-bottom:1px dotted #DDE1E6; transform:translateY(-4px); min-width:16px; }
+  .drow .topic { font-size:11px; color:var(--faint); white-space:nowrap; }
+  .drow .pub { font-size:12px; color:var(--faint); white-space:nowrap; width:150px; text-align:right; font-variant-numeric:tabular-nums; }
+  .drow .pub.amb { color:#B26A00; }
+  .drow .pub.old { color:#8C2F1B; font-weight:600; }
+  .drow .pub.nr { color:#C4C9CF; font-style:italic; }
+  .drow.arch a { color:var(--grey); }
+  .noresult { padding:18px 2px; font-size:13.5px; color:var(--faint); }
+  .showmore { margin-top:20px; margin-bottom:10px; border:1px solid var(--rule); background:#fff; border-radius:4px;
+    font-size:13px; font-weight:600; color:var(--navy2); padding:9px 16px; }
+  .showmore:hover { border-color:var(--navy); color:var(--navy); }
+  @media (max-width:600px){ .drow .topic { display:none; } .drow .pub { width:auto; } } .dir li .lead { min-width:10px; } }
 
-  footer { margin-top:96px; }
+  footer { margin-top:104px; }
   .pifoot { background:#12213A; color:#C9D2E0; border-top:3px solid #A87B1F; }
   .pifoot-in { display:grid; grid-template-columns:1.2fr auto 1fr; gap:28px 48px; padding-top:36px; padding-bottom:26px; align-items:start; }
   @media (max-width:820px){ .pifoot-in { grid-template-columns:1fr; } }
@@ -216,11 +237,26 @@
   </section>
 
   <section class="sec frame dir-sec" id="directory">
-    <div class="lab">Directory</div>
-    <h2>All dashboards, by topic</h2>
-    <p class="sub">Everything currently published across the legacy MA, US, and Boston sites, organized by topic.</p>
+    <div class="lab">Catalog</div>
+    <h2>Find a tool</h2>
+    <p class="sub">The full catalog, searchable and filterable. Dates show the vintage of the data inside each tool.</p>
+    <div class="finder">
+      <div class="rail">
+        <div class="srchwrap">
+          <input id="srch" class="srch" type="search" placeholder="Search the catalog" aria-label="Search the catalog" autocomplete="off">
+          <button id="srchClear" class="srchx" type="button" aria-label="Clear search" hidden>&#215;</button>
+        </div>
+        <div class="fgroup" id="geoFilters"></div>
+        <div class="fgroup" id="topicFilters"></div>
+        <button class="clearall" id="clearAll" type="button">Clear search &amp; filters</button>
+      </div>
+      <div class="results">
+        <div class="rcount" id="rcount"></div>
+        <div id="dirList"></div>
+        <div class="noresult" id="noresult" hidden>Nothing matches that. Try a different word or clear the filters.</div>
+        <button class="showmore" id="showMore" type="button" hidden></button>
+      </div>
     </div>
-    <div class="dir" id="dirList"></div>
   </section>
 </main>
 
@@ -270,31 +306,92 @@ document.getElementById('deskList').innerHTML = '<div class="appgrid">' +
     '<span class="openbtn">Open &#8594;</span></div>' +
   '</a>').join('') + '</div>';
 
-/* ---------- Directory ---------- */
-document.getElementById('dirList').innerHTML = CATALOG.filter(t=>(((t.legacy||[]).length) || (t.st==='live'&&t.url&&t.url!=='#'&&!t.ai)) && t.id!=='ARCHIVE').map(t => {
-  const extra = (t.st==='live' && t.url && t.url!=='#' && !t.ai)
-    ? '<li><span class="site">NEW</span><a href="'+esc(t.url)+'" target="_blank" rel="noopener">'+esc(t.t)+'</a></li>' : '';
-  const n = (t.legacy||[]).length + (extra?1:0);
-  return '<details id="dir-'+t.id+'"><summary><span class="car">&#9654;</span>' +
-  '<span class="name">'+esc(t.t)+'</span>'+(t.heritage?'<span class="herit">'+esc(t.heritage)+'</span>':'')+(t.fresh?'<span class="fresh">'+esc(t.fresh)+'</span>':'')+'<span class="n">'+n+'</span></summary>' +
-  '<ul>'+extra+(t.legacy||[]).map(l => {
-    const tip = l.pub ? ' title="Last published '+esc(l.pub)+'"' : '';
-    const cls = l.vage==='red' ? ' old' : (l.vage==='amb' ? ' amb' : '');
-    const v = l.vint ? '<span class="pub'+cls+'"'+tip+'>Data through '+esc(l.vint)+'</span>'
-                     : '<span class="pub nr"'+tip+'>vintage not recorded</span>';
-    return '<li><span class="site">'+esc(l.s)+'</span>' +
-      '<a href="'+esc(l.u)+'" target="_blank" rel="noopener">'+esc(l.t)+'</a>' +
-      '<span class="lead"></span>'+v+'</li>';
-  }).join('')+'</ul></details>';
-}).join('') + (function(){
-  const a = CATALOG.find(t=>t.id==='ARCHIVE');
-  if(!a || !a.legacy.length) return '';
-  return '<details id="dir-ARCHIVE" class="archive"><summary><span class="car">&#9654;</span>' +
-    '<span class="name">Archive</span><span class="n">'+a.legacy.length+'</span></summary>' +
-    '<div class="arch-note">No longer maintained. Retained for the record; data reflects its last update.</div>' +
-    '<ul>'+a.legacy.map(l =>
-      '<li><span class="site">'+esc(l.s)+'</span><a href="'+esc(l.u)+'" target="_blank" rel="noopener">'+esc(l.t)+'</a></li>'
-    ).join('')+'</ul></details>';
+/* ---------- Directory: searchable, filterable finder ---------- */
+(function(){
+  const GEO = { 'Boston':'Boston', 'MA':'Massachusetts', 'US':'50 States', 'FL':'Florida' };
+  const items = [];
+  CATALOG.forEach(t => {
+    const isArch = t.id === 'ARCHIVE';
+    if (t.st === 'live' && t.url && t.url !== '#' && !(t.legacy||[]).length) {
+      items.push({ n:t.t, u:t.url, s:(t.g&&t.g[0])||'', topic:t.t,
+                   vint:(t.id==='DL-12'?'May 2026':''), vage:'', isNew:true, arch:false });
+    }
+    (t.legacy||[]).forEach(l => items.push({
+      n:l.t, u:l.u, s:l.s||'', topic:isArch?'Archive':t.t,
+      vint:l.vint||'', vage:l.vage||'', isNew:false, arch:isArch }));
+  });
+  const geoOrder = ['Boston','MA','US','FL'];
+  const gc = g => items.filter(i=>i.s===g).length;
+  const topics = [...new Set(items.map(i=>i.topic))];
+
+  document.getElementById('geoFilters').innerHTML =
+    '<button class="fb geo on" data-g="ALL">All places<span>'+items.length+'</span></button>' +
+    geoOrder.filter(g=>gc(g)).map(g =>
+      '<button class="fb geo" data-g="'+g+'">'+esc(GEO[g])+'<span>'+gc(g)+'</span></button>').join('');
+  document.getElementById('topicFilters').innerHTML =
+    '<button class="fb top on" data-t="ALL">All topics<span>'+items.length+'</span></button>' +
+    topics.map(t => '<button class="fb top" data-t="'+esc(t)+'">'+esc(t)+
+      '<span>'+items.filter(i=>i.topic===t).length+'</span></button>').join('');
+
+  document.getElementById('dirList').innerHTML = items.map(i => {
+    const cls = i.vage==='red' ? ' old' : (i.vage==='amb' ? ' amb' : '');
+    const v = i.vint ? '<span class="pub'+cls+'">Data through '+esc(i.vint)+'</span>'
+                     : '<span class="pub nr">vintage not recorded</span>';
+    const ext = i.u.charAt(0)==='/' ? '' : ' target="_blank" rel="noopener"';
+    return '<div class="drow'+(i.arch?' arch':'')+'" data-g="'+esc(i.s)+'" data-t="'+esc(i.topic)+
+      '" data-q="'+esc((i.n+' '+i.topic).toLowerCase())+'">' +
+      '<span class="site">'+esc(i.s==='PI'?'PIONEER':i.s)+'</span>' +
+      '<a href="'+esc(i.u)+'"'+ext+'>'+esc(i.n)+'</a>' + (i.isNew?'<span class="new">NEW</span>':'') +
+      '<span class="lead"></span><span class="topic">'+esc(i.topic)+'</span>'+v+'</div>';
+  }).join('');
+
+  const rows=[].slice.call(document.querySelectorAll('.drow'));
+  const count=document.getElementById('rcount'), none=document.getElementById('noresult');
+  const more=document.getElementById('showMore');
+  const LIMIT=15;
+  let fg='ALL', ft='ALL', expanded=false;
+  function apply(){
+    const q=(document.getElementById('srch').value||'').toLowerCase().trim();
+    let matched=0, drawn=0;
+    rows.forEach(r=>{
+      const ok=(fg==='ALL'||r.dataset.g===fg)&&(ft==='ALL'||r.dataset.t===ft)&&(!q||r.dataset.q.indexOf(q)>=0);
+      if(ok){ matched++;
+        const show = expanded || drawn < LIMIT;
+        if(show) drawn++;
+        r.classList.toggle('hide', !show);
+      } else r.classList.add('hide');
+    });
+    count.textContent = (expanded||matched<=LIMIT)
+      ? matched+(matched===1?' tool':' tools')
+      : 'Showing '+drawn+' of '+matched+' tools';
+    none.hidden = matched>0;
+    if(matched>LIMIT && !expanded){ more.hidden=false; more.textContent='Show all '+matched+' tools'; }
+    else if(expanded && matched>LIMIT){ more.hidden=false; more.textContent='Show fewer'; }
+    else more.hidden=true;
+  }
+  more.addEventListener('click',()=>{ expanded=!expanded; apply();
+    if(!expanded) document.getElementById('directory').scrollIntoView({behavior:'smooth'}); });
+  const srchEl=document.getElementById('srch'), srchX=document.getElementById('srchClear'),
+        clearAll=document.getElementById('clearAll');
+  function chrome(){
+    srchX.hidden = !srchEl.value;
+    clearAll.classList.toggle('show', !!srchEl.value || fg!=='ALL' || ft!=='ALL');
+  }
+  srchEl.addEventListener('input',()=>{expanded=false;apply();chrome();});
+  srchX.addEventListener('click',()=>{ srchEl.value=''; expanded=false; apply(); chrome(); srchEl.focus(); });
+  clearAll.addEventListener('click',()=>{
+    srchEl.value=''; fg='ALL'; ft='ALL'; expanded=false;
+    [].slice.call(document.querySelectorAll('.fb.geo')).forEach((x,i)=>x.classList.toggle('on',i===0));
+    [].slice.call(document.querySelectorAll('.fb.top')).forEach((x,i)=>x.classList.toggle('on',i===0));
+    apply(); chrome();
+  });
+  [].slice.call(document.querySelectorAll('.fb.geo')).forEach(b=>b.addEventListener('click',()=>{
+    [].slice.call(document.querySelectorAll('.fb.geo')).forEach(x=>x.classList.toggle('on',x===b));
+    fg=b.dataset.g; expanded=false; apply(); chrome();}));
+  [].slice.call(document.querySelectorAll('.fb.top')).forEach(b=>b.addEventListener('click',()=>{
+    [].slice.call(document.querySelectorAll('.fb.top')).forEach(x=>x.classList.toggle('on',x===b));
+    ft=b.dataset.t; expanded=false; apply(); chrome();}));
+  apply();
 })();
 
 /* ---------- Chart library (numbers come only from the data file) ---------- */
@@ -354,7 +451,9 @@ function chartSVG(kind, hot){
 
 /* ---------- Ask ---------- */
 const resp=document.getElementById('resp');
+let inflight=false;
 async function ask(){
+  if(inflight) return;
   const q=document.getElementById('q').value.trim();
   if(!q) return;
   const b=document.getElementById('askBtn'); b.disabled=true;
@@ -417,8 +516,9 @@ async function ask(){
         ' Your question has been logged and will inform what we build next.</div>';
     }
   }catch(err){
-    resp.innerHTML='<div class="noans"><b>Something went wrong.</b> Try again in a moment. Every dashboard below works regardless.</div>';
+    resp.innerHTML='<div class="noans"><b>Something went wrong.</b> Try again in a moment. Every tool in the catalog still works.</div>';
   }finally{ b.disabled=false; }
+  inflight=false; btn.disabled=false; btn.style.opacity='';
 }
 document.getElementById('askBtn').addEventListener('click',ask);
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});

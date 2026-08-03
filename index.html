@@ -62,7 +62,14 @@
 
   /* ---------- response ---------- */
   .resp { padding-top:0; }
-  .entry { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:18px; animation:up .3s ease both; }
+  .respbar { max-width:720px; margin:30px auto 0; text-align:right; }
+  .clearans { border:none; background:none; font-size:12px; font-weight:600; color:var(--faint); padding:2px 0; }
+  .clearans:hover { color:var(--gold); }
+  .entry { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:18px; animation:up .3s ease both; position:relative; }
+  .dismiss { position:absolute; top:12px; right:0; border:none; background:none; font-size:17px;
+    line-height:1; color:#C9CED4; padding:4px 6px; opacity:0; transition:opacity .15s; cursor:pointer; }
+  .entry:hover .dismiss, .noans:hover .dismiss { opacity:1; }
+  .dismiss:hover { color:var(--ink); }
   @keyframes up { from{opacity:0; transform:translateY(5px)} to{opacity:1; transform:none} }
   .entry .k { font-size:12px; font-weight:600; color:var(--faint); margin-bottom:10px; }
   .entry .ans { font-family:'Newsreader',serif; font-size:clamp(18px,2.4vw,22px); line-height:1.45; }
@@ -85,7 +92,7 @@
   .dashlink { font-size:13.5px; font-weight:600; color:var(--navy); }
   .dashlink .site { font-family:'IBM Plex Mono',monospace; font-size:9.5px; color:var(--grey); margin-right:8px; }
   .dashlink:hover { color:var(--gold); }
-  .noans { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:16px; font-size:14px; color:var(--grey); }
+  .noans { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:16px; font-size:14px; color:var(--grey); position:relative; }
   .noans b { color:var(--ink); }
   .load { max-width:720px; margin:0 auto; padding:46px 0 42px; font-family:'Newsreader',serif; font-size:20px; color:var(--grey); text-align:center; }
   .load .slow { font-family:'Public Sans',sans-serif; font-size:12.5px; color:var(--faint); margin-top:10px; }
@@ -228,6 +235,9 @@
     </div>
   </section>
 
+  <div class="respbar frame" id="respBar" hidden>
+    <button class="clearans" id="clearAns" type="button">Clear answer</button>
+  </div>
   <div class="resp frame" id="resp" aria-live="polite"></div>
 
   <section class="sec frame" id="answers">
@@ -451,6 +461,16 @@ function chartSVG(kind, hot){
 
 /* ---------- Ask ---------- */
 const resp=document.getElementById('resp');
+var respBar=document.getElementById('respBar');
+function respChrome(){ var r=document.getElementById('resp');
+  respBar.hidden = r.innerHTML.indexOf('class="entry"')<0 && r.innerHTML.indexOf('class="noans"')<0; }
+document.getElementById('resp').addEventListener('click', function(e){
+  var t=e.target;
+  while(t && t.id!=='resp'){ if((t.className||'')==='dismiss'){ t.parentElement.remove(); respChrome(); return; } t=t.parentElement; }
+});
+document.getElementById('clearAns').addEventListener('click', function(){
+  document.getElementById('resp').innerHTML=''; respChrome(); });
+var DISMISS='<button class="dismiss" type="button" aria-label="Dismiss" title="Dismiss">&#215;</button>';
 let inflight=false;
 async function ask(){
   if(inflight) return;
@@ -464,7 +484,7 @@ async function ask(){
     const p=await r.json();
     if(p.type==='answer'){
       const kind=p.chart&&p.chart!=='none'?p.chart:null;
-      resp.innerHTML='<div class="entry"><div class="k">Answer</div>' +
+      resp.innerHTML='<div class="entry">'+DISMISS+'<div class="k">Answer</div>' +
         '<div class="ans">'+esc(p.text)+'</div>' +
         (kind?'<div class="figure"><div class="cap">'+esc(CHART_TITLES[kind]||'')+'</div>'+
           chartSVG(kind,p.highlight||null)+'</div>':'') +
@@ -476,7 +496,7 @@ async function ask(){
       resp.querySelectorAll('.fups a').forEach(a=>a.addEventListener('click',e=>{
         e.preventDefault(); document.getElementById('q').value=a.dataset.q; ask();}));
     } else if(p.type==='route'&&p.matches&&p.matches.length){
-      resp.innerHTML='<div class="entry"><div class="k">Where to find this</div><div class="routes">' +
+      resp.innerHTML='<div class="entry">'+DISMISS+'<div class="k">Where to find this</div><div class="routes">' +
         p.matches.map(m=>{
         const t=TOOLMAP[m.id]; if(!t) return '';
         const norm = x => String(x).toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
@@ -511,14 +531,14 @@ async function ask(){
           '<div class="dashlinks">'+linkRows+'</div></div>';
       }).join('')+'</div></div>';
     } else {
-      resp.innerHTML='<div class="noans"><b>We do not cover this yet.</b> ' +
+      resp.innerHTML='<div class="noans">'+DISMISS+'<b>We do not cover this yet.</b> ' +
         esc(p.note||p.error||'Nothing we publish answers that.') +
         ' Your question has been logged and will inform what we build next.</div>';
     }
   }catch(err){
-    resp.innerHTML='<div class="noans"><b>Something went wrong.</b> Try again in a moment. Every tool in the catalog still works.</div>';
+    resp.innerHTML='<div class="noans">'+DISMISS+'<b>Something went wrong.</b> Try again in a moment. Every tool in the catalog still works.</div>';
   }finally{ b.disabled=false; }
-  inflight=false; btn.disabled=false; btn.style.opacity='';
+  inflight=false; btn.disabled=false; btn.style.opacity=''; respChrome();
 }
 document.getElementById('askBtn').addEventListener('click',ask);
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});

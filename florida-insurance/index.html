@@ -220,16 +220,6 @@
   body.embed .sitebar,body.embed footer .fbrand{display:none}
   body.embed header,body.embed .proto,body.embed footer{margin-left:0;margin-right:0}
 
-  /* policy recommendation cards */
-  .rec{display:flex;gap:18px;align-items:flex-start;padding:22px 0;border-top:1px solid var(--rule-lt)}
-  .rec:first-of-type{border-top:1px solid var(--rule-dk)}
-  .rec-n{flex:0 0 34px;height:34px;border-radius:50%;background:var(--bar);color:#fff;
-         font:700 16px/34px var(--sans);text-align:center}
-  .rec-b h3{font:500 19px/1.3 var(--serif);color:var(--ink);margin-bottom:9px}
-  .rec-b p{font-size:15px;line-height:1.65;margin-bottom:11px}
-  .rec-b p:last-child{margin-bottom:0}
-  .rec-do{background:var(--wash);border-left:3px solid var(--gold);padding:10px 13px}
-  .rec-ex{color:var(--g1);border-left:3px solid var(--rule);padding:0 0 0 13px}
 
   h3.sub{font:500 17px/1.4 var(--serif);color:var(--ink);margin:26px 0 4px;padding-top:18px;border-top:1px solid var(--rule-lt)}
 
@@ -301,7 +291,7 @@
   <div class="standfirst" id="standfirst">What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings.</div>
   <div class="dateline">
     <span>Data through <b>Jun 30, 2026</b></span>
-    <span>Revised <b>Jul 23, 2026</b></span>
+    <span>Revised <b>Aug 4, 2026</b></span>
     <span>Version <b>1.0 Beta</b></span>
   </div>
 </header>
@@ -331,19 +321,19 @@
       <div class="cell">
         <div class="cl">Your 2026 rate, state insurer</div>
         <div class="cv pos">&minus;8.8%</div>
-        <div class="cd">Citizens cut homeowners rates for 2026, its first broad decrease since 2015. Some private insurers are filing decreases too.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> Premiums are declining, but a single 8.8 percent reduction does not offset several years of increases.</div>
+        <div class="cd">Citizens cut homeowners multiperil rates by an average of 8.8% for 2026, its first broad decrease since 2015; wind-only rates fell 5.5%. Some private insurers are filing decreases too.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> Premiums are declining, but a single 8.8 percent reduction does not offset several years of increases.</div>
         <div class="csrc">Sources: <a href="https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" target="_blank">Citizens, March 4, 2026</a> and <a href="https://www.citizensfla.com/-/20251210-citizens-recommends-rate-cuts-for-most-policyholders" target="_blank">December 10, 2025</a></div>
       </div>
       <div class="cell">
         <div class="cl">The price of protection</div>
         <div class="cv pos">Flat statewide</div>
         <div class="cd">Across every insurer, a year of coverage for each $100,000 of home value costs about the same now as in late 2023, even as average premiums peaked and paused. Citizens' own shrinking book is the exception: its price per dollar of protection rose 18.5 percent and now runs about 1.9 times the market, consistent with the hardest risks staying behind.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> For any individual policy, a lower premium can still reflect reduced coverage. Deductibles and wind coverage should be reviewed alongside the total.</div>
-        <div class="csrc">Pioneer Institute calculation from OIR statewide files (all insurers) and Citizens filings. Coverage terms themselves, deductibles and limits, are published for no insurer. See "Is the price of protection actually falling?" below</div>
+        <div class="csrc">Pioneer Institute calculation from <a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">OIR statewide files</a> (all insurers) and <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens filings</a>. Coverage terms themselves, deductibles and limits, are published for no insurer. See "Is the price of protection actually falling?" below</div>
       </div>
       <div class="cell">
         <div class="cl">Insurers coming back</div>
         <div class="cv">21 entrants</div>
-        <div class="cd">Twenty-one new insurers have been approved to write home policies in Florida since the 2022 and 2023 reforms, bringing more than $850 million in new money.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> More insurers competing for policies puts downward pressure on price and gives households an alternative to the state insurer.</div>
+        <div class="cd">Twenty-one new insurers have been approved to write home policies in Florida since the 2022 and 2023 reforms, bringing more than $850 million in new money through May 2026.</div><div class="cd" style="margin-top:8px"><b>Why it matters:</b> More insurers competing for policies puts downward pressure on price and gives households an alternative to the state insurer.</div>
         <div class="csrc">Sources: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a> (entrant count); <a href="https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" target="_blank">FL OIR, May 20, 2026</a> (capital)</div>
       </div>
     </div>
@@ -373,7 +363,7 @@
       <div class="plot plot-sm"><canvas id="hFig1a"></canvas></div>
       <div style="font:600 12.5px/1.4 var(--sans);color:var(--g1);margin:18px 0 6px">1b &middot; The yearly cost of each $100,000 of home coverage: the whole market versus the state insurer</div>
       <div class="plot plot-sm"><canvas id="hFig1b"></canvas></div>
-      <div class="note">Read the two panels together. The average premium (1a) climbed 32.6 percent, from $2,798 in mid-2022 to a $3,748 peak in late 2025, then flattened. But the price of protection itself (1b) barely moved: a year of coverage for each $100,000 of home value cost $459 statewide in mid-2022 and $485 in early 2026, and has been essentially flat since late 2023. Premiums rose mostly because the amount of coverage per home rose about 25 percent, which largely reflects the higher cost of rebuilding, not households buying more protection. The exception is Citizens, the state insurer: on its shrinking book, the same $100,000 of coverage went from $782 to $927 a year, up 18.5 percent, and now costs nearly twice the market rate. That gap is best read as composition, not market prices: Citizens lost roughly four-fifths of its policies as private carriers selected which ones to take, so the harder, costlier homes are what remain.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Statewide cost per $100,000 of coverage (all insurers, owner-occupied homeowners, excluding wind-only)</div><code>cost per $100,000 = premium in force / exposure in force x 100,000
+      <div class="note">Read the two panels together. The average premium (1a) climbed from $2,798 in mid-2022 to a $3,748 peak in late 2025, then flattened; the net rise through early 2026 is 32.6 percent. But the price of protection itself (1b) barely moved: a year of coverage for each $100,000 of home value cost $459 statewide in mid-2022 and $485 in early 2026, and has been essentially flat since late 2023. Premiums rose mostly because the amount of coverage per home rose about 25 percent, which largely reflects the higher cost of rebuilding, not households buying more protection. The exception is Citizens, the state insurer: on its shrinking book, the same $100,000 of coverage went from $782 to $927 a year, up 18.5 percent, and now costs nearly twice the market rate. That gap is best read as composition, not market prices: Citizens lost roughly four-fifths of its policies as private carriers selected which ones to take, so the harder, costlier homes are what remain.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Statewide cost per $100,000 of coverage (all insurers, owner-occupied homeowners, excluding wind-only)</div><code>cost per $100,000 = premium in force / exposure in force x 100,000
 
 2022 Q2: $11,370,137,492 / $2,474,782,289,235 x 100,000 = $459
 2023 Q3: = $489
@@ -384,12 +374,12 @@ avg premium 2026 Q1 = $15,422,546,212 / 4,155,093 = $3,712</code><div class="out
 Citizens Jun 2026 = $737,991,504  / $79,644,625,492  x 100,000 = $927
 change            = ($927 - $782) / $782 x 100               = +18.5%
 
-matched quarter, 2026 Q1: Citizens $906 vs statewide $485  ->  1.87x</code><div class="out">Result: Citizens&rsquo; price of protection rose while the market&rsquo;s stayed flat, and its remaining book costs roughly 1.9 times the market per dollar of coverage.</div></div><div class="mathsrc">Inputs: OIR Statewide Summary by Company and Policy Type, sixteen quarterly files, Q2 2022 through Q1 2026, fetched and recomputed August 3, 2026 through two independent parses that agree on every quarter; eleven blank placeholder rows filed by individual insurers across the sixteen files are excluded, with quarter-to-quarter continuity confirming none is material. Citizens figures from Citizens premium and exposure filings. Caveat: OIR&rsquo;s &ldquo;total dollar value of exposure&rdquo; and Citizens&rsquo; total insured value may not be defined identically, so trends within each source are robust while the cross-source 1.9x ratio is approximate. Nominal dollars throughout.</div></details><div class="note" style="border-top:0;padding-top:0"><b>What Citizens is uniquely for.</b> The state publishes no coverage-adjusted price measure of its own; the statewide series above is a Pioneer calculation from OIR&rsquo;s aggregate files. Citizens remains the only insurer whose book is also public monthly, by county, and with coverage detail, which is why it anchors the county and coverage exhibits on this page.</div>
+matched quarter, 2026 Q1: Citizens $906 vs statewide $485  ->  1.87x</code><div class="out">Result: Citizens&rsquo; price of protection rose while the market&rsquo;s stayed flat, and its remaining book costs roughly 1.9 times the market per dollar of coverage.</div></div><div class="mathsrc">Inputs: OIR Statewide Summary by Company and Policy Type, sixteen quarterly files, Q2 2022 through Q1 2026, fetched and recomputed most recently on August 4, 2026 through independent parses that agree on every quarter; eleven blank placeholder rows filed by individual insurers across the sixteen files are excluded, with quarter-to-quarter continuity confirming none is material. Citizens figures from Citizens premium and exposure filings. Caveat: OIR&rsquo;s &ldquo;total dollar value of exposure&rdquo; and Citizens&rsquo; total insured value may not be defined identically, so trends within each source are robust while the cross-source 1.9x ratio is approximate. Nominal dollars throughout.</div></details><div class="note" style="border-top:0;padding-top:0"><b>What Citizens is uniquely for.</b> The state publishes no coverage-adjusted price measure of its own; the statewide series above is a Pioneer calculation from OIR&rsquo;s aggregate files. Citizens remains the only insurer whose book is also public monthly, by county, and with coverage detail, which is why it anchors the county and coverage exhibits on this page.</div><div class="srcline"><b>Sources:</b> <a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">FL OIR, Statewide Summary by Company and Policy Type</a> (sixteen quarterly files, Q2 2022 through Q1 2026, published under Residential Market Share Reports); <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens, Policies in Force</a> (monthly Detail reports and exposure filings). <b>Calculation:</b> Pioneer Institute.</div>
     </div>
     <details class="simplify">
       <summary><span class="car">&#9654;</span><span>Why some questions cannot be answered yet</span></summary>
       <div class="dt-body">
-    <p class="body-p">Florida law requires both halves of this picture. Every residential insurer must file detailed market data, and OIR must publish the statewide aggregate: under <a href="https://www.flsenate.gov/Laws/Statutes/2025/624.424" target="_blank">s. 624.424(10)(b), Florida Statutes</a>, the office &ldquo;shall aggregate on a statewide basis the data submitted by each insurer or insurer group under paragraph (a) and make such data publicly available by publishing such data on the office&rsquo;s website within 1 month after each quarterly and annual filing,&rdquo; and such information, when aggregated on a statewide basis, &ldquo;is not a trade secret&rdquo; and &ldquo;is not subject to the public records exemption for trade secrets.&rdquo; So market-wide totals, exposure, and premium are public, and this page now uses them.</p>
+    <p class="body-p">Florida law requires both halves of this picture. Every residential insurer must file detailed market data, and OIR must publish the statewide aggregate: under <a href="https://www.flsenate.gov/Laws/Statutes/2025/624.424" target="_blank">s. 624.424(10)(b), Florida Statutes</a>, the office &ldquo;shall aggregate on a statewide basis the data submitted by each insurer or insurer group under paragraph (a) and make such data publicly available by publishing such data on the office&rsquo;s website within 1 month after each quarterly and annual filing,&rdquo; and such information, &ldquo;when aggregated on a statewide basis as to an individual insurer or insurer group, is not a trade secret&rdquo; and &ldquo;is not subject to the public records exemption for trade secrets.&rdquo; So market-wide totals, exposure, and premium are public, and this page now uses them.</p>
     <p class="body-p">What insurers can shield is the geographic detail. Under <a href="https://www.flsenate.gov/Laws/Statutes/2025/624.4213" target="_blank">s. 624.4213, Florida Statutes</a>, a filer may designate its submission a trade secret, and OIR excludes those companies from its public company-and-county query tool. OIR&rsquo;s own site lists 86 companies excluded on that basis, beginning with State Farm Florida in 2014 and expanding sharply from late 2022. The homeowners policies still visible company by company in that tool fell from about 1.29 million at the end of 2022 to about 405,000 at the end of 2025, not because the market shrank, but because the insurers writing it went dark in that tool. Their statewide totals remain published; their county and zip-code detail does not. As reform moved policies off the state insurer, whose book is fully public at every level, they largely landed with trade secret filers.</p>
     <p class="body-p">The practical consequence: this page can tell you what the whole market pays, how big it is, and which carriers are growing or retreating statewide, all of which remain published insurer by insurer. What cannot be answered from public data is anything beneath the statewide line for most of the market: who writes coverage in a given county, where takeout policies actually landed, and how coverage terms compare, since deductibles and limits are published for no insurer at all. Citizens is the only insurer whose book is public at every level: monthly, by county, and with coverage detail.</p>
     <div class="srcline">Sources: <a href="https://www.flsenate.gov/Laws/Statutes/2025/624.424" target="_blank">s. 624.424(10)(b), Florida Statutes (2025)</a> (aggregation and publication mandate); <a href="https://www.flsenate.gov/Laws/Statutes/2025/624.4213" target="_blank">s. 624.4213, Florida Statutes (2025)</a> (trade secret designation); <a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">FL OIR, Residential Market Share Reports</a> (Trade Secret Companies list and statewide files); FL OIR Property Market Intelligence Report (Totals Report), reporting periods ending December 31, 2022 and December 31, 2025, generated through the OIR Market Intelligence interface, for the visible-policies figures. <b>Calculation:</b> Pioneer Institute.</div>
@@ -534,7 +524,7 @@ wind share = (premium with wind - premium without wind) / premium with wind x 10
                  = $538,459,885,574
 
 exposure change  = -538,459,885,574 / 618,104,511,066 x 100 = -87.11%
-policies change  = (278,246 - 1,407,805) / 1,407,805 x 100  = -80.24%</code><div class="out">Result: $538.5 billion of catastrophe exposure removed, 87.1 percent; policies down 80.2 percent.</div></div><div class="mathsrc">Inputs: Citizens Policies in Force and quarterly exposure filings.</div></details> And as it shrinks, the coverage Citizens keeps is getting more expensive per dollar of protection: each $100,000 of insured value went from $782 to $927 a year, up 18.5 percent, consistent with private carriers taking the easier risks and leaving the harder ones behind. <b>Source:</b> Citizens Property Insurance Corporation, Policies in Force; price per $1,000 is a Pioneer Institute calculation from Citizens exposure and premium filings.</div>
+policies change  = (278,246 - 1,407,805) / 1,407,805 x 100  = -80.24%</code><div class="out">Result: $538.5 billion of catastrophe exposure removed, 87.1 percent; policies down 80.2 percent.</div></div><div class="mathsrc">Inputs: Citizens Policies in Force and quarterly exposure filings.</div></details> And as it shrinks, the coverage Citizens keeps is getting more expensive per dollar of protection: each $100,000 of insured value went from $782 to $927 a year, up 18.5 percent, consistent with private carriers taking the easier risks and leaving the harder ones behind. <b>Source:</b> <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens Property Insurance Corporation, Policies in Force</a>; price per $1,000 is a Pioneer Institute calculation from Citizens exposure and premium filings.</div>
     </div>
   </section>
 
@@ -577,7 +567,7 @@ policies change  = (278,246 - 1,407,805) / 1,407,805 x 100  = -80.24%</code><div
     </div>
     <div class="answer">
       <h3>Capital is entering, not merely returning.</h3>
-      <p>Twenty-one new companies have been approved to write residential property in Florida since the reforms, bringing more than $850 million in new capital. Competition is reappearing in the hardest niches: writers of wind-only condominium association coverage in Broward, Miami-Dade, and Palm Beach counties have grown from one to five. And the risk-transfer market has repriced Florida risk directly: Citizens' 2026 catastrophe bond, Everglades Re II 2026-1, was upsized by a third to $600 million and priced below guidance.</p>
+      <p>Twenty-one new companies have been approved to write residential property in Florida since the reforms, bringing more than $850 million in new capital through May 2026. Competition is reappearing in the hardest niches: writers of wind-only condominium association coverage in Broward, Miami-Dade, and Palm Beach counties have grown from one to five. And the risk-transfer market has repriced Florida risk directly: Citizens' 2026 catastrophe bond, Everglades Re II 2026-1, was upsized by a third to $600 million and priced below guidance.</p>
       <div class="srcline">Sources: <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a> (entrant count); <a href="https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" target="_blank">FL OIR, May 20, 2026</a> (capital and condominium writers); <a href="https://www.artemis.bm/news/florida-citizens-secures-one-third-upsized-600m-everglades-re-ii-2026-1-catastrophe-bond/" target="_blank">Artemis, May 13, 2026</a> (catastrophe bond pricing).</div>
     </div>
   </section>
@@ -600,7 +590,7 @@ policies change  = (278,246 - 1,407,805) / 1,407,805 x 100  = -80.24%</code><div
     <p class="body-p">SB 2-A passed in December 2022. Citizens then grew for nine more months to an all-time peak in
     September 2023, and did not fall below its passage-day size until October 2024, twenty-two months later. Claims are
     governed by the law in force when the policy was written, so the pre-reform litigation tail runs for years.</p>
-    <p class="body-p">Implication for states considering reform: a legislature evaluating its reform at twelve months would conclude it had failed, and could begin reversing it at the point it begins to take effect.</p><details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Time to first effect</div><code>policies(Dec 2022, at passage) = 1,145,809
+    <p class="body-p">At the twelve-month mark, every headline indicator still pointed the wrong way: Citizens was larger than at passage and still growing. The measured decline registered only in the second year.</p><details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Time to first effect</div><code>policies(Dec 2022, at passage) = 1,145,809
 
 scan forward for the first month below that level:
   Sep 2023  1,407,805   all-time peak, 9 months after passage
@@ -613,7 +603,7 @@ elapsed = Dec 2022 to Oct 2024</code><div class="out">Result: 22 months to first
         <span class="ex-t">Citizens policies in force, monthly, with the reform window shaded</span></div>
       <div class="plot plot-tall"><canvas id="pChart1"></canvas></div>
       <div class="note">Shaded region marks SB 2-D through HB 837. Shading marks the policy interval and is
-      not a claim of causation; see Limitations. As the book contracts, the risk it retains concentrates: Citizens' price per $1,000 of insured value rose from $7.82 to $9.27, up 18.5 percent, as private carriers took the easier risks, an adverse-selection signal worth watching in any depopulation program. <b>Source:</b> Citizens Property Insurance Corporation, Policies in Force, 75 monthly observations; price per $1,000 is a Pioneer Institute calculation from Citizens exposure and premium filings.</div>
+      not a claim of causation; see Limitations. As the book contracts, the risk it retains concentrates: Citizens' price per $1,000 of insured value rose from $7.82 to $9.27, up 18.5 percent, as private carriers took the easier risks, an adverse-selection signal worth watching in any depopulation program. <b>Source:</b> <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens Property Insurance Corporation, Policies in Force</a>, 75 monthly observations; price per $1,000 is a Pioneer Institute calculation from Citizens exposure and premium filings.</div>
     </div>
   </section>
 
@@ -637,7 +627,7 @@ elapsed = Dec 2022 to Oct 2024</code><div class="out">Result: 22 months to first
       </tbody>
     </table>
     <div class="note">In 2023, for every 100 policies taken out, about 130 entered behind them, so the book grew despite active takeouts. That ratio fell to 39 in 2024 and 8 in 2025, and in the first half of 2026 it turned negative: departures outside the takeout process exceeded new business, so Citizens contracted by more than takeouts alone. Implied inflow is the net change in policies in force plus gross takeouts; it captures new and returning policies net of other departures, and is not a figure Citizens reports directly. <b>Source:</b> Citizens 2014-2026 Exposure Summary,
-    Business Overview, and Depopulation Statistics. <b>Calculation:</b> Pioneer Institute, validated against a closed
+    Business Overview, and <a href="https://www.citizensfla.com/depopulation" target="_blank">Depopulation Statistics</a>, with policy counts from <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens, Policies in Force</a>. <b>Calculation:</b> Pioneer Institute, validated against a closed
     accounting identity.</div><details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Implied inflow and the takeout ratio</div><code>net change     = policies(end) - policies(start)
 implied inflow = net change + gross takeouts
 per 100        = implied inflow / gross takeouts x 100
@@ -655,102 +645,14 @@ per 100        = implied inflow / gross takeouts x 100
       <div class="note">A third-quarter reading appears as stagnation and a fourth-quarter reading as rapid progress, reflecting the seasonal pause and resumption of assumption rounds rather than the underlying trend. The autumn decline grew from about 179,000 in late 2023 to about 374,000 in late 2025. The trajectory is best assessed on twelve-month movements rather than quarters.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Autumn declines</div><code>autumn decline = policies(September) - policies(December)
 
 2023 = 1,407,805 - 1,228,718 = 179,087
-2025 =   769,316 -   395,337 = 373,979</code><div class="out">Result: the autumn drawdown roughly doubled between 2023 and 2025.</div></div><div class="mathsrc">Inputs: Citizens Policies in Force, month-end.</div></details> <b>Source:</b> Citizens
-      Policies in Force. <b>Calculation:</b> Pioneer Institute.</div>
+2025 =   769,316 -   395,337 = 373,979</code><div class="out">Result: the autumn drawdown roughly doubled between 2023 and 2025.</div></div><div class="mathsrc">Inputs: Citizens Policies in Force, month-end.</div></details> <b>Source:</b> <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens,
+      Policies in Force</a>. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
 
 
 
-  <!-- merged policy recommendations -->
-  <section>
-    <h2>What should Florida do next?</h2>
-    <div class="lede">Five recommendations. The first two close gaps in what the state measures and publishes; the last
-    three define what a finished job looks like, so the gains are secured rather than reversed. These are
-    Pioneer Institute recommendations offered for debate, not figures drawn from a state filing.</div>
 
-    <div class="rec">
-      <div class="rec-n">1</div>
-      <div class="rec-b">
-        <h3>Publish a coverage-adjusted statewide premium</h3>
-        <p class="rec-do"><b>Do this:</b> require the state to publish one statewide premium figure that adjusts for how much coverage people actually buy.</p>
-        <p>Right now the state publishes an average premium for each of the 67 counties and no statewide number at all,
-        and the national series stops at 2022. So during the biggest insurance reform in the country, nobody can say what
-        the average Floridian actually paid in 2023, 2024 or 2025. Worse, a plain average can fall for the wrong reason.
-        If people raise their deductible and drop wind coverage, the average bill goes down while the protection goes down
-        further. An adjusted figure prices a fixed amount of coverage, so it shows whether insurance got cheaper or just smaller.</p>
-        <p class="rec-ex"><b>For example:</b> on the state insurer's book, the average premium per policy fell about 23 percent
-        from the 2023 peak, which suggests substantial relief. The price for each $1,000 of coverage rose 18.5 percent over the same period. Both figures are accurate; only the second measures the cost of a fixed amount of protection.</p>
-      </div>
-    </div>
-
-    <div class="rec">
-      <div class="rec-n">2</div>
-      <div class="rec-b">
-        <h3>Restore visibility into the full market</h3>
-        <p class="rec-do"><b>Do this:</b> confirm the state's market report is publishing the statewide totals the law already requires, then publish a consistent panel of insurers over time.</p>
-        <p>Florida runs a public report meant to cover the entire homeowners market. Insurers may withhold their own
-        numbers as a trade secret, and as reform moved policies from the state insurer to private companies, a larger share of the market became unreported. This is primarily a question of oversight rather than new legislation. Section 624.424(10)(b) already requires the state to aggregate those filings statewide, publish the aggregate within one month, and provides that the statewide aggregate is not a trade secret. The first question is whether the published report satisfies that requirement.</p>
-        <p class="rec-ex"><b>For example:</b> the homeowners policies visible in that public report fell from about 1.29
-        million at the end of 2022 to about 405,000 at the end of 2025. Florida's housing market did not contract by two-thirds. Those policies were not withdrawn; they ceased to be reported, so any characterization of the full market now rests on a report covering less than half of it.</p>
-      </div>
-    </div>
-
-    <div class="rec">
-      <div class="rec-n">3</div>
-      <div class="rec-b">
-        <h3>Define a target size for the state insurer</h3>
-        <p class="rec-do"><b>Do this:</b> define a market-share band the state insurer should stay inside, and manage to it in both directions.</p>
-        <p>The state insurer exists as a last resort, and its size is a rough gauge of whether the private market is
-        working. It has contracted substantially, but there is no stated target, so nobody can say whether it is
-        now right-sized or has overshot. A band matters in both directions: a floor stops it being run down past the point
-        where it can do its job, and a ceiling requires action before it expands again in the next hard market.</p>
-        <p class="rec-ex"><b>For example:</b> the state insurer's share of homeowners policies fell from 8.81 percent in
-        September 2025 to 1.93 percent by March 2026. Without a defined band, the next time it grows, one side will call it
-        proof the reforms failed and the other will call it noise, and neither will have a benchmark to point to.</p>
-      </div>
-    </div>
-
-    <div class="rec">
-      <div class="rec-n">4</div>
-      <div class="rec-b">
-        <h3>Make the assessment protection permanent</h3>
-        <p class="rec-do"><b>Do this:</b> write a minimum storm-severity standard into law, so no post-storm charge can be levied for anything short of it.</p>
-        <p>After a bad storm the state insurer can add a charge to almost every insurance policy in Florida, including auto,
-        and including policies held by people who are not its customers. Today the protection against that is real but
-        temporary: it depends on the reinsurance bought this year and is re-earned every season. Putting a floor in statute
-        means the protection survives a hard reinsurance market and a bad hurricane year instead of quietly eroding.</p>
-        <p class="rec-ex"><b>For example:</b> the state insurer currently projects no charge unless a storm worse than a
-        1-in-360-year event hits. A statutory 1-in-100 floor would secure protection well inside what has already been achieved, making it a conservative standard rather than an aspirational one.</p>
-      </div>
-    </div>
-
-    <div class="rec">
-      <div class="rec-n">5</div>
-      <div class="rec-b">
-        <h3>Preserve the litigation and eligibility reforms</h3>
-        <p class="rec-do"><b>Do this:</b> protect the 2022 and 2023 litigation and eligibility changes from rollback while the effects are still working through.</p>
-        <p>The improvement is not self-sustaining, and the timing creates a risk of premature reversal. Reform took about 22 months to show up
-        in the numbers, and claims are governed by the law in force when the policy was written, so pre-reform costs continue to work through the system for years. That leaves an extended period in which the reforms may be judged complete and relaxed while still taking effect.</p>
-        <p class="rec-ex"><b>For example:</b> in 2023, for every 100 policies private carriers took off the state insurer,
-        about 130 new ones came in behind them, so the book grew during a record takeout year. The trend reversed only after the underlying cost drivers changed; reversing those measures would restore the same dynamic.</p>
-      </div>
-    </div>
-
-    <div class="answer">
-      <h3>One objective is substantially met; the other is not.</h3>
-      <p>On the question the reforms were built to answer, whether the state was carrying too much hurricane risk, the work
-      is nearly complete: taxpayer exposure is down 87 percent and no post-storm charge is projected below a 1-in-360-year
-      storm. On affordability, the work is at an early stage and the state does not yet measure it. Defining the finish line is also what protects the gains, because a reform with no
-      stated endpoint can be unwound before it is secure.</p>
-      <div class="srcline">Recommendations are Pioneer Institute framing, offered for debate; target values are illustrative
-      starting points, not settled positions. Supporting figures: s. 627.7154, s. 624.424(10) and s. 624.4213, Florida
-      Statutes; <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Reports, Jan 1 and Jul 1, 2026</a>;
-      <a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank">Citizens, June 23, 2026</a>;
-      OIR Property Market Intelligence Report (Totals), periods ending December 2022 and December 2025; price per $1,000 of
-      coverage is a Pioneer Institute calculation from Citizens filings.</div>
-    </div>
-  </section>
 
 
 
@@ -763,7 +665,7 @@ per 100        = implied inflow / gross takeouts x 100
         <div class="cv">$538.5B</div>
         <div class="cd"><span class="up">Down 87.1%</span> from the September 2023 month-end peak of $618.1B. Catastrophe risk
         moved off the state's books in 33 months.</div>
-        <div class="csrc">Source: Citizens exposure filings; Pioneer calculation</div>
+        <div class="csrc">Source: <a href="https://www.citizensfla.com/policies-in-force" target="_blank">Citizens exposure filings</a> (monthly Detail reports); Pioneer calculation</div>
       </div>
       <div class="cell">
         <div class="cl">Citizens policies in force</div>
@@ -793,16 +695,15 @@ per 100        = implied inflow / gross takeouts x 100
   <!-- market health -->
   <!-- premium vs loss cost: does claim experience justify the price -->
   <!-- the litigation mechanism -->
-  <!-- the void as a recommendation hook -->
   <!-- constituent bridge -->
-  <!-- goal / what done looks like -->
   <section>
     <div class="callout">
       <h3>Constituent sentiment</h3>
       <p>A July 2026 Tampa focus group found affordability dominating every discussion, with insurance described as
       "just as burdensome as mortgage payments." Participants were broadly frustrated and skeptical of positive top-line messaging, while giving state leadership a passing grade overall.</p>
       <p class="quote">"Working just to afford basic living means you can't actually enjoy living."</p>
-      <p>The systemic figures above and that frustration are not in conflict. The state balance sheet improved materially. Household costs improved late, modestly, and unevenly, and part of the apparent improvement reflects coverage reduction rather than price relief. Messaging that declares affordability resolved is unlikely to align with constituent experience; messaging that the market has stabilized and rate relief is beginning, with further work required, is more defensible.</p>
+      <p>The systemic figures above and that frustration are not in conflict. The state balance sheet improved materially. Household costs improved late, modestly, and unevenly, and part of the apparent improvement reflects coverage reduction rather than price relief.</p>
+      <div class="srcline">Source: Pioneer Institute focus group, Tampa, July 2, 2026. Quotations are from focus group participants.</div>
     </div>
   </section>
 
@@ -829,12 +730,12 @@ per 100        = implied inflow / gross takeouts x 100
             <tr><td class="src">Citizens month-end Detail reports and 2014&ndash;2026 Exposure Summary</td><td>Monthly</td><td>Exposure removed ($538.5B from the $618.1B peak), premium in force, and price per $1,000 of insured value</td><td>June 30, 2026</td><td>Monthly; July 2026 month-end expected August 2026</td></tr>
             <tr><td class="src">Citizens Depopulation Statistics</td><td>Monthly to quarterly</td><td>Gross and net takeout accounting and depopulation efficiency</td><td>Through June 16, 2026</td><td>Next assumption cycle as published</td></tr>
             <tr><td class="src"><a href="https://www.citizensfla.com/-/20260623-smaller-citizens-secures-coverage-for-2026-hurricane-season" target="_blank" rel="noopener noreferrer">Citizens Annual PML Report, February 2026; Risk Transfer Program Executive Summary and press release, June 23, 2026</a></td><td>Annual, February and June</td><td>The 1-in-360 assessment threshold and $9.6B claims-paying ability for the 2026 season</td><td>2026 season, modeled December 31, 2025</td><td>2027 PML report, February 2027</td></tr>
-            <tr><td class="src"><a href="https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" target="_blank" rel="noopener noreferrer">Citizens rate materials: March 4, 2026 announcement</a> and <a href="https://www.citizensfla.com/-/20251210-citizens-recommends-rate-cuts-for-most-policyholders" target="_blank" rel="noopener noreferrer">December 10, 2025 recommendation</a></td><td>Annual</td><td>The 2026 approved statewide decrease of 8.8%, the first broad decrease since 2015</td><td>2026 rates, approved January 2026</td><td>2027 rate filing cycle, expected late 2026</td></tr>
+            <tr><td class="src"><a href="https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" target="_blank" rel="noopener noreferrer">Citizens rate materials: March 4, 2026 announcement</a> and <a href="https://www.citizensfla.com/-/20251210-citizens-recommends-rate-cuts-for-most-policyholders" target="_blank" rel="noopener noreferrer">December 10, 2025 recommendation</a></td><td>Annual</td><td>The 2026 approved statewide homeowners multiperil decrease of 8.8%, the first broad decrease since 2015</td><td>2026 rates, approved March 2026, effective July 1, 2026</td><td>2027 rate filing cycle, expected late 2026</td></tr>
             <tr><td class="src">Citizens Business Overview, March 31, 2026</td><td>Periodic</td><td>Book composition and market context</td><td>March 31, 2026</td><td>As published</td></tr>
             <tr><td class="src"><a href="https://www.yahoo.com/news/citizens-property-insurance-paid-823-183255074.html" target="_blank" rel="noopener noreferrer">Testimony of Tim Cerio to the Florida Senate Banking and Insurance Committee, January 14, 2025, as reported</a></td><td>One-off</td><td>2024 hurricane claims outcomes</td><td>January 14, 2025</td><td>Not applicable</td></tr>
             <tr class="grp"><td colspan="5">Florida Office of Insurance Regulation</td></tr>
-            <tr><td class="src"><a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">OIR Statewide Summary by Company and Policy Type (QUASR / Quarterly MIR)</a></td><td>Quarterly, roughly 45 to 95 days after quarter end</td><td>Figure 1: market-wide average premium and price per $1,000 series, sixteen quarterly files</td><td>Q2 2022 through Q1 2026; files fetched August 3, 2026</td><td>Q2 2026 file, expected in the third quarter of 2026</td></tr>
-            <tr><td class="src"><a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">OIR Trade Secret Companies list</a></td><td>Updated as filers change</td><td>&ldquo;Why some questions cannot be answered yet&rdquo; fold: which insurers&rsquo; county and zip-code detail is excluded from the public query tool</td><td>86 companies as listed August 3, 2026</td><td>As published</td></tr>
+            <tr><td class="src"><a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">OIR Statewide Summary by Company and Policy Type (QUASR / Quarterly MIR)</a></td><td>Quarterly, roughly 45 to 95 days after quarter end</td><td>Figure 1: market-wide average premium and price per $1,000 series, sixteen quarterly files</td><td>Q2 2022 through Q1 2026; files fetched and recomputed August 4, 2026</td><td>Q2 2026 file, expected in the third quarter of 2026</td></tr>
+            <tr><td class="src"><a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">OIR Trade Secret Companies list</a></td><td>Updated as filers change</td><td>&ldquo;Why some questions cannot be answered yet&rdquo; fold: which insurers&rsquo; county and zip-code detail is excluded from the public query tool</td><td>86 companies as listed August 4, 2026</td><td>As published</td></tr>
             <tr><td class="src"><a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank" rel="noopener noreferrer">Property Insurance Stability Reports, July 1, 2026</a> and <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/january-2026-isu-report-final.pdf" target="_blank" rel="noopener noreferrer">January 1, 2026</a></td><td>Semi-annual, January 1 and July 1</td><td>Citizens market share of 1.93%, the 21 approved entrants, private rate-request counts, and litigation shares (NAIC MCAS and PCLR data)</td><td>July 1, 2026 report; market share as of March 31, 2026; MCAS 2025 preliminary, final expected Q3 2026</td><td>January 1, 2027 report</td></tr>
             <tr><td class="src"><a href="https://floir.gov/newsroom/archives/item-details/2026/05/20/insurance-commissioner-mike-yaworsky-announces-new-property---casualty-insurers--making-20-companies-entering-the-market-since-historic-legislative-reforms" target="_blank" rel="noopener noreferrer">OIR press releases, January 13 and May 20, 2026</a></td><td>Event-driven</td><td>New-entrant capital of more than $850 million</td><td>May 20, 2026</td><td>Event-driven</td></tr>
             <tr><td class="src">OIR Property Market Intelligence Report (Totals)</td><td>Quarterly and monthly</td><td>Market-wide policies, premium, and exposure; trade-secret filers excluded</td><td>Period ending December 31, 2025</td><td>Next reporting period as published</td></tr>
@@ -850,7 +751,7 @@ per 100        = implied inflow / gross takeouts x 100
             <tr><td class="src">US Census Bureau cartographic boundary files, via the us-atlas project</td><td>Annual</td><td>County map geometry</td><td>As bundled in this tool</td><td>Not applicable</td></tr>
             <tr><td class="src">Pioneer Institute focus group, Tampa, July 2, 2026</td><td>One-off</td><td>The constituent sentiment section</td><td>July 2, 2026</td><td>Not applicable</td></tr>
             <tr class="grp"><td colspan="5">Derived measures</td></tr>
-            <tr><td class="src">Pioneer Institute calculations (this tool)</td><td>With each quarterly refresh</td><td>Depopulation efficiency, price per $1,000 of insured value, coverage-adjusted comparisons, and other measures identified in source lines as Pioneer calculations</td><td>As of the July 23, 2026 revision</td><td>Quarterly refresh cycle</td></tr>
+            <tr><td class="src">Pioneer Institute calculations (this tool)</td><td>With each quarterly refresh</td><td>Depopulation efficiency, price per $1,000 of insured value, coverage-adjusted comparisons, and other measures identified in source lines as Pioneer calculations</td><td>As of the August 4, 2026 revision</td><td>Quarterly refresh cycle</td></tr>
           </tbody>
         </table></div>
         </div>
@@ -887,8 +788,8 @@ per 100        = implied inflow / gross takeouts x 100
 <footer>
   <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
   <div class="frow">
-    <div>Florida Insurance Watch &middot; Version 1.0 Beta &middot; Data through June 30, 2026 &middot; Revised July 23, 2026</div>
-    <div>19 sources across 6 categories; see the register above</div>
+    <div>Florida Insurance Watch &middot; Version 1.0 Beta &middot; Data through June 30, 2026 &middot; Revised August 4, 2026</div>
+    <div>21 sources across 6 categories; see the register above</div>
   </div>
 
   <div class="disclaimer">

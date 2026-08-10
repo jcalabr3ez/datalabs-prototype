@@ -1602,7 +1602,8 @@
    "FL"
   ],
   "st": "live",
-  "url": "/florida-insurance/"
+  "url": "/florida-insurance/",
+  "ai": true
  },
  {
   "id": "DL-12",

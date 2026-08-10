@@ -1,0 +1,415 @@
+{
+ "as_of": "June 2026",
+ "verification_note": "Answer texts are drawn from the published Florida Insurance Watch page (Policymaker Briefing Edition, Aug 10, 2026). County figures compose server-side from the page's embedded FLOIR table; the model never supplies numbers.",
+ "sources": {
+  "SRC-FL-01": "FL OIR county premium tables, published July 1, 2026 (premiums as of March 2026)",
+  "SRC-FL-02": "Citizens Property Insurance, Policies in Force and exposure filings, through June 2026",
+  "SRC-FL-03": "NAIC MCAS via FL OIR Insurance Summary Update, July 2026 (2025 preliminary)",
+  "SRC-FL-04": "FL OIR, combined ratio of Florida domestic insurers"
+ },
+ "scope": "Covers Florida homeowners insurance costs, county average premiums, Citizens policy counts and risk transfer, market health, and the 2022-2023 reforms. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or storms; individual premium quotes; claims or legal guidance; any insurer's solvency beyond what a cited regulator states; other lines of insurance; other states.",
+ "answers": [
+  {
+   "id": "FL-PAY",
+   "q": "What do Floridians actually pay for homeowners insurance?",
+   "view": "home",
+   "text": "Florida publishes no single official statewide average premium. The state reports averages for each of the 67 counties, and they vary widely: the lowest county average is $2,105 in Sumter County and the highest is $7,863 in Monroe County (the Keys), homeowners including wind, as of March 2026 (SRC-FL-01)."
+  },
+  {
+   "id": "FL-PRICE-FALLING",
+   "q": "Is the price of protection actually falling?",
+   "view": "home",
+   "text": "The average annual premium bill went up and then stopped, while the price of protection itself, what one year of coverage costs per $100,000 of home value insured, barely moved. The two measures answer different questions and both are on the page (SRC-FL-01, SRC-FL-02)."
+  },
+  {
+   "id": "FL-CITIZENS-SIZE",
+   "q": "How big is Citizens now?",
+   "view": "home",
+   "text": "Citizens became Florida's largest home insurer during the crisis, peaking at 1,407,805 policies in September 2023. It held 278,246 policies as of June 2026, smaller than at any point since before the pandemic. Because of its surcharge authority, a large Citizens represents a risk to every policyholder, so its shrinkage matters beyond its own customers (SRC-FL-02)."
+  },
+  {
+   "id": "FL-FLOOD",
+   "q": "Does a homeowners policy cover flooding?",
+   "view": "home",
+   "text": "No. A standard Florida homeowners policy does not cover flood damage; flood coverage is separate, typically through the National Flood Insurance Program or a private flood policy, and the gap matters in a state where much of the loss in a major storm is water rather than wind."
+  },
+  {
+   "id": "FL-MARKET-HEALTH",
+   "q": "How healthy is the Florida insurance market?",
+   "view": "policy",
+   "text": "Florida domestic insurers moved from deep underwriting loss in 2020 to profit in 2023, and the pooled combined ratio reached 83 percent in 2025, the lowest in more than a decade. That profitability is the precondition for rate relief rather than evidence of it (SRC-FL-04)."
+  },
+  {
+   "id": "FL-TAKEOUT",
+   "q": "Do gross takeout figures overstate progress?",
+   "view": "policy",
+   "text": "The takeout number usually cited is the gross count of policies private carriers took from Citizens. It ignores the policies flowing in behind them, so a heavy takeout year can still end with Citizens larger than it started. The page's table shows what was taken out, what the book actually did, and the inflow that explains the difference (SRC-FL-02)."
+  },
+  {
+   "id": "FL-LITIGATION",
+   "q": "What did the reforms change about litigation?",
+   "view": "policy",
+   "text": "For a decade Florida generated a wildly disproportionate share of the nation's homeowners insurance lawsuits relative to its share of claims: 79.9 percent of suits against 11.9 percent of claims in 2018. By 2025 the suits share had fallen to 41.3 percent, preliminary, against 4.9 percent of claims. That closing wedge is the mechanism the 2022 and 2023 reforms targeted (SRC-FL-03)."
+  },
+  {
+   "id": "FL-CITIZENS-RISK",
+   "q": "What risk does Citizens still hold?",
+   "view": "policy",
+   "text": "Citizens' catastrophe tail is now almost entirely transferred to the Cat Fund and private reinsurance; what the corporation retains is the ordinary bad year. The page tracks nine years of the risk transfer program itself: how much protection Citizens bought each year and what it cost (SRC-FL-02)."
+  },
+  {
+   "id": "FL-REFORMS",
+   "q": "What are the three reform laws?",
+   "view": "report",
+   "text": "The 2022 and 2023 reforms are graded on the page's report card: each objective the Legislature stated when it passed them, graded against the record, with objectives from the laws, evidence from state filings, and grades by Pioneer Institute."
+  }
+ ],
+ "counties": {
+  "Alachua": {
+   "incl_wind_2026_03": 2525,
+   "ex_wind_2026_03": 1804,
+   "incl_wind_2025_09": 2527
+  },
+  "Baker": {
+   "incl_wind_2026_03": 2346,
+   "ex_wind_2026_03": 2913,
+   "incl_wind_2025_09": 2317
+  },
+  "Bay": {
+   "incl_wind_2026_03": 3465,
+   "ex_wind_2026_03": 1577,
+   "incl_wind_2025_09": 3478
+  },
+  "Bradford": {
+   "incl_wind_2026_03": 2623,
+   "ex_wind_2026_03": 1950,
+   "incl_wind_2025_09": 2650
+  },
+  "Brevard": {
+   "incl_wind_2026_03": 3532,
+   "ex_wind_2026_03": 1975,
+   "incl_wind_2025_09": 3560
+  },
+  "Broward": {
+   "incl_wind_2026_03": 6136,
+   "ex_wind_2026_03": 3008,
+   "incl_wind_2025_09": 6220
+  },
+  "Calhoun": {
+   "incl_wind_2026_03": 3122,
+   "ex_wind_2026_03": 2649,
+   "incl_wind_2025_09": 3149
+  },
+  "Charlotte": {
+   "incl_wind_2026_03": 3160,
+   "ex_wind_2026_03": 1661,
+   "incl_wind_2025_09": 3222
+  },
+  "Citrus": {
+   "incl_wind_2026_03": 2456,
+   "ex_wind_2026_03": 1560,
+   "incl_wind_2025_09": 2472
+  },
+  "Clay": {
+   "incl_wind_2026_03": 2540,
+   "ex_wind_2026_03": 2047,
+   "incl_wind_2025_09": 2550
+  },
+  "Collier": {
+   "incl_wind_2026_03": 5534,
+   "ex_wind_2026_03": 3169,
+   "incl_wind_2025_09": 5565
+  },
+  "Columbia": {
+   "incl_wind_2026_03": 2557,
+   "ex_wind_2026_03": 2118,
+   "incl_wind_2025_09": 2558
+  },
+  "Desoto": {
+   "incl_wind_2026_03": 3421,
+   "ex_wind_2026_03": 2167,
+   "incl_wind_2025_09": 3449
+  },
+  "Dixie": {
+   "incl_wind_2026_03": 2748,
+   "ex_wind_2026_03": 1559,
+   "incl_wind_2025_09": 2806
+  },
+  "Duval": {
+   "incl_wind_2026_03": 2786,
+   "ex_wind_2026_03": 2095,
+   "incl_wind_2025_09": 2801
+  },
+  "Escambia": {
+   "incl_wind_2026_03": 3702,
+   "ex_wind_2026_03": 1670,
+   "incl_wind_2025_09": 3706
+  },
+  "Flagler": {
+   "incl_wind_2026_03": 2488,
+   "ex_wind_2026_03": 1641,
+   "incl_wind_2025_09": 2526
+  },
+  "Franklin": {
+   "incl_wind_2026_03": 5221,
+   "ex_wind_2026_03": 1954,
+   "incl_wind_2025_09": 5235
+  },
+  "Gadsden": {
+   "incl_wind_2026_03": 2723,
+   "ex_wind_2026_03": 2226,
+   "incl_wind_2025_09": 2737
+  },
+  "Gilchrist": {
+   "incl_wind_2026_03": 2513,
+   "ex_wind_2026_03": 1872,
+   "incl_wind_2025_09": 2478
+  },
+  "Glades": {
+   "incl_wind_2026_03": 3477,
+   "ex_wind_2026_03": 2019,
+   "incl_wind_2025_09": 3475
+  },
+  "Gulf": {
+   "incl_wind_2026_03": 3752,
+   "ex_wind_2026_03": 1612,
+   "incl_wind_2025_09": 3759
+  },
+  "Hamilton": {
+   "incl_wind_2026_03": 2711,
+   "ex_wind_2026_03": 2044,
+   "incl_wind_2025_09": 2745
+  },
+  "Hardee": {
+   "incl_wind_2026_03": 3376,
+   "ex_wind_2026_03": 2246,
+   "incl_wind_2025_09": 3396
+  },
+  "Hendry": {
+   "incl_wind_2026_03": 2999,
+   "ex_wind_2026_03": 1983,
+   "incl_wind_2025_09": 3030
+  },
+  "Hernando": {
+   "incl_wind_2026_03": 2360,
+   "ex_wind_2026_03": 1985,
+   "incl_wind_2025_09": 2342
+  },
+  "Highlands": {
+   "incl_wind_2026_03": 2736,
+   "ex_wind_2026_03": 1599,
+   "incl_wind_2025_09": 2732
+  },
+  "Hillsborough": {
+   "incl_wind_2026_03": 3525,
+   "ex_wind_2026_03": 2676,
+   "incl_wind_2025_09": 3514
+  },
+  "Holmes": {
+   "incl_wind_2026_03": 2942,
+   "ex_wind_2026_03": 2560,
+   "incl_wind_2025_09": 2944
+  },
+  "Indian River": {
+   "incl_wind_2026_03": 4334,
+   "ex_wind_2026_03": 2744,
+   "incl_wind_2025_09": 4453
+  },
+  "Jackson": {
+   "incl_wind_2026_03": 2851,
+   "ex_wind_2026_03": 2300,
+   "incl_wind_2025_09": 2840
+  },
+  "Jefferson": {
+   "incl_wind_2026_03": 2782,
+   "ex_wind_2026_03": 2083,
+   "incl_wind_2025_09": 2792
+  },
+  "Lafayette": {
+   "incl_wind_2026_03": 2903,
+   "ex_wind_2026_03": 1649,
+   "incl_wind_2025_09": 2943
+  },
+  "Lake": {
+   "incl_wind_2026_03": 2650,
+   "ex_wind_2026_03": 1988,
+   "incl_wind_2025_09": 2642
+  },
+  "Lee": {
+   "incl_wind_2026_03": 3576,
+   "ex_wind_2026_03": 2119,
+   "incl_wind_2025_09": 3646
+  },
+  "Leon": {
+   "incl_wind_2026_03": 2538,
+   "ex_wind_2026_03": 1710,
+   "incl_wind_2025_09": 2554
+  },
+  "Levy": {
+   "incl_wind_2026_03": 2698,
+   "ex_wind_2026_03": 1634,
+   "incl_wind_2025_09": 2706
+  },
+  "Liberty": {
+   "incl_wind_2026_03": 2880,
+   "ex_wind_2026_03": 1872,
+   "incl_wind_2025_09": 2877
+  },
+  "Madison": {
+   "incl_wind_2026_03": 2735,
+   "ex_wind_2026_03": 1482,
+   "incl_wind_2025_09": 2772
+  },
+  "Manatee": {
+   "incl_wind_2026_03": 3181,
+   "ex_wind_2026_03": 1859,
+   "incl_wind_2025_09": 3187
+  },
+  "Marion": {
+   "incl_wind_2026_03": 2191,
+   "ex_wind_2026_03": 1766,
+   "incl_wind_2025_09": 2217
+  },
+  "Martin": {
+   "incl_wind_2026_03": 5899,
+   "ex_wind_2026_03": 2471,
+   "incl_wind_2025_09": 5993
+  },
+  "Miami-Dade": {
+   "incl_wind_2026_03": 5975,
+   "ex_wind_2026_03": 3779,
+   "incl_wind_2025_09": 6023
+  },
+  "Monroe": {
+   "incl_wind_2026_03": 7863,
+   "ex_wind_2026_03": 1871,
+   "incl_wind_2025_09": 7829
+  },
+  "Nassau": {
+   "incl_wind_2026_03": 3051,
+   "ex_wind_2026_03": 1608,
+   "incl_wind_2025_09": 3061
+  },
+  "Okaloosa": {
+   "incl_wind_2026_03": 3889,
+   "ex_wind_2026_03": 1889,
+   "incl_wind_2025_09": 3891
+  },
+  "Okeechobee": {
+   "incl_wind_2026_03": 3730,
+   "ex_wind_2026_03": 1973,
+   "incl_wind_2025_09": 3754
+  },
+  "Orange": {
+   "incl_wind_2026_03": 3610,
+   "ex_wind_2026_03": 2565,
+   "incl_wind_2025_09": 3585
+  },
+  "Osceola": {
+   "incl_wind_2026_03": 2940,
+   "ex_wind_2026_03": 2433,
+   "incl_wind_2025_09": 2911
+  },
+  "Palm Beach": {
+   "incl_wind_2026_03": 6323,
+   "ex_wind_2026_03": 3175,
+   "incl_wind_2025_09": 6412
+  },
+  "Pasco": {
+   "incl_wind_2026_03": 2756,
+   "ex_wind_2026_03": 1917,
+   "incl_wind_2025_09": 2758
+  },
+  "Pinellas": {
+   "incl_wind_2026_03": 4063,
+   "ex_wind_2026_03": 2034,
+   "incl_wind_2025_09": 4044
+  },
+  "Polk": {
+   "incl_wind_2026_03": 2767,
+   "ex_wind_2026_03": 2185,
+   "incl_wind_2025_09": 2771
+  },
+  "Putnam": {
+   "incl_wind_2026_03": 2621,
+   "ex_wind_2026_03": 1768,
+   "incl_wind_2025_09": 2636
+  },
+  "Santa Rosa": {
+   "incl_wind_2026_03": 3512,
+   "ex_wind_2026_03": 1951,
+   "incl_wind_2025_09": 3541
+  },
+  "Sarasota": {
+   "incl_wind_2026_03": 3457,
+   "ex_wind_2026_03": 1482,
+   "incl_wind_2025_09": 3482
+  },
+  "Seminole": {
+   "incl_wind_2026_03": 3545,
+   "ex_wind_2026_03": 2372,
+   "incl_wind_2025_09": 3527
+  },
+  "St. Johns": {
+   "incl_wind_2026_03": 2883,
+   "ex_wind_2026_03": 2055,
+   "incl_wind_2025_09": 2889
+  },
+  "St. Lucie": {
+   "incl_wind_2026_03": 3491,
+   "ex_wind_2026_03": 1932,
+   "incl_wind_2025_09": 3522
+  },
+  "Sumter": {
+   "incl_wind_2026_03": 2105,
+   "ex_wind_2026_03": 1352,
+   "incl_wind_2025_09": 2111
+  },
+  "Suwannee": {
+   "incl_wind_2026_03": 2749,
+   "ex_wind_2026_03": 1783,
+   "incl_wind_2025_09": 2792
+  },
+  "Taylor": {
+   "incl_wind_2026_03": 2698,
+   "ex_wind_2026_03": 1300,
+   "incl_wind_2025_09": 2727
+  },
+  "Union": {
+   "incl_wind_2026_03": 2667,
+   "ex_wind_2026_03": 3475,
+   "incl_wind_2025_09": 2656
+  },
+  "Volusia": {
+   "incl_wind_2026_03": 2808,
+   "ex_wind_2026_03": 1637,
+   "incl_wind_2025_09": 2819
+  },
+  "Wakulla": {
+   "incl_wind_2026_03": 2292,
+   "ex_wind_2026_03": 1956,
+   "incl_wind_2025_09": 2335
+  },
+  "Walton": {
+   "incl_wind_2026_03": 5409,
+   "ex_wind_2026_03": 1891,
+   "incl_wind_2025_09": 5401
+  },
+  "Washington": {
+   "incl_wind_2026_03": 2871,
+   "ex_wind_2026_03": 2628,
+   "incl_wind_2025_09": 2933
+  }
+ },
+ "county_note": "Baker and Union counties are excluded from the map shading in the source tool.",
+ "stats": {
+  "citizens_latest": {
+   "month": "June 2026",
+   "policies": 278246
+  },
+  "citizens_peak": {
+   "month": "September 2023",
+   "policies": 1407805
+  }
+ }
+}

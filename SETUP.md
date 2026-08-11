@@ -14,7 +14,6 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     florida-insurance/index.html   DL-10 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-04 State Tax Atlas flagship page
     netlify/functions/ask.js       The engine: holds the API key, answers or routes
-    question-log.gs                Apps Script that files questions into a spreadsheet
     netlify/functions/catalog.json Engine copy of the catalog
     netlify/functions/dl12-answers.json  Engine copy of the DL-12 answer layer
     netlify/functions/fl-answers.json    DL-10 answer ledger (engine only)
@@ -90,37 +89,62 @@ set and a redeploy happened after setting it.
 - Netlify > Usage: the free plan is credit-capped; the prototype's traffic
   is negligible, but know that exceeding the cap pauses the site until the
   next month rather than billing you.
-- Coverage gaps: every question lands in the spreadsheet from Step 6,
+- Coverage gaps: every question lands in the Excel workbook from Step 6,
   and the ones the engine could not answer get their own Unanswered tab.
   That tab is the research agenda input. Questions also appear in the
   ask function log (Netlify > Logs > Functions > ask) either way.
 
-## Step 6: Capture questions in a spreadsheet (5 minutes)
+## Step 6: Capture questions in an Excel workbook (10 minutes)
 
-Every question visitors ask can be filed into a Google Sheet you own,
-with unanswered questions on their own tab. The sheet opens in Excel
-any time (File > Download > Microsoft Excel, or open it from Drive).
+Every question visitors ask is filed into an Excel workbook in your
+OneDrive or SharePoint, with unanswered questions on their own tab.
+This uses Power Automate to receive the site's webhook; the flow's
+HTTP trigger requires a Power Automate premium license on work
+accounts. If you do not have one, say so and the engine can write to
+Microsoft Graph directly instead.
 
-1. Go to sheets.new and name the spreadsheet, e.g. "DataLabs question
-   log". Use the Google account that should own the record.
-2. Extensions > Apps Script. Delete the sample code and paste in the
-   contents of question-log.gs from this repository. Save.
-3. Deploy > New deployment > Web app.
-      Execute as:      Me
-      Who has access:  Anyone
-   Authorize when prompted, then copy the web app URL it gives you.
-4. Netlify > Site configuration > Environment variables > Add:
+Part A, the workbook:
+1. In OneDrive (or a SharePoint library), create a workbook named
+   "DataLabs question log.xlsx".
+2. On Sheet1, enter headers in row 1: When (UTC), Question, Outcome,
+   Tool, Engine note. Select them, Insert > Table (my table has
+   headers). On the Table Design tab, name the table: AllQuestions
+3. Add a second sheet. Headers: When (UTC), Question, Engine note.
+   Insert > Table, and name it: Unanswered
+
+Part B, the flow:
+1. Go to make.powerautomate.com > Create > Instant cloud flow >
+   skip, then choose the trigger "When an HTTP request is received".
+   Set "Who can trigger the flow" to Anyone.
+2. In the trigger, paste this Request Body JSON Schema:
+
+       {"type":"object","properties":{
+        "at":{"type":"string"},"q":{"type":"string"},
+        "type":{"type":"string"},"tool":{"type":"string"},
+        "note":{"type":"string"}}}
+
+3. Add a step: Excel Online (Business) > "Add a row into a table".
+   Pick the workbook and the AllQuestions table, and map the columns
+   to the trigger's dynamic content: at, q, type, tool, note.
+4. Add a Condition: type is equal to none. In the If yes branch, add
+   another "Add a row into a table" for the Unanswered table, mapping
+   at, q, and note.
+5. Save. Open the trigger step and copy the HTTP POST URL it
+   generated. The URL contains its own signature, so treat it like a
+   key.
+
+Part C, connect the site:
+1. Netlify > Site configuration > Environment variables > Add:
       Key:   QUESTION_LOG_URL
-      Value: (the web app URL from step 3)
-   Scope: all. Save, then Deploys > Trigger deploy so the function
-   picks it up.
-5. Test: ask the site "Is the Red Line safe?" (a scripted decline).
-   Within a few seconds the question appears on both the All questions
-   tab and the Unanswered tab.
+      Value: (the HTTP POST URL from Part B)
+   Scope: all. Save, then Deploys > Trigger deploy.
+2. Test: ask the site "Is the Red Line safe?" (a scripted decline).
+   Within a few seconds the question appears on both tables, and the
+   flow's run history shows a green run.
 
-Notes: the web app URL is unguessable but public, so treat it like a
-key; logging is fire-and-forget and can never break the ask box; to
-revoke, delete the deployment in Apps Script or remove the variable.
+Notes: logging is fire-and-forget with a short timeout and can never
+break the ask box; to revoke, turn the flow off or remove the
+variable.
 
 ## Later: moving to Pioneer accounts
 

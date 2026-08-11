@@ -314,26 +314,6 @@
 
   
 
-  /* ---- ask panel (DL-12 answers in your own words) ---- */
-  .askbar{border:1px solid var(--rule);border-top:3px solid var(--gold);background:#fff;
-          padding:18px 22px 16px;margin-top:26px}
-  .askbar .albl{font:700 10.5px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;
-                color:var(--gold);margin-bottom:12px}
-  .askrow{display:flex;gap:16px;align-items:flex-end;border-bottom:1px solid var(--ink);padding-bottom:9px}
-  .askrow input{flex:1;border:none;outline:none;font:400 clamp(16px,2vw,19px)/1.3 var(--serif);
-                color:var(--ink);background:transparent;min-width:0}
-  .askrow input::placeholder{color:var(--faint)}
-  .askrow button{border:none;background:none;font:700 15px/1 var(--sans);color:var(--navy);padding:0 2px 3px}
-  .askrow button:hover{color:var(--gold)}
-  .askrow button:disabled{color:var(--faint);cursor:wait}
-  .askhint{margin-top:10px;font-size:12px;color:var(--faint)}
-  .ansbox{border-top:1px solid var(--rule-dk);margin-top:18px;padding-top:13px}
-  .ansbox .ak{font:600 12px/1 var(--sans);color:var(--faint);margin-bottom:9px}
-  .ansbox .ans{font:400 clamp(17px,2.2vw,20px)/1.5 var(--serif)}
-  .ansbox .fups{margin-top:13px;font-size:13px;color:var(--grey)}
-  .ansbox .fups a{border-bottom:1px solid var(--rule);margin-right:16px;color:var(--navy);cursor:pointer}
-  .ansbox .fups a:hover{border-color:var(--gold);color:var(--ink)}
-  .ansbox .thinking{font:400 17px/1.5 var(--serif);color:var(--grey)}
   .exhibit.hl{outline:2px solid var(--goldlt);outline-offset:10px;transition:outline-color 1s}
 </style>
 </head>
@@ -361,16 +341,6 @@
 </header>
 
 <div class="proto"><span class="proto-tag">Beta v1.0</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
-
-<div class="askbar">
-  <div class="albl">Ask this page</div>
-  <div class="askrow">
-    <input id="askInput" type="text" placeholder="Is commuter rail back to pre-pandemic levels?" aria-label="Ask a question about MBTA ridership and costs" maxlength="400">
-    <button id="askBtn" type="button">Ask</button>
-  </div>
-  <div class="askhint">Answers come only from the data on this page, cite their source, and decline what the data cannot support. Questions outside this page&rsquo;s scope are logged and inform what gets built next.</div>
-  <div id="askOut"></div>
-</div>
 
 <div class="toggle" role="tablist" aria-label="Choose a view">
   <button id="btn-ridership" class="on" onclick="showView('ridership')">Ridership<span class="who">The recovery, mode by mode</span></button>
@@ -467,7 +437,7 @@ year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="ou
     <details class="simplify">
       <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
       <div class="dt-body">
-        <p class="body-p">This tool covers MBTA ridership as unlinked passenger trips, service levels, and per-trip cost and farebox recovery by mode. It does not cover safety, reliability or on-time performance, the capital budget, debt, the fares charged to riders, or other transit agencies. The answer engine above declines questions on those subjects rather than improvising, and every declined question is logged and informs what gets verified and added next.</p>
+        <p class="body-p">This tool covers MBTA ridership as unlinked passenger trips, service levels, and per-trip cost and farebox recovery by mode. It does not cover safety, reliability or on-time performance, the capital budget, debt, the fares charged to riders, or other transit agencies. Questions on those subjects asked through the DataLabs front door are declined rather than improvised, and every one is logged and informs what gets verified and added next.</p>
       </div>
     </details>
   </section>
@@ -482,9 +452,22 @@ year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="ou
   <details class="srcfold">
     <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
     <div class="fold-body">
-      <div class="note" style="border-top:0;padding-top:4px"><b>SRC-301 &middot; FTA NTD Complete Monthly Ridership.</b> Dataset 8bui-9xvu, data.transportation.gov, published monthly with a roughly two to three month lag. Supports every ridership figure and chart on this page. Vintage in this tool: through May 2026, fetched August 2, 2026. Next release: June 2026 data, expected early September 2026.</div>
-      <div class="note"><b>LEG-MBTA-01 &middot; Recovered legacy DataLabs extract.</b> One-time recovery from the prior MBTAAnalysis tool. Supports cost per trip and farebox recovery only, and served as the verification baseline for the ridership rebuild: 1,174 of 1,176 overlapping values matched the federal file exactly. Reporting year for the cost table was not recorded. Superseded for cost figures when NTD annual data is pulled.</div>
-      <div class="note"><b>SRC-302 &middot; FTA NTD annual agency data (planned).</b> Annual publication. Will confirm the cost per trip and farebox recovery figures and their reporting year. To be pulled and archived; until then the cost view is flagged pending.</div>
+      <div class="note" style="border-top:0;padding-top:4px">A monthly refresh updates the ridership series each
+      cycle; the federal file publishes on a lag of roughly two to three months. Cost and farebox figures change only at
+      reconciliation against annual data. Each row carries its own as-of date, so a refresh never implies a number is
+      newer than its source.</div>
+      <div style="overflow-x:auto">
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports in the dashboard</th><th>Data vintage in this tool</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="5">Federal Transit Administration</td></tr>
+          <tr><td class="src"><a href="https://data.transportation.gov/Public-Transit/Complete-Monthly-Ridership-with-adjustments-and-es/8bui-9xvu" target="_blank" rel="noopener noreferrer">FTA National Transit Database, Complete Monthly Ridership (SRC-301)</a>, dataset 8bui-9xvu, data.transportation.gov</td><td>Monthly, roughly two to three months after month end</td><td>Every ridership figure and chart: Figures 1 and 2, the key takeaways band, and all derived recovery percentages</td><td>Through May 2026; fetched August 2, 2026</td><td>June 2026 data, expected early September 2026</td></tr>
+          <tr><td class="src">FTA NTD annual agency data (SRC-302, planned)</td><td>Annual</td><td>Will confirm cost per trip and farebox recovery and their reporting year</td><td>Not yet pulled</td><td>To be pulled and archived at reconciliation</td></tr>
+          <tr class="grp"><td colspan="5">Recovered legacy extract</td></tr>
+          <tr><td class="src">Recovered legacy DataLabs extract (LEG-MBTA-01), from the prior MBTAAnalysis tool</td><td>One-time recovery</td><td>Figures 3 and 4, cost per trip and farebox recovery, flagged pending; also the verification baseline for the ridership rebuild, where 1,174 of 1,176 overlapping values matched the federal file</td><td>Cost table reporting year unrecorded</td><td>Superseded for cost figures when NTD annual data is pulled</td></tr>
+        </tbody>
+      </table></div>
+      </div>
     </div>
   </details>
 </section>
@@ -500,7 +483,7 @@ year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="ou
     <div><b>About this tool.</b> Transportation &amp; MBTA is a Pioneer Institute DataLabs research tool, published in beta and versioned. It is the successor to MBTAAnalysis. Corrections and data refreshes are logged, and the version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the federal sources named in the register and are accurate to the verification date shown in the masthead; agencies revise their filings and figures here are point-in-time. This tool and its contents are provided as is, without warranty of any kind, express or implied, including accuracy, completeness, or fitness for a particular purpose.</div>
     <div><b>Verified and pending figures.</b> Ridership figures are verified against the FTA National Transit Database monthly file. Cost per trip and farebox recovery come from a recovered legacy extract whose reporting year is unconfirmed; they are flagged pending on every exhibit that uses them and will be reconciled against NTD annual data.</div>
-    <div><b>The answer engine.</b> The ask box on this page answers only from the data published here, cites a source id on every figure, labels derived numbers, and declines questions outside the stated scope. Answers are model-composed under those rules and are not reviewed individually; the underlying figures, not the prose, are the citable record.</div>
+    <div><b>Asking questions.</b> The DataLabs front door answers questions about this data in your own words. Answers draw only from the figures published here, cite a source id on every figure, label derived numbers, and decline what the data cannot support; the underlying figures, not the prose, are the citable record.</div>
   </div>
   <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
 </footer>
@@ -666,54 +649,6 @@ window.addEventListener('load',function(){
   if(h) revealKind(h,false);
 });
 
-/* ---- ask: the engine answers from this page's data ---- */
-function esc(s){var d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
-var askBusy=false;
-function ask(q){
-  if(askBusy) return;
-  var input=document.getElementById('askInput');
-  if(q){input.value=q;} q=input.value.trim();
-  if(!q) return;
-  askBusy=true;
-  var btn=document.getElementById('askBtn'); btn.disabled=true;
-  var out=document.getElementById('askOut');
-  out.innerHTML='<div class="ansbox"><div class="thinking">Checking the sources&hellip;</div></div>';
-  fetch('/.netlify/functions/ask',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({question:q})})
-  .then(function(r){return r.json();})
-  .then(function(p){
-    if(p.type==='answer'&&p.tool_id==='DL-12'){
-      var kind=p.chart&&p.chart!=='none'?p.chart:null;
-      out.innerHTML='<div class="ansbox"><div class="ak">Answer</div>'+
-        '<div class="ans">'+esc(p.text)+'</div>'+
-        (kind?'<div class="srcline" style="margin-top:10px"><b>The chart:</b> Figure '+({monthly_trend:1,recovery_by_mode:2,cost_per_trip:3,farebox:4}[kind]||'')+' below illustrates this answer.</div>':'')+
-        '<div class="srcline"><b>Source:</b> FTA NTD (SRC-301), through May 2026. Ridership verified Aug 2, 2026; cost figures pending.</div>'+
-        (p.followups&&p.followups.length?'<div class="fups">Related: '+p.followups.map(function(f){
-          return '<a data-q="'+esc(f)+'">'+esc(f)+'</a>';}).join('')+'</div>':'')+
-        '</div>';
-      out.querySelectorAll('.fups a').forEach(function(a){
-        a.addEventListener('click',function(){ask(a.dataset.q);});});
-      if(kind) revealKind(kind,true);
-    } else if(p.type==='answer'){
-      out.innerHTML='<div class="ansbox"><div class="ak">Answer</div><div class="ans">'+esc(p.text)+'</div>'+
-        (p.link?'<div class="srcline"><a href="'+esc(p.link)+'">This question belongs to another DataLabs tool; the full briefing is here &#8594;</a></div>':'')+'</div>';
-    } else if(p.type==='route'&&p.matches&&p.matches.length){
-      out.innerHTML='<div class="ansbox"><div class="ak">Where to find this</div>'+
-        '<div class="ans">That question belongs to another part of DataLabs.</div>'+
-        '<div class="srcline"><a href="/">Ask it on the DataLabs front door, which routes across every tool &#8594;</a></div></div>';
-    } else {
-      out.innerHTML='<div class="ansbox"><div class="ak">Outside this page&rsquo;s data</div>'+
-        '<div class="ans">'+esc(p.note||'The data on this page cannot answer that.')+'</div>'+
-        '<div class="srcline">Your question has been logged and will inform what gets verified and added next.</div></div>';
-    }
-  })
-  .catch(function(){
-    out.innerHTML='<div class="ansbox"><div class="ans">The answer engine hit a snag. Try again in a moment; every chart on this page still works.</div></div>';
-  })
-  .finally(function(){askBusy=false;btn.disabled=false;});
-}
-document.getElementById('askBtn').addEventListener('click',function(){ask();});
-document.getElementById('askInput').addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
 </script>
 </body>
 </html>

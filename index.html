@@ -24,6 +24,15 @@
   .mono { font-family:'IBM Plex Mono',monospace; }
   .frame { max-width:960px; margin:0 auto; padding:0 24px; }
 
+  /* ---------- In-development strip (house .proto pattern, flagship pages) ---------- */
+  .proto { background:#0B1526; border-top:1px solid rgba(255,255,255,.08); margin-bottom:30px; }
+  .proto-in { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; }
+  .proto-tag { font-size:10px; font-weight:800; line-height:1; letter-spacing:.1em; text-transform:uppercase;
+    color:#E9C46A; border:1px solid #E9C46A; border-radius:3px; padding:4px 9px; flex-shrink:0; }
+  .proto-txt { font-size:13px; line-height:1.55; color:#AEBDD2; flex:1; min-width:260px; }
+  .proto-txt b { color:#fff; font-weight:600; }
+  .proto-txt a { color:inherit; text-decoration:underline; }
+
   /* ---------- Pioneer header (merged into hero) ---------- */
   .pibar { background:#12213A; }
   .pibar-in { display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px; }
@@ -245,6 +254,8 @@
       </div>
     </div>
   </section>
+
+  <div class="proto"><div class="frame proto-in"><span class="proto-tag">In development</span><span class="proto-txt"><b>DataLabs is in active development.</b> Tools, data, and the question engine are being built and verified in the open; every figure traces to a source, and what the data cannot support is declined. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div></div>
 
   <div class="respbar frame" id="respBar" hidden>
     <button class="clearans" id="clearAns" type="button">Clear answer</button>

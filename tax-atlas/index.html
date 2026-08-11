@@ -31,6 +31,10 @@
   .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);
            padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
   .sitebar img{height:24px;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;
+    border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
   .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
   .sitebar .tag b{color:var(--goldlt);font-weight:700}
   @media(max-width:520px){.sitebar .tag{display:none}}
@@ -225,7 +229,10 @@
 <main class="wrap">
 
 <div class="sitebar">
-  <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
   <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; State Tax Atlas</span>
 </div>
 

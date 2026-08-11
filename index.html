@@ -354,7 +354,7 @@ function esc(s){const d=document.createElement('div');d.textContent=s==null?'':S
    and the /functions/ask engine are simply gated behind AI_ENABLED, so
    turning AI back on is a one-line change. A ?ai=1 (or ?ai=0) query string
    overrides per visit, for private preview without redeploying. */
-var AI_DEFAULT = false;
+var AI_DEFAULT = true;
 var AI_ENABLED = AI_DEFAULT;
 try { var _ai = new URLSearchParams(location.search).get('ai');
   if (_ai != null) AI_ENABLED = (_ai === '1' || _ai === 'true'); } catch(e){}

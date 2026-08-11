@@ -47,10 +47,27 @@
   /* ---------- hero: The Atlas ---------- */
   .heroA { position:relative; overflow:hidden; color:#fff;
     background:linear-gradient(178deg,#12213A 0%,#0D1930 70%,#0B1526 100%); }
-  .dots { position:absolute; inset:0; opacity:.35; pointer-events:none;
+  .dots { position:absolute; inset:0; opacity:.22; pointer-events:none;
     background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px); background-size:26px 26px;
     -webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 68%);
     mask-image:radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 68%); }
+  /* graticule: the map grid that says "city hall to all fifty states" */
+  .grat { position:absolute; inset:0; pointer-events:none; opacity:.55;
+    background-image:
+      repeating-linear-gradient(90deg, transparent 0 71px, rgba(150,178,214,.11) 71px 72px),
+      repeating-linear-gradient(0deg,  transparent 0 71px, rgba(150,178,214,.11) 71px 72px);
+    -webkit-mask-image:radial-gradient(ellipse 82% 80% at 50% 6%, #000 30%, transparent 78%);
+    mask-image:radial-gradient(ellipse 82% 80% at 50% 6%, #000 30%, transparent 78%); }
+  /* range rings radiating from the dateline: local to national reach */
+  .rings { position:absolute; left:50%; top:-150px; width:1180px; height:1180px; transform:translateX(-50%);
+    pointer-events:none; opacity:.42;
+    background:
+      radial-gradient(circle, transparent 0 178px, rgba(233,196,106,.30) 178px 179.5px, transparent 180px),
+      radial-gradient(circle, transparent 0 300px, rgba(150,178,214,.20) 300px 301.5px, transparent 302px),
+      radial-gradient(circle, transparent 0 438px, rgba(150,178,214,.14) 438px 439.5px, transparent 440px),
+      radial-gradient(circle, transparent 0 580px, rgba(150,178,214,.10) 580px 581.5px, transparent 582px);
+    -webkit-mask-image:radial-gradient(circle at 50% 50%, #000 0%, transparent 60%);
+    mask-image:radial-gradient(circle at 50% 50%, #000 0%, transparent 60%); }
   .heroA-in { position:relative; padding-top:62px; padding-bottom:56px; max-width:860px; margin:0 auto; text-align:center; }
   .kick { font-size:11.5px; font-weight:700; letter-spacing:.18em; color:#E9C46A; }
   .heroA h1 { font-family:'Newsreader',serif; font-weight:500; font-size:clamp(32px,5vw,54px);
@@ -127,6 +144,9 @@
   .lead:hover { background:#FBFAF7; }
   .lead .place { display:flex; align-items:center; justify-content:space-between; gap:10px;
     font-size:10.5px; font-weight:800; letter-spacing:.15em; color:var(--gold); }
+  .lead .place > span:first-child { display:inline-flex; align-items:center; gap:8px; }
+  .lead .place > span:first-child::before { content:""; width:8px; height:8px; flex:none;
+    background:var(--gold); border-radius:50% 50% 50% 0; transform:rotate(-45deg); }
   .lead .askbadge { flex:none; font-size:9.5px; font-weight:800; letter-spacing:.1em;
     color:var(--gold); border:1px solid var(--gold); border-radius:3px; padding:2px 8px; }
   .lead h3 { margin-top:10px; line-height:1.15; }
@@ -242,6 +262,8 @@
 <main>
   <section class="heroA" id="ask">
     <div class="dots" aria-hidden="true"></div>
+    <div class="grat" aria-hidden="true"></div>
+    <div class="rings" aria-hidden="true"></div>
     <div class="frame heroA-in">
       <div class="heroL">
         <div class="kick">PIONEER DATALABS</div>

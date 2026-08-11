@@ -1,0 +1,33 @@
+/* ============================================================================
+   DataLabs shared brand tokens - the single source of truth for color and type.
+   Matches pioneerinstitute.org. Change a value here and every page that links
+   this file updates: the front door and all flagship dashboards.
+
+   Linked by index.html and each <slug>/index.html via
+   <link rel="stylesheet" href="/assets/datalabs.css">, before each page's own
+   inline <style> (which keeps only page-specific rules and layout scalars).
+
+   NOTE: Chart.js color and font CONSTANTS in each page's JavaScript are separate
+   from these variables (JS cannot read CSS custom properties). Keep them in sync
+   by hand for now; consolidating them is the next maintenance step (see the
+   scalability notes / house-style memory).
+   ========================================================================== */
+:root{
+  /* neutrals */
+  --ink:#222222; --grey:#666666; --faint:#9AA2AA;
+  --rule:#E4E6E9; --rule-dk:#222222; --rule-lt:#EEF1F4;
+  /* brand */
+  --navy:#293C5C; --gold:#CCB26D; --goldlt:#CCB26D;
+  --wash:#FCFBF6; --hover:#F6F8FB;
+  /* dark chrome (masthead, hero gradient, footer) */
+  --bar:#112337; --hero2:#1B2C48; --hero3:#112337;
+  /* aliases some pages use */
+  --blue:#293C5C; --accent:#CCB26D; --blue-lt:#F6F8FB;
+  --g1:#3D454E; --g2:#666666; --g3:#9AA2AA;
+  /* status (functional, not brand: current / over-a-year / high-value accent) */
+  --pos:#177245; --neg:#8C2F1B; --warn:#CCB26D;
+  /* type: Libre Bodoni headings, Roboto UI and data */
+  --serif:'Libre Bodoni',Georgia,serif;
+  --sans:'Roboto',system-ui,sans-serif;
+  --mono:'Roboto',system-ui,sans-serif;
+}

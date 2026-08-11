@@ -8,17 +8,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
 <style>
   /* ============ Pioneer DataLabs design system (matched to datalabs landing index.html) ============ */
+  /* brand tokens (color + type) come from /assets/datalabs.css; page-only scalars here */
   :root{
-    --ink:#222222; --grey:#666666; --faint:#9AA2AA; --rule:#E4E6E9; --rule-dk:#222222; --rule-lt:#EEF1F4;
-    --navy:#293C5C; --gold:#CCB26D; --goldlt:#CCB26D; --wash:#FCFBF6; --hover:#F6F8FB;
-    --bar:#112337; --hero2:#1B2C48; --hero3:#112337;
-    --blue:#293C5C; --g1:#3D454E; --g2:#666666; --g3:#9AA2AA;
-    --pos:#177245; --neg:#8C2F1B; --warn:#CCB26D;
-    --serif:'Libre Bodoni',Georgia,serif;
-    --sans:'Roboto',system-ui,sans-serif;
-    --mono:'Roboto',system-ui,sans-serif;
     --s1:8px; --s2:14px; --s3:22px; --s4:56px;
     --bleed:clamp(18px,2.6vw,48px);
   }
@@ -39,7 +33,7 @@
   /* shared DataLabs content column: everything below the hero sits in one measure */
   .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
 
-  header{position:relative;overflow:hidden;background:linear-gradient(178deg,#112337 0%,#1B2C48 70%,#112337 100%);
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);
          margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
   .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
     background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;

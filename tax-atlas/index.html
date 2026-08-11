@@ -235,7 +235,7 @@
     <div class="dots" aria-hidden="true"></div>
     <div class="org">Economic Opportunity <span class="sub">/ State Tax Policy</span></div>
     <h1>State Tax Atlas: Surtaxes and Wealth Tax Proposals</h1>
-    <div class="standfirst">A 51-jurisdiction record of state income surtaxes as enacted, the wealth tax and surtax vehicles now in play, the ballot pathways they travel, and a forward-looking view of enactment risk through 2028.</div>
+    <div class="standfirst">A 51-jurisdiction record of state income surtaxes as enacted, the wealth tax and surtax vehicles now in play, the ballot pathways they travel, and a forward-looking view of near-term enactment risk.</div>
     <div class="dateline"><span>Verified <b>Aug 11, 2026</b></span><span>Version <b>1.0 Beta</b></span><span>Jurisdictions <b>51</b></span><span>Sources <b>47</b></span><span>Events tracked <b>26</b></span></div>
   </header>
 
@@ -249,8 +249,8 @@
     <button id="b-current" class="on" onclick="setView('current')">Current Policy <span class="who">Rates and surtaxes as enacted</span></button>
     <button id="b-proposals" onclick="setView('proposals')">Active Proposals <span class="who">Wealth tax and surtax vehicles</span></button>
     <button id="b-ballot" onclick="setView('ballot')">Ballot Access <span class="who">Citizen initiative pathways</span></button>
-    <button id="b-future" onclick="setView('future')">Short-Term Risk <span class="who">Model outlook through 2028</span></button>
-    <button id="b-events" onclick="setView('events')">Events <span class="who">Watch list through 2028</span></button>
+    <button id="b-future" onclick="setView('future')">Near-Term Risk <span class="who">Model enactment outlook</span></button>
+    <button id="b-events" onclick="setView('events')">Events <span class="who">Upcoming watch list</span></button>
   </div>
   <div class="caption" id="caption"></div>
 
@@ -264,7 +264,7 @@
 
   <div class="events" id="events">
     <div class="ev-intro">
-      <div class="lede">Twenty-six dates that will decide where this map goes next, running through 2028.</div>
+      <div class="lede">Twenty-six dates that will decide where this map goes next.</div>
       <div class="sub">If you only watch three: the <b>Petter</b> ruling in Washington, the <b>November&nbsp;3</b> election, and the <b>August&nbsp;2027</b> Massachusetts filing deadline. Click any row to expand it.</div>
     </div>
     <div class="ev-controls"><button class="fchip" id="ev-toggle" onclick="evToggleAll()">Expand all</button></div>
@@ -308,7 +308,7 @@
   <div class="fold-body">
   <div class="scroll">
   <table>
-    <thead><tr><th>Jurisdiction</th><th class="n">Top Rate</th><th>Current Status</th><th>Proposal Activity</th><th>Ballot Access</th><th>Short-Term Risk</th><th>Tracked Vehicles</th></tr></thead>
+    <thead><tr><th>Jurisdiction</th><th class="n">Top Rate</th><th>Current Status</th><th>Proposal Activity</th><th>Ballot Access</th><th>Near-Term Risk</th><th>Tracked Vehicles</th></tr></thead>
     <tbody id="ledger"></tbody>
   </table>
   </div>
@@ -321,10 +321,10 @@
   <div class="fold-body">
   <div class="meth">
     <p><b>Rates.</b> All 51 top marginal rates are verified against primary and authoritative sources current to August 11, 2026: the Tax Foundation&rsquo;s 2026 rate table as the base, with every post-publication enactment layered in from primary sources, including Georgia HB 463 (4.99%, retroactive to Jan 1), Arkansas Acts 1 and 2 (3.7%, May 2026), South Carolina H.4216 (5.21% restructure), North Carolina S.L. 2026-41 (signed July 7, 2026, replacing the trigger-dependent schedule with date-certain cuts from 2027; the 2026 rate remains 3.99%), Maryland&rsquo;s 2025 millionaire brackets, the Maine and Rhode Island surtaxes, Washington SB 6346, and Hawaii&rsquo;s Act 24, which enacts a 13% bracket on income over $1M effective tax year 2027 (the 2026 top rate remains 11%). The Massachusetts surtax threshold reflects the indexed 2026 figure of $1,107,750. Where the compilation and primary law diverge, primary law controls: Washington&rsquo;s capital gains top tier is 9.9% (7% plus a 2.9% surcharge over $1M) per the Department of Revenue&rsquo;s special notice, correcting the 9% figure carried in the Tax Foundation table.</p>
-    <p><b>Risk model.</b> The short-term outlook scores each jurisdiction&rsquo;s likelihood of new enactment or material expansion of a high-income or wealth tax beyond current enacted law within a 24-month window. Enacted law with a future effective date is certainty, not risk: those changes are recorded as slated changes in each state&rsquo;s Current Status panel and are excluded from the score. Five weighted factors: live legislative vehicles, political composition, activist infrastructure, budget pressure, and contagion, with constitutional barriers applied as a cap rather than a weight. Tiers map to probability bands (Very High above 70%, High 40&ndash;70%, Moderate 15&ndash;40%, Low 5&ndash;15%, Very Low below 5%). Ratings move only on documented events, and each call is timestamped so accuracy can be scored over time. These are analytical judgments, not verified facts.</p>
+    <p><b>Risk model.</b> The near-term outlook scores each jurisdiction&rsquo;s likelihood of new enactment or material expansion of a high-income or wealth tax beyond current enacted law within a 24-month window. Enacted law with a future effective date is certainty, not risk: those changes are recorded as slated changes in each state&rsquo;s Current Status panel and are excluded from the score. Five weighted factors: live legislative vehicles, political composition, activist infrastructure, budget pressure, and contagion, with constitutional barriers applied as a cap rather than a weight. Tiers map to probability bands (Very High above 70%, High 40&ndash;70%, Moderate 15&ndash;40%, Low 5&ndash;15%, Very Low below 5%). Ratings move only on documented events, and each call is timestamped so accuracy can be scored over time. These are analytical judgments, not verified facts.</p>
     <p><b>Active proposals.</b> The second view classifies each jurisdiction by the posture of its live vehicles rather than by whether a proposal exists on paper. Certified for the 2026 ballot applies to California alone. Active vehicle covers a filed bill or budget provision that is live or whose sponsors have signaled a return (New York, Vermont, Illinois, Maryland, Virginia, and Rhode Island) plus Colorado, where Initiative 195, a citizen initiative for graduated rates of 3.7% to 8.4%, submitted signatures on Aug. 3, 2026 that are pending verification. Exploratory, dormant, or failed this cycle covers Massachusetts (union exploration with no filing), Hawaii (a wealth tax refiled across sessions without advancing), and Oregon (IP 70, which failed to qualify in July 2026). The remaining forty jurisdictions have nothing tracked. The distinction matters because a measure that has died for the cycle is not a live threat.</p>
     <p><b>Ballot access.</b> The third view maps whether citizens can put tax measures on the ballot directly, bypassing the legislature. Twelve states allow direct initiative with simple-majority approval; six allow initiated statutes only; four maintain supermajority or legislative gates (including Florida&rsquo;s two-thirds rule for new taxes and Arizona&rsquo;s Prop 132); twenty-nine jurisdictions have no workable pathway for tax measures. Utah, North Dakota, and South Dakota vote in November 2026 on measures that would raise their own initiative thresholds; Missouri voters rejected Amendment 4, its version of the change, on August 4, 2026; and Florida and Arkansas enacted process restrictions in 2025.</p>
-    <p><b>Events.</b> The fifth view is a dated watch list of twenty-six events through 2028: compliance deadlines, elections, court rulings, effective dates, and filing windows, in chronological order with the anchoring background for each. Dates are verified to the sources in the register; items with no set date carry the best documented window. Impact characterizations are model judgments. Resolved items will be marked, not removed.</p>
+    <p><b>Events.</b> The fifth view is a dated watch list of twenty-six events: compliance deadlines, elections, court rulings, effective dates, and filing windows, in chronological order with the anchoring background for each. Dates are verified to the sources in the register; items with no set date carry the best documented window. Impact characterizations are model judgments. Resolved items will be marked, not removed.</p>
     <p><b>The mid-2026 state of play.</b> Rhode Island&rsquo;s phased surtax was signed June 12 alongside a second-home surcharge effective July 1; New York&rsquo;s pied-&agrave;-terre tax took effect July 1 with implementation rules proposed; California&rsquo;s Proposition 40 qualified June 17 and survived the withdrawal deadline; Hawaii&rsquo;s 13% bracket arrives in 2027; Washington&rsquo;s Initiative 645, repealing the 9.9% tax, was certified for the November ballot on July 15. Not everything advances: Massachusetts&rsquo; income tax cut initiative was removed by the SJC on June 18 (its Chapter 62F tax-cap companion remains on the November ballot), and Oregon&rsquo;s IP 70 wealth tax failed to qualify. Massachusetts reported final FY2026 Fair Share collections of $3.38 billion, up 13%, more than twice the original estimate for a third straight year. On the cut side, North Carolina&rsquo;s budget (S.L. 2026-41, signed July 7) locked in date-certain reductions to 3.49% beginning in 2027 and referred a 3.5% constitutional income tax cap to the November ballot, and on August 4 Missouri voters rejected Amendment 4, which would have raised the bar for citizen-initiated constitutional amendments, 80.3% to 19.7%. Early August added three fronts: a Richmond County justice halted the pied-&agrave;-terre rollout with a temporary restraining order on Aug. 10 (stayed on the city&rsquo;s appeal, hearing Aug. 31); Washington&rsquo;s fight over the I-645 ballot disclosure reached the state Supreme Court on Aug. 10; and in Colorado, Initiative 195, a graduated-rate income tax measure, submitted signatures on Aug. 3, now pending verification.</p>
   </div>
   </div>
@@ -332,7 +332,7 @@
 
   <h2>Risk Model <span style="font-weight:400;color:var(--g2);font-size:13px">(draft modeling)</span></h2>
   <details class="srcfold">
-  <summary><span class="car">&#9654;</span><span class="name">How the short-term outlook is scored, and what the numbers are not</span></summary>
+  <summary><span class="car">&#9654;</span><span class="name">How the near-term outlook is scored, and what the numbers are not</span></summary>
   <div class="fold-body">
 
   <div class="mathnote"><b>Draft modeling disclaimer.</b> The scoring framework below is draft modeling under active development. Factor weights, bands, and ceilings reflect calibrated analytical judgment, not statistically validated parameters, and both the rubric and individual scores are expected to be revised as the model is reviewed and as its timestamped calls begin to resolve. Nothing in this section is a prediction of certainty, and no rating should be relied on as one.</div>
@@ -460,7 +460,7 @@
       <tr><td class="src"><a href="https://www.foley.com/insights/publications/2026/07/wealth-tax-watch-a-mid-year-update/" target="_blank" rel="noopener noreferrer">Foley &amp; Lardner, <i>Wealth Tax Watch</i> mid-year update</a></td><td>Periodic</td><td>Rhode Island second-home surcharge, NYC Department of Finance proposed rules, and the proposed Connecticut mansion tax</td><td>July 2026 mid-year update</td><td>Next update expected late 2026</td></tr>
       <tr><td class="src"><a href="https://www.steptoe.com/en/news-publications/new-york-citys-new-pied-a-terre-tax-effective-july-1-2026.html" target="_blank" rel="noopener noreferrer">Technical analyses: Steptoe, Baker Botts, EisnerAmper</a></td><td>Event-driven</td><td>Mechanics and effective dates of the NYC surcharge and the structure of California&rsquo;s Proposition 40</td><td>Through July 2026</td><td>Event-driven</td></tr>
       <tr class="grp"><td colspan="5">Model outputs</td></tr>
-      <tr><td class="src">Pioneer Institute analysis (this tool)</td><td>Full re-underwrite annually after November elections; individual ratings change only on documented events; horizon shortened from 36 to 24 months in July 2026</td><td>All Short-Term Risk tiers (scored against new action beyond current enacted law), implied probability bands, risk rationales, the five-factor weighting with the constitutional-barrier cap, the slated-changes layer, and the impact characterizations in the Events watch list</td><td>Ratings as of July 28, 2026 (24-month horizon closing July 24, 2028; definition refined July 27, 2026; MA factor re-score and override removal July 28, 2026)</td><td>Post-election re-underwrite, November 2026</td></tr>
+      <tr><td class="src">Pioneer Institute analysis (this tool)</td><td>Full re-underwrite annually after November elections; individual ratings change only on documented events; horizon shortened from 36 to 24 months in July 2026</td><td>All Near-Term Risk tiers (scored against new action beyond current enacted law), implied probability bands, risk rationales, the five-factor weighting with the constitutional-barrier cap, the slated-changes layer, and the impact characterizations in the Events watch list</td><td>Ratings as of July 28, 2026 (rolling 24-month horizon; definition refined July 27, 2026; MA factor re-score and override removal July 28, 2026)</td><td>Post-election re-underwrite, November 2026</td></tr>
     </tbody>
   </table>
   </div>
@@ -544,7 +544,7 @@ function clearFilters() {
   renderLedger();
 }
 /* DATA:BEGIN tax-atlas-captions (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
-var CAPTIONS = {"current":"as enacted / in effect","proposals":"wealth tax and high-income surtax vehicles now in play","ballot":"citizen initiative pathways for tax measures","future":"model outlook through 2028","events":"dated events through 2028; enacted effective dates, elections, court rulings, and filing deadlines"};
+var CAPTIONS = {"current":"as enacted / in effect","proposals":"wealth tax and high-income surtax vehicles now in play","ballot":"citizen initiative pathways for tax measures","future":"model outlook over the near-term horizon","events":"dated upcoming events; enacted effective dates, elections, court rulings, and filing deadlines"};
 /* DATA:END tax-atlas-captions */
 function metaFor(s) {
   if (view === "current") return STATUS_META[s.currentStatus];
@@ -658,7 +658,7 @@ function renderPanel() {
     { key: "current", title: "Current status", meta: STATUS_META[s.currentStatus], note: s.currentNote },
     { key: "proposals", title: "Active proposals", meta: PROPOSAL_META[s.proposalStatus], build: proposalCards },
     { key: "ballot", title: "Ballot pathway", meta: BALLOT_META[s.ballot], note: s.ballotNote },
-    { key: "future", title: "Short-term outlook", meta: RISK_META[s.futureRisk], note: s.futureNote }
+    { key: "future", title: "Near-term outlook", meta: RISK_META[s.futureRisk], note: s.futureNote }
   ];
 
   secs.forEach(function (sec) {
@@ -672,7 +672,7 @@ function renderPanel() {
       lead.appendChild(lab);
       if (sec.build) lead.appendChild(sec.build(s));
       else lead.appendChild(el("p", null, sec.note));
-      if (sec.key === "current" && s.slated) lead.appendChild(el("p", "slated", "Enacted changes through July 2028: " + s.slated));
+      if (sec.key === "current" && s.slated) lead.appendChild(el("p", "slated", "Enacted changes on the books: " + s.slated));
       p.appendChild(lead);
     } else {
       var d = document.createElement("details");
@@ -686,7 +686,7 @@ function renderPanel() {
       d.appendChild(sum);
       if (sec.build) d.appendChild(sec.build(s));
       else d.appendChild(el("p", null, sec.note));
-      if (sec.key === "current" && s.slated) d.appendChild(el("p", "slated", "Enacted changes through July 2028: " + s.slated));
+      if (sec.key === "current" && s.slated) d.appendChild(el("p", "slated", "Enacted changes on the books: " + s.slated));
       p.appendChild(d);
     }
   });

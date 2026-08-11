@@ -2,14 +2,14 @@
  "tool_id": "DL-04",
  "title": "State Tax Atlas",
  "as_of": "2026-08-11",
- "horizon": "Short-Term Risk is scored on a 24-month horizon closing July 24, 2028; ratings as of July 28, 2026.",
- "scope": "All 51 jurisdictions (50 states plus DC): enacted top marginal rates and surtaxes, slated changes already in law, active wealth-tax and surtax proposals, citizen-initiative ballot pathways, and Pioneer's Short-Term Risk tier for new action beyond current law.",
+ "horizon": "Near-Term Risk is scored on a rolling 24-month horizon; ratings as of July 28, 2026.",
+ "scope": "All 51 jurisdictions (50 states plus DC): enacted top marginal rates and surtaxes, slated changes already in law, active wealth-tax and surtax proposals, citizen-initiative ballot pathways, and Pioneer's Near-Term Risk tier for new action beyond current law.",
  "views": {
   "current": "Current Policy: top rates and surtaxes as enacted.",
   "proposals": "Active Proposals: wealth-tax and surtax vehicles in play.",
   "ballot": "Ballot Access: citizen-initiative pathways by state.",
-  "future": "Short-Term Risk: Pioneer model outlook through the 2028 horizon.",
-  "events": "Events: dated watch list of hearings, rulings, and elections through 2028."
+  "future": "Near-Term Risk: Pioneer model outlook over the near-term horizon.",
+  "events": "Events: dated watch list of upcoming hearings, rulings, and elections."
  },
  "meta": {
   "status": {
@@ -125,8 +125,8 @@
   "current": "as enacted / in effect",
   "proposals": "wealth tax and high-income surtax vehicles now in play",
   "ballot": "citizen initiative pathways for tax measures",
-  "future": "model outlook through 2028",
-  "events": "dated events through 2028; enacted effective dates, elections, court rulings, and filing deadlines"
+  "future": "model outlook over the near-term horizon",
+  "events": "dated upcoming events; enacted effective dates, elections, court rulings, and filing deadlines"
  },
  "derived": {
   "note": "Precomputed from the state records; prefer these over deriving your own rankings or counts. Cite (derived).",
@@ -545,7 +545,7 @@
   ]
  },
  "events": {
-  "note": "The dated watch list behind the Events view: hearings, rulings, deadlines, and elections through 2028, grouped in chronological phases. Dates are labels as published; judge nearness against as_of.",
+  "note": "The dated watch list behind the Events view: hearings, rulings, deadlines, and elections, grouped in chronological phases. Dates are labels as published; judge nearness against as_of.",
   "phases": [
    {
     "label": "Before the November election",

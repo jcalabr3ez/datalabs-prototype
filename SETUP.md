@@ -27,7 +27,12 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     scripts/refresh_dl12.py        Recomputes the DL-12 ledger from the live
                                    FTA NTD API; run by the monthly workflow
     scripts/check_freshness.py     Fails when a ledger ages past its cadence
+    scripts/check_style.py         House-style lint (no em dashes) plus the
+                                   Florida page's ledger-sentinel checks
     scripts/eval_engine.mjs        Golden-question eval against the live engine
+    scripts/dl04-research-pass.md  Runbook: tax atlas research pass (local)
+    scripts/dl10-research-pass.md  Runbook: Florida quarterly refresh (local)
+    NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool
     .github/workflows/             The automation (see Step 7)
     netlify.toml                   Site, functions, and the build command
     SETUP.md                       This file

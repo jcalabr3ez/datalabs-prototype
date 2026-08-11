@@ -62,15 +62,42 @@ def main():
     catalog = load("catalog.json")
     dl12 = load("netlify/functions/dl12-answers.json")
     dl04 = load("netlify/functions/dl04-answers.json")
+    fl = load("netlify/functions/fl-answers.json")
     changed = []
 
-    # ---- index.html: const DATA = {catalog, answers, audit} ----
+    # ---- index.html: const DATA = {catalog, answers, audit} + desk stats ----
     p = ROOT / "index.html"
     text = p.read_text(encoding="utf-8")
     data = extract_json_after(text, "const DATA = ", p)
     data["catalog"] = catalog
     data["answers"] = dl12
-    new = replace_block(text, "front-data", "const DATA = " + jdump(data) + ";", p)
+    # Desk-card stats derived from the atlas ledger, so front-door copy
+    # cannot drift from the data (the count was once hardcoded).
+    dl04d = {
+        "active_or_ballot": len(dl04["derived"]["states_with_active_or_ballot_vehicle"]),
+        "ballot": dl04["derived"]["states_by_proposal_status"]
+                       .get("Certified for the 2026 ballot", {}).get("count", 0),
+        "as_of": dl04["as_of"],
+    }
+    front_payload = (
+        "const DATA = " + jdump(data) + ";\n"
+        + "const DL04D = " + jdump(dl04d) + ";"
+    )
+    new = replace_block(text, "front-data", front_payload, p)
+
+    # ---- index.html: FL chart series projected from the DL-10 ledger ----
+    fl_consts = "\n".join([
+        "const FLPIF=" + jdump([[e["m"], e["v"]] for e in fl["citizens_policies_monthly"]]) + ";",
+        "const FLCTY=" + jdump([[k, c["incl_wind"], c["ex_wind"], c["incl_wind_2025_09"]]
+                                for k, c in sorted(fl["county_premiums"].items())]) + ";",
+        "const FLLIT=" + jdump([[e["year"], e["fl_share_us_claims_pct"], e["fl_share_us_suits_pct"]]
+                                for e in fl["litigation_share"]]) + ";",
+        "const FLRT=" + jdump([[e["year"], e["cat_fund_coverage_bn"], e["private_capital_coverage_bn"]]
+                               for e in fl["risk_transfer"]]) + ";",
+        "const FLTK=" + jdump([[e["period"], e["implied_inflow_per_100_takeouts"]]
+                               for e in fl["takeout_net_inflow"]]) + ";",
+    ])
+    new = replace_block(new, "front-fl-data", fl_consts, p)
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("index.html")

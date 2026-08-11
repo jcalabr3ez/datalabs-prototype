@@ -335,7 +335,7 @@
   <div class="standfirst" id="standfirst">How many people ride the T, month by month and mode by mode, and what each trip costs to provide. Rebuilt from federal filings and verified against the National Transit Database.</div>
   <div class="dateline">
     <span>Data through <b>May 31, 2026</b></span>
-    <span>Verified vs FTA NTD <b>Aug 2, 2026</b></span>
+    <span>Verified vs FTA NTD <b>Aug 11, 2026</b></span>
     <span>Version <b>1.0 Beta</b></span>
   </div>
 </header>
@@ -383,7 +383,7 @@
       <div class="note">Unlinked passenger trips across every MBTA mode. April 2020, the pandemic floor, saw 4,297,427 trips, about 13.7 percent of the same month a year earlier (derived, SRC-301). The recovery has been steady rather than sharp: 24,773,714 trips in May 2026 against 31,879,535 in May 2019 puts the system at 77.7 percent of its pre-pandemic level (derived vs same month 2019, SRC-301).<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Recovery vs same month 2019 (the measure used throughout this page)</div><code>recovery = month / same month 2019 x 100
 
 May 2026: 24,773,714 / 31,879,535 x 100 = 77.7%
-year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="out">Result: 77.7 percent of pre-pandemic ridership, growing 4.1 percent year over year.</div></div><div class="mathsrc">Inputs: FTA NTD Complete Monthly Ridership, dataset 8bui-9xvu, data.transportation.gov, fetched August 2, 2026. Same-month comparison avoids seasonal distortion. Calculation: Pioneer Institute.</div></details></div>
+year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="out">Result: 77.7 percent of pre-pandemic ridership, growing 4.1 percent year over year.</div></div><div class="mathsrc">Inputs: FTA NTD Complete Monthly Ridership, dataset 8bui-9xvu, data.transportation.gov, fetched August 2, 2026 and re-verified against the live dataset August 11, 2026. Same-month comparison avoids seasonal distortion. Calculation: Pioneer Institute.</div></details></div>
       <div class="srcline"><b>Source:</b> <a href="https://data.transportation.gov/Public-Transit/Complete-Monthly-Ridership-with-adjustments-and-es/8bui-9xvu" target="_blank">FTA National Transit Database, Complete Monthly Ridership</a> (SRC-301), through May 2026. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
@@ -398,13 +398,6 @@ year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="ou
       <div class="note">Commuter rail is the outlier above its 2019 level at 101.3 percent, while heavy rail, the subway that anchors the system, sits at 66.1 percent (derived vs same month 2019, SRC-301). Bus, bus rapid transit, and ferry all cluster near ninety percent. The RIDE, the paratransit service, is at 64.8 percent. Read together: the suburban, occasional-trip services recovered first, and the everyday urban core is what remains missing.</div>
       <div class="srcline"><b>Source:</b> FTA NTD Complete Monthly Ridership (SRC-301), May 2026 vs May 2019, derived. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
-    <details class="simplify">
-      <summary><span class="car">&#9654;</span><span>How this data was rebuilt and verified</span></summary>
-      <div class="dt-body">
-        <p class="body-p">Ridership was rebuilt from the FTA National Transit Database Complete Monthly Ridership file (dataset 8bui-9xvu, data.transportation.gov), fetched August 2, 2026, and verified against the recovered legacy DataLabs extract: 1,174 of 1,176 overlapping values matched exactly, and the two recent contracted-bus months that differed were revised upward by the federal source. Ridership figures on this page are therefore verified; cost and farebox figures on the Costs &amp; fares view remain from the legacy extract and are flagged as pending until they are reconciled against NTD annual data.</p>
-        <div class="srcline"><b>Sources:</b> <a href="https://data.transportation.gov/Public-Transit/Complete-Monthly-Ridership-with-adjustments-and-es/8bui-9xvu" target="_blank">FTA NTD Complete Monthly Ridership</a> (SRC-301); recovered legacy DataLabs extract (LEG-MBTA-01). <b>Verification:</b> Pioneer Institute, August 2, 2026.</div>
-      </div>
-    </details>
   </section>
 
 </div><!-- /view-ridership -->
@@ -461,7 +454,7 @@ year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="ou
         <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports in the dashboard</th><th>Data vintage in this tool</th><th>Next release</th></tr></thead>
         <tbody>
           <tr class="grp"><td colspan="5">Federal Transit Administration</td></tr>
-          <tr><td class="src"><a href="https://data.transportation.gov/Public-Transit/Complete-Monthly-Ridership-with-adjustments-and-es/8bui-9xvu" target="_blank" rel="noopener noreferrer">FTA National Transit Database, Complete Monthly Ridership (SRC-301)</a>, dataset 8bui-9xvu, data.transportation.gov</td><td>Monthly, roughly two to three months after month end</td><td>Every ridership figure and chart: Figures 1 and 2, the key takeaways band, and all derived recovery percentages</td><td>Through May 2026; fetched August 2, 2026</td><td>June 2026 data, expected early September 2026</td></tr>
+          <tr><td class="src"><a href="https://data.transportation.gov/Public-Transit/Complete-Monthly-Ridership-with-adjustments-and-es/8bui-9xvu" target="_blank" rel="noopener noreferrer">FTA National Transit Database, Complete Monthly Ridership (SRC-301)</a>, dataset 8bui-9xvu, data.transportation.gov</td><td>Monthly, roughly two to three months after month end</td><td>Every ridership figure and chart: Figures 1 and 2, the key takeaways band, and all derived recovery percentages</td><td>Through May 2026; fetched August 2, 2026, re-verified against the live dataset August 11, 2026</td><td>June 2026 data, expected early September 2026</td></tr>
           <tr><td class="src">FTA NTD annual agency data (SRC-302, planned)</td><td>Annual</td><td>Will confirm cost per trip and farebox recovery and their reporting year</td><td>Not yet pulled</td><td>To be pulled and archived at reconciliation</td></tr>
           <tr class="grp"><td colspan="5">Recovered legacy extract</td></tr>
           <tr><td class="src">Recovered legacy DataLabs extract (LEG-MBTA-01), from the prior MBTAAnalysis tool</td><td>One-time recovery</td><td>Figures 3 and 4, cost per trip and farebox recovery, flagged pending; also the verification baseline for the ridership rebuild, where 1,174 of 1,176 overlapping values matched the federal file</td><td>Cost table reporting year unrecorded</td><td>Superseded for cost figures when NTD annual data is pulled</td></tr>
@@ -475,7 +468,7 @@ year over year: 24,773,714 / 23,796,675 x 100 - 100 = +4.1%</code><div class="ou
 <footer>
   <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
   <div class="frow">
-    <div>Transportation &amp; MBTA &middot; Version 1.0 Beta &middot; Data through May 31, 2026 &middot; Verified August 2, 2026</div>
+    <div>Transportation &amp; MBTA &middot; Version 1.0 Beta &middot; Data through May 31, 2026 &middot; Verified August 11, 2026</div>
     <div>2 sources active, 1 planned; see the register above</div>
   </div>
 

@@ -39,6 +39,8 @@
   .sitebar .tag b{color:var(--goldlt);font-weight:700}
   @media(max-width:520px){.sitebar .tag{display:none}}
   .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  /* shared DataLabs content column: everything below the hero sits in one measure */
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
 
   header{position:relative;overflow:hidden;background:linear-gradient(178deg,#12213A 0%,#0D1930 70%,#0B1526 100%);
          margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}

@@ -1,13 +1,19 @@
-# Golden-question eval: runs the real two-stage engine against the live
-# Anthropic API and asserts routing and answer shape. Catches prompt
-# regressions (like scope misdeclines) before users do.
-# Requires the ANTHROPIC_API_KEY repository secret.
+# Golden-question eval against the LIVE site's ask endpoint. The Anthropic
+# key stays in Netlify, where it already lives; GitHub holds no secrets.
+# Configure once: repo Settings > Secrets and variables > Actions > Variables
+# > New repository variable, name SITE_URL, value https://<site>.netlify.app
+# (a plain variable, not a secret; the URL is public anyway).
+# Catches prompt regressions (like scope misdeclines) before users do.
 name: Engine eval
 
 on:
   schedule:
     - cron: "41 11 * * 1" # Mondays 11:41 UTC
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      site_url:
+        description: "Site URL override (else the SITE_URL repo variable)"
+        required: false
 
 jobs:
   eval:
@@ -17,7 +23,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Run golden questions through the engine
+      - name: Run golden questions against the live endpoint
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: node scripts/eval_engine.mjs
+          SITE_URL: ${{ inputs.site_url || vars.SITE_URL }}
+        run: |
+          if [ -z "$SITE_URL" ]; then
+            echo "::notice::SITE_URL is not configured; skipping. Add a SITE_URL repository variable (Settings > Secrets and variables > Actions > Variables) to enable the weekly eval."
+            exit 0
+          fi
+          node scripts/eval_engine.mjs

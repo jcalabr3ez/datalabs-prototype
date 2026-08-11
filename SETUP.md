@@ -160,36 +160,38 @@ Notes: logging is fire-and-forget with a short timeout and can never
 break the ask box; to revoke, turn the flow off or remove the
 variable.
 
-## Step 7: The automation (10 minutes, one secret)
+## Step 7: The automation (5 minutes, no secrets on GitHub)
 
-Four GitHub Actions workflows keep the data and the engine honest. Two need
-the ANTHROPIC_API_KEY as a repository secret: GitHub repo > Settings >
-Secrets and variables > Actions > New repository secret, name
-ANTHROPIC_API_KEY, value from Step 1 (a separate key from the Netlify one
-is fine and easier to meter).
+The Anthropic API key lives in exactly one place: Netlify. GitHub holds no
+secrets. The only configuration is one PUBLIC repository variable so the
+eval can find the site: GitHub repo > Settings > Secrets and variables >
+Actions > Variables tab > New repository variable, name SITE_URL, value
+https://YOUR-SITE.netlify.app (the site URL is public anyway).
 
     dl12-refresh.yml   Monthly. Refetches MBTA ridership from the FTA NTD
                        API, recomputes the ledger, and opens a PULL REQUEST.
                        Review the diff (historical revisions show up there),
-                       merge, and the deploy carries the new data. Needs no
-                       secret. First run: Actions tab > DL-12 ridership
-                       refresh > Run workflow.
+                       merge, and the deploy carries the new data. First
+                       run: Actions tab > DL-12 ridership refresh > Run
+                       workflow.
     checks.yml         Weekly and on every PR. Fails when a ledger ages past
                        its publisher cadence, when a generated page block is
                        out of sync with its canonical ledger, or when the
-                       engine manifests do not load. Needs no secret.
-    eval.yml           Weekly. Runs golden questions through the REAL engine
-                       (both model stages) and asserts each routes to the
-                       right tool with a cited, linked answer. This is the
-                       regression net for prompt edits. Needs the secret.
-    dl04-research.yml  EXPERIMENTAL, manual-trigger only. Claude walks the
-                       tax atlas source register, checks what is due, and
-                       drafts ledger updates as a PR for editor review.
-                       Needs the secret. Add a cron only after the first few
-                       runs earn trust.
+                       engine manifests do not load.
+    eval.yml           Weekly. POSTs golden questions to the LIVE site's ask
+                       endpoint and asserts each routes to the right tool
+                       with a cited, linked answer. The key stays in
+                       Netlify; the workflow only needs SITE_URL, and skips
+                       politely until that variable exists. This is the
+                       regression net for prompt edits.
 
-Nothing in the automation pushes to main; everything lands as a pull
-request a person reviews. Merging to main is what deploys.
+    The DL-04 research pass is deliberately NOT a workflow: it is editorial
+    work, run locally in Claude Code with your own credentials. The runbook
+    and prompt are in scripts/dl04-research-pass.md; the checks workflow's
+    freshness gate reminds you when a pass is due.
+
+Nothing in the automation pushes to main; refreshes land as pull requests a
+person reviews. Merging to main is what deploys.
 
 ## Later: moving to Pioneer accounts
 

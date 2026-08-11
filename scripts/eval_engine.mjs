@@ -1,16 +1,42 @@
 // Golden-question eval for the DataLabs question engine.
-// Runs the REAL ask.js handler (both model stages) under Node against the
-// live Anthropic API, and asserts routing and answer shape, not wording.
-// Needs ANTHROPIC_API_KEY in the environment. Run: node scripts/eval_engine.mjs
+// Asserts routing and answer shape, not wording. This is the regression net
+// for prompt changes: the "rates are outside the scope" misdecline class is
+// exactly what these assertions catch.
 //
-// This is the regression net for prompt changes: the "rates are outside the
-// scope" misdecline class is exactly what these assertions catch.
+// Two modes:
+//   SITE_URL=https://<site>.netlify.app node scripts/eval_engine.mjs
+//     POSTs each question to the LIVE site's ask endpoint. No API key needed
+//     anywhere except Netlify, where it already lives. This is how CI runs.
+//   node scripts/eval_engine.mjs   (with ANTHROPIC_API_KEY set locally)
+//     Runs the ask.js handler in-process against the Anthropic API directly.
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
-delete process.env.URL;         // force the bundled catalog, not a deploy URL
-delete process.env.DEPLOY_URL;
-const { handler } = require("../netlify/functions/ask.js");
+const SITE_URL = (process.env.SITE_URL || "").replace(/\/+$/, "");
+let ask;
+if (SITE_URL) {
+  ask = async function (body) {
+    const r = await fetch(SITE_URL + "/.netlify/functions/ask", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    return { statusCode: r.status, body: await r.text() };
+  };
+  console.log("eval mode: live site endpoint " + SITE_URL + "\n");
+} else {
+  if (!process.env.ANTHROPIC_API_KEY) {
+    console.error("Set SITE_URL (live-endpoint mode) or ANTHROPIC_API_KEY (local mode).");
+    process.exit(2);
+  }
+  delete process.env.URL;       // force the bundled catalog, not a deploy URL
+  delete process.env.DEPLOY_URL;
+  const { handler } = require("../netlify/functions/ask.js");
+  ask = function (body) {
+    return handler({ httpMethod: "POST", body: JSON.stringify(body) });
+  };
+  console.log("eval mode: in-process handler\n");
+}
 
 const GOLDEN = [
   // [question, expected types, expected tool when answer, must-have fields]
@@ -27,7 +53,7 @@ const GOLDEN = [
 
 let failures = 0;
 for (const [q, types, tool] of GOLDEN) {
-  const res = await handler({ httpMethod: "POST", body: JSON.stringify({ question: q }) });
+  const res = await ask({ question: q });
   let verdict = [];
   let p = {};
   try {

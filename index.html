@@ -106,42 +106,42 @@
   .sec h2 { font-family:'Newsreader',serif; font-weight:500; font-size:clamp(24px,3.6vw,34px); letter-spacing:-.015em; margin-top:8px; }
   .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
-  /* direct answers: application tiles */
-  .appgrid { margin-top:24px; display:grid; grid-template-columns:repeat(auto-fill, 300px); gap:18px; }
-  .app { display:flex; flex-direction:column; aspect-ratio:1/1; min-height:300px; }
-  .app .body { flex:1; }
-  .appnext { border:1.5px dashed #C9D4E0; border-radius:6px; aspect-ratio:1/1; min-height:300px;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px;
-    color:var(--faint); text-align:center; padding:20px; }
-  .appnext .nid { font-size:11px; font-weight:700; color:#9AA6B4; letter-spacing:.06em; }
-  .appnext .nname { font-weight:700; font-size:15px; color:var(--grey); }
-  .appnext .nwhen { font-size:12px; }
-  .app { display:block; background:#fff; border:1px solid #D8DDE3; border-radius:4px; overflow:hidden;
-    transition:box-shadow .18s ease, transform .18s ease, border-color .18s ease; }
-  .app:hover { border-color:#12213A; box-shadow:0 14px 34px rgba(18,33,58,.14); transform:translateY(-2px); color:inherit; }
-  .app .band { background:#12213A; padding:14px 16px; display:flex; align-items:center; gap:12px; }
-  .app .mono { width:44px; height:44px; border-radius:4px; background:#1F3A5F; color:#fff; display:flex;
-    align-items:center; justify-content:center; font-weight:800; font-size:19px; letter-spacing:.02em;
-    border-bottom:3px solid #A87B1F; flex:none; }
-  .app .band h3 { color:#fff; font-size:15.5px; font-weight:700; line-height:1.25; }
-  .app .band .herit { color:#8DA0B5; font-size:11px; font-style:italic; margin-top:1px; }
-  .app .askbadge { margin-left:auto; flex:none; font-size:10px; font-weight:800; letter-spacing:.1em;
-    color:#E9C46A; border:1px solid #E9C46A; border-radius:3px; padding:3px 9px; }
-  .app .body { padding:12px 16px 0; }
-  .app .body p { font-size:13.5px; color:var(--grey); }
-  .app .spark { padding:10px 16px 0; margin-top:auto; }
-  .app .spark svg { width:100%; height:44px; display:block; }
-  .app .foot { display:flex; align-items:center; justify-content:space-between; gap:12px;
-    padding:11px 16px 14px; border-top:1px solid #EEF1F4; }
-  .app .status { font-size:10.5px; color:var(--faint); line-height:1.5; }
-  .app .status b { color:#177245; font-weight:700; }
-  .app .openbtn { flex:none; background:#12213A; color:#fff; font-size:12.5px; font-weight:700;
-    padding:8px 16px; border-radius:3px; letter-spacing:.02em; }
-  .app:hover .openbtn { background:#A87B1F; }
+  /* the desk: flagship lead cards */
+  .desk { margin-top:26px; border-top:2px solid var(--ink); display:grid; grid-template-columns:repeat(3,1fr); }
+  .lead { border-right:1px solid var(--rule); padding:20px 22px 18px; display:flex; flex-direction:column;
+    cursor:pointer; transition:background .16s ease; }
+  .lead:last-child { border-right:none; padding-right:0; }
+  .lead:first-child { padding-left:0; }
+  .lead:hover { background:#FBFAF7; }
+  .lead .place { display:flex; align-items:center; justify-content:space-between; gap:10px;
+    font-size:10.5px; font-weight:800; letter-spacing:.15em; color:var(--gold); }
+  .lead .askbadge { flex:none; font-size:9.5px; font-weight:800; letter-spacing:.1em;
+    color:var(--gold); border:1px solid var(--gold); border-radius:3px; padding:2px 8px; }
+  .lead h3 { margin-top:10px; line-height:1.15; }
+  .lead h3 a { font-family:'Newsreader',serif; font-size:22.5px; font-weight:600; letter-spacing:-.01em; }
+  .lead:hover h3 a { color:var(--navy); }
+  .lead .herit { font-size:11px; font-style:italic; color:var(--faint); margin-top:2px; }
+  .lead .stat { font-family:'IBM Plex Mono',monospace; font-size:29px; color:var(--navy);
+    margin-top:14px; line-height:1.1; font-variant-numeric:tabular-nums; }
+  .lead .statsub { font-size:12.5px; color:var(--grey); margin-top:4px; line-height:1.45; max-width:30ch; }
+  .lead .spark { margin-top:14px; }
+  .lead .spark svg { width:100%; height:42px; display:block; }
+  .lead .askex { margin-top:14px; font-size:13px; font-weight:600; color:var(--navy);
+    text-align:left; padding:0; }
+  .lead .askex i { font-family:'Newsreader',serif; font-weight:500; }
+  .lead .askex:hover { color:var(--gold); }
+  .lead .status { margin-top:auto; padding-top:16px; font-size:11px; color:var(--faint); line-height:1.5; }
+  .lead .status b { color:#177245; font-weight:700; }
+  @media (max-width:760px){
+    .desk { grid-template-columns:1fr; }
+    .lead { border-right:none; border-bottom:1px solid var(--rule); padding-left:0; padding-right:0; }
+    .lead:last-child { border-bottom:none; }
+  }
 
   /* catalog: finder */
   .dir-sec { padding-bottom:96px; }
   .finder { display:grid; grid-template-columns:210px 1fr; gap:40px; margin-top:26px; align-items:start; }
+  .finder > * { min-width:0; }
   .srchwrap { position:relative; }
   .rail .srch { width:100%; border:1px solid var(--rule); border-radius:4px; padding:10px 30px 10px 12px;
     font-family:inherit; font-size:13.5px; color:var(--ink); outline:none; background:#fff; }
@@ -159,24 +159,33 @@
   .fb:hover { color:var(--ink); }
   .fb.on { color:var(--navy); font-weight:700; }
   .fb.on span { color:var(--gold); }
-  .rcount { font-size:12px; color:var(--faint); padding-bottom:10px; border-bottom:1px solid var(--rule); }
-  .drow { display:flex; align-items:baseline; gap:14px; padding:10px 2px; border-bottom:1px solid #F1F3F5; font-size:13.5px; }
-  .drow.hide { display:none; }
-  .drow .site { font-size:10px; font-weight:700; color:#9AA6B4; width:52px; flex:none; }
-  .drow a { color:var(--navy2); font-weight:600; }
-  .drow a:hover { color:var(--gold); }
-  .drow .new { font-size:9.5px; font-weight:800; letter-spacing:.06em; color:#7A5C13; background:#F7F0DE; border-radius:3px; padding:1px 6px; }
-  .drow .lead { flex:1; border-bottom:1px dotted #DDE1E6; transform:translateY(-4px); min-width:16px; }
-  .drow .topic { font-size:11px; color:var(--faint); white-space:nowrap; }
-  .drow .pub { font-size:12px; color:var(--faint); white-space:nowrap; width:150px; text-align:right; font-variant-numeric:tabular-nums; }
-  .drow .pub.amb { color:#B26A00; }
-  .drow .pub.old { color:#8C2F1B; font-weight:600; }
-  .drow .pub.nr { color:#C4C9CF; font-style:italic; }
-  .drow.arch a { color:var(--grey); }
+  .rcount { font-size:12px; color:var(--faint); padding-bottom:12px; }
+  .legend { display:inline-flex; align-items:baseline; gap:12px; }
+  .fdot { width:7px; height:7px; border-radius:50%; display:inline-block; flex:none; }
+  .f-g { background:#177245; } .f-a { background:#B26A00; } .f-r { background:#8C2F1B; }
+  .f-n { background:transparent; border:1px solid #C4C9CF; }
+  /* the index: sectioned like a paper */
+  .idx { column-count:2; column-gap:52px; }
+  .itopic { margin-bottom:26px; }
+  .itopic.hide { display:none; }
+  .ith { display:flex; justify-content:space-between; align-items:baseline; gap:10px;
+    border-bottom:2px solid var(--ink); padding-bottom:4px; margin-bottom:7px; break-after:avoid; }
+  .ith b { font-family:'Newsreader',serif; font-size:16.5px; font-weight:600; letter-spacing:-.01em; }
+  .ith span { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--faint); }
+  .irow { display:flex; align-items:baseline; gap:9px; padding:4.5px 0; font-size:13px; break-inside:avoid; }
+  .irow.hide { display:none; }
+  .irow a { color:var(--navy); font-weight:600; }
+  .irow a:hover { color:var(--gold); }
+  .irow .star { color:var(--gold); font-weight:800; margin-right:2px; }
+  .irow .lead2 { flex:1; border-bottom:1px dotted #DDE1E6; transform:translateY(-4px); min-width:14px; }
+  .irow .meta { display:flex; align-items:baseline; gap:8px; white-space:nowrap;
+    font-size:11px; color:var(--faint); font-variant-numeric:tabular-nums; }
+  .irow .ext { color:#9AA6B4; font-size:10px; cursor:help; }
+  .irow .fdot { transform:translateY(-1px); }
+  .itopic.arch .ith b { color:var(--grey); }
+  .itopic.arch .irow a { color:var(--grey); font-weight:500; }
   .noresult { padding:18px 2px; font-size:13.5px; color:var(--faint); }
-  .showmore { margin-top:20px; margin-bottom:10px; border:1px solid var(--rule); background:#fff; border-radius:4px;
-    font-size:13px; font-weight:600; color:var(--navy2); padding:9px 16px; cursor:pointer; }
-  .showmore:hover { border-color:var(--navy); color:var(--navy); }
+  @media (max-width:900px){ .idx { column-count:1; } }
   @media (max-width:800px){
     .finder { grid-template-columns:1fr; gap:18px; }
     .fgroup { margin-top:12px; border-top:none; padding-top:0; display:flex; gap:8px; overflow-x:auto;
@@ -185,11 +194,11 @@
     .fb { width:auto; flex:none; border:1px solid var(--rule); border-radius:999px; padding:7px 13px;
       font-size:12.5px; background:#fff; white-space:nowrap; }
     .fb.on { border-color:var(--navy); background:var(--navy); color:#fff; }
-    .fb.on span { color:var(--goldlt); }
+    .fb.on span { color:#E9C46A; }
     .fb span { margin-left:5px; }
     .clearall { margin-top:6px; }
   }
-  @media (max-width:600px){ .drow .topic { display:none; } .drow .pub { width:auto; } }
+  @media (max-width:520px){ .irow .host { display:none; } }
 
   footer { margin-top:104px; }
   .pifoot { background:#12213A; color:#C9D2E0; border-top:3px solid #A87B1F; }
@@ -243,15 +252,19 @@
   <div class="resp frame" id="resp" aria-live="polite"></div>
 
   <section class="sec frame" id="answers">
-    <div class="lab">Direct answers</div>
-    <p class="sub">One tool currently answers questions directly. Its answers draw only from verified data, cite their source, and decline what they cannot support. Additional tools will follow as their data is verified.</p>
+    <div class="lab">The desk</div>
+    <h2>The flagships</h2>
+    <p class="sub">Rebuilt and verified by Pioneer, led by a live number. The ones marked ASK answer questions in your own words &#8212; and every figure cites its primary source.</p>
     <div id="deskList"></div>
   </section>
 
   <section class="sec frame dir-sec" id="directory">
-    <div class="lab">Catalog</div>
-    <h2>Find a tool</h2>
-    <p class="sub">The full catalog, searchable and filterable. Dates show the vintage of the data inside each tool.</p>
+    <div class="lab">The index</div>
+    <h2>Every tool, one catalog</h2>
+    <p class="sub">Every DataLabs product across every site, sectioned by topic. Rows marked &#8599; open on a partner DataLabs site; the date is the vintage of the data inside:
+      <span class="legend"><span><span class="fdot f-g"></span> current</span>
+      <span><span class="fdot f-a"></span> aging</span>
+      <span><span class="fdot f-r"></span> over a year old</span></span></p>
     <div class="finder">
       <div class="rail">
         <div class="srchwrap">
@@ -259,14 +272,13 @@
           <button id="srchClear" class="srchx" type="button" aria-label="Clear search" hidden>&#215;</button>
         </div>
         <div class="fgroup" id="geoFilters"></div>
-        <div class="fgroup" id="topicFilters"></div>
+        <div class="fgroup" id="topicJump"></div>
         <button class="clearall" id="clearAll" type="button">Clear search &amp; filters</button>
       </div>
       <div class="results">
         <div class="rcount" id="rcount"></div>
-        <div id="dirList"></div>
+        <div class="idx" id="dirList"></div>
         <div class="noresult" id="noresult" hidden>Nothing matches that. Try a different word or clear the filters.</div>
-        <button class="showmore" id="showMore" type="button" hidden></button>
       </div>
     </div>
   </section>
@@ -296,122 +308,99 @@ const DL12 = DATA.answers;
 const TOOLMAP = Object.fromEntries(CATALOG.map(t=>[t.id,t]));
 function esc(s){const d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
 
-/* ---------- Direct answers ---------- */
-function tileSpark(){
-  if(!DL12 || !DL12.monthly_total_upt) return '';
-  const sr = DL12.monthly_total_upt.slice(-24);
-  const W=300,H=44,max=Math.max(...sr.map(d=>d.v)),min=Math.min(...sr.map(d=>d.v));
-  const x=i=>i*(W/(sr.length-1)), y=v=>4+(1-(v-min)/(max-min||1))*(H-10);
-  return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">' +
-    '<polyline fill="none" stroke="#1F3A5F" stroke-width="2" points="'+sr.map((d,i)=>x(i)+','+y(d.v)).join(' ')+'"/>' +
-    '<circle cx="'+x(sr.length-1)+'" cy="'+y(sr[sr.length-1].v)+'" r="3" fill="#A87B1F"/></svg>';
-}
-const TILECFG = {
-  'DL-12': { mono:'T', desc:'Ridership by mode since 2014, recovery against 2019, and what every trip costs to provide. Ask in your own words.',
-             status:'<b>&#9679; Live</b> &nbsp;Verified against FTA NTD · through May 2026', spark:tileSpark() },
-  'DL-10': { mono:'FL', desc:'What Florida homeowners pay, county by county, Citizens, and what the reforms changed. Ask in your own words.',
-             status:'<b>&#9679; Live</b> &nbsp;FL OIR, Citizens, NAIC · through June 2026', spark:'' }
-};
-document.getElementById('deskList').innerHTML = '<div class="appgrid">' +
-  CATALOG.filter(t=>t.ai).map(t => {
-  const c = TILECFG[t.id] || { mono:'?', desc:esc(t.q||''), status:'<b>&#9679; Live</b>', spark:'' };
-  return '<a class="app" href="'+esc(t.url)+'">' +
-    '<div class="band"><div class="mono">'+c.mono+'</div>' +
-    '<div><h3>'+esc(t.t)+'</h3>'+(t.heritage?'<div class="herit">'+esc(t.heritage)+'</div>':'')+'</div>' +
-    '<span class="askbadge">ASK</span></div>' +
-    '<div class="body"><p>'+c.desc+'</p></div>' +
-    (c.spark?'<div class="spark">'+c.spark+'</div>':'') +
-    '<div class="foot"><span class="status">'+c.status+'</span>' +
-    '<span class="openbtn">Open &#8594;</span></div>' +
-  '</a>'; }).join('') + '</div>';
+/* ---------- The desk: rendered below, after the data constants it draws from ---------- */
 
-/* ---------- Catalog: searchable, filterable finder ---------- */
+/* ---------- The index: every tool, sectioned like a paper ---------- */
 (function(){
-  var GEO = { 'Boston':'Boston', 'MA':'Massachusetts', 'US':'50 States', 'FL':'Florida' };
-  var items = [];
+  var GEO = { 'Boston':'Boston', 'MA':'Massachusetts', 'US':'50 States', 'FL':'Florida', 'PI':'Pioneer' };
+  function hostOf(u){
+    if(!u || u.charAt(0)==='/' || u.charAt(0)==='#') return '';
+    try{ return new URL(u).hostname.replace(/^www\./,''); }catch(e){ return ''; }
+  }
+  var FLAG_GEO = {'DL-04':'US','DL-10':'FL','DL-12':'MA'};
+  var FLAG_VINT = {'DL-04':'2026','DL-10':'June 2026','DL-12':'May 2026'};
+  var sections = [];
+  // Flagships lead the index too, so search and the place filters see everything.
+  sections.push({ id:'flagships', name:'Flagships', arch:false,
+    rows: CATALOG.filter(function(t){return FLAG_GEO[t.id];}).map(function(t){ return {
+      n:t.t, u:t.url, s:FLAG_GEO[t.id], vint:FLAG_VINT[t.id], vage:'', star:true, host:'' }; }) });
   CATALOG.forEach(function(t){
-    var isArch = t.id === 'ARCHIVE';
-    if (t.st === 'live' && t.url && t.url !== '#' && !(t.legacy||[]).length) {
-      items.push({ n:t.t, u:t.url, s:(t.g&&t.g[0])||'', topic:t.t,
-                   vint:(t.id==='DL-12'?'May 2026':''), vage:'', isNew:true, arch:false });
-    }
-    (t.legacy||[]).forEach(function(l){ items.push({
-      n:l.t, u:l.u, s:l.s||'', topic:isArch?'Archive':t.t,
-      vint:l.vint||'', vage:l.vage||'', isNew:false, arch:isArch }); });
+    if(!(t.legacy||[]).length) return;
+    var isArch = t.id==='ARCHIVE';
+    sections.push({ id:t.id, name:isArch?'Archive':t.t, arch:isArch,
+      rows:(t.legacy||[]).map(function(l){ return {
+        n:l.t, u:l.u, s:l.s||'', vint:l.vint||'', vage:l.vage||'', star:false, host:hostOf(l.u) }; }) });
   });
-  var geoOrder = ['Boston','MA','US','FL'];
-  function gc(g){ return items.filter(function(i){return i.s===g;}).length; }
-  var topics = [];
-  items.forEach(function(i){ if(topics.indexOf(i.topic)<0) topics.push(i.topic); });
+  var total = sections.reduce(function(a,s){return a+s.rows.length;},0);
 
-  document.getElementById('geoFilters').innerHTML =
-    '<button class="fb geo on" data-g="ALL">All places<span>'+items.length+'</span></button>' +
-    geoOrder.filter(gc).map(function(g){
-      return '<button class="fb geo" data-g="'+g+'">'+esc(GEO[g])+'<span>'+gc(g)+'</span></button>';}).join('');
-  document.getElementById('topicFilters').innerHTML =
-    '<button class="fb top on" data-t="ALL">All topics<span>'+items.length+'</span></button>' +
-    topics.map(function(t){ return '<button class="fb top" data-t="'+esc(t)+'">'+esc(t)+
-      '<span>'+items.filter(function(i){return i.topic===t;}).length+'</span></button>';}).join('');
-
-  document.getElementById('dirList').innerHTML = items.map(function(i){
-    var cls = i.vage==='red' ? ' old' : (i.vage==='amb' ? ' amb' : '');
-    var v = i.vint ? '<span class="pub'+cls+'">Data through '+esc(i.vint)+'</span>'
-                   : '<span class="pub nr">vintage not recorded</span>';
-    var ext = i.u.charAt(0)==='/' ? '' : ' target="_blank" rel="noopener"';
-    return '<div class="drow'+(i.arch?' arch':'')+'" data-g="'+esc(i.s)+'" data-t="'+esc(i.topic)+
-      '" data-q="'+esc((i.n+' '+i.topic).toLowerCase())+'">' +
-      '<span class="site">'+esc(i.s==='PI'?'PIONEER':i.s)+'</span>' +
-      '<a href="'+esc(i.u)+'"'+ext+'>'+esc(i.n)+'</a>' + (i.isNew?'<span class="new">NEW</span>':'') +
-      '<span class="lead"></span><span class="topic">'+esc(i.topic)+'</span>'+v+'</div>';
+  function dotCls(r){ return r.vage==='red'?'f-r':(r.vage==='amb'?'f-a':(r.vint?'f-g':'f-n')); }
+  document.getElementById('dirList').innerHTML = sections.map(function(s){
+    return '<section class="itopic'+(s.arch?' arch':'')+'" id="dir-'+esc(s.id)+'">' +
+      '<div class="ith"><b>'+esc(s.name)+'</b><span data-n>'+s.rows.length+'</span></div>' +
+      s.rows.map(function(r){
+        var ext = r.u && r.u.charAt(0)!=='/' ? ' target="_blank" rel="noopener"' : '';
+        return '<div class="irow" data-g="'+esc(r.s)+'" data-q="'+esc((r.n+' '+s.name).toLowerCase())+'">' +
+          '<a href="'+esc(r.u)+'"'+ext+(r.host?' title="Opens on '+esc(r.host)+'"':'')+'>'+(r.star?'<span class="star">&#9733;</span>':'')+esc(r.n)+'</a>' +
+          '<span class="lead2"></span>' +
+          '<span class="meta">' +
+            '<span>'+esc(r.s==='PI'?'Pioneer':r.s)+(r.host?'&#8202;<span class="ext" title="Opens on '+esc(r.host)+'">&#8599;</span>':'')+(r.vint?' &#183; '+esc(r.vint):'')+'</span>' +
+            '<span class="fdot '+dotCls(r)+'" title="'+(r.vage==='red'?'data more than a year old':(r.vage==='amb'?'data aging':(r.vint?'data current':'vintage not recorded')))+'"></span></span>' +
+        '</div>';
+      }).join('') + '</section>';
   }).join('');
 
-  var rows=[].slice.call(document.querySelectorAll('.drow'));
+  var geoOrder=['Boston','MA','US','FL','PI'];
+  function gcount(g){ var n=0; sections.forEach(function(s){s.rows.forEach(function(r){if(r.s===g)n++;});}); return n; }
+  document.getElementById('geoFilters').innerHTML =
+    '<button class="fb geo on" data-g="ALL">All places<span>'+total+'</span></button>' +
+    geoOrder.filter(gcount).map(function(g){
+      return '<button class="fb geo" data-g="'+g+'">'+esc(GEO[g])+'<span>'+gcount(g)+'</span></button>';}).join('');
+  document.getElementById('topicJump').innerHTML = sections.map(function(s){
+    return '<button class="fb top" data-t="'+esc(s.id)+'">'+esc(s.name)+'<span>'+s.rows.length+'</span></button>';}).join('');
+
+  var rows=[].slice.call(document.querySelectorAll('.irow'));
+  var secs=[].slice.call(document.querySelectorAll('.itopic'));
   var count=document.getElementById('rcount'), none=document.getElementById('noresult');
-  var more=document.getElementById('showMore');
-  var LIMIT=15;
-  var fg='ALL', ft='ALL', expanded=false;
+  var fg='ALL';
   function apply(){
     var q=(document.getElementById('srch').value||'').toLowerCase().replace(/^\s+|\s+$/g,'');
-    var matched=0, drawn=0;
+    var matched=0, vsecs=0;
     rows.forEach(function(r){
-      var ok=(fg==='ALL'||r.dataset.g===fg)&&(ft==='ALL'||r.dataset.t===ft)&&(!q||r.dataset.q.indexOf(q)>=0);
-      if(ok){ matched++;
-        var show = expanded || drawn < LIMIT;
-        if(show) drawn++;
-        r.classList.toggle('hide', !show);
-      } else r.classList.add('hide');
+      var ok=(fg==='ALL'||r.dataset.g===fg)&&(!q||r.dataset.q.indexOf(q)>=0);
+      r.classList.toggle('hide',!ok); if(ok) matched++;
     });
-    count.textContent = (expanded||matched<=LIMIT)
-      ? matched+(matched===1?' tool':' tools')
-      : 'Showing '+drawn+' of '+matched+' tools';
+    secs.forEach(function(s){
+      var vis=s.querySelectorAll('.irow:not(.hide)').length;
+      s.classList.toggle('hide',!vis);
+      s.querySelector('[data-n]').textContent=vis;
+      if(vis) vsecs++;
+    });
+    count.textContent = matched+(matched===1?' tool':' tools')+' · '+vsecs+(vsecs===1?' topic':' topics');
     none.hidden = matched>0;
-    if(matched>LIMIT && !expanded){ more.hidden=false; more.textContent='Show all '+matched+' tools'; }
-    else if(expanded && matched>LIMIT){ more.hidden=false; more.textContent='Show fewer'; }
-    else more.hidden=true;
   }
-  more.addEventListener('click',function(){ expanded=!expanded; apply();
-    if(!expanded) document.getElementById('directory').scrollIntoView({behavior:'smooth'}); });
-
   var srchEl=document.getElementById('srch'), srchX=document.getElementById('srchClear'),
       clearAll=document.getElementById('clearAll');
   function chrome(){
     srchX.hidden = !srchEl.value;
-    clearAll.classList.toggle('show', !!srchEl.value || fg!=='ALL' || ft!=='ALL');
+    clearAll.classList.toggle('show', !!srchEl.value || fg!=='ALL');
   }
-  srchEl.addEventListener('input',function(){expanded=false;apply();chrome();});
-  srchX.addEventListener('click',function(){ srchEl.value=''; expanded=false; apply(); chrome(); srchEl.focus(); });
-  clearAll.addEventListener('click',function(){
-    srchEl.value=''; fg='ALL'; ft='ALL'; expanded=false;
+  function reset(){
+    srchEl.value=''; fg='ALL';
     [].slice.call(document.querySelectorAll('.fb.geo')).forEach(function(x,i){x.classList.toggle('on',i===0);});
-    [].slice.call(document.querySelectorAll('.fb.top')).forEach(function(x,i){x.classList.toggle('on',i===0);});
     apply(); chrome();
-  });
+  }
+  srchEl.addEventListener('input',function(){apply();chrome();});
+  srchX.addEventListener('click',function(){ srchEl.value=''; apply(); chrome(); srchEl.focus(); });
+  clearAll.addEventListener('click',reset);
   [].slice.call(document.querySelectorAll('.fb.geo')).forEach(function(b){b.addEventListener('click',function(){
     [].slice.call(document.querySelectorAll('.fb.geo')).forEach(function(x){x.classList.toggle('on',x===b);});
-    fg=b.dataset.g; expanded=false; apply(); chrome();});});
+    fg=b.dataset.g; apply(); chrome();});});
   [].slice.call(document.querySelectorAll('.fb.top')).forEach(function(b){b.addEventListener('click',function(){
-    [].slice.call(document.querySelectorAll('.fb.top')).forEach(function(x){x.classList.toggle('on',x===b);});
-    ft=b.dataset.t; expanded=false; apply(); chrome();});});
+    var s=document.getElementById('dir-'+b.dataset.t);
+    if(!s) return;
+    if(s.classList.contains('hide')) reset();
+    s.scrollIntoView({behavior:'smooth',block:'start'});
+  });});
   apply();
 })();
 
@@ -434,6 +423,65 @@ const CHART_TITLES = {
   risk_transfer:'Citizens risk transfer purchased, billions',
   takeouts:'Net policies flowing into Citizens per 100 taken out'
 };
+
+/* ---------- The desk: flagship lead cards, each led by a live number ---------- */
+(function(){
+  function spark(sr, getV){
+    var W=300,H=42,vals=sr.map(getV),max=Math.max.apply(null,vals),min=Math.min.apply(null,vals);
+    var x=function(i){return 4+i*((W-8)/(sr.length-1));}, y=function(v){return 4+(1-(v-min)/(max-min||1))*(H-10);};
+    return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true">' +
+      '<polyline fill="none" stroke="#1F3A5F" stroke-width="2" points="'+sr.map(function(d,i){return x(i)+','+y(getV(d)).toFixed(1);}).join(' ')+'"/>' +
+      '<circle cx="'+x(sr.length-1)+'" cy="'+y(getV(sr[sr.length-1])).toFixed(1)+'" r="3" fill="#A87B1F"/></svg>';
+  }
+  var rec = DL12.recovery_vs_2019_same_month_pct;
+  var flLast = FLPIF[FLPIF.length-1][1], flPeak = Math.max.apply(null, FLPIF.map(function(r){return r[1];}));
+  var cards = [
+    { place:'FLORIDA', id:'DL-10', ask:true, url:'/florida-insurance/',
+      stat:flLast.toLocaleString('en-US'),
+      sub:'homes still on Citizens, the state insurer of last resort — down '+Math.round((1-flLast/flPeak)*100)+'% from the 2023 peak',
+      spark:spark(FLPIF, function(r){return r[1];}),
+      q:'What does homeowners insurance cost in Miami-Dade?', qshort:'What does Miami-Dade pay?',
+      status:'<b>&#9679; Live</b> · FL OIR, Citizens, NAIC · through June 2026' },
+    { place:'MASSACHUSETTS', id:'DL-12', ask:true, url:'/mbta/',
+      stat:rec.TOTAL+'%',
+      sub:'of pre-pandemic MBTA ridership'+(rec.CR>=100?' — commuter rail is above 2019':''),
+      spark:spark(DL12.monthly_total_upt.slice(-24), function(d){return d.v;}),
+      q:'Is the T back to pre-pandemic ridership?', qshort:'Is the T back?',
+      status:'<b>&#9679; Live</b> · verified against FTA NTD · through May 2026' },
+    { place:'50 STATES', id:'DL-04', ask:false, url:'/tax-atlas/',
+      stat:'50',
+      sub:'states&#8217; wealth-tax, surtax, and intangibles provisions, mapped provision by provision',
+      spark:'', q:null, qshort:'Browse the atlas',
+      status:'<b>&#9679; Live</b> · statute by statute' }
+  ];
+  document.getElementById('deskList').innerHTML = '<div class="desk">' + cards.map(function(c){
+    var t = TOOLMAP[c.id] || {};
+    return '<article class="lead" data-url="'+c.url+'">' +
+      '<div class="place"><span>'+c.place+'</span>'+(c.ask?'<span class="askbadge">ASK</span>':'')+'</div>' +
+      '<h3><a href="'+c.url+'">'+esc(t.t||c.id)+'</a></h3>' +
+      (t.heritage?'<div class="herit">'+esc(t.heritage)+'</div>':'') +
+      '<div class="stat">'+c.stat+'</div>' +
+      '<div class="statsub">'+c.sub+'</div>' +
+      (c.spark?'<div class="spark">'+c.spark+'</div>':'') +
+      (c.q?'<button class="askex" type="button" data-q="'+esc(c.q)+'">Ask: <i>&#8220;'+esc(c.qshort)+'&#8221;</i> &#8594;</button>'
+          :'<a class="askex" href="'+c.url+'">'+c.qshort+' &#8594;</a>') +
+      '<div class="status">'+c.status+'</div></article>';
+  }).join('') + '</div>';
+  [].slice.call(document.querySelectorAll('.lead')).forEach(function(el){
+    el.addEventListener('click', function(e){
+      if(e.target.closest('.askex') || e.target.closest('a')) return;
+      location.href = el.dataset.url;
+    });
+  });
+  [].slice.call(document.querySelectorAll('.askex[data-q]')).forEach(function(b){
+    b.addEventListener('click', function(){
+      document.getElementById('q').value = b.dataset.q;
+      document.getElementById('ask').scrollIntoView({behavior:'smooth'});
+      ask();
+    });
+  });
+})();
+
 function chartSVG(kind, hot){
   if(!DL12) return '';
   if(kind==='monthly_trend'){

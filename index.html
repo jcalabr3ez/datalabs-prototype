@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pioneer DataLabs · Numbers that show their work</title>
-<meta name="description" content="Ask about Boston, Massachusetts, any of the fifty states, or Florida. Every answer cites its primary source.">
+<meta name="description" content="Explore Pioneer Institute's DataLabs: verified dashboards on Massachusetts, the fifty states, and Florida covering taxes, schools, transit, public spending, and more. Every figure cites its primary source.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -244,9 +244,23 @@
   .pf-links a:hover { color:#E9C46A; }
   .pf-credo { font-size:12.5px; line-height:1.7; color:#8DA0B5; max-width:320px; }
   .pf-legal { padding-top:14px; padding-bottom:26px; font-size:11px; color:#6E8093; border-top:1px solid rgba(255,255,255,.1); }
+
+  /* ---------- Front-door mode: browse (AI off) vs ask (AI on) ---------- */
+  .heroBrowse { display:none; }
+  body.ai-off .heroAsk { display:none; }
+  body.ai-off .heroBrowse { display:block; }
+  body.ai-off #respBar, body.ai-off #resp { display:none; }
+  .herocta { margin-top:32px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary { background:var(--gold); color:#12213A; font-weight:700; font-size:14.5px;
+    padding:13px 26px; border-radius:4px; transition:background .16s ease; }
+  .btn-primary:hover { background:#E9C46A; color:#12213A; }
+  .btn-ghost { color:#fff; font-weight:600; font-size:14.5px; padding:13px 22px;
+    border:1px solid rgba(255,255,255,.35); border-radius:4px; transition:border-color .16s ease, color .16s ease; }
+  .btn-ghost:hover { border-color:#E9C46A; color:#E9C46A; }
+  .herostat { margin-top:26px; font-size:12px; letter-spacing:.02em; color:#8DA0B5; }
 </style>
 </head>
-<body>
+<body class="ai-off">
 
 <header class="pibar"><div class="frame pibar-in">
     <a class="pilogo" href="https://pioneerinstitute.org">PIONEER INSTITUTE</a>
@@ -266,21 +280,33 @@
     <div class="rings" aria-hidden="true"></div>
     <div class="frame heroA-in">
       <div class="heroL">
-        <div class="kick">PIONEER DATALABS</div>
-        <h1>From city hall to all fifty states, <em>ask a question.</em></h1>
-        <p class="dek">Public money, schools, taxes, transit. Every answer cites its primary source.</p>
-        <div class="askpanel">
-          <div class="askline">
-            <input id="q" type="text" placeholder="Is the T back to pre-pandemic ridership?" aria-label="Ask a question" maxlength="400">
-            <button id="askBtn" type="button">Ask</button>
+        <div class="heroAsk">
+          <div class="kick">PIONEER DATALABS</div>
+          <h1>From city hall to all fifty states, <em>ask a question.</em></h1>
+          <p class="dek">Public money, schools, taxes, transit.</p>
+          <div class="askpanel">
+            <div class="askline">
+              <input id="q" type="text" placeholder="Is the T back to pre-pandemic ridership?" aria-label="Ask a question" maxlength="400">
+              <button id="askBtn" type="button">Ask</button>
+            </div>
           </div>
+          <div class="credo">Questions we cannot answer are logged and inform what we build next.</div>
         </div>
-        <div class="credo">Questions we cannot answer are logged and inform what we build next.</div>
+        <div class="heroBrowse">
+          <div class="kick">PIONEER DATALABS</div>
+          <h1>Public money, schools, taxes, and transit, <em>traced to the source.</em></h1>
+          <p class="dek">Browse every DataLabs dashboard across Massachusetts, the fifty states, and Florida.</p>
+          <div class="herocta">
+            <a class="btn-primary" href="#directory">Browse the catalog</a>
+            <a class="btn-ghost" href="#answers">See featured tools</a>
+          </div>
+          <div class="herostat mono" id="heroStat"></div>
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="proto"><div class="frame proto-in"><span class="proto-tag">In development</span><span class="proto-txt"><b>DataLabs is in active development.</b> Tools, data, and the question engine are being built and verified in the open; every figure traces to a source, and what the data cannot support is declined. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div></div>
+  <div class="proto"><div class="frame proto-in"><span class="proto-tag">In development</span><span class="proto-txt" id="protoTxt"><b>DataLabs is in active development.</b> Tools, data, and the question engine are being built and verified in the open; every figure traces to a source, and what the data cannot support is declined. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div></div>
 
   <div class="respbar frame" id="respBar" hidden>
     <button class="clearans" id="clearAns" type="button">Clear answer</button>
@@ -288,9 +314,9 @@
   <div class="resp frame" id="resp" aria-live="polite"></div>
 
   <section class="sec frame" id="answers">
-    <div class="lab">Direct questions</div>
-    <h2>Ask in your own words</h2>
-    <p class="sub">Three tools answer questions directly from data Pioneer has verified, led by a live number. Every figure cites its primary source, and what the data cannot support they decline.</p>
+    <div class="lab" id="ansLab">Direct questions</div>
+    <h2 id="ansH2">Ask in your own words</h2>
+    <p class="sub" id="ansSub">Three tools answer questions directly from data Pioneer has verified, led by a live number. Every figure cites its primary source, and what the data cannot support they decline.</p>
     <div id="deskList"></div>
   </section>
 
@@ -332,7 +358,7 @@
     <a href="https://pioneerinstitute.org">Get Involved</a>
     <a href="mailto:datalabs@pioneerinstitute.org">Report an error</a>
   </div>
-  <div class="pf-credo">Every figure on this site traces to a public record. Questions we cannot answer are logged and inform what Pioneer builds next.</div>
+  <div class="pf-credo" id="pfCredo">Every figure on this site traces to a public record. Questions we cannot answer are logged and inform what Pioneer builds next.</div>
 </div>
 <div class="frame pf-legal">Copyright &#169; 2026 Pioneer Institute. All rights reserved.</div>
 </div></footer>
@@ -346,6 +372,38 @@ const CATALOG = DATA.catalog;
 const DL03 = DATA.answers;
 const TOOLMAP = Object.fromEntries(CATALOG.map(t=>[t.id,t]));
 function esc(s){const d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+
+/* ---------- Front-door mode: AI question engine on or off ----------
+   AI_DEFAULT is the public default; flip this one line to switch it.
+   Nothing is removed when off: the ask hero, the desk "ask" affordances,
+   and the /functions/ask engine are simply gated behind AI_ENABLED, so
+   turning AI back on is a one-line change. A ?ai=1 (or ?ai=0) query string
+   overrides per visit, for private preview without redeploying. */
+var AI_DEFAULT = false;
+var AI_ENABLED = AI_DEFAULT;
+try { var _ai = new URLSearchParams(location.search).get('ai');
+  if (_ai != null) AI_ENABLED = (_ai === '1' || _ai === 'true'); } catch(e){}
+document.body.classList.toggle('ai-off', !AI_ENABLED);
+document.body.classList.toggle('ai-on', AI_ENABLED);
+(function(){
+  /* Breadth line in the browse hero, and browse-mode copy that drops
+     any promise of a question engine. */
+  var flags = CATALOG.filter(function(t){ return /^DL-0/.test(t.id) && t.st==='live'; }).length;
+  var legacy = CATALOG.reduce(function(a,t){ return a + ((t.legacy||[]).length); }, 0);
+  var topics = CATALOG.filter(function(t){ return (t.legacy||[]).length; }).length + (flags?1:0);
+  var hs = document.getElementById('heroStat');
+  if (hs) hs.textContent = (flags+legacy) + ' dashboards · ' + topics + ' topics · Massachusetts, the fifty states, and Florida';
+  if (!AI_ENABLED) {
+    var lab=document.getElementById('ansLab'), h2=document.getElementById('ansH2'), sub=document.getElementById('ansSub');
+    if (lab) lab.textContent = 'Featured';
+    if (h2)  h2.textContent  = 'Start with the flagships';
+    if (sub) sub.textContent = 'Three interactive dashboards, each led by a live number and built from primary sources. Open any one for the full briefing: charts, story, and every source.';
+    var pt=document.getElementById('protoTxt');
+    if (pt) pt.innerHTML = '<b>DataLabs is in active development.</b> Tools and data are being built and verified in the open; every figure traces to a source. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.';
+    var cr=document.getElementById('pfCredo');
+    if (cr) cr.textContent = 'Every figure on this site traces to a public record. The catalog is updated as new data is verified.';
+  }
+})();
 
 /* ---------- The desk: rendered below, after the data constants it draws from ---------- */
 
@@ -504,14 +562,14 @@ const CHART_TITLES = {
   document.getElementById('deskList').innerHTML = '<div class="desk">' + cards.map(function(c){
     var t = TOOLMAP[c.id] || {};
     return '<article class="lead" data-url="'+c.url+'">' +
-      '<div class="place"><span>'+c.place+'</span>'+(c.ask?'<span class="askbadge">ASK</span>':'')+'</div>' +
+      '<div class="place"><span>'+c.place+'</span>'+((c.ask&&AI_ENABLED)?'<span class="askbadge">ASK</span>':'')+'</div>' +
       '<h3><a href="'+c.url+'">'+esc(t.t||c.id)+'</a></h3>' +
       (t.heritage?'<div class="herit">'+esc(t.heritage)+'</div>':'') +
       '<div class="stat">'+c.stat+'</div>' +
       '<div class="statsub">'+c.sub+'</div>' +
       (c.spark?'<div class="spark">'+c.spark+'</div>':'') +
-      (c.q?'<button class="askex" type="button" data-q="'+esc(c.q)+'">Ask: <i>&#8220;'+esc(c.qshort)+'&#8221;</i> &#8594;</button>'
-          :'<a class="askex" href="'+c.url+'">'+c.qshort+' &#8594;</a>') +
+      ((c.q&&AI_ENABLED)?'<button class="askex" type="button" data-q="'+esc(c.q)+'">Ask: <i>&#8220;'+esc(c.qshort)+'&#8221;</i> &#8594;</button>'
+          :'<a class="askex" href="'+c.url+'">Open the dashboard &#8594;</a>') +
       '<div class="status">'+c.status+'</div></article>';
   }).join('') + '</div>';
   [].slice.call(document.querySelectorAll('.lead')).forEach(function(el){

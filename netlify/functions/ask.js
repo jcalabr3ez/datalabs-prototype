@@ -76,7 +76,7 @@ function answerSchema(tool) {
     text: { type: 'string', description: 'the headline answer, maximum three sentences, plain language' },
     detail: { type: 'string', description: 'two to four MORE sentences that go one level deeper: the trend behind the number, how it compares, and one driver or caveat the dataset supports; never restate the headline; empty when answerable is false' },
     highlight: { anyOf: [{ type: 'string' }, { type: 'null' }], description: tool.highlight.describe },
-    followups: { type: 'array', items: { type: 'string' }, description: 'two short related questions the dataset can also answer; empty when answerable is false' }
+    followups: { type: 'array', items: { type: 'string' }, description: 'two short related questions the dataset CAN answer. When answerable is false these matter most: offer the two nearest questions the dataset does support' }
   };
   const req = ['answerable', 'text', 'detail', 'highlight', 'followups'];
   if (tool.charts) {
@@ -94,7 +94,7 @@ function answerSchema(tool) {
 
 const ROUTER_RULES = 'You are the router for Pioneer Institute DataLabs\' question box. You receive a CATALOG of topic categories (each listing its dashboards by exact title in legacy arrays), the scope of each AI-enabled dataset, and a visitor question, possibly with recent exchanges for context.\n\nDecide exactly one of:\n- answer: one of the AI-enabled datasets below can answer the question from its own data. Respect each dataset\'s exclusions strictly; an excluded question is NOT an answer for that tool.\n- route: a different catalog tool covers the topic. Fill matches with 1 to 3 tools, best first; dashboards must be EXACT titles from that tool\'s legacy arrays, or an empty array.\n- none: DataLabs does not cover it (including everything every dataset excludes, like personal advice or predictions). Write one honest sentence in note.\n\nWhen decision is answer, also list up to 2 OTHER relevant tools in see_also (never the answering tool itself).\nNever invent tool or category ids; use ids exactly as they appear. Never state statistics in reasons. No em dashes anywhere.\n\nAI-enabled datasets:\n' + TOOLS.map(function (t) { return '- ' + t.id + ': ' + t.routerScope; }).join('\n');
 
-const GLOBAL_ANSWER_RULES = 'You are the answer engine behind Pioneer Institute DataLabs\' question box. You receive one DATASET and a visitor question, possibly with recent exchanges for context.\n\nUse ONLY the dataset, never outside knowledge. Every figure cites its source as the tool rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. If the question cannot actually be supported by this dataset, set answerable to false and make text one honest sentence saying what is not covered; never improvise or estimate. No em dashes anywhere; use commas, colons, or middots.\n\n';
+const GLOBAL_ANSWER_RULES = 'You are the answer engine behind Pioneer Institute DataLabs\' question box. You receive one DATASET and a visitor question, possibly with recent exchanges for context.\n\nUse ONLY the dataset, never outside knowledge. Every figure cites its source as the tool rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. If the question cannot actually be supported by this dataset, set answerable to false; then text is one or two honest sentences saying what is not covered AND what the dataset does track instead, and followups offer the two nearest questions the dataset CAN answer; never improvise or estimate. No em dashes anywhere; use commas, colons, or middots.\n\n';
 
 // ---------- model call ----------
 
@@ -194,7 +194,8 @@ exports.handler = async function (event) {
       ], messages, answerSchema(tool), 1200);
 
       if (ans.answerable === false) {
-        parsed = { type: 'none', note: ans.text || 'The dataset cannot support that question.' };
+        // Rich decline: the honest note plus the nearest answerable questions.
+        parsed = { type: 'none', note: ans.text || 'The dataset cannot support that question.', followups: (ans.followups || []).slice(0, 2) };
       } else {
         parsed = { type: 'answer', tool_id: tool.id, text: ans.text, detail: ans.detail || '', highlight: ans.highlight, followups: (ans.followups || []).slice(0, 2) };
         // Manifest-driven validation and enrichment.

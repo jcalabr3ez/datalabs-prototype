@@ -1,8 +1,8 @@
 {
  "as_of": "2026-06",
- "vintage_note": "Ridership rebuilt from FTA NTD Complete Monthly Ridership (dataset 8bui-9xvu, data.transportation.gov), refreshed to 2026-06 on 2026-08-11 by scripts/refresh_dl12.py; monthly totals, annual mode cells, and the latest mode split are computed directly from the live dataset. Cost and farebox figures remain from the legacy extract, pending verification.",
+ "vintage_note": "Ridership rebuilt from FTA NTD Complete Monthly Ridership (dataset 8bui-9xvu, data.transportation.gov), refreshed to 2026-06 on 2026-08-11 by scripts/refresh_dl12.py; monthly totals, annual mode cells, and the latest mode split are computed directly from the live dataset. Cost and farebox figures are verified against NTD Annual Metrics report years 2022 to 2024 (SRC-302).",
  "source_id": "SRC-301",
- "cost_source_id": "LEG-MBTA-01",
+ "cost_source_id": "SRC-302",
  "mode_names": {
   "HR": "Heavy Rail (subway)",
   "MB": "Bus",
@@ -770,7 +770,7 @@
    "mode": "Bus",
    "tos": "PT",
    "cost_per_trip": 13.8,
-   "recovery_ratio": 1
+   "recovery_ratio": 1.0
   },
   {
    "mode": "Bus Rapid Transit",
@@ -809,10 +809,68 @@
    "recovery_ratio": 19.6
   }
  ],
- "annual_cost_note": "LEGACY, PENDING: cost per trip and farebox recovery are from the recovered legacy extract (LEG-MBTA-01); reporting year not recorded, to be confirmed against NTD annual data.",
+ "annual_cost_note": "VERIFIED: cost per trip and farebox recovery are computed from FTA NTD Annual Metrics (dataset ekg5-frzt, data.transportation.gov), report years 2022 to 2024, as operating expenses / unlinked trips and fare revenues / operating expenses (SRC-302). The recovered legacy extract (LEG-MBTA-01) was identified as report year 2024 and is superseded.",
  "scope": "Covers MBTA ridership (unlinked passenger trips), service levels, and per-trip cost/farebox by mode. Does NOT cover: safety, reliability/on-time performance, capital budget, debt, fares charged to riders, or other transit agencies.",
  "derived": {
-  "note": "Precomputed from the series above; prefer these over recomputing. Recovery and ridership cite (derived, SRC-301); cost and farebox cite (derived, LEG-MBTA-01).",
+  "note": "Precomputed from the series above; prefer these over recomputing. Recovery and ridership cite (derived, SRC-301); cost and farebox cite (derived, SRC-302).",
+  "cost_per_trip_trend_2022_to_2024": [
+   {
+    "mode": "Bus",
+    "tos": "PT",
+    "cost_per_trip_2022": 7.53,
+    "cost_per_trip_2024": 13.8,
+    "change_pct": 83.3
+   },
+   {
+    "mode": "Demand Response",
+    "tos": "PT",
+    "cost_per_trip_2022": 107.07,
+    "cost_per_trip_2024": 161.25,
+    "change_pct": 50.6
+   },
+   {
+    "mode": "Bus Rapid Transit",
+    "tos": "DO",
+    "cost_per_trip_2022": 5.42,
+    "cost_per_trip_2024": 6.55,
+    "change_pct": 20.8
+   },
+   {
+    "mode": "Light Rail",
+    "tos": "DO",
+    "cost_per_trip_2022": 6.37,
+    "cost_per_trip_2024": 7.25,
+    "change_pct": 13.8
+   },
+   {
+    "mode": "Heavy Rail",
+    "tos": "DO",
+    "cost_per_trip_2022": 4.23,
+    "cost_per_trip_2024": 4.8,
+    "change_pct": 13.5
+   },
+   {
+    "mode": "Bus",
+    "tos": "DO",
+    "cost_per_trip_2022": 7.7,
+    "cost_per_trip_2024": 7.24,
+    "change_pct": -6.0
+   },
+   {
+    "mode": "Ferryboat",
+    "tos": "PT",
+    "cost_per_trip_2022": 25.09,
+    "cost_per_trip_2024": 18.1,
+    "change_pct": -27.9
+   },
+   {
+    "mode": "Commuter Rail",
+    "tos": "PT",
+    "cost_per_trip_2022": 33.15,
+    "cost_per_trip_2024": 19.51,
+    "change_pct": -41.1
+   }
+  ],
   "modes_ranked_by_recovery_vs_2019": [
    {
     "code": "FB",
@@ -935,7 +993,7 @@
    {
     "mode": "Bus",
     "tos": "PT",
-    "recovery_ratio_pct": 1
+    "recovery_ratio_pct": 1.0
    }
   ],
   "latest_month_modes_ranked_by_riders": [
@@ -989,5 +1047,264 @@
    "2024": 262213033,
    "2025": 271847321
   }
+ },
+ "cost_report_year": "2024",
+ "annual_cost_series": {
+  "2024": [
+   {
+    "mode": "Commuter Rail",
+    "code": "CR",
+    "tos": "PT",
+    "cost_per_trip": 19.51,
+    "farebox_recovery_pct": 23.4,
+    "operating_expenses": 569535378,
+    "fare_revenues": 132997512,
+    "upt": 29186010
+   },
+   {
+    "mode": "Demand Response",
+    "code": "DR",
+    "tos": "PT",
+    "cost_per_trip": 161.25,
+    "farebox_recovery_pct": 1.8,
+    "operating_expenses": 154937895,
+    "fare_revenues": 2782451,
+    "upt": 960871
+   },
+   {
+    "mode": "Ferryboat",
+    "code": "FB",
+    "tos": "PT",
+    "cost_per_trip": 18.1,
+    "farebox_recovery_pct": 35.8,
+    "operating_expenses": 24591794,
+    "fare_revenues": 8805909,
+    "upt": 1359001
+   },
+   {
+    "mode": "Heavy Rail",
+    "code": "HR",
+    "tos": "DO",
+    "cost_per_trip": 4.8,
+    "farebox_recovery_pct": 33.7,
+    "operating_expenses": 406567583,
+    "fare_revenues": 137016233,
+    "upt": 84772414
+   },
+   {
+    "mode": "Light Rail",
+    "code": "LR",
+    "tos": "DO",
+    "cost_per_trip": 7.25,
+    "farebox_recovery_pct": 19.6,
+    "operating_expenses": 265901444,
+    "fare_revenues": 52090774,
+    "upt": 36668303
+   },
+   {
+    "mode": "Bus",
+    "code": "MB",
+    "tos": "DO",
+    "cost_per_trip": 7.24,
+    "farebox_recovery_pct": 12.3,
+    "operating_expenses": 607565301,
+    "fare_revenues": 74892409,
+    "upt": 83942889
+   },
+   {
+    "mode": "Bus",
+    "code": "MB",
+    "tos": "PT",
+    "cost_per_trip": 13.8,
+    "farebox_recovery_pct": 1.0,
+    "operating_expenses": 67349436,
+    "fare_revenues": 670449,
+    "upt": 4880001
+   },
+   {
+    "mode": "Bus Rapid Transit",
+    "code": "RB",
+    "tos": "DO",
+    "cost_per_trip": 6.55,
+    "farebox_recovery_pct": 10.3,
+    "operating_expenses": 65186683,
+    "fare_revenues": 6701602,
+    "upt": 9955393
+   }
+  ],
+  "2023": [
+   {
+    "mode": "Commuter Rail",
+    "code": "CR",
+    "tos": "PT",
+    "cost_per_trip": 20.33,
+    "farebox_recovery_pct": 23.6,
+    "operating_expenses": 477756069,
+    "fare_revenues": 112639505,
+    "upt": 23494793
+   },
+   {
+    "mode": "Demand Response",
+    "code": "DR",
+    "tos": "PT",
+    "cost_per_trip": 106.96,
+    "farebox_recovery_pct": 3.1,
+    "operating_expenses": 107873650,
+    "fare_revenues": 3358860,
+    "upt": 1008547
+   },
+   {
+    "mode": "Ferryboat",
+    "code": "FB",
+    "tos": "PT",
+    "cost_per_trip": 19.63,
+    "farebox_recovery_pct": 36.0,
+    "operating_expenses": 19817479,
+    "fare_revenues": 7127213,
+    "upt": 1009633
+   },
+   {
+    "mode": "Heavy Rail",
+    "code": "HR",
+    "tos": "DO",
+    "cost_per_trip": 4.5,
+    "farebox_recovery_pct": 34.1,
+    "operating_expenses": 377944589,
+    "fare_revenues": 128794748,
+    "upt": 84030235
+   },
+   {
+    "mode": "Light Rail",
+    "code": "LR",
+    "tos": "DO",
+    "cost_per_trip": 5.32,
+    "farebox_recovery_pct": 24.2,
+    "operating_expenses": 197051081,
+    "fare_revenues": 47726099,
+    "upt": 37035882
+   },
+   {
+    "mode": "Bus",
+    "code": "MB",
+    "tos": "DO",
+    "cost_per_trip": 7.97,
+    "farebox_recovery_pct": 11.5,
+    "operating_expenses": 610540090,
+    "fare_revenues": 70186983,
+    "upt": 76627997
+   },
+   {
+    "mode": "Bus",
+    "code": "MB",
+    "tos": "PT",
+    "cost_per_trip": 22.26,
+    "farebox_recovery_pct": 0.1,
+    "operating_expenses": 63656064,
+    "fare_revenues": 48387,
+    "upt": 2859960
+   },
+   {
+    "mode": "Bus Rapid Transit",
+    "code": "RB",
+    "tos": "DO",
+    "cost_per_trip": 4.07,
+    "farebox_recovery_pct": 17.4,
+    "operating_expenses": 36287690,
+    "fare_revenues": 6313581,
+    "upt": 8908509
+   }
+  ],
+  "2022": [
+   {
+    "mode": "Commuter Rail",
+    "code": "CR",
+    "tos": "PT",
+    "cost_per_trip": 33.15,
+    "farebox_recovery_pct": 17.0,
+    "operating_expenses": 474347246,
+    "fare_revenues": 80658731,
+    "upt": 14310785
+   },
+   {
+    "mode": "Demand Response",
+    "code": "DR",
+    "tos": "PT",
+    "cost_per_trip": 107.07,
+    "farebox_recovery_pct": 2.7,
+    "operating_expenses": 99595993,
+    "fare_revenues": 2718009,
+    "upt": 930174
+   },
+   {
+    "mode": "Ferryboat",
+    "code": "FB",
+    "tos": "PT",
+    "cost_per_trip": 25.09,
+    "farebox_recovery_pct": 28.9,
+    "operating_expenses": 14935167,
+    "fare_revenues": 4309134,
+    "upt": 595180
+   },
+   {
+    "mode": "Heavy Rail",
+    "code": "HR",
+    "tos": "DO",
+    "cost_per_trip": 4.23,
+    "farebox_recovery_pct": 37.5,
+    "operating_expenses": 333756435,
+    "fare_revenues": 125112804,
+    "upt": 78861897
+   },
+   {
+    "mode": "Light Rail",
+    "code": "LR",
+    "tos": "DO",
+    "cost_per_trip": 6.37,
+    "farebox_recovery_pct": 23.6,
+    "operating_expenses": 199157007,
+    "fare_revenues": 47061388,
+    "upt": 31261416
+   },
+   {
+    "mode": "Bus",
+    "code": "MB",
+    "tos": "DO",
+    "cost_per_trip": 7.7,
+    "farebox_recovery_pct": 10.7,
+    "operating_expenses": 514500114,
+    "fare_revenues": 55129168,
+    "upt": 66787609
+   },
+   {
+    "mode": "Bus",
+    "code": "MB",
+    "tos": "PT",
+    "cost_per_trip": 7.53,
+    "farebox_recovery_pct": 0.6,
+    "operating_expenses": 17841007,
+    "fare_revenues": 110480,
+    "upt": 2369255
+   },
+   {
+    "mode": "Bus Rapid Transit",
+    "code": "RB",
+    "tos": "DO",
+    "cost_per_trip": 5.42,
+    "farebox_recovery_pct": 14.9,
+    "operating_expenses": 40324535,
+    "fare_revenues": 5998846,
+    "upt": 7433990
+   },
+   {
+    "mode": "Trolleybus",
+    "code": "TB",
+    "tos": "DO",
+    "cost_per_trip": 20.3,
+    "farebox_recovery_pct": 5.8,
+    "operating_expenses": 18370594,
+    "fare_revenues": 1066929,
+    "upt": 905096
+   }
+  ]
  }
 }

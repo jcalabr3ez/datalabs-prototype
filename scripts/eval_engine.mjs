@@ -42,6 +42,7 @@ const GOLDEN = [
   // [question, expected types, expected tool when answer, must-have fields]
   ["Is the T back to pre-pandemic ridership?", ["answer"], "DL-12"],
   ["What share of costs do fares cover on the subway?", ["answer"], "DL-12"],
+  ["Did the cost of a subway ride in MA go up or down?", ["answer"], "DL-12"],
   ["What does homeowners insurance cost in Miami-Dade?", ["answer"], "DL-10"],
   ["Which states are considering a wealth tax?", ["answer"], "DL-04"],
   ["What is California's top income tax rate?", ["answer"], "DL-04"],

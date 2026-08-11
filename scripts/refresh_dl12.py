@@ -6,9 +6,10 @@ dataset 8bui-9xvu on data.transportation.gov, ntd_id 10003 (MBTA).
 This is the same source and agency id the ledger was verified against.
 
 Recomputes every ridership-derived field (monthly totals, annual by mode,
-latest month, recovery vs 2019, YoY, derived rollups) and preserves the
-legacy cost/farebox fields (LEG-MBTA-01), which come from a different
-source and are pending separate verification.
+latest month, recovery vs 2019, YoY, derived rollups) and the verified
+cost/farebox series from NTD Annual Metrics (dataset ekg5-frzt, SRC-302):
+operating expenses per unlinked trip and fare revenues over operating
+expenses, by mode and report year.
 
 Writes netlify/functions/dl12-answers.json and re-runs inject_data.py so
 every embedded copy follows. Designed to run in CI and open a PR: it
@@ -28,6 +29,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "netlify/functions/dl12-answers.json"
 API = "https://data.transportation.gov/resource/8bui-9xvu.json"
+METRICS_API = "https://data.transportation.gov/resource/ekg5-frzt.json"
 NTD_ID = "10003"
 
 
@@ -41,6 +43,12 @@ def fetch_rows():
         if len(page) < limit:
             return rows
         offset += limit
+
+
+def fetch_metrics():
+    url = f"{METRICS_API}?ntd_id={NTD_ID}&$limit=500"
+    with urllib.request.urlopen(url, timeout=120) as r:
+        return json.load(r)
 
 
 def month_key(iso):
@@ -137,12 +145,62 @@ def main():
     new["recovery_baseline"] = "Same month 2019 (" + MONTH_NAMES[int(as_of[5:7]) - 1] + ")"
     if yoy is not None:
         new["yoy_change_pct"] = yoy
+    # ---- cost and farebox series from NTD Annual Metrics (SRC-302) ----
+    metrics = fetch_metrics()
+    cost_series = {}
+    for r in metrics:
+        opexp = float(r.get("total_operating_expenses") or 0)
+        fares = float(r.get("fare_revenues_earned") or 0)
+        upt = float(r.get("unlinked_passenger_trips") or 0)
+        if not (opexp and upt):
+            continue
+        cost_series.setdefault(r["report_year"], []).append({
+            "mode": r["mode_name"], "code": r["mode"], "tos": r["type_of_service"],
+            "cost_per_trip": round(opexp / upt, 2),
+            "farebox_recovery_pct": round(100 * fares / opexp, 1),
+            "operating_expenses": int(opexp), "fare_revenues": int(fares), "upt": int(upt),
+        })
+    if not cost_series:
+        sys.exit("FATAL: no cost rows from NTD Annual Metrics")
+    for y in cost_series:
+        cost_series[y].sort(key=lambda e: (e["code"], e["tos"]))
+    cost_first, cost_latest = min(cost_series), max(cost_series)
+    if len(cost_series[cost_latest]) < 6:
+        sys.exit(f"FATAL: only {len(cost_series[cost_latest])} mode rows for {cost_latest}")
+    if cost_latest < new.get("cost_report_year", "2024"):
+        sys.exit(f"FATAL: metrics latest year {cost_latest} older than ledger {new.get('cost_report_year')}")
+    new["cost_source_id"] = "SRC-302"
+    new["cost_report_year"] = cost_latest
+    new["annual_cost_series"] = cost_series
+    new["annual_cost_and_farebox"] = [
+        {"mode": e["mode"], "tos": e["tos"], "cost_per_trip": e["cost_per_trip"],
+         "recovery_ratio": e["farebox_recovery_pct"]}
+        for e in sorted(cost_series[cost_latest], key=lambda e: (e["mode"], e["tos"]))
+    ]
+    new["annual_cost_note"] = (
+        "VERIFIED: cost per trip and farebox recovery are computed from FTA NTD Annual "
+        f"Metrics (dataset ekg5-frzt, data.transportation.gov), report years {cost_first} "
+        f"to {cost_latest}, as operating expenses / unlinked trips and fare revenues / "
+        "operating expenses (SRC-302). The recovered legacy extract (LEG-MBTA-01) was "
+        "identified as report year 2024 and is superseded."
+    )
+    first_ix = {(e["code"], e["tos"]): e for e in cost_series[cost_first]}
+    cost_trend = sorted(
+        ({"mode": e["mode"], "tos": e["tos"],
+          "cost_per_trip_" + cost_first: first_ix[(e["code"], e["tos"])]["cost_per_trip"],
+          "cost_per_trip_" + cost_latest: e["cost_per_trip"],
+          "change_pct": round(100 * (e["cost_per_trip"] / first_ix[(e["code"], e["tos"])]["cost_per_trip"] - 1), 1)}
+         for e in cost_series[cost_latest] if (e["code"], e["tos"]) in first_ix),
+        key=lambda t: -t["change_pct"],
+    )
+
     new["vintage_note"] = (
         "Ridership rebuilt from FTA NTD Complete Monthly Ridership (dataset 8bui-9xvu, "
         f"data.transportation.gov), refreshed to {as_of} on {date.today().isoformat()} "
         "by scripts/refresh_dl12.py; monthly totals, annual mode cells, and the latest "
         "mode split are computed directly from the live dataset. Cost and farebox "
-        "figures remain from the legacy extract, pending verification."
+        f"figures are verified against NTD Annual Metrics report years {cost_first} "
+        f"to {cost_latest} (SRC-302)."
     )
 
     # derived rollups (mirror of the engine's expectations)
@@ -153,7 +211,8 @@ def main():
     cost = new["annual_cost_and_farebox"]
     new["derived"] = {
         "note": ("Precomputed from the series above; prefer these over recomputing. "
-                 "Recovery and ridership cite (derived, SRC-301); cost and farebox cite (derived, LEG-MBTA-01)."),
+                 "Recovery and ridership cite (derived, SRC-301); cost and farebox cite (derived, SRC-302)."),
+        ("cost_per_trip_trend_" + cost_first + "_to_" + cost_latest): cost_trend,
         "modes_ranked_by_recovery_vs_2019": [
             {"code": c, "mode": name_of(c), "pct_of_2019": recovery[c]} for c in by_rec
         ],

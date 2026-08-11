@@ -93,6 +93,7 @@
   .tile{position:relative;aspect-ratio:1/.82;border:none;border-radius:3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;transition:transform .15s ease, box-shadow .15s ease}
   .tile:hover{transform:translateY(-2px);z-index:2;box-shadow:0 10px 24px rgba(18,33,58,.18)}
   .tile:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .tile.sel{outline:3px solid var(--gold);outline-offset:1px;z-index:3;box-shadow:0 8px 20px rgba(18,33,58,.28)}
   .tile b{font:700 clamp(12px,1.15vw,16px)/1 var(--sans)}
   .tile span.r{font:600 clamp(9.5px,0.9vw,12.5px)/1 var(--sans);opacity:.92;font-variant-numeric:tabular-nums}
 
@@ -914,10 +915,18 @@ function renderGrid() {
     b.style.background = m.color;
     b.style.color = m.textColor;
     b.setAttribute("aria-label", s.name);
+    b.setAttribute("data-abbr", k);
     if (activeFilters.size > 0 && !activeFilters.has(catKey(s))) b.classList.add("dim");
+    if (k === selected) b.classList.add("sel");
     b.appendChild(el("b", null, s.abbr));
     b.appendChild(el("span", "r", rateLabel(s.topRate)));
-    b.onclick = function () { selected = k; renderPanel(); };
+    b.onclick = function () {
+      selected = k;
+      var prev = g.querySelector(".tile.sel");
+      if (prev) prev.classList.remove("sel");
+      b.classList.add("sel");
+      renderPanel();
+    };
     g.appendChild(b);
   });
 }
@@ -1084,7 +1093,26 @@ function evToggleAll() {
   Array.prototype.forEach.call(all, function (d) { d.open = anyClosed; });
   document.getElementById("ev-toggle").textContent = anyClosed ? "Collapse all" : "Expand all";
 }
-setView("current");
+// Deep links from the DataLabs ask box: #view-<view>&state=<AB> opens that view
+// with the named jurisdiction selected, for example #view-proposals&state=CA.
+function applyHash() {
+  var h = (location.hash || "").replace(/^#/, "");
+  var v = "current", st = null;
+  h.split("&").forEach(function (part) {
+    if (part.indexOf("view-") === 0) v = part.slice(5);
+    else if (part.indexOf("state=") === 0) st = part.slice(6).toUpperCase();
+  });
+  if (["current", "proposals", "ballot", "future", "events"].indexOf(v) < 0) v = "current";
+  if (st && STATES[st]) selected = st;
+  setView(v);
+  if (st && STATES[st] && v !== "events") {
+    var tile = document.querySelector('.tile[data-abbr="' + st + '"]');
+    if (tile && tile.scrollIntoView) tile.scrollIntoView({ block: "nearest", inline: "center" });
+    document.getElementById("panel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+}
+window.addEventListener("hashchange", applyHash);
+applyHash();
 </script>
 </body>
 </html>

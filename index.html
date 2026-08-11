@@ -107,7 +107,7 @@
   .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
   /* the desk: flagship lead cards */
-  .desk { margin-top:26px; border-top:2px solid var(--ink); display:grid; grid-template-columns:repeat(2,1fr); }
+  .desk { margin-top:26px; border-top:2px solid var(--ink); display:grid; grid-template-columns:repeat(3,1fr); }
   .lead { border-right:1px solid var(--rule); padding:20px 22px 18px; display:flex; flex-direction:column;
     cursor:pointer; transition:background .16s ease; }
   .lead:last-child { border-right:none; padding-right:0; }
@@ -132,7 +132,7 @@
   .lead .askex:hover { color:var(--gold); }
   .lead .status { margin-top:auto; padding-top:16px; font-size:11px; color:var(--faint); line-height:1.5; }
   .lead .status b { color:#177245; font-weight:700; }
-  @media (max-width:760px){
+  @media (max-width:900px){
     .desk { grid-template-columns:1fr; }
     .lead { border-right:none; border-bottom:1px solid var(--rule); padding-left:0; padding-right:0; }
     .lead:last-child { border-bottom:none; }
@@ -254,7 +254,7 @@
   <section class="sec frame" id="answers">
     <div class="lab">Direct questions</div>
     <h2>Ask in your own words</h2>
-    <p class="sub">Two tools answer questions directly from data Pioneer has verified, led by a live number. Every figure cites its primary source, and what the data cannot support they decline.</p>
+    <p class="sub">Three tools answer questions directly from data Pioneer has verified, led by a live number. Every figure cites its primary source, and what the data cannot support they decline.</p>
     <div id="deskList"></div>
   </section>
 
@@ -451,7 +451,14 @@ const CHART_TITLES = {
       })(),
       spark:spark(DL12.monthly_total_upt.slice(-24), function(d){return d.v;}),
       q:'Is the T back to pre-pandemic ridership?', qshort:'Is the T back?',
-      status:'<b>&#9679; Live</b> · verified against FTA NTD · through June 2026' }
+      status:'<b>&#9679; Live</b> · verified against FTA NTD · through June 2026' },
+    // Stat is drawn from the State Tax Atlas (proposalStatus active or ballot);
+    // refresh the count when the atlas ledger changes. No time series to spark.
+    { place:'UNITED STATES', id:'DL-04', ask:true, url:'/tax-atlas/',
+      stat:'8',
+      sub:'states with a wealth-tax or high-income surtax vehicle in play for 2026, from California Prop 40 to active bills in seven more',
+      q:'Which states are considering a wealth tax?', qshort:'Which states have a wealth tax?',
+      status:'<b>&#9679; Live</b> · state records and Pioneer analysis · law as of Aug 11, 2026' }
   ];
   document.getElementById('deskList').innerHTML = '<div class="desk">' + cards.map(function(c){
     var t = TOOLMAP[c.id] || {};

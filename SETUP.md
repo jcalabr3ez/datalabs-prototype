@@ -14,9 +14,7 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     florida-insurance/index.html   DL-10 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-04 State Tax Atlas flagship page
     netlify/functions/ask.js       The engine: holds the API key, answers or routes
-    netlify/functions/questions.js Lists the stored unanswered questions
-    gaps/index.html                Internal page that shows the unanswered questions
-    package.json                   Function dependency (@netlify/blobs) for the store
+    question-log.gs                Apps Script that files questions into a spreadsheet
     netlify/functions/catalog.json Engine copy of the catalog
     netlify/functions/dl12-answers.json  Engine copy of the DL-12 answer layer
     netlify/functions/fl-answers.json    DL-10 answer ledger (engine only)
@@ -92,15 +90,37 @@ set and a redeploy happened after setting it.
 - Netlify > Usage: the free plan is credit-capped; the prototype's traffic
   is negligible, but know that exceeding the cap pauses the site until the
   next month rather than billing you.
-- Coverage gaps: every question the engine declines is stored durably in
-  Netlify Blobs (store: unanswered-questions) and listed newest-first at
-  /gaps/ or the /.netlify/functions/questions endpoint. That list is the
-  research agenda input. To require an access key on the listing, set a
-  QUESTIONS_KEY environment variable in Netlify; storage itself needs no
-  configuration and can never break the ask box.
-- Optional extra log: set a QUESTION_LOG_URL environment variable in
-  Netlify to a webhook URL (e.g. a Google Apps Script that appends to a
-  Sheet) and every question, answered or not, is POSTed there as JSON.
+- Coverage gaps: every question lands in the spreadsheet from Step 6,
+  and the ones the engine could not answer get their own Unanswered tab.
+  That tab is the research agenda input. Questions also appear in the
+  ask function log (Netlify > Logs > Functions > ask) either way.
+
+## Step 6: Capture questions in a spreadsheet (5 minutes)
+
+Every question visitors ask can be filed into a Google Sheet you own,
+with unanswered questions on their own tab. The sheet opens in Excel
+any time (File > Download > Microsoft Excel, or open it from Drive).
+
+1. Go to sheets.new and name the spreadsheet, e.g. "DataLabs question
+   log". Use the Google account that should own the record.
+2. Extensions > Apps Script. Delete the sample code and paste in the
+   contents of question-log.gs from this repository. Save.
+3. Deploy > New deployment > Web app.
+      Execute as:      Me
+      Who has access:  Anyone
+   Authorize when prompted, then copy the web app URL it gives you.
+4. Netlify > Site configuration > Environment variables > Add:
+      Key:   QUESTION_LOG_URL
+      Value: (the web app URL from step 3)
+   Scope: all. Save, then Deploys > Trigger deploy so the function
+   picks it up.
+5. Test: ask the site "Is the Red Line safe?" (a scripted decline).
+   Within a few seconds the question appears on both the All questions
+   tab and the Unanswered tab.
+
+Notes: the web app URL is unguessable but public, so treat it like a
+key; logging is fire-and-forget and can never break the ask box; to
+revoke, delete the deployment in Apps Script or remove the variable.
 
 ## Later: moving to Pioneer accounts
 

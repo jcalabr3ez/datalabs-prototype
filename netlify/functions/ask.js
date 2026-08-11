@@ -106,17 +106,20 @@ exports.handler = async function (event) {
     const parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
 
     // Question log: every question, its outcome, and destination.
+    // Declines carry the engine's note; they are the research agenda input.
     const logEntry = {
       at: new Date().toISOString(),
       q: question,
       type: parsed.type,
       tool: parsed.type === 'answer' ? parsed.tool_id
           : parsed.type === 'route' ? (parsed.matches || []).map(m => m.id).join('|')
-          : ''
+          : '',
+      note: parsed.type === 'none' ? (parsed.note || '') : ''
     };
     console.log(JSON.stringify(logEntry));
 
-    // Durable log: optional webhook (e.g. Google Apps Script -> Sheet).
+    // Durable log: webhook to a spreadsheet (Google Apps Script -> Sheet;
+    // the script in SETUP.md keeps unanswered questions on their own tab).
     // Set QUESTION_LOG_URL in Netlify environment variables to enable.
     // Fire-and-forget with a timeout; logging can never break the ask box.
     if (process.env.QUESTION_LOG_URL) {
@@ -130,18 +133,6 @@ exports.handler = async function (event) {
           new Promise(res => setTimeout(res, 1500))
         ]);
       } catch (e) { console.error('question log webhook failed:', e.message); }
-    }
-
-    // Coverage gaps: questions the catalog cannot answer persist in Netlify
-    // Blobs so they survive past the function log window. They are the
-    // research agenda input. Storage can never break the ask box.
-    if (parsed.type === 'none') {
-      try {
-        const { getStore } = require('@netlify/blobs');
-        const store = getStore('unanswered-questions');
-        const key = logEntry.at.replace(/[:.]/g, '-') + '-' + Math.random().toString(36).slice(2, 8);
-        await store.setJSON(key, { at: logEntry.at, q: question, note: parsed.note || '' });
-      } catch (e) { console.error('gap store failed:', e.message); }
     }
 
     // DL-10: attach source line and deep link; text is model-composed from the ledger under citation rules.

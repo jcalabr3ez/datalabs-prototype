@@ -73,6 +73,7 @@
   @keyframes up { from{opacity:0; transform:translateY(5px)} to{opacity:1; transform:none} }
   .entry .k { font-size:12px; font-weight:600; color:var(--faint); margin-bottom:10px; }
   .entry .ans { font-family:'Newsreader',serif; font-size:clamp(18px,2.4vw,22px); line-height:1.45; }
+  .entry .det { font-family:'Newsreader',serif; font-size:clamp(15px,2vw,17px); line-height:1.55; color:var(--grey); margin-top:10px; }
   .figure { margin-top:22px; padding:0; border:none; border-bottom:1px solid var(--rule); padding-bottom:14px; }
   .figure .cap { font-size:12px; font-weight:600; color:var(--grey); margin-bottom:12px; }
   .figure svg { width:100%; height:auto; display:block; }
@@ -415,11 +416,23 @@ document.getElementById('deskList').innerHTML = '<div class="appgrid">' +
 })();
 
 /* ---------- Chart library (numbers come only from the data file) ---------- */
+/* DL-10 Florida series, mirroring netlify/functions/fl-answers.json (edit both). */
+const FLPIF=[["2020-04",453911],["2020-05",463247],["2020-06",474630],["2020-07",486773],["2020-08",499056],["2020-09",511055],["2020-10",521289],["2020-11",532788],["2020-12",542739],["2021-01",554537],["2021-02",552340],["2021-03",569868],["2021-04",589041],["2021-05",609805],["2021-06",638263],["2021-07",661150],["2021-08",687079],["2021-09",708919],["2021-10",725942],["2021-11",741420],["2021-12",759305],["2022-01",776790],["2022-02",792616],["2022-03",817926],["2022-04",851006],["2022-05",883333],["2022-06",931357],["2022-07",994456],["2022-08",1026829],["2022-09",1071850],["2022-10",1111283],["2022-11",1126319],["2022-12",1145809],["2023-01",1167579],["2023-02",1193725],["2023-03",1239396],["2023-04",1272815],["2023-05",1304332],["2023-06",1317174],["2023-07",1348834],["2023-08",1377425],["2023-09",1407805],["2023-10",1334620],["2023-11",1260430],["2023-12",1228718],["2024-01",1165867],["2024-02",1169427],["2024-03",1168919],["2024-04",1188800],["2024-05",1193484],["2024-06",1213495],["2024-07",1232161],["2024-08",1250791],["2024-09",1263055],["2024-10",1036913],["2024-11",988051],["2024-12",936182],["2025-01",941156],["2025-02",847571],["2025-03",841470],["2025-04",809984],["2025-05",819027],["2025-06",779552],["2025-07",782424],["2025-08",771916],["2025-09",769316],["2025-10",568914],["2025-11",437095],["2025-12",395337],["2026-01",392689],["2026-02",336393],["2026-03",321957],["2026-04",294894],["2026-05",293772],["2026-06",278246]];
+const FLCTY=[["Alachua",2525,1804,2527],["Baker",2346,2913,2317],["Bay",3465,1577,3478],["Bradford",2623,1950,2650],["Brevard",3532,1975,3560],["Broward",6136,3008,6220],["Calhoun",3122,2649,3149],["Charlotte",3160,1661,3222],["Citrus",2456,1560,2472],["Clay",2540,2047,2550],["Collier",5534,3169,5565],["Columbia",2557,2118,2558],["Desoto",3421,2167,3449],["Dixie",2748,1559,2806],["Duval",2786,2095,2801],["Escambia",3702,1670,3706],["Flagler",2488,1641,2526],["Franklin",5221,1954,5235],["Gadsden",2723,2226,2737],["Gilchrist",2513,1872,2478],["Glades",3477,2019,3475],["Gulf",3752,1612,3759],["Hamilton",2711,2044,2745],["Hardee",3376,2246,3396],["Hendry",2999,1983,3030],["Hernando",2360,1985,2342],["Highlands",2736,1599,2732],["Hillsborough",3525,2676,3514],["Holmes",2942,2560,2944],["Indian River",4334,2744,4453],["Jackson",2851,2300,2840],["Jefferson",2782,2083,2792],["Lafayette",2903,1649,2943],["Lake",2650,1988,2642],["Lee",3576,2119,3646],["Leon",2538,1710,2554],["Levy",2698,1634,2706],["Liberty",2880,1872,2877],["Madison",2735,1482,2772],["Manatee",3181,1859,3187],["Marion",2191,1766,2217],["Martin",5899,2471,5993],["Miami-Dade",5975,3779,6023],["Monroe",7863,1871,7829],["Nassau",3051,1608,3061],["Okaloosa",3889,1889,3891],["Okeechobee",3730,1973,3754],["Orange",3610,2565,3585],["Osceola",2940,2433,2911],["Palm Beach",6323,3175,6412],["Pasco",2756,1917,2758],["Pinellas",4063,2034,4044],["Polk",2767,2185,2771],["Putnam",2621,1768,2636],["Santa Rosa",3512,1951,3541],["Sarasota",3457,1482,3482],["Seminole",3545,2372,3527],["St. Johns",2883,2055,2889],["St. Lucie",3491,1932,3522],["Sumter",2105,1352,2111],["Suwannee",2749,1783,2792],["Taylor",2698,1300,2727],["Union",2667,3475,2656],["Volusia",2808,1637,2819],["Wakulla",2292,1956,2335],["Walton",5409,1891,5401],["Washington",2871,2628,2933]]; // [county, avg incl wind 2026-03, avg ex wind 2026-03, avg incl wind 2025-09]
+const FLLIT=[[2016,7.75,64.43],[2017,16.46,68.07],[2018,11.85,79.91],[2019,8.16,76.45],[2020,8.81,79.16],[2021,6.91,76.0],[2022,14.93,70.83],[2023,9.73,71.59],[2024,12.33,73.15],[2025,4.85,41.29]]; // [year, FL share of US claims %, FL share of US suits %]
+const FLRT=[["2017",2.325,1.33],["2018",2.2,1.423],["2019",2.013,1.448],["2020",2.15,1.021],["2021",3.01,2.709],["2022",4.89,2.507],["2023",5.388,5.38],["2024",4.821,3.564],["2025",3.282,4.494]]; // [year, cat fund $bn, private capital $bn]
+const FLTK=[["2023",130],["2024",39],["2025",8],["2026 H1",-7.3]]; // [period, implied inflow per 100 takeouts]
 const CHART_TITLES = {
   monthly_trend:'MBTA monthly ridership, all modes',
   recovery_by_mode:'Recovery vs. same month 2019, by mode',
   cost_per_trip:'Operating cost per trip, by mode',
-  farebox:'Share of cost covered by fares'
+  farebox:'Share of cost covered by fares',
+  citizens_trend:'Citizens Property Insurance, policies in force',
+  county_compare:'Average annual premium by county, incl. wind, March 2026',
+  premium_change:'Change in average premium, Sept 2025 to March 2026',
+  litigation:'Florida share of US homeowners claims vs. lawsuits',
+  risk_transfer:'Citizens risk transfer purchased, billions',
+  takeouts:'Net policies flowing into Citizens per 100 taken out'
 };
 function chartSVG(kind, hot){
   if(!DL12) return '';
@@ -466,6 +479,104 @@ function chartSVG(kind, hot){
     });
     return g+'</svg>';
   }
+
+  /* ---- DL-10 Florida views (hot = county name) ---- */
+  if(kind==='citizens_trend'){
+    const sr=FLPIF,W=660,H=170,pl=42,pr=14,pt=14,pb=24;
+    const max=1500000;
+    const x=i=>pl+i*((W-pl-pr)/(sr.length-1)),y=v=>pt+(1-v/max)*(H-pt-pb);
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    [500000,1000000,1500000].forEach(v=>{g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">'+(v/1e6)+'M</text>';});
+    g+='<polyline fill="none" stroke="#1F3A5F" stroke-width="2" points="'+sr.map((d,i)=>x(i)+','+y(d[1])).join(' ')+'"/>';
+    let pi=0; sr.forEach((d,i)=>{if(d[1]>sr[pi][1])pi=i;});
+    g+='<circle cx="'+x(pi)+'" cy="'+y(sr[pi][1])+'" r="3" fill="#1F3A5F"/>';
+    g+='<text x="'+x(pi)+'" y="'+(y(sr[pi][1])-7)+'" text-anchor="middle" font-size="9" font-family="IBM Plex Mono" fill="#66707A">peak '+(sr[pi][1]/1e6).toFixed(2)+'M</text>';
+    g+='<circle cx="'+x(sr.length-1)+'" cy="'+y(sr[sr.length-1][1])+'" r="3.5" fill="#A87B1F"/>';
+    g+='<text x="'+(x(sr.length-1)-7)+'" y="'+(y(sr[sr.length-1][1])+4)+'" text-anchor="end" font-size="9" font-family="IBM Plex Mono" fill="#A87B1F">'+Math.round(sr[sr.length-1][1]/1000)+'k</text>';
+    sr.forEach((d,i)=>{if(d[0].endsWith('-01'))g+='<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">'+d[0].slice(0,4)+'</text>';});
+    return g+'</svg>';
+  }
+  if(kind==='county_compare'){
+    const byHi=FLCTY.slice().sort((a,b)=>b[1]-a[1]);
+    let rows=byHi.slice(0,5).concat(byHi.slice(-5));
+    if(hot&&!rows.some(r=>r[0]===hot)){const h=FLCTY.find(r=>r[0]===hot);if(h)rows.push(h);}
+    rows=rows.slice().sort((a,b)=>b[1]-a[1]);
+    const max=byHi[0][1],W=660,rh=25,H=rows.length*rh+22;
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    rows.forEach((r,i)=>{
+      const yy=3+i*rh,w=(r[1]/max)*(W-275),h=r[0]===hot;
+      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Public Sans" fill="#14181D" font-weight="'+(h?'700':'400')+'">'+r[0]+'</text>';
+      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#A87B1F':'#1F3A5F')+'" opacity="0.92"/>';
+      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" font-family="IBM Plex Mono" fill="#66707A">$'+r[1].toLocaleString()+'</text>';
+    });
+    g+='<text x="0" y="'+(H-3)+'" font-size="9.5" font-family="Public Sans" fill="#9AA2AA">The five highest and five lowest of 67 counties'+(hot&&!byHi.slice(0,5).concat(byHi.slice(-5)).some(r=>r[0]===hot)?', plus '+hot:'')+'.</text>';
+    return g+'</svg>';
+  }
+  if(kind==='premium_change'){
+    const ch=FLCTY.map(r=>[r[0],r[1]-r[3]]).sort((a,b)=>a[1]-b[1]);
+    let rows=ch.slice(0,5).concat(ch.slice(-5));
+    if(hot&&!rows.some(r=>r[0]===hot)){const h=ch.find(r=>r[0]===hot);if(h)rows.push(h);}
+    rows=rows.slice().sort((a,b)=>a[1]-b[1]);
+    const max=Math.max(...rows.map(r=>Math.abs(r[1])))||1;
+    const W=660,rh=25,H=rows.length*rh+22,cx=330,span=180;
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    g+='<line x1="'+cx+'" y1="0" x2="'+cx+'" y2="'+(H-18)+'" stroke="#9AA2AA"/>';
+    rows.forEach((r,i)=>{
+      const yy=3+i*rh,w=Math.max(Math.abs(r[1])/max*span,1),neg=r[1]<0,h=r[0]===hot;
+      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Public Sans" fill="#14181D" font-weight="'+(h?'700':'400')+'">'+r[0]+'</text>';
+      g+='<rect x="'+(neg?cx-w:cx)+'" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#A87B1F':(neg?'#177245':'#8C2532'))+'" opacity="0.92"/>';
+      g+='<text x="'+(neg?cx-w-6:cx+w+6)+'" y="'+(yy+13)+'" text-anchor="'+(neg?'end':'start')+'" font-size="10" font-family="IBM Plex Mono" fill="#66707A">'+(r[1]<0?'-$':'+$')+Math.abs(r[1])+'</text>';
+    });
+    g+='<text x="0" y="'+(H-3)+'" font-size="9.5" font-family="Public Sans" fill="#9AA2AA">The five largest declines and increases of 67 counties; premiums fell in '+FLCTY.filter(r=>r[1]<r[3]).length+' of 67.</text>';
+    return g+'</svg>';
+  }
+  if(kind==='litigation'){
+    const W=660,H=195,pl=34,pr=8,pt=26,pb=22,n=FLLIT.length;
+    const gap=(W-pl-pr)/n,bw=Math.min(20,gap/2-4);
+    const y=v=>pt+(1-v/100)*(H-pt-pb);
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    [25,50,75].forEach(v=>{g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">'+v+'%</text>';});
+    FLLIT.forEach((r,i)=>{
+      const x0=pl+i*gap+gap/2;
+      g+='<rect x="'+(x0-bw-1.5)+'" y="'+y(r[1])+'" width="'+bw+'" height="'+(y(0)-y(r[1]))+'" fill="#1F3A5F"/>';
+      g+='<rect x="'+(x0+1.5)+'" y="'+y(r[2])+'" width="'+bw+'" height="'+(y(0)-y(r[2]))+'" fill="#8C2532"/>';
+      g+='<text x="'+x0+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">'+r[0]+'</text>';
+    });
+    g+='<rect x="'+pl+'" y="4" width="9" height="9" fill="#1F3A5F"/><text x="'+(pl+14)+'" y="12" font-size="10" font-family="Public Sans" fill="#66707A">Share of US claims</text>';
+    g+='<rect x="'+(pl+140)+'" y="4" width="9" height="9" fill="#8C2532"/><text x="'+(pl+154)+'" y="12" font-size="10" font-family="Public Sans" fill="#66707A">Share of US lawsuits</text>';
+    return g+'</svg>';
+  }
+  if(kind==='risk_transfer'){
+    const W=660,H=195,pl=30,pr=8,pt=26,pb=22,n=FLRT.length,max=12;
+    const gap=(W-pl-pr)/n,bw=Math.min(34,gap-14);
+    const y=v=>pt+(1-v/max)*(H-pt-pb);
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    [4,8,12].forEach(v=>{g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">$'+v+'B</text>';});
+    FLRT.forEach((r,i)=>{
+      const x0=pl+i*gap+(gap-bw)/2,tot=r[1]+r[2];
+      g+='<rect x="'+x0+'" y="'+y(r[1])+'" width="'+bw+'" height="'+(y(0)-y(r[1]))+'" fill="#1F3A5F"/>';
+      g+='<rect x="'+x0+'" y="'+y(tot)+'" width="'+bw+'" height="'+(y(r[1])-y(tot))+'" fill="#A87B1F"/>';
+      g+='<text x="'+(x0+bw/2)+'" y="'+(y(tot)-4)+'" text-anchor="middle" font-size="9" font-family="IBM Plex Mono" fill="#66707A">'+tot.toFixed(1)+'</text>';
+      g+='<text x="'+(x0+bw/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="IBM Plex Mono" fill="#9AA2AA">'+r[0]+'</text>';
+    });
+    g+='<rect x="'+pl+'" y="4" width="9" height="9" fill="#1F3A5F"/><text x="'+(pl+14)+'" y="12" font-size="10" font-family="Public Sans" fill="#66707A">FL Hurricane Cat Fund</text>';
+    g+='<rect x="'+(pl+160)+'" y="4" width="9" height="9" fill="#A87B1F"/><text x="'+(pl+174)+'" y="12" font-size="10" font-family="Public Sans" fill="#66707A">Private capital</text>';
+    return g+'</svg>';
+  }
+  if(kind==='takeouts'){
+    const rows=FLTK,max=Math.max(...rows.map(r=>Math.abs(r[1])))||1;
+    const W=660,rh=25,H=rows.length*rh+22,cx=330,span=200;
+    let g='<svg viewBox="0 0 '+W+' '+H+'">';
+    g+='<line x1="'+cx+'" y1="0" x2="'+cx+'" y2="'+(H-18)+'" stroke="#9AA2AA"/>';
+    rows.forEach((r,i)=>{
+      const yy=3+i*rh,w=Math.max(Math.abs(r[1])/max*span,1),neg=r[1]<0;
+      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Public Sans" fill="#14181D">'+r[0]+'</text>';
+      g+='<rect x="'+(neg?cx-w:cx)+'" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(neg?'#177245':'#8C2532')+'" opacity="0.92"/>';
+      g+='<text x="'+(neg?cx-w-6:cx+w+6)+'" y="'+(yy+13)+'" text-anchor="'+(neg?'end':'start')+'" font-size="10" font-family="IBM Plex Mono" fill="#66707A">'+(r[1]<0?'':'+')+r[1]+'</text>';
+    });
+    g+='<text x="0" y="'+(H-3)+'" font-size="9.5" font-family="Public Sans" fill="#9AA2AA">Derived as an identity from Citizens counts and takeout totals; negative means net outflow.</text>';
+    return g+'</svg>';
+  }
   return '';
 }
 
@@ -496,6 +607,7 @@ async function ask(){
       const kind=p.chart&&p.chart!=='none'?p.chart:null;
       resp.innerHTML='<div class="entry">'+DISMISS+'<div class="k">Answer</div>' +
         '<div class="ans">'+esc(p.text)+'</div>' +
+        (p.detail?'<div class="det">'+esc(p.detail)+'</div>':'') +
         (kind?'<div class="figure"><div class="cap">'+esc(CHART_TITLES[kind]||'')+'</div>'+
           chartSVG(kind,p.highlight||null)+'</div>':'') +
         '<div class="srcline"><b>Source:</b> '+(p.src?esc(p.src):'FTA NTD (SRC-301), through May 2026. Ridership verified Aug 2, 2026; cost figures pending.')+'</div>' +

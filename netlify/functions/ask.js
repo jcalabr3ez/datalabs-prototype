@@ -132,6 +132,18 @@ exports.handler = async function (event) {
       } catch (e) { console.error('question log webhook failed:', e.message); }
     }
 
+    // Coverage gaps: questions the catalog cannot answer persist in Netlify
+    // Blobs so they survive past the function log window. They are the
+    // research agenda input. Storage can never break the ask box.
+    if (parsed.type === 'none') {
+      try {
+        const { getStore } = require('@netlify/blobs');
+        const store = getStore('unanswered-questions');
+        const key = logEntry.at.replace(/[:.]/g, '-') + '-' + Math.random().toString(36).slice(2, 8);
+        await store.setJSON(key, { at: logEntry.at, q: question, note: parsed.note || '' });
+      } catch (e) { console.error('gap store failed:', e.message); }
+    }
+
     // DL-10: attach source line and deep link; text is model-composed from the ledger under citation rules.
     // The model only SELECTS a pre-built chart view; validate the selection here.
     if (parsed.type === 'answer' && parsed.tool_id === 'DL-10') {

@@ -1,0 +1,8 @@
+{
+  "name": "datalabs-prototype",
+  "private": true,
+  "description": "Pioneer DataLabs front door and flagship tools. The dependency below is used by the Netlify functions; the site itself is static.",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

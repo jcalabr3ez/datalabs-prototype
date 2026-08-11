@@ -14,6 +14,9 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     florida-insurance/index.html   DL-10 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-04 State Tax Atlas flagship page
     netlify/functions/ask.js       The engine: holds the API key, answers or routes
+    netlify/functions/questions.js Lists the stored unanswered questions
+    gaps/index.html                Internal page that shows the unanswered questions
+    package.json                   Function dependency (@netlify/blobs) for the store
     netlify/functions/catalog.json Engine copy of the catalog
     netlify/functions/dl12-answers.json  Engine copy of the DL-12 answer layer
     netlify/functions/fl-answers.json    DL-10 answer ledger (engine only)
@@ -89,12 +92,15 @@ set and a redeploy happened after setting it.
 - Netlify > Usage: the free plan is credit-capped; the prototype's traffic
   is negligible, but know that exceeding the cap pauses the site until the
   next month rather than billing you.
-- Coverage gaps: unanswered questions appear in the ask function log,
-  timestamped. That log is the research agenda input.
-- Optional durable log: set a QUESTION_LOG_URL environment variable in
+- Coverage gaps: every question the engine declines is stored durably in
+  Netlify Blobs (store: unanswered-questions) and listed newest-first at
+  /gaps/ or the /.netlify/functions/questions endpoint. That list is the
+  research agenda input. To require an access key on the listing, set a
+  QUESTIONS_KEY environment variable in Netlify; storage itself needs no
+  configuration and can never break the ask box.
+- Optional extra log: set a QUESTION_LOG_URL environment variable in
   Netlify to a webhook URL (e.g. a Google Apps Script that appends to a
-  Sheet) and every question is POSTed there as JSON. Fire-and-forget;
-  logging can never break the ask box.
+  Sheet) and every question, answered or not, is POSTed there as JSON.
 
 ## Later: moving to Pioneer accounts
 

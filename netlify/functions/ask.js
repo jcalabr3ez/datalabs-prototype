@@ -11,7 +11,13 @@ const BUNDLED_CATALOG = require('./catalog.json'); // fallback only
 const TOOLS = require('./tools.js');
 
 const ROUTER_MODEL = 'claude-haiku-4-5';
-const ANSWER_MODEL = 'claude-sonnet-4-6';
+// Sonnet 5: adaptive thinking is ON when the thinking param is omitted, and
+// max_tokens caps thinking plus the answer, so the answer call carries a
+// generous cap and effort medium (comparable to Sonnet 4.6 at high) to keep
+// latency inside the function budget. effort is NOT sent on the Haiku router,
+// which rejects it.
+const ANSWER_MODEL = 'claude-sonnet-5';
+const ANSWER_EFFORT = 'medium';
 
 let catalogCache = { data: null, at: 0 };
 async function getCatalog() {
@@ -98,7 +104,9 @@ const GLOBAL_ANSWER_RULES = 'You are the answer engine behind Pioneer Institute 
 
 // ---------- model call ----------
 
-async function callModel(model, systemBlocks, messages, schema, maxTokens) {
+async function callModel(model, systemBlocks, messages, schema, maxTokens, effort) {
+  const outputConfig = { format: { type: 'json_schema', schema: schema } };
+  if (effort) outputConfig.effort = effort;
   const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
@@ -111,7 +119,7 @@ async function callModel(model, systemBlocks, messages, schema, maxTokens) {
       max_tokens: maxTokens,
       system: systemBlocks,
       messages: messages,
-      output_config: { format: { type: 'json_schema', schema: schema } }
+      output_config: outputConfig
     })
   });
   const data = await apiRes.json();
@@ -191,7 +199,7 @@ exports.handler = async function (event) {
       const ans = await callModel(ANSWER_MODEL, [
         { type: 'text', text: GLOBAL_ANSWER_RULES + tool.rules },
         { type: 'text', text: 'DATASET:\n' + JSON.stringify(tool.modelSlice(tool.dataset)), cache_control: { type: 'ephemeral' } }
-      ], messages, answerSchema(tool), 1200);
+      ], messages, answerSchema(tool), 6000, ANSWER_EFFORT);
 
       if (ans.answerable === false) {
         // Rich decline: the honest note plus the nearest answerable questions.

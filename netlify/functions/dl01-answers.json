@@ -15,23 +15,23 @@
   "status": {
    "no_tax": {
     "label": "No income tax",
-    "color": "#12213A",
+    "color": "#112337",
     "textColor": "#FFFFFF"
    },
    "flat_low": {
     "label": "Flat / low rate",
     "color": "#93A7C0",
-    "textColor": "#14181D"
+    "textColor": "#222222"
    },
    "standard": {
     "label": "Standard graduated",
     "color": "#C9D2E0",
-    "textColor": "#14181D"
+    "textColor": "#222222"
    },
    "high_rate": {
     "label": "High top rate",
-    "color": "#E9C46A",
-    "textColor": "#14181D"
+    "color": "#CCB26D",
+    "textColor": "#222222"
    },
    "surtax_pending_signature": {
     "label": "Surtax passed, awaiting signature",
@@ -40,7 +40,7 @@
    },
    "surtax_enacted": {
     "label": "Surtax enacted, not yet in effect",
-    "color": "#8C2532",
+    "color": "#8C2F1B",
     "textColor": "#FFFFFF"
    },
    "surtax_active": {
@@ -52,22 +52,22 @@
   "risk": {
    "very_low": {
     "label": "Very low",
-    "color": "#12213A",
+    "color": "#112337",
     "textColor": "#FFFFFF"
    },
    "low": {
     "label": "Low",
     "color": "#93A7C0",
-    "textColor": "#14181D"
+    "textColor": "#222222"
    },
    "moderate": {
     "label": "Moderate",
-    "color": "#E9C46A",
-    "textColor": "#14181D"
+    "color": "#CCB26D",
+    "textColor": "#222222"
    },
    "high": {
     "label": "High",
-    "color": "#8C2532",
+    "color": "#8C2F1B",
     "textColor": "#FFFFFF"
    },
    "very_high": {
@@ -79,39 +79,39 @@
   "ballot": {
    "none": {
     "label": "No initiative pathway (legislature only)",
-    "color": "#12213A",
+    "color": "#112337",
     "textColor": "#FFFFFF"
    },
    "hurdled": {
     "label": "Initiative with supermajority or legislative gate",
     "color": "#93A7C0",
-    "textColor": "#14181D"
+    "textColor": "#222222"
    },
    "statute": {
     "label": "Statutes only (no initiated amendments)",
-    "color": "#E9C46A",
-    "textColor": "#14181D"
+    "color": "#CCB26D",
+    "textColor": "#222222"
    },
    "open": {
     "label": "Direct initiative, simple majority",
-    "color": "#8C2532",
+    "color": "#8C2F1B",
     "textColor": "#FFFFFF"
    }
   },
   "proposal": {
    "none": {
     "label": "No proposal tracked",
-    "color": "#12213A",
+    "color": "#112337",
     "textColor": "#FFFFFF"
    },
    "dormant": {
     "label": "Exploratory, dormant, or failed this cycle",
     "color": "#93A7C0",
-    "textColor": "#14181D"
+    "textColor": "#222222"
    },
    "active": {
     "label": "Active vehicle (bill or initiative)",
-    "color": "#8C2532",
+    "color": "#8C2F1B",
     "textColor": "#FFFFFF"
    },
    "ballot": {

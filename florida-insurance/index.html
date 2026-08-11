@@ -7,19 +7,19 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Public+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <style>
   /* ============ Pioneer DataLabs design system (matched to datalabs landing + State Tax Atlas) ============ */
   :root{
-    --ink:#14181D; --grey:#66707A; --faint:#9AA2AA; --rule:#E4E6E9; --rule-dk:#14181D; --rule-lt:#EEF1F4;
-    --navy:#1F3A5F; --gold:#A87B1F; --goldlt:#E9C46A; --wash:#F7F7F5; --hover:#F6F8FB;
-    --bar:#12213A; --hero2:#0D1930; --hero3:#0B1526;
-    --blue:#1F3A5F; --accent:#A87B1F; --blue-lt:#F6F8FB;
-    --g1:#3D454E; --g2:#66707A; --g3:#9AA2AA;
-    --pos:#177245; --neg:#8C2532; --warn:#A87B1F;
-    --serif:'Newsreader',Georgia,serif;
-    --sans:'Public Sans',system-ui,sans-serif;
-    --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+    --ink:#222222; --grey:#666666; --faint:#9AA2AA; --rule:#E4E6E9; --rule-dk:#222222; --rule-lt:#EEF1F4;
+    --navy:#293C5C; --gold:#CCB26D; --goldlt:#CCB26D; --wash:#FCFBF6; --hover:#F6F8FB;
+    --bar:#112337; --hero2:#1B2C48; --hero3:#112337;
+    --blue:#293C5C; --accent:#CCB26D; --blue-lt:#F6F8FB;
+    --g1:#3D454E; --g2:#666666; --g3:#9AA2AA;
+    --pos:#177245; --neg:#8C2F1B; --warn:#CCB26D;
+    --serif:'Libre Bodoni',Georgia,serif;
+    --sans:'Roboto',system-ui,sans-serif;
+    --mono:'Roboto',system-ui,sans-serif;
     --bleed:clamp(18px,2.6vw,48px);
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -44,7 +44,7 @@
   .sitebar .tag b{color:var(--goldlt);font-weight:700}
   @media(max-width:520px){.sitebar .tag{display:none}}
 
-  header{position:relative;overflow:hidden;background:linear-gradient(178deg,#12213A 0%,#0D1930 70%,#0B1526 100%);
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,#112337 0%,#1B2C48 70%,#112337 100%);
          margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
   .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
     background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;
@@ -53,7 +53,7 @@
   header>*:not(.dots){position:relative}
   .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
   .org .sub{color:#8DA0B5}
-  h1{font:500 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
   .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
   .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
   .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
@@ -123,7 +123,7 @@
   .maprow{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
   .mapbox{flex:1 1 420px;min-width:300px;position:relative}
   .cty{cursor:pointer}
-  .cty:hover{stroke:#14181D;stroke-width:1.3}
+  .cty:hover{stroke:#222222;stroke-width:1.3}
   #tip{position:absolute;pointer-events:none;background:var(--bar);color:#fff;font:600 11.5px/1.5 var(--sans);
        padding:7px 10px;border-radius:3px;display:none;z-index:5;max-width:230px}
   #tip small{display:block;font-weight:400;color:#AEBDD2}
@@ -305,7 +305,7 @@
   .pmseg{display:flex;gap:0;margin:10px 0 4px;border:1px solid var(--rule);border-radius:4px;width:max-content;overflow:hidden}
   .pmseg button{font:600 11.5px/1 var(--sans);letter-spacing:.03em;padding:8px 14px;border:0;background:#fff;color:#4A5560;cursor:pointer;border-right:1px solid var(--rule)}
   .pmseg button:last-child{border-right:0}
-  .pmseg button.on{background:#1F3A5F;color:#fff}
+  .pmseg button.on{background:#293C5C;color:#fff}
   .pmread{font:400 13px/1.55 var(--sans);color:#4A5560;margin:2px 0 10px}
   .gA,.gB,.gC,.gI{color:var(--ink);background:none;border:0}
   .rc .ev{font:400 13.5px/1.6 var(--sans);color:var(--ink)}
@@ -1055,7 +1055,7 @@ const pif=[["2020-04",453911],["2020-05",463247],["2020-06",474630],["2020-07",4
 const qtr=[["2022-06",931357,2468517548,318849646819],["2022-12",1145809,3219057962,422952769945],["2023-03",1239396,3653256519,478754194461],["2023-06",1317174,4371464295,561675811689],["2023-09",1407805,4833074611,618104511066],["2023-12",1228718,4258689982,552759991285],["2024-03",1168919,4064248867,518995281167],["2024-06",1213495,4237394767,520378213499],["2024-09",1263055,4477186272,533231527195],["2024-12",936182,3313825028,385821635974],["2025-03",841470,2824160391,336516399897],["2025-06",779552,2485819333,295140160591],["2025-09",769316,2438497431,285501334537],["2025-12",395337,1135816999,128482188755],["2026-03",321957,885436090,97748983364],["2026-06",278246,737991504,79644625492]];
 
 const cty=[["Alachua",2525,1804,2527],["Baker",2346,2913,2317],["Bay",3465,1577,3478],["Bradford",2623,1950,2650],["Brevard",3532,1975,3560],["Broward",6136,3008,6220],["Calhoun",3122,2649,3149],["Charlotte",3160,1661,3222],["Citrus",2456,1560,2472],["Clay",2540,2047,2550],["Collier",5534,3169,5565],["Columbia",2557,2118,2558],["Desoto",3421,2167,3449],["Dixie",2748,1559,2806],["Duval",2786,2095,2801],["Escambia",3702,1670,3706],["Flagler",2488,1641,2526],["Franklin",5221,1954,5235],["Gadsden",2723,2226,2737],["Gilchrist",2513,1872,2478],["Glades",3477,2019,3475],["Gulf",3752,1612,3759],["Hamilton",2711,2044,2745],["Hardee",3376,2246,3396],["Hendry",2999,1983,3030],["Hernando",2360,1985,2342],["Highlands",2736,1599,2732],["Hillsborough",3525,2676,3514],["Holmes",2942,2560,2944],["Indian River",4334,2744,4453],["Jackson",2851,2300,2840],["Jefferson",2782,2083,2792],["Lafayette",2903,1649,2943],["Lake",2650,1988,2642],["Lee",3576,2119,3646],["Leon",2538,1710,2554],["Levy",2698,1634,2706],["Liberty",2880,1872,2877],["Madison",2735,1482,2772],["Manatee",3181,1859,3187],["Marion",2191,1766,2217],["Martin",5899,2471,5993],["Miami-Dade",5975,3779,6023],["Monroe",7863,1871,7829],["Nassau",3051,1608,3061],["Okaloosa",3889,1889,3891],["Okeechobee",3730,1973,3754],["Orange",3610,2565,3585],["Osceola",2940,2433,2911],["Palm Beach",6323,3175,6412],["Pasco",2756,1917,2758],["Pinellas",4063,2034,4044],["Polk",2767,2185,2771],["Putnam",2621,1768,2636],["Santa Rosa",3512,1951,3541],["Sarasota",3457,1482,3482],["Seminole",3545,2372,3527],["St. Johns",2883,2055,2889],["St. Lucie",3491,1932,3522],["Sumter",2105,1352,2111],["Suwannee",2749,1783,2792],["Taylor",2698,1300,2727],["Union",2667,3475,2656],["Volusia",2808,1637,2819],["Wakulla",2292,1956,2335],["Walton",5409,1891,5401],["Washington",2871,2628,2933]]; // [county, avg incl wind 2026-03, avg ex wind 2026-03, avg incl wind 2025-09]
-const BLUE='#1F3A5F',INK='#12213A',G2='#66707A',G3='#9AA2AA',RULE='#E4E6E9', SANS='"Public Sans",system-ui,sans-serif';
+const BLUE='#293C5C',INK='#112337',G2='#666666',G3='#9AA2AA',RULE='#E4E6E9', SANS='"Roboto",system-ui,sans-serif';
 Chart.defaults.font.family=SANS; Chart.defaults.font.size=11; Chart.defaults.color=G2;
 Chart.defaults.plugins.legend.display=false;
 Chart.defaults.plugins.tooltip.backgroundColor=INK;
@@ -1120,7 +1120,7 @@ function renderHome(){
     data:{labels:sw.labels,datasets:[
       {label:'Whole market',data:sw.c100,borderColor:BLUE,backgroundColor:'transparent',
        borderWidth:2.5,pointRadius:0,pointHoverRadius:4,tension:0},
-      {label:'Citizens',data:cit,borderColor:'#8C2532',backgroundColor:'transparent',spanGaps:true,
+      {label:'Citizens',data:cit,borderColor:'#8C2F1B',backgroundColor:'transparent',spanGaps:true,
        borderWidth:2.5,borderDash:[6,4],pointRadius:0,pointHoverRadius:4,tension:0}
     ]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:110,top:8}},
@@ -1144,17 +1144,17 @@ function renderPolicy(){
       scales:{y:{...AY,min:72,max:126,ticks:{...AY.ticks,stepSize:10,callback:v=>v+'%'}},x:{...AX}}},
     plugins:[{id:'be',afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
-      ctx.save(); ctx.strokeStyle='#8C2532'; ctx.setLineDash([4,3]); ctx.beginPath();
+      ctx.save(); ctx.strokeStyle='#8C2F1B'; ctx.setLineDash([4,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#8C2532'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
+      ctx.fillStyle='#8C2F1B'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
       ctx.fillText('100%, break-even',right,py-4); ctx.restore();}}]});
   // Florida share of nationwide homeowners suits vs claims (NAIC MCAS, via OIR ISU July 2026; 2025 preliminary)
   const mc=[[2016,7.75,64.43],[2017,16.46,68.07],[2018,11.85,79.91],[2019,8.16,76.45],[2020,8.81,79.16],
             [2021,6.91,76.00],[2022,14.93,70.83],[2023,9.73,71.59],[2024,12.33,73.15],[2025,4.85,41.29]];
   new Chart(document.getElementById('mChart'),{type:'line',
     data:{labels:mc.map(r=>r[0]),datasets:[
-      {label:'Share of nationwide homeowners suits',data:mc.map(r=>r[2]),borderColor:'#8C2532',
-       backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8C2532',tension:0},
+      {label:'Share of nationwide homeowners suits',data:mc.map(r=>r[2]),borderColor:'#8C2F1B',
+       backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8C2F1B',tension:0},
       {label:'Share of nationwide homeowners claims',data:mc.map(r=>r[1]),borderColor:BLUE,
        backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:3,pointBackgroundColor:BLUE,tension:0}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
@@ -1165,7 +1165,7 @@ function renderPolicy(){
   new Chart(document.getElementById('cChartP'),{type:'line',
     data:{labels:['2017','2018','2019','2020','2021','2022','2023','2024','2025'],datasets:[
       {label:'Underwriting result',data:[-1165.0,-280.7,-97.1,-98.3,-166.5,-2446.4,466.5,-1215.7,639.2],
-       borderColor:'#A87B1F',backgroundColor:'#A87B1F',borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25},
+       borderColor:'#CCB26D',backgroundColor:'#CCB26D',borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25},
       {label:'Net income',data:[-1028.4,-151.4,86.3,129.0,80.1,-2242.3,746.5,-844.8,979.2],
        borderColor:BLUE,backgroundColor:BLUE,borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
@@ -1196,8 +1196,8 @@ function renderPolicy(){
          read:'Reading this view: the modeled 1-in-100 loss carried per remaining policy, up roughly 15 to 40 percent since the peak even as the total fell by three-quarters. December 2018 is omitted; see the view notes.'}};
   const pmChart=new Chart(document.getElementById('pmChart'),{type:'bar',
     data:{labels:pmv.map(r=>r[0]),datasets:[{data:pmViews.abs.data.slice(),
-      backgroundColor:pmv.map((r,i)=>i===1?'#8C2532':(i===5?'#E9C46A':BLUE)),
-      borderColor:pmv.map((r,i)=>i===5?'#A87B1F':'transparent'),
+      backgroundColor:pmv.map((r,i)=>i===1?'#8C2F1B':(i===5?'#CCB26D':BLUE)),
+      borderColor:pmv.map((r,i)=>i===5?'#CCB26D':'transparent'),
       borderWidth:pmv.map((r,i)=>i===5?2:0)}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10}},
       plugins:{tooltip:{callbacks:{label:c=>{const view=pmViews[window.pmCur||'abs'];
@@ -1220,8 +1220,8 @@ function renderPolicy(){
   new Chart(document.getElementById('ccChart'),{type:'bar',
     data:{labels:[["Share of Florida's residential","insured value"],["Share of Florida's modeled","1-in-100 hurricane loss"]],
       datasets:[
-      {data:[2.5,5.3],backgroundColor:[BLUE,'#E9C46A'],borderColor:['transparent','#A87B1F'],borderWidth:[0,1.5],barPercentage:.55,stack:'s'},
-      {data:[0,1.4],backgroundColor:['transparent','rgba(233,196,106,.38)'],borderColor:['transparent','#A87B1F'],borderWidth:[0,1.5],barPercentage:.55,stack:'s'}]},
+      {data:[2.5,5.3],backgroundColor:[BLUE,'#CCB26D'],borderColor:['transparent','#CCB26D'],borderWidth:[0,1.5],barPercentage:.55,stack:'s'},
+      {data:[0,1.4],backgroundColor:['transparent','rgba(233,196,106,.38)'],borderColor:['transparent','#CCB26D'],borderWidth:[0,1.5],barPercentage:.55,stack:'s'}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:86}},
       plugins:{tooltip:{filter:c=>!(c.datasetIndex===1&&c.dataIndex===0),callbacks:{label:c=>c.dataIndex===0
         ?['2.5% of statewide residential insured value','Pioneer derivation from OIR statewide files and Citizens filings']
@@ -1235,16 +1235,16 @@ function renderPolicy(){
   const inflow=[['2023',130],['2024',39],['2025',8],['2026 H1',-7.3]];
   new Chart(document.getElementById('iChart'),{type:'bar',
     data:{labels:inflow.map(r=>r[0]),datasets:[{data:inflow.map(r=>r[1]),
-      backgroundColor:inflow.map(r=>r[1]>100?'#8C2532':(r[1]<0?'#177245':BLUE)),borderWidth:0}]},
+      backgroundColor:inflow.map(r=>r[1]>100?'#8C2F1B':(r[1]<0?'#177245':BLUE)),borderWidth:0}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y<0?'Net outflow: departures exceeded arrivals':c.parsed.y+' policies arrived per 100 taken out'}}},
       scales:{y:{...AY,min:-20,max:150,grid:{color:ctx=>ctx.tick.value===0?'#9AA2AA':RULE,drawTicks:false},
           ticks:{...AY.ticks,stepSize:50}},x:{...AX}}},
     plugins:[{id:'thr',afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
-      ctx.save(); ctx.strokeStyle='#8C2532'; ctx.setLineDash([4,3]); ctx.beginPath();
+      ctx.save(); ctx.strokeStyle='#8C2F1B'; ctx.setLineDash([4,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#8C2532'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
+      ctx.fillStyle='#8C2F1B'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
       ctx.fillText('above 100: book grows despite takeouts',right,py-4); ctx.restore();}}]});
   // retained risk: gross vs net modeled loss by return period
     // Figure 7: risk transfer purchased and its price, audited notes 2017-2025
@@ -1257,7 +1257,7 @@ function renderPolicy(){
       {label:'Cat Fund coverage',data:rtF,backgroundColor:BLUE,stack:'c',order:2},
       {label:'Private and capital markets',data:rtP,backgroundColor:'#7A9CC4',stack:'c',order:2},
       {label:'Cat reinsurance premium, % of direct written premium',data:rtS,type:'line',yAxisID:'y2',
-       borderColor:'#A87B1F',backgroundColor:'#A87B1F',borderWidth:2.5,pointRadius:3,tension:.25,order:1}]},
+       borderColor:'#CCB26D',backgroundColor:'#CCB26D',borderWidth:2.5,pointRadius:3,tension:.25,order:1}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:11,font:{size:11}}},
         tooltip:{callbacks:{label:c=>c.datasetIndex===2?('Price: '+c.parsed.y.toFixed(1)+'% of written premium')
@@ -1295,15 +1295,15 @@ renderHome(); // homeowner view is the default
   function lerp(a,b,u){const h=s=>[1,3,5].map(i=>parseInt(s.slice(i,i+2),16));const A=h(a),B=h(b);
     return '#'+A.map((v,i)=>Math.round(v+(B[i]-v)*u).toString(16).padStart(2,'0')).join('');}
   const scales={
-    chg:{f:r=>{const v=r[1]-r[3];return v<0?lerp('#D9E2EE','#1F3A5F',Math.min(1,Math.abs(v)/120)):lerp('#F3E7CB','#A87B1F',Math.min(1,v/40));},
-         grad:'linear-gradient(90deg,#1F3A5F,#D9E2EE 60%,#F3E7CB 62%,#A87B1F)',lo:'\u2212$120',mid:'$0',hi:'+$40',
+    chg:{f:r=>{const v=r[1]-r[3];return v<0?lerp('#D9E2EE','#293C5C',Math.min(1,Math.abs(v)/120)):lerp('#F3E7CB','#CCB26D',Math.min(1,v/40));},
+         grad:'linear-gradient(90deg,#293C5C,#D9E2EE 60%,#F3E7CB 62%,#CCB26D)',lo:'\u2212$120',mid:'$0',hi:'+$40',
          tip:r=>sgn(r[1]-r[3])+' since Sept 2025<small>'+fmt(r[3])+' to '+fmt(r[1])+'</small>'},
-    wind:{f:r=>EXCL.has(r[0])?'url(#exclx)':lerp('#E8EDF4','#A87B1F',Math.min(1,wind(r)/80)),
-         grad:'linear-gradient(90deg,#E8EDF4,#A87B1F)',lo:'0%',mid:'40%',hi:'80% of premium',
+    wind:{f:r=>EXCL.has(r[0])?'url(#exclx)':lerp('#E8EDF4','#CCB26D',Math.min(1,wind(r)/80)),
+         grad:'linear-gradient(90deg,#E8EDF4,#CCB26D)',lo:'0%',mid:'40%',hi:'80% of premium',
          tip:r=>EXCL.has(r[0])?'Excluded from the wind analysis<small>small sample size; see note below the map</small>'
               :wind(r)+'% of premium buys wind<small>'+fmt(r[1])+' with wind, '+fmt(r[2])+' without</small>'},
-    lvl:{f:r=>lerp('#E8EDF4','#1F3A5F',Math.min(1,Math.max(0,(r[1]-2000)/6000))),
-         grad:'linear-gradient(90deg,#E8EDF4,#1F3A5F)',lo:'$2,000',mid:'$5,000',hi:'$8,000',
+    lvl:{f:r=>lerp('#E8EDF4','#293C5C',Math.min(1,Math.max(0,(r[1]-2000)/6000))),
+         grad:'linear-gradient(90deg,#E8EDF4,#293C5C)',lo:'$2,000',mid:'$5,000',hi:'$8,000',
          tip:r=>fmt(r[1])+' average premium<small>including wind, March 2026</small>'}};
   let metric='chg';
   const paths=[...document.querySelectorAll('.cty')];
@@ -1352,7 +1352,7 @@ renderHome(); // homeowner view is the default
     if(!fromMap) sel.value=n; 
     document.querySelectorAll('path.cty').forEach(p=>{
       p.style.strokeWidth = (p.dataset.n===n) ? '2.4' : '0.7';
-      p.style.stroke = (p.dataset.n===n) ? '#12213A' : '#ffffff';
+      p.style.stroke = (p.dataset.n===n) ? '#112337' : '#ffffff';
     });
   }
   sel.addEventListener('change',()=>{ if(sel.value) selectCounty(sel.value,false); });
@@ -1419,7 +1419,7 @@ renderHome(); // homeowner view is the default
     var rows=build(), bad=rows.filter(function(r){return !r.ok;});
     if(bad.length){
       console.warn('%cFlorida Insurance Watch, self-check: '+bad.length+' figure(s) not found in page text',
-                   'color:#8C2532;font-weight:700');
+                   'color:#8C2F1B;font-weight:700');
       console.table(bad.map(function(r){return {figure:r.label, computed:r.needle, found_in_text:'NO'};}));
       console.info('These numbers were recomputed from the data arrays but do not appear in the prose. '
                  + 'Either the text is stale after a data refresh, or the figure is rounded differently.');
@@ -1436,10 +1436,10 @@ renderHome(); // homeowner view is the default
     if(d){ d.remove(); return; }
     d=document.createElement('div'); d.id='selfcheck-panel';
     d.setAttribute('style','position:fixed;right:14px;bottom:14px;z-index:9999;max-width:430px;'
-      +'background:#fff;border:2px solid '+(bad.length?'#8C2532':'#1a7a4c')+';border-radius:4px;'
+      +'background:#fff;border:2px solid '+(bad.length?'#8C2F1B':'#1a7a4c')+';border-radius:4px;'
       +'padding:14px 16px;font:12.5px/1.55 "Inter",Helvetica,Arial,sans-serif;'
       +'box-shadow:0 6px 26px rgba(20,41,77,.20);max-height:70vh;overflow:auto');
-    var h='<div style="font-weight:700;color:'+(bad.length?'#8C2532':'#1a7a4c')+';margin-bottom:8px">'
+    var h='<div style="font-weight:700;color:'+(bad.length?'#8C2F1B':'#1a7a4c')+';margin-bottom:8px">'
       +(bad.length? bad.length+' figure(s) need attention' : 'All '+rows.length+' derived figures match')
       +'</div>';
     if(bad.length){

@@ -544,6 +544,245 @@
    "District of Columbia"
   ]
  },
+ "events": {
+  "note": "The dated watch list behind the Events view: hearings, rulings, deadlines, and elections through 2028, grouped in chronological phases. Dates are labels as published; judge nearness against as_of.",
+  "phases": [
+   {
+    "label": "Before the November election",
+    "events": [
+     {
+      "date": "Aug. 30, 2026",
+      "states": [
+       "NY"
+      ],
+      "title": "Pied-a-terre owner notices due; first compliance deadline of the new tax.",
+      "detail": "New York enacted an annual surcharge on NYC residences that are not the owner\u2019s primary home, effective July 1, 2026 through June 30, 2031, projected at roughly $500 million per year from about 10,000 to 13,000 properties. Condos and co-ops assessed at $1 million or more pay 4%, 5.25%, or 6.5% by tier; one-to-three-family homes at $5 million or more pay 0.8% to 1.3%. Owners must file notices establishing primary-residence status by Aug. 30; the Department of Finance finalized its implementation rules on July 14, 2026, covering residency determinations and audits, and exemption application deadlines were extended to Sept. 18. Why it matters: this is the first big-city tax keyed to property ownership rather than income, a template other cities are watching, and its rollout will show whether valuation and residency disputes make wealth-adjacent taxes administrable. Legal exposure is now live: on Aug. 7, 2026, three homeowners represented by former Deputy Mayor Randy Mastro sued in Richmond County Supreme Court over the rollout, and on Aug. 10 Justice Wayne M. Ozzi issued a temporary restraining order halting the published property list, further notices, and collection steps; the city\u2019s appeal stays the order, and a hearing is set for Aug. 31, one day after the notice deadline."
+     },
+     {
+      "date": "Wed., Sept. 9, 2026",
+      "states": [
+       "RI"
+      ],
+      "title": "Democratic gubernatorial primary.",
+      "detail": "Rhode Island enacted a phased millionaires surtax in June (1% on income over $1M in 2027, rising to 3% by 2029, top rate to 8.99%) plus a 0.5% annual surcharge on non-owner-occupied homes assessed over $1M. The primary decides whether the party\u2019s nominee comes from the wing that treated the enacted surtax as the compromise or the wing backing the broader Fair Share package (H 7313 / S 2238: a 3% surtax starting at $640K plus a 1% annual tax on financial assets over $25M, which would be the first true state wealth tax in America). Why it matters: the winner shapes whether Rhode Island\u2019s 2027 session stops at the enacted phase-in or reopens the wealth tax question."
+     },
+     {
+      "date": "Sept. 2026",
+      "states": [
+       "MA"
+      ],
+      "title": "Secretary\u2019s voter information booklet publishes for all nine certified questions.",
+      "detail": "Nine statewide questions were certified in July for the Nov. 3 ballot, tying the modern record set in 1972, 1976, and 1994, including the Chapter 62F rewrite (Question 5). The September booklet mails the official summaries and for/against arguments to every household, the single largest voter touchpoint before election day. Why it matters: 62F polling is soft and low-information; the official framing that lands in every mailbox materially shapes the outcome."
+     },
+     {
+      "date": "Late 2026 (no date set)",
+      "states": [
+       "WA"
+      ],
+      "title": "Petter v. Dept. of Revenue trial ruling, Klickitat County Superior Court.",
+      "detail": "The issue: whether Washington\u2019s new 9.9% tax on income over $1M (SB 6346, effective 2028) violates the state constitution. Under Culliton v. Chase (1933), income is property in Washington, and the constitution requires property to be taxed uniformly and caps it at 1%, which is why the state has never had a graduated income tax. Plaintiffs (business owners and trade associations, represented by former Attorney General Rob McKenna and former Justice Phil Talmadge) seek a declaratory judgment voiding the tax; the state will argue it is an excise, the theory that saved the capital gains tax in 2023. Potential impact: if struck down, roughly $3 billion per year in projected revenue from an estimated 21,000 filers disappears and the 90-year wall against graduated income taxation holds, chilling copycats in Oregon and beyond. If upheld, the wall falls in the state that built it. No ruling reported as of August 11, 2026; final resolution expected at the state Supreme Court in early 2027."
+     }
+    ]
+   },
+   {
+    "label": "Election Day: November 3, 2026",
+    "events": [
+     {
+      "date": "Nov. 3, 2026",
+      "states": [
+       "CA"
+      ],
+      "title": "Proposition 40 and Proposition 3 both resolve.",
+      "detail": "Prop 40 is a one-time 5% tax on net worth above $1 billion, covering resident individuals and applicable trusts, structured as a combined constitutional amendment and statute, the only true wealth tax on any American ballot, qualified with 980,438 valid signatures. Real estate, pensions, and retirement accounts are excluded; payment is due in 2027 or in five-year installments. Building a Better California, the opposition committee co-founded by Sergey Brin and Eric Schmidt, has reported more than $118 million raised, including $102 million contributed personally by Brin per filings disclosed through Aug. 7, 2026; supporters report just over $30 million, and the California Democratic Party endorsed the measure in a narrow executive-board vote in early August. Prop 3, sharing the ballot, would make the Prop 30-era top income brackets (top combined rate 13.3%) permanent past their scheduled expiration after tax year 2030. Potential impact: a Prop 40 win is the first voter-approved wealth tax in US history and the national template; a loss after $80M+ against it becomes the cautionary tale every other state coalition must answer. Either way, the result recalibrates every state\u2019s risk overnight."
+     },
+     {
+      "date": "Nov. 3, 2026",
+      "states": [
+       "WA"
+      ],
+      "title": "Initiative 645: repeal of the millionaires tax.",
+      "detail": "Certified for the ballot on July 15, 2026 with more than 500,000 signatures against a 308,911 requirement, I-645 (Let\u2019s Go Washington) would repeal SB 6346 and prohibit state and local taxes on individual income. Why it matters: this is the direct democratic verdict on the tax, running in parallel with the Petter litigation; repeal moots the court fight, while a failed repeal strengthens the state\u2019s position and the national contagion argument. The ballot-language fight is already in court: on Aug. 7, 2026 a Thurston County judge upheld the government-drafted fiscal-impact disclosure that will appear beside the measure, and an emergency appeal reached the state Supreme Court on Aug. 10, racing the Aug. 21 county ballot-finalization deadline."
+     },
+     {
+      "date": "Nov. 3, 2026",
+      "states": [
+       "MA"
+      ],
+      "title": "The 62F tax-cap question (Question 5).",
+      "detail": "Chapter 62F is the 1986 law that refunds taxpayers when state tax collections grow faster than wages; it triggered in 2022, returning about $3 billion. The ballot question rewrites the formula two ways: it rebases the cap to actual collections and pulls Fair Share surtax revenue into the capped base. Modeled effect (MTF): the cap would have triggered in four of the last ten years, with refunds of roughly $269 to $1,095 per filer. Potential impact: passage converts the surtax\u2019s over-performance into automatic refund pressure, effectively a second round of the Fair Share fight; defeat leaves the surtax revenue fully outside the cap and removes the main structural check on its growth. A second front opened in late July: the state Senate voted 31\u20138 on July 23, 2026 to fold a 62F rewrite into the economic development bill, replacing the cap formula with a trigger at 7.5% of statewide personal income; the provision sits in a House-Senate conference as of Aug. 11, and if enacted it would complicate or moot the ballot question."
+     },
+     {
+      "date": "Nov. 3, 2026",
+      "states": [
+       "WA"
+      ],
+      "title": "Five of nine state Supreme Court seats on the ballot.",
+      "detail": "A wave of retirements and appointments put a majority of the court\u2019s seats up in one cycle. Whoever wins will almost certainly decide the Petter appeal in 2027, the final ruling on whether the millionaires tax survives. Potential impact: this is the rare election where judicial races directly determine a multi-billion-dollar tax outcome; both sides\u2019 spending and candidate positioning on Culliton-era precedent are the tells to watch."
+     },
+     {
+      "date": "Nov. 3, 2026",
+      "states": [
+       "VT"
+      ],
+      "title": "Legislative races.",
+      "detail": "Vermont\u2019s 2026 wealth-tax package (investment income taxes plus a new top-1% bracket, roughly $170M per year by 2028 per reported committee materials) died because Gov. Scott opposed it and Democrats lost their veto-proof supermajority in 2024. The package is pre-built and legislators expect the debate to resume in 2027. Potential impact: a restored two-thirds supermajority removes the only binding constraint; Vermont could then enact over a veto in the 2027 session, making these down-ballot races one of the highest-leverage tax events in the country."
+     },
+     {
+      "date": "Nov. 3, 2026",
+      "states": [
+       "CT"
+      ],
+      "title": "Governorship and both chambers.",
+      "detail": "Gov. Lamont has publicly opposed income tax rate increases and no high-income bill advanced in 2026, but the legislature\u2019s progressive caucus has pushed surtax proposals repeatedly, and a statewide mansion tax proposal surfaced this year (Foley Wealth Tax Watch). Potential impact: Connecticut is a one-election state; a governor aligned with the caucus converts blocked proposals into live vehicles in 2027."
+     },
+     {
+      "date": "Nov. 3, 2026",
+      "states": [
+       "NC"
+      ],
+      "title": "Constitutional amendment capping the income tax rate at 3.5%.",
+      "detail": "North Carolina\u2019s 2026 budget (S.L. 2026-41 / S.B. 257, Sec. 44.1, signed July 7, 2026) rewrote G.S. 105-153.7 to replace the trigger-dependent schedule with date-certain cuts: 3.99% for 2026, 3.49% for tax years 2027 to 2029, 3.24% for 2030 to 2032, and 2.99% after 2032, with revenue triggers permitting further quarter-point reductions to a 2.49% floor. The companion legislatively referred amendment, approved by both chambers in May 2026, would lower the constitutional income tax cap from 7% (approved by voters in 2018) to 3.5%; a second referred amendment on the same ballot would limit local property tax increases. Why it matters here: a 3.5% ceiling would make North Carolina the largest state with a hard constitutional bar against any future high-earner bracket, converting the cut-side divergence into constitutional text."
+     },
+     {
+      "date": "Nov. 3, 2026 (MO: RESOLVED Aug. 4)",
+      "states": [
+       "UT",
+       "ND",
+       "SD",
+       "MO"
+      ],
+      "title": "Four states vote on raising their own initiative thresholds; Missouri\u2019s failed.",
+      "detail": "Four states put measures before voters making their citizen-initiative processes harder to use (higher signature requirements or approval thresholds; Utah\u2019s SJR 2 targets tax measures specifically). RESOLVED (MO): on Aug. 4, 2026, Missouri voters decisively rejected Amendment 4, which would have required citizen-initiated constitutional amendments to also carry a majority in every congressional district, 80.3% to 19.7%; all eight congressional districts voted no, and the companion Amendment 5, which would have created a path toward eliminating the individual income tax, also failed with 83.3% opposed (Missouri Independent, Aug. 4\u20135; Springfield Daily Citizen, Aug. 6, 2026). Utah, North Dakota, and South Dakota vote Nov. 3. Why it matters here: the initiative pathway is how wealth taxes reach voters where legislatures will not act, California\u2019s Prop 40 route. Every state that raises its threshold closes that door a little, and Missouri\u2019s emphatic rejection is the first 2026 data point that voters will defend the open door; the November results reshape the Ballot Access layer of the map and the long-run geography of where these fights can even occur."
+     }
+    ]
+   },
+   {
+    "label": "2027",
+    "events": [
+     {
+      "date": "Jan. 1, 2027",
+      "states": [
+       "RI"
+      ],
+      "title": "Surtax phase one begins collecting: 1% on income over $1M.",
+      "detail": "The first new-state surtax collection since Massachusetts. First-year revenue against the roughly $142M full-phase-in estimate becomes the next data point in the national argument, and the compliance experience (estimated payments, withholding on the new bracket) previews the 2% and 3% steps."
+     },
+     {
+      "date": "Jan. 1, 2027",
+      "states": [
+       "HI"
+      ],
+      "title": "The 13% bracket on income over $1M (joint) takes effect (Act 24).",
+      "detail": "Hawaii becomes the second-highest state rate after California\u2019s 13.3%. Watch first-year filer behavior in a state with unusual migration friction (an island economy) and whether the dormant Rhoads wealth tax bill (1% on net assets over $20M) is refiled on the strength of the new bracket\u2019s revenue."
+     },
+     {
+      "date": "Jan. 1, 2027",
+      "states": [
+       "NE",
+       "MT",
+       "IN",
+       "MS"
+      ],
+      "title": "Cut-side steps take effect: NE 3.99%, MT 5.4%, IN 2.9%, MS 3.75%.",
+      "detail": "The other half of the national divergence: enacted, date-certain reductions in four states the same day two states raise. The widening spread between the two Americas is the backdrop for every migration and competitiveness argument in the raising states."
+     },
+     {
+      "date": "Jan.-Feb. 2027",
+      "states": [
+       "VA"
+      ],
+      "title": "Does the Democratic trifecta refile the high-income bills.",
+      "detail": "Virginia became a full Democratic trifecta in January 2026 when Gov. Spanberger took office. HB 979 (new 8% and 10% brackets at $600K and $1M) and HB 378 (a 3.8% net investment income tax) were filed in 2026 and died at the March adjournment; the governor neither endorsed nor pledged to sign them, and state revenues ran 2.9% ahead of forecast. Potential impact: refiling with leadership support in the roughly 46-day short session would make Virginia the first Southern state with a live millionaire-bracket vehicle; both chambers are on the Nov. 2027 ballot, which cuts both ways on appetite."
+     },
+     {
+      "date": "Jan.-May 2027",
+      "states": [
+       "VT"
+      ],
+      "title": "Does the wealth-tax package return, and with whose name on it.",
+      "detail": "The tell is sponsorship: a rank-and-file refile repeats 2026, but House or Senate leadership sponsorship signals a decision to spend capital, especially if November restored a supermajority. The package\u2019s contents (investment income taxes plus a top-1% bracket) are already drafted."
+     },
+     {
+      "date": "Jan.-May 2027",
+      "states": [
+       "MN"
+      ],
+      "title": "First high-income vehicle from the trifecta, or another quiet session.",
+      "detail": "Minnesota already taxes net investment income over $1M at 1% (enacted 2023, effective tax year 2024) and has the political composition to go further, but no bill has been filed. A filed vehicle moves it up the risk board immediately; another quiet session confirms the 2023 measure as the ceiling for now."
+     },
+     {
+      "date": "Early 2027",
+      "states": [
+       "WA"
+      ],
+      "title": "Petter reaches the state Supreme Court.",
+      "detail": "The final constitutional test of the millionaires tax, decided by the bench the November elections just shaped, and mooted if I-645 repealed the tax. The question is whether the court reaffirms Culliton (income is property, graduated rates unconstitutional) or extends the 2023 excise reasoning to an income tax. Potential impact: the ruling either voids roughly $3B per year before first collections in 2029, or formally ends the constitutional barrier that has defined Washington tax policy since 1933, with immediate contagion effects on Oregon\u2019s 2028 plans."
+     },
+     {
+      "date": "April 1, 2027",
+      "states": [
+       "NY"
+      ],
+      "title": "FY2027-28 budget: does the NYC income surtax return.",
+      "detail": "Mamdani\u2019s $5.5B package, including a 2% NYC surtax on high earners, was rejected in 2026; the pied-a-terre tax and state aid closed the gap instead. City budget documents project deficits in FY2028-29, and Gov. Hochul has publicly opposed income tax rate increases. Potential impact: the budget shows whether the pied-a-terre tax bought a durable truce or one year; a surtax revival against projected gaps would be the largest single high-earner tax fight in the country by dollar value."
+     },
+     {
+      "date": "Aug. 4, 2027",
+      "states": [
+       "MA"
+      ],
+      "title": "Initiative filing deadline with the Attorney General (first Wednesday of August).",
+      "detail": "The gateway for the 2028 ballot. Watch for: a refiled income tax cut, which Republican gubernatorial candidate Brian Shortsleeve has publicly vowed to lead for 2028 after the SJC removed the 2026 version (State House News, June 2026; under the Article 48 calendar no 2028 petition can be filed before this 2027 window, and none had been filed as of Aug. 11, 2026); and any statutory filing on capital gains rates or the estate tax, the two expansion routes that remain open without a constitutional amendment (the surtax itself cannot be expanded before a 2030 amendment ballot at the earliest). Potential impact: what gets filed here defines the entire 2028 Massachusetts fight."
+     },
+     {
+      "date": "Oct. 2027",
+      "states": [
+       "MA"
+      ],
+      "title": "FY2027 Fair Share certification.",
+      "detail": "Year four of the revenue number driving national adoption: $2.2B, then $2.99B, then $3.38B, each more than double the original $1.2B estimate. The revenue is capital-gains-heavy and has only existed in a rising market. Potential impact: another beat extends the proponents\u2019 best argument into the 2028 cycle; a first miss or decline is the first empirical crack, and every state watching will reprice."
+     }
+    ]
+   },
+   {
+    "label": "2028",
+    "events": [
+     {
+      "date": "Jan. 1, 2028",
+      "states": [
+       "RI"
+      ],
+      "title": "Surtax phase two: 2%.",
+      "detail": "The ratchet\u2019s second step, arriving during the 2028 session in which the broader Fair Share package (including the 1% financial-assets tax) will be pressed again under the governor elected in November 2026."
+     },
+     {
+      "date": "Jan. 1, 2028",
+      "states": [
+       "WA"
+      ],
+      "title": "The 9.9% tax takes effect, if it survived.",
+      "detail": "Assuming the tax survived both the Supreme Court and the I-645 repeal vote, it attaches to income earned from this date, with first returns and payments in 2029. Withholding, estimated-payment behavior, and any pre-effective-date relocations become the first hard data on a new-state income tax at this rate."
+     },
+     {
+      "date": "Nov. 7, 2028",
+      "states": [
+       "IL"
+      ],
+      "title": "Next constitutional-amendment election.",
+      "detail": "Illinois\u2019s flat-tax clause (Art. IX, Sec. 3) forecloses any graduated surtax by statute; HJRCA 21 (a 3% surtax over $1M) missed the 2026 ballot deadline. Nov. 2028 is the next opportunity, and the 2020 graduated-tax amendment\u2019s 53-47 defeat is the base rate. Potential impact: passage would unlock the largest currently-barred state; a second defeat likely closes the question for a decade."
+     },
+     {
+      "date": "Nov. 7, 2028",
+      "states": [
+       "OR"
+      ],
+      "title": "Next initiative election.",
+      "detail": "IP 70 (a 2% annual wealth tax over $30M) failed to qualify in 2026, with press accounts of its filings reporting about $2,325 raised against a 117,173-signature requirement. Oregon\u2019s open initiative process (simple majority) keeps the door structurally open; whether 2028 brings a funded campaign depends heavily on the CA Prop 40 result and the WA court outcome."
+     }
+    ]
+   }
+  ]
+ },
  "states": {
   "AK": {
    "abbr": "AK",

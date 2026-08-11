@@ -46,6 +46,7 @@ const GOLDEN = [
   ["What does homeowners insurance cost in Miami-Dade?", ["answer"], "DL-10"],
   ["Which states are considering a wealth tax?", ["answer"], "DL-04"],
   ["What is California's top income tax rate?", ["answer"], "DL-04"],
+  ["What events should I watch over the next 2 months regarding wealth and high earner taxes?", ["answer"], "DL-04"],
   ["Should I move to Texas to avoid taxes?", ["none"], null],
   ["Will Proposition 40 pass in November?", ["none"], null],
   ["How safe is the MBTA?", ["none", "route"], null],

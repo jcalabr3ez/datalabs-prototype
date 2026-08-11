@@ -6,24 +6,38 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
 ## What is in this repository
 
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
-    catalog.json                   The catalog: 10 topic categories with their
-                                   legacy dashboards, plus the three flagships
-                                   (DL-04, DL-10, DL-12) and the archive (page copy)
+    catalog.json                   CANONICAL catalog: topic categories, legacy
+                                   dashboards, the three flagships, the archive
     mbta/index.html                DL-12 Transportation & MBTA flagship page
-    mbta/answers.json              DL-12 answer layer (derived from recovered data)
+    mbta/answers.json              GENERATED copy of the DL-12 ledger
     florida-insurance/index.html   DL-10 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-04 State Tax Atlas flagship page
-    netlify/functions/ask.js       The engine: holds the API key, answers or routes
-    netlify/functions/catalog.json Engine copy of the catalog
-    netlify/functions/dl12-answers.json  Engine copy of the DL-12 answer layer
-    netlify/functions/fl-answers.json    DL-10 answer ledger (engine only)
-    netlify.toml                   Tells Netlify where the site and functions live
+    netlify/functions/ask.js       The engine: two stages. A router model reads
+                                   the catalog and each tool's scope, then an
+                                   answer model gets only the routed tool's
+                                   ledger, under a JSON schema. Holds the key.
+    netlify/functions/tools.js     Per-tool manifests. Adding an AI-enabled tool
+                                   = one dataset JSON + one entry here.
+    netlify/functions/catalog.json GENERATED copy of the root catalog
+    netlify/functions/dl12-answers.json  CANONICAL DL-12 (MBTA) ledger
+    netlify/functions/fl-answers.json    CANONICAL DL-10 (Florida) ledger
+    netlify/functions/dl04-answers.json  CANONICAL DL-04 (Tax Atlas) ledger
+    scripts/inject_data.py         Build step: regenerates every embedded page
+                                   copy from the canonical ledgers (see below)
+    scripts/refresh_dl12.py        Recomputes the DL-12 ledger from the live
+                                   FTA NTD API; run by the monthly workflow
+    scripts/check_freshness.py     Fails when a ledger ages past its cadence
+    scripts/eval_engine.mjs        Golden-question eval against the live engine
+    .github/workflows/             The automation (see Step 7)
+    netlify.toml                   Site, functions, and the build command
     SETUP.md                       This file
 
-Note: catalog.json and the DL-12 answers file exist in two places (page copy
-and engine copy). For the prototype, edit both if you change one. The
-production build script eliminates this duplication. The DL-10 ledger
-(fl-answers.json) lives only in the engine.
+Single source of truth: the canonical files above are the only ones you edit.
+Everything marked GENERATED, and every DATA:BEGIN/END block inside the pages,
+is rewritten by scripts/inject_data.py, which runs locally (python3
+scripts/inject_data.py) and as the Netlify build command on every deploy, so
+pages can never ship out of sync with the ledgers. Edit a canonical file,
+run the script (or just push; the build runs it), and every copy follows.
 
 ## Step 1: Get an Anthropic API key (5 minutes)
 
@@ -145,6 +159,37 @@ Part C, connect the site:
 Notes: logging is fire-and-forget with a short timeout and can never
 break the ask box; to revoke, turn the flow off or remove the
 variable.
+
+## Step 7: The automation (10 minutes, one secret)
+
+Four GitHub Actions workflows keep the data and the engine honest. Two need
+the ANTHROPIC_API_KEY as a repository secret: GitHub repo > Settings >
+Secrets and variables > Actions > New repository secret, name
+ANTHROPIC_API_KEY, value from Step 1 (a separate key from the Netlify one
+is fine and easier to meter).
+
+    dl12-refresh.yml   Monthly. Refetches MBTA ridership from the FTA NTD
+                       API, recomputes the ledger, and opens a PULL REQUEST.
+                       Review the diff (historical revisions show up there),
+                       merge, and the deploy carries the new data. Needs no
+                       secret. First run: Actions tab > DL-12 ridership
+                       refresh > Run workflow.
+    checks.yml         Weekly and on every PR. Fails when a ledger ages past
+                       its publisher cadence, when a generated page block is
+                       out of sync with its canonical ledger, or when the
+                       engine manifests do not load. Needs no secret.
+    eval.yml           Weekly. Runs golden questions through the REAL engine
+                       (both model stages) and asserts each routes to the
+                       right tool with a cited, linked answer. This is the
+                       regression net for prompt edits. Needs the secret.
+    dl04-research.yml  EXPERIMENTAL, manual-trigger only. Claude walks the
+                       tax atlas source register, checks what is due, and
+                       drafts ledger updates as a PR for editor review.
+                       Needs the secret. Add a cron only after the first few
+                       runs earn trust.
+
+Nothing in the automation pushes to main; everything lands as a pull
+request a person reviews. Merging to main is what deploys.
 
 ## Later: moving to Pioneer accounts
 

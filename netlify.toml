@@ -1,3 +1,4 @@
 [build]
   publish = "."
+  command = "python3 scripts/inject_data.py"
   functions = "netlify/functions"

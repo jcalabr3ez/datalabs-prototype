@@ -1,0 +1,23 @@
+# Golden-question eval: runs the real two-stage engine against the live
+# Anthropic API and asserts routing and answer shape. Catches prompt
+# regressions (like scope misdeclines) before users do.
+# Requires the ANTHROPIC_API_KEY repository secret.
+name: Engine eval
+
+on:
+  schedule:
+    - cron: "41 11 * * 1" # Mondays 11:41 UTC
+  workflow_dispatch: {}
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run golden questions through the engine
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/eval_engine.mjs

@@ -1,0 +1,43 @@
+# Repository checks: ledger freshness, injection sync, engine harness shape.
+# Freshness also runs weekly so staleness surfaces without waiting for a PR.
+name: Checks
+
+on:
+  pull_request: {}
+  schedule:
+    - cron: "23 10 * * 1" # Mondays 10:23 UTC
+  workflow_dispatch: {}
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Ledger freshness vs publisher cadence
+        run: python3 scripts/check_freshness.py
+      - name: Embedded copies in sync with canonical ledgers
+        run: |
+          python3 scripts/inject_data.py
+          if ! git diff --quiet; then
+            echo "::error::generated blocks out of sync; run python3 scripts/inject_data.py and commit"
+            git diff --stat
+            exit 1
+          fi
+      - name: Engine loads and shapes responses (no API key needed)
+        run: node --input-type=module -e "
+          import { createRequire } from 'node:module';
+          const require = createRequire(process.cwd() + '/');
+          const tools = require('./netlify/functions/tools.js');
+          if (tools.length < 3) { throw new Error('expected 3+ tool manifests'); }
+          for (const t of tools) {
+            for (const f of ['id','label','routerScope','dataset','modelSlice','highlight','rules','link','src']) {
+              if (!(f in t)) throw new Error(t.id + ' missing ' + f);
+            }
+            JSON.stringify(t.modelSlice(t.dataset));
+          }
+          require('./netlify/functions/ask.js');
+          console.log('tools.js and ask.js load; ' + tools.length + ' manifests valid');
+          "

@@ -1,0 +1,52 @@
+# EXPERIMENTAL: scheduled research pass over the State Tax Atlas.
+# The atlas's source register carries publisher cadence and next-release
+# dates; this job has Claude walk that register, check what is due, and
+# draft ledger updates as a pull request for human review. Nothing merges
+# or deploys without a person approving the PR.
+#
+# Dispatch-only until the first few runs are reviewed; then add a cron
+# (suggested: "0 12 * * 2", Tuesdays) once the output earns trust.
+# Requires the ANTHROPIC_API_KEY repository secret.
+name: DL-04 research pass
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            You are running the scheduled research pass for the Pioneer DataLabs
+            State Tax Atlas (DL-04). The canonical ledger is
+            netlify/functions/dl04-answers.json; the page's source register
+            (tax-atlas/index.html, "Data Sources" section) lists every source
+            with its cadence, current vintage, and next expected release.
+
+            1. Read the ledger's as_of date and the source register.
+            2. Identify sources whose next-release date has passed or whose
+               tracked events (hearings, rulings, certifications, elections)
+               were dated before today.
+            3. For each, check the source and determine what changed.
+            4. Apply factual updates to netlify/functions/dl04-answers.json
+               ONLY where you have a verifiable source: status changes,
+               resolved events, new filings. Update as_of. Never invent
+               figures; anything unverified is described as pending. Keep the
+               house style: no em dashes anywhere, every figure names its
+               instrument or source.
+            5. Run: python3 scripts/inject_data.py
+            6. Open a pull request titled "DL-04: research pass updates" whose
+               body lists each change with its source URL, plus anything due
+               that you could NOT verify (flag those clearly for the editor).
+
+            If nothing is due and nothing changed, open no PR; print a short
+            "nothing due" summary instead.
+          claude_args: "--allowedTools Bash(python3:*),Bash(git:*),Bash(gh:*),Read,Write,Edit,Glob,Grep,WebFetch,WebSearch"

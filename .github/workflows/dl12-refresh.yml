@@ -1,0 +1,41 @@
+# Monthly DL-12 ridership refresh from the FTA NTD Socrata API.
+# Opens a pull request; never pushes to main (a push deploys the site).
+# The PR diff is where NTD's occasional historical revisions get reviewed.
+name: DL-12 ridership refresh
+
+on:
+  schedule:
+    - cron: "17 9 5 * *" # 5th of each month, 09:17 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh ledger from NTD and re-inject pages
+        run: python3 scripts/refresh_dl12.py
+      - name: Freshness report
+        run: python3 scripts/check_freshness.py || true
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/dl12-refresh
+          title: "DL-12: refresh MBTA ridership from FTA NTD"
+          commit-message: "DL-12: refresh MBTA ridership from FTA NTD"
+          body: |
+            Automated monthly refresh from FTA NTD Complete Monthly Ridership
+            (dataset 8bui-9xvu, ntd_id 10003) via scripts/refresh_dl12.py.
+
+            Review the ledger diff before merging: any change to historical
+            months is an NTD revision and worth a note; new months extend the
+            series. Cost and farebox figures are untouched (LEG-MBTA-01,
+            pending separate verification). Merging to main deploys the site.
+          delete-branch: true

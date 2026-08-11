@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""Refresh the DL-12 MBTA ridership ledger from the FTA NTD Socrata API.
+
+Source: Complete Monthly Ridership (with adjustments and estimates),
+dataset 8bui-9xvu on data.transportation.gov, ntd_id 10003 (MBTA).
+This is the same source and agency id the ledger was verified against.
+
+Recomputes every ridership-derived field (monthly totals, annual by mode,
+latest month, recovery vs 2019, YoY, derived rollups) and preserves the
+legacy cost/farebox fields (LEG-MBTA-01), which come from a different
+source and are pending separate verification.
+
+Writes netlify/functions/dl12-answers.json and re-runs inject_data.py so
+every embedded copy follows. Designed to run in CI and open a PR: it
+never pushes to main itself, and a human reviews the diff (the NTD
+occasionally revises history; the diff is where that shows up).
+
+Exits nonzero when the fetched data fails sanity checks.
+"""
+import json
+import subprocess
+import sys
+import urllib.request
+from collections import defaultdict
+from datetime import date
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+LEDGER = ROOT / "netlify/functions/dl12-answers.json"
+API = "https://data.transportation.gov/resource/8bui-9xvu.json"
+NTD_ID = "10003"
+
+
+def fetch_rows():
+    rows, offset, limit = [], 0, 50000
+    while True:
+        url = f"{API}?ntd_id={NTD_ID}&$limit={limit}&$offset={offset}"
+        with urllib.request.urlopen(url, timeout=120) as r:
+            page = json.load(r)
+        rows.extend(page)
+        if len(page) < limit:
+            return rows
+        offset += limit
+
+
+def month_key(iso):
+    return iso[:7]  # "2026-06-01T00:00:00.000" -> "2026-06"
+
+
+MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July",
+               "August", "September", "October", "November", "December"]
+
+
+def main():
+    old = json.loads(LEDGER.read_text(encoding="utf-8"))
+    rows = fetch_rows()
+    if len(rows) < 1000:
+        sys.exit(f"FATAL: only {len(rows)} rows fetched; expected thousands")
+
+    monthly = defaultdict(int)              # "YYYY-MM" -> total upt
+    annual_mode = defaultdict(lambda: defaultdict(int))  # year -> mode -> upt
+    latest_mode = defaultdict(int)
+    for r in rows:
+        upt = int(float(r.get("upt") or 0))
+        if upt <= 0:
+            continue
+        mk = month_key(r["date"])
+        monthly[mk] += upt
+        annual_mode[mk[:4]][r["mode"]] += upt
+
+    months = sorted(monthly)
+    months = [m for m in months if m >= "2014-01"]  # ledger series starts 2014
+    if not months:
+        sys.exit("FATAL: no months after 2014-01")
+    as_of = months[-1]
+
+    # ---- sanity checks ----
+    # continuity: no missing month in the series
+    y, m = map(int, months[0].split("-"))
+    for mk in months:
+        want = f"{y:04d}-{m:02d}"
+        if mk != want:
+            sys.exit(f"FATAL: month gap, expected {want}, found {mk}")
+        m += 1
+        if m == 13:
+            y, m = y + 1, 1
+    # never move backwards
+    if as_of < old["as_of"]:
+        sys.exit(f"FATAL: fetched as_of {as_of} is older than ledger {old['as_of']}")
+    # totals look like the MBTA (tens of millions in normal months)
+    if not (1_000_000 < monthly[as_of] < 60_000_000):
+        sys.exit(f"FATAL: implausible latest-month total {monthly[as_of]}")
+
+    # latest month by-mode split
+    for r in rows:
+        if month_key(r["date"]) == as_of:
+            upt = int(float(r.get("upt") or 0))
+            if upt > 0:
+                latest_mode[r["mode"]] += upt
+
+    # recovery vs same month 2019, per mode and total
+    base_month = "2019-" + as_of[5:]
+    base_mode = defaultdict(int)
+    for r in rows:
+        if month_key(r["date"]) == base_month:
+            upt = int(float(r.get("upt") or 0))
+            if upt > 0:
+                base_mode[r["mode"]] += upt
+    if not base_mode:
+        sys.exit(f"FATAL: no baseline data for {base_month}")
+    recovery = {"TOTAL": round(100 * monthly[as_of] / monthly[base_month], 1)}
+    for mode, v in latest_mode.items():
+        if base_mode.get(mode):
+            recovery[mode] = round(100 * v / base_mode[mode], 1)
+
+    # YoY change
+    prev_year_month = f"{int(as_of[:4]) - 1}-{as_of[5:]}"
+    yoy = round(100 * (monthly[as_of] / monthly[prev_year_month] - 1), 1) if monthly.get(prev_year_month) else None
+
+    # ---- assemble the new ledger ----
+    new = dict(old)
+    new["as_of"] = as_of
+    new["monthly_total_upt"] = [{"m": mk, "v": monthly[mk]} for mk in months]
+    # annual by mode: full years only, matching the ledger's existing style of
+    # including the current partial year is avoided (old ledger stops at last full year)
+    last_full_year = as_of[:4] if as_of.endswith("-12") else str(int(as_of[:4]) - 1)
+    new["annual_upt_by_mode"] = {
+        yr: dict(sorted(annual_mode[yr].items()))
+        for yr in sorted(annual_mode) if "2014" <= yr <= last_full_year
+    }
+    new["latest_month"] = {
+        "month": as_of,
+        "total_upt": monthly[as_of],
+        "by_mode": dict(sorted(latest_mode.items())),
+    }
+    new["recovery_vs_2019_same_month_pct"] = recovery
+    new["recovery_baseline"] = "Same month 2019 (" + MONTH_NAMES[int(as_of[5:7]) - 1] + ")"
+    if yoy is not None:
+        new["yoy_change_pct"] = yoy
+    new["vintage_note"] = (
+        "Ridership rebuilt from FTA NTD Complete Monthly Ridership (dataset 8bui-9xvu, "
+        f"data.transportation.gov), refreshed to {as_of} on {date.today().isoformat()} "
+        "by scripts/refresh_dl12.py; monthly totals, annual mode cells, and the latest "
+        "mode split are computed directly from the live dataset. Cost and farebox "
+        "figures remain from the legacy extract, pending verification."
+    )
+
+    # derived rollups (mirror of the engine's expectations)
+    def name_of(c):
+        return new["mode_names"].get(c, c)
+    modes = [m for m in recovery if m != "TOTAL"]
+    by_rec = sorted(modes, key=lambda c: -recovery[c])
+    cost = new["annual_cost_and_farebox"]
+    new["derived"] = {
+        "note": ("Precomputed from the series above; prefer these over recomputing. "
+                 "Recovery and ridership cite (derived, SRC-301); cost and farebox cite (derived, LEG-MBTA-01)."),
+        "modes_ranked_by_recovery_vs_2019": [
+            {"code": c, "mode": name_of(c), "pct_of_2019": recovery[c]} for c in by_rec
+        ],
+        "modes_above_2019": [name_of(c) for c in by_rec if recovery[c] >= 100],
+        "modes_ranked_by_cost_per_trip_cheapest_first": [
+            {"mode": r["mode"], "tos": r["tos"], "cost_per_trip": r["cost_per_trip"]}
+            for r in sorted(cost, key=lambda r: r["cost_per_trip"])
+        ],
+        "modes_ranked_by_farebox_recovery": [
+            {"mode": r["mode"], "tos": r["tos"], "recovery_ratio_pct": r["recovery_ratio"]}
+            for r in sorted(cost, key=lambda r: -r["recovery_ratio"])
+        ],
+        "latest_month_modes_ranked_by_riders": [
+            {"code": c, "mode": name_of(c), "upt": v}
+            for c, v in sorted(latest_mode.items(), key=lambda kv: -kv[1])
+        ],
+        "annual_total_upt": {
+            yr: sum(annual_mode[yr].values())
+            for yr in sorted(annual_mode) if "2014" <= yr <= last_full_year
+        },
+    }
+
+    LEDGER.write_text(json.dumps(new, ensure_ascii=True, indent=1) + "\n", encoding="utf-8")
+
+    # summary for the PR body / logs
+    changed_months = sum(
+        1 for mk in months
+        if not any(e["m"] == mk and e["v"] == monthly[mk] for e in old["monthly_total_upt"])
+    )
+    print(f"refresh_dl12: as_of {old['as_of']} -> {as_of}; "
+          f"{len(months)} months in series; {changed_months} month values new or revised")
+
+    subprocess.run([sys.executable, str(ROOT / "scripts/inject_data.py")], check=True)
+
+
+if __name__ == "__main__":
+    main()

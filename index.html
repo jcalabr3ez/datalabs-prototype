@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pioneer DataLabs — Numbers that show their work</title>
+<title>Pioneer DataLabs · Numbers that show their work</title>
 <meta name="description" content="Ask about Boston, Massachusetts, any of the fifty states, or Florida. Every answer cites its primary source.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -254,7 +254,7 @@
   <section class="sec frame" id="answers">
     <div class="lab">The desk</div>
     <h2>The flagships</h2>
-    <p class="sub">Rebuilt and verified by Pioneer, led by a live number. The ones marked ASK answer questions in your own words &#8212; and every figure cites its primary source.</p>
+    <p class="sub">Rebuilt and verified by Pioneer, led by a live number. The ones marked ASK answer questions in your own words, and every figure cites its primary source.</p>
     <div id="deskList"></div>
   </section>
 
@@ -438,13 +438,13 @@ const CHART_TITLES = {
   var cards = [
     { place:'FLORIDA', id:'DL-10', ask:true, url:'/florida-insurance/',
       stat:flLast.toLocaleString('en-US'),
-      sub:'homes still on Citizens, the state insurer of last resort — down '+Math.round((1-flLast/flPeak)*100)+'% from the 2023 peak',
+      sub:'homes still on Citizens, the state insurer of last resort, down '+Math.round((1-flLast/flPeak)*100)+'% from the 2023 peak',
       spark:spark(FLPIF, function(r){return r[1];}),
       q:'What does homeowners insurance cost in Miami-Dade?', qshort:'What does Miami-Dade pay?',
       status:'<b>&#9679; Live</b> · FL OIR, Citizens, NAIC · through June 2026' },
     { place:'MASSACHUSETTS', id:'DL-12', ask:true, url:'/mbta/',
       stat:rec.TOTAL+'%',
-      sub:'of pre-pandemic MBTA ridership'+(rec.CR>=100?' — commuter rail is above 2019':''),
+      sub:'of pre-pandemic MBTA ridership'+(rec.CR>=100?', with commuter rail above 2019':''),
       spark:spark(DL12.monthly_total_upt.slice(-24), function(d){return d.v;}),
       q:'Is the T back to pre-pandemic ridership?', qshort:'Is the T back?',
       status:'<b>&#9679; Live</b> · verified against FTA NTD · through May 2026' },

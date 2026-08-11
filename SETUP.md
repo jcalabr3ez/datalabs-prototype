@@ -6,17 +6,24 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
 ## What is in this repository
 
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
-    catalog.json                   The 13 flagships (page copy)
-    dl-12/index.html               Transportation & MBTA flagship page
-    dl-12/answers.json             The answer layer (derived from recovered data)
+    catalog.json                   The catalog: 10 topic categories with their
+                                   legacy dashboards, plus the three flagships
+                                   (DL-04, DL-10, DL-12) and the archive (page copy)
+    mbta/index.html                DL-12 Transportation & MBTA flagship page
+    mbta/answers.json              DL-12 answer layer (derived from recovered data)
+    florida-insurance/index.html   DL-10 Florida Insurance Watch flagship page
+    tax-atlas/index.html           DL-04 State Tax Atlas flagship page
     netlify/functions/ask.js       The engine: holds the API key, answers or routes
     netlify/functions/catalog.json Engine copy of the catalog
-    netlify/functions/dl12-answers.json  Engine copy of the answer layer
+    netlify/functions/dl12-answers.json  Engine copy of the DL-12 answer layer
+    netlify/functions/fl-answers.json    DL-10 answer ledger (engine only)
     netlify.toml                   Tells Netlify where the site and functions live
+    SETUP.md                       This file
 
-Note: catalog.json and the answers file exist in two places (page copy and
-engine copy). For the prototype, edit both if you change one. The production
-build script eliminates this duplication.
+Note: catalog.json and the DL-12 answers file exist in two places (page copy
+and engine copy). For the prototype, edit both if you change one. The
+production build script eliminates this duplication. The DL-10 ledger
+(fl-answers.json) lives only in the engine.
 
 ## Step 1: Get an Anthropic API key (5 minutes)
 
@@ -61,12 +68,15 @@ Command line path:
 ## Step 4: Test the three behaviors (5 minutes)
 
 Open the site, Ask tab:
-1. "Is commuter rail back to 2019 levels?"  -> a sourced ANSWER with
-   (LEG-MBTA-01) citations and follow-up questions.
-2. "Is my town safe?"                        -> ROUTES to Your City & Town.
-3. "Is the Red Line safe?"                   -> honest DECLINE (out of the
+1. "Is commuter rail back to 2019 levels?"  -> a sourced DL-12 ANSWER with
+   (SRC-301) citations and follow-up questions.
+2. "What does home insurance cost in Miami-Dade?" -> a sourced DL-10 ANSWER
+   with (SRC-FL-01) citations and a link into /florida-insurance/.
+3. "Is my town safe?"                        -> ROUTES to Your City & Town.
+4. "Is the Red Line safe?"                   -> honest DECLINE (out of the
    dataset's scope), logged.
-4. Click through to /dl-12/ and ask there too.
+5. Click through to /mbta/, /florida-insurance/, and /tax-atlas/ and check
+   each flagship loads.
 
 If the answer box says the engine hit a snag: check the function log
 (Netlify > Logs > Functions > ask) and confirm the environment variable is
@@ -81,6 +91,10 @@ set and a redeploy happened after setting it.
   next month rather than billing you.
 - Coverage gaps: unanswered questions appear in the ask function log,
   timestamped. That log is the research agenda input.
+- Optional durable log: set a QUESTION_LOG_URL environment variable in
+  Netlify to a webhook URL (e.g. a Google Apps Script that appends to a
+  Sheet) and every question is POSTed there as JSON. Fire-and-forget;
+  logging can never break the ask box.
 
 ## Later: moving to Pioneer accounts
 

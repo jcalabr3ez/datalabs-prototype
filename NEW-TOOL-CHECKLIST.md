@@ -42,9 +42,10 @@ Conventions every ledger follows:
 
 ## 2. The flagship page (dlXX-slug/index.html)
 
-- [ ] House design system: lift the shared stylesheet base (navy #1F3A5F /
-      bar #12213A, gold #A87B1F / #E9C46A, green #177245, maroon #8C2532;
-      Newsreader heds, Public Sans UI, IBM Plex Mono data), the proto strip,
+- [ ] House design system: lift the shared stylesheet base (Pioneer brand,
+      matches pioneerinstitute.org: navy #293C5C / bar #112337, gold #CCB26D,
+      grey #666666, ink #222222, cream #FCFBF6; status green #177245, amber
+      #B26A00, maroon #8C2F1B; Libre Bodoni heds, Roboto UI and data), the proto strip,
       dark hero with dateline, exhibits with ex-head numbering and
       srclines, "How this is calculated" folds, the source register as a
       table.reg with cadence / vintage / next release columns, dark footer,

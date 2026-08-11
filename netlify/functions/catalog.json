@@ -1609,7 +1609,7 @@
  {
   "id": "DL-12",
   "t": "Transportation & MBTA",
-  "q": "How the T performs, mode by mode, against 2019 and its costs.",
+  "q": "How the T performs, mode by mode: ridership against 2019, service and productivity, reliability, and costs.",
   "g": [
    "MA",
    "US"

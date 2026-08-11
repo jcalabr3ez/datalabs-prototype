@@ -810,7 +810,7 @@
   }
  ],
  "annual_cost_note": "VERIFIED: cost per trip and farebox recovery are computed from FTA NTD Annual Metrics (dataset ekg5-frzt, data.transportation.gov), report years 2022 to 2024, as operating expenses / unlinked trips and fare revenues / operating expenses (SRC-302). The recovered legacy extract (LEG-MBTA-01) was identified as report year 2024 and is superseded.",
- "scope": "Covers MBTA ridership (unlinked passenger trips), service levels, and per-trip cost/farebox by mode. Does NOT cover: safety, reliability/on-time performance, capital budget, debt, fares charged to riders, or other transit agencies.",
+ "scope": "Covers MBTA ridership (unlinked passenger trips), service supplied and productivity (vehicle revenue hours and miles, trips per revenue hour), reliability for bus, commuter rail, ferry, and The RIDE, and per-trip cost/farebox, all by mode. Does NOT cover: subway or Green Line reliability (the MBTA measures those with Excess Trip Time), safety, capital budget, debt, fares charged to riders, or other transit agencies.",
  "derived": {
   "note": "Precomputed from the series above; prefer these over recomputing. Recovery and ridership cite (derived, SRC-301); cost and farebox cite (derived, SRC-302).",
   "cost_per_trip_trend_2022_to_2024": [
@@ -1306,5 +1306,1205 @@
     "upt": 905096
    }
   ]
+ },
+ "service": {
+  "as_of": "2026-06",
+  "source_id": "SRC-301",
+  "latest_full_year": "2025",
+  "note": "Service supplied is the vehicle revenue miles (VRM) and vehicle revenue hours (VRH) the MBTA operated, from the same federal monthly file as ridership (dataset 8bui-9xvu, SRC-301). Productivity is unlinked passenger trips per vehicle revenue hour. Recovery figures compare the latest full year to full-year 2019. Trolleybus (discontinued 2022) is excluded.",
+  "monthly_vrm_total": [
+   {
+    "m": "2014-01",
+    "v": 7900240
+   },
+   {
+    "m": "2014-02",
+    "v": 7333720
+   },
+   {
+    "m": "2014-03",
+    "v": 8077351
+   },
+   {
+    "m": "2014-04",
+    "v": 8073456
+   },
+   {
+    "m": "2014-05",
+    "v": 8083060
+   },
+   {
+    "m": "2014-06",
+    "v": 7920071
+   },
+   {
+    "m": "2014-07",
+    "v": 7990711
+   },
+   {
+    "m": "2014-08",
+    "v": 7909670
+   },
+   {
+    "m": "2014-09",
+    "v": 7872293
+   },
+   {
+    "m": "2014-10",
+    "v": 8489514
+   },
+   {
+    "m": "2014-11",
+    "v": 7643820
+   },
+   {
+    "m": "2014-12",
+    "v": 8094025
+   },
+   {
+    "m": "2015-01",
+    "v": 7593774
+   },
+   {
+    "m": "2015-02",
+    "v": 6142979
+   },
+   {
+    "m": "2015-03",
+    "v": 7804634
+   },
+   {
+    "m": "2015-04",
+    "v": 8057463
+   },
+   {
+    "m": "2015-05",
+    "v": 7860678
+   },
+   {
+    "m": "2015-06",
+    "v": 7935205
+   },
+   {
+    "m": "2015-07",
+    "v": 8199685
+   },
+   {
+    "m": "2015-08",
+    "v": 7903039
+   },
+   {
+    "m": "2015-09",
+    "v": 7847231
+   },
+   {
+    "m": "2015-10",
+    "v": 8162189
+   },
+   {
+    "m": "2015-11",
+    "v": 7672582
+   },
+   {
+    "m": "2015-12",
+    "v": 8194562
+   },
+   {
+    "m": "2016-01",
+    "v": 7844963
+   },
+   {
+    "m": "2016-02",
+    "v": 7571266
+   },
+   {
+    "m": "2016-03",
+    "v": 8352594
+   },
+   {
+    "m": "2016-04",
+    "v": 7857568
+   },
+   {
+    "m": "2016-05",
+    "v": 8060315
+   },
+   {
+    "m": "2016-06",
+    "v": 8089417
+   },
+   {
+    "m": "2016-07",
+    "v": 7864482
+   },
+   {
+    "m": "2016-08",
+    "v": 8264483
+   },
+   {
+    "m": "2016-09",
+    "v": 7884129
+   },
+   {
+    "m": "2016-10",
+    "v": 8012638
+   },
+   {
+    "m": "2016-11",
+    "v": 7863526
+   },
+   {
+    "m": "2016-12",
+    "v": 8055924
+   },
+   {
+    "m": "2017-01",
+    "v": 7973027
+   },
+   {
+    "m": "2017-02",
+    "v": 7268916
+   },
+   {
+    "m": "2017-03",
+    "v": 8218162
+   },
+   {
+    "m": "2017-04",
+    "v": 7784439
+   },
+   {
+    "m": "2017-05",
+    "v": 8167398
+   },
+   {
+    "m": "2017-06",
+    "v": 8543518
+   },
+   {
+    "m": "2017-07",
+    "v": 7783617
+   },
+   {
+    "m": "2017-08",
+    "v": 8170533
+   },
+   {
+    "m": "2017-09",
+    "v": 7587089
+   },
+   {
+    "m": "2017-10",
+    "v": 8008227
+   },
+   {
+    "m": "2017-11",
+    "v": 7693489
+   },
+   {
+    "m": "2017-12",
+    "v": 7864423
+   },
+   {
+    "m": "2018-01",
+    "v": 7708917
+   },
+   {
+    "m": "2018-02",
+    "v": 7251144
+   },
+   {
+    "m": "2018-03",
+    "v": 7873002
+   },
+   {
+    "m": "2018-04",
+    "v": 7709622
+   },
+   {
+    "m": "2018-05",
+    "v": 8084108
+   },
+   {
+    "m": "2018-06",
+    "v": 7837789
+   },
+   {
+    "m": "2018-07",
+    "v": 7869934
+   },
+   {
+    "m": "2018-08",
+    "v": 8160253
+   },
+   {
+    "m": "2018-09",
+    "v": 7812710
+   },
+   {
+    "m": "2018-10",
+    "v": 8226035
+   },
+   {
+    "m": "2018-11",
+    "v": 7736925
+   },
+   {
+    "m": "2018-12",
+    "v": 7514630
+   },
+   {
+    "m": "2019-01",
+    "v": 7965577
+   },
+   {
+    "m": "2019-02",
+    "v": 7109635
+   },
+   {
+    "m": "2019-03",
+    "v": 7886394
+   },
+   {
+    "m": "2019-04",
+    "v": 7961177
+   },
+   {
+    "m": "2019-05",
+    "v": 8172749
+   },
+   {
+    "m": "2019-06",
+    "v": 7553941
+   },
+   {
+    "m": "2019-07",
+    "v": 7821174
+   },
+   {
+    "m": "2019-08",
+    "v": 7871656
+   },
+   {
+    "m": "2019-09",
+    "v": 7608786
+   },
+   {
+    "m": "2019-10",
+    "v": 8214545
+   },
+   {
+    "m": "2019-11",
+    "v": 7633674
+   },
+   {
+    "m": "2019-12",
+    "v": 7692631
+   },
+   {
+    "m": "2020-01",
+    "v": 7887936
+   },
+   {
+    "m": "2020-02",
+    "v": 7383313
+   },
+   {
+    "m": "2020-03",
+    "v": 6525351
+   },
+   {
+    "m": "2020-04",
+    "v": 4827094
+   },
+   {
+    "m": "2020-05",
+    "v": 5103338
+   },
+   {
+    "m": "2020-06",
+    "v": 5729173
+   },
+   {
+    "m": "2020-07",
+    "v": 6784141
+   },
+   {
+    "m": "2020-08",
+    "v": 6663123
+   },
+   {
+    "m": "2020-09",
+    "v": 7046288
+   },
+   {
+    "m": "2020-10",
+    "v": 7328511
+   },
+   {
+    "m": "2020-11",
+    "v": 7037090
+   },
+   {
+    "m": "2020-12",
+    "v": 6675831
+   },
+   {
+    "m": "2021-01",
+    "v": 6051322
+   },
+   {
+    "m": "2021-02",
+    "v": 5824528
+   },
+   {
+    "m": "2021-03",
+    "v": 6190961
+   },
+   {
+    "m": "2021-04",
+    "v": 6577913
+   },
+   {
+    "m": "2021-05",
+    "v": 6865821
+   },
+   {
+    "m": "2021-06",
+    "v": 6927082
+   },
+   {
+    "m": "2021-07",
+    "v": 7204765
+   },
+   {
+    "m": "2021-08",
+    "v": 7028112
+   },
+   {
+    "m": "2021-09",
+    "v": 6949529
+   },
+   {
+    "m": "2021-10",
+    "v": 7383347
+   },
+   {
+    "m": "2021-11",
+    "v": 6851319
+   },
+   {
+    "m": "2021-12",
+    "v": 7064134
+   },
+   {
+    "m": "2022-01",
+    "v": 6713924
+   },
+   {
+    "m": "2022-02",
+    "v": 6255249
+   },
+   {
+    "m": "2022-03",
+    "v": 7124557
+   },
+   {
+    "m": "2022-04",
+    "v": 6841074
+   },
+   {
+    "m": "2022-05",
+    "v": 6903021
+   },
+   {
+    "m": "2022-06",
+    "v": 6777013
+   },
+   {
+    "m": "2022-07",
+    "v": 6547032
+   },
+   {
+    "m": "2022-08",
+    "v": 6750971
+   },
+   {
+    "m": "2022-09",
+    "v": 6396043
+   },
+   {
+    "m": "2022-10",
+    "v": 6566702
+   },
+   {
+    "m": "2022-11",
+    "v": 6398761
+   },
+   {
+    "m": "2022-12",
+    "v": 6445870
+   },
+   {
+    "m": "2023-01",
+    "v": 6592460
+   },
+   {
+    "m": "2023-02",
+    "v": 6027733
+   },
+   {
+    "m": "2023-03",
+    "v": 6660320
+   },
+   {
+    "m": "2023-04",
+    "v": 6264444
+   },
+   {
+    "m": "2023-05",
+    "v": 6515422
+   },
+   {
+    "m": "2023-06",
+    "v": 6279067
+   },
+   {
+    "m": "2023-07",
+    "v": 6341407
+   },
+   {
+    "m": "2023-08",
+    "v": 6569205
+   },
+   {
+    "m": "2023-09",
+    "v": 6239871
+   },
+   {
+    "m": "2023-10",
+    "v": 6716054
+   },
+   {
+    "m": "2023-11",
+    "v": 6436638
+   },
+   {
+    "m": "2023-12",
+    "v": 6512637
+   },
+   {
+    "m": "2024-01",
+    "v": 6669087
+   },
+   {
+    "m": "2024-02",
+    "v": 6337147
+   },
+   {
+    "m": "2024-03",
+    "v": 6846025
+   },
+   {
+    "m": "2024-04",
+    "v": 6961665
+   },
+   {
+    "m": "2024-05",
+    "v": 7123437
+   },
+   {
+    "m": "2024-06",
+    "v": 6744160
+   },
+   {
+    "m": "2024-07",
+    "v": 7040161
+   },
+   {
+    "m": "2024-08",
+    "v": 7167319
+   },
+   {
+    "m": "2024-09",
+    "v": 6977632
+   },
+   {
+    "m": "2024-10",
+    "v": 7571375
+   },
+   {
+    "m": "2024-11",
+    "v": 6974365
+   },
+   {
+    "m": "2024-12",
+    "v": 7357679
+   },
+   {
+    "m": "2025-01",
+    "v": 7566290
+   },
+   {
+    "m": "2025-02",
+    "v": 6755469
+   },
+   {
+    "m": "2025-03",
+    "v": 7648465
+   },
+   {
+    "m": "2025-04",
+    "v": 7875053
+   },
+   {
+    "m": "2025-05",
+    "v": 7844240
+   },
+   {
+    "m": "2025-06",
+    "v": 7475014
+   },
+   {
+    "m": "2025-07",
+    "v": 7883482
+   },
+   {
+    "m": "2025-08",
+    "v": 7761065
+   },
+   {
+    "m": "2025-09",
+    "v": 7725659
+   },
+   {
+    "m": "2025-10",
+    "v": 8163607
+   },
+   {
+    "m": "2025-11",
+    "v": 7364381
+   },
+   {
+    "m": "2025-12",
+    "v": 7860457
+   },
+   {
+    "m": "2026-01",
+    "v": 7569489
+   },
+   {
+    "m": "2026-02",
+    "v": 6819917
+   },
+   {
+    "m": "2026-03",
+    "v": 8032910
+   },
+   {
+    "m": "2026-04",
+    "v": 8170815
+   },
+   {
+    "m": "2026-05",
+    "v": 8181528
+   },
+   {
+    "m": "2026-06",
+    "v": 6961414
+   }
+  ],
+  "annual_totals": {
+   "2014": {
+    "vrm": 95387931,
+    "vrh": 6590138,
+    "upt": 413980833,
+    "trips_per_vrh": 62.8
+   },
+   "2015": {
+    "vrm": 93374021,
+    "vrh": 6548070,
+    "upt": 398593667,
+    "trips_per_vrh": 60.9
+   },
+   "2016": {
+    "vrm": 95721305,
+    "vrh": 6757997,
+    "upt": 392882044,
+    "trips_per_vrh": 58.1
+   },
+   "2017": {
+    "vrm": 95062838,
+    "vrh": 6974684,
+    "upt": 380108259,
+    "trips_per_vrh": 54.5
+   },
+   "2018": {
+    "vrm": 93785069,
+    "vrh": 7342269,
+    "upt": 370307249,
+    "trips_per_vrh": 50.4
+   },
+   "2019": {
+    "vrm": 93491939,
+    "vrh": 7440506,
+    "upt": 366337756,
+    "trips_per_vrh": 49.2
+   },
+   "2020": {
+    "vrm": 78991189,
+    "vrh": 5878255,
+    "upt": 148952250,
+    "trips_per_vrh": 25.3
+   },
+   "2021": {
+    "vrm": 80918833,
+    "vrh": 5953684,
+    "upt": 164231468,
+    "trips_per_vrh": 27.6
+   },
+   "2022": {
+    "vrm": 79720217,
+    "vrh": 5926752,
+    "upt": 219207284,
+    "trips_per_vrh": 37.0
+   },
+   "2023": {
+    "vrm": 77155258,
+    "vrh": 5973847,
+    "upt": 243250065,
+    "trips_per_vrh": 40.7
+   },
+   "2024": {
+    "vrm": 83770052,
+    "vrh": 6450971,
+    "upt": 262213033,
+    "trips_per_vrh": 40.6
+   },
+   "2025": {
+    "vrm": 91923182,
+    "vrh": 6692328,
+    "upt": 271847321,
+    "trips_per_vrh": 40.6
+   }
+  },
+  "by_mode": {
+   "CR": {
+    "mode": "Commuter Rail",
+    "vrh_latest": 956119,
+    "vrm_latest": 27447103,
+    "upt_latest": 29797929,
+    "trips_per_vrh_latest": 31.2,
+    "vrh_2019": 841021,
+    "trips_per_vrh_2019": 37.9,
+    "vrh_pct_of_2019": 113.7,
+    "vrm_pct_of_2019": 108.5,
+    "upt_pct_of_2019": 93.5
+   },
+   "DR": {
+    "mode": "The RIDE (paratransit)",
+    "vrh_latest": 947556,
+    "vrm_latest": 10222032,
+    "upt_latest": 1148295,
+    "trips_per_vrh_latest": 1.2,
+    "vrh_2019": 1395926,
+    "trips_per_vrh_2019": 1.3,
+    "vrh_pct_of_2019": 67.9,
+    "vrm_pct_of_2019": 67.1,
+    "upt_pct_of_2019": 63.4
+   },
+   "FB": {
+    "mode": "Ferry",
+    "vrh_latest": 32522,
+    "vrm_latest": 321104,
+    "upt_latest": 1502610,
+    "trips_per_vrh_latest": 46.2,
+    "vrh_2019": 24436,
+    "trips_per_vrh_2019": 67.0,
+    "vrh_pct_of_2019": 133.1,
+    "vrm_pct_of_2019": 122.5,
+    "upt_pct_of_2019": 91.8
+   },
+   "HR": {
+    "mode": "Heavy Rail (subway)",
+    "vrh_latest": 1576170,
+    "vrm_latest": 24929125,
+    "upt_latest": 101656916,
+    "trips_per_vrh_latest": 64.5,
+    "vrh_2019": 1450747,
+    "trips_per_vrh_2019": 109.7,
+    "vrh_pct_of_2019": 108.6,
+    "vrm_pct_of_2019": 109.0,
+    "upt_pct_of_2019": 63.9
+   },
+   "LR": {
+    "mode": "Light Rail (Green Line)",
+    "vrh_latest": 687470,
+    "vrm_latest": 6343391,
+    "upt_latest": 42423232,
+    "trips_per_vrh_latest": 61.7,
+    "vrh_2019": 719088,
+    "trips_per_vrh_2019": 78.4,
+    "vrh_pct_of_2019": 95.6,
+    "vrm_pct_of_2019": 114.3,
+    "upt_pct_of_2019": 75.2
+   },
+   "MB": {
+    "mode": "Bus",
+    "vrh_latest": 2338188,
+    "vrm_latest": 21234968,
+    "upt_latest": 85356703,
+    "trips_per_vrh_latest": 36.5,
+    "vrh_2019": 2768412,
+    "trips_per_vrh_2019": 36.4,
+    "vrh_pct_of_2019": 84.5,
+    "vrm_pct_of_2019": 95.4,
+    "upt_pct_of_2019": 84.6
+   },
+   "RB": {
+    "mode": "Bus Rapid Transit",
+    "vrh_latest": 154303,
+    "vrm_latest": 1425459,
+    "upt_latest": 9961636,
+    "trips_per_vrh_latest": 64.6,
+    "vrh_2019": 180439,
+    "trips_per_vrh_2019": 64.4,
+    "vrh_pct_of_2019": 85.5,
+    "vrm_pct_of_2019": 95.6,
+    "upt_pct_of_2019": 85.7
+   }
+  },
+  "derived": {
+   "note": "Precomputed from the series above; prefer these over recomputing. All service and productivity figures cite (derived, SRC-301).",
+   "systemwide_vs_2019_full_year": {
+    "vrh_pct_of_2019": 89.9,
+    "vrm_pct_of_2019": 98.3,
+    "upt_pct_of_2019": 74.2,
+    "trips_per_vrh_2019": 49.2,
+    "trips_per_vrh_latest": 40.6
+   },
+   "productivity_ranked_latest": [
+    {
+     "code": "RB",
+     "mode": "Bus Rapid Transit",
+     "trips_per_vrh": 64.6,
+     "trips_per_vrh_2019": 64.4,
+     "pct_change_from_2019": 0.3
+    },
+    {
+     "code": "HR",
+     "mode": "Heavy Rail (subway)",
+     "trips_per_vrh": 64.5,
+     "trips_per_vrh_2019": 109.7,
+     "pct_change_from_2019": -41.2
+    },
+    {
+     "code": "LR",
+     "mode": "Light Rail (Green Line)",
+     "trips_per_vrh": 61.7,
+     "trips_per_vrh_2019": 78.4,
+     "pct_change_from_2019": -21.3
+    },
+    {
+     "code": "FB",
+     "mode": "Ferry",
+     "trips_per_vrh": 46.2,
+     "trips_per_vrh_2019": 67.0,
+     "pct_change_from_2019": -31.0
+    },
+    {
+     "code": "MB",
+     "mode": "Bus",
+     "trips_per_vrh": 36.5,
+     "trips_per_vrh_2019": 36.4,
+     "pct_change_from_2019": 0.3
+    },
+    {
+     "code": "CR",
+     "mode": "Commuter Rail",
+     "trips_per_vrh": 31.2,
+     "trips_per_vrh_2019": 37.9,
+     "pct_change_from_2019": -17.7
+    },
+    {
+     "code": "DR",
+     "mode": "The RIDE (paratransit)",
+     "trips_per_vrh": 1.2,
+     "trips_per_vrh_2019": 1.3,
+     "pct_change_from_2019": -7.7
+    }
+   ],
+   "service_above_2019_full_year": [
+    "Commuter Rail",
+    "Ferry",
+    "Heavy Rail (subway)"
+   ]
+  }
+ },
+ "reliability": {
+  "as_of": "2026-05",
+  "source_id": "SRC-303",
+  "metric_note": "Reliability is the share of trips that met the MBTA's headway or schedule-adherence standard, from the MBTA Open Data Portal (SRC-303). Trailing-year figures cover the twelve months ending at each mode's own latest month. Bus, commuter rail, and The RIDE are volume weighted; ferry is an unweighted mean of line-level monthly on-time performance.",
+  "excludes_note": "Subway (Red, Orange, Blue) and the Green Line are not included here: the MBTA measures rapid transit reliability with Excess Trip Time, a different method adopted December 2024 that is not comparable to this headway series.",
+  "modes": {
+   "MB": {
+    "mode": "Bus",
+    "as_of": "2026-05",
+    "ttm_pct": 70.2,
+    "ttm_window": "2025-06 to 2026-05",
+    "latest_full_year": "2025",
+    "latest_full_year_pct": 70.2,
+    "pct_2019": 68.0,
+    "method": "Volume weighted share of trips meeting the headway or schedule-adherence standard. The adjusted metric applies from August 2025 with the Bus Network Redesign.",
+    "annual": [
+     {
+      "y": "2016",
+      "pct": 68.1
+     },
+     {
+      "y": "2017",
+      "pct": 67.2
+     },
+     {
+      "y": "2018",
+      "pct": 67.0
+     },
+     {
+      "y": "2019",
+      "pct": 68.0
+     },
+     {
+      "y": "2020",
+      "pct": 73.5
+     },
+     {
+      "y": "2021",
+      "pct": 73.0
+     },
+     {
+      "y": "2022",
+      "pct": 71.2
+     },
+     {
+      "y": "2023",
+      "pct": 68.6
+     },
+     {
+      "y": "2024",
+      "pct": 67.4
+     },
+     {
+      "y": "2025",
+      "pct": 70.2
+     },
+     {
+      "y": "2026",
+      "pct": 70.7,
+      "partial": true
+     }
+    ]
+   },
+   "CR": {
+    "mode": "Commuter Rail",
+    "as_of": "2026-03",
+    "ttm_pct": 89.9,
+    "ttm_window": "2025-04 to 2026-03",
+    "latest_full_year": "2025",
+    "latest_full_year_pct": 91.6,
+    "pct_2019": 88.6,
+    "method": "Volume weighted share of trips meeting the schedule-adherence standard.",
+    "annual": [
+     {
+      "y": "2016",
+      "pct": 89.2
+     },
+     {
+      "y": "2017",
+      "pct": 88.7
+     },
+     {
+      "y": "2018",
+      "pct": 89.1
+     },
+     {
+      "y": "2019",
+      "pct": 88.6
+     },
+     {
+      "y": "2020",
+      "pct": 93.4
+     },
+     {
+      "y": "2021",
+      "pct": 92.7
+     },
+     {
+      "y": "2022",
+      "pct": 92.4
+     },
+     {
+      "y": "2023",
+      "pct": 93.3
+     },
+     {
+      "y": "2024",
+      "pct": 91.3
+     },
+     {
+      "y": "2025",
+      "pct": 91.6
+     },
+     {
+      "y": "2026",
+      "pct": 86.3,
+      "partial": true
+     }
+    ]
+   },
+   "FB": {
+    "mode": "Ferry",
+    "as_of": "2026-03",
+    "ttm_pct": 98.7,
+    "ttm_window": "2026",
+    "latest_full_year": "2026",
+    "latest_full_year_pct": 98.7,
+    "pct_2019": null,
+    "method": "Unweighted mean of line-level monthly on-time performance. Ferry data begins in 2021, so there is no 2019 baseline.",
+    "annual": [
+     {
+      "y": "2021",
+      "pct": 98.8
+     },
+     {
+      "y": "2022",
+      "pct": 99.6
+     },
+     {
+      "y": "2023",
+      "pct": 99.0
+     },
+     {
+      "y": "2024",
+      "pct": 97.6
+     },
+     {
+      "y": "2025",
+      "pct": 98.6
+     },
+     {
+      "y": "2026",
+      "pct": 98.7,
+      "partial": true
+     }
+    ]
+   },
+   "DR": {
+    "mode": "The RIDE",
+    "as_of": "2025-07",
+    "ttm_pct": 94.2,
+    "ttm_window": "2024-08 to 2025-07",
+    "latest_full_year": "2024",
+    "latest_full_year_pct": 93.0,
+    "pct_2019": 90.3,
+    "method": "Volume weighted share of on-time pickups for The RIDE paratransit service.",
+    "annual": [
+     {
+      "y": "2014",
+      "pct": 90.1
+     },
+     {
+      "y": "2015",
+      "pct": 86.4
+     },
+     {
+      "y": "2016",
+      "pct": 89.6
+     },
+     {
+      "y": "2017",
+      "pct": 90.2
+     },
+     {
+      "y": "2018",
+      "pct": 91.2
+     },
+     {
+      "y": "2019",
+      "pct": 90.3
+     },
+     {
+      "y": "2020",
+      "pct": 94.2
+     },
+     {
+      "y": "2021",
+      "pct": 89.2
+     },
+     {
+      "y": "2022",
+      "pct": 90.6
+     },
+     {
+      "y": "2023",
+      "pct": 87.1
+     },
+     {
+      "y": "2024",
+      "pct": 93.0
+     },
+     {
+      "y": "2025",
+      "pct": 94.2,
+      "partial": true
+     }
+    ]
+   }
+  },
+  "commuter_rail_by_line_ttm": [
+   {
+    "line": "Lowell Line",
+    "pct": 95.1
+   },
+   {
+    "line": "Haverhill Line",
+    "pct": 92.3
+   },
+   {
+    "line": "Fairmount Line",
+    "pct": 92.0
+   },
+   {
+    "line": "Kingston/Plymouth Line",
+    "pct": 91.0
+   },
+   {
+    "line": "Greenbush Line",
+    "pct": 90.9
+   },
+   {
+    "line": "Framingham/Worcester Line",
+    "pct": 90.3
+   },
+   {
+    "line": "Needham Line",
+    "pct": 89.3
+   },
+   {
+    "line": "Newburyport/Rockport Line",
+    "pct": 89.2
+   },
+   {
+    "line": "Fitchburg Line",
+    "pct": 88.0
+   },
+   {
+    "line": "Providence/Stoughton Line",
+    "pct": 86.9
+   },
+   {
+    "line": "Franklin Line",
+    "pct": 81.9
+   }
+  ],
+  "bus_routes_ttm": {
+   "min_trips": 200000,
+   "worst": [
+    {
+     "route": "8",
+     "name": "Harbor Point - Kenmore Station",
+     "pct": 51.8
+    },
+    {
+     "route": "455",
+     "name": "Salem Depot - Wonderland Station",
+     "pct": 51.9
+    },
+    {
+     "route": "44",
+     "name": "Jackson Square Station - Ruggles Station",
+     "pct": 55.2
+    },
+    {
+     "route": "47",
+     "name": "Central Square, Cambridge - Broadway Station",
+     "pct": 56.3
+    },
+    {
+     "route": "34E",
+     "name": "Walpole Center - Forest Hills Station",
+     "pct": 58.3
+    }
+   ],
+   "best": [
+    {
+     "route": "111",
+     "name": "Woodlawn - Haymarket Station",
+     "pct": 82.0
+    },
+    {
+     "route": "741",
+     "name": "Logan Airport Terminals - South Station",
+     "pct": 81.3
+    },
+    {
+     "route": "743",
+     "name": "Chelsea Station - South Station",
+     "pct": 81.1
+    },
+    {
+     "route": "104",
+     "name": "Malden Center Station - Airport Station",
+     "pct": 80.4
+    },
+    {
+     "route": "749",
+     "name": "Nubian Station - Temple Place",
+     "pct": 80.3
+    }
+   ]
+  },
+  "ferry_by_line_latest_year": [
+   {
+    "line": "East Boston",
+    "pct": 100.0
+   },
+   {
+    "line": "Charlestown",
+    "pct": 99.5
+   },
+   {
+    "line": "Hingham",
+    "pct": 98.3
+   },
+   {
+    "line": "Hingham/Hull",
+    "pct": 97.8
+   }
+  ],
+  "derived": {
+   "note": "Precomputed rankings; all reliability figures cite (SRC-303).",
+   "modes_ranked_by_reliability_ttm": [
+    {
+     "code": "FB",
+     "mode": "Ferry",
+     "pct": 98.7
+    },
+    {
+     "code": "DR",
+     "mode": "The RIDE",
+     "pct": 94.2
+    },
+    {
+     "code": "CR",
+     "mode": "Commuter Rail",
+     "pct": 89.9
+    },
+    {
+     "code": "MB",
+     "mode": "Bus",
+     "pct": 70.2
+    }
+   ]
+  }
  }
 }

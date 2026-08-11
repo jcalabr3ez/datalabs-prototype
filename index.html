@@ -38,11 +38,6 @@
   .pibar-in { display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px; }
   .pilogo { color:#fff; font-weight:700; font-size:13.5px; letter-spacing:.14em; }
   .pilogo:hover { opacity:.9; color:#fff; }
-  .pinav { display:flex; align-items:center; gap:22px; font-size:13px; font-weight:500; }
-  .pinav a { color:#C9D2E0; }
-  .pinav a:hover { color:#fff; }
-  .pinav .on { color:#fff; border-bottom:2px solid #A87B1F; padding-bottom:3px; }
-  @media (max-width:560px){ .pinav a:not(.on){ display:none; } }
 
   /* ---------- hero: The Atlas ---------- */
   .heroA { position:relative; overflow:hidden; color:#fff;
@@ -205,6 +200,11 @@
   .irow .fdot { transform:translateY(-1px); }
   .itopic.arch .ith b { color:var(--grey); }
   .itopic.arch .irow a { color:var(--grey); font-weight:500; }
+  details.arch summary { cursor:pointer; list-style:none; }
+  details.arch summary::-webkit-details-marker { display:none; }
+  details.arch summary b::before { content:'\25B8\00A0\00A0'; color:var(--faint); }
+  details[open].arch summary b::before { content:'\25BE\00A0\00A0'; }
+  details.arch summary:hover b { color:var(--ink); }
   .noresult { padding:18px 2px; font-size:13.5px; color:var(--faint); }
   @media (max-width:900px){ .idx { column-count:1; } }
   @media (max-width:800px){
@@ -259,13 +259,6 @@
 
 <header class="pibar"><div class="frame pibar-in">
     <a class="pilogo" href="https://pioneerinstitute.org">PIONEER INSTITUTE</a>
-    <nav class="pinav">
-      <a href="https://pioneerinstitute.org">Policy Priorities</a>
-      <a href="https://pioneerinstitute.org">Newsroom</a>
-      <a class="on" href="/">DataLabs</a>
-      <a href="https://pioneerinstitute.org">Events</a>
-      <a href="https://pioneerinstitute.org">About</a>
-    </nav>
 </div></header>
 
 <main>
@@ -276,7 +269,6 @@
         <div class="heroAsk">
           <div class="kick">PIONEER DATALABS</div>
           <h1>From city hall to all fifty states, <em>ask a question.</em></h1>
-          <p class="dek">Public money, schools, taxes, transit.</p>
           <div class="askpanel">
             <div class="askline">
               <input id="q" type="text" placeholder="Is the T back to pre-pandemic ridership?" aria-label="Ask a question" maxlength="400">
@@ -287,7 +279,7 @@
         </div>
         <div class="heroBrowse">
           <div class="kick">PIONEER DATALABS</div>
-          <h1>Public money, schools, taxes, and transit, <em>traced to the source.</em></h1>
+          <h1>From city hall to all fifty states, <em>traced to the source.</em></h1>
           <p class="dek">Browse every DataLabs application across Massachusetts, the fifty states, and Florida.</p>
           <div class="herocta">
             <a class="btn-primary" href="#directory">Browse the catalog</a>
@@ -429,8 +421,12 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
 
   function dotCls(r){ return r.vage==='red'?'f-r':(r.vage==='amb'?'f-a':(r.vint?'f-g':'f-n')); }
   document.getElementById('dirList').innerHTML = sections.map(function(s){
-    return '<section class="itopic'+(s.arch?' arch':'')+'" id="dir-'+esc(s.id)+'">' +
-      '<div class="ith"><b>'+esc(s.name)+'</b><span data-n>'+s.rows.length+'</span></div>' +
+    // Archive collapses to its head line; everything else is an open section.
+    var open = '<section class="itopic" id="dir-'+esc(s.id)+'">' +
+      '<div class="ith"><b>'+esc(s.name)+'</b><span data-n>'+s.rows.length+'</span></div>';
+    if (s.arch) open = '<details class="itopic arch" id="dir-'+esc(s.id)+'">' +
+      '<summary class="ith"><b>'+esc(s.name)+'</b><span data-n>'+s.rows.length+'</span></summary>';
+    return open +
       s.rows.map(function(r){
         var ext = r.u && r.u.charAt(0)!=='/' ? ' target="_blank" rel="noopener"' : '';
         return '<div class="irow" data-g="'+esc(r.s)+'" data-q="'+esc((r.n+' '+s.name).toLowerCase())+'">' +
@@ -440,7 +436,7 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
             '<span>'+esc(r.s)+(r.host?'&#8202;<span class="ext" title="Opens on '+esc(r.host)+'">&#8599;</span>':'')+(r.vint?' &#183; '+esc(r.vint):'')+'</span>' +
             '<span class="fdot '+dotCls(r)+'" title="'+(r.vage==='red'?'data more than a year old':(r.vage==='amb'?'data aging':(r.vint?'data current':'vintage not recorded')))+'"></span></span>' +
         '</div>';
-      }).join('') + '</section>';
+      }).join('') + (s.arch?'</details>':'</section>');
   }).join('');
 
   var geoOrder=['Boston','MA','US','FL'];
@@ -467,6 +463,8 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
       var vis=s.querySelectorAll('.irow:not(.hide)').length;
       s.classList.toggle('hide',!vis);
       s.querySelector('[data-n]').textContent=vis;
+      // The archive fold opens itself only while a search or filter is narrowing.
+      if(s.tagName==='DETAILS') s.open = !!(q||fg!=='ALL') && vis>0;
       if(vis) vsecs++;
     });
     count.textContent = matched+(matched===1?' tool':' tools')+' · '+vsecs+(vsecs===1?' topic':' topics');
@@ -493,6 +491,7 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
     var s=document.getElementById('dir-'+b.dataset.t);
     if(!s) return;
     if(s.classList.contains('hide')) reset();
+    if(s.tagName==='DETAILS') s.open=true;
     s.scrollIntoView({behavior:'smooth',block:'start'});
   });});
   apply();

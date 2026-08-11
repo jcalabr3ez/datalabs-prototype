@@ -652,6 +652,7 @@ async function ask(){
   const q=document.getElementById('q').value.trim();
   if(!q) return;
   const b=document.getElementById('askBtn'); b.disabled=true;
+  inflight=true;
   resp.innerHTML='<div class="load">Checking the sources&#8230;</div>';
   try{
     const r=await fetch('/.netlify/functions/ask',{method:'POST',
@@ -715,7 +716,7 @@ async function ask(){
   }catch(err){
     resp.innerHTML='<div class="noans">'+DISMISS+'<b>Something went wrong.</b> Try again in a moment. Every tool in the catalog still works.</div>';
   }finally{ b.disabled=false; }
-  inflight=false; btn.disabled=false; btn.style.opacity=''; respChrome();
+  inflight=false; respChrome();
 }
 document.getElementById('askBtn').addEventListener('click',ask);
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});

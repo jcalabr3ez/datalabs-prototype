@@ -444,7 +444,11 @@ const CHART_TITLES = {
       status:'<b>&#9679; Live</b> · FL OIR, Citizens, NAIC · through June 2026' },
     { place:'MASSACHUSETTS', id:'DL-12', ask:true, url:'/mbta/',
       stat:rec.TOTAL+'%',
-      sub:'of pre-pandemic MBTA ridership'+(rec.CR>=100?', with commuter rail above 2019':''),
+      sub:'of pre-pandemic MBTA ridership'+(function(){
+        var up=[['FB','ferry'],['CR','commuter rail']].filter(function(p){return rec[p[0]]>=100;})
+          .map(function(p){return p[1];});
+        return up.length?', with '+up.join(' and ')+' above 2019':'';
+      })(),
       spark:spark(DL12.monthly_total_upt.slice(-24), function(d){return d.v;}),
       q:'Is the T back to pre-pandemic ridership?', qshort:'Is the T back?',
       status:'<b>&#9679; Live</b> · verified against FTA NTD · through June 2026' }

@@ -107,7 +107,7 @@
   .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
   /* the desk: flagship lead cards */
-  .desk { margin-top:26px; border-top:2px solid var(--ink); display:grid; grid-template-columns:repeat(3,1fr); }
+  .desk { margin-top:26px; border-top:2px solid var(--ink); display:grid; grid-template-columns:repeat(2,1fr); }
   .lead { border-right:1px solid var(--rule); padding:20px 22px 18px; display:flex; flex-direction:column;
     cursor:pointer; transition:background .16s ease; }
   .lead:last-child { border-right:none; padding-right:0; }
@@ -252,9 +252,9 @@
   <div class="resp frame" id="resp" aria-live="polite"></div>
 
   <section class="sec frame" id="answers">
-    <div class="lab">The desk</div>
-    <h2>The flagships</h2>
-    <p class="sub">Rebuilt and verified by Pioneer, led by a live number. The ones marked ASK answer questions in your own words, and every figure cites its primary source.</p>
+    <div class="lab">Direct questions</div>
+    <h2>Ask in your own words</h2>
+    <p class="sub">Two tools answer questions directly from data Pioneer has verified, led by a live number. Every figure cites its primary source, and what the data cannot support they decline.</p>
     <div id="deskList"></div>
   </section>
 
@@ -447,12 +447,7 @@ const CHART_TITLES = {
       sub:'of pre-pandemic MBTA ridership'+(rec.CR>=100?', with commuter rail above 2019':''),
       spark:spark(DL12.monthly_total_upt.slice(-24), function(d){return d.v;}),
       q:'Is the T back to pre-pandemic ridership?', qshort:'Is the T back?',
-      status:'<b>&#9679; Live</b> · verified against FTA NTD · through May 2026' },
-    { place:'50 STATES', id:'DL-04', ask:false, url:'/tax-atlas/',
-      stat:'50',
-      sub:'states&#8217; wealth-tax, surtax, and intangibles provisions, mapped provision by provision',
-      spark:'', q:null, qshort:'Browse the atlas',
-      status:'<b>&#9679; Live</b> · statute by statute' }
+      status:'<b>&#9679; Live</b> · verified against FTA NTD · through May 2026' }
   ];
   document.getElementById('deskList').innerHTML = '<div class="desk">' + cards.map(function(c){
     var t = TOOLMAP[c.id] || {};

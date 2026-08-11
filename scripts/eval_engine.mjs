@@ -40,13 +40,13 @@ if (SITE_URL) {
 
 const GOLDEN = [
   // [question, expected types, expected tool when answer, must-have fields]
-  ["Is the T back to pre-pandemic ridership?", ["answer"], "DL-12"],
-  ["What share of costs do fares cover on the subway?", ["answer"], "DL-12"],
-  ["Did the cost of a subway ride in MA go up or down?", ["answer"], "DL-12"],
-  ["What does homeowners insurance cost in Miami-Dade?", ["answer"], "DL-10"],
-  ["Which states are considering a wealth tax?", ["answer"], "DL-04"],
-  ["What is California's top income tax rate?", ["answer"], "DL-04"],
-  ["What events should I watch over the next 2 months regarding wealth and high earner taxes?", ["answer"], "DL-04"],
+  ["Is the T back to pre-pandemic ridership?", ["answer"], "DL-03"],
+  ["What share of costs do fares cover on the subway?", ["answer"], "DL-03"],
+  ["Did the cost of a subway ride in MA go up or down?", ["answer"], "DL-03"],
+  ["What does homeowners insurance cost in Miami-Dade?", ["answer"], "DL-02"],
+  ["Which states are considering a wealth tax?", ["answer"], "DL-01"],
+  ["What is California's top income tax rate?", ["answer"], "DL-01"],
+  ["What events should I watch over the next 2 months regarding wealth and high earner taxes?", ["answer"], "DL-01"],
   ["Should I move to Texas to avoid taxes?", ["none"], null],
   ["Will Proposition 40 pass in November?", ["none"], null],
   ["How safe is the MBTA?", ["none", "route"], null],

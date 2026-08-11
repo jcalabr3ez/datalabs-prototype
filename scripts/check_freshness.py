@@ -14,13 +14,13 @@ ROOT = Path(__file__).resolve().parent.parent
 
 # ledger -> (as_of format, max age in days, why)
 RULES = {
-    "netlify/functions/dl12-answers.json": (
+    "netlify/functions/dl03-answers.json": (
         "YYYY-MM", 75, "FTA NTD publishes monthly with roughly a two-month lag"
     ),
-    "netlify/functions/fl-answers.json": (
+    "netlify/functions/dl02-answers.json": (
         "YYYY-MM", 160, "FL OIR files are quarterly with a processing lag"
     ),
-    "netlify/functions/dl04-answers.json": (
+    "netlify/functions/dl01-answers.json": (
         "YYYY-MM-DD", 45, "the atlas tracks sessions, dockets, and ballots; re-verify at least every six weeks"
     ),
 }

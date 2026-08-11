@@ -8,10 +8,9 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic categories, legacy
                                    dashboards, the three flagships, the archive
-    mbta/index.html                DL-12 Transportation & MBTA flagship page
-    mbta/answers.json              GENERATED copy of the DL-12 ledger
-    florida-insurance/index.html   DL-10 Florida Insurance Watch flagship page
-    tax-atlas/index.html           DL-04 State Tax Atlas flagship page
+    mbta/index.html                DL-03 Transportation & MBTA flagship page
+    florida-insurance/index.html   DL-02 Florida Insurance Watch flagship page
+    tax-atlas/index.html           DL-01 State Tax Atlas flagship page
     netlify/functions/ask.js       The engine: two stages. A router model reads
                                    the catalog and each tool's scope, then an
                                    answer model gets only the routed tool's
@@ -19,19 +18,19 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     netlify/functions/tools.js     Per-tool manifests. Adding an AI-enabled tool
                                    = one dataset JSON + one entry here.
     netlify/functions/catalog.json GENERATED copy of the root catalog
-    netlify/functions/dl12-answers.json  CANONICAL DL-12 (MBTA) ledger
-    netlify/functions/fl-answers.json    CANONICAL DL-10 (Florida) ledger
-    netlify/functions/dl04-answers.json  CANONICAL DL-04 (Tax Atlas) ledger
+    netlify/functions/dl03-answers.json  CANONICAL DL-03 (MBTA) ledger
+    netlify/functions/dl02-answers.json  CANONICAL DL-02 (Florida) ledger
+    netlify/functions/dl01-answers.json  CANONICAL DL-01 (Tax Atlas) ledger
     scripts/inject_data.py         Build step: regenerates every embedded page
                                    copy from the canonical ledgers (see below)
-    scripts/refresh_dl12.py        Recomputes the DL-12 ledger from the live
+    scripts/refresh_dl03.py        Recomputes the DL-03 ledger from the live
                                    FTA NTD API; run by the monthly workflow
     scripts/check_freshness.py     Fails when a ledger ages past its cadence
     scripts/check_style.py         House-style lint (no em dashes) plus the
                                    Florida page's ledger-sentinel checks
     scripts/eval_engine.mjs        Golden-question eval against the live engine
-    scripts/dl04-research-pass.md  Runbook: tax atlas research pass (local)
-    scripts/dl10-research-pass.md  Runbook: Florida quarterly refresh (local)
+    scripts/dl01-research-pass.md  Runbook: tax atlas research pass (local)
+    scripts/dl02-research-pass.md  Runbook: Florida quarterly refresh (local)
     NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool
     .github/workflows/             The automation (see Step 7)
     netlify.toml                   Site, functions, and the build command
@@ -87,9 +86,9 @@ Command line path:
 ## Step 4: Test the three behaviors (5 minutes)
 
 Open the site, Ask tab:
-1. "Is commuter rail back to 2019 levels?"  -> a sourced DL-12 ANSWER with
+1. "Is commuter rail back to 2019 levels?"  -> a sourced DL-03 ANSWER with
    (SRC-301) citations and follow-up questions.
-2. "What does home insurance cost in Miami-Dade?" -> a sourced DL-10 ANSWER
+2. "What does home insurance cost in Miami-Dade?" -> a sourced DL-02 ANSWER
    with (SRC-FL-01) citations and a link into /florida-insurance/.
 3. "Is my town safe?"                        -> ROUTES to Your City & Town.
 4. "Is the Red Line safe?"                   -> honest DECLINE (out of the
@@ -173,11 +172,11 @@ eval can find the site: GitHub repo > Settings > Secrets and variables >
 Actions > Variables tab > New repository variable, name SITE_URL, value
 https://YOUR-SITE.netlify.app (the site URL is public anyway).
 
-    dl12-refresh.yml   Monthly. Refetches MBTA ridership from the FTA NTD
+    dl03-refresh.yml   Monthly. Refetches MBTA ridership from the FTA NTD
                        API, recomputes the ledger, and opens a PULL REQUEST.
                        Review the diff (historical revisions show up there),
                        merge, and the deploy carries the new data. First
-                       run: Actions tab > DL-12 ridership refresh > Run
+                       run: Actions tab > DL-03 monthly refresh > Run
                        workflow.
     checks.yml         Weekly and on every PR. Fails when a ledger ages past
                        its publisher cadence, when a generated page block is
@@ -190,9 +189,9 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
                        politely until that variable exists. This is the
                        regression net for prompt edits.
 
-    The DL-04 research pass is deliberately NOT a workflow: it is editorial
+    The DL-01 research pass is deliberately NOT a workflow: it is editorial
     work, run locally in Claude Code with your own credentials. The runbook
-    and prompt are in scripts/dl04-research-pass.md; the checks workflow's
+    and prompt are in scripts/dl01-research-pass.md; the checks workflow's
     freshness gate reminds you when a pass is due.
 
 Nothing in the automation pushes to main; refreshes land as pull requests a

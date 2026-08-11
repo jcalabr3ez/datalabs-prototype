@@ -1,6 +1,6 @@
 {
  "as_of": "2026-06",
- "vintage_note": "Ridership rebuilt from FTA NTD Complete Monthly Ridership (dataset 8bui-9xvu, data.transportation.gov), refreshed to 2026-06 on 2026-08-11 by scripts/refresh_dl12.py; monthly totals, annual mode cells, and the latest mode split are computed directly from the live dataset. Cost and farebox figures are verified against NTD Annual Metrics report years 2022 to 2024 (SRC-302).",
+ "vintage_note": "Ridership rebuilt from FTA NTD Complete Monthly Ridership (dataset 8bui-9xvu, data.transportation.gov), refreshed to 2026-06 on 2026-08-11 by scripts/refresh_dl03.py; monthly totals, annual mode cells, and the latest mode split are computed directly from the live dataset. Cost and farebox figures are verified against NTD Annual Metrics report years 2022 to 2024 (SRC-302).",
  "source_id": "SRC-301",
  "cost_source_id": "SRC-302",
  "mode_names": {

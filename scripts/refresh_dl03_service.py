@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh the DL-12 service and productivity block from the FTA NTD Socrata API.
+"""Refresh the DL-03 service and productivity block from the FTA NTD Socrata API.
 
 Source: Complete Monthly Ridership (with adjustments and estimates), dataset
 8bui-9xvu on data.transportation.gov, ntd_id 10003 (MBTA). This is the SAME
@@ -17,7 +17,7 @@ Computes, into the "service" key of the ledger, all by SRC-301:
 Reads the existing ledger, replaces ONLY the "service" block, writes it back,
 and re-runs inject_data.py. It never touches ridership or cost keys, so it is
 safe to run without advancing the verified ridership vintage. Companion to
-refresh_dl12.py (ridership and cost) and refresh_dl12_reliability.py.
+refresh_dl03.py (ridership and cost) and refresh_dl03_reliability.py.
 
 Exits nonzero when the fetched data fails sanity checks.
 """
@@ -29,7 +29,7 @@ from collections import defaultdict
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-LEDGER = ROOT / "netlify/functions/dl12-answers.json"
+LEDGER = ROOT / "netlify/functions/dl03-answers.json"
 API = "https://data.transportation.gov/resource/8bui-9xvu.json"
 NTD_ID = "10003"
 DISCONTINUED = {"TB"}  # trolleybus, discontinued 2022; excluded from service tables
@@ -156,7 +156,7 @@ def main():
     }
 
     LEDGER.write_text(json.dumps(ledger, ensure_ascii=True, indent=1) + "\n", encoding="utf-8")
-    print(f"refresh_dl12_service: as_of {as_of}; latest full year {last_full_year}; "
+    print(f"refresh_dl03_service: as_of {as_of}; latest full year {last_full_year}; "
           f"{len(by_mode)} modes; systemwide VRH {systemwide['vrh_pct_of_2019']}% vs "
           f"UPT {systemwide['upt_pct_of_2019']}% of 2019; "
           f"trips/VRH {systemwide['trips_per_vrh_2019']} to {systemwide['trips_per_vrh_latest']}")

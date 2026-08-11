@@ -3,14 +3,13 @@
 
 Canonical data lives in:
     catalog.json                          (site root)
-    netlify/functions/dl12-answers.json   (MBTA ledger)
-    netlify/functions/dl04-answers.json   (State Tax Atlas ledger)
-    netlify/functions/fl-answers.json     (Florida ledger; engine only)
+    netlify/functions/dl03-answers.json   (MBTA ledger)
+    netlify/functions/dl01-answers.json   (State Tax Atlas ledger)
+    netlify/functions/dl02-answers.json   (Florida ledger; engine only)
 
 This script regenerates every embedded copy from the canonical files:
     index.html            const DATA (catalog + answers; audit preserved)
     mbta/index.html       const ANSWERS
-    mbta/answers.json     full copy of the DL-12 ledger
     tax-atlas/index.html  STATES, *_META, DEFAULT_SOURCES, STATE_SOURCES, CAPTIONS
     netlify/functions/catalog.json        copy of root catalog.json
 
@@ -64,9 +63,9 @@ def extract_json_after(text, prefix, path):
 
 def main():
     catalog = load("catalog.json")
-    dl12 = load("netlify/functions/dl12-answers.json")
-    dl04 = load("netlify/functions/dl04-answers.json")
-    fl = load("netlify/functions/fl-answers.json")
+    dl03 = load("netlify/functions/dl03-answers.json")
+    dl01 = load("netlify/functions/dl01-answers.json")
+    dl02 = load("netlify/functions/dl02-answers.json")
     changed = []
 
     # ---- index.html: const DATA = {catalog, answers, audit} + desk stats ----
@@ -74,32 +73,32 @@ def main():
     text = p.read_text(encoding="utf-8")
     data = extract_json_after(text, "const DATA = ", p)
     data["catalog"] = catalog
-    data["answers"] = dl12
+    data["answers"] = dl03
     # Desk-card stats derived from the atlas ledger, so front-door copy
     # cannot drift from the data (the count was once hardcoded).
-    dl04d = {
-        "active_or_ballot": len(dl04["derived"]["states_with_active_or_ballot_vehicle"]),
-        "ballot": dl04["derived"]["states_by_proposal_status"]
+    dl01d = {
+        "active_or_ballot": len(dl01["derived"]["states_with_active_or_ballot_vehicle"]),
+        "ballot": dl01["derived"]["states_by_proposal_status"]
                        .get("Certified for the 2026 ballot", {}).get("count", 0),
-        "as_of": dl04["as_of"],
+        "as_of": dl01["as_of"],
     }
     front_payload = (
         "const DATA = " + jdump(data) + ";\n"
-        + "const DL04D = " + jdump(dl04d) + ";"
+        + "const DL01D = " + jdump(dl01d) + ";"
     )
     new = replace_block(text, "front-data", front_payload, p)
 
-    # ---- index.html: FL chart series projected from the DL-10 ledger ----
+    # ---- index.html: FL chart series projected from the DL-02 ledger ----
     fl_consts = "\n".join([
-        "const FLPIF=" + jdump([[e["m"], e["v"]] for e in fl["citizens_policies_monthly"]]) + ";",
+        "const FLPIF=" + jdump([[e["m"], e["v"]] for e in dl02["citizens_policies_monthly"]]) + ";",
         "const FLCTY=" + jdump([[k, c["incl_wind"], c["ex_wind"], c["incl_wind_2025_09"]]
-                                for k, c in sorted(fl["county_premiums"].items())]) + ";",
+                                for k, c in sorted(dl02["county_premiums"].items())]) + ";",
         "const FLLIT=" + jdump([[e["year"], e["fl_share_us_claims_pct"], e["fl_share_us_suits_pct"]]
-                                for e in fl["litigation_share"]]) + ";",
+                                for e in dl02["litigation_share"]]) + ";",
         "const FLRT=" + jdump([[e["year"], e["cat_fund_coverage_bn"], e["private_capital_coverage_bn"]]
-                               for e in fl["risk_transfer"]]) + ";",
+                               for e in dl02["risk_transfer"]]) + ";",
         "const FLTK=" + jdump([[e["period"], e["implied_inflow_per_100_takeouts"]]
-                               for e in fl["takeout_net_inflow"]]) + ";",
+                               for e in dl02["takeout_net_inflow"]]) + ";",
     ])
     new = replace_block(new, "front-fl-data", fl_consts, p)
     if new != text:
@@ -109,35 +108,28 @@ def main():
     # ---- mbta/index.html: const ANSWERS ----
     p = ROOT / "mbta/index.html"
     text = p.read_text(encoding="utf-8")
-    new = replace_block(text, "mbta-data", "const ANSWERS=" + jdump(dl12) + ";", p)
+    new = replace_block(text, "mbta-data", "const ANSWERS=" + jdump(dl03) + ";", p)
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("mbta/index.html")
-
-    # ---- mbta/answers.json: full DL-12 copy ----
-    p = ROOT / "mbta/answers.json"
-    new = json.dumps(dl12, ensure_ascii=True, indent=1) + "\n"
-    if not p.exists() or p.read_text(encoding="utf-8") != new:
-        p.write_text(new, encoding="utf-8")
-        changed.append("mbta/answers.json")
 
     # ---- tax-atlas/index.html: data consts + captions ----
     p = ROOT / "tax-atlas/index.html"
     text = p.read_text(encoding="utf-8")
     consts = "\n".join(
         [
-            "var STATES = " + jdump(dl04["states"]) + ";",
-            "var STATUS_META = " + jdump(dl04["meta"]["status"]) + ";",
-            "var RISK_META = " + jdump(dl04["meta"]["risk"]) + ";",
-            "var BALLOT_META = " + jdump(dl04["meta"]["ballot"]) + ";",
-            "var PROPOSAL_META = " + jdump(dl04["meta"]["proposal"]) + ";",
-            "var DEFAULT_SOURCES = " + jdump(dl04["default_sources"]) + ";",
-            "var STATE_SOURCES = " + jdump(dl04["state_sources"]) + ";",
+            "var STATES = " + jdump(dl01["states"]) + ";",
+            "var STATUS_META = " + jdump(dl01["meta"]["status"]) + ";",
+            "var RISK_META = " + jdump(dl01["meta"]["risk"]) + ";",
+            "var BALLOT_META = " + jdump(dl01["meta"]["ballot"]) + ";",
+            "var PROPOSAL_META = " + jdump(dl01["meta"]["proposal"]) + ";",
+            "var DEFAULT_SOURCES = " + jdump(dl01["default_sources"]) + ";",
+            "var STATE_SOURCES = " + jdump(dl01["state_sources"]) + ";",
         ]
     )
     new = replace_block(text, "tax-atlas-data", consts, p)
     new = replace_block(
-        new, "tax-atlas-captions", "var CAPTIONS = " + jdump(dl04["captions"]) + ";", p
+        new, "tax-atlas-captions", "var CAPTIONS = " + jdump(dl01["captions"]) + ";", p
     )
 
     # Events watch list: phase headers and details generated from the ledger,
@@ -146,7 +138,7 @@ def main():
         return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
     ev_lines = []
-    for ph in dl04["events"]["phases"]:
+    for ph in dl01["events"]["phases"]:
         ev_lines.append('    <div class="ev-ph">' + esc(ph["label"]) + "</div>")
         for e in ph["events"]:
             multi = " multi" if len(e["states"]) > 1 else ""

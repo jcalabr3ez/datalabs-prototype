@@ -1,14 +1,14 @@
-# DL-10 refresh pass: local runbook (quarterly)
+# DL-02 refresh pass: local runbook (quarterly)
 
-Why this is a runbook and not a workflow: the DL-10 sources are not
+Why this is a runbook and not a workflow: the DL-02 sources are not
 machine-readable the way NTD is. OIR's QUASR statewide summaries are
 Excel files behind a form-driven portal, Citizens' filings are PDFs, and
 the litigation shares come through NAIC MCAS as published by OIR. Fetching
 them needs a person (or a person driving Claude Code); verifying them needs
-judgment. The checks workflow's freshness gate (160-day limit on the DL-10
+judgment. The checks workflow's freshness gate (160-day limit on the DL-02
 as_of) signals when this pass is due, roughly once a quarter.
 
-The canonical ledger is netlify/functions/fl-answers.json. The front door's
+The canonical ledger is netlify/functions/dl02-answers.json. The front door's
 Florida chart series are GENERATED from it (scripts/inject_data.py), and CI
 checks that the hand-authored flagship page still carries the ledger's
 latest Citizens count and as_of month (scripts/check_style.py), so a ledger
@@ -18,7 +18,7 @@ deliberate: the page is editorial and must move WITH the data.
 Paste this prompt into Claude Code:
 
     Run the quarterly refresh pass for Pioneer DataLabs Florida Insurance
-    Watch (DL-10). The canonical ledger is netlify/functions/fl-answers.json;
+    Watch (DL-02). The canonical ledger is netlify/functions/dl02-answers.json;
     the flagship page florida-insurance/index.html documents every source
     with its cadence in its register.
 
@@ -31,7 +31,7 @@ Paste this prompt into Claude Code:
        - Litigation shares: NAIC MCAS as published or cited by OIR.
        - Risk transfer: Citizens audited statements and Gallagher Re
          Florida Market Watch.
-    3. Update fl-answers.json ONLY with figures you verified against the
+    3. Update dl02-answers.json ONLY with figures you verified against the
        source documents; recompute derived values (citizens_key_facts,
        county_rankings) from the new series. Update as_of. House style: no
        em dashes, every figure keeps its source id.

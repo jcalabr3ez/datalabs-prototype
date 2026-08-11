@@ -1584,7 +1584,7 @@
   ]
  },
  {
-  "id": "DL-04",
+  "id": "DL-01",
   "t": "State Tax Atlas",
   "q": "Every state\u2019s wealth-tax, surtax, and intangibles provisions, mapped provision by provision.",
   "g": [
@@ -1596,7 +1596,7 @@
   "group": "Taxation"
  },
  {
-  "id": "DL-10",
+  "id": "DL-02",
   "t": "Florida Insurance Watch",
   "q": "Why Florida homeowners insurance costs what it costs, county by county.",
   "g": [
@@ -1607,7 +1607,7 @@
   "ai": true
  },
  {
-  "id": "DL-12",
+  "id": "DL-03",
   "t": "Transportation & MBTA",
   "q": "How the T performs, mode by mode: ridership against 2019, service and productivity, reliability, and costs.",
   "g": [

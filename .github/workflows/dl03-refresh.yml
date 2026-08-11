@@ -1,9 +1,9 @@
-# Monthly DL-12 refresh: ridership and cost from the FTA NTD Socrata API,
+# Monthly DL-03 refresh: ridership and cost from the FTA NTD Socrata API,
 # service and productivity from the same NTD monthly file, and reliability from
 # the MBTA Open Data Portal.
 # Opens a pull request; never pushes to main (a push deploys the site).
 # The PR diff is where NTD's occasional historical revisions get reviewed.
-name: DL-12 monthly refresh
+name: DL-03 monthly refresh
 
 on:
   schedule:
@@ -23,30 +23,30 @@ jobs:
         with:
           python-version: "3.12"
       - name: Refresh ridership and cost from NTD, re-inject pages
-        run: python3 scripts/refresh_dl12.py
+        run: python3 scripts/refresh_dl03.py
       - name: Refresh service and productivity from NTD
-        run: python3 scripts/refresh_dl12_service.py
+        run: python3 scripts/refresh_dl03_service.py
       - name: Refresh reliability from the MBTA Open Data Portal
-        run: python3 scripts/refresh_dl12_reliability.py
+        run: python3 scripts/refresh_dl03_reliability.py
       - name: Freshness report
         run: python3 scripts/check_freshness.py || true
       - name: Open pull request
         uses: peter-evans/create-pull-request@v6
         with:
-          branch: auto/dl12-refresh
-          title: "DL-12: monthly refresh of MBTA ridership, service, and reliability"
-          commit-message: "DL-12: monthly refresh of MBTA ridership, service, and reliability"
+          branch: auto/dl03-refresh
+          title: "DL-03: monthly refresh of MBTA ridership, service, and reliability"
+          commit-message: "DL-03: monthly refresh of MBTA ridership, service, and reliability"
           body: |
             Automated monthly refresh of the MBTA ledger:
 
             - Ridership and cost/farebox from FTA NTD (datasets 8bui-9xvu and
-              ekg5-frzt, ntd_id 10003) via scripts/refresh_dl12.py.
+              ekg5-frzt, ntd_id 10003) via scripts/refresh_dl03.py.
             - Service and productivity from the same NTD monthly file
               (vehicle revenue hours and miles) via
-              scripts/refresh_dl12_service.py.
+              scripts/refresh_dl03_service.py.
             - Reliability for bus, commuter rail, ferry, and The RIDE from the
               MBTA Open Data Portal (SRC-303) via
-              scripts/refresh_dl12_reliability.py.
+              scripts/refresh_dl03_reliability.py.
 
             Review the ledger diff before merging: a change to historical
             ridership months is an NTD revision and worth a note; new months

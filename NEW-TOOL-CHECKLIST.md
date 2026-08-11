@@ -1,7 +1,7 @@
 # Adding an AI-enabled tool (DL-XX): the checklist
 
 This is the repeatable path from "we should cover X" to a live, answerable,
-automated flagship. It is distilled from DL-04, DL-10, and DL-12. The engine
+automated flagship. It is distilled from DL-01, DL-02, and DL-03. The engine
 work is the easy part (an afternoon); the data verification is the real work
 (days to weeks). Budget accordingly.
 
@@ -83,10 +83,10 @@ Conventions every ledger follows:
 ## 5. Update automation (pick the tier the sources allow)
 
 - [ ] Machine-readable sources: a scripts/refresh_dlXX.py in the
-      refresh_dl12.py mold (fetch, recompute, sanity-check, never push) plus
+      refresh_dl03.py mold (fetch, recompute, sanity-check, never push) plus
       a monthly/quarterly workflow opening a PR.
 - [ ] Semi-structured or editorial sources: a scripts/dlXX-research-pass.md
-      runbook in the dl04/dl10 mold, run locally in Claude Code; the
+      runbook in the dl01/dl02 mold, run locally in Claude Code; the
       freshness gate is the reminder.
 - [ ] Either way: the automation NEVER pushes to main. PRs get human review;
       merging deploys.
@@ -103,7 +103,7 @@ Conventions every ledger follows:
       golden questions by hand once.
 - [ ] Add the tool to the front-door desk only if it has a live number
       worth leading with; desk stats must be generated from the ledger
-      (see DL04D), never typed into copy.
+      (see DL01D), never typed into copy.
 
 ## What this list deliberately keeps hard
 

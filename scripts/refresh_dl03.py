@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh the DL-12 MBTA ridership ledger from the FTA NTD Socrata API.
+"""Refresh the DL-03 MBTA ridership ledger from the FTA NTD Socrata API.
 
 Source: Complete Monthly Ridership (with adjustments and estimates),
 dataset 8bui-9xvu on data.transportation.gov, ntd_id 10003 (MBTA).
@@ -11,7 +11,7 @@ cost/farebox series from NTD Annual Metrics (dataset ekg5-frzt, SRC-302):
 operating expenses per unlinked trip and fare revenues over operating
 expenses, by mode and report year.
 
-Writes netlify/functions/dl12-answers.json and re-runs inject_data.py so
+Writes netlify/functions/dl03-answers.json and re-runs inject_data.py so
 every embedded copy follows. Designed to run in CI and open a PR: it
 never pushes to main itself, and a human reviews the diff (the NTD
 occasionally revises history; the diff is where that shows up).
@@ -27,7 +27,7 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-LEDGER = ROOT / "netlify/functions/dl12-answers.json"
+LEDGER = ROOT / "netlify/functions/dl03-answers.json"
 API = "https://data.transportation.gov/resource/8bui-9xvu.json"
 METRICS_API = "https://data.transportation.gov/resource/ekg5-frzt.json"
 NTD_ID = "10003"
@@ -197,7 +197,7 @@ def main():
     new["vintage_note"] = (
         "Ridership rebuilt from FTA NTD Complete Monthly Ridership (dataset 8bui-9xvu, "
         f"data.transportation.gov), refreshed to {as_of} on {date.today().isoformat()} "
-        "by scripts/refresh_dl12.py; monthly totals, annual mode cells, and the latest "
+        "by scripts/refresh_dl03.py; monthly totals, annual mode cells, and the latest "
         "mode split are computed directly from the live dataset. Cost and farebox "
         f"figures are verified against NTD Annual Metrics report years {cost_first} "
         f"to {cost_latest} (SRC-302)."
@@ -242,7 +242,7 @@ def main():
         1 for mk in months
         if not any(e["m"] == mk and e["v"] == monthly[mk] for e in old["monthly_total_upt"])
     )
-    print(f"refresh_dl12: as_of {old['as_of']} -> {as_of}; "
+    print(f"refresh_dl03: as_of {old['as_of']} -> {as_of}; "
           f"{len(months)} months in series; {changed_months} month values new or revised")
 
     subprocess.run([sys.executable, str(ROOT / "scripts/inject_data.py")], check=True)

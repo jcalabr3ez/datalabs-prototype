@@ -37,7 +37,7 @@ for p in sorted(ROOT.rglob("*")):
 print(f"em-dash lint: {'FAIL' if failures else 'clean'}")
 
 # ---- 2. Florida page sentinels ----
-fl = json.loads((ROOT / "netlify/functions/fl-answers.json").read_text(encoding="utf-8"))
+fl = json.loads((ROOT / "netlify/functions/dl02-answers.json").read_text(encoding="utf-8"))
 page = (ROOT / "florida-insurance/index.html").read_text(encoding="utf-8")
 latest = fl["citizens_policies_monthly"][-1]
 pif_formatted = f"{latest['v']:,}"
@@ -51,7 +51,7 @@ for needle, label in sentinels:
     if not ok:
         failures.append(
             f"florida-insurance/index.html does not mention {label}; "
-            "the DL-10 ledger moved but the hand-authored page did not follow"
+            "the DL-02 ledger moved but the hand-authored page did not follow"
         )
 
 if failures:

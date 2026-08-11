@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh the DL-12 reliability block from the MBTA Open Data Portal (SRC-303).
+"""Refresh the DL-03 reliability block from the MBTA Open Data Portal (SRC-303).
 
 Sources (mbta-massdot.opendata.arcgis.com, published by MassDOT/MBTA):
   - Bus reliability CSV            item 5627613b1e2e446a884db42bc7226db3
@@ -20,7 +20,7 @@ method adopted December 2024, which is not comparable to this headway series.
 
 Reads the existing ledger, replaces ONLY the "reliability" block, writes it
 back, and re-runs inject_data.py. It never touches ridership, cost, or service
-keys. Companion to refresh_dl12.py and refresh_dl12_service.py.
+keys. Companion to refresh_dl03.py and refresh_dl03_service.py.
 
 Exits nonzero when the fetched data fails sanity checks.
 """
@@ -35,7 +35,7 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-LEDGER = ROOT / "netlify/functions/dl12-answers.json"
+LEDGER = ROOT / "netlify/functions/dl03-answers.json"
 ITEM = "https://www.arcgis.com/sharing/rest/content/items/{}/data"
 LAYER = "https://services1.arcgis.com/ceiitspzDAHrdGO1/arcgis/rest/services/{}/FeatureServer/0/query"
 BUS_ITEM = "5627613b1e2e446a884db42bc7226db3"
@@ -291,7 +291,7 @@ def main():
     }
 
     LEDGER.write_text(json.dumps(ledger, ensure_ascii=True, indent=1) + "\n", encoding="utf-8")
-    print(f"refresh_dl12_reliability: as_of {as_of}; "
+    print(f"refresh_dl03_reliability: as_of {as_of}; "
           f"bus {modes['MB']['ttm_pct']}%, cr {modes['CR']['ttm_pct']}%, "
           f"ferry {modes['FB']['ttm_pct']}%, ride {modes['DR']['ttm_pct']}% (trailing year)")
 

@@ -1,7 +1,9 @@
-# Monthly DL-12 ridership refresh from the FTA NTD Socrata API.
+# Monthly DL-12 refresh: ridership and cost from the FTA NTD Socrata API,
+# service and productivity from the same NTD monthly file, and reliability from
+# the MBTA Open Data Portal.
 # Opens a pull request; never pushes to main (a push deploys the site).
 # The PR diff is where NTD's occasional historical revisions get reviewed.
-name: DL-12 ridership refresh
+name: DL-12 monthly refresh
 
 on:
   schedule:
@@ -20,22 +22,37 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Refresh ledger from NTD and re-inject pages
+      - name: Refresh ridership and cost from NTD, re-inject pages
         run: python3 scripts/refresh_dl12.py
+      - name: Refresh service and productivity from NTD
+        run: python3 scripts/refresh_dl12_service.py
+      - name: Refresh reliability from the MBTA Open Data Portal
+        run: python3 scripts/refresh_dl12_reliability.py
       - name: Freshness report
         run: python3 scripts/check_freshness.py || true
       - name: Open pull request
         uses: peter-evans/create-pull-request@v6
         with:
           branch: auto/dl12-refresh
-          title: "DL-12: refresh MBTA ridership from FTA NTD"
-          commit-message: "DL-12: refresh MBTA ridership from FTA NTD"
+          title: "DL-12: monthly refresh of MBTA ridership, service, and reliability"
+          commit-message: "DL-12: monthly refresh of MBTA ridership, service, and reliability"
           body: |
-            Automated monthly refresh from FTA NTD Complete Monthly Ridership
-            (dataset 8bui-9xvu, ntd_id 10003) via scripts/refresh_dl12.py.
+            Automated monthly refresh of the MBTA ledger:
 
-            Review the ledger diff before merging: any change to historical
-            months is an NTD revision and worth a note; new months extend the
-            series. Cost and farebox figures are untouched (LEG-MBTA-01,
-            pending separate verification). Merging to main deploys the site.
+            - Ridership and cost/farebox from FTA NTD (datasets 8bui-9xvu and
+              ekg5-frzt, ntd_id 10003) via scripts/refresh_dl12.py.
+            - Service and productivity from the same NTD monthly file
+              (vehicle revenue hours and miles) via
+              scripts/refresh_dl12_service.py.
+            - Reliability for bus, commuter rail, ferry, and The RIDE from the
+              MBTA Open Data Portal (SRC-303) via
+              scripts/refresh_dl12_reliability.py.
+
+            Review the ledger diff before merging: a change to historical
+            ridership months is an NTD revision and worth a note; new months
+            extend the series. Each refresher updates only its own block, so the
+            service and reliability diffs are independent of ridership. If the
+            reliability step failed, the MBTA portal was likely unavailable; the
+            job can be re-run from the Actions tab. Merging to main deploys the
+            site.
           delete-branch: true

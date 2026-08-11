@@ -639,7 +639,14 @@ function revealKind(kind,flash){
 }
 window.addEventListener('load',function(){
   var h=(location.hash||'').replace('#view-','');
-  if(h) revealKind(h,false);
+  if(h && revealKind(h,true)){
+    /* charts render after load and shift the layout, which strands the first
+       scroll; snap to the exhibit once they have settled */
+    setTimeout(function(){
+      var el=document.getElementById('view-'+h);
+      if(el) el.scrollIntoView({block:'start'});
+    },900);
+  }
 });
 
 </script>

@@ -39,10 +39,11 @@ const SYSTEM_PROMPT = `You are the engine behind Pioneer Institute DataLabs' mai
 
 Decide which of three response types applies and respond with ONLY that JSON, no markdown fences:
 
-1. If the question can be answered from the DL-12 DATASET:
-{"type":"answer","tool_id":"DL-12","text":"the answer, maximum three sentences, plain language","chart":"one of: monthly_trend | recovery_by_mode | cost_per_trip | farebox | none","highlight":"a mode code (HR, MB, CR, LR, RB, FB, DR) if the question focuses on one mode, else null","followups":["two short related questions the dataset can also answer"]}
+1. If the question can be answered from the DL-12 DATASET (MBTA ridership, service, cost per trip, farebox recovery):
+{"type":"answer","tool_id":"DL-12","text":"the headline answer, maximum three sentences, plain language","detail":"two to four MORE sentences that go one level deeper: the trend behind the number, how modes compare, and one caveat the dataset supports","chart":"one of: monthly_trend | recovery_by_mode | cost_per_trip | farebox | none","highlight":"a mode code (HR, MB, CR, LR, RB, FB, DR) if the question focuses on one mode, else null","followups":["two short related questions the dataset can also answer"]}
    Chart rules: you never output numbers for the chart; you only SELECT which pre-built view best illustrates the answer. monthly_trend = ridership over time or recovery overall; recovery_by_mode = comparing modes vs 2019; cost_per_trip = cost to provide; farebox = share riders pay; none = no view fits.
-   Answer rules: use ONLY the dataset, never outside knowledge. Every figure cites its source in parentheses: ridership figures cite (SRC-301); cost per trip and farebox figures cite (LEG-MBTA-01). Derived values say derived, e.g. (derived vs same month 2019, SRC-301). Data runs through the dataset's as_of month. The dataset's scope field lists exclusions (safety, reliability, debt, fares charged, other agencies): if the question is about those, this is NOT answerable, fall through to type 2 or 3. If and only if the answer uses cost per trip or farebox figures, end the text with: "Cost figures are pending verification." Never call ridership figures prototype or pending; they are verified against FTA NTD.
+   Answer rules: use ONLY the dataset, never outside knowledge. Every figure in text AND detail cites its source in parentheses: ridership figures cite (SRC-301); cost per trip and farebox figures cite (LEG-MBTA-01). Derived values say derived, e.g. (derived vs same month 2019, SRC-301). Data runs through the dataset's as_of month. detail must add substance beyond the headline, never restate it; plain language, no bullet points. If and only if the answer uses cost per trip or farebox figures, end the text with: "Cost figures are pending verification." Never call ridership figures prototype or pending; they are verified against FTA NTD.
+   DL-12 scope: cost per trip, farebox recovery rates and percentages, and ridership ARE all answerable from this dataset. The exclusions in the dataset's scope field are safety, reliability and on-time performance, the capital budget, debt, the fare PRICES riders are charged (ticket and pass prices, which are not in the dataset), and other transit agencies: only if the question is about those, fall through to type 2 or 3. Never decline a cost per trip or farebox recovery question as out of scope.
 
 1b. If the question can be answered from the DL-10 DATASET (Florida homeowners insurance):
 {"type":"answer","tool_id":"DL-10","text":"the headline answer, maximum three sentences, plain language","detail":"two to four MORE sentences that go one level deeper: the trend behind the number, how it compares (rankings, statewide context, Citizens), and one driver or caveat the ledger supports","chart":"one of: citizens_trend | county_compare | premium_change | litigation | risk_transfer | takeouts | none","highlight":"the exact county name as written in county_premiums if the question focuses on one county, else null","view":"one of: home | policy | report","followups":["two short related questions the dataset can also answer"]}
@@ -150,6 +151,18 @@ exports.handler = async function (event) {
           new Promise(res => setTimeout(res, 1500))
         ]);
       } catch (e) { console.error('question log webhook failed:', e.message); }
+    }
+
+    // DL-12: validate the chart selection and mode highlight, and attach the source
+    // line and deep link. The MBTA page maps #view-<chart kind> onto its ridership
+    // and costs views and scrolls to the matching exhibit.
+    if (parsed.type === 'answer' && parsed.tool_id === 'DL-12') {
+      const DL12_CHARTS = ['monthly_trend', 'recovery_by_mode', 'cost_per_trip', 'farebox'];
+      if (!DL12_CHARTS.includes(parsed.chart)) parsed.chart = 'none';
+      if (parsed.highlight && !DL12.mode_names[parsed.highlight]) parsed.highlight = null;
+      if (typeof parsed.detail !== 'string') parsed.detail = '';
+      parsed.link = parsed.chart !== 'none' ? '/mbta/#view-' + parsed.chart : '/mbta/';
+      parsed.src = 'FTA NTD (SRC-301), through ' + DL12.as_of + '. Ridership verified against the National Transit Database; cost per trip and farebox figures are legacy (LEG-MBTA-01), pending verification.';
     }
 
     // DL-10: attach source line and deep link; text is model-composed from the ledger under citation rules.

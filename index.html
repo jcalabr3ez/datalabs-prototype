@@ -391,17 +391,26 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
   }
   var FLAG_GEO = {'DL-01':'US','DL-02':'FL','DL-03':'MA'};
   var FLAG_VINT = {'DL-01':'2026','DL-02':'June 2026','DL-03':'June 2026'};
+  // Flagships now sit inside their subject topic rather than a separate section.
+  // Florida Insurance Watch gets its own Housing topic (no existing bucket fit).
+  var FLAG_TOPIC = {'DL-01':'taxation','DL-02':'housing','DL-03':'transportation-infrastructure'};
+  function flagshipRowsFor(topicId){
+    return CATALOG.filter(function(t){return FLAG_GEO[t.id] && FLAG_TOPIC[t.id]===topicId;})
+      .map(function(t){ return {
+        n:t.t, u:t.url, s:FLAG_GEO[t.id], vint:FLAG_VINT[t.id], vage:'', dlid:t.id, host:'' }; });
+  }
   var sections = [];
-  // Flagships lead the index too, so search and the place filters see everything.
-  sections.push({ id:'flagships', name:'Flagships', arch:false,
-    rows: CATALOG.filter(function(t){return FLAG_GEO[t.id];}).map(function(t){ return {
-      n:t.t, u:t.url, s:FLAG_GEO[t.id], vint:FLAG_VINT[t.id], vage:'', dlid:t.id, host:'' }; }) });
   CATALOG.forEach(function(t){
     if(!(t.legacy||[]).length) return;
     var isArch = t.id==='ARCHIVE';
-    sections.push({ id:t.id, name:isArch?'Archive':t.t, arch:isArch,
-      rows:(t.legacy||[]).map(function(l){ return {
-        n:l.t, u:l.u, s:l.s||'', vint:l.vint||'', vage:l.vage||'', dlid:'', host:hostOf(l.u) }; }) });
+    // The flagship for this topic (if any) leads its rows, keeping its DL id badge.
+    var rows = flagshipRowsFor(t.id).concat((t.legacy||[]).map(function(l){ return {
+      n:l.t, u:l.u, s:l.s||'', vint:l.vint||'', vage:l.vage||'', dlid:'', host:hostOf(l.u) }; }));
+    sections.push({ id:t.id, name:isArch?'Archive':t.t, arch:isArch, rows:rows });
+    // New Housing topic (Florida Insurance Watch) sits next to Economy & Jobs.
+    if(t.id==='economy-jobs'){
+      sections.push({ id:'housing', name:'Housing', arch:false, rows:flagshipRowsFor('housing') });
+    }
   });
   var total = sections.reduce(function(a,s){return a+s.rows.length;},0);
 

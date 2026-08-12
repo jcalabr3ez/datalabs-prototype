@@ -366,7 +366,10 @@ const DL01D = {"active_or_ballot":8,"ballot":1,"as_of":"2026-08-11"};
 const CATALOG = DATA.catalog;
 const DL03 = DATA.answers;
 const TOOLMAP = Object.fromEntries(CATALOG.map(t=>[t.id,t]));
-function esc(s){const d=document.createElement('div');d.textContent=s==null?'':String(s);return d.innerHTML;}
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+/* Links that arrive in an engine response only ever point at our own pages or
+   https catalog URLs; anything else (javascript:, data:, ...) is dropped. */
+function safeUrl(u){u=u==null?'':String(u).trim();return (u.indexOf('/')===0&&u.indexOf('//')!==0)||/^https?:\/\//i.test(u)?u:'';}
 
 /* ---------- Front-door mode: AI question engine on or off ----------
    AI_DEFAULT is the public default; flip this one line to switch it.
@@ -810,22 +813,28 @@ async function ask(){
   const b=document.getElementById('askBtn'); b.disabled=true;
   inflight=true;
   resp.innerHTML='<div class="load">Checking the sources&#8230;</div>';
+  /* Live asks run 6-15s; abort well past that so a hung function can never
+     leave the button disabled forever. */
+  const ctl=new AbortController();
+  const timer=setTimeout(function(){ctl.abort();},35000);
   try{
     const r=await fetch('/.netlify/functions/ask',{method:'POST',
-      headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q, history:HISTORY.slice(-2)})});
+      headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q, history:HISTORY.slice(-2)}), signal:ctl.signal});
     const p=await r.json();
     if(p.type==='answer'){
       const kind=p.chart&&p.chart!=='none'?p.chart:null;
+      /* Only render the figure when this page actually has a renderer for the
+         kind; otherwise the deep link below still opens the full chart. */
+      const fig=kind?chartSVG(kind,p.highlight||null):'';
+      const link=safeUrl(p.link);
       resp.innerHTML='<div class="entry">'+DISMISS+'<div class="k">Answer</div>' +
         '<div class="ans">'+esc(p.text)+'</div>' +
         (p.detail?'<div class="det">'+esc(p.detail)+'</div>':'') +
-        (kind?'<div class="figure"><div class="cap">'+esc(CHART_TITLES[kind]||'')+'</div>'+
-          chartSVG(kind,p.highlight||null)+'</div>':'') +
-        '<div class="srcline"><b>Source:</b> '+(p.src?esc(p.src):'FTA NTD: ridership monthly file (SRC-301), cost and farebox from Annual Metrics (SRC-302). All figures verified.')+'</div>' +
-        (p.link?'<div class="goline"><a href="'+esc(p.link)+'">The full briefing: charts, story, and every source &#8594;</a></div>':
-         (kind?'<div class="goline"><a href="/mbta/#view-'+kind+'">The full picture: charts, story, and every source &#8594;</a></div>':'')) +
+        (fig?'<div class="figure"><div class="cap">'+esc(CHART_TITLES[kind]||'')+'</div>'+fig+'</div>':'') +
+        (p.src?'<div class="srcline"><b>Source:</b> '+esc(p.src)+'</div>':'') +
+        (link?'<div class="goline"><a href="'+esc(link)+'">The full briefing: charts, story, and every source &#8594;</a></div>':'') +
         (p.see_also&&p.see_also.length?'<div class="seealso">Also relevant: '+
-          p.see_also.map(s=>'<a href="'+esc(s.url||'#')+'" title="'+esc(s.reason||'')+'">'+esc(s.title)+' &#8594;</a>').join(' &#183; ')+'</div>':'') +
+          p.see_also.filter(s=>safeUrl(s.url)).map(s=>'<a href="'+esc(safeUrl(s.url))+'" title="'+esc(s.reason||'')+'">'+esc(s.title)+' &#8594;</a>').join(' &#183; ')+'</div>':'') +
         (p.followups&&p.followups.length?'<div class="fups">Related: '+
           p.followups.map(f=>'<a href="#" data-q="'+esc(f)+'">'+esc(f)+'</a>').join('')+'</div>':'') +
         '</div>';
@@ -879,8 +888,7 @@ async function ask(){
     }
   }catch(err){
     resp.innerHTML='<div class="noans">'+DISMISS+'<b>Something went wrong.</b> Try again in a moment. Every tool in the catalog still works.</div>';
-  }finally{ b.disabled=false; }
-  inflight=false; respChrome();
+  }finally{ clearTimeout(timer); b.disabled=false; inflight=false; respChrome(); }
 }
 document.getElementById('askBtn').addEventListener('click',ask);
 document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});

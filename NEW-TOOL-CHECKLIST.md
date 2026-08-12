@@ -10,7 +10,7 @@ work is the easy part (an afternoon); the data verification is the real work
 - [ ] Demand evidence: what are visitors asking that we decline today? The
       question log is the input; do not choose tools by intuition alone.
 - [ ] One sentence of scope, and the honest exclusions. The exclusions are
-      product decisions, not afterthoughts; they become the router's rules
+      product decisions, not afterthoughts; they become the engine's scope rules
       and the tool's credibility. Every flagship declines advice,
       predictions, and anything its ledger cannot support.
 - [ ] Source inventory: for each figure you want to publish, name the
@@ -63,15 +63,15 @@ Conventions every ledger follows:
 
 ## 3. The engine (one manifest entry, no ask.js edits)
 
-- [ ] Entry in netlify/functions/tools.js: `id`, `label`, `routerScope`
-      (coverage AND exclusions; the router routes or declines on this),
+- [ ] Entry in netlify/functions/tools.js: `id`, `label`, `scope`
+      (coverage AND exclusions; the engine answers or declines on this),
       `dataset`, `modelSlice` (strip page-layout fields and source URL
       lists), `charts` or `views` enums, `viewDefault`, `highlight`
       (validation key + description), `rules` (citation discipline, derived
       preference, ambiguity handling), `link`, `src`.
 - [ ] `"ai": true` on the tool in catalog.json.
-- [ ] Harness cases in the offline harness pattern (route to the tool,
-      shaping, bogus-value coercion, an answerable:false decline).
+- [ ] Harness cases in the offline harness pattern (answer with the tool,
+      shaping, bogus-value coercion, an honest decline with followups).
 - [ ] Golden questions in scripts/eval_engine.mjs: 2 to 4 questions that
       must answer with this tool, plus one scope-excluded question that
       must decline or route. This is what makes future prompt edits safe.

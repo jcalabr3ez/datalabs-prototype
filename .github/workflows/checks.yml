@@ -35,7 +35,7 @@ jobs:
           const tools = require('./netlify/functions/tools.js');
           if (tools.length < 3) { throw new Error('expected 3+ tool manifests'); }
           for (const t of tools) {
-            for (const f of ['id','label','routerScope','dataset','modelSlice','highlight','rules','link','src']) {
+            for (const f of ['id','label','scope','dataset','modelSlice','highlight','rules','link','src']) {
               if (!(f in t)) throw new Error(t.id + ' missing ' + f);
             }
             JSON.stringify(t.modelSlice(t.dataset));

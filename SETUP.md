@@ -11,10 +11,10 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     mbta/index.html                DL-03 Transportation & MBTA flagship page
     florida-insurance/index.html   DL-02 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-01 State Tax Atlas flagship page
-    netlify/functions/ask.js       The engine: two stages. A router model reads
-                                   the catalog and each tool's scope, then an
-                                   answer model gets only the routed tool's
-                                   ledger, under a JSON schema. Holds the key.
+    netlify/functions/ask.js       The engine: one Sonnet 5 call reads the
+                                   catalog, every tool's scope, and every
+                                   tool's ledger, then answers, routes, or
+                                   declines under a JSON schema. Holds the key.
     netlify/functions/tools.js     Per-tool manifests. Adding an AI-enabled tool
                                    = one dataset JSON + one entry here.
     netlify/functions/catalog.json GENERATED copy of the root catalog

@@ -5,9 +5,10 @@
 //
 // Manifest fields:
 //   id            catalog tool id
-//   label         one line for the router: what the dataset covers
-//   routerScope   what the router must know to route correctly: coverage and
-//                 the honest exclusions (questions that must NOT come here)
+//   label         one line: what the dataset covers
+//   scope         what the engine must know to answer or decline correctly:
+//                 coverage and the honest exclusions (questions that must NOT
+//                 be answered from this dataset)
 //   dataset       the full ledger (require'd JSON)
 //   modelSlice(d) the subset of the ledger the answer model sees
 //   charts        pre-built chart kinds the model may SELECT, or null
@@ -27,7 +28,7 @@ module.exports = [
   {
     id: 'DL-03',
     label: 'Transportation and MBTA: ridership by mode and month, recovery vs 2019, cost per trip, farebox recovery',
-    routerScope: 'Covers MBTA ridership (unlinked passenger trips) by mode and month through the dataset as_of month and recovery vs 2019; service supplied and productivity (vehicle revenue hours and miles, and unlinked trips per vehicle revenue hour, by mode, latest full year vs 2019); reliability (share of trips meeting the headway or schedule-adherence standard) for bus, commuter rail, ferry, and The RIDE, by mode and by line, with a trend back to 2016; and operating cost per trip and farebox recovery, the share of operating cost that fares cover, INCLUDING their trend across report years 2022 to 2024. Questions about the cost of a ride or trip, whether a ride costs more or less than before, and what share of the cost fares cover all answer here (cost is answered as cost to provide, farebox recovery as the covered share). Questions about how reliable, on time, or punctual bus, commuter rail, ferry, or The RIDE are route here. Does NOT cover: subway or Green Line reliability (the MBTA measures rapid transit with Excess Trip Time, a different method adopted December 2024), safety, the capital budget, debt, the ticket and pass PRICES a rider pays (only these prices are excluded, NOT farebox recovery or cost per trip, which are covered above and DO answer here), or other transit agencies.',
+    scope: 'Covers MBTA ridership (unlinked passenger trips) by mode and month through the dataset as_of month and recovery vs 2019; service supplied and productivity (vehicle revenue hours and miles, and unlinked trips per vehicle revenue hour, by mode, latest full year vs 2019); reliability (share of trips meeting the headway or schedule-adherence standard) for bus, commuter rail, ferry, and The RIDE, by mode and by line, with a trend back to 2016; and operating cost per trip and farebox recovery, the share of operating cost that fares cover, INCLUDING their trend across report years 2022 to 2024. Questions about the cost of a ride or trip, whether a ride costs more or less than before, and what share of the cost fares cover all answer here (cost is answered as cost to provide, farebox recovery as the covered share). Questions about how reliable, on time, or punctual bus, commuter rail, ferry, or The RIDE are route here. Does NOT cover: subway or Green Line reliability (the MBTA measures rapid transit with Excess Trip Time, a different method adopted December 2024), safety, the capital budget, debt, the ticket and pass PRICES a rider pays (only these prices are excluded, NOT farebox recovery or cost per trip, which are covered above and DO answer here), or other transit agencies.',
     dataset: DL03,
     modelSlice: function (d) {
       // Ship the whole ledger EXCEPT service.monthly_vrm_total: that raw monthly
@@ -51,7 +52,7 @@ module.exports = [
   {
     id: 'DL-02',
     label: 'Florida Insurance Watch: homeowners premiums by county, Citizens series, litigation, takeouts, risk transfer',
-    routerScope: 'Covers Florida homeowners insurance: county average premiums, Citizens Property Insurance policy counts and finances, litigation shares, the takeout program, and risk transfer. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or hurricanes; individual premium quotes; claims or legal guidance; insurer solvency opinions; other insurance lines; other states.',
+    scope: 'Covers Florida homeowners insurance: county average premiums, Citizens Property Insurance policy counts and finances, litigation shares, the takeout program, and risk transfer. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or hurricanes; individual premium quotes; claims or legal guidance; insurer solvency opinions; other insurance lines; other states.',
     dataset: DL02,
     modelSlice: function (d) { return d; },
     charts: ['citizens_trend', 'county_compare', 'premium_change', 'litigation', 'risk_transfer', 'takeouts'],
@@ -65,7 +66,7 @@ module.exports = [
   {
     id: 'DL-01',
     label: 'State Tax Atlas: every jurisdiction’s income tax rate, surtaxes, wealth-tax proposals, ballot pathways, and risk tier',
-    routerScope: 'Covers all 51 US jurisdictions: enacted top income tax rates and surtaxes (a single state’s current top income tax rate answers here, for example what is California’s top income tax rate), slated changes already in law, active wealth-tax and high-income surtax proposals, citizen-initiative ballot pathways, Pioneer’s Short-Term Risk tier, and a dated watch list of upcoming events (hearings, rulings, deadlines, elections) through 2028, so what-to-watch and upcoming-dates questions route here. Does NOT cover: personal tax or legal advice; whether to move or relocate; predicting how a ballot measure, election, or court case will turn out; calculating an individual’s tax; sales, property, corporate, or estate taxes except where a record already notes them; other countries or years outside the dataset.',
+    scope: 'Covers all 51 US jurisdictions: enacted top income tax rates and surtaxes (a single state’s current top income tax rate answers here, for example what is California’s top income tax rate), slated changes already in law, active wealth-tax and high-income surtax proposals, citizen-initiative ballot pathways, Pioneer’s Short-Term Risk tier, and a dated watch list of upcoming events (hearings, rulings, deadlines, elections) through 2028, so what-to-watch and upcoming-dates questions route here. Does NOT cover: personal tax or legal advice; whether to move or relocate; predicting how a ballot measure, election, or court case will turn out; calculating an individual’s tax; sales, property, corporate, or estate taxes except where a record already notes them; other countries or years outside the dataset.',
     dataset: DL01,
     modelSlice: function (d) {
       // The answer model sees the analytical core: no grid coordinates, no

@@ -1,24 +1,20 @@
-// Pioneer DataLabs unified engine: Netlify Function, v2.
-// Two-stage, manifest-driven. Stage 1 (router, Haiku): the catalog plus each
-// tool's scope decide answer / route / decline; no datasets are shipped.
-// Stage 2 (answer, Sonnet): only the routed tool's dataset and rules are sent,
-// under a per-tool JSON schema enforced by structured outputs. Both stages use
-// prompt caching on their static system blocks, carry the visitor's recent
-// exchanges, and never parse free-form model text.
+// Pioneer DataLabs unified engine: Netlify Function, v3.
+// Single-stage, manifest-driven. There is no router: one Sonnet 5 call sees
+// the catalog plus every AI-enabled dataset and decides answer / route /
+// decline in the same pass, under one JSON schema enforced by structured
+// outputs. Prompt caching covers the static rules and datasets on their own
+// breakpoint (the catalog, which refreshes every 5 minutes, sits behind a
+// second), the visitor's recent exchanges ride along, and no free-form model
+// text is ever parsed.
 // Holds the Anthropic API key server-side (env var ANTHROPIC_API_KEY).
 
 const BUNDLED_CATALOG = require('./catalog.json'); // fallback only
 const TOOLS = require('./tools.js');
 
-// Both stages run on Sonnet 5. The old Haiku router made scope misdecisions
-// (declining valid cost/farebox questions, mis-routing plain rate lookups), so
-// the routing decision now uses Sonnet 5 too, at low effort to stay fast.
 // Sonnet 5: adaptive thinking is ON when the thinking param is omitted, and
-// max_tokens caps thinking plus the output, so the router carries a larger cap
-// than Haiku needed (700 would truncate Sonnet's thinking + routing JSON).
-const ROUTER_MODEL = 'claude-sonnet-5';
-const ROUTER_EFFORT = 'low';
-const ROUTER_MAX = 3000;
+// max_tokens caps thinking plus the answer, so the call carries a generous cap
+// and effort medium (comparable to Sonnet 4.6 at high) to keep latency inside
+// the function budget.
 const ANSWER_MODEL = 'claude-sonnet-5';
 const ANSWER_EFFORT = 'medium';
 
@@ -40,15 +36,26 @@ async function getCatalog() {
   return BUNDLED_CATALOG;
 }
 
-// ---------- schemas (structured outputs) ----------
+// ---------- schema (structured outputs) ----------
 
 const TOOL_IDS = TOOLS.map(function (t) { return t.id; });
+const ALL_CHARTS = TOOLS.reduce(function (a, t) { return t.charts ? a.concat(t.charts) : a; }, []);
+const ALL_VIEWS = TOOLS.reduce(function (a, t) { return t.views ? a.concat(t.views) : a; }, []);
 
-const ROUTE_SCHEMA = {
+// One schema for the whole decision. chart, view, and highlight are validated
+// again by the handler against the answering tool's manifest, so a stray value
+// can only ever fall back, never break the page.
+const ENGINE_SCHEMA = {
   type: 'object',
   properties: {
-    decision: { enum: ['answer', 'route', 'none'], description: 'answer = one of the AI-enabled datasets can answer this; route = another catalog tool covers the topic; none = DataLabs does not cover it' },
+    decision: { enum: ['answer', 'route', 'none'], description: 'answer = one of the DATASETS answers this from its own data; route = another catalog tool covers the topic; none = DataLabs does not cover it' },
     tool_id: { enum: TOOL_IDS.concat(['none']), description: 'when decision is answer, the tool whose dataset answers it; otherwise none' },
+    text: { type: 'string', description: 'when decision is answer: the headline answer, maximum three sentences, plain language; empty otherwise' },
+    detail: { type: 'string', description: 'when decision is answer: two to four MORE sentences that go one level deeper: the trend behind the number, how it compares, and one driver or caveat the dataset supports; never restate the headline; empty otherwise' },
+    highlight: { anyOf: [{ type: 'string' }, { type: 'null' }], description: 'when the answer focuses on one entity: for DL-03 a mode code (HR, MB, CR, LR, RB, FB, DR); for DL-02 the exact county name as written in county_premiums; for DL-01 the exact two-letter jurisdiction code (for example CA, MA, DC); else null' },
+    chart: { enum: ALL_CHARTS.concat(['none']), description: 'when decision is answer and the answering tool has charts: which pre-built view best illustrates the answer, per that tool\'s rules; you never output numbers for the chart; none otherwise' },
+    view: { enum: ALL_VIEWS.concat(['none']), description: 'when decision is answer and the answering tool has views: which page view best frames the answer, per that tool\'s rules; none otherwise' },
+    followups: { type: 'array', items: { type: 'string' }, description: 'when decision is answer: two short related questions the answering dataset CAN answer. When decision is none these matter most: offer the two nearest questions the datasets DO support. Empty when decision is route' },
     see_also: {
       type: 'array',
       description: 'when decision is answer: up to 2 OTHER tools (any catalog id) also relevant to this question, best first; empty if none',
@@ -73,37 +80,15 @@ const ROUTE_SCHEMA = {
         additionalProperties: false
       }
     },
-    note: { type: 'string', description: 'when decision is none: one honest sentence saying DataLabs does not yet cover this; empty otherwise' }
+    note: { type: 'string', description: 'when decision is none: one or two honest sentences saying what DataLabs does not cover AND what the nearest dataset does track instead; empty otherwise' }
   },
-  required: ['decision', 'tool_id', 'see_also', 'matches', 'note'],
+  required: ['decision', 'tool_id', 'text', 'detail', 'highlight', 'chart', 'view', 'followups', 'see_also', 'matches', 'note'],
   additionalProperties: false
 };
 
-function answerSchema(tool) {
-  const props = {
-    answerable: { type: 'boolean', description: 'false ONLY if this dataset cannot actually support the question or the question is out of scope; then text is one honest sentence saying so' },
-    text: { type: 'string', description: 'the headline answer, maximum three sentences, plain language' },
-    detail: { type: 'string', description: 'two to four MORE sentences that go one level deeper: the trend behind the number, how it compares, and one driver or caveat the dataset supports; never restate the headline; empty when answerable is false' },
-    highlight: { anyOf: [{ type: 'string' }, { type: 'null' }], description: tool.highlight.describe },
-    followups: { type: 'array', items: { type: 'string' }, description: 'two short related questions the dataset CAN answer. When answerable is false these matter most: offer the two nearest questions the dataset does support' }
-  };
-  const req = ['answerable', 'text', 'detail', 'highlight', 'followups'];
-  if (tool.charts) {
-    props.chart = { enum: tool.charts.concat(['none']), description: 'you never output numbers for the chart; you only SELECT which pre-built view best illustrates the answer' };
-    req.push('chart');
-  }
-  if (tool.views) {
-    props.view = { enum: tool.views, description: 'which page view best frames the answer' };
-    req.push('view');
-  }
-  return { type: 'object', properties: props, required: req, additionalProperties: false };
-}
+// ---------- prompt ----------
 
-// ---------- prompts ----------
-
-const ROUTER_RULES = 'You are the router for Pioneer Institute DataLabs\' question box. You receive a CATALOG of topic categories (each listing its dashboards by exact title in legacy arrays), the scope of each AI-enabled dataset, and a visitor question, possibly with recent exchanges for context.\n\nDecide exactly one of:\n- answer: one of the AI-enabled datasets below can answer the question from its own data. An exclusion removes ONLY exactly what it names; never stretch it to a related topic the same scope lists as covered (for example, a dataset that covers farebox recovery and cost per trip still answers those even though it excludes the fare prices riders pay). An excluded question is NOT an answer for that tool.\n- route: a different catalog tool covers the topic. Fill matches with 1 to 3 tools, best first; dashboards must be EXACT titles from that tool\'s legacy arrays, or an empty array.\n- none: DataLabs does not cover it (including everything every dataset excludes, like personal advice or predictions). Write one honest sentence in note.\n\nPrefer answer over route: whenever an AI-enabled dataset\'s scope covers the question, choose answer for that dataset; only choose route when no dataset covers the topic but a catalog tool does. A plain current-fact lookup that a dataset holds (for example one state\'s current top income tax rate) is an answer, not a route.\n\nWhen decision is answer, also list up to 2 OTHER relevant tools in see_also (never the answering tool itself).\nNever invent tool or category ids; use ids exactly as they appear. Never state statistics in reasons. No em dashes anywhere.\n\nAI-enabled datasets:\n' + TOOLS.map(function (t) { return '- ' + t.id + ': ' + t.routerScope; }).join('\n');
-
-const GLOBAL_ANSWER_RULES = 'You are the answer engine behind Pioneer Institute DataLabs\' question box. You receive one DATASET and a visitor question, possibly with recent exchanges for context.\n\nUse ONLY the dataset, never outside knowledge. Every figure cites its source as the tool rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. If the question cannot actually be supported by this dataset, set answerable to false; then text is one or two honest sentences saying what is not covered AND what the dataset does track instead, and followups offer the two nearest questions the dataset CAN answer; never improvise or estimate. No em dashes anywhere; use commas, colons, or middots.\n\n';
+const ENGINE_RULES = 'You are the engine behind Pioneer Institute DataLabs\' question box. You receive a CATALOG of topic categories (each listing its dashboards by exact title in legacy arrays), the full DATASETS of every AI-enabled tool, and a visitor question, possibly with recent exchanges for context.\n\nDecide exactly one of:\n- answer: one of the DATASETS answers the question from its own data. Set tool_id and answer from ONLY that dataset, never outside knowledge. An exclusion removes ONLY exactly what it names; never stretch it to a related topic the same scope lists as covered (for example, a dataset that covers farebox recovery and cost per trip still answers those even though it excludes the fare prices riders pay). A plain current-fact lookup that a dataset holds (for example one state\'s current top income tax rate) is an answer, not a route.\n- route: no dataset covers it but a different catalog tool covers the topic. Fill matches with 1 to 3 tools, best first; dashboards must be EXACT titles from that tool\'s legacy arrays, or an empty array.\n- none: DataLabs does not cover it (including everything every dataset excludes, like personal advice or predictions). Write one or two honest sentences in note and offer in followups the two nearest questions the datasets CAN answer.\n\nPrefer answer over route: whenever a dataset covers the question, choose answer for that dataset; only choose route when no dataset covers the topic but a catalog tool does.\n\nWhen decision is answer: every figure cites its source as the answering tool\'s rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. Set chart and view only as the answering tool\'s rules describe; when the answering tool has no charts or no views, set them to none. Also list up to 2 OTHER relevant tools in see_also (never the answering tool itself). Never improvise or estimate beyond the dataset.\n\nWhere a tool\'s rules say to set answerable to false, that means decision none: put the honest sentences in note and the offered questions in followups.\n\nNever invent tool or category ids; use ids exactly as they appear. Never state statistics in reasons. No em dashes anywhere; use commas, colons, or middots.\n\nDataset scopes:\n' + TOOLS.map(function (t) { return '- ' + t.id + ': ' + t.scope; }).join('\n') + '\n\nPer-tool answer rules:\n\n' + TOOLS.map(function (t) { return t.rules; }).join('\n\n');
 
 // ---------- model call ----------
 
@@ -184,55 +169,49 @@ exports.handler = async function (event) {
     const catalog = await getCatalog();
     const messages = buildMessages(history, question);
 
-    // Stage 1: route. Static rules first, catalog last with the cache marker,
-    // so the whole prefix caches until the catalog refreshes.
-    const route = await callModel(ROUTER_MODEL, [
-      { type: 'text', text: ROUTER_RULES },
+    // One call: rules first, then the datasets (static per deploy) behind
+    // their own cache breakpoint, then the catalog behind a second, so a
+    // catalog refresh never invalidates the dataset prefix.
+    const datasets = {};
+    TOOLS.forEach(function (t) { datasets[t.id] = t.modelSlice(t.dataset); });
+    const out = await callModel(ANSWER_MODEL, [
+      { type: 'text', text: ENGINE_RULES },
+      { type: 'text', text: 'DATASETS:\n' + JSON.stringify(datasets), cache_control: { type: 'ephemeral' } },
       { type: 'text', text: 'CATALOG:\n' + JSON.stringify(catalog), cache_control: { type: 'ephemeral' } }
-    ], messages, ROUTE_SCHEMA, ROUTER_MAX, ROUTER_EFFORT);
+    ], messages, ENGINE_SCHEMA, 6000, ANSWER_EFFORT);
 
     const catalogIds = new Set();
     (Array.isArray(catalog) ? catalog : []).forEach(function (t) { if (t && t.id) catalogIds.add(t.id); });
 
     let parsed;
-    const tool = TOOLS.find(function (t) { return t.id === route.tool_id; });
+    const tool = TOOLS.find(function (t) { return t.id === out.tool_id; });
 
-    if (route.decision === 'answer' && tool) {
-      // Stage 2: answer from the one routed dataset.
-      const ans = await callModel(ANSWER_MODEL, [
-        { type: 'text', text: GLOBAL_ANSWER_RULES + tool.rules },
-        { type: 'text', text: 'DATASET:\n' + JSON.stringify(tool.modelSlice(tool.dataset)), cache_control: { type: 'ephemeral' } }
-      ], messages, answerSchema(tool), 6000, ANSWER_EFFORT);
-
-      if (ans.answerable === false) {
-        // Rich decline: the honest note plus the nearest answerable questions.
-        parsed = { type: 'none', note: ans.text || 'The dataset cannot support that question.', followups: (ans.followups || []).slice(0, 2) };
-      } else {
-        parsed = { type: 'answer', tool_id: tool.id, text: ans.text, detail: ans.detail || '', highlight: ans.highlight, followups: (ans.followups || []).slice(0, 2) };
-        // Manifest-driven validation and enrichment.
-        if (tool.charts) parsed.chart = tool.charts.includes(ans.chart) ? ans.chart : 'none';
-        if (tool.views) parsed.view = tool.views.includes(ans.view) ? ans.view : tool.viewDefault;
-        let hl = typeof parsed.highlight === 'string' ? parsed.highlight.trim() : null;
-        if (hl && tool.highlight.uppercase) hl = hl.toUpperCase();
-        const valid = tool.dataset[tool.highlight.key] || {};
-        parsed.highlight = (hl && Object.prototype.hasOwnProperty.call(valid, hl)) ? hl : null;
-        parsed.link = tool.link(parsed);
-        parsed.src = tool.src(tool.dataset, parsed);
-        // Cross-tool pointers from the router, validated against the catalog.
-        const seeAlso = (route.see_also || [])
-          .filter(function (s) { return s && s.id !== tool.id && catalogIds.has(s.id); })
-          .slice(0, 2)
-          .map(function (s) {
-            const c = catalog.find(function (t) { return t.id === s.id; }) || {};
-            return { id: s.id, title: c.t || s.id, url: c.url || null, reason: s.reason || '' };
-          });
-        if (seeAlso.length) parsed.see_also = seeAlso;
-      }
-    } else if (route.decision === 'route' && (route.matches || []).length) {
-      parsed = { type: 'route', matches: route.matches.filter(function (m) { return m && catalogIds.has(m.id); }).slice(0, 3) };
-      if (!parsed.matches.length) parsed = { type: 'none', note: route.note || 'DataLabs does not yet cover this.' };
+    if (out.decision === 'answer' && tool) {
+      parsed = { type: 'answer', tool_id: tool.id, text: out.text, detail: out.detail || '', highlight: out.highlight, followups: (out.followups || []).slice(0, 2) };
+      // Manifest-driven validation and enrichment.
+      if (tool.charts) parsed.chart = tool.charts.includes(out.chart) ? out.chart : 'none';
+      if (tool.views) parsed.view = tool.views.includes(out.view) ? out.view : tool.viewDefault;
+      let hl = typeof parsed.highlight === 'string' ? parsed.highlight.trim() : null;
+      if (hl && tool.highlight.uppercase) hl = hl.toUpperCase();
+      const valid = tool.dataset[tool.highlight.key] || {};
+      parsed.highlight = (hl && Object.prototype.hasOwnProperty.call(valid, hl)) ? hl : null;
+      parsed.link = tool.link(parsed);
+      parsed.src = tool.src(tool.dataset, parsed);
+      // Cross-tool pointers, validated against the catalog.
+      const seeAlso = (out.see_also || [])
+        .filter(function (s) { return s && s.id !== tool.id && catalogIds.has(s.id); })
+        .slice(0, 2)
+        .map(function (s) {
+          const c = catalog.find(function (t) { return t.id === s.id; }) || {};
+          return { id: s.id, title: c.t || s.id, url: c.url || null, reason: s.reason || '' };
+        });
+      if (seeAlso.length) parsed.see_also = seeAlso;
+    } else if (out.decision === 'route' && (out.matches || []).length) {
+      parsed = { type: 'route', matches: out.matches.filter(function (m) { return m && catalogIds.has(m.id); }).slice(0, 3) };
+      if (!parsed.matches.length) parsed = { type: 'none', note: out.note || 'DataLabs does not yet cover this.' };
     } else {
-      parsed = { type: 'none', note: route.note || 'DataLabs does not yet cover this.' };
+      // Rich decline: the honest note plus the nearest answerable questions.
+      parsed = { type: 'none', note: out.note || 'DataLabs does not yet cover this.', followups: (out.followups || []).slice(0, 2) };
     }
 
     // Question log: every question, its outcome, and destination.

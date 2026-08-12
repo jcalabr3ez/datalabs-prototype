@@ -10,12 +10,15 @@
 const BUNDLED_CATALOG = require('./catalog.json'); // fallback only
 const TOOLS = require('./tools.js');
 
-const ROUTER_MODEL = 'claude-haiku-4-5';
+// Both stages run on Sonnet 5. The old Haiku router made scope misdecisions
+// (declining valid cost/farebox questions, mis-routing plain rate lookups), so
+// the routing decision now uses Sonnet 5 too, at low effort to stay fast.
 // Sonnet 5: adaptive thinking is ON when the thinking param is omitted, and
-// max_tokens caps thinking plus the answer, so the answer call carries a
-// generous cap and effort medium (comparable to Sonnet 4.6 at high) to keep
-// latency inside the function budget. effort is NOT sent on the Haiku router,
-// which rejects it.
+// max_tokens caps thinking plus the output, so the router carries a larger cap
+// than Haiku needed (700 would truncate Sonnet's thinking + routing JSON).
+const ROUTER_MODEL = 'claude-sonnet-5';
+const ROUTER_EFFORT = 'low';
+const ROUTER_MAX = 3000;
 const ANSWER_MODEL = 'claude-sonnet-5';
 const ANSWER_EFFORT = 'medium';
 
@@ -186,7 +189,7 @@ exports.handler = async function (event) {
     const route = await callModel(ROUTER_MODEL, [
       { type: 'text', text: ROUTER_RULES },
       { type: 'text', text: 'CATALOG:\n' + JSON.stringify(catalog), cache_control: { type: 'ephemeral' } }
-    ], messages, ROUTE_SCHEMA, 700);
+    ], messages, ROUTE_SCHEMA, ROUTER_MAX, ROUTER_EFFORT);
 
     const catalogIds = new Set();
     (Array.isArray(catalog) ? catalog : []).forEach(function (t) { if (t && t.id) catalogIds.add(t.id); });

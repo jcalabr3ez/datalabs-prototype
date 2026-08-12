@@ -175,6 +175,28 @@
   .f-n { background:transparent; border:1px solid #C4C9CF; }
 
   .cab { border-top:2px solid var(--ink); }
+  /* policy areas wrap the topics: area -> topic -> tools */
+  .area { border-bottom:1px solid var(--rule); }
+  .area.hide { display:none; }
+  .areahead { display:grid; grid-template-columns:18px 1fr auto; align-items:center; gap:14px;
+    padding:17px 2px; cursor:pointer; list-style:none; }
+  .areahead::-webkit-details-marker { display:none; }
+  .areahead .tw { justify-self:center; }
+  .areahead .tw::before { content:'\25B8'; font-family:var(--mono); font-size:12px; color:var(--faint); }
+  .area[open] .areahead .tw::before { content:'\25BE'; color:var(--gold); }
+  .areahead .anm { font-family:var(--serif); font-size:21px; font-weight:700; letter-spacing:-.01em; color:var(--navy); }
+  .areahead:hover .anm { color:var(--bar); }
+  .areahead .asum { display:flex; align-items:center; gap:16px; font-family:var(--sans);
+    font-size:11px; color:var(--grey); font-variant-numeric:tabular-nums; }
+  .areahead .asum .ct b { color:var(--ink); font-weight:600; }
+  .areahead .asum .geo { color:var(--faint); }
+  .areabody { padding:0 0 8px 20px; }
+  /* topics sit subordinate inside their area */
+  .area .cabrow { border-bottom:none; border-top:1px solid var(--rule-lt); }
+  .area .cabrow:first-child { border-top:none; }
+  .area .cabhead { padding:11px 2px; grid-template-columns:16px 1fr auto; }
+  .area .cabhead .nm { font-size:15.5px; font-weight:600; }
+  .area .cabhead .tw::before { font-size:10px; }
   .cabrow { border-bottom:1px solid var(--rule); }
   .cabrow.hide { display:none; }
   .cabhead { display:grid; grid-template-columns:18px 1fr auto; align-items:center; gap:14px;
@@ -301,7 +323,7 @@
   <section class="sec frame dir-sec" id="directory">
     <div class="lab">The index</div>
     <h2>Every tool, one catalog</h2>
-    <p class="sub">Every DataLabs product across every site, sectioned by topic. Rows marked &#8599; open on a partner DataLabs site; the date is the vintage of the data inside:
+    <p class="sub">Every DataLabs product across every site, grouped by policy area. Rows marked &#8599; open on a partner DataLabs site; the date is the vintage of the data inside:
       <span class="legend"><span><span class="fdot f-g"></span> current</span>
       <span><span class="fdot f-a"></span> aging</span>
       <span><span class="fdot f-r"></span> over a year old</span></span></p>
@@ -417,7 +439,16 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
   function dotCls(r){ return r.vage==='red'?'f-r':(r.vage==='amb'?'f-a':(r.vint?'f-g':'f-n')); }
   function dotTitle(r){ return r.vage==='red'?'data more than a year old':(r.vage==='amb'?'data aging':(r.vint?'data current':'vintage not recorded')); }
   // Each topic renders as a collapsed <details>; rows live inside, hidden until opened.
-  document.getElementById('dirList').innerHTML = sections.map(function(s){
+  // Group the topic sections under the four Pioneer policy areas (area -> topic -> tools).
+  // Archive stays a standalone catch-all at the bottom, outside the areas.
+  var byId = {}; sections.forEach(function(s){ byId[s.id]=s; });
+  var AREAS = [
+    { id:'education',   name:'Education',            topics:['education'] },
+    { id:'healthcare',  name:'Healthcare',           topics:['healthcare-340b'] },
+    { id:'economic',    name:'Economic Opportunity', topics:['economy-jobs','transportation-infrastructure','taxation','energy','housing'] },
+    { id:'citizenship', name:'American Citizenship',  topics:['state-government-spending','your-city-town','crime-justice','public-pensions'] }
+  ];
+  function topicHtml(s){
     return '<details class="cabrow'+(s.arch?' arch':'')+'" id="dir-'+esc(s.id)+'">' +
       '<summary class="cabhead"><span class="tw" aria-hidden="true"></span>' +
         '<span class="nm">'+esc(s.name)+'</span><span class="sum" data-sum></span></summary>' +
@@ -432,7 +463,17 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
             '<span class="fdot '+dotCls(r)+'" title="'+dotTitle(r)+'"></span></span>' +
         '</div>';
       }).join('') + '</div></details>';
-  }).join('');
+  }
+  function areaHtml(a){
+    var topics = a.topics.filter(function(id){return byId[id];}).map(function(id){return topicHtml(byId[id]);}).join('');
+    return '<details class="area" id="area-'+esc(a.id)+'" open>' +
+      '<summary class="areahead"><span class="tw" aria-hidden="true"></span>' +
+        '<span class="anm">'+esc(a.name)+'</span><span class="asum" data-asum></span></summary>' +
+      '<div class="areabody">' + topics + '</div></details>';
+  }
+  var dirHtml = AREAS.map(areaHtml).join('');
+  if (byId['ARCHIVE']) dirHtml += topicHtml(byId['ARCHIVE']);
+  document.getElementById('dirList').innerHTML = dirHtml;
 
   // Place filter chips. Same geo taxonomy as before, now rule-to-rule pills.
   var geoOrder=['Boston','MA','US','FL'];
@@ -456,13 +497,22 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
       (geo?'<span class="geo">'+geo+'</span>':'') + '<span class="fr">'+fr+'</span>';
   }
 
+  // Area rollup: total tools and topic count across the area's visible topics.
+  function buildAreaSummary(area){
+    var tools=area.querySelectorAll('.cr:not(.hide)').length;
+    var tp=area.querySelectorAll('.cabrow:not(.hide)').length;
+    return '<span class="ct"><b>'+tools+'</b> '+(tools===1?'tool':'tools')+'</span>' +
+      '<span class="geo">'+tp+' '+(tp===1?'topic':'topics')+'</span>';
+  }
+
+  var areas=[].slice.call(document.querySelectorAll('.area'));
   var cabs=[].slice.call(document.querySelectorAll('.cabrow'));
   var crows=[].slice.call(document.querySelectorAll('.cr'));
   var count=document.getElementById('rcount'), none=document.getElementById('noresult');
   var srchEl=document.getElementById('srch'), srchX=document.getElementById('srchClear'),
       expBtn=document.getElementById('expandAll');
   var fg='ALL', expandedAll=false;
-  // Row/topic visibility and per-topic summaries. Never touches open state.
+  // Row/topic/area visibility and summaries. Never touches open state.
   function apply(){
     var q=(srchEl.value||'').toLowerCase().replace(/^\s+|\s+$/g,'');
     var matched=0, vsecs=0;
@@ -475,25 +525,36 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
       sec.classList.toggle('hide',!vis);
       if(vis){ vsecs++; sec.querySelector('[data-sum]').innerHTML=buildSummary(sec); }
     });
+    areas.forEach(function(area){
+      var vt=area.querySelectorAll('.cabrow:not(.hide)').length;
+      area.classList.toggle('hide',!vt);
+      if(vt) area.querySelector('[data-asum]').innerHTML=buildAreaSummary(area);
+    });
     count.innerHTML = matched+(matched===1?' tool':' tools')+' &#183; '+vsecs+(vsecs===1?' topic':' topics');
     none.hidden = matched>0;
   }
-  // Open (or close) every currently-visible topic, and keep the toggle label in sync.
-  // Independent of the filter, so it works whether or not a place/search is active.
-  function setExpanded(state){
+  // Open (or close) every visible area AND topic, keeping the toggle label in sync.
+  function setAllOpen(state){
     expandedAll=state; expBtn.textContent=state?'Collapse all':'Expand all';
+    areas.forEach(function(a){ if(!a.classList.contains('hide')) a.open=state; });
     cabs.forEach(function(sec){ if(!sec.classList.contains('hide')) sec.open=state; });
   }
+  // Browse view: areas open to show their topics, topics themselves collapsed.
+  function defaultView(){
+    expandedAll=false; expBtn.textContent='Expand all';
+    areas.forEach(function(a){ if(!a.classList.contains('hide')) a.open=true; });
+    cabs.forEach(function(sec){ sec.open=false; });
+  }
   function chrome(){ srchX.hidden = !srchEl.value; }
-  // After a filter/search change: re-scope, then auto-expand matches (collapse when cleared).
-  function refilter(){ apply(); setExpanded(!!(srchEl.value||'').trim() || fg!=='ALL'); }
+  // After a filter/search change: re-scope, then open matches fully (or reset when cleared).
+  function refilter(){ apply(); if(!!(srchEl.value||'').trim() || fg!=='ALL') setAllOpen(true); else defaultView(); }
   srchEl.addEventListener('input',function(){refilter();chrome();});
   srchX.addEventListener('click',function(){ srchEl.value=''; refilter(); chrome(); srchEl.focus(); });
-  expBtn.addEventListener('click',function(){ setExpanded(!expandedAll); });
+  expBtn.addEventListener('click',function(){ setAllOpen(!expandedAll); });
   [].slice.call(document.querySelectorAll('.chip')).forEach(function(b){b.addEventListener('click',function(){
     [].slice.call(document.querySelectorAll('.chip')).forEach(function(x){x.classList.toggle('on',x===b);});
     fg=b.dataset.g; refilter();});});
-  apply();
+  apply(); defaultView();
 })();
 
 /* ---------- Chart library (numbers come only from the data file) ---------- */

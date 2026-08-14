@@ -11,7 +11,7 @@ This script regenerates every embedded copy from the canonical files:
     index.html            const DATA (catalog + answers; audit preserved)
     mbta/index.html       const ANSWERS
     tax-atlas/index.html  STATES, *_META, DEFAULT_SOURCES, STATE_SOURCES, CAPTIONS
-    florida-insurance/index.html  chart series, dateline, keyed headlines
+    florida-insurance/index.html  chart series, dateline, footer, keyed headlines
     netlify/functions/catalog.json        copy of root catalog.json
 
 It runs locally (python3 scripts/inject_data.py) and as the Netlify build
@@ -164,6 +164,19 @@ def inject_florida(dl02, text, path):
         f"rose modestly, led by {inc}."
     )
     text = replace_block(text, "florida-county-change", change, path, style="html")
+    revised_long = fl["revised"]
+    for full, (short, _) in MONTH_END.items():
+        if revised_long.startswith(short + " "):
+            revised_long = full + revised_long[len(short):]
+            break
+    through_day = fl["data_through"].split()[1]
+    through_long = dl02["as_of"].replace(" ", f" {through_day} ")
+    footer = (
+        f"    <div>Florida Insurance Watch &middot; Version {fl['version']} "
+        f"&middot; Data through {through_long} &middot; "
+        f"Revised {revised_long}</div>"
+    )
+    text = replace_block(text, "florida-footer-meta", footer, path, style="html")
     return text
 
 

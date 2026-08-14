@@ -40,6 +40,11 @@ After ledger edits: `python3 scripts/inject_data.py`, then
 `python3 scripts/check_style.py`, `python3 scripts/check_freshness.py`,
 and `node --check scripts/check_engine.mjs`.
 
+Any change to the Florida page or `dl02-answers.json` must set
+`page.revised` to today's date (`Mon D, YYYY`, e.g. `Aug 14, 2026`)
+and run inject. The hero dateline and footer Revised line are generated
+from that field. Do not ship a Florida edit with a stale revised date.
+
 ## Do not mix workstreams
 
 The Florida standalone Netlify drop lives on

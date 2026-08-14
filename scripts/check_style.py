@@ -43,6 +43,7 @@ pif_formatted = f"{latest['v']:,}"
 sentinels = [
     (pif_formatted, f"latest Citizens policies in force ({pif_formatted}, month {latest['m']})"),
     (fl["as_of"], f"ledger as_of ({fl['as_of']})"),
+    (fl["page"]["revised"], f"page.revised ({fl['page']['revised']})"),
 ]
 if "DATA:BEGIN florida-charts" not in page:
     failures.append(

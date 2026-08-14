@@ -5,12 +5,13 @@ Canonical data lives in:
     catalog.json                          (site root)
     netlify/functions/dl03-answers.json   (MBTA ledger)
     netlify/functions/dl01-answers.json   (State Tax Atlas ledger)
-    netlify/functions/dl02-answers.json   (Florida ledger; engine only)
+    netlify/functions/dl02-answers.json   (Florida ledger)
 
 This script regenerates every embedded copy from the canonical files:
     index.html            const DATA (catalog + answers; audit preserved)
     mbta/index.html       const ANSWERS
     tax-atlas/index.html  STATES, *_META, DEFAULT_SOURCES, STATE_SOURCES, CAPTIONS
+    florida-insurance/index.html  chart series, dateline, keyed headlines
     netlify/functions/catalog.json        copy of root catalog.json
 
 It runs locally (python3 scripts/inject_data.py) and as the Netlify build
@@ -51,6 +52,119 @@ def replace_block(text, name, payload, path, style="js"):
     if not pattern.search(text):
         sys.exit(f"FATAL: marker {name!r} not found in {path}")
     return pattern.sub(lambda _: begin + tail + "\n" + payload + "\n" + end, text)
+
+
+MONTH_END = {
+    "January": ("Jan", 31), "February": ("Feb", 28), "March": ("Mar", 31),
+    "April": ("Apr", 30), "May": ("May", 31), "June": ("Jun", 30),
+    "July": ("Jul", 31), "August": ("Aug", 31), "September": ("Sep", 30),
+    "October": ("Oct", 31), "November": ("Nov", 30), "December": ("Dec", 31),
+}
+ONES = {
+    1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six",
+    7: "seven", 8: "eight", 9: "nine", 10: "ten", 11: "eleven", 12: "twelve",
+    13: "thirteen", 14: "fourteen", 15: "fifteen", 16: "sixteen",
+    17: "seventeen", 18: "eighteen", 19: "nineteen", 20: "twenty",
+}
+
+
+def fl_data_through(as_of):
+    """Turn ledger as_of ('June 2026' or '2026-06') into 'Jun 30, 2026'."""
+    if as_of.split(" ")[0] in MONTH_END:
+        name, year = as_of.split(" ")
+        abbr, day = MONTH_END[name]
+        return f"{abbr} {day}, {year}"
+    parts = as_of.split("-")
+    months = list(MONTH_END.keys())
+    name = months[int(parts[1]) - 1]
+    abbr, day = MONTH_END[name]
+    return f"{abbr} {day}, {parts[0]}"
+
+
+def fl_money_delta(n):
+    sign = "\u2212" if n < 0 else "+"
+    return f"{sign}${abs(n):,}"
+
+
+def fl_county_list(rows, key="change"):
+    parts = [f"{r['county']} ({fl_money_delta(r[key])})" for r in rows]
+    if len(parts) <= 1:
+        return parts[0] if parts else ""
+    if len(parts) == 2:
+        return parts[0] + " and " + parts[1]
+    return ", ".join(parts[:-1]) + ", and " + parts[-1]
+
+
+def inject_florida(dl02, text, path):
+    """Regenerate Florida chart consts and the headlines that must track them."""
+    kf = dl02["citizens_key_facts"]
+    page = dl02.get("page") or {}
+    sw = dl02["statewide_premiums"]
+    ranks = dl02["county_rankings"]
+    n_up = ranks["counties_total"] - ranks["counties_with_declines"]
+    fl = {
+        "as_of": dl02["as_of"],
+        "data_through": fl_data_through(dl02["as_of"]),
+        "revised": page.get("revised", ""),
+        "version": page.get("version", "1.0 Beta"),
+        "pif": kf["latest"]["policies"],
+        "pif_fmt": f"{kf['latest']['policies']:,}",
+        "peak": kf["peak"]["policies"],
+        "peak_fmt": f"{kf['peak']['policies']:,}",
+        "decline_pct": abs(kf["decline_from_peak_pct"]),
+    }
+    charts = "\n".join([
+        "const pif=" + jdump([[e["m"], e["v"]] for e in dl02["citizens_policies_monthly"]]) + ";",
+        "const qtr=" + jdump([[e["q"], e["policies"], e["premium_usd"], e["exposure_usd"]]
+                              for e in dl02["citizens_quarterly"]]) + ";",
+        "const cty=" + jdump([[k, c["incl_wind"], c["ex_wind"], c["incl_wind_2025_09"]]
+                              for k, c in sorted(dl02["county_premiums"].items())]) + ";",
+        "const FLSW=" + jdump({"labels": sw["labels"], "avg": sw["avg_premium"],
+                               "c100": sw["cost_per_100k"]}) + ";",
+        "const FLCR=" + jdump({"labels": [e["year"] for e in dl02["combined_ratio"]],
+                               "data": [e["pct"] for e in dl02["combined_ratio"]]}) + ";",
+        "const FLSTAT=" + jdump({
+            "labels": [e["year"] for e in dl02["citizens_statutory_results"]],
+            "uw": [e["underwriting_m"] for e in dl02["citizens_statutory_results"]],
+            "ni": [e["net_income_m"] for e in dl02["citizens_statutory_results"]],
+        }) + ";",
+        "const FLMC=" + jdump([[e["year"], e["fl_share_us_claims_pct"], e["fl_share_us_suits_pct"]]
+                               for e in dl02["litigation_share"]]) + ";",
+        "const FLINFLOW=" + jdump([[e["period"], e["implied_inflow_per_100_takeouts"]]
+                                   for e in dl02["takeout_net_inflow"]]) + ";",
+        "const FLRT=" + jdump({
+            "y": [e["year"] for e in dl02["risk_transfer"]],
+            "f": [e["cat_fund_coverage_bn"] for e in dl02["risk_transfer"]],
+            "p": [e["private_capital_coverage_bn"] for e in dl02["risk_transfer"]],
+            "s": [e["reinsurance_premium_pct_of_dwp"] for e in dl02["risk_transfer"]],
+        }) + ";",
+        "const FLPML=" + jdump({
+            "vintages": [[e["label"], e["source"]] for e in dl02["pml_vintages"]],
+            "abs": [e["abs_bn"] for e in dl02["pml_vintages"]],
+            "tiv": [e["tiv_per_100"] for e in dl02["pml_vintages"]],
+            "pol": [e["per_policy_k"] for e in dl02["pml_vintages"]],
+        }) + ";",
+        "const FLCONC=" + jdump(dl02["concentration"]) + ";",
+        "const FL=" + jdump(fl) + ";",
+    ])
+    text = replace_block(text, "florida-charts", charts, path)
+    dateline = (
+        f'    <span>Data through <b>{fl["data_through"]}</b></span>\n'
+        f'    <span>Revised <b>{fl["revised"]}</b></span>\n'
+        f'    <span>Version <b>{fl["version"]}</b></span>'
+    )
+    text = replace_block(text, "florida-dateline", dateline, path, style="html")
+    text = replace_block(text, "florida-pif", fl["pif_fmt"], path, style="html")
+    decl = fl_county_list(ranks["largest_declines_since_2025_09"][:4])
+    inc = fl_county_list(ranks["largest_increases_since_2025_09"][:2])
+    n_up_word = ONES.get(n_up, str(n_up))
+    change = (
+        f"The largest declines came in {decl}, consistent with the largest "
+        f"approved Citizens cuts landing in South Florida; {n_up_word} counties "
+        f"rose modestly, led by {inc}."
+    )
+    text = replace_block(text, "florida-county-change", change, path, style="html")
+    return text
 
 
 def extract_json_after(text, prefix, path):
@@ -152,6 +266,14 @@ def main():
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("tax-atlas/index.html")
+
+    # ---- florida-insurance/index.html: charts + keyed headlines ----
+    p = ROOT / "florida-insurance/index.html"
+    text = p.read_text(encoding="utf-8")
+    new = inject_florida(dl02, text, p)
+    if new != text:
+        p.write_text(new, encoding="utf-8")
+        changed.append("florida-insurance/index.html")
 
     # ---- netlify/functions/catalog.json: copy of root ----
     p = ROOT / "netlify/functions/catalog.json"

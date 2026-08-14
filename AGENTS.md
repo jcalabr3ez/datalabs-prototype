@@ -10,8 +10,8 @@ pull requests**. They do not merge and they do not push `main`.
 - `netlify/functions/dl02-answers.json`
 - `netlify/functions/dl03-answers.json`
 - Hand-authored prose: hero / methodology / source register / footer on
-  `tax-atlas/index.html`, the Florida flagship page, and front-door chrome
-  in `index.html`
+  `tax-atlas/index.html`, remaining Florida narrative (charts and keyed
+  headlines are generated), and front-door chrome in `index.html`
 
 `python3 scripts/inject_data.py` rewrites every `DATA:BEGIN` / `DATA:END`
 block and `netlify/functions/catalog.json`. Do not hand-edit those copies.

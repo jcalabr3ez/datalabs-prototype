@@ -29,7 +29,8 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     netlify/functions/dl02-answers.json  CANONICAL DL-02 (Florida) ledger
     netlify/functions/dl01-answers.json  CANONICAL DL-01 (Tax Atlas) ledger
     scripts/inject_data.py         Build step: regenerates every embedded page
-                                   copy from the canonical ledgers (see below)
+                                   copy from the canonical ledgers, including
+                                   Florida charts and keyed headlines
     scripts/refresh_dl03.py        Recomputes the DL-03 ledger from the live
                                    FTA NTD API; run by the monthly workflow
     scripts/check_freshness.py     Fails when a ledger ages past its cadence

@@ -39,23 +39,23 @@
   @media(max-width:520px){.sitebar .tag{display:none}}
 
   header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);
-         margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+         margin:0 calc(-1 * var(--bleed));padding:22px var(--bleed) 18px}
   .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
     background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;
     -webkit-mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%);
     mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%)}
   header>*:not(.dots){position:relative}
-  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:8px}
   .org .sub{color:#8DA0B5}
-  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
-  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
-  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  h1{font:700 clamp(26px,3.4vw,40px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 14.5px/1.55 var(--sans);color:#AEBDD2;margin-top:8px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:12px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
   .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
   .dateline span:first-child{padding-left:0;border-left:none}
   .dateline b{color:var(--goldlt);font-weight:500}
 
   .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);
-         margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+         margin:0 calc(-1 * var(--bleed)) 16px;padding:9px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
   .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);
              border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
   .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
@@ -63,7 +63,7 @@
   .proto-txt a{color:inherit;text-decoration:underline}
 
   /* ---- audience toggle ---- */
-  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:8px}
   .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
                  font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
   .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
@@ -288,20 +288,46 @@
   [hidden]{display:none !important}
 
   /* ---- report card (reform grades view) ---- */
-  @media(max-width:900px){}
-  @media(max-width:560px){}
+  body.on-report header{padding:14px var(--bleed) 12px}
+  body.on-report .org{margin-bottom:6px}
+  body.on-report h1{font-size:clamp(24px,3vw,34px)}
+  body.on-report .standfirst{display:none}
+  body.on-report .dateline{margin-top:8px}
+  body.on-report .proto{display:none}
+  body.on-report .toggle{margin-top:4px}
+  #view-report>section:first-child{margin-top:18px}
 
   .rc td{vertical-align:top}
   .rc td.obj{width:34%;border-left:3px solid var(--rule);padding-left:14px}
+  .rc tr.rA td.obj{border-left-color:var(--pos)}
+  .rc tr.rB td.obj{border-left-color:var(--navy)}
+  .rc tr.rC td.obj{border-left-color:var(--gold)}
+  .rc tr.rD td.obj{border-left-color:var(--neg)}
+  .rc tr.rI td.obj{border-left-color:var(--faint)}
   .rc .law{display:block;font:400 12px/1.5 var(--sans);color:var(--grey);margin-top:5px}
-  .rc td.gcell{width:9%;text-align:center}
-  .grade{display:inline-block;font:600 19px/1.1 var(--serif);color:var(--ink);padding:2px 0}
+  .rc td.gcell{width:10%;text-align:center;padding-top:14px}
+  .grade{display:inline-flex;align-items:center;justify-content:center;min-width:2.6em;
+         font:700 17px/1 var(--serif);padding:7px 10px;border-radius:4px;letter-spacing:.01em}
+  .gA{color:#0F5C38;background:#E3F2EA}
+  .gB{color:var(--navy);background:#E4EAF3}
+  .gC{color:#6E5414;background:#F6EFD6}
+  .gD{color:var(--neg);background:#F6E8E4}
+  .gF{color:#fff;background:var(--neg)}
+  .gI{color:#4A5560;background:#EEF1F4;font-size:12px;font-family:var(--sans);font-weight:700;
+      letter-spacing:.04em;text-transform:uppercase;min-width:0;padding:7px 8px}
+  .rc-strip{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px}
+  .rc-chip{display:flex;align-items:center;gap:8px;text-decoration:none;color:inherit;
+           border:1px solid var(--rule);border-radius:4px;padding:6px 8px 6px 10px;background:#fff}
+  .rc-chip:hover{border-color:var(--navy);background:var(--hover)}
+  .rc-chip .n{font:700 11px/1 var(--sans);color:var(--grey);min-width:1.1em}
+  .rc-chip .t{font:600 12px/1.2 var(--sans);color:var(--ink)}
+  .rc-chip .grade{min-width:2.2em;padding:5px 7px;font-size:14px}
+  .rc-chip .grade.gI{font-size:10px;padding:5px 6px}
   .pmseg{display:flex;gap:0;margin:10px 0 4px;border:1px solid var(--rule);border-radius:4px;width:max-content;overflow:hidden}
   .pmseg button{font:600 11.5px/1 var(--sans);letter-spacing:.03em;padding:8px 14px;border:0;background:#fff;color:#4A5560;cursor:pointer;border-right:1px solid var(--rule)}
   .pmseg button:last-child{border-right:0}
   .pmseg button.on{background:var(--navy);color:#fff}
   .pmread{font:400 13px/1.55 var(--sans);color:#4A5560;margin:2px 0 10px}
-  .gA,.gB,.gC,.gI{color:var(--ink);background:none;border:0}
   .rc .ev{font:400 13.5px/1.6 var(--sans);color:var(--ink)}
   .rc .csrc{margin-top:6px}
 
@@ -784,23 +810,25 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
 <!-- ==================================================================== -->
 <div id="view-report" hidden>
 
-  <section style="margin-top:30px">
-    <p class="body-p big"><b>The Legislature stated its objectives when it passed the reforms. This page grades each one against the record.</b> Objectives are taken from the laws' own official record: the Florida Senate's bill summaries for the 2022 special sessions and the enacting statements for the 2023 tort bill. The evidence is drawn from the same state filings used throughout this tool, and every figure carries its source. The grades themselves are Pioneer Institute judgments; the reader is free to weigh the same evidence differently.</p>
-  </section>
-
-  <section>
-    <h2>The three reform laws</h2>
-    <p class="body-p">Ch. 2022-268 (SB 2-D, May 2022) responded to what the Senate's summary called <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">"the increasing lack of access and affordability of property insurance"</a>, creating the $2 billion Reinsurance to Assist Policyholders layer and home hardening grants. Ch. 2022-271 (SB 2-A, December 2022) was, in the Senate summary's words, intended to ensure <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">"access to quality, affordable private market property insurance"</a>; it eliminated one-way attorney fees and assignment of benefits, tightened claim payment deadlines, created the optional FORA reinsurance program, and redirected Citizens toward residual status. Ch. 2023-15 (HB 837, March 2023) extended the litigation changes to all lines, with the stated purpose to <a href="https://www.flgov.com/eog/news/press/2023/governor-ron-desantis-signs-comprehensive-legal-reforms-law" target="_blank">"decrease frivolous lawsuits and prevent predatory practices of trial attorneys"</a>.</p>
-    <div class="srcline">Sources: <a href="https://www.flsenate.gov/Session/Bill/2022D/2" target="_blank">Ch. 2022-268 (SB 2-D)</a>, <a href="https://www.flsenate.gov/Session/Bill/2022A/2A" target="_blank">Ch. 2022-271 (SB 2-A)</a>, <a href="https://www.flsenate.gov/Session/Bill/2023/837" target="_blank">Ch. 2023-15 (HB 837)</a>, Laws of Florida; Florida Senate bill summaries, <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">2022D</a> and <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">2022A</a>; <a href="https://www.flgov.com/eog/news/press/2023/governor-ron-desantis-signs-comprehensive-legal-reforms-law" target="_blank">Executive Office of the Governor, March 24, 2023</a>.</div>
-    <div class="note"><b>Scope and completeness.</b> Three boundaries apply to this record. HB 837's stated objectives extend well beyond property insurance, including modified comparative negligence, a two-year statute of limitations for general negligence, uniform medical-damages standards, and expanded property-owner immunity; this page grades only its property insurance litigation effects. <a href="https://www.flsenate.gov/Session/Bill/2023/7052" target="_blank">SB 7052 (Ch. 2023-172, June 2023)</a>, the Insurer Accountability Act, is a fourth reform-era property insurance law addressing claims-handling conduct and OIR enforcement; it is outside the laws graded here, and its subject matter bears on objectives 6 and 8. <a href="https://www.flsenate.gov/Session/Bill/2022D/4D" target="_blank">SB 4-D (Ch. 2022-269, May 2022)</a>, the building-safety act passed in the same special session, revised the Building Code's roof-replacement rule and created the condominium milestone-inspection regime; it is adjacent to this record and not graded here.</div>
-  </section>
-
   <section>
     <h2>Report card</h2>
-    <div class="subhead">Nine objectives drawn from the legislative record, graded A through F, with Incomplete where the mandate is still phasing in or public outcome data does not yet exist. Grades reflect data through June 30, 2026.</div>
+    <div class="subhead">Eleven objectives drawn from the legislative record, graded A through F, with Incomplete where the mandate is still phasing in or public outcome data does not yet exist. Grades reflect data through June 30, 2026. Pioneer Institute judgments; the evidence in each row traces to the linked filings.</div>
 
-    
-    <p class="body-p">In brief: the market-structure objectives earned the strongest marks, affordability the weakest, transparency is mixed, and three mandates cannot yet be fully judged.</p>
+    <div class="rc-strip" aria-label="Grade summary">
+      <a class="rc-chip" href="#rc1"><span class="n">1</span><span class="grade gB">B+</span><span class="t">Access</span></a>
+      <a class="rc-chip" href="#rc2"><span class="n">2</span><span class="grade gA">A&minus;</span><span class="t">Litigation</span></a>
+      <a class="rc-chip" href="#rc3"><span class="n">3</span><span class="grade gA">A</span><span class="t">Citizens</span></a>
+      <a class="rc-chip" href="#rc4"><span class="n">4</span><span class="grade gC">C&minus;</span><span class="t">Affordability</span></a>
+      <a class="rc-chip" href="#rc5"><span class="n">5</span><span class="grade gB">B</span><span class="t">Reinsurance</span></a>
+      <a class="rc-chip" href="#rc6"><span class="n">6</span><span class="grade gI">Inc</span><span class="t">Claims speed</span></a>
+      <a class="rc-chip" href="#rc7"><span class="n">7</span><span class="grade gI">Inc</span><span class="t">Flood</span></a>
+      <a class="rc-chip" href="#rc8"><span class="n">8</span><span class="grade gC">C+</span><span class="t">Transparency</span></a>
+      <a class="rc-chip" href="#rc9"><span class="n">9</span><span class="grade gI">Inc</span><span class="t">Mitigation</span></a>
+      <a class="rc-chip" href="#rc10"><span class="n">10</span><span class="grade gI">Inc</span><span class="t">Older roofs</span></a>
+      <a class="rc-chip" href="#rc11"><span class="n">11</span><span class="grade gI">Inc</span><span class="t">Accountability</span></a>
+    </div>
+
+    <p class="body-p">In brief: returning Citizens to residual status earned the only A. Access and litigation remain the next-strongest marks. Affordability was marked down to C-minus: prices stopped rising, but they stopped at the top. Transparency was marked down to C-plus because county-level detail receded even as statewide files improved. Five mandates remain Incomplete.</p>
 
     <div class="scroll"><table class="rc">
       <thead><tr><th class="obj">Objective, as stated</th><th>Grade</th><th>What the record shows</th></tr></thead>
@@ -815,8 +843,8 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
         </tr>
 
         <tr class="rA" id="rc2">
-          <td class="obj"><b>2. End excessive litigation</b>
-            <span class="law">SB 2-A eliminated one-way attorney fees and assignment of benefits; HB 837's stated purpose was to "decrease frivolous lawsuits and prevent predatory practices of trial attorneys." <a href="https://www.flgov.com/eog/news/press/2023/governor-ron-desantis-signs-comprehensive-legal-reforms-law" target="_blank">Exec. Office of the Governor, Mar. 24, 2023</a></span></td>
+          <td class="obj"><b>2. Reduce excessive litigation</b>
+            <span class="law">SB 2-A said excessive litigation is addressed by eliminating one-way attorney fees and assignment of benefits, shortening the claim-filing window, and restoring the offer-of-judgment statute; SB 2-D restricted contractor roof-claim solicitations and attorney-fee multipliers; HB 837's stated purpose was to "decrease frivolous lawsuits and prevent predatory practices of trial attorneys." <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">Fla. S. Comm. on Banking &amp; Ins., SB 2-A Summary (2022A)</a>; <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">SB 2-D Summary (2022D)</a>; <a href="https://www.flgov.com/eog/news/press/2023/governor-ron-desantis-signs-comprehensive-legal-reforms-law" target="_blank">Exec. Office of the Governor, Mar. 24, 2023</a></span></td>
           <td class="gcell"><span class="grade gA">A&minus;</span></td>
           <td><div class="ev">On Citizens' book, the share of non-catastrophe personal residential claims that end in litigation fell from 10.3 percent (accident year 2023) to 6.6 percent (2024) to 5.0 percent (2025), against 15 to 19 percent in the pre-reform years; litigated claim severity fell from $32,544 to $18,318 over the same accident years. Statewide, Florida's share of the nation's homeowners suits fell from 76 percent (2021) to a preliminary 41.3 percent (2025) while its share of claims fell to 4.9 percent. What keeps the grade short of an A is arithmetic: 41.3 percent of the nation's suits against 4.9 percent of its claims still leaves Florida litigating at roughly eight times the national propensity.</div>
           <div class="csrc">Sources: <a href="https://www.citizensfla.com/documents/20702/40967396/20260623+02A+Presidents+Report+ph.pdf/941165c0-bcf1-b38c-8d79-43180a0906c9" target="_blank">Citizens, President's Report to the Board of Governors, Jun 23, 2026</a> (litigation frequency and severity by accident year); <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a> (NAIC MCAS shares; 2025 preliminary, final expected Q3 2026)</div></td>
@@ -832,10 +860,10 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
 
         <tr class="rC" id="rc4">
           <td class="obj"><b>4. Affordable coverage for households</b>
-            <span class="law">SB 2-D addressed "the increasing lack of access and affordability of property insurance"; SB 2-A promised "access to quality, affordable private market property insurance." <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a>; <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">SB 2-A (2022A)</a></span></td>
-          <td class="gcell"><span class="grade gC">C</span></td>
-          <td><div class="ev">The statewide average premium rose from $2,798 in mid-2022 to a $3,748 peak in late 2025, then flattened; the net rise through early 2026 is 32.6 percent. Measured per dollar of protection, the statewide price has been roughly flat since late 2023. Relief began only in 2026: Citizens' approved 8.8 percent statewide multiperil decrease is its first broad cut since 2015, average premiums fell in 51 of 67 counties between the September 2025 and March 2026 readings, and 44 insurers have requested decreases. The C records a plain fact: prices stopped rising, but they stopped at the top. One 8.8 percent cut, however welcome, does not unwind a 32.6 percent climb.</div>
-          <div class="csrc">Sources: Pioneer Institute calculation from <a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">FL OIR Statewide Summary by Company and Policy Type</a> (premium and coverage series); <a href="https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" target="_blank">Citizens, Mar 4, 2026</a> (rate decrease); <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a> (county changes, decrease requests)</div></td>
+            <span class="law">SB 2-D addressed "the increasing lack of access and affordability of property insurance"; SB 2-A promised "access to quality, affordable private market property insurance." SB 2-D also authorized a separate roof deductible, with an actuarially sound premium credit, as a household cost-sharing option. <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a>; <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">SB 2-A (2022A)</a></span></td>
+          <td class="gcell"><span class="grade gC">C&minus;</span></td>
+          <td><div class="ev">The statewide average premium rose from $2,798 in mid-2022 to a $3,748 peak in late 2025, then flattened; the net rise through early 2026 is 32.6 percent. Measured per dollar of protection, the statewide price has been roughly flat since late 2023. Relief began only in 2026: Citizens' approved 8.8 percent statewide multiperil decrease is its first broad cut since 2015, average premiums fell in 51 of 67 counties between the September 2025 and March 2026 readings, and 44 insurers have requested decreases. A July 2026 Tampa focus group still described premiums as "just as burdensome as mortgage payments." The prior C treated a pause at the peak as a passing mark against a promise of affordable coverage. The C-minus records the same pause and the same first cut, and scores them against the laws' own words: one 8.8 percent reduction does not unwind a 32.6 percent climb, and no public series measures how often the new roof-deductible option is even offered.</div>
+          <div class="csrc">Sources: Pioneer Institute calculation from <a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">FL OIR Statewide Summary by Company and Policy Type</a> (premium and coverage series); <a href="https://www.citizensfla.com/-/20260304-citizens-2026-multiperil-rates-to-drop-statewide" target="_blank">Citizens, Mar 4, 2026</a> (rate decrease); <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Report, Jul 1, 2026</a> (county changes, decrease requests); Pioneer Institute focus group, Tampa, July 2, 2026</div></td>
         </tr>
 
         <tr class="rB" id="rc5">
@@ -850,7 +878,7 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
           <td class="obj"><b>6. Prompt, fair claims handling</b>
             <span class="law">SB 2-A cut the deadline to pay or deny a claim from 90 to 60 days and to acknowledge a claim from 14 to 7 days. <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">Fla. S. Comm. on Banking &amp; Ins., SB 2-A Summary (2022A)</a></span></td>
           <td class="gcell"><span class="grade gI">Incomplete</span></td>
-          <td><div class="ev">The deadlines are law, but no comprehensive public dataset measures compliance or claim outcomes across insurers, so the objective cannot yet be graded. The one large test to date is ambiguous: 44 percent of the more than 76,000 Citizens claims from the 2024 hurricanes closed without payment, largely because the damage was flood, which a standard homeowners policy excludes in every state. That is a coverage-design result, not a speed result, and it is measured for only one insurer.</div>
+          <td><div class="ev">The deadlines are law, but no comprehensive public dataset measures compliance or claim outcomes across insurers, so the objective cannot yet be graded. SB 7052 later raised the fines and examination triggers that would make those deadlines enforceable; that law is graded on its own row, and it does not fill the data gap. The one large test to date is ambiguous: 44 percent of the more than 76,000 Citizens claims from the 2024 hurricanes closed without payment, largely because the damage was flood, which a standard homeowners policy excludes in every state. That is a coverage-design result, not a speed result, and it is measured for only one insurer.</div>
           <div class="csrc">Source: testimony of Citizens President/CEO Tim Cerio to the Florida Senate Banking and Insurance Committee, January 14, 2025, <a href="https://www.yahoo.com/news/citizens-property-insurance-paid-823-183255074.html" target="_blank">as reported by the Florida Phoenix</a></div></td>
         </tr>
 
@@ -858,15 +886,15 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
           <td class="obj"><b>7. Close the flood protection gap</b>
             <span class="law">SB 2-A requires Citizens personal lines policyholders to secure and maintain flood insurance, phased by home value through 2027. <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">Fla. S. Comm. on Banking &amp; Ins., SB 2-A Summary (2022A)</a></span></td>
           <td class="gcell"><span class="grade gI">Incomplete</span></td>
-          <td><div class="ev">The mandate the 2024 season proved necessary is still phasing in, and applies only to Citizens policyholders, a book now covering under 2 percent of the market. For hurricanes Debby and Helene, only 24 and 28 percent of Citizens claims were paid because most damage was flooding. No public series yet measures flood take-up across the market, so the objective cannot be graded before the phase-in completes in 2027.</div>
+          <td><div class="ev">The mandate the 2024 season proved necessary is still phasing in, and applies only to Citizens policyholders, a book now covering under 2 percent of the market. Four of the five value tranches are already in force (special flood hazard areas in 2023, then $600,000, $500,000, and $400,000 limits through March 2026); only policies below $400,000 wait until March 2027. For hurricanes Debby and Helene, only 24 and 28 percent of Citizens claims were paid because most damage was flooding. No public series yet measures flood take-up even on the Citizens book, so the objective cannot be graded on outcomes before that series exists.</div>
           <div class="csrc">Sources: <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">Fla. S. Bill Summary, SB 2-A (2022A)</a> (mandate and timetable); Cerio testimony, January 14, 2025, <a href="https://www.yahoo.com/news/citizens-property-insurance-paid-823-183255074.html" target="_blank">as reported by the Florida Phoenix</a> (payment rates)</div></td>
         </tr>
 
-        <tr class="rB" id="rc8">
+        <tr class="rC" id="rc8">
           <td class="obj"><b>8. Strengthen regulatory oversight and market transparency</b>
-            <span class="law">SB 2-A, per the Senate summary, "strengthens the regulatory authority of the Office of Insurance Regulation over property insurers"; SB 2-D created the Property Insurer Stability Unit, with duties including enhanced monitoring, annual catastrophe stress tests, insolvency reviews, and semiannual market reports, and mandated statewide data publication. <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">Fla. S. Comm. on Banking &amp; Ins., SB 2-A Summary (2022A)</a>; <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">SB 2-D Summary (2022D)</a></span></td>
-          <td class="gcell"><span class="grade gB">B&minus;</span></td>
-          <td><div class="ev">The machinery was built and much of it demonstrably runs. The Stability Unit's semiannual reports have published on schedule, and the January 1 and July 1, 2026 editions supply figures throughout this tool. The statewide data-publication mandate works: every market-wide series on this page was recomputed from the files it requires, and s. 624.424(10)(b) makes that data expressly not a trade secret. Two gaps hold the grade down. County-level transparency moved the opposite direction: 86 insurers have designated their county detail a trade secret, and the policies visible in OIR's county tool fell from about 1.29 million to about 405,000 (see "Why some questions cannot be answered yet" on the homeowner page). And no published output from the mandated annual catastrophe stress tests or the required insolvency reviews could be located for this tool, so those duties cannot be confirmed from public records.</div>
+            <span class="law">SB 2-A, per the Senate summary, "strengthens the regulatory authority of the Office of Insurance Regulation over property insurers," including after-hurricane market-conduct exams and appraisal-abuse authority; SB 2-D created the Property Insurer Stability Unit, with duties including enhanced monitoring, annual catastrophe stress tests, insolvency reviews, and semiannual market reports, and mandated statewide data publication. <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">Fla. S. Comm. on Banking &amp; Ins., SB 2-A Summary (2022A)</a>; <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">SB 2-D Summary (2022D)</a></span></td>
+          <td class="gcell"><span class="grade gC">C+</span></td>
+          <td><div class="ev">The machinery was built and much of it demonstrably runs. The Stability Unit's semiannual reports have published on schedule, and the January 1 and July 1, 2026 editions supply figures throughout this tool. The statewide data-publication mandate works: every market-wide series on this page was recomputed from the files it requires, and s. 624.424(10)(b) makes that data expressly not a trade secret. That is the oversight half, and it would support a B. The transparency half moved the other way: 86 insurers have designated their county detail a trade secret, and the policies visible in OIR's county tool fell from about 1.29 million to about 405,000 (see "Why some questions cannot be answered yet" on the homeowner page). No published output from the mandated annual catastrophe stress tests or the required insolvency reviews could be located for this tool. The prior B-minus treated missing tests and a darker county file as reservations on a passing mark. The C-plus splits the objective: statewide files and the Stability Unit are real; county-level darkening is a transparency regression, not a footnote.</div>
           <div class="csrc">Sources: <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a> (Stability Unit duties, publication mandate); <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">SB 2-A (2022A)</a> (regulatory authority); <a href="https://www.flsenate.gov/Laws/Statutes/2025/624.424" target="_blank">s. 624.424(10)(b), Florida Statutes</a>; <a href="https://floir.gov/tools-and-data/residential-market-share-reports" target="_blank">FL OIR, Residential Market Share Reports</a> (Trade Secret Companies list); <a href="https://floir.gov/docs-sf/default-source/property-and-casualty/stability-unit-reports/july-2026-isu-report.pdf" target="_blank">FL OIR Stability Reports</a> (publication cadence)</div></td>
         </tr>
 
@@ -874,12 +902,37 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
           <td class="obj"><b>9. Reduce hurricane losses through home mitigation</b>
             <span class="law">SB 2-D appropriated $150 million to the My Safe Florida Home program for inspections and matching grants, "thereby reducing their vulnerability to hurricane damage and helping decrease the cost of residential property insurance." <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a></span></td>
           <td class="gcell"><span class="grade gI">Incomplete</span></td>
-          <td><div class="ev">The program was funded, with $25 million allocated to hurricane mitigation inspections and $115 million to grants, and the law built in its own outcome metric: the Department of Financial Services must report annually the insurance premium discounts the mitigation generates. That discount series has not been verified for this tool, and no public dataset yet links completed grants to realized premium reductions or to takeout eligibility, so the objective cannot be graded on outcomes. The stakes are documented elsewhere on this page: the remaining Citizens book carries an estimated two to three times its market weight in modeled tail risk, which is where each mitigation dollar buys the most.</div>
-          <div class="csrc">Source: <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a> (appropriation, allocations, purpose language, and the annual discount-reporting requirement)</div></td>
+          <td><div class="ev">The program was funded, with $25 million allocated to hurricane mitigation inspections and $115 million to grants, and later legislative cycles expanded it well beyond that first $150 million. The law built in its own outcome metric: the Department of Financial Services must report annually, by February 1, the insurance premium discounts the mitigation generates. That statutory series has not been verified for this tool. A 2023 snapshot cited in a Senate bill analysis (1,928 of 3,897 completed homeowners reporting an average $981 discount) is too old and too partial to grade 2026 outcomes, and no public dataset yet links completed grants to realized premium reductions or to takeout eligibility. The objective cannot be graded on outcomes until the annual report is in the register. The stakes are documented elsewhere on this page: the remaining Citizens book carries an estimated two to three times its market weight in modeled tail risk, which is where each mitigation dollar buys the most.</div>
+          <div class="csrc">Sources: <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a> (appropriation, allocations, purpose language, and the annual discount-reporting requirement); <a href="https://www.flsenate.gov/Laws/Statutes/2025/215.5586" target="_blank">s. 215.5586(10), Florida Statutes</a>; DFS figures as cited in <a href="https://www.flsenate.gov/Session/Bill/2024/7028/Analyses/2024s07028.fp.PDF" target="_blank">Fla. S. Appropriations Comm. on Agriculture, Environment, and General Government, CS/SB 7028 analysis (2024)</a> (2023 snapshot only)</div></td>
+        </tr>
+
+        <tr class="rI" id="rc10">
+          <td class="obj"><b>10. Keep older but sound roofs insurable</b>
+            <span class="law">SB 2-D prohibits an insurer from refusing to issue or renew a homeowners policy solely because a roof is less than 15 years old, and requires an inspection path for roofs 15 years or older that retain five or more years of useful life. <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a></span></td>
+          <td class="gcell"><span class="grade gI">Incomplete</span></td>
+          <td><div class="ev">This is a distinct access rule, not a restatement of row 1. The Legislature wrote it to stop roof age, by itself, from pushing otherwise insurable homes out of the private market. The prohibition is law. No public series measures how many renewals it preserved, how often insurers still non-renew on other stated grounds, or whether the inspection path is used. The objective cannot be graded on outcomes until those figures exist.</div>
+          <div class="csrc">Source: <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">Fla. S. Bill Summary, SB 2-D (2022D)</a> (roof-age underwriting rule)</div></td>
+        </tr>
+
+        <tr class="rI" id="rc11">
+          <td class="obj"><b>11. Hold insurers accountable for claims conduct</b>
+            <span class="law">SB 7052, the Insurer Accountability Act, was enacted "to increase consumer protection and insurer accountability," raising OIR fines, requiring risk-based examinations, tightening DFS consumer-services response times, and adding claims-handling conduct rules. <a href="https://www.flsenate.gov/Committees/BillSummaries/2023/html/3204" target="_blank">Fla. S. Bill Summary, CS/SB 7052 (2023)</a></span></td>
+          <td class="gcell"><span class="grade gI">Incomplete</span></td>
+          <td><div class="ev">The earlier card treated this as adjacent to rows 6 and 8 and left it ungraded. It is a fourth reform-era property insurance law with its own stated purpose, so it belongs on the card. The authorities exist. No public series yet reports examination volume under the new risk-based triggers, fine collections under the higher caps, or post-hurricane market-conduct outcomes, so the objective cannot be graded on results.</div>
+          <div class="csrc">Sources: <a href="https://www.flsenate.gov/Session/Bill/2023/7052" target="_blank">Ch. 2023-172 (SB 7052)</a>; <a href="https://www.flsenate.gov/Committees/BillSummaries/2023/html/3204" target="_blank">Fla. S. Bill Summary, CS/SB 7052 (2023)</a></div></td>
         </tr>
 
       </tbody>
     </table></div>
+
+    <details class="simplify" style="margin-top:22px">
+      <summary><span class="car">&#9654;</span>The four reform laws, and what this card does not grade</summary>
+      <div class="dt-body">
+        <p class="body-p">Ch. 2022-268 (SB 2-D, May 2022) responded to what the Senate's summary called <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">"the increasing lack of access and affordability of property insurance"</a>, creating the $2 billion Reinsurance to Assist Policyholders layer and home hardening grants, and writing the roof-age and roof-deductible rules. Ch. 2022-271 (SB 2-A, December 2022) was, in the Senate summary's words, intended to ensure <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">"access to quality, affordable private market property insurance"</a>; it eliminated one-way attorney fees and assignment of benefits, tightened claim payment and filing deadlines, created the optional FORA reinsurance program, and redirected Citizens toward residual status. Ch. 2023-15 (HB 837, March 2023) extended the litigation changes to all lines, with the stated purpose to <a href="https://www.flgov.com/eog/news/press/2023/governor-ron-desantis-signs-comprehensive-legal-reforms-law" target="_blank">"decrease frivolous lawsuits and prevent predatory practices of trial attorneys"</a>. Ch. 2023-172 (SB 7052, June 2023) added the Insurer Accountability Act, intended to <a href="https://www.flsenate.gov/Committees/BillSummaries/2023/html/3204" target="_blank">"increase consumer protection and insurer accountability"</a>.</p>
+        <div class="srcline">Sources: <a href="https://www.flsenate.gov/Session/Bill/2022D/2" target="_blank">Ch. 2022-268 (SB 2-D)</a>, <a href="https://www.flsenate.gov/Session/Bill/2022A/2A" target="_blank">Ch. 2022-271 (SB 2-A)</a>, <a href="https://www.flsenate.gov/Session/Bill/2023/837" target="_blank">Ch. 2023-15 (HB 837)</a>, <a href="https://www.flsenate.gov/Session/Bill/2023/7052" target="_blank">Ch. 2023-172 (SB 7052)</a>, Laws of Florida; Florida Senate bill summaries, <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank">2022D</a>, <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank">2022A</a>, and <a href="https://www.flsenate.gov/Committees/BillSummaries/2023/html/3204" target="_blank">2023 SB 7052</a>; <a href="https://www.flgov.com/eog/news/press/2023/governor-ron-desantis-signs-comprehensive-legal-reforms-law" target="_blank">Executive Office of the Governor, March 24, 2023</a>.</div>
+        <div class="note"><b>Scope and completeness.</b> Two boundaries still apply. HB 837's stated objectives extend well beyond property insurance, including modified comparative negligence, a two-year statute of limitations for general negligence, uniform medical-damages standards, and expanded property-owner immunity; this page grades only its property insurance litigation effects. <a href="https://www.flsenate.gov/Session/Bill/2022D/4D" target="_blank">SB 4-D (Ch. 2022-269, May 2022)</a>, the building-safety act passed in the same special session as SB 2-D, revised the Building Code's roof-replacement rule and created the condominium milestone-inspection regime; it is adjacent to this record and not graded here. Mechanisms that serve a graded objective (claim-filing windows, contractor solicitation rules, optional binding arbitration, continuation of coverage after insolvency, and the flood-notice placement) are cited on the matching row rather than scored twice.</div>
+      </div>
+    </details>
 
     <div class="note"><b>How to read these grades.</b> Three cautions apply to every row. First, association is not causation: the 2025 season brought minimal storm activity to Florida, and some unknowable share of the improvement is weather. Second, grades on the state's balance sheet (rows 1 through 3) are provisional until a major landfall stresses the new capacity, the smaller Citizens, and the tightened claim deadlines at the same time; that event, not a quiet season, is the real examination. Third, the affordability grade measures outcomes against the laws' own stated promise, not against what was politically achievable; readers who weight the counterfactual differently may reasonably grade higher. Grading is by Pioneer Institute; the evidence in each row traces to the linked filings and to the source register below.</div>
   </section>
@@ -931,9 +984,10 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
             <tr><td class="src"><a href="https://www.artemis.bm/news/florida-citizens-secures-one-third-upsized-600m-everglades-re-ii-2026-1-catastrophe-bond/" target="_blank" rel="noopener noreferrer">Artemis, Everglades Re II 2026-1 catastrophe bond coverage</a></td><td>Event-driven</td><td>Catastrophe bond detail within the risk transfer program</td><td>May 13, 2026</td><td>Event-driven</td></tr>
             <tr class="grp"><td colspan="5">Reform legislation, statutes, and state audit</td></tr>
             <tr><td class="src"><a href="https://www.flsenate.gov/Session/Bill/2022D/2D" target="_blank" rel="noopener noreferrer">SB 2-D (May 2022 special session)</a>, <a href="https://www.flsenate.gov/Session/Bill/2022A/2A" target="_blank" rel="noopener noreferrer">SB 2-A (December 2022 special session)</a>, and <a href="https://www.flsenate.gov/Session/Bill/2023/837" target="_blank" rel="noopener noreferrer">HB 837 (2023)</a></td><td>One-time enactments</td><td>The reform timeline and the litigation mechanism analysis</td><td>As enacted</td><td>Not applicable</td></tr>
-            <tr><td class="src"><a href="https://www.flsenate.gov/Session/Bill/2023/7052" target="_blank" rel="noopener noreferrer">SB 7052 (2023, Ch. 2023-172)</a> and <a href="https://www.flsenate.gov/Session/Bill/2022D/4D" target="_blank" rel="noopener noreferrer">SB 4-D (2022D, Ch. 2022-269)</a>, Florida Senate bill pages</td><td>One-time enactments</td><td>The scope and completeness note: reform-era laws adjacent to the three graded on this page</td><td>As enacted</td><td>Not applicable</td></tr>
-            <tr><td class="src">Florida Statutes: <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0624/Sections/0624.4213.html" target="_blank" rel="noopener noreferrer">s. 624.4213</a> (trade secret filings), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0624/Sections/0624.424.html" target="_blank" rel="noopener noreferrer">s. 624.424</a> (insurer financial reporting), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.351.html" target="_blank" rel="noopener noreferrer">s. 627.351</a> (Citizens), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.7154.html" target="_blank" rel="noopener noreferrer">s. 627.7154</a> (Property Insurer Stability Unit)</td><td>Codified law</td><td>Statutory provisions cited in the analysis</td><td>Text in force July 2026</td><td>Not applicable</td></tr>
-            <tr><td class="src">Florida Senate bill summaries: <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank" rel="noopener noreferrer">SB 2-D (2022D)</a> and <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank" rel="noopener noreferrer">SB 2-A (2022A)</a>, prepared by the Banking and Insurance Committee</td><td>One-off, at enactment</td><td>Report card: the reform objectives as stated in the legislative record, including the affordability language, litigation provisions, claim deadlines, RAP and FORA structure, and the Citizens flood mandate timetable</td><td>As published at enactment (2022)</td><td>Not applicable</td></tr>
+            <tr><td class="src"><a href="https://www.flsenate.gov/Session/Bill/2023/7052" target="_blank" rel="noopener noreferrer">SB 7052 (2023, Ch. 2023-172)</a> and <a href="https://www.flsenate.gov/Committees/BillSummaries/2023/html/3204" target="_blank" rel="noopener noreferrer">Florida Senate bill summary, CS/SB 7052</a></td><td>One-time enactment</td><td>Report card row 11: insurer accountability and consumer-protection objective</td><td>As enacted</td><td>Not applicable</td></tr>
+            <tr><td class="src"><a href="https://www.flsenate.gov/Session/Bill/2022D/4D" target="_blank" rel="noopener noreferrer">SB 4-D (2022D, Ch. 2022-269)</a>, Florida Senate bill page</td><td>One-time enactment</td><td>The scope note: building-safety act adjacent to the four laws graded on this page</td><td>As enacted</td><td>Not applicable</td></tr>
+            <tr><td class="src">Florida Statutes: <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0624/Sections/0624.4213.html" target="_blank" rel="noopener noreferrer">s. 624.4213</a> (trade secret filings), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0624/Sections/0624.424.html" target="_blank" rel="noopener noreferrer">s. 624.424</a> (insurer financial reporting), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.351.html" target="_blank" rel="noopener noreferrer">s. 627.351</a> (Citizens), <a href="http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&amp;URL=0600-0699/0627/Sections/0627.7154.html" target="_blank" rel="noopener noreferrer">s. 627.7154</a> (Property Insurer Stability Unit), <a href="https://www.flsenate.gov/Laws/Statutes/2025/215.5586" target="_blank" rel="noopener noreferrer">s. 215.5586</a> (My Safe Florida Home)</td><td>Codified law</td><td>Statutory provisions cited in the analysis</td><td>Text in force July 2026</td><td>Not applicable</td></tr>
+            <tr><td class="src">Florida Senate bill summaries: <a href="https://www.flsenate.gov/Committees/BillSummaries/2022D/html/2" target="_blank" rel="noopener noreferrer">SB 2-D (2022D)</a> and <a href="https://www.flsenate.gov/Committees/BillSummaries/2022A/html/2" target="_blank" rel="noopener noreferrer">SB 2-A (2022A)</a>, prepared by the Banking and Insurance Committee</td><td>One-off, at enactment</td><td>Report card: the reform objectives as stated in the legislative record, including affordability language, litigation provisions, claim deadlines, RAP and FORA, the Citizens flood mandate, the roof-age underwriting rule, and the roof-deductible option</td><td>As published at enactment (2022)</td><td>Not applicable</td></tr>
             <tr><td class="src"><a href="https://www.flgov.com/eog/news/press/2023/governor-ron-desantis-signs-comprehensive-legal-reforms-law" target="_blank" rel="noopener noreferrer">Executive Office of the Governor, HB 837 signing release, March 24, 2023</a></td><td>One-off</td><td>Report card: the stated purpose of HB 837</td><td>March 24, 2023</td><td>Not applicable</td></tr>
             <tr><td class="src"><a href="https://flauditor.gov/pages/pdf_files/2025-011.pdf" target="_blank" rel="noopener noreferrer">Florida Auditor General, Operational Audit Report No. 2025-011 (Citizens Property Insurance Corporation)</a></td><td>Periodic operational audit</td><td>Figure 5: September 2023 100-year PMLs by account; rate-cap premium shortfall context</td><td>Audit period through 2023; PMLs as of September 2023</td><td>Next operational audit as scheduled</td></tr>
             <tr class="grp"><td colspan="5">Catastrophe fund and industry analytics</td></tr>
@@ -942,7 +996,8 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
             <tr><td class="src"><a href="https://www.artemis.bm/news/florida-citizens-hopes-for-lower-reinsurance-costs-in-2026-on-exposure-reduction-and-softening/" target="_blank" rel="noopener noreferrer">Artemis, September 25, 2025 (reporting Citizens board materials)</a></td><td>Trade press, as published</td><td>Figure 5: 100-year PML at December 31, 2024 ($12.859B) and June 30, 2025 ($11.143B)</td><td>Citizens board reporting, 2025</td><td>Not applicable</td></tr>
             <tr class="grp"><td colspan="5">Geography and field research</td></tr>
             <tr><td class="src">US Census Bureau cartographic boundary files, via the us-atlas project</td><td>Annual</td><td>County map geometry</td><td>As bundled in this tool</td><td>Not applicable</td></tr>
-            <tr><td class="src">Pioneer Institute focus group, Tampa, July 2, 2026</td><td>One-off</td><td>The constituent sentiment section</td><td>July 2, 2026</td><td>Not applicable</td></tr>
+            <tr><td class="src">Pioneer Institute focus group, Tampa, July 2, 2026</td><td>One-off</td><td>The constituent sentiment section, and report card row 4 (household affordability)</td><td>July 2, 2026</td><td>Not applicable</td></tr>
+            <tr><td class="src"><a href="https://www.flsenate.gov/Session/Bill/2024/7028/Analyses/2024s07028.fp.PDF" target="_blank" rel="noopener noreferrer">Fla. S. Appropriations Comm. on Agriculture, Environment, and General Government, CS/SB 7028 analysis (2024)</a></td><td>One-off bill analysis</td><td>Report card row 9: 2023 My Safe Florida Home inspection, grant, and reported-discount snapshot, cited as too old to grade 2026 outcomes</td><td>DFS figures as of November 2023, as quoted in the 2024 analysis</td><td>Not applicable; the statutory DFS annual report remains unverified for this tool</td></tr>
             <tr class="grp"><td colspan="5">Derived measures</td></tr>
             <tr><td class="src">Pioneer Institute calculations (this tool)</td><td>With each quarterly refresh</td><td>Depopulation efficiency, price per $1,000 of insured value, coverage-adjusted comparisons, and other measures identified in source lines as Pioneer calculations</td><td>As of the August 4, 2026 revision</td><td>Quarterly refresh cycle</td></tr>
           </tbody>
@@ -958,7 +1013,7 @@ OIR statewide files); admitted-market policy share 1.93% (OIR). Concentration ra
   <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
   <div class="frow">
     <div>Florida Insurance Watch &middot; Version 1.0 Beta &middot; Data through June 30, 2026 &middot; Revised August 10, 2026</div>
-    <div>32 sources across 7 categories; see the register above</div>
+    <div>34 sources across 7 categories; see the register above</div>
   </div>
 
   <div class="disclaimer">
@@ -1231,6 +1286,7 @@ function showView(v){
     document.getElementById('view-'+k).hidden=(k!==v);
     document.getElementById('btn-'+k).classList.toggle('on',k===v);
   });
+  document.body.classList.toggle('on-report', v==='report');
   const stand={
     home:"What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings.",
     policy:"What the 2022 and 2023 reforms did to the risk taxpayers carry, to the health of the market, and to what households pay. Every figure traced to a state filing.",
@@ -1241,7 +1297,14 @@ function showView(v){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-renderHome(); // homeowner view is the default
+(function(){
+  var start='home';
+  try{
+    var q=new URLSearchParams(location.search).get('view');
+    if(q==='policy'||q==='report'||q==='home') start=q;
+  }catch(err){}
+  showView(start);
+})();
 
 /* ============ county map and selector (homeowner view) ============ */
 (function(){

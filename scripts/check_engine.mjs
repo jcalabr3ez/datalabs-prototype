@@ -77,6 +77,26 @@ for (const t of tools) {
 check(!ask.matchesTrigger("stable", "t"), "single-letter trigger would be whole-word only");
 check(ask.matchesTrigger("is the t back", "the t"), "'the t' matches the ridership golden");
 
+const catalog = require("../catalog.json");
+function catalogAiIds(node, ids) {
+  if (!node) return ids;
+  if (Array.isArray(node)) {
+    node.forEach(function (n) { catalogAiIds(n, ids); });
+    return ids;
+  }
+  if (typeof node === "object") {
+    if (node.ai === true && node.id) ids.push(node.id);
+    Object.keys(node).forEach(function (k) { catalogAiIds(node[k], ids); });
+  }
+  return ids;
+}
+const catalogIds = catalogAiIds(catalog, []).sort();
+const toolIds = tools.map(function (t) { return t.id; }).sort();
+check(
+  JSON.stringify(catalogIds) === JSON.stringify(toolIds),
+  "catalog.json ai:true ids match tools.js (" + catalogIds.join(",") + ")"
+);
+
 const cores = tools.reduce(function (n, t) {
   return n + JSON.stringify(t.coreSlice(t.dataset)).length;
 }, 0);

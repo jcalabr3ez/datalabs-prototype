@@ -8,12 +8,14 @@ them needs a person (or a Cloud Agent); verifying them needs
 judgment. The checks workflow's freshness gate (160-day limit on the DL-02
 as_of) signals when this pass is due, roughly once a quarter.
 
-The canonical ledger is netlify/functions/dl02-answers.json. The front door's
-Florida chart series are GENERATED from it (scripts/inject_data.py), and CI
-checks that the hand-authored flagship page still carries the ledger's
-latest Citizens count and as_of month (scripts/check_style.py), so a ledger
-update will fail CI until the page prose is updated to match. That is
-deliberate: the page is editorial and must move WITH the data.
+The canonical ledger is netlify/functions/dl02-answers.json. Running
+python3 scripts/inject_data.py regenerates the flagship charts, the
+dateline, the Citizens policies-in-force headline, the county-change
+ranking sentence, and the front-door Florida series. Remaining narrative
+(report-card grades, methodology folds, source-register notes that quote
+a figure) is still hand-authored. CI sentinels require the page to carry
+the ledger's latest Citizens count and as_of month, so a ledger refresh
+without those headlines fails.
 
 Paste this prompt into a Cloud Agent:
 
@@ -35,11 +37,14 @@ Paste this prompt into a Cloud Agent:
        source documents; recompute derived values (citizens_key_facts,
        county_rankings) from the new series. Update as_of. House style: no
        em dashes, every figure keeps its source id.
-    4. Run: python3 scripts/inject_data.py   (regenerates front-door series)
-    5. Run: python3 scripts/check_style.py   (it will FAIL until the
-       flagship page's prose is updated to carry the new headline figures;
-       update the page's affected exhibits, notes, and register vintages,
-       then re-run until clean.)
+    4. Run: python3 scripts/inject_data.py
+       Charts, dateline, the Citizens PIF headline, and the county-change
+       ranking sentence update from the ledger. Do not hand-edit those
+       DATA:BEGIN blocks.
+    5. Update remaining hand-authored prose that still quotes a figure
+       (report card, methodology folds, source-register vintages, any
+       paragraph that names a number inject does not own). Then run
+       python3 scripts/check_style.py until clean.
     6. Show the diff with each change tied to its source. Open a draft
        pull request against main. Do not merge. Do not push main.
        Merging to main is what deploys.

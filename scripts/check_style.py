@@ -6,12 +6,11 @@
    and the HTML entity across every tracked text file. The needles are
    built from escapes so this checker never trips itself.
 
-2. Florida page sentinels: florida-insurance/index.html is the one page
-   whose prose and charts are hand-authored rather than generated from the
-   ledger (its narrative is interwoven with inline chart data by design).
-   This check keeps it honest instead: the page must carry the ledger's
-   latest Citizens policies-in-force figure and its as_of month, so a
-   ledger refresh without a matching page update fails CI.
+2. Florida page sentinels: charts, dateline, the Citizens PIF headline,
+   and the county-change ranking sentence are generated from the ledger.
+   Remaining narrative is still hand-authored. The page must still carry
+   the ledger's latest Citizens policies-in-force figure and its as_of
+   month so a refresh cannot silently drop those headlines.
 """
 import json
 import sys
@@ -45,6 +44,14 @@ sentinels = [
     (pif_formatted, f"latest Citizens policies in force ({pif_formatted}, month {latest['m']})"),
     (fl["as_of"], f"ledger as_of ({fl['as_of']})"),
 ]
+if "DATA:BEGIN florida-charts" not in page:
+    failures.append(
+        "florida-insurance/index.html is missing the generated florida-charts block"
+    )
+    print("florida charts: MISS generated block")
+else:
+    print("florida charts: ok   generated block present")
+
 for needle, label in sentinels:
     ok = needle in page
     print(f"florida sentinel: {'ok  ' if ok else 'MISS'} {label}")

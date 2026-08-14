@@ -1122,5 +1122,47 @@
   "no_statewide_average_note": "Florida publishes no single official statewide average premium; the state reports county averages, ranging from $2,105 (Sumter) to $7,863 (Monroe) including wind, March 2026 (SRC-FL-01).",
   "flood_note": "A standard homeowners policy does not cover flood damage; flood coverage is separate (NFIP or private flood)."
  },
- "reform_context": "The 2022 and 2023 reforms targeted litigation costs. The page's report card view grades each stated legislative objective against the record; grades are Pioneer Institute's judgment."
+ "reform_context": "The 2022 and 2023 reforms targeted litigation costs. The page's report card view grades each stated legislative objective against the record; grades are Pioneer Institute's judgment.",
+ "page": {
+  "revised": "Aug 10, 2026",
+  "version": "1.0 Beta"
+ },
+ "statewide_premiums": {
+  "note": "OIR quarterly Statewide Summary by Company and Policy Type, owner-occupied homeowners excluding wind-only. avg_premium is the statewide average annual premium; cost_per_100k is Pioneer-calculated price of one year of coverage per $100,000 of insured value. A trailing null means that quarter's OIR file is not in yet. Citizens cost-per-100k is derived from citizens_quarterly, not stored here.",
+  "labels": ["2022 Q2","2022 Q3","2022 Q4","2023 Q1","2023 Q2","2023 Q3","2023 Q4","2024 Q1","2024 Q2","2024 Q3","2024 Q4","2025 Q1","2025 Q2","2025 Q3","2025 Q4","2026 Q1","2026 Q2"],
+  "avg_premium": [2798,2895,3014,3134,3283,3379,3466,3511,3558,3669,3635,3702,3733,3748,3741,3712,null],
+  "cost_per_100k": [459,465,469,479,484,489,496,502,510,515,511,508,506,500,493,485,null]
+ },
+ "combined_ratio": [
+  {"year": "2020", "pct": 116},
+  {"year": "2021", "pct": 110},
+  {"year": "2022", "pct": 109},
+  {"year": "2023", "pct": 99},
+  {"year": "2024", "pct": 94},
+  {"year": "2025", "pct": 83}
+ ],
+ "citizens_statutory_results": [
+  {"year": "2017", "underwriting_m": -1165.0, "net_income_m": -1028.4},
+  {"year": "2018", "underwriting_m": -280.7, "net_income_m": -151.4},
+  {"year": "2019", "underwriting_m": -97.1, "net_income_m": 86.3},
+  {"year": "2020", "underwriting_m": -98.3, "net_income_m": 129.0},
+  {"year": "2021", "underwriting_m": -166.5, "net_income_m": 80.1},
+  {"year": "2022", "underwriting_m": -2446.4, "net_income_m": -2242.3},
+  {"year": "2023", "underwriting_m": 466.5, "net_income_m": 746.5},
+  {"year": "2024", "underwriting_m": -1215.7, "net_income_m": -844.8},
+  {"year": "2025", "underwriting_m": 639.2, "net_income_m": 979.2}
+ ],
+ "pml_vintages": [
+  {"label": "Dec 2018", "source": "Citizens Feb 2019 statutory report, 12/31/2018 book", "abs_bn": 5.333, "tiv_per_100": null, "per_policy_k": null},
+  {"label": "Sep 2023", "source": "Sum of three accounts, FL Auditor General Rpt 2025-011; peak book", "abs_bn": 18.04, "tiv_per_100": 2.92, "per_policy_k": 12.8},
+  {"label": "Dec 2024", "source": "Citizens board data via Artemis, 2025 season basis", "abs_bn": 12.859, "tiv_per_100": 3.33, "per_policy_k": 13.7},
+  {"label": "Jun 2025", "source": "Citizens board data via Artemis", "abs_bn": 11.143, "tiv_per_100": 3.78, "per_policy_k": 14.3},
+  {"label": "Dec 2025", "source": "Citizens 2026 Operating Budget, modeled 2026 book", "abs_bn": 6.493, "tiv_per_100": 5.02, "per_policy_k": 16.9},
+  {"label": "Jun 2026", "source": "Pioneer estimate range, scaled to the actual June 2026 book", "abs_bn": [4.003, 5.066], "tiv_per_100": [5.03, 6.36], "per_policy_k": [14.4, 18.2]}
+ ],
+ "concentration": {
+  "share_of_residential_tiv_pct": 2.5,
+  "share_of_1in100_low_pct": 5.3,
+  "share_of_1in100_high_pct": 6.7
+ }
 }

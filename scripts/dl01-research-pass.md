@@ -1,6 +1,6 @@
 # DL-01 weekly research pass (Monday 9:00 AM ET)
 
-This is the canonical prompt for the **weekly deep update** of the Pioneer Institute DataLabs wealth-tax atlas (DL-01). A Cursor Automation should follow this file every Monday at 9:00 AM Eastern. A human can also paste it into a Cloud Agent.
+This is the canonical prompt for the **weekly deep update** of the Pioneer Institute DataLabs wealth-tax atlas (DL-01). A Cursor Automation should follow this file every Monday at 9:00 AM Eastern. A human can also paste it into a Cloud Agent. Read `AGENTS.md` first for deploy and house-style rules.
 
 ## Paste this into the Cursor Automation
 

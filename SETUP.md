@@ -5,6 +5,8 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
 
 ## What is in this repository
 
+    README.md                      Repo front door: what lives where, how it deploys
+    AGENTS.md                      Hard rules for cloud agents (draft PR, no main)
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic categories, legacy
                                    dashboards, the three flagships, the archive
@@ -38,7 +40,7 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    coreSlice size (no API key)
     scripts/dl01-research-pass.md  Runbook: weekly DL-01 deep research pass
                                    (Cursor Automation, Monday 9:00 AM ET)
-    scripts/dl02-research-pass.md  Runbook: Florida quarterly refresh (local)
+    scripts/dl02-research-pass.md  Runbook: Florida quarterly editorial pass
     NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool
     .github/workflows/             GitHub Actions (DL-03, checks, eval; Step 7)
     netlify.toml                   Site, functions, and the build command

@@ -1,5 +1,14 @@
 # macOS
 .DS_Store
 
-# Local Claude Code state
+# Local editor / agent state
 .claude/
+
+# Secrets and local Netlify CLI
+.env
+.env.*
+.netlify/
+
+# Python
+__pycache__/
+*.pyc

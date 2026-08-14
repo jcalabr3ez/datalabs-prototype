@@ -21,7 +21,7 @@ RULES = {
         "YYYY-MM", 160, "FL OIR files are quarterly with a processing lag"
     ),
     "netlify/functions/dl01-answers.json": (
-        "YYYY-MM-DD", 45, "the atlas tracks sessions, dockets, and ballots; re-verify at least every six weeks"
+        "YYYY-MM-DD", 45, "weekly Cursor Automation rechecks the register; this 45-day gate is the backstop"
     ),
 }
 

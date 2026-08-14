@@ -235,7 +235,7 @@ def main():
             revised_long = full + revised_long[len(short):]
             break
     front_dl = (
-        f"Flagship series through {dl02['as_of']}. "
+        f"Series through {dl02['as_of']}. "
         f"Revised {revised_long}."
     )
     new = replace_block(new, "front-dateline", front_dl, p, style="html")

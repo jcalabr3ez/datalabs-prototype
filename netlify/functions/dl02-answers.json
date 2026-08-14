@@ -4,9 +4,11 @@
   "SRC-FL-01": "FL OIR county premium tables, published July 1, 2026 (county averages as of March 2026; prior column September 2025)",
   "SRC-FL-02": "Citizens Property Insurance, Policies in Force reports and statutory filings, through June 2026",
   "SRC-FL-03": "NAIC MCAS via FL OIR Insurance Summary Update, July 2026 (2025 preliminary)",
-  "SRC-FL-04": "Citizens audited financial statements, risk transfer program notes, 2017-2025"
+  "SRC-FL-04": "Citizens audited financial statements, risk transfer program notes, 2017-2025",
+  "SRC-FL-05": "OIR Property Claims Lifecycle Report (PCLR) via Property Insurance Stability Reports, closed-claim days 2023-2025",
+  "SRC-FL-06": "DFS My Safe Florida Home annual reports, as quoted in Florida Senate staff analyses"
  },
- "scope": "Florida homeowners insurance only: county average premiums, Citizens policy counts and quarterly book, litigation shares, takeout inflow, and risk transfer. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or storms; individual quotes; claims or legal guidance; insurer solvency opinions; other insurance lines; other states; flood insurance pricing.",
+ "scope": "Florida homeowners insurance only: county average premiums, Citizens policy counts and quarterly book, litigation shares, takeout inflow, risk transfer, claims-cycle times, and My Safe Florida Home discount outcomes. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or storms; individual quotes; claims or legal guidance; insurer solvency opinions; other insurance lines; other states; flood insurance pricing.",
  "citizens_policies_monthly": [
   {
    "m": "2020-04",
@@ -1121,6 +1123,124 @@
   "combined_ratio_note": "Pooled weighted combined ratio of Florida domestic insurers; below 100 is an underwriting profit; 2025 is the lowest in more than a decade; the industry moved from deep loss in 2020 to profit in 2023 (FL OIR).",
   "no_statewide_average_note": "Florida publishes no single official statewide average premium; the state reports county averages, ranging from $2,105 (Sumter) to $7,863 (Monroe) including wind, March 2026 (SRC-FL-01).",
   "flood_note": "A standard homeowners policy does not cover flood damage; flood coverage is separate (NFIP or private flood)."
+ },
+ "sourced_facts": {
+  "note": "Official figures cited on the page that are not recomputed from a time series already in this ledger. Each carries its own vintage. Do not invent replacements; update only when the cited filing is restated.",
+  "new_residential_writers": {
+   "count": 20,
+   "new_capital_usd": 850000000,
+   "as_of": "2026-05-20",
+   "source": "OIR press releases, January 13 and May 20, 2026"
+  },
+  "citizens_2026_rate_change": {
+   "multiperil_pct": -8.8,
+   "wind_only_pct": -5.5,
+   "first_broad_decrease_since": 2015,
+   "effective": "2026-07-01",
+   "source": "Citizens, March 4, 2026 announcement and December 10, 2025 recommendation"
+  },
+  "citizens_homeowners_market_share_pct": 1.93,
+  "citizens_homeowners_market_share_as_of": "2026-03-31",
+  "citizens_homeowners_market_share_source": "OIR Stability Report, July 1, 2026 (homeowners multi-peril and wind-only combined)",
+  "claims_paying_ability_usd": 9600000000,
+  "claims_paying_ability_season": 2026,
+  "assessment_threshold": "no surcharge until a storm worse than 1-in-360 years",
+  "claims_paying_ability_source": "Citizens Annual PML Report, February 2026; press release, June 23, 2026",
+  "hurricane_2024_citizens": {
+   "debby_paid_pct": 24,
+   "helene_paid_pct": 28,
+   "closed_without_payment_pct": 44,
+   "claims_more_than": 76000,
+   "source": "Testimony of Citizens President/CEO Tim Cerio to the Florida Senate Banking and Insurance Committee, January 14, 2025"
+  },
+  "tri_county_wind_only_condo_writers": {
+   "before": 1,
+   "after": 5,
+   "counties": ["Broward", "Miami-Dade", "Palm Beach"],
+   "source": "OIR, May 20, 2026"
+  },
+  "citizens_takeouts_2024": 477821,
+  "citizens_takeouts_2024_source": "OIR Stability Report, January 1, 2026",
+  "everglades_re_2026_1_usd": 600000000,
+  "reinsurance_rate_change_2026_pct": -30,
+  "reinsurance_2026_source": "Citizens, June 23, 2026; Artemis, May 13, 2026 (catastrophe bond)",
+  "trade_secret_filers": 86,
+  "trade_secret_filers_as_of": "2026-08-04",
+  "visible_county_policies_end_2022_approx": 1290000,
+  "visible_county_policies_end_2025_approx": 405000,
+  "visible_county_policies_note": "Approximate; OIR Market Intelligence Totals Report, periods ending December 31, 2022 and December 31, 2025. County and zip-code detail is withheld for trade-secret filers."
+ },
+ "claims_cycle": {
+  "note": "OIR Property Claims Lifecycle Report via Stability Reports (SRC-FL-05). Closed-claim days, all perils. Section 627.70131(7)(a), Florida Statutes, requires insurers to pay or deny a claim within 60 days unless factors beyond the insurer's control apply; OIR states that close times over 60 days are not automatically violations. A 2023 median was not published.",
+  "pay_or_deny_deadline_days": 60,
+  "series": [
+   {
+    "closed_year": 2023,
+    "closed_claims": 658512,
+    "litigated": 64351,
+    "non_litigated": 541211,
+    "avg_days_to_close": 77,
+    "median_days_to_close": null,
+    "avg_days_to_report": 57,
+    "median_days_to_report": null,
+    "source": "OIR Stability Report, January 1, 2025"
+   },
+   {
+    "closed_year": 2024,
+    "closed_claims": 698742,
+    "litigated": 60261,
+    "non_litigated": 621154,
+    "avg_days_to_close": 57,
+    "median_days_to_close": 27,
+    "avg_days_to_report": 47,
+    "median_days_to_report": 6,
+    "source": "OIR Stability Report, January 1, 2026"
+   },
+   {
+    "closed_year": 2025,
+    "closed_claims": 456200,
+    "litigated": 53413,
+    "non_litigated": 387931,
+    "avg_days_to_close": 66,
+    "median_days_to_close": 30,
+    "avg_days_to_report": 65,
+    "median_days_to_report": 10,
+    "indemnity_usd": 10000000000,
+    "lae_usd": 1700000000,
+    "source": "OIR Stability Report, July 1, 2026"
+   }
+  ]
+ },
+ "mitigation_discounts": {
+  "note": "My Safe Florida Home premium-discount outcomes required by s. 215.5586(10) (SRC-FL-06). The February 2025 annual report is cited from the Senate staff analysis (on file with the committee). The February 2026 edition was not located as a public file.",
+  "series": [
+   {
+    "report_year": 2023,
+    "as_of": "2023-11",
+    "avg_discount_usd": 981,
+    "reimbursed_homeowners": 3897,
+    "reported_discount": 1928,
+    "inspections_completed": 91627,
+    "grants_approved": 21540,
+    "source": "DFS figures as of November 2023, quoted in Fla. S. Appropriations Comm. on Agriculture, Environment, and General Government, CS/SB 7028 analysis (2024)"
+   },
+   {
+    "report_year": 2024,
+    "as_of": "2025-02",
+    "avg_discount_usd": 938,
+    "share_saved_pct": 49,
+    "share_no_change_pct": 28,
+    "share_increased_pct": 17,
+    "source": "DFS, My Safe Florida Home 2024 Annual Report (February 2025), p. 2, as quoted in Fla. S. Comm. on Banking and Insurance, CS/SB 1740 analysis (March 19, 2025)"
+   }
+  ],
+  "appropriations_usd": [
+   {"session": "2022D", "amount": 150000000, "note": "SB 2-D relaunch"},
+   {"session": "2023", "amount": 100000000, "note": "grants; plus $2,065,000 administration"},
+   {"session": "2023C", "amount": 176170000, "note": "grants; plus $5,285,100 administration"},
+   {"session": "2024", "amount": 200000000, "note": "grants, inspections, and administration"},
+   {"session": "2025", "amount": 280000000, "note": "2025-26 fiscal year; MSFH program flyer, June 17, 2025"}
+  ]
  },
  "reform_context": "The 2022 and 2023 reforms targeted litigation costs, residual-market size, reinsurance capacity, claims conduct, and affordability. The page's report card view grades eleven stated legislative objectives against the record; grades are Pioneer Institute's judgment.",
  "page": {

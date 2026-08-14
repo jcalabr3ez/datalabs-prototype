@@ -406,7 +406,7 @@
     "vage": "amb"
    },
    {
-    "t": "School Attendence",
+    "t": "School Attendance",
     "s": "MA",
     "u": "https://madatalabs.org/education/education-school-attendance",
     "days": 382,
@@ -1103,7 +1103,7 @@
     "vage": "red"
    },
    {
-    "t": "Unemployment insurance",
+    "t": "Unemployment Insurance",
     "s": "US",
     "u": "https://usdatalabs.org/economy/unemployment-insurance",
     "days": 201,
@@ -1417,7 +1417,7 @@
     "vage": "red"
    },
    {
-    "t": "Natl Risk Index",
+    "t": "National Risk Index",
     "s": "US",
     "u": "https://usdatalabs.org/infrastructure/national-risk-index",
     "days": 180,
@@ -1498,7 +1498,7 @@
     "vage": ""
    },
    {
-    "t": "Juvinile Incarceration",
+    "t": "Juvenile Incarceration",
     "s": "US",
     "u": "https://usdatalabs.org/crime-justice/juvenile-incarceration",
     "days": 387,

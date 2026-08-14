@@ -9,8 +9,13 @@
 //   scope         what the engine must know to answer or decline correctly:
 //                 coverage and the honest exclusions (questions that must NOT
 //                 be answered from this dataset)
+//   triggers      recall-oriented phrases; a hit ships the full modelSlice.
+//                 Misses still ship coreSlice, so a thin trigger list cannot
+//                 hide a tool. Short tokens (<=2 chars) match as whole words.
 //   dataset       the full ledger (require'd JSON)
-//   modelSlice(d) the subset of the ledger the answer model sees
+//   coreSlice(d)  the always-sent answering core (scope, derived, latest
+//                 figures). Keep this small: at 20 tools every core ships.
+//   modelSlice(d) the full subset the model sees when this tool is a hit
 //   charts        pre-built chart kinds the model may SELECT, or null
 //   views         page views the model may SELECT, or null
 //   viewDefault   fallback when the model picks an invalid view
@@ -29,7 +34,40 @@ module.exports = [
     id: 'DL-03',
     label: 'Transportation and MBTA: ridership by mode and month, recovery vs 2019, cost per trip, farebox recovery',
     scope: 'Covers MBTA ridership (unlinked passenger trips) by mode and month through the dataset as_of month and recovery vs 2019; service supplied and productivity (vehicle revenue hours and miles, and unlinked trips per vehicle revenue hour, by mode, latest full year vs 2019); reliability (share of trips meeting the headway or schedule-adherence standard) for bus, commuter rail, ferry, and The RIDE, by mode and by line, with a trend back to 2016; and operating cost per trip and farebox recovery, the share of operating cost that fares cover, INCLUDING their trend across report years 2022 to 2024. Questions about the cost of a ride or trip, whether a ride costs more or less than before, and what share of the cost fares cover all answer here (cost is answered as cost to provide, farebox recovery as the covered share). Questions about how reliable, on time, or punctual bus, commuter rail, ferry, or The RIDE are route here. Does NOT cover: subway or Green Line reliability (the MBTA measures rapid transit with Excess Trip Time, a different method adopted December 2024), safety, the capital budget, debt, the ticket and pass PRICES a rider pays (only these prices are excluded, NOT farebox recovery or cost per trip, which are covered above and DO answer here), or other transit agencies.',
+    triggers: [
+      'mbta', 'the t', 'transit', 'subway', 'commuter rail', 'commuter', 'green line',
+      'red line', 'orange line', 'blue line', 'the ride', 'paratransit', 'ferry',
+      'ridership', 'unlinked', 'farebox', 'fare', 'cost per trip', 'vehicle revenue',
+      'productivity', 'reliability', 'on time', 'ontime', 'punctual', 'headway',
+      'pre-pandemic', 'bus rapid', 'silver line', 'ntd', 'transportation'
+    ],
     dataset: DL03,
+    coreSlice: function (d) {
+      var service = d.service || {};
+      var rel = d.reliability || {};
+      return {
+        tool_id: d.tool_id || 'DL-03', as_of: d.as_of, scope: d.scope,
+        vintage_note: d.vintage_note, source_id: d.source_id,
+        cost_source_id: d.cost_source_id, mode_names: d.mode_names,
+        latest_month: d.latest_month,
+        recovery_vs_2019_same_month_pct: d.recovery_vs_2019_same_month_pct,
+        recovery_baseline: d.recovery_baseline, yoy_change_pct: d.yoy_change_pct,
+        annual_cost_and_farebox: d.annual_cost_and_farebox,
+        annual_cost_note: d.annual_cost_note, derived: d.derived,
+        cost_report_year: d.cost_report_year,
+        service: {
+          as_of: service.as_of, source_id: service.source_id,
+          latest_full_year: service.latest_full_year, note: service.note,
+          annual_totals: service.annual_totals, by_mode: service.by_mode,
+          derived: service.derived
+        },
+        reliability: {
+          as_of: rel.as_of, source_id: rel.source_id,
+          metric_note: rel.metric_note, excludes_note: rel.excludes_note,
+          modes: rel.modes, derived: rel.derived
+        }
+      };
+    },
     modelSlice: function (d) {
       // Ship the whole ledger EXCEPT service.monthly_vrm_total: that raw monthly
       // series drives the page chart only, and the service annual and derived
@@ -53,7 +91,25 @@ module.exports = [
     id: 'DL-02',
     label: 'Florida Insurance Watch: homeowners premiums by county, Citizens series, litigation, takeouts, risk transfer',
     scope: 'Covers Florida homeowners insurance: county average premiums, Citizens Property Insurance policy counts and finances, litigation shares, the takeout program, and risk transfer. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or hurricanes; individual premium quotes; claims or legal guidance; insurer solvency opinions; other insurance lines; other states.',
+    triggers: [
+      'florida', 'homeowners', 'homeowner', 'insurance', 'premium', 'citizens',
+      'miami', 'miami-dade', 'dade', 'takeout', 'litigation', 'reinsurance',
+      'cat fund', 'risk transfer', 'oir', 'windstorm', 'county premium'
+    ],
     dataset: DL02,
+    coreSlice: function (d) {
+      return {
+        as_of: d.as_of, scope: d.scope, source_id_map: d.source_id_map,
+        citizens_key_facts: d.citizens_key_facts,
+        county_premiums: d.county_premiums,
+        county_premium_notes: d.county_premium_notes,
+        county_rankings: d.county_rankings,
+        litigation_share: d.litigation_share, litigation_note: d.litigation_note,
+        takeout_net_inflow: d.takeout_net_inflow, takeout_note: d.takeout_note,
+        risk_transfer: d.risk_transfer, risk_transfer_note: d.risk_transfer_note,
+        market_facts: d.market_facts, reform_context: d.reform_context
+      };
+    },
     modelSlice: function (d) { return d; },
     charts: ['citizens_trend', 'county_compare', 'premium_change', 'litigation', 'risk_transfer', 'takeouts'],
     views: ['home', 'policy', 'report'],
@@ -67,7 +123,31 @@ module.exports = [
     id: 'DL-01',
     label: 'State Tax Atlas: every jurisdiction’s income tax rate, surtaxes, wealth-tax proposals, ballot pathways, and risk tier',
     scope: 'Covers all 51 US jurisdictions: enacted top income tax rates and surtaxes (a single state’s current top income tax rate answers here, for example what is California’s top income tax rate), slated changes already in law, active wealth-tax and high-income surtax proposals, citizen-initiative ballot pathways, Pioneer’s Short-Term Risk tier, and a dated watch list of upcoming events (hearings, rulings, deadlines, elections) through 2028, so what-to-watch and upcoming-dates questions route here. Does NOT cover: personal tax or legal advice; whether to move or relocate; predicting how a ballot measure, election, or court case will turn out; calculating an individual’s tax; sales, property, corporate, or estate taxes except where a record already notes them; other countries or years outside the dataset.',
+    triggers: [
+      'tax', 'surtax', 'wealth', 'income tax', 'top rate', 'ballot', 'proposition',
+      'prop 40', 'initiative', 'jurisdiction', 'california', 'texas', 'watch list',
+      'what to watch', 'events should', 'high earner', 'atlas'
+    ],
     dataset: DL01,
+    coreSlice: function (d) {
+      // Always-sent core: codes and rates for every jurisdiction, plus the
+      // derived rankings and the dated watch list. Long notes and proposal
+      // writeups stay in modelSlice and ship only on a tax-atlas hit.
+      var states = {};
+      Object.keys(d.states).forEach(function (k) {
+        var s = d.states[k], o = {};
+        ['abbr', 'name', 'topRate', 'currentStatus', 'futureRisk', 'ballot',
+          'wealthTax', 'incomeSurtax', 'slated'].forEach(function (f) {
+          if (s[f] !== undefined) o[f] = s[f];
+        });
+        states[k] = o;
+      });
+      return {
+        tool_id: d.tool_id, title: d.title, as_of: d.as_of, horizon: d.horizon,
+        scope: d.scope, views: d.views, meta: d.meta, derived: d.derived,
+        events: d.events, states: states
+      };
+    },
     modelSlice: function (d) {
       // The answer model sees the analytical core: no grid coordinates, no
       // source URL lists (the handler builds the source line from those).

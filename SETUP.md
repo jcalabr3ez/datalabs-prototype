@@ -12,11 +12,16 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     florida-insurance/index.html   DL-02 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-01 State Tax Atlas flagship page
     netlify/functions/ask.js       The engine: one Sonnet 5 call reads the
-                                   catalog, every tool's scope, and every
-                                   tool's ledger, then answers, routes, or
+                                   catalog, every tool's scope, and a
+                                   selected payload of ledgers (full
+                                   modelSlice on a trigger hit, coreSlice
+                                   otherwise), then answers, routes, or
                                    declines under a JSON schema. Holds the key.
+                                   There is no router: a two-stage handoff
+                                   was tried and failed eval.
     netlify/functions/tools.js     Per-tool manifests. Adding an AI-enabled tool
-                                   = one dataset JSON + one entry here.
+                                   = one dataset JSON + one entry here
+                                   (scope, triggers, coreSlice, modelSlice).
     netlify/functions/catalog.json GENERATED copy of the root catalog
     netlify/functions/dl03-answers.json  CANONICAL DL-03 (MBTA) ledger
     netlify/functions/dl02-answers.json  CANONICAL DL-02 (Florida) ledger
@@ -29,6 +34,8 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     scripts/check_style.py         House-style lint (no em dashes) plus the
                                    Florida page's ledger-sentinel checks
     scripts/eval_engine.mjs        Golden-question eval against the live engine
+    scripts/check_engine.mjs       Offline payload checks: trigger recall and
+                                   coreSlice size (no API key)
     scripts/dl01-research-pass.md  Runbook: tax atlas research pass (local)
     scripts/dl02-research-pass.md  Runbook: Florida quarterly refresh (local)
     NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool

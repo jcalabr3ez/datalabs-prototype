@@ -2,7 +2,7 @@
 
 Live site: [datalabsai.netlify.app](https://datalabsai.netlify.app)
 
-Browse-first front door plus three flagships on one Netlify site. The ask
+Browse-first front door plus three tools on one Netlify site. The ask
 box is off by default (`?ai=1` still previews it). Production deploys from
 `main`. Merging a pull request is what publishes.
 

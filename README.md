@@ -1,4 +1,4 @@
-# Pioneer Institute DataLabs prototype
+# Pioneer Institute DataLabs
 
 Live site: [datalabsai.netlify.app](https://datalabsai.netlify.app)
 

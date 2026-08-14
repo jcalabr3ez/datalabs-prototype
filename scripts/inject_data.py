@@ -106,7 +106,7 @@ def inject_florida(dl02, text, path):
         "as_of": dl02["as_of"],
         "data_through": fl_data_through(dl02["as_of"]),
         "revised": page.get("revised", ""),
-        "version": page.get("version", "1.0 Beta"),
+        "version": page.get("version", "1.0"),
         "pif": kf["latest"]["policies"],
         "pif_fmt": f"{kf['latest']['policies']:,}",
         "peak": kf["peak"]["policies"],
@@ -228,6 +228,17 @@ def main():
                                for e in dl02["takeout_net_inflow"]]) + ";",
     ])
     new = replace_block(new, "front-fl-data", fl_consts, p)
+    fl_rev = (dl02.get("page") or {}).get("revised", "")
+    revised_long = fl_rev
+    for full, (short, _) in MONTH_END.items():
+        if revised_long.startswith(short + " "):
+            revised_long = full + revised_long[len(short):]
+            break
+    front_dl = (
+        f"Flagship series through {dl02['as_of']}. "
+        f"Revised {revised_long}."
+    )
+    new = replace_block(new, "front-dateline", front_dl, p, style="html")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("index.html")

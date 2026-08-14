@@ -3,9 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow">
 <title>Transportation &amp; MBTA | Pioneer Institute | Ridership and Cost Record</title>
 <meta name="description" content="MBTA ridership by mode since 2014, the recovery against 2019, and what each trip costs to provide. Rebuilt from federal filings and verified against the National Transit Database.">
+<link rel="canonical" href="https://datalabsai.netlify.app/mbta/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="Transportation &amp; MBTA | Pioneer Institute">
+<meta property="og:description" content="MBTA ridership by mode since 2014, the recovery against 2019, and what each trip costs to provide. Rebuilt from federal filings and verified against the National Transit Database.">
+<meta property="og:url" content="https://datalabsai.netlify.app/mbta/">
+<meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Transportation &amp; MBTA | Pioneer Institute">
+<meta name="twitter:description" content="MBTA ridership by mode since 2014, the recovery against 2019, and what each trip costs to provide. Rebuilt from federal filings and verified against the National Transit Database.">
+<meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -220,7 +234,7 @@
   body.embed .sitebar,body.embed footer .fbrand{display:none}
   body.embed header,body.embed .proto,body.embed footer{margin-left:0;margin-right:0}
   /* the host page (WP DataLabs) already carries the Pioneer masthead and subnav,
-     so compress the hero and the prototype strip when embedded */
+     so compress the hero and the published strip when embedded */
   body.embed header{padding:22px var(--bleed) 20px}
   body.embed .org{margin-bottom:10px}
   body.embed h1{font-size:clamp(25px,3.1vw,36px)}
@@ -228,7 +242,7 @@
   body.embed .dateline{margin-top:14px}
   body.embed .proto{padding:9px var(--bleed)}
   body.embed .proto-txt{font-size:12px}
-  /* to hide the prototype banner entirely in embeds, uncomment the next line:
+  /* to hide the published banner entirely in embeds, uncomment the next line:
   body.embed .proto{display:none}
   */
 
@@ -248,7 +262,7 @@
   .mathsrc{font-size:11px;color:var(--faint);line-height:1.55;margin-top:2px}
 
 
-  /* ---- release apparatus: beta strip, collapsible sources, changelog ---- */
+  /* ---- release apparatus: published strip, collapsible sources, changelog ---- */
   .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
   .feedback{border:1px solid var(--rule);border-left:3px solid var(--gold);border-radius:0 4px 4px 0;padding:16px 20px;margin:22px 0}
   .feedback h3{font:500 16px/1.35 var(--serif);color:var(--ink);margin-bottom:6px}
@@ -330,11 +344,11 @@
   <div class="dateline">
     <span>Data through <b>Jun 30, 2026</b></span>
     <span>Verified vs FTA NTD <b>Aug 11, 2026</b></span>
-    <span>Version <b>1.0 Beta</b></span>
+    <span>Version <b>1.0</b></span>
   </div>
 </header>
 
-<div class="proto"><span class="proto-tag">Beta v1.0</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+<div class="proto"><span class="proto-tag">Version 1.0</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
 
 <div class="toggle" role="tablist" aria-label="Choose a view">
   <button id="btn-ridership" class="on" onclick="showView('ridership')">Ridership<span class="who">The recovery, mode by mode</span></button>
@@ -581,12 +595,12 @@ year over year: 26,288,869 / 22,281,887 x 100 - 100 = +18.0%</code><div class="o
 <footer>
   <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
   <div class="frow">
-    <div>Transportation &amp; MBTA &middot; Version 1.0 Beta &middot; Data through June 30, 2026 &middot; Verified August 11, 2026</div>
+    <div>Transportation &amp; MBTA &middot; Version 1.0 &middot; Data through June 30, 2026 &middot; Verified August 11, 2026</div>
     <div>3 sources active; see the register above</div>
   </div>
 
   <div class="disclaimer">
-    <div><b>About this tool.</b> Transportation &amp; MBTA is a Pioneer Institute DataLabs research tool, published in beta and versioned. It is the successor to MBTAAnalysis. Corrections and data refreshes are logged, and the version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> Transportation &amp; MBTA is a Pioneer Institute DataLabs research tool, published and versioned. It is the successor to MBTAAnalysis. Corrections and data refreshes are logged, and the version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the federal sources named in the register and are accurate to the verification date shown in the masthead; agencies revise their filings and figures here are point-in-time. This tool and its contents are provided as is, without warranty of any kind, express or implied, including accuracy, completeness, or fitness for a particular purpose.</div>
     <div><b>Verified figures.</b> Ridership figures are verified against the FTA National Transit Database monthly file (SRC-301). Cost per trip and farebox recovery are computed from NTD Annual Metrics, report years 2022 to 2024 (SRC-302). The recovered legacy extract that first carried the cost figures was reconciled on Aug 11, 2026 and identified as report year 2024; every exhibit now cites the federal series directly.</div>
     <div><b>Asking questions.</b> The DataLabs front door answers questions about this data in your own words. Answers draw only from the figures published here, cite a source id on every figure, label derived numbers, and decline what the data cannot support; the underlying figures, not the prose, are the citable record.</div>

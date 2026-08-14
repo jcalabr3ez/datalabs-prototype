@@ -3,7 +3,10 @@
   command = "python3 scripts/inject_data.py"
   functions = "netlify/functions"
 
-# Public release: pages are indexable. Social/share cards and canonical
-# URLs live in each HTML head. Attach a Pioneer hostname in the Netlify
-# domain settings when that DNS is ready; until then the live origin is
-# https://datalabsai.netlify.app.
+# Keep the whole site out of search indexes (prototype, not for public discovery).
+# noindex is what actually removes pages from results; deliberately no robots.txt
+# Disallow, which would stop crawlers from fetching the page and seeing this.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

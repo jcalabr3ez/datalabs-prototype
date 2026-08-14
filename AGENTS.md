@@ -23,7 +23,10 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   sources due under the 45-day freshness gate. Update an existing PR only
   if it is a draft whose title starts with `DL-01`. Ignore every other
   open or closed PR, including the Florida export.
-- **DL-02 (quarterly):** follow `scripts/dl02-research-pass.md`.
+- **DL-02 (17th, 10:00 AM ET):** follow `scripts/dl02-research-pass.md`.
+  Monthly full pass over the Florida register. Update an existing PR
+  only if it is a draft whose title starts with `DL-02`. Do not fold
+  this into the weekly DL-01 PR.
 - **DL-03 (monthly):** `.github/workflows/dl03-refresh.yml` already opens
   a PR from the FTA NTD API. Do not invent a second refresh.
 
@@ -41,4 +44,5 @@ and `node --check scripts/check_engine.mjs`.
 
 The Florida standalone Netlify drop lives on
 `cursor/florida-standalone-export-614f` (closed PR #2; do not reopen or
-merge it). Do not fold that export into a DL-01 or DL-03 research PR.
+merge it). Do not fold that export into a DL-01, DL-02, or DL-03
+research PR.

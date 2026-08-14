@@ -47,8 +47,9 @@ Confirm the first fire time in the UI. Scheduled runs may be late; they should n
     main via Netlify; the human merges when they want the site to update.
 
     Do not invent Near-Term Risk rating changes. Ratings were last scored
-    July 28, 2026. If a draft DL-01 research PR is already open from a
-    prior Monday, update that branch instead of opening a second PR.
+    July 28, 2026. Update an existing PR only if it is a draft whose
+    title starts with DL-01. Ignore the Florida export branch. If no
+    DL-01 draft exists, open a new one.
 
     Memories: store the open PR URL, unreachable sources, and any
     "checked, no change" notes so next Monday does not duplicate work.

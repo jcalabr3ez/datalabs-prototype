@@ -124,6 +124,12 @@ Depopulation Statistics, board packets.
   Pioneer cost per $100,000 of coverage)
 - Entrant count / new capital if OIR has a newer announcement
 - Combined-ratio series if OIR republished
+- PCLR claims-cycle series in the Stability Reports (average and
+  median days to close and to report). Update `claims_cycle` and
+  report-card row 6 if a newer closed-claim year is published.
+- Sourced facts that are not a time series (`sourced_facts`): market
+  share, rate cuts, claims-paying ability, takeouts, trade-secret
+  filer count. Update only when the cited filing is restated.
 
 Primary homes: floir.gov QUASR / residential market-share / Stability
 Unit reports.
@@ -134,6 +140,9 @@ Unit reports.
 - Florida share of nationwide homeowners suits vs claims
 - Any newer Senate / board testimony that revises the 2024 hurricane
   claims figures already on the page
+- DFS My Safe Florida Home annual report (due February 1). Update
+  `mitigation_discounts` and report-card row 9 if a newer edition is
+  quoted in a Senate or House staff analysis or posted as a public file.
 
 ### Agent 4: Statutory results, PML, risk transfer
 

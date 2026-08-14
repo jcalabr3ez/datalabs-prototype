@@ -4,7 +4,7 @@ Why this is a runbook and not a workflow: the DL-02 sources are not
 machine-readable the way NTD is. OIR's QUASR statewide summaries are
 Excel files behind a form-driven portal, Citizens' filings are PDFs, and
 the litigation shares come through NAIC MCAS as published by OIR. Fetching
-them needs a person (or a person driving Claude Code); verifying them needs
+them needs a person (or a Cloud Agent); verifying them needs
 judgment. The checks workflow's freshness gate (160-day limit on the DL-02
 as_of) signals when this pass is due, roughly once a quarter.
 
@@ -15,7 +15,7 @@ latest Citizens count and as_of month (scripts/check_style.py), so a ledger
 update will fail CI until the page prose is updated to match. That is
 deliberate: the page is editorial and must move WITH the data.
 
-Paste this prompt into Claude Code:
+Paste this prompt into a Cloud Agent:
 
     Run the quarterly refresh pass for Pioneer DataLabs Florida Insurance
     Watch (DL-02). The canonical ledger is netlify/functions/dl02-answers.json;
@@ -40,8 +40,9 @@ Paste this prompt into Claude Code:
        flagship page's prose is updated to carry the new headline figures;
        update the page's affected exhibits, notes, and register vintages,
        then re-run until clean.)
-    6. Show me the diff with each change tied to its source before
-       committing. Do not push; pushing deploys.
+    6. Show the diff with each change tied to its source. Open a draft
+       pull request against main. Do not merge. Do not push main.
+       Merging to main is what deploys.
 
 The quarterly OIR file drops lag the quarter end by roughly two months;
 Citizens monthly counts run about one month behind. If only Citizens has

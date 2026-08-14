@@ -20,8 +20,9 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
 
 - **DL-01 (Monday 9:00 AM ET):** follow `scripts/dl01-research-pass.md`.
   Deep pass: five parallel agents over the full source register, not only
-  sources due under the 45-day freshness gate. If a draft DL-01 research
-  PR is already open, update that branch instead of opening a second one.
+  sources due under the 45-day freshness gate. Update an existing PR only
+  if it is a draft whose title starts with `DL-01`. Ignore every other
+  open or closed PR, including the Florida export.
 - **DL-02 (quarterly):** follow `scripts/dl02-research-pass.md`.
 - **DL-03 (monthly):** `.github/workflows/dl03-refresh.yml` already opens
   a PR from the FTA NTD API. Do not invent a second refresh.
@@ -38,6 +39,6 @@ and `node --check scripts/check_engine.mjs`.
 
 ## Do not mix workstreams
 
-The Florida standalone Netlify drop lives on its own branch
-(`cursor/florida-standalone-export-614f`, PR #2). Do not fold that export
-into a DL-01 or DL-03 research PR.
+The Florida standalone Netlify drop lives on
+`cursor/florida-standalone-export-614f` (closed PR #2; do not reopen or
+merge it). Do not fold that export into a DL-01 or DL-03 research PR.

@@ -47,8 +47,9 @@ Confirm the first fire time in the UI. Scheduled runs may be late; they should n
     main via Netlify; the human merges when they want the site to update.
 
     Do not invent Near-Term Risk rating changes. Ratings were last scored
-    July 28, 2026. If a draft DL-01 research PR is already open from a
-    prior Monday, update that branch instead of opening a second PR.
+    July 28, 2026. Update an existing PR only if it is a draft whose
+    title starts with DL-01. Ignore the Florida export branch. If no
+    DL-01 draft exists, open a new one.
 
     Memories: store the open PR URL, unreachable sources, and any
     "checked, no change" notes so next Monday does not duplicate work.
@@ -68,7 +69,7 @@ This is **not** a freshness-only pass. Do not stop at "due in 45 days." Recheck 
 5. **Do not invent facts.** If a source is unreachable, say so and keep the last verified figure. Prefer official pages (legislature, SOS, DOR, courts, CBO, OECD) over press. News is allowed when it is the only public record of a new filing or forecast.
 6. **House style:** no em dashes. Spell out million and billion in prose. Keep `$` on figures. Use `YYYY-MM-DD` in the ledger.
 7. **Schema:** 51-jurisdiction atlas (`states`, `events.phases`, `meta`, `captions`, `default_sources`, `state_sources`, `derived`). Do not revert to the older 16-state events-array schema.
-8. **If a draft DL-01 research PR is already open** from a prior Monday run, update that branch instead of opening a second PR.
+8. **Update an existing PR only if it is a draft whose title starts with `DL-01`.** Ignore every other open or closed PR, including the Florida standalone export on `cursor/florida-standalone-export-614f`. If no DL-01 draft exists, open a new one.
 
 ## Schedule and trigger
 

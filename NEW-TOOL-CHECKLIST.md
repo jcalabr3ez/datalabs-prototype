@@ -91,8 +91,9 @@ Conventions every ledger follows:
       refresh_dl03.py mold (fetch, recompute, sanity-check, never push) plus
       a monthly/quarterly workflow opening a PR.
 - [ ] Semi-structured or editorial sources: a scripts/dlXX-research-pass.md
-      runbook in the dl01/dl02 mold, run locally in Claude Code; the
-      freshness gate is the reminder.
+      runbook in the dl01/dl02 mold. Schedule it as a Cursor Automation
+      that opens a draft PR (see SETUP.md Step 7 for the DL-01 Monday
+      9:00 AM ET pattern). The freshness gate is only the backstop.
 - [ ] Either way: the automation NEVER pushes to main. PRs get human review;
       merging deploys.
 

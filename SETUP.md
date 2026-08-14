@@ -36,10 +36,11 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     scripts/eval_engine.mjs        Golden-question eval against the live engine
     scripts/check_engine.mjs       Offline payload checks: trigger recall and
                                    coreSlice size (no API key)
-    scripts/dl01-research-pass.md  Runbook: tax atlas research pass (local)
+    scripts/dl01-research-pass.md  Runbook: weekly DL-01 deep research pass
+                                   (Cursor Automation, Monday 9:00 AM ET)
     scripts/dl02-research-pass.md  Runbook: Florida quarterly refresh (local)
     NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool
-    .github/workflows/             The automation (see Step 7)
+    .github/workflows/             GitHub Actions (DL-03, checks, eval; Step 7)
     netlify.toml                   Site, functions, and the build command
     SETUP.md                       This file
 
@@ -196,10 +197,35 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
                        politely until that variable exists. This is the
                        regression net for prompt edits.
 
-    The DL-01 research pass is deliberately NOT a workflow: it is editorial
-    work, run locally in Claude Code with your own credentials. The runbook
-    and prompt are in scripts/dl01-research-pass.md; the checks workflow's
-    freshness gate reminds you when a pass is due.
+    The DL-01 research pass is editorial (hearings, ballots, dockets,
+    citations). It is deliberately NOT a GitHub Actions scraper. Schedule
+    it as a Cursor Automation that follows scripts/dl01-research-pass.md,
+    opens a draft pull request, and never merges. The checks workflow's
+    45-day freshness gate is only the backstop; the weekly pass rechecks
+    every register source, not just the ones that are due.
+
+    Create the Automation (paid Cursor plan; billed as cloud-agent usage):
+
+    1. Open cursor.com/automations/new (or Agents Window > Automations,
+       or type /automate in a local Agent chat).
+    2. Trigger: Scheduled. Cron:
+           CRON_TZ=America/New_York 0 9 * * 1
+       That is Monday 9:00 AM Eastern, including DST. If the UI rejects
+       CRON_TZ, crons are UTC: use 0 13 * * 1 during EDT and 0 14 * * 1
+       during EST. Confirm the first fire time. Runs may be late, never
+       early.
+    3. Repository: attach jcalabr3ez/datalabs-prototype, branch main.
+       Scheduled triggers default to no repository; without a repo the
+       agent cannot edit code or open a PR.
+    4. Model: pick the most capable model. Automations always get max
+       context.
+    5. Tools: Pull request creation on, Memories on, Computer use on.
+    6. Paste the prompt from the top of scripts/dl01-research-pass.md.
+    7. Save and activate. The next Monday run should open a draft PR.
+       Review the changelog, then merge to main to deploy.
+
+    A human can still run the same pass on demand by pasting that prompt
+    into a Cloud Agent. Either way: do not push main; merge the PR.
 
 Nothing in the automation pushes to main; refreshes land as pull requests a
 person reviews. Merging to main is what deploys.

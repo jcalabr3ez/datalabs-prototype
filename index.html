@@ -32,12 +32,12 @@
     font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
   button { font-family:inherit; cursor:pointer; background:none; border:none; }
   a { color:inherit; text-decoration:none; }
-  a:hover { color:var(--navy); }
+  a:hover { color:var(--gold); }
   input:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
   .mono { font-family:var(--mono); }
   .frame { max-width:960px; margin:0 auto; padding:0 24px; }
 
-  /* ---------- Published strip (house .proto pattern, flagship pages) ---------- */
+  /* ---------- Prototype strip (house .proto pattern, flagship pages) ---------- */
   .proto { background:var(--bar); border-top:1px solid rgba(255,255,255,.08); margin-bottom:30px; }
   .proto-in { display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding-top:12px; padding-bottom:12px; }
   .proto-tag { font-size:10px; font-weight:800; line-height:1; letter-spacing:.1em; text-transform:uppercase;
@@ -294,11 +294,12 @@
   .herostat b { color:#C9D2E0; font-weight:500; }
 
   .about-sec { padding-bottom:72px; }
-  .about-sec .body { margin-top:18px; font-size:15px; color:var(--ink); max-width:720px; }
-  .about-sec .body p { margin:0 0 14px; }
-  .about-sec h3 { font-family:var(--serif); font-size:20px; font-weight:700; letter-spacing:-.01em;
+  .about-sec .body { margin-top:18px; max-width:600px; }
+  .about-sec .body p { margin:0 0 14px; color:var(--grey); font-size:14.5px; }
+  .about-sec h3 { font-family:var(--serif); font-size:21px; font-weight:700; letter-spacing:-.01em;
     color:var(--navy); margin:28px 0 8px; }
-  .about-sec .disc { margin-top:8px; padding-top:4px; font-size:13.5px; color:var(--grey); line-height:1.65; }
+  .about-sec .body a { color:var(--navy); font-weight:600; }
+  .about-sec .body a:hover { color:var(--gold); }
 </style>
 </head>
 <body class="ai-off">
@@ -387,14 +388,9 @@ Flagship series through June 2026. Revised August 14, 2026.
       <p>Pioneer DataLabs publishes tools that show their work. The three applications featured above, the State Tax Atlas, Florida Insurance Watch, and Transportation &amp; MBTA, are compiled in this repository from public filings. Each carries a source register, a data vintage, and a revised date. What those ledgers cannot support is not invented.</p>
       <p>The catalog above also lists applications on partner DataLabs sites: Massachusetts DataLabs, US DataLabs, and MassOpenBooks, plus a few Pioneer Institute pages. Those rows are outbound links, marked with &#8599;. Pioneer does not re-verify their figures the way it verifies the three flagships. The colored dots describe the vintage of the data inside each tool, not a Pioneer review of that page.</p>
 
-      <h3>How figures are sourced</h3>
-      <p>On a flagship page, every number traces to a cited public record: a state filing, a federal dataset, a session law, or a Pioneer calculation from those records, disclosed as such. The source register on each tool lists cadence, vintage, and the next expected release. Catalog partner pages keep whatever sourcing those sites publish; this front door does not add a second register for them.</p>
-
       <h3>Research and educational use</h3>
-      <div class="disc">
-        <p>This site is provided strictly for research and educational purposes. It does not constitute financial, legal, insurance, tax, actuarial, or investment advice, it creates no professional or advisory relationship, and it should not be relied upon for any coverage, purchasing, filing, financial, or legal decision. Consult a qualified professional before acting on any matter addressed here.</p>
-        <p>Figures are compiled in good faith from public records issued by third parties and are accurate to the stated vintage at the time of verification. Those bodies publish on their own schedules and may revise prior figures without notice. Flagship pages state their known limits. Partner catalog rows may be older, use a different method, or have moved; the freshness dot is the cue.</p>
-      </div>
+      <p>This site is provided strictly for research and educational purposes. It does not constitute financial, legal, insurance, tax, actuarial, or investment advice, it creates no professional or advisory relationship, and it should not be relied upon for any coverage, purchasing, filing, financial, or legal decision. Consult a qualified professional before acting on any matter addressed here.</p>
+      <p>Figures are compiled in good faith from public records issued by third parties and are accurate to the stated vintage at the time of verification. Those bodies publish on their own schedules and may revise prior figures without notice. Flagship pages state their known limits. Partner catalog rows may be older, use a different method, or have moved; the freshness dot is the cue.</p>
 
       <h3>Corrections</h3>
       <p>If a flagship figure is wrong, write <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>. Please include the tool name, the figure and where it appears, the vintage shown on the page, and the source you believe is correct, with a link if you have one. Partner-site errors should go to the site that publishes that page; we still welcome a note if a catalog link is broken or mis-titled.</p>

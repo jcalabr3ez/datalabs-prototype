@@ -9,7 +9,7 @@ box is off by default (`?ai=1` still previews it). Production deploys from
 | Tool | Page | Canonical ledger | How it refreshes |
 | --- | --- | --- | --- |
 | DL-01 State Tax Atlas | `/tax-atlas/` | `netlify/functions/dl01-answers.json` | Weekly Cursor Automation, Monday 9:00 AM ET. Runbook: `scripts/dl01-research-pass.md` |
-| DL-02 Florida Insurance Watch | `/florida-insurance/` | `netlify/functions/dl02-answers.json` | Quarterly editorial pass. Runbook: `scripts/dl02-research-pass.md` |
+| DL-02 Florida Insurance Watch | `/florida-insurance/` | `netlify/functions/dl02-answers.json` | Monthly Cursor Automation, 17th at 10:00 AM ET. Runbook: `scripts/dl02-research-pass.md` |
 | DL-03 Transportation & MBTA | `/mbta/` | `netlify/functions/dl03-answers.json` | Monthly GitHub Action. Script: `scripts/refresh_dl03.py` |
 
 ## Edit and deploy

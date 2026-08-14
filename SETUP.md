@@ -41,7 +41,8 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    coreSlice size (no API key)
     scripts/dl01-research-pass.md  Runbook: weekly DL-01 deep research pass
                                    (Cursor Automation, Monday 9:00 AM ET)
-    scripts/dl02-research-pass.md  Runbook: Florida quarterly editorial pass
+    scripts/dl02-research-pass.md  Runbook: monthly DL-02 full research pass
+                                   (Cursor Automation, 17th at 10:00 AM ET)
     NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool
     .github/workflows/             GitHub Actions (DL-03, checks, eval; Step 7)
     netlify.toml                   Site, functions, and the build command
@@ -229,6 +230,21 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
 
     A human can still run the same pass on demand by pasting that prompt
     into a Cloud Agent. Either way: do not push main; merge the PR.
+
+    The DL-02 research pass is the same idea on a monthly clock. It
+    follows scripts/dl02-research-pass.md (full Florida register, not
+    Citizens-only). Create a second Automation:
+
+    1. Name: DL-02 monthly full research pass
+    2. Cron: CRON_TZ=America/New_York 0 10 17 * *
+       That is the 17th at 10:00 AM Eastern, one hour after the weekly
+       DL-01 pass. First fire: Monday, August 17, 2026. Later months
+       fire on the 17th even when that day is not a Monday. UTC
+       fallback: 0 14 17 * * during EDT, 0 15 17 * * during EST.
+    3. Same repo (main), most capable model, PR / Memories / Computer
+       use on.
+    4. Paste the prompt from the top of scripts/dl02-research-pass.md.
+    5. Save and activate. Review the draft PR; merge to deploy.
 
 Nothing in the automation pushes to main; refreshes land as pull requests a
 person reviews. Merging to main is what deploys.

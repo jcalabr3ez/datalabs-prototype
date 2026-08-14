@@ -1,55 +1,188 @@
-# DL-02 refresh pass: local runbook (quarterly)
+# DL-02 monthly research pass (17th, 10:00 AM ET)
 
-Why this is a runbook and not a workflow: the DL-02 sources are not
-machine-readable the way NTD is. OIR's QUASR statewide summaries are
-Excel files behind a form-driven portal, Citizens' filings are PDFs, and
-the litigation shares come through NAIC MCAS as published by OIR. Fetching
-them needs a person (or a Cloud Agent); verifying them needs
-judgment. The checks workflow's freshness gate (160-day limit on the DL-02
-as_of) signals when this pass is due, roughly once a quarter.
+This is the canonical prompt for the **monthly full update** of Pioneer
+Institute DataLabs Florida Insurance Watch (DL-02). A Cursor Automation
+should follow this file on the 17th of each month at 10:00 AM Eastern.
+The first fire is Monday, August 17, 2026. A human can also paste it
+into a Cloud Agent.
 
-The canonical ledger is netlify/functions/dl02-answers.json. Running
-python3 scripts/inject_data.py regenerates the flagship charts, the
-dateline, the Citizens policies-in-force headline, the county-change
-ranking sentence, and the front-door Florida series. Remaining narrative
-(report-card grades, methodology folds, source-register notes that quote
-a figure) is still hand-authored. CI sentinels require the page to carry
-the ledger's latest Citizens count and as_of month, so a ledger refresh
-without those headlines fails.
+Later months fire on the 17th even when that day is not a Monday.
 
-Paste this prompt into a Cloud Agent:
+## Paste this into the Cursor Automation
 
-    Run the quarterly refresh pass for Pioneer DataLabs Florida Insurance
-    Watch (DL-02). The canonical ledger is netlify/functions/dl02-answers.json;
-    the flagship page florida-insurance/index.html documents every source
-    with its cadence in its register.
+Create the Automation at cursor.com/automations/new. Scheduled triggers
+default to **no repository**; attach `jcalabr3ez/datalabs-prototype` on
+branch `main` or the agent cannot edit code or open a PR.
 
-    1. Read the ledger's as_of and each series' latest period.
-    2. Check the sources for newer publications:
-       - Citizens policies in force: Citizens' monthly policy count reports
-         (citizensfla.com, policy and exposure filings).
-       - County premiums: OIR QUASR statewide summary by company and policy
-         type, the next quarterly file.
-       - Litigation shares: NAIC MCAS as published or cited by OIR.
-       - Risk transfer: Citizens audited statements and Gallagher Re
-         Florida Market Watch.
-    3. Update dl02-answers.json ONLY with figures you verified against the
-       source documents; recompute derived values (citizens_key_facts,
-       county_rankings) from the new series. Update as_of. House style: no
-       em dashes, every figure keeps its source id.
-    4. Run: python3 scripts/inject_data.py
-       Charts, dateline, the Citizens PIF headline, and the county-change
-       ranking sentence update from the ledger. Do not hand-edit those
-       DATA:BEGIN blocks.
-    5. Update remaining hand-authored prose that still quotes a figure
-       (report card, methodology folds, source-register vintages, any
-       paragraph that names a number inject does not own). Then run
-       python3 scripts/check_style.py until clean.
-    6. Show the diff with each change tied to its source. Open a draft
-       pull request against main. Do not merge. Do not push main.
-       Merging to main is what deploys.
+**Name:** DL-02 monthly full research pass
 
-The quarterly OIR file drops lag the quarter end by roughly two months;
-Citizens monthly counts run about one month behind. If only Citizens has
-new data, a Citizens-only update is fine; note the mixed vintages in the
-ledger notes the way the current file does.
+**Trigger:** Scheduled. Cron (preferred, stays on 10:00 AM Eastern through DST):
+
+    CRON_TZ=America/New_York 0 10 17 * *
+
+If the UI rejects `CRON_TZ`, crons are UTC:
+
+    0 14 17 * *    # 10:00 AM EDT (mid-March through early November)
+    0 15 17 * *    # 10:00 AM EST (early November through mid-March)
+
+Confirm the first fire time is August 17, 2026, 10:00 AM Eastern. This
+is one hour after the weekly DL-01 pass so the two runs do not start
+together. Scheduled runs may be late; they should not start early.
+
+**Repository:** `jcalabr3ez/datalabs-prototype`, branch `main`.
+
+**Model:** the most capable model in the picker. Automations always get
+that model's maximum context window.
+
+**Tools:** Pull request creation on (default). Memories on (default).
+Computer use on (default) so the agent can open Citizens PDFs and the
+OIR portal. Do not enable merge or any "push to main" action.
+
+**Prompt to paste:**
+
+    Follow scripts/dl02-research-pass.md exactly. This is the monthly
+    full research pass for Pioneer DataLabs Florida Insurance Watch
+    (DL-02).
+
+    Recheck every source in the flagship register, not only sources
+    that look due. Citizens month-end counts, OIR quarterly files,
+    litigation shares, takeouts, risk transfer, and statutory results
+    all belong in this pass.
+
+    Edit netlify/functions/dl02-answers.json as the source of truth.
+    Recompute citizens_key_facts and county_rankings from the series.
+    Set page.revised to today's date. Change as_of only when the
+    latest series vintage actually moved. Run python3
+    scripts/inject_data.py. Then update remaining hand-authored prose
+    that still quotes a stale figure (report card, methodology folds,
+    source-register vintages). Do not hand-edit DATA:BEGIN blocks.
+    Run python3 scripts/check_style.py and
+    python3 scripts/check_freshness.py.
+
+    Open a DRAFT pull request against main whose title starts with
+    DL-02, using the PR body template in the runbook. Do not merge.
+    Do not push main. Ignore the weekly DL-01 PR and the Florida
+    standalone export branch. If a draft whose title starts with
+    DL-02 is already open, update that branch.
+
+    Memories: store the open PR URL, which sources had no new file,
+    and mixed vintages so the next month does not duplicate work.
+
+## Goal
+
+Do a full verification of the Florida register. Prefer official
+Citizens, OIR, and NAIC pages. If a source has not republished, that
+is a finding: keep the last verified figure and say so. Mixed vintages
+are allowed and must be noted in the ledger the way the current file
+does.
+
+Charts, the dateline, the Citizens PIF headline, and the county-change
+ranking sentence are generated by `python3 scripts/inject_data.py`.
+Remaining narrative is hand-authored and must be searched for leftover
+figures after inject.
+
+## Hard rules
+
+1. **Open a draft pull request whose title starts with `DL-02`. Do not
+   merge. Do not push `main`.** Production deploys from `main` via
+   Netlify.
+2. **Edit `netlify/functions/dl02-answers.json` as the source of truth.**
+   Then run `python3 scripts/inject_data.py`. Do not hand-edit generated
+   `DATA:BEGIN` / `DATA:END` blocks.
+3. **Do not invent figures.** If a portal or PDF is unreachable, keep
+   the last verified value and list it under Unreachable.
+4. **House style:** no em dashes. Spell out million and billion in
+   prose. Keep `$` on figures.
+5. **Update an existing PR only if it is a draft whose title starts
+   with `DL-02`.** Ignore the weekly DL-01 PR and
+   `cursor/florida-standalone-export-614f`.
+6. **Do not change Near-Term Risk ratings** on the tax atlas. This pass
+   does not touch DL-01.
+
+## Depth: four parallel research agents
+
+Launch **four** research agents in parallel. Each returns a brief:
+source, last verified vintage, what changed, new URL if any, confidence.
+
+### Agent 1: Citizens book
+
+- Policies in Force month-end series and exposure / premium filings
+- Takeout / depopulation statistics
+- 2026 rate filings (multiperil and wind-only) if a newer approval exists
+- Claims-paying ability and assessment-threshold press if restated
+
+Primary homes: citizensfla.com Policies in Force, Detail reports,
+Depopulation Statistics, board packets.
+
+### Agent 2: OIR premiums and market
+
+- County average premiums (incl wind / ex wind) and the prior-quarter
+  comparison column
+- Statewide Summary by Company and Policy Type (average premium and
+  Pioneer cost per $100,000 of coverage)
+- Entrant count / new capital if OIR has a newer announcement
+- Combined-ratio series if OIR republished
+
+Primary homes: floir.gov QUASR / residential market-share / Stability
+Unit reports.
+
+### Agent 3: Litigation
+
+- NAIC MCAS via OIR Insurance Summary Update
+- Florida share of nationwide homeowners suits vs claims
+- Any newer Senate / board testimony that revises the 2024 hurricane
+  claims figures already on the page
+
+### Agent 4: Statutory results, PML, risk transfer
+
+- Citizens audited statutory statements (underwriting and net income)
+- Risk transfer notes (Cat Fund vs private capital, price as % of DWP)
+- PML vintages and concentration (only if a new statutory PML report
+  or board packet superseded the current bars)
+
+## After the four briefs return
+
+1. Apply verified series updates to `netlify/functions/dl02-answers.json`.
+2. Recompute `citizens_key_facts` and `county_rankings` from the series.
+3. Set `page.revised` to today (`Mon D, YYYY` style already used, e.g.
+   `Aug 17, 2026`). Change `as_of` only when the latest Citizens or OIR
+   vintage moved.
+4. Run `python3 scripts/inject_data.py`.
+5. Search `florida-insurance/index.html` for leftover old figures
+   (prior PIF count, prior peak math, register vintages, report-card
+   sentences). Update those by hand.
+6. Run `python3 scripts/check_style.py` and
+   `python3 scripts/check_freshness.py`.
+7. Commit on a feature branch. Push. Open a **draft** pull request
+   against `main` whose title starts with `DL-02`.
+
+## Pull request body (required)
+
+```markdown
+## DL-02 monthly research pass (YYYY-MM-DD)
+
+Full pass. Four parallel agents. Ledger `as_of`: Month YYYY. Page revised: Mon D, YYYY.
+
+### Changed
+- Citizens PIF … (old → new). Source: URL
+- OIR county premiums … Source: URL
+
+### Checked, no change
+- 2025 audited statutory still the latest.
+- Combined ratio 2025 still the latest OIR figure.
+
+### Unreachable / unverified
+- …
+
+### Deploy
+- Draft PR only. Merge to `main` to publish on Netlify.
+```
+
+## If only Citizens moved
+
+A Citizens-only ledger update is a valid monthly outcome. Note the mixed
+vintages in the ledger notes. Still inject, still hunt leftover PIF
+prose, still open the draft PR.
+
+DL-02 is editorial. There is no GitHub Actions scraper for this page.
+DL-03 (MBTA) is the automated API refresh. DL-01 is the weekly atlas pass.

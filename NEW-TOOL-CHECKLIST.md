@@ -65,10 +65,14 @@ Conventions every ledger follows:
 
 - [ ] Entry in netlify/functions/tools.js: `id`, `label`, `scope`
       (coverage AND exclusions; the engine answers or declines on this),
-      `dataset`, `modelSlice` (strip page-layout fields and source URL
-      lists), `charts` or `views` enums, `viewDefault`, `highlight`
+      `triggers` (recall-oriented phrases; a hit ships the full modelSlice),
+      `dataset`, `coreSlice` (the always-sent answering core: keep it small),
+      `modelSlice` (strip page-layout fields and source URL lists),
+      `charts` or `views` enums, `viewDefault`, `highlight`
       (validation key + description), `rules` (citation discipline, derived
       preference, ambiguity handling), `link`, `src`.
+- [ ] Golden questions for this tool added to scripts/check_engine.mjs
+      so a later tool cannot drop this one from the payload.
 - [ ] `"ai": true` on the tool in catalog.json.
 - [ ] Harness cases in the offline harness pattern (answer with the tool,
       shaping, bogus-value coercion, an honest decline with followups).
@@ -105,6 +109,32 @@ Conventions every ledger follows:
 - [ ] Add the tool to the front-door desk only if it has a live number
       worth leading with; desk stats must be generated from the ledger
       (see DL01D), never typed into copy.
+
+## Scaling the overlay from 3 tools to 20
+
+Do not stand up a second model call that routes from scopes alone. That
+architecture was tried (Haiku, then Sonnet 5 at low effort) and every
+eval failure lived in the handoff: the router declined questions the
+ledgers fully cover. The efficient path is one Sonnet 5 call that still
+sees real figures when it decides, with a payload that stays flat as
+tools are added:
+
+1. Pick the next tools from the question log, not from the legacy
+   catalog. Most catalog rows stay route targets until they have a
+   verified ledger. Adding 17 unverified flagships is a different
+   product.
+2. Keep adding the existing way: one ledger JSON, one tools.js entry,
+   `"ai": true` in catalog.json. ask.js iterates the list; it needs no
+   per-tool edits.
+3. Give every new tool a small `coreSlice` (scope, derived, latest
+   figures, the entity table the answers actually use) and a generous
+   `triggers` list. Hits ship `modelSlice`; everyone else still ships
+   `coreSlice`, so a missed trigger cannot hide a tool.
+4. Keep `coreSlice` under the budget that `scripts/check_engine.mjs`
+   enforces. Twenty cores have to fit in one call; page-chart monthly
+   series do not belong in the core.
+5. When timelines squeeze, cut scope (fewer figures, fully verified),
+   never rigor, and never a router that decides without the ledger.
 
 ## What this list deliberately keeps hard
 

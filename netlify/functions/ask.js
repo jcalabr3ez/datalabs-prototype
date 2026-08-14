@@ -1,15 +1,59 @@
-// Pioneer DataLabs unified engine: Netlify Function, v3.
+// Pioneer DataLabs unified engine: Netlify Function, v4.
 // Single-stage, manifest-driven. There is no router: one Sonnet 5 call sees
-// the catalog plus every AI-enabled dataset and decides answer / route /
+// the catalog plus the AI-enabled datasets and decides answer / route /
 // decline in the same pass, under one JSON schema enforced by structured
-// outputs. Prompt caching covers the static rules and datasets on their own
-// breakpoint (the catalog, which refreshes every 5 minutes, sits behind a
-// second), the visitor's recent exchanges ride along, and no free-form model
-// text is ever parsed.
+// outputs. A two-stage router (scopes first, ledger second) was tried and
+// removed: routing without the ledger is where every eval misdecline lived.
+// Scaling to many tools is done by shrinking the payload, not by splitting
+// the decision. Every tool always ships a small coreSlice; a trigger hit
+// upgrades that tool to its full modelSlice. Prompt caching covers the
+// static rules on their own breakpoint (the catalog, which refreshes every
+// 5 minutes, sits behind a second), the visitor's recent exchanges ride
+// along, and no free-form model text is ever parsed.
 // Holds the Anthropic API key server-side (env var ANTHROPIC_API_KEY).
 
 const BUNDLED_CATALOG = require('./catalog.json'); // fallback only
 const TOOLS = require('./tools.js');
+
+// ---------- payload selection (how 3 tools become 20 without a router) ----------
+// A two-stage router that decided from scopes alone failed eval: it declined
+// questions the ledgers fully cover. The decision stays single-stage. What
+// scales is the payload: every tool always contributes a small coreSlice;
+// a trigger hit upgrades that tool to its full modelSlice. A miss cannot
+// hide a tool, so a thin trigger list is safe.
+
+function escapeRe(s) {
+  return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function matchesTrigger(text, trigger) {
+  const q = String(text || '').toLowerCase();
+  const tr = String(trigger || '').toLowerCase().trim();
+  if (!tr) return false;
+  if (tr.length <= 2) return new RegExp('\\b' + escapeRe(tr) + '\\b').test(q);
+  return q.indexOf(tr) !== -1;
+}
+
+function questionBlob(question, history) {
+  const prior = (history || []).map(function (h) { return h && h.q ? h.q : ''; }).join(' ');
+  return String(question || '') + ' ' + prior;
+}
+
+function toolsMatching(text) {
+  return TOOLS.filter(function (t) {
+    return (t.triggers || []).some(function (tr) { return matchesTrigger(text, tr); });
+  });
+}
+
+function selectDatasets(question, history) {
+  const blob = questionBlob(question, history);
+  const hits = toolsMatching(blob);
+  const cores = {};
+  const full = {};
+  TOOLS.forEach(function (t) { cores[t.id] = t.coreSlice(t.dataset); });
+  hits.forEach(function (t) { full[t.id] = t.modelSlice(t.dataset); });
+  return { cores: cores, full: full, hits: hits.map(function (t) { return t.id; }) };
+}
 
 // Sonnet 5: adaptive thinking is ON when the thinking param is omitted, and
 // max_tokens caps thinking plus the answer, so the call carries a generous cap
@@ -88,7 +132,7 @@ const ENGINE_SCHEMA = {
 
 // ---------- prompt ----------
 
-const ENGINE_RULES = 'You are the engine behind Pioneer Institute DataLabs\' question box. You receive a CATALOG of topic categories (each listing its dashboards by exact title in legacy arrays), the full DATASETS of every AI-enabled tool, and a visitor question, possibly with recent exchanges for context.\n\nDecide exactly one of:\n- answer: one of the DATASETS answers the question from its own data. Set tool_id and answer from ONLY that dataset, never outside knowledge. An exclusion removes ONLY exactly what it names; never stretch it to a related topic the same scope lists as covered (for example, a dataset that covers farebox recovery and cost per trip still answers those even though it excludes the fare prices riders pay). A plain current-fact lookup that a dataset holds (for example one state\'s current top income tax rate) is an answer, not a route.\n- route: no dataset covers it but a different catalog tool covers the topic. Fill matches with 1 to 3 tools, best first; dashboards must be EXACT titles from that tool\'s legacy arrays, or an empty array.\n- none: DataLabs does not cover it (including everything every dataset excludes, like personal advice or predictions). Write one or two honest sentences in note and offer in followups the two nearest questions the datasets CAN answer.\n\nPrefer answer over route: whenever a dataset covers the question, choose answer for that dataset; only choose route when no dataset covers the topic but a catalog tool does.\n\nWhen decision is answer: every figure cites its source as the answering tool\'s rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. Set chart and view only as the answering tool\'s rules describe; when the answering tool has no charts or no views, set them to none. Also list up to 2 OTHER relevant tools in see_also (never the answering tool itself). Never improvise or estimate beyond the dataset.\n\nWhere a tool\'s rules say to set answerable to false, that means decision none: put the honest sentences in note and the offered questions in followups.\n\nNever invent tool or category ids; use ids exactly as they appear. Never state statistics in reasons. No em dashes anywhere; use commas, colons, or middots.\n\nDataset scopes:\n' + TOOLS.map(function (t) { return '- ' + t.id + ': ' + t.scope; }).join('\n') + '\n\nPer-tool answer rules:\n\n' + TOOLS.map(function (t) { return t.rules; }).join('\n\n');
+const ENGINE_RULES = 'You are the engine behind Pioneer Institute DataLabs\' question box. You receive a CATALOG of topic categories (each listing its dashboards by exact title in legacy arrays), DATASETS_CORE (the answering core of every AI-enabled tool), optional DATASETS_FULL (the complete ledger for the tools most likely to answer; when an id appears in both, prefer FULL), and a visitor question, possibly with recent exchanges for context.\n\nDecide exactly one of:\n- answer: one of the DATASETS answers the question from its own data. Set tool_id and answer from ONLY that dataset, never outside knowledge. An exclusion removes ONLY exactly what it names; never stretch it to a related topic the same scope lists as covered (for example, a dataset that covers farebox recovery and cost per trip still answers those even though it excludes the fare prices riders pay). A plain current-fact lookup that a dataset holds (for example one state\'s current top income tax rate) is an answer, not a route.\n- route: no dataset covers it but a different catalog tool covers the topic. Fill matches with 1 to 3 tools, best first; dashboards must be EXACT titles from that tool\'s legacy arrays, or an empty array.\n- none: DataLabs does not cover it (including everything every dataset excludes, like personal advice or predictions). Write one or two honest sentences in note and offer in followups the two nearest questions the datasets CAN answer.\n\nPrefer answer over route: whenever a dataset covers the question, choose answer for that dataset; only choose route when no dataset covers the topic but a catalog tool does.\n\nWhen decision is answer: every figure cites its source as the answering tool\'s rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. Set chart and view only as the answering tool\'s rules describe; when the answering tool has no charts or no views, set them to none. Also list up to 2 OTHER relevant tools in see_also (never the answering tool itself). Never improvise or estimate beyond the dataset.\n\nWhere a tool\'s rules say to set answerable to false, that means decision none: put the honest sentences in note and the offered questions in followups.\n\nNever invent tool or category ids; use ids exactly as they appear. Never state statistics in reasons. No em dashes anywhere; use commas, colons, or middots.\n\nDataset scopes:\n' + TOOLS.map(function (t) { return '- ' + t.id + ': ' + t.scope; }).join('\n') + '\n\nPer-tool answer rules:\n\n' + TOOLS.map(function (t) { return t.rules; }).join('\n\n');
 
 // ---------- model call ----------
 
@@ -169,15 +213,16 @@ exports.handler = async function (event) {
     const catalog = await getCatalog();
     const messages = buildMessages(history, question);
 
-    // One call: rules first, then the datasets (static per deploy) behind
-    // their own cache breakpoint, then the catalog behind a second, so a
-    // catalog refresh never invalidates the dataset prefix.
-    const datasets = {};
-    TOOLS.forEach(function (t) { datasets[t.id] = t.modelSlice(t.dataset); });
+    // One call. Rules, then every core (static per deploy) behind its own
+    // cache breakpoint, then the catalog behind a second, then the full
+    // ledgers for trigger hits last so a hit pattern never invalidates the
+    // cached prefix. This is how 20 tools stay one call without a router.
+    const selected = selectDatasets(question, history);
     const out = await callModel(ANSWER_MODEL, [
       { type: 'text', text: ENGINE_RULES },
-      { type: 'text', text: 'DATASETS:\n' + JSON.stringify(datasets), cache_control: { type: 'ephemeral' } },
-      { type: 'text', text: 'CATALOG:\n' + JSON.stringify(catalog), cache_control: { type: 'ephemeral' } }
+      { type: 'text', text: 'DATASETS_CORE:\n' + JSON.stringify(selected.cores), cache_control: { type: 'ephemeral' } },
+      { type: 'text', text: 'CATALOG:\n' + JSON.stringify(catalog), cache_control: { type: 'ephemeral' } },
+      { type: 'text', text: 'DATASETS_FULL (prefer over CORE for the same id):\n' + JSON.stringify(selected.full) }
     ], messages, ENGINE_SCHEMA, 6000, ANSWER_EFFORT);
 
     const catalogIds = new Set();
@@ -248,3 +293,8 @@ exports.handler = async function (event) {
     return { statusCode: 502, headers, body: JSON.stringify({ error: 'engine unavailable' }) };
   }
 };
+
+exports.selectDatasets = selectDatasets;
+exports.toolsMatching = toolsMatching;
+exports.matchesTrigger = matchesTrigger;
+exports.questionBlob = questionBlob;

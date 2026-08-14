@@ -279,19 +279,13 @@
   body.ai-off .heroAsk { display:none; }
   body.ai-off .heroBrowse { display:block; }
   body.ai-off #respBar, body.ai-off #resp { display:none; }
-  .herocta { margin-top:24px; margin-bottom:28px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .herocta { margin-top:24px; margin-bottom:36px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
   .btn-primary { background:var(--gold); color:var(--bar); font-weight:700; font-size:12.5px;
     letter-spacing:.09em; text-transform:uppercase; padding:13px 24px; border-radius:2px; transition:background .16s ease; }
   .btn-primary:hover { background:var(--gold); color:var(--bar); }
   .btn-ghost { color:#fff; font-weight:600; font-size:12.5px; letter-spacing:.09em; text-transform:uppercase; padding:13px 22px;
     border:1px solid rgba(255,255,255,.4); border-radius:2px; transition:border-color .16s ease, color .16s ease; }
   .btn-ghost:hover { border-color:var(--gold); color:var(--gold); }
-  .herostat { border-top:1px solid rgba(255,255,255,.16); padding:13px 0; font-size:11px;
-    letter-spacing:.1em; text-transform:uppercase; color:#8DA0B5;
-    display:flex; justify-content:center; flex-wrap:wrap; }
-  .herostat span { padding:0 22px; border-right:1px solid rgba(255,255,255,.14); }
-  .herostat span:last-child { border-right:none; }
-  .herostat b { color:#C9D2E0; font-weight:500; }
 
   .about-sec { padding-bottom:0; }
   .about-sec .body { margin-top:20px; }
@@ -338,7 +332,6 @@
             <a class="btn-primary" href="#directory">Browse the catalog</a>
             <a class="btn-ghost" href="#answers">See featured tools</a>
           </div>
-          <div class="herostat mono" id="heroStat"></div>
         </div>
       </div>
     </div>
@@ -383,9 +376,9 @@ Series through June 2026. Revised August 14, 2026.
   <section class="sec frame about-sec" id="about">
     <div class="lab">About</div>
     <h2>What DataLabs is</h2>
-    <p class="sub">Pioneer Institute's catalog of public-data applications.</p>
+    <p class="sub">Pioneer Institute's catalog of public-data applications, aligned to our four core research verticals.</p>
     <div class="body">
-      <p>The State Tax Atlas, Florida Insurance Watch, and Transportation &amp; MBTA are compiled on this site from public filings. Other catalog rows open on partner sites (Massachusetts DataLabs, US DataLabs, and MassOpenBooks) and a few Pioneer Institute pages, and are not re-verified the same way.</p>
+      <p>The goal is to curate novel data tools for the public, policymakers, and anyone interested. The State Tax Atlas, Florida Insurance Watch, and Transportation &amp; MBTA are compiled on this site from public filings. Other catalog rows open on partner sites (Massachusetts DataLabs, US DataLabs, and MassOpenBooks) and a few Pioneer Institute pages, and are not re-verified the same way.</p>
 
       <h3>Research and educational use</h3>
       <p>This site is provided strictly for research and educational purposes. It does not constitute financial, legal, insurance, tax, actuarial, or investment advice, it creates no professional or advisory relationship, and it should not be relied upon for any coverage, purchasing, filing, financial, or legal decision. Consult a qualified professional before acting on any matter addressed here.</p>
@@ -410,7 +403,7 @@ Series through June 2026. Revised August 14, 2026.
     <a href="#about">About DataLabs</a>
     <a href="mailto:datalabs@pioneerinstitute.org">Report an error</a>
   </div>
-  <div class="pf-credo" id="pfCredo">Every figure compiled here traces to a public record. Catalog rows that leave this site are partner DataLabs applications.</div>
+  <div class="pf-credo" id="pfCredo">Every figure compiled here traces to a public record.</div>
 </div>
 <div class="frame pf-legal">Copyright &#169; 2026 Pioneer Institute. All rights reserved.</div>
 </div></footer>
@@ -445,22 +438,14 @@ if (AI_ENABLED) {
   if (_cr) _cr.textContent = 'Every figure compiled here traces to a public record. Questions we cannot answer are logged and inform what Pioneer builds next.';
 }
 (function(){
-  /* Breadth line in the browse hero, and browse-mode copy that drops
-     any promise of a question engine. */
-  var flags = CATALOG.filter(function(t){ return /^DL-0/.test(t.id) && t.st==='live'; }).length;
-  var legacy = CATALOG.reduce(function(a,t){ return a + ((t.legacy||[]).length); }, 0);
-  var topics = CATALOG.filter(function(t){ return (t.legacy||[]).length; }).length + (flags?1:0);
-  var hs = document.getElementById('heroStat');
-  if (hs) hs.innerHTML = '<span><b>' + (flags+legacy) + '</b> applications</span>' +
-    '<span><b>' + topics + '</b> topics</span>' +
-    '<span>Massachusetts · the fifty states · Florida</span>';
+  /* Browse-mode copy that drops any promise of a question engine. */
   if (!AI_ENABLED) {
     var lab=document.getElementById('ansLab'), h2=document.getElementById('ansH2'), sub=document.getElementById('ansSub');
     if (lab) lab.textContent = 'Featured';
     if (h2)  h2.textContent  = 'Select applications';
     if (sub) sub.textContent = 'Open any one for the full briefing: charts, story, and every source.';
     var cr=document.getElementById('pfCredo');
-    if (cr) cr.textContent = 'Every figure compiled here traces to a public record. Catalog rows that leave this site are partner DataLabs applications.';
+    if (cr) cr.textContent = 'Every figure compiled here traces to a public record.';
   }
 })();
 

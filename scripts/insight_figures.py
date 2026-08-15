@@ -419,10 +419,10 @@ def figs_dl12(ledger):
     sec = _sec(ledger)
     out = []
     fig = from_snap(
-        sec.get("mfcu_recoveries_fy2024"), "mfcu",
-        title="Medicaid Fraud Control Unit recoveries, FY 2024",
+        sec.get("mfcu_recoveries_fy2025"), "mfcu",
+        title="Medicaid Fraud Control Unit recoveries, FY 2025",
         skip_us=True,
-        note="HHS OIG FY 2024 statistical chart. The U.S. total is $1.37 billion; it is omitted so the state bars remain readable.",
+        note="HHS OIG FY 2025 statistical chart. The U.S. total is $1.97 billion; it is omitted so the state bars remain readable.",
     )
     if fig:
         out.append(fig)

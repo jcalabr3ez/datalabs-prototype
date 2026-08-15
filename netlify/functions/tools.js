@@ -447,7 +447,7 @@ module.exports = [
       'medicaid', 'medicaid spending', 'medicaid expenditures', 'map net expenditures',
       'medicaid fraud', 'mfcu', 'fraud recover'
     ],
-    extra: 'MFCU recoveries sit in derived.secondary.mfcu_recoveries_fy2024. NASBO health-chapter totals are PDF-only: decline those.'
+    extra: 'MFCU recoveries sit in derived.secondary.mfcu_recoveries_fy2025. NASBO health-chapter totals are PDF-only: decline those.'
   }),
   suiteTool(DL13, {
     id: 'DL-13',

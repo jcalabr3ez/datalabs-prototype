@@ -6,7 +6,7 @@
   "group": "Healthcare",
   "status": "live",
   "as_of": "2024-09",
-  "scope": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2024. NASBO health-chapter totals remain PDF-only.",
+  "scope": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2025. NASBO health-chapter totals remain PDF-only.",
   "exclusions": "Does not cover individual eligibility, Massachusetts hospital prices, or 340B. NASBO health-chapter tables are PDF-only: decline those.",
   "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
   "replaces": [
@@ -20,19 +20,19 @@
       "name": "CMS Medicaid Financial Management Report FY 2024 net expenditures",
       "cadence": "Annual",
       "url": "https://www.medicaid.gov/medicaid/financial-management/downloads/financial-management-report-fy2024.zip",
-      "supports": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2024. NASBO health-chapter totals remain PDF-only."
+      "supports": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2025. NASBO health-chapter totals remain PDF-only."
     },
     "SRC-612-02": {
       "name": "NASBO State Expenditure Report, health chapter",
       "cadence": "Annual",
       "url": "https://www.nasbo.org/",
-      "supports": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2024. NASBO health-chapter totals remain PDF-only."
+      "supports": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2025. NASBO health-chapter totals remain PDF-only."
     },
     "SRC-612-03": {
-      "name": "HHS OIG Medicaid Fraud Control Unit statistical chart, FY 2024",
+      "name": "HHS OIG Medicaid Fraud Control Unit statistical chart, FY 2025",
       "cadence": "Annual",
-      "url": "https://oig.hhs.gov/documents/evaluation/10223/FY2024%20Statistical%20Chart_Table_protected.xlsx",
-      "supports": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2024. NASBO health-chapter totals remain PDF-only."
+      "url": "https://oig.hhs.gov/documents/evaluation/11556/Statistical_Chart_-_2025.xlsx",
+      "supports": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2025. NASBO health-chapter totals remain PDF-only."
     }
   },
   "page": {
@@ -49,7 +49,7 @@
   "unit": "dollars",
   "data_month": "2024-09",
   "data_month_label": "Fiscal year 2024",
-  "lead": "Medicaid Medical Assistance Program net expenditures were <b>$908.84 billion</b> in fiscal year 2024 (SRC-612-01). Massachusetts spent <b>$24.81 billion</b>, rank 9 of 51 (derived, SRC-612-01). NASBO health-chapter tables remain PDF-only. Medicaid Fraud Control Units recovered <b>$1.37 billion</b> in fiscal year 2024 (SRC-612-03). Massachusetts recovered <b>$19.80 million</b>, rank 11 of 51 (derived, SRC-612-03). NASBO health-chapter tables remain PDF-only.",
+  "lead": "Medicaid Medical Assistance Program net expenditures were <b>$908.84 billion</b> in fiscal year 2024 (SRC-612-01). Massachusetts spent <b>$24.81 billion</b>, rank 9 of 51 (derived, SRC-612-01). NASBO health-chapter tables remain PDF-only. Medicaid Fraud Control Units recovered <b>$1.97 billion</b> in fiscal year 2025 (SRC-612-03). Massachusetts recovered <b>$139.89 million</b>, rank 4 of 51 (derived, SRC-612-03). NASBO health-chapter tables remain PDF-only.",
   "kpis": [
     {
       "label": "U.S. Medicaid, FY 2024",
@@ -532,28 +532,28 @@
     "n_ranked": 51,
     "massachusetts_rank": 9,
     "secondary": {
-      "mfcu_recoveries_fy2024": {
-        "us": 1368070676.0,
+      "mfcu_recoveries_fy2025": {
+        "us": 1966591061.0,
         "ma": {
-          "v": 19795696.0,
-          "rank": 11,
+          "v": 139892852.0,
+          "rank": 4,
           "n": 51
         },
         "highest": {
-          "st": "CA",
-          "name": "California",
-          "v": 583830457.0
+          "st": "VA",
+          "name": "Virginia",
+          "v": 671436387.0
         },
         "lowest": {
-          "st": "HI",
-          "name": "Hawaii",
-          "v": 10341.0
+          "st": "SD",
+          "name": "South Dakota",
+          "v": 225578.0
         },
         "n_ranked": 51,
-        "label": "Medicaid Fraud Control Unit total recoveries, FY 2024",
+        "label": "Medicaid Fraud Control Unit total recoveries, FY 2025",
         "src": "SRC-612-03",
         "unit": "dollars",
-        "as_of_label": "Fiscal year 2024"
+        "as_of_label": "Fiscal year 2025"
       }
     }
   },

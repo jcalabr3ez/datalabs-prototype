@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retail Electricity Prices | Pioneer Institute | State All-Sector Averages</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="All-sector average retail electricity prices by state, 2012 through the latest EIA annual year. Rebuilt from Form EIA-861 and verified against Electric Power Annual table 2.10.">
+<link rel="canonical" href="https://datalabsai.netlify.app/electricity/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="Retail Electricity Prices | Pioneer Institute">
+<meta property="og:description" content="All-sector average retail electricity prices by state, rebuilt from EIA Form EIA-861 and verified against Electric Power Annual table 2.10.">
+<meta property="og:url" content="https://datalabsai.netlify.app/electricity/">
+<meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Retail Electricity Prices | Pioneer Institute">
+<meta name="twitter:description" content="All-sector average retail electricity prices by state, rebuilt from EIA Form EIA-861 and verified against Electric Power Annual table 2.10.">
+<meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
+<style>
+  :root{ --bleed:clamp(18px,2.6vw,48px); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);
+           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;
+    border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);
+         margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
+    background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%);
+    mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%)}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);
+         margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);
+             border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
+
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
+                 font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle button:not(.on):hover{color:var(--navy)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
+  .toggle button.on .who{color:var(--grey)}
+  @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
+
+  section{margin-top:56px}
+  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
+     border-bottom:none;padding-bottom:0;margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
+
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
+      margin-bottom:10px;min-height:30px}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .cd .up{color:var(--neg);font-weight:600} .cd .dn{color:var(--pos);font-weight:600}
+  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+
+  .metrics{border-top:1px solid var(--rule-dk);border-bottom:1px solid var(--rule)}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .metrics .cl{min-height:26px;margin-bottom:10px;color:var(--grey)}
+  .metrics .cv{font-size:clamp(22px,2vw,28px);line-height:1.05}
+  .metrics .cd{margin-top:12px;max-width:36ch;margin-left:auto;margin-right:auto}
+  .metrics .csrc{border-top:0;margin-top:10px}
+
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
+
+  .findrow{margin-top:8px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .sel-lab{font:600 10.5px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
+  .findrow select{font:600 13px/1.4 var(--sans);color:var(--ink);border:1px solid #D8DDE3;border-radius:3px;padding:9px 12px;background:#fff;min-width:220px}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;
+        border-top:1px solid var(--rule-lt);max-width:none}
+  .note b{color:var(--g1);font-weight:700}
+  .note a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .note a:hover{border-bottom-color:var(--gold)}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
+     text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  td.m{font-weight:600}
+  tr.hl td{background:var(--wash);font-weight:600}
+  tr.hl-ma td{background:var(--wash)}
+  .neg{color:var(--neg)} .pos{color:var(--pos)}
+
+  details{margin-top:18px;border-top:1px solid var(--rule-lt)}
+  summary{cursor:pointer;font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
+          list-style:none;padding:11px 0}
+  summary::-webkit-details-marker{display:none}
+  summary:after{content:"\25B6";font-size:9px;color:var(--gold);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
+  details[open]>summary:after{transform:translateY(-1px) rotate(90deg)}
+  summary:hover{color:var(--ink)}
+
+  details.math{margin-top:12px;border-top:1px solid var(--rule-lt)}
+  details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
+    font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
+  details.math > summary::-webkit-details-marker{display:none}
+  .mathbox{background:var(--wash);border:none;border-left:3px solid var(--gold);
+    padding:13px 15px;margin-bottom:10px}
+  .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
+  .mathbox .lbl{font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
+  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--navy)}
+  .mathsrc{font-size:11px;color:var(--faint);line-height:1.55;margin-top:2px}
+
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .srcline a:hover{border-bottom-color:var(--gold)}
+
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);
+         padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  footer a:hover{color:var(--goldlt);border-bottom-color:var(--goldlt)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .disclaimer b{color:#C9D2E0}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .fbrand a{color:#fff;border-bottom:1px solid rgba(255,255,255,.25)}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+
+  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:10px}
+  .simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
+                    font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
+  .simplify summary::-webkit-details-marker{display:none}
+  .simplify summary:after{content:none}
+  .simplify summary:hover{background:var(--hover);color:var(--navy)}
+  .simplify summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  .simplify[open] summary .car{transform:rotate(90deg)}
+  .simplify[open] summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
+  .simplify .dt-body{padding:14px 18px 16px}
+  .simplify .dt-body > :first-child{margin-top:0}
+
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  details.srcfold{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
+                          font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
+  details.srcfold>summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after{content:none}
+  details.srcfold>summary:hover{background:var(--hover);color:var(--navy)}
+  details.srcfold>summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  details.srcfold[open]>summary .car{transform:rotate(90deg)}
+  details.srcfold[open]>summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
+  details.srcfold .fold-body{padding:14px 18px 16px}
+  details.srcfold .fold-body>:first-child{margin-top:0}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg th{width:20%}
+  table.reg th:first-child{width:26%}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  table.reg td.src a:hover{border-bottom-color:var(--gold)}
+  table.reg tr.grp td{background:var(--hover);font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--rule)}
+  .scroll{overflow-x:auto;max-width:100%}
+  [hidden]{display:none !important}
+  .exhibit.hl{outline:2px solid var(--goldlt);outline-offset:10px;transition:outline-color 1s}
+
+  body.embed{background:#fff;padding:0}
+  body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+  body.embed header,body.embed .proto,body.embed footer{margin-left:0;margin-right:0}
+  body.embed header{padding:22px var(--bleed) 20px}
+  body.embed .org{margin-bottom:10px}
+  body.embed h1{font-size:clamp(25px,3.1vw,36px)}
+  body.embed .standfirst{margin-top:9px;font-size:14.5px}
+  body.embed .dateline{margin-top:14px}
+  body.embed .proto{padding:9px var(--bleed)}
+  body.embed .proto-txt{font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="sitebar">
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Retail Electricity Prices</span>
+</div>
+
+<header>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">Better Government <span class="sub">/ Energy &middot; formerly Retail-Price Electricity</span></div>
+  <h1>Retail Electricity Prices</h1>
+  <div class="standfirst" id="standfirst">What households, businesses, and industry together pay for a kilowatthour, state by state. Rebuilt from EIA Form EIA-861 and verified against Electric Power Annual table 2.10.</div>
+  <div class="dateline">
+<!-- DATA:BEGIN electricity-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <span>Data through <b>Dec 31, 2024</b></span>
+    <span>Revised <b>Aug 15, 2026</b></span>
+    <span>Version <b>1.0</b></span>
+<!-- DATA:END electricity-dateline -->
+  </div>
+</header>
+
+<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+
+<div class="toggle" role="tablist" aria-label="Choose a view">
+  <button id="btn-prices" class="on" onclick="showView('prices')">Prices<span class="who">The latest year, ranked</span></button>
+  <button id="btn-trends" onclick="showView('trends')">Trends<span class="who">2012 through the latest year</span></button>
+  <button id="btn-supply" onclick="showView('supply')">Sales and generation<span class="who">What was sold and generated</span></button>
+  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every state, one year</span></button>
+</div>
+
+<div id="view-prices">
+
+  <section style="margin-top:30px">
+    <h2>What are the key takeaways?</h2>
+    <p class="lede">
+<!-- DATA:BEGIN electricity-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 2024, up 2.1 percent from 2023 (SRC-401). Massachusetts paid <b>23.94 cents</b>, rank 5 of 51 (derived, SRC-401). Hawaii was highest at 38.00 cents and North Dakota lowest at 7.93 cents (SRC-401).
+<!-- DATA:END electricity-lead -->
+    </p>
+    <div class="strip metrics">
+<!-- DATA:BEGIN electricity-kpis (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+      <div class="cell">
+        <div class="cl">U.S. average, 2024</div>
+        <div class="cv">12.94&cent;</div>
+        <div class="cd">All-sector average retail price, EIA U.S. Total row, not an average of the state prices (SRC-401). <span class="up">+2.1% from 2023</span>.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the national price the rest of the page is measured against.</div>
+        <div class="csrc">Source: EIA Form EIA-861 / Electric Power Annual table 2.10 (SRC-401)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Massachusetts</div>
+        <div class="cv">23.94&cent;</div>
+        <div class="cd">Rank 5 of 51 states and D.C. (derived, SRC-401). +3.1 percent from 2023.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Massachusetts sits well above the national average, with the rest of New England.</div>
+        <div class="csrc">Source: EIA Form EIA-861 (SRC-401)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Highest / lowest</div>
+        <div class="cv">HI 38.00</div>
+        <div class="cd">Hawaii is the highest all-sector average; North Dakota is the lowest at 7.93 cents (SRC-401).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The spread is the story: the same kilowatthour costs several times more in some states than in others.</div>
+        <div class="csrc">Source: EIA Form EIA-861 (SRC-401)</div>
+      </div>
+<!-- DATA:END electricity-kpis -->
+    </div>
+  </section>
+
+  <section id="view-price_rank">
+    <h2>Which states pay the most?</h2>
+    <div class="lede">Each bar is a state&rsquo;s all-sector average retail price in the latest year. Massachusetts is marked in gold. The dashed line is the EIA U.S. Total, a sales-weighted national average, not the mean of the bars.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t" id="fig1t">All-sector average retail electricity price by state</span></div>
+      <div class="plot plot-ranks"><canvas id="chRank"></canvas></div>
+      <div class="note">Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">All-sector average (EIA, not Pioneer)</div><code>price = total retail revenue / total retail sales
+
+The U.S. figure is EIA's published U.S. Total row:
+U.S. price = U.S. revenue / U.S. sales
+
+It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class="out">Result: the cents-per-kWh figures published on this page are EIA's, rounded to two decimals as in Electric Power Annual table 2.10.</div></div><div class="mathsrc">Inputs: EIA Form EIA-861 historical state file, Total Electric Industry, Total price column, checked against Electric Power Annual table 2.10. Calculation of ranks: Pioneer Institute.</div></details></div>
+      <div class="srcline"><b>Source:</b> <a href="https://www.eia.gov/electricity/annual/html/epa_02_10.html" target="_blank" rel="noopener">EIA Electric Power Annual table 2.10</a> and <a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">Form EIA-861 historical state file</a> (SRC-401). <b>Calculation:</b> Pioneer Institute (ranks only).</div>
+    </div>
+  </section>
+
+</div><!-- /view-prices -->
+
+<div id="view-trends" hidden>
+
+  <section style="margin-top:30px" id="view-price_trend">
+    <h2>How have prices moved since 2012?</h2>
+    <div class="lede">Two lines: the EIA U.S. Total and one selected state. The series is the same all-sector average as Figure 1, year by year.</div>
+    <div class="findrow">
+      <label class="sel-lab" for="stSel">State</label>
+      <select id="stSel"></select>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
+        <span class="ex-t" id="fig2t">All-sector average retail price, United States and selected state</span></div>
+      <div class="plot"><canvas id="chTrend"></canvas></div>
+      <div class="note">Massachusetts rose from 13.79 cents in 2012 to more than 23 cents in the latest years, a steeper climb than the national line (derived, SRC-401). The U.S. Total stayed in the low-to-mid teens across the same window. Select another state to compare it with the national series.</div>
+      <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total Electric Industry (SRC-401), 2012 through the latest annual year. <b>Calculation:</b> Pioneer Institute.</div>
+    </div>
+  </section>
+
+</div><!-- /view-trends -->
+
+<div id="view-supply" hidden>
+
+  <section style="margin-top:30px" id="view-sales_rank">
+    <h2>How much electricity did each state sell?</h2>
+    <div class="lede">Retail sales to ultimate customers, in million megawatthours, for the latest year. This is the volume behind the price: what was sold, not what a household paid on a bill.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 3</span>
+        <span class="ex-t" id="fig3t">Total retail electricity sales by state</span></div>
+      <div class="plot plot-ranks"><canvas id="chSales"></canvas></div>
+      <div class="note">Sales are megawatthours delivered to residential, commercial, industrial, and transportation customers combined (SRC-401). Large states lead because they have more customers, not because prices are higher. Per-capita sales, in the table, divide this volume by the Census July 1 resident population (derived, SRC-401, SRC-402).</div>
+      <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total sales (SRC-401). Population: Census Bureau vintage estimates (SRC-402). <b>Calculation:</b> Pioneer Institute (per capita only).</div>
+    </div>
+  </section>
+
+  <section id="view-gen_rank">
+    <h2>How much did each state generate?</h2>
+    <div class="lede">Net generation at utility-scale plants located in the state, all energy sources. Generation is not the same as sales: power crosses state lines, and this figure is where it was produced.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 4</span>
+        <span class="ex-t" id="fig4t">Net electricity generation by state</span></div>
+      <div class="plot plot-ranks"><canvas id="chGen"></canvas></div>
+      <div class="note">Net generation, Total Electric Power Industry, all energy sources (SRC-403). A state can sell more than it generates, or the reverse. Net summer capacity, in the table, is the EIA-860 all-sources total (SRC-404).</div>
+      <div class="srcline"><b>Source:</b> EIA-923 annual generation by state (SRC-403); EIA-860 existing capacity (SRC-404). <b>Calculation:</b> Pioneer Institute (per capita only).</div>
+    </div>
+  </section>
+
+</div><!-- /view-supply -->
+
+<div id="view-table" hidden>
+
+  <section style="margin-top:30px">
+    <h2>The latest year, state by state</h2>
+    <div class="lede">All-sector price, rank, year-over-year change, retail sales, net generation, net summer capacity, and sales per resident. The United States row is EIA&rsquo;s U.S. Total, not a rank.</div>
+    <div class="scroll">
+      <table id="tblStates">
+        <thead>
+          <tr>
+            <th>Jurisdiction</th>
+            <th class="n">Price (cents/kWh)</th>
+            <th class="n">Rank</th>
+            <th class="n">YoY</th>
+            <th class="n">Sales (million MWh)</th>
+            <th class="n">Generation (million MWh)</th>
+            <th class="n">Summer capacity (MW)</th>
+            <th class="n">Sales per capita (MWh)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> price and sales, EIA Form EIA-861 (SRC-401); generation, EIA-923 (SRC-403); capacity, EIA-860 (SRC-404); population, Census Bureau (SRC-402). Ranks and per-capita figures are Pioneer calculations (derived).</div>
+  </section>
+
+</div><!-- /view-table -->
+
+<section id="sources">
+  <h2>Data Sources</h2>
+  <div class="subhead">Every figure on this page traces to a source below, and charts carry their own source lines where they appear. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+
+  <details class="srcfold">
+    <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
+    <div class="fold-body">
+      <div class="note" style="border-top:0;padding-top:4px">A yearly refresh rebuilds the ledger when EIA publishes the next annual year, typically in October. Each row carries its own as-of date, so a refresh never implies a number is newer than its source.</div>
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports in the dashboard</th><th>Data vintage in this tool</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="5">U.S. Energy Information Administration</td></tr>
+          <tr><td class="src"><a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">EIA Form EIA-861 historical state file, Total Electric Industry (SRC-401)</a>, verified against <a href="https://www.eia.gov/electricity/annual/html/epa_02_10.html" target="_blank" rel="noopener">Electric Power Annual table 2.10</a></td><td>Annual; the prior calendar year typically lands in October</td><td>Figures 1, 2, and 3, the key takeaways, the table&rsquo;s price, rank, year-over-year, and sales columns, and the U.S. Total used as the national line</td><td>Calendar years 2012 through 2024</td><td>2025 annual, expected October 2026</td></tr>
+          <tr><td class="src"><a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">EIA-923 annual generation by state (SRC-403)</a></td><td>Annual</td><td>Figure 4 and the table&rsquo;s generation column: net generation, Total Electric Power Industry, all energy sources</td><td>Calendar years 2012 through 2024</td><td>2025 annual, expected October 2026</td></tr>
+          <tr><td class="src"><a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">EIA-860 existing capacity by state (SRC-404)</a></td><td>Annual</td><td>The table&rsquo;s net summer capacity column, Total Electric Power Industry, all sources</td><td>Calendar years 2012 through 2024</td><td>2025 annual, with the next EIA-860 release</td></tr>
+          <tr class="grp"><td colspan="5">U.S. Census Bureau</td></tr>
+          <tr><td class="src"><a href="https://www.census.gov/programs-surveys/popest.html" target="_blank" rel="noopener">Census Bureau state population estimates (SRC-402)</a></td><td>Annual vintage estimates</td><td>Per-capita sales and generation in the table. Vintage 2025 covers 2020 forward; the 2010-2020 vintage file covers 2012-2019</td><td>July 1 estimates, 2012 through 2024</td><td>Vintage 2026, expected late 2026</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+
+  <details class="simplify">
+    <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
+    <div class="dt-body">
+      <p class="body-p">This tool publishes the all-sector average retail price by state, plus sales, generation, capacity, and per-capita figures where the population join is complete. It does not publish residential, commercial, or industrial prices as separate series, utility or city rates, forecasts, bill calculators, or rate-case advice. The U.S. figure is always EIA&rsquo;s U.S. Total row. Questions on excluded subjects asked through the DataLabs front door are declined rather than improvised.</p>
+    </div>
+  </details>
+</section>
+
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+<!-- DATA:BEGIN electricity-footer-meta (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <div>Retail Electricity Prices &middot; Version 1.0 &middot; Data through December 31, 2024 &middot; Revised August 15, 2026</div>
+<!-- DATA:END electricity-footer-meta -->
+    <div>4 sources active; see the register above</div>
+  </div>
+
+  <div class="disclaimer">
+    <div><b>About this tool.</b> Retail Electricity Prices is a Pioneer Institute DataLabs research tool, published and versioned. It is the successor to the Retail-Price Electricity dashboard previously hosted on US DataLabs. Corrections and data refreshes are logged, and the version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
+    <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the federal sources named in the register and are accurate to the verification date shown in the masthead; agencies revise their filings and figures here are point-in-time. This tool and its contents are provided as is, without warranty of any kind, express or implied, including accuracy, completeness, or fitness for a particular purpose. Nothing here is advice about a utility bill, a rate case, or a purchase of power.</div>
+    <div><b>Verified figures.</b> All-sector prices and sales are rebuilt from EIA Form EIA-861 and checked against Electric Power Annual table 2.10 (SRC-401). Massachusetts 2023 at 23.21 cents per kilowatthour matches both EIA publications and the recovered Retail-Price Electricity extract. Generation cites EIA-923 (SRC-403). Capacity cites EIA-860 (SRC-404). Population cites the Census Bureau (SRC-402). The U.S. average is EIA&rsquo;s U.S. Total row, never an unweighted mean of the state prices.</div>
+    <div><b>Asking questions.</b> The DataLabs front door answers questions about this data in your own words when the ask box is on. Answers draw only from the figures published here, cite a source id on every figure, label derived numbers, and decline what the data cannot support; the underlying figures, not the prose, are the citable record.</div>
+  </div>
+  <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+/* DATA:BEGIN electricity-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
+const DL04={"year":2024,"as_of":"2024-12","revised":"Aug 15, 2026","version":"1.0","entities":{"AL":"Alabama","AK":"Alaska","AZ":"Arizona","AR":"Arkansas","CA":"California","CO":"Colorado","CT":"Connecticut","DE":"Delaware","DC":"District of Columbia","FL":"Florida","GA":"Georgia","HI":"Hawaii","ID":"Idaho","IL":"Illinois","IN":"Indiana","IA":"Iowa","KS":"Kansas","KY":"Kentucky","LA":"Louisiana","ME":"Maine","MD":"Maryland","MA":"Massachusetts","MI":"Michigan","MN":"Minnesota","MS":"Mississippi","MO":"Missouri","MT":"Montana","NE":"Nebraska","NV":"Nevada","NH":"New Hampshire","NJ":"New Jersey","NM":"New Mexico","NY":"New York","NC":"North Carolina","ND":"North Dakota","OH":"Ohio","OK":"Oklahoma","OR":"Oregon","PA":"Pennsylvania","RI":"Rhode Island","SC":"South Carolina","SD":"South Dakota","TN":"Tennessee","TX":"Texas","UT":"Utah","VT":"Vermont","VA":"Virginia","WA":"Washington","WV":"West Virginia","WI":"Wisconsin","WY":"Wyoming","US":"United States"},"latest":{"year":2024,"us":{"price_cents":12.94,"sales_mwh":3975381832,"gen_mwh":null,"cap_mw":1230414.3,"pop":340003797,"yoy_pct":2.1},"ma":{"price_cents":23.94,"rank":5,"n":51,"sales_mwh":49418575,"gen_mwh":20914890,"cap_mw":11505.4,"pop":7138560,"yoy_pct":3.1},"highest":{"st":"HI","name":"Hawaii","price_cents":38.0},"lowest":{"st":"ND","name":"North Dakota","price_cents":7.93}},"states":[{"st":"HI","name":"Hawaii","price_cents":38.0,"rank":1,"yoy_pct":-1.6,"sales_mwh":8952134,"gen_mwh":9160979,"cap_mw":3369.3,"pop":1434952,"sales_mwh_per_capita":6.239,"gen_mwh_per_capita":6.384},{"st":"CA","name":"California","price_cents":27.04,"rank":2,"yoy_pct":8.7,"sales_mwh":245717145,"gen_mwh":214191383,"cap_mw":96773.2,"pop":39364774,"sales_mwh_per_capita":6.242,"gen_mwh_per_capita":5.441},{"st":"CT","name":"Connecticut","price_cents":24.37,"rank":3,"yoy_pct":0.5,"sales_mwh":27351355,"gen_mwh":44761412,"cap_mw":9994.1,"pop":3674449,"sales_mwh_per_capita":7.444,"gen_mwh_per_capita":12.182},{"st":"RI","name":"Rhode Island","price_cents":24.15,"rank":4,"yoy_pct":11.7,"sales_mwh":7414247,"gen_mwh":9777027,"cap_mw":2321.7,"pop":1110415,"sales_mwh_per_capita":6.677,"gen_mwh_per_capita":8.805},{"st":"MA","name":"Massachusetts","price_cents":23.94,"rank":5,"yoy_pct":3.1,"sales_mwh":49418575,"gen_mwh":20914890,"cap_mw":11505.4,"pop":7138560,"sales_mwh_per_capita":6.923,"gen_mwh_per_capita":2.93},{"st":"AK","name":"Alaska","price_cents":22.17,"rank":6,"yoy_pct":3.5,"sales_mwh":6046503,"gen_mwh":6690506,"cap_mw":2853.4,"pop":736537,"sales_mwh_per_capita":8.209,"gen_mwh_per_capita":9.084},{"st":"NH","name":"New Hampshire","price_cents":20.61,"rank":7,"yoy_pct":-10.2,"sales_mwh":10913961,"gen_mwh":16942479,"cap_mw":4470.3,"pop":1408518,"sales_mwh_per_capita":7.749,"gen_mwh_per_capita":12.029},{"st":"ME","name":"Maine","price_cents":19.66,"rank":8,"yoy_pct":-5.7,"sales_mwh":11341591,"gen_mwh":14655178,"cap_mw":5586.3,"pop":1408438,"sales_mwh_per_capita":8.053,"gen_mwh_per_capita":10.405},{"st":"NY","name":"New York","price_cents":19.66,"rank":9,"yoy_pct":7.5,"sales_mwh":140497501,"gen_mwh":129015493,"cap_mw":41285.7,"pop":20001419,"sales_mwh_per_capita":7.024,"gen_mwh_per_capita":6.45},{"st":"VT","name":"Vermont","price_cents":18.41,"rank":10,"yoy_pct":5.0,"sales_mwh":5458947,"gen_mwh":2258891,"cap_mw":863.5,"pop":646521,"sales_mwh_per_capita":8.444,"gen_mwh_per_capita":3.494},{"st":"DC","name":"District of Columbia","price_cents":16.88,"rank":11,"yoy_pct":2.3,"sales_mwh":10142915,"gen_mwh":187195,"cap_mw":61.8,"pop":691310,"sales_mwh_per_capita":14.672,"gen_mwh_per_capita":0.271},{"st":"NJ","name":"New Jersey","price_cents":16.29,"rank":12,"yoy_pct":6.7,"sales_mwh":73531424,"gen_mwh":60175245,"cap_mw":16605.8,"pop":9506354,"sales_mwh_per_capita":7.735,"gen_mwh_per_capita":6.33},{"st":"MD","name":"Maryland","price_cents":15.04,"rank":13,"yoy_pct":4.9,"sales_mwh":59018688,"gen_mwh":35424816,"cap_mw":11717.9,"pop":6245314,"sales_mwh_per_capita":9.45,"gen_mwh_per_capita":5.672},{"st":"MI","name":"Michigan","price_cents":14.16,"rank":14,"yoy_pct":3.5,"sales_mwh":98991014,"gen_mwh":124200090,"cap_mw":32139.4,"pop":10099962,"sales_mwh_per_capita":9.801,"gen_mwh_per_capita":12.297},{"st":"DE","name":"Delaware","price_cents":13.56,"rank":15,"yoy_pct":5.5,"sales_mwh":11373916,"gen_mwh":4799212,"cap_mw":3303.0,"pop":1050123,"sales_mwh_per_capita":10.831,"gen_mwh_per_capita":4.57},{"st":"AZ","name":"Arizona","price_cents":12.74,"rank":16,"yoy_pct":4.5,"sales_mwh":90843288,"gen_mwh":116026511,"cap_mw":32876.5,"pop":7556424,"sales_mwh_per_capita":12.022,"gen_mwh_per_capita":15.355},{"st":"WI","name":"Wisconsin","price_cents":12.72,"rank":17,"yoy_pct":0.0,"sales_mwh":68291424,"gen_mwh":65276344,"cap_mw":17430.2,"pop":5957168,"sales_mwh_per_capita":11.464,"gen_mwh_per_capita":10.958},{"st":"FL","name":"Florida","price_cents":12.53,"rank":18,"yoy_pct":-7.4,"sales_mwh":255095458,"gen_mwh":266119236,"cap_mw":72011.9,"pop":23265838,"sales_mwh_per_capita":10.964,"gen_mwh_per_capita":11.438},{"st":"PA","name":"Pennsylvania","price_cents":12.51,"rank":19,"yoy_pct":-0.5,"sales_mwh":142146514,"gen_mwh":241498648,"cap_mw":48855.7,"pop":13045848,"sales_mwh_per_capita":10.896,"gen_mwh_per_capita":18.512},{"st":"MN","name":"Minnesota","price_cents":12.35,"rank":20,"yoy_pct":1.1,"sales_mwh":64562108,"gen_mwh":58595222,"cap_mw":18212.6,"pop":5797405,"sales_mwh_per_capita":11.136,"gen_mwh_per_capita":10.107},{"st":"IL","name":"Illinois","price_cents":12.21,"rank":21,"yoy_pct":3.9,"sales_mwh":133226907,"gen_mwh":185012935,"cap_mw":46279.2,"pop":12703033,"sales_mwh_per_capita":10.488,"gen_mwh_per_capita":14.564},{"st":"CO","name":"Colorado","price_cents":12.07,"rank":22,"yoy_pct":2.6,"sales_mwh":56842904,"gen_mwh":58798395,"cap_mw":19816.6,"pop":5988502,"sales_mwh_per_capita":9.492,"gen_mwh_per_capita":9.819},{"st":"AL","name":"Alabama","price_cents":11.9,"rank":23,"yoy_pct":3.7,"sales_mwh":87522932,"gen_mwh":142921216,"cap_mw":30995.7,"pop":5163055,"sales_mwh_per_capita":16.952,"gen_mwh_per_capita":27.682},{"st":"NC","name":"North Carolina","price_cents":11.65,"rank":24,"yoy_pct":9.8,"sales_mwh":136904526,"gen_mwh":134965396,"cap_mw":36336.6,"pop":11052061,"sales_mwh_per_capita":12.387,"gen_mwh_per_capita":12.212},{"st":"NV","name":"Nevada","price_cents":11.47,"rank":25,"yoy_pct":-12.4,"sales_mwh":40664639,"gen_mwh":45528427,"cap_mw":16725.2,"pop":3253543,"sales_mwh_per_capita":12.499,"gen_mwh_per_capita":13.993},{"st":"GA","name":"Georgia","price_cents":11.4,"rank":26,"yoy_pct":3.1,"sales_mwh":150003965,"gen_mwh":139805428,"cap_mw":39746.0,"pop":11204208,"sales_mwh_per_capita":13.388,"gen_mwh_per_capita":12.478},{"st":"IN","name":"Indiana","price_cents":11.38,"rank":27,"yoy_pct":-1.0,"sales_mwh":99219607,"gen_mwh":97012880,"cap_mw":27836.6,"pop":6934754,"sales_mwh_per_capita":14.308,"gen_mwh_per_capita":13.989},{"st":"OH","name":"Ohio","price_cents":11.29,"rank":28,"yoy_pct":2.3,"sales_mwh":153707376,"gen_mwh":142746706,"cap_mw":30490.7,"pop":11860621,"sales_mwh_per_capita":12.959,"gen_mwh_per_capita":12.035},{"st":"KS","name":"Kansas","price_cents":11.21,"rank":29,"yoy_pct":3.8,"sales_mwh":41258210,"gen_mwh":57696155,"cap_mw":19355.9,"pop":2965252,"sales_mwh_per_capita":13.914,"gen_mwh_per_capita":19.457},{"st":"OR","name":"Oregon","price_cents":11.11,"rank":30,"yoy_pct":7.7,"sales_mwh":59680701,"gen_mwh":64661249,"cap_mw":17691.7,"pop":4265324,"sales_mwh_per_capita":13.992,"gen_mwh_per_capita":15.16},{"st":"MO","name":"Missouri","price_cents":11.06,"rank":31,"yoy_pct":1.7,"sales_mwh":77776034,"gen_mwh":66875710,"cap_mw":20419.0,"pop":6243544,"sales_mwh_per_capita":12.457,"gen_mwh_per_capita":10.711},{"st":"WV","name":"West Virginia","price_cents":11.05,"rank":32,"yoy_pct":7.7,"sales_mwh":32990570,"gen_mwh":50594818,"cap_mw":15128.4,"pop":1767402,"sales_mwh_per_capita":18.666,"gen_mwh_per_capita":28.627},{"st":"MS","name":"Mississippi","price_cents":10.93,"rank":33,"yoy_pct":-0.2,"sales_mwh":48684612,"gen_mwh":77336712,"cap_mw":15961.1,"pop":2950172,"sales_mwh_per_capita":16.502,"gen_mwh_per_capita":26.214},{"st":"SC","name":"South Carolina","price_cents":10.9,"rank":34,"yoy_pct":3.8,"sales_mwh":83961428,"gen_mwh":100485416,"cap_mw":24705.6,"pop":5490316,"sales_mwh_per_capita":15.293,"gen_mwh_per_capita":18.302},{"st":"TN","name":"Tennessee","price_cents":10.9,"rank":35,"yoy_pct":2.0,"sales_mwh":102962435,"gen_mwh":76166766,"cap_mw":20605.2,"pop":7251291,"sales_mwh_per_capita":14.199,"gen_mwh_per_capita":10.504},{"st":"SD","name":"South Dakota","price_cents":10.87,"rank":36,"yoy_pct":3.6,"sales_mwh":13637204,"gen_mwh":20871994,"cap_mw":7226.0,"pop":927110,"sales_mwh_per_capita":14.709,"gen_mwh_per_capita":22.513},{"st":"MT","name":"Montana","price_cents":10.83,"rank":37,"yoy_pct":-1.3,"sales_mwh":15567013,"gen_mwh":26872883,"cap_mw":7182.5,"pop":1137557,"sales_mwh_per_capita":13.685,"gen_mwh_per_capita":23.623},{"st":"VA","name":"Virginia","price_cents":10.62,"rank":38,"yoy_pct":-0.6,"sales_mwh":138044772,"gen_mwh":102698615,"cap_mw":29146.5,"pop":8819642,"sales_mwh_per_capita":15.652,"gen_mwh_per_capita":11.644},{"st":"WA","name":"Washington","price_cents":10.13,"rank":39,"yoy_pct":5.7,"sales_mwh":89981629,"gen_mwh":102397711,"cap_mw":30975.3,"pop":7927958,"sales_mwh_per_capita":11.35,"gen_mwh_per_capita":12.916},{"st":"KY","name":"Kentucky","price_cents":10.07,"rank":40,"yoy_pct":1.1,"sales_mwh":74405871,"gen_mwh":66950848,"cap_mw":18380.4,"pop":4584046,"sales_mwh_per_capita":16.231,"gen_mwh_per_capita":14.605},{"st":"UT","name":"Utah","price_cents":9.97,"rank":41,"yoy_pct":10.4,"sales_mwh":34688083,"gen_mwh":35133906,"cap_mw":10277.2,"pop":3502983,"sales_mwh_per_capita":9.902,"gen_mwh_per_capita":10.03},{"st":"TX","name":"Texas","price_cents":9.79,"rank":42,"yoy_pct":-2.5,"sales_mwh":505431317,"gen_mwh":566502688,"cap_mw":168316.5,"pop":31318578,"sales_mwh_per_capita":16.138,"gen_mwh_per_capita":18.088},{"st":"AR","name":"Arkansas","price_cents":9.59,"rank":43,"yoy_pct":-1.4,"sales_mwh":49895812,"gen_mwh":61542484,"cap_mw":15906.8,"pop":3096080,"sales_mwh_per_capita":16.116,"gen_mwh_per_capita":19.878},{"st":"ID","name":"Idaho","price_cents":9.51,"rank":44,"yoy_pct":4.7,"sales_mwh":26369555,"gen_mwh":20035438,"cap_mw":5547.6,"pop":2000872,"sales_mwh_per_capita":13.179,"gen_mwh_per_capita":10.013},{"st":"IA","name":"Iowa","price_cents":9.34,"rank":45,"yoy_pct":-0.8,"sales_mwh":54930422,"gen_mwh":70464148,"cap_mw":23226.3,"pop":3230454,"sales_mwh_per_capita":17.004,"gen_mwh_per_capita":21.812},{"st":"NM","name":"New Mexico","price_cents":9.18,"rank":46,"yoy_pct":-3.1,"sales_mwh":30296354,"gen_mwh":39697294,"cap_mw":11887.4,"pop":2126774,"sales_mwh_per_capita":14.245,"gen_mwh_per_capita":18.665},{"st":"WY","name":"Wyoming","price_cents":9.14,"rank":47,"yoy_pct":8.9,"sales_mwh":17216901,"gen_mwh":40709150,"cap_mw":10845.5,"pop":586722,"sales_mwh_per_capita":29.344,"gen_mwh_per_capita":69.384},{"st":"OK","name":"Oklahoma","price_cents":9.09,"rank":48,"yoy_pct":-2.3,"sales_mwh":72083773,"gen_mwh":94069145,"cap_mw":31906.6,"pop":4097758,"sales_mwh_per_capita":17.591,"gen_mwh_per_capita":22.956},{"st":"NE","name":"Nebraska","price_cents":9.07,"rank":49,"yoy_pct":-0.8,"sales_mwh":35191045,"gen_mwh":37228950,"cap_mw":10868.2,"pop":2005591,"sales_mwh_per_capita":17.546,"gen_mwh_per_capita":18.563},{"st":"LA","name":"Louisiana","price_cents":8.8,"rank":50,"yoy_pct":-1.2,"sales_mwh":95356829,"gen_mwh":99622835,"cap_mw":24706.7,"pop":4614878,"sales_mwh_per_capita":20.663,"gen_mwh_per_capita":21.587},{"st":"ND","name":"North Dakota","price_cents":7.93,"rank":51,"yoy_pct":-1.2,"sales_mwh":29769698,"gen_mwh":42557243,"cap_mw":9683.6,"pop":793387,"sales_mwh_per_capita":37.522,"gen_mwh_per_capita":53.64}],"price_trend":{"AL":[{"y":2012,"v":9.18},{"y":2013,"v":9.02},{"y":2014,"v":9.27},{"y":2015,"v":9.33},{"y":2016,"v":9.56},{"y":2017,"v":9.83},{"y":2018,"v":9.63},{"y":2019,"v":9.83},{"y":2020,"v":9.84},{"y":2021,"v":10.18},{"y":2022,"v":11.59},{"y":2023,"v":11.47},{"y":2024,"v":11.9}],"AK":[{"y":2012,"v":16.33},{"y":2013,"v":16.49},{"y":2014,"v":17.46},{"y":2015,"v":17.59},{"y":2016,"v":17.93},{"y":2017,"v":19.1},{"y":2018,"v":19.36},{"y":2019,"v":20.22},{"y":2020,"v":19.82},{"y":2021,"v":20.02},{"y":2022,"v":20.73},{"y":2023,"v":21.41},{"y":2024,"v":22.17}],"AZ":[{"y":2012,"v":9.81},{"y":2013,"v":10.14},{"y":2014,"v":10.18},{"y":2015,"v":10.34},{"y":2016,"v":10.33},{"y":2017,"v":10.64},{"y":2018,"v":10.85},{"y":2019,"v":10.52},{"y":2020,"v":10.44},{"y":2021,"v":10.73},{"y":2022,"v":11.31},{"y":2023,"v":12.19},{"y":2024,"v":12.74}],"AR":[{"y":2012,"v":7.62},{"y":2013,"v":7.93},{"y":2014,"v":7.9},{"y":2015,"v":8.19},{"y":2016,"v":8.13},{"y":2017,"v":8.26},{"y":2018,"v":7.78},{"y":2019,"v":8.22},{"y":2020,"v":8.32},{"y":2021,"v":9.1},{"y":2022,"v":9.91},{"y":2023,"v":9.73},{"y":2024,"v":9.59}],"CA":[{"y":2012,"v":13.53},{"y":2013,"v":14.3},{"y":2014,"v":15.15},{"y":2015,"v":15.42},{"y":2016,"v":15.23},{"y":2017,"v":16.06},{"y":2018,"v":16.58},{"y":2019,"v":16.89},{"y":2020,"v":18.0},{"y":2021,"v":19.65},{"y":2022,"v":22.33},{"y":2023,"v":24.87},{"y":2024,"v":27.04}],"CO":[{"y":2012,"v":9.39},{"y":2013,"v":9.88},{"y":2014,"v":10.06},{"y":2015,"v":9.94},{"y":2016,"v":9.83},{"y":2017,"v":9.99},{"y":2018,"v":10.02},{"y":2019,"v":10.17},{"y":2020,"v":10.27},{"y":2021,"v":10.9},{"y":2022,"v":11.75},{"y":2023,"v":11.76},{"y":2024,"v":12.07}],"CT":[{"y":2012,"v":15.54},{"y":2013,"v":15.66},{"y":2014,"v":17.05},{"y":2015,"v":17.77},{"y":2016,"v":17.24},{"y":2017,"v":17.55},{"y":2018,"v":18.41},{"y":2019,"v":18.66},{"y":2020,"v":19.13},{"y":2021,"v":18.32},{"y":2022,"v":21.08},{"y":2023,"v":24.24},{"y":2024,"v":24.37}],"DE":[{"y":2012,"v":11.06},{"y":2013,"v":10.9},{"y":2014,"v":11.22},{"y":2015,"v":11.17},{"y":2016,"v":11.09},{"y":2017,"v":10.91},{"y":2018,"v":10.55},{"y":2019,"v":10.52},{"y":2020,"v":10.24},{"y":2021,"v":10.5},{"y":2022,"v":11.83},{"y":2023,"v":12.85},{"y":2024,"v":13.56}],"DC":[{"y":2012,"v":11.85},{"y":2013,"v":11.85},{"y":2014,"v":12.11},{"y":2015,"v":12.07},{"y":2016,"v":11.73},{"y":2017,"v":11.8},{"y":2018,"v":12.03},{"y":2019,"v":12.27},{"y":2020,"v":11.9},{"y":2021,"v":12.81},{"y":2022,"v":14.94},{"y":2023,"v":16.5},{"y":2024,"v":16.88}],"FL":[{"y":2012,"v":10.44},{"y":2013,"v":10.22},{"y":2014,"v":10.77},{"y":2015,"v":10.49},{"y":2016,"v":9.91},{"y":2017,"v":10.42},{"y":2018,"v":10.32},{"y":2019,"v":10.44},{"y":2020,"v":10.06},{"y":2021,"v":10.67},{"y":2022,"v":12.51},{"y":2023,"v":13.53},{"y":2024,"v":12.53}],"GA":[{"y":2012,"v":9.37},{"y":2013,"v":9.69},{"y":2014,"v":10.03},{"y":2015,"v":9.62},{"y":2016,"v":9.59},{"y":2017,"v":9.83},{"y":2018,"v":9.62},{"y":2019,"v":9.86},{"y":2020,"v":9.93},{"y":2021,"v":10.43},{"y":2022,"v":12.0},{"y":2023,"v":11.06},{"y":2024,"v":11.4}],"HI":[{"y":2012,"v":34.04},{"y":2013,"v":33.26},{"y":2014,"v":33.43},{"y":2015,"v":26.17},{"y":2016,"v":23.87},{"y":2017,"v":26.05},{"y":2018,"v":29.18},{"y":2019,"v":28.72},{"y":2020,"v":27.55},{"y":2021,"v":30.31},{"y":2022,"v":39.72},{"y":2023,"v":38.6},{"y":2024,"v":38.0}],"ID":[{"y":2012,"v":6.92},{"y":2013,"v":7.57},{"y":2014,"v":7.93},{"y":2015,"v":8.09},{"y":2016,"v":8.08},{"y":2017,"v":8.26},{"y":2018,"v":8.17},{"y":2019,"v":7.89},{"y":2020,"v":7.99},{"y":2021,"v":8.17},{"y":2022,"v":8.51},{"y":2023,"v":9.08},{"y":2024,"v":9.51}],"IL":[{"y":2012,"v":8.4},{"y":2013,"v":8.26},{"y":2014,"v":9.36},{"y":2015,"v":9.4},{"y":2016,"v":9.38},{"y":2017,"v":9.49},{"y":2018,"v":9.6},{"y":2019,"v":9.56},{"y":2020,"v":9.75},{"y":2021,"v":10.14},{"y":2022,"v":11.94},{"y":2023,"v":11.75},{"y":2024,"v":12.21}],"IN":[{"y":2012,"v":8.29},{"y":2013,"v":8.73},{"y":2014,"v":9.06},{"y":2015,"v":8.99},{"y":2016,"v":9.22},{"y":2017,"v":9.77},{"y":2018,"v":9.75},{"y":2019,"v":9.91},{"y":2020,"v":9.92},{"y":2021,"v":10.36},{"y":2022,"v":11.66},{"y":2023,"v":11.49},{"y":2024,"v":11.38}],"IA":[{"y":2012,"v":7.71},{"y":2013,"v":8.07},{"y":2014,"v":8.15},{"y":2015,"v":8.35},{"y":2016,"v":8.55},{"y":2017,"v":8.73},{"y":2018,"v":8.92},{"y":2019,"v":9.08},{"y":2020,"v":8.97},{"y":2021,"v":9.13},{"y":2022,"v":9.57},{"y":2023,"v":9.42},{"y":2024,"v":9.34}],"KS":[{"y":2012,"v":9.33},{"y":2013,"v":9.72},{"y":2014,"v":10.16},{"y":2015,"v":10.14},{"y":2016,"v":10.49},{"y":2017,"v":10.6},{"y":2018,"v":10.72},{"y":2019,"v":10.26},{"y":2020,"v":10.38},{"y":2021,"v":10.47},{"y":2022,"v":11.47},{"y":2023,"v":10.8},{"y":2024,"v":11.21}],"KY":[{"y":2012,"v":7.26},{"y":2013,"v":7.69},{"y":2014,"v":8.15},{"y":2015,"v":8.14},{"y":2016,"v":8.42},{"y":2017,"v":8.57},{"y":2018,"v":8.52},{"y":2019,"v":8.61},{"y":2020,"v":8.58},{"y":2021,"v":9.12},{"y":2022,"v":10.51},{"y":2023,"v":9.96},{"y":2024,"v":10.07}],"LA":[{"y":2012,"v":6.9},{"y":2013,"v":8.04},{"y":2014,"v":8.09},{"y":2015,"v":7.65},{"y":2016,"v":7.46},{"y":2017,"v":7.79},{"y":2018,"v":7.71},{"y":2019,"v":7.71},{"y":2020,"v":7.51},{"y":2021,"v":8.82},{"y":2022,"v":10.41},{"y":2023,"v":8.91},{"y":2024,"v":8.8}],"ME":[{"y":2012,"v":11.81},{"y":2013,"v":11.86},{"y":2014,"v":12.65},{"y":2015,"v":12.78},{"y":2016,"v":12.8},{"y":2017,"v":13.02},{"y":2018,"v":13.44},{"y":2019,"v":14.04},{"y":2020,"v":13.54},{"y":2021,"v":13.96},{"y":2022,"v":17.44},{"y":2023,"v":20.84},{"y":2024,"v":19.66}],"MD":[{"y":2012,"v":11.28},{"y":2013,"v":11.66},{"y":2014,"v":12.1},{"y":2015,"v":12.07},{"y":2016,"v":12.21},{"y":2017,"v":11.98},{"y":2018,"v":11.57},{"y":2019,"v":11.24},{"y":2020,"v":11.15},{"y":2021,"v":11.48},{"y":2022,"v":13.32},{"y":2023,"v":14.34},{"y":2024,"v":15.04}],"MA":[{"y":2012,"v":13.79},{"y":2013,"v":14.51},{"y":2014,"v":15.35},{"y":2015,"v":16.9},{"y":2016,"v":16.48},{"y":2017,"v":17.12},{"y":2018,"v":18.5},{"y":2019,"v":18.4},{"y":2020,"v":18.19},{"y":2021,"v":19.06},{"y":2022,"v":21.27},{"y":2023,"v":23.21},{"y":2024,"v":23.94}],"MI":[{"y":2012,"v":10.98},{"y":2013,"v":11.21},{"y":2014,"v":11.03},{"y":2015,"v":10.76},{"y":2016,"v":11.05},{"y":2017,"v":11.28},{"y":2018,"v":11.4},{"y":2019,"v":11.56},{"y":2020,"v":12.21},{"y":2021,"v":12.93},{"y":2022,"v":13.2},{"y":2023,"v":13.68},{"y":2024,"v":14.16}],"MN":[{"y":2012,"v":8.86},{"y":2013,"v":9.41},{"y":2014,"v":9.52},{"y":2015,"v":9.53},{"y":2016,"v":9.99},{"y":2017,"v":10.27},{"y":2018,"v":10.37},{"y":2019,"v":10.33},{"y":2020,"v":10.57},{"y":2021,"v":11.08},{"y":2022,"v":12.04},{"y":2023,"v":12.21},{"y":2024,"v":12.35}],"MS":[{"y":2012,"v":8.6},{"y":2013,"v":9.11},{"y":2014,"v":9.6},{"y":2015,"v":9.53},{"y":2016,"v":8.67},{"y":2017,"v":9.09},{"y":2018,"v":9.24},{"y":2019,"v":9.28},{"y":2020,"v":9.13},{"y":2021,"v":9.5},{"y":2022,"v":10.36},{"y":2023,"v":10.95},{"y":2024,"v":10.93}],"MO":[{"y":2012,"v":8.53},{"y":2013,"v":9.04},{"y":2014,"v":9.11},{"y":2015,"v":9.44},{"y":2016,"v":9.74},{"y":2017,"v":10.03},{"y":2018,"v":9.93},{"y":2019,"v":9.68},{"y":2020,"v":9.64},{"y":2021,"v":9.85},{"y":2022,"v":10.26},{"y":2023,"v":10.87},{"y":2024,"v":11.06}],"MT":[{"y":2012,"v":8.25},{"y":2013,"v":8.58},{"y":2014,"v":8.59},{"y":2015,"v":8.9},{"y":2016,"v":8.84},{"y":2017,"v":8.92},{"y":2018,"v":8.84},{"y":2019,"v":9.02},{"y":2020,"v":9.13},{"y":2021,"v":9.5},{"y":2022,"v":9.97},{"y":2023,"v":10.97},{"y":2024,"v":10.83}],"NE":[{"y":2012,"v":8.37},{"y":2013,"v":8.74},{"y":2014,"v":8.84},{"y":2015,"v":8.91},{"y":2016,"v":9.05},{"y":2017,"v":9.08},{"y":2018,"v":9.02},{"y":2019,"v":9.08},{"y":2020,"v":8.97},{"y":2021,"v":8.84},{"y":2022,"v":8.83},{"y":2023,"v":9.14},{"y":2024,"v":9.07}],"NV":[{"y":2012,"v":8.95},{"y":2013,"v":9.03},{"y":2014,"v":9.73},{"y":2015,"v":9.48},{"y":2016,"v":8.39},{"y":2017,"v":8.76},{"y":2018,"v":8.67},{"y":2019,"v":8.78},{"y":2020,"v":8.33},{"y":2021,"v":8.58},{"y":2022,"v":10.94},{"y":2023,"v":13.09},{"y":2024,"v":11.47}],"NH":[{"y":2012,"v":14.19},{"y":2013,"v":14.3},{"y":2014,"v":15.22},{"y":2015,"v":16.02},{"y":2016,"v":15.66},{"y":2017,"v":16.17},{"y":2018,"v":17.01},{"y":2019,"v":17.15},{"y":2020,"v":16.63},{"y":2021,"v":17.37},{"y":2022,"v":21.07},{"y":2023,"v":22.96},{"y":2024,"v":20.61}],"NJ":[{"y":2012,"v":13.68},{"y":2013,"v":13.7},{"y":2014,"v":13.95},{"y":2015,"v":13.74},{"y":2016,"v":13.38},{"y":2017,"v":13.32},{"y":2018,"v":13.23},{"y":2019,"v":13.42},{"y":2020,"v":13.63},{"y":2021,"v":14.01},{"y":2022,"v":14.8},{"y":2023,"v":15.27},{"y":2024,"v":16.29}],"NM":[{"y":2012,"v":8.83},{"y":2013,"v":9.25},{"y":2014,"v":9.65},{"y":2015,"v":9.62},{"y":2016,"v":9.12},{"y":2017,"v":9.59},{"y":2018,"v":9.35},{"y":2019,"v":8.99},{"y":2020,"v":9.33},{"y":2021,"v":9.79},{"y":2022,"v":10.02},{"y":2023,"v":9.47},{"y":2024,"v":9.18}],"NY":[{"y":2012,"v":15.15},{"y":2013,"v":15.44},{"y":2014,"v":16.25},{"y":2015,"v":15.28},{"y":2016,"v":14.47},{"y":2017,"v":14.74},{"y":2018,"v":14.83},{"y":2019,"v":14.34},{"y":2020,"v":14.87},{"y":2021,"v":16.11},{"y":2022,"v":18.33},{"y":2023,"v":18.28},{"y":2024,"v":19.66}],"NC":[{"y":2012,"v":9.15},{"y":2013,"v":9.24},{"y":2014,"v":9.33},{"y":2015,"v":9.37},{"y":2016,"v":9.2},{"y":2017,"v":9.04},{"y":2018,"v":9.25},{"y":2019,"v":9.45},{"y":2020,"v":9.43},{"y":2021,"v":9.29},{"y":2022,"v":9.6},{"y":2023,"v":10.61},{"y":2024,"v":11.65}],"ND":[{"y":2012,"v":7.83},{"y":2013,"v":8.2},{"y":2014,"v":8.41},{"y":2015,"v":8.75},{"y":2016,"v":8.94},{"y":2017,"v":8.78},{"y":2018,"v":8.91},{"y":2019,"v":8.85},{"y":2020,"v":8.53},{"y":2021,"v":8.65},{"y":2022,"v":8.42},{"y":2023,"v":8.03},{"y":2024,"v":7.93}],"OH":[{"y":2012,"v":9.12},{"y":2013,"v":9.2},{"y":2014,"v":9.73},{"y":2015,"v":9.98},{"y":2016,"v":9.84},{"y":2017,"v":9.84},{"y":2018,"v":9.94},{"y":2019,"v":9.58},{"y":2020,"v":9.44},{"y":2021,"v":9.76},{"y":2022,"v":10.64},{"y":2023,"v":11.04},{"y":2024,"v":11.29}],"OK":[{"y":2012,"v":7.54},{"y":2013,"v":7.86},{"y":2014,"v":8.18},{"y":2015,"v":7.9},{"y":2016,"v":7.83},{"y":2017,"v":8.2},{"y":2018,"v":8.09},{"y":2019,"v":7.86},{"y":2020,"v":7.63},{"y":2021,"v":8.52},{"y":2022,"v":10.05},{"y":2023,"v":9.3},{"y":2024,"v":9.09}],"OR":[{"y":2012,"v":8.21},{"y":2013,"v":8.44},{"y":2014,"v":8.68},{"y":2015,"v":8.75},{"y":2016,"v":8.83},{"y":2017,"v":8.81},{"y":2018,"v":8.85},{"y":2019,"v":8.81},{"y":2020,"v":8.82},{"y":2021,"v":8.95},{"y":2022,"v":9.26},{"y":2023,"v":10.32},{"y":2024,"v":11.11}],"PA":[{"y":2012,"v":9.91},{"y":2013,"v":9.81},{"y":2014,"v":10.28},{"y":2015,"v":10.31},{"y":2016,"v":10.19},{"y":2017,"v":10.13},{"y":2018,"v":10.1},{"y":2019,"v":9.81},{"y":2020,"v":9.7},{"y":2021,"v":9.97},{"y":2022,"v":11.86},{"y":2023,"v":12.57},{"y":2024,"v":12.51}],"RI":[{"y":2012,"v":12.74},{"y":2013,"v":13.72},{"y":2014,"v":15.41},{"y":2015,"v":17.01},{"y":2016,"v":16.28},{"y":2017,"v":16.42},{"y":2018,"v":18.1},{"y":2019,"v":18.49},{"y":2020,"v":18.54},{"y":2021,"v":18.44},{"y":2022,"v":19.3},{"y":2023,"v":21.62},{"y":2024,"v":24.15}],"SC":[{"y":2012,"v":9.1},{"y":2013,"v":9.24},{"y":2014,"v":9.67},{"y":2015,"v":9.58},{"y":2016,"v":9.79},{"y":2017,"v":9.97},{"y":2018,"v":9.67},{"y":2019,"v":10.02},{"y":2020,"v":9.9},{"y":2021,"v":9.96},{"y":2022,"v":10.74},{"y":2023,"v":10.5},{"y":2024,"v":10.9}],"SD":[{"y":2012,"v":8.49},{"y":2013,"v":8.86},{"y":2014,"v":9.05},{"y":2015,"v":9.47},{"y":2016,"v":9.83},{"y":2017,"v":10.05},{"y":2018,"v":9.97},{"y":2019,"v":9.96},{"y":2020,"v":10.06},{"y":2021,"v":10.43},{"y":2022,"v":10.44},{"y":2023,"v":10.49},{"y":2024,"v":10.87}],"TN":[{"y":2012,"v":9.27},{"y":2013,"v":9.13},{"y":2014,"v":9.4},{"y":2015,"v":9.3},{"y":2016,"v":9.23},{"y":2017,"v":9.45},{"y":2018,"v":9.58},{"y":2019,"v":9.69},{"y":2020,"v":9.52},{"y":2021,"v":9.78},{"y":2022,"v":10.89},{"y":2023,"v":10.69},{"y":2024,"v":10.9}],"TX":[{"y":2012,"v":8.55},{"y":2013,"v":8.66},{"y":2014,"v":8.94},{"y":2015,"v":8.7},{"y":2016,"v":8.43},{"y":2017,"v":8.38},{"y":2018,"v":8.48},{"y":2019,"v":8.6},{"y":2020,"v":8.36},{"y":2021,"v":9.14},{"y":2022,"v":10.16},{"y":2023,"v":10.04},{"y":2024,"v":9.79}],"UT":[{"y":2012,"v":7.84},{"y":2013,"v":8.15},{"y":2014,"v":8.35},{"y":2015,"v":8.54},{"y":2016,"v":8.72},{"y":2017,"v":8.6},{"y":2018,"v":8.21},{"y":2019,"v":8.24},{"y":2020,"v":8.27},{"y":2021,"v":8.34},{"y":2022,"v":8.8},{"y":2023,"v":9.03},{"y":2024,"v":9.97}],"VT":[{"y":2012,"v":14.22},{"y":2013,"v":14.61},{"y":2014,"v":14.57},{"y":2015,"v":14.41},{"y":2016,"v":14.46},{"y":2017,"v":14.6},{"y":2018,"v":15.13},{"y":2019,"v":15.36},{"y":2020,"v":16.33},{"y":2021,"v":16.34},{"y":2022,"v":16.99},{"y":2023,"v":17.53},{"y":2024,"v":18.41}],"VA":[{"y":2012,"v":9.07},{"y":2013,"v":8.96},{"y":2014,"v":9.17},{"y":2015,"v":9.31},{"y":2016,"v":9.09},{"y":2017,"v":9.18},{"y":2018,"v":9.48},{"y":2019,"v":9.52},{"y":2020,"v":9.16},{"y":2021,"v":9.14},{"y":2022,"v":10.75},{"y":2023,"v":10.68},{"y":2024,"v":10.62}],"WA":[{"y":2012,"v":6.94},{"y":2013,"v":7.09},{"y":2014,"v":7.13},{"y":2015,"v":7.4},{"y":2016,"v":7.68},{"y":2017,"v":7.94},{"y":2018,"v":8.0},{"y":2019,"v":8.04},{"y":2020,"v":8.33},{"y":2021,"v":8.75},{"y":2022,"v":9.05},{"y":2023,"v":9.58},{"y":2024,"v":10.13}],"WV":[{"y":2012,"v":8.14},{"y":2013,"v":7.91},{"y":2014,"v":7.65},{"y":2015,"v":8.11},{"y":2016,"v":8.98},{"y":2017,"v":9.0},{"y":2018,"v":8.72},{"y":2019,"v":8.49},{"y":2020,"v":8.75},{"y":2021,"v":8.87},{"y":2022,"v":9.74},{"y":2023,"v":10.26},{"y":2024,"v":11.05}],"WI":[{"y":2012,"v":10.28},{"y":2013,"v":10.51},{"y":2014,"v":10.57},{"y":2015,"v":10.73},{"y":2016,"v":10.67},{"y":2017,"v":10.76},{"y":2018,"v":10.58},{"y":2019,"v":10.66},{"y":2020,"v":10.82},{"y":2021,"v":11.01},{"y":2022,"v":11.95},{"y":2023,"v":12.72},{"y":2024,"v":12.72}],"WY":[{"y":2012,"v":7.19},{"y":2013,"v":7.55},{"y":2014,"v":7.76},{"y":2015,"v":7.97},{"y":2016,"v":8.19},{"y":2017,"v":8.28},{"y":2018,"v":8.09},{"y":2019,"v":8.1},{"y":2020,"v":8.27},{"y":2021,"v":8.25},{"y":2022,"v":8.24},{"y":2023,"v":8.39},{"y":2024,"v":9.14}],"US":[{"y":2012,"v":9.84},{"y":2013,"v":10.07},{"y":2014,"v":10.44},{"y":2015,"v":10.41},{"y":2016,"v":10.27},{"y":2017,"v":10.48},{"y":2018,"v":10.53},{"y":2019,"v":10.54},{"y":2020,"v":10.59},{"y":2021,"v":11.1},{"y":2022,"v":12.36},{"y":2023,"v":12.68},{"y":2024,"v":12.94}]},"derived":{"highest_five":[{"st":"HI","name":"Hawaii","price_cents":38.0},{"st":"CA","name":"California","price_cents":27.04},{"st":"CT","name":"Connecticut","price_cents":24.37},{"st":"RI","name":"Rhode Island","price_cents":24.15},{"st":"MA","name":"Massachusetts","price_cents":23.94}],"lowest_five":[{"st":"ND","name":"North Dakota","price_cents":7.93},{"st":"LA","name":"Louisiana","price_cents":8.8},{"st":"NE","name":"Nebraska","price_cents":9.07},{"st":"OK","name":"Oklahoma","price_cents":9.09},{"st":"WY","name":"Wyoming","price_cents":9.14}],"us_change_from_first_pct":31.5,"ma_change_from_first_pct":73.6,"us_price_first_year":9.84,"ma_price_first_year":13.79,"massachusetts_rank":5,"n_ranked":51}};
+/* DATA:END electricity-data */
+
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
+  function postHeight(){
+    var h=Math.ceil(document.body.getBoundingClientRect().height);
+    if(window.parent!==window) window.parent.postMessage({type:'dl12:height',height:h},'*');
+  }
+  window.addEventListener('load',postHeight);
+  window.addEventListener('resize',postHeight);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(postHeight);
+  if(window.ResizeObserver) new ResizeObserver(postHeight).observe(document.body);
+  document.addEventListener('click',function(){setTimeout(postHeight,320);});
+  setInterval(postHeight,1500);
+})();
+
+const BLUE='#293C5C', GOLD='#CCB26D', INK='#222222', G3='#8DA0B5';
+const AY={grid:{color:'rgba(34,34,34,.08)'},ticks:{color:'#666',font:{size:11,family:'Roboto,sans-serif'}},border:{display:false}};
+const AX={grid:{display:false},ticks:{color:'#666',font:{size:11,family:'Roboto,sans-serif'}}};
+
+function valueLabels(fmt){
+  return {id:'vl',afterDatasetsDraw:function(chart){
+    var ctx=chart.ctx; ctx.save();
+    ctx.font='600 11px Roboto,sans-serif'; ctx.fillStyle=INK; ctx.textBaseline='middle';
+    chart.getDatasetMeta(0).data.forEach(function(bar,i){
+      var v=chart.data.datasets[0].data[i]; if(v==null) return;
+      ctx.textAlign='left'; ctx.fillText(fmt(v), bar.x+6, bar.y);
+    });
+    ctx.restore();
+  }};
+}
+function refLineX(x,color,label){
+  return {id:'refx',afterDraw:function(chart){
+    var sc=chart.scales.x, y=chart.chartArea;
+    var px=sc.getPixelForValue(x); if(!px) return;
+    var ctx=chart.ctx; ctx.save();
+    ctx.strokeStyle=color; ctx.setLineDash([4,4]); ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(px,y.top); ctx.lineTo(px,y.bottom); ctx.stroke();
+    ctx.fillStyle=color; ctx.font='600 10px Roboto,sans-serif';
+    ctx.fillText(label, px+4, y.top+10);
+    ctx.restore();
+  }};
+}
+
+var rendered={};
+var trendChart=null;
+var selected='MA';
+
+function fmtM(v){ return (v/1e6).toFixed(1); }
+function yoyCls(v){ return v==null?'':(v>0?'neg':(v<0?'pos':'')); }
+function yoyTxt(v){ return v==null?'':((v>0?'+':'')+v.toFixed(1)+'%'); }
+
+function renderPrices(){
+  if(rendered.p) return; rendered.p=true;
+  var rows=DL04.states.slice().sort(function(a,b){return b.price_cents-a.price_cents;});
+  document.getElementById('fig1t').textContent='All-sector average retail electricity price by state, '+DL04.year;
+  new Chart(document.getElementById('chRank'),{type:'bar',
+    data:{labels:rows.map(function(r){return r.name;}),
+      datasets:[{data:rows.map(function(r){return r.price_cents;}),
+        backgroundColor:rows.map(function(r){return r.st===selected?GOLD:BLUE;}),barPercentage:.72}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:8,right:48}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' cents per kWh';}}}},
+      scales:{x:Object.assign({},AY,{beginAtZero:true,
+          ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
+        y:Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{font:{size:10,family:'Roboto,sans-serif'}})})}},
+    plugins:[valueLabels(function(v){return v.toFixed(2);}),
+      refLineX(DL04.latest.us.price_cents,INK,'U.S. '+DL04.latest.us.price_cents.toFixed(2)+'¢')]});
+}
+
+function fillSelect(){
+  var sel=document.getElementById('stSel');
+  var opts=DL04.states.slice().sort(function(a,b){return a.name.localeCompare(b.name);});
+  sel.innerHTML=opts.map(function(r){
+    return '<option value="'+r.st+'"'+(r.st===selected?' selected':'')+'>'+r.name+'</option>';
+  }).join('');
+  sel.onchange=function(){ selected=sel.value; drawTrend(); history.replaceState(null,'','#view-price_trend&st='+selected); };
+}
+
+function drawTrend(){
+  var us=DL04.price_trend.US, st=DL04.price_trend[selected]||[];
+  var name=DL04.entities[selected]||selected;
+  document.getElementById('fig2t').textContent='All-sector average retail price, United States and '+name+', 2012 to '+DL04.year;
+  var data={
+    labels:us.map(function(e){return e.y;}),
+    datasets:[
+      {label:'United States',data:us.map(function(e){return e.v;}),borderColor:INK,backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:.2},
+      {label:name,data:st.map(function(e){return e.v;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2.4,pointRadius:2,pointHoverRadius:5,tension:.2}
+    ]
+  };
+  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
+    plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
+      tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(2)+' cents';}}}},
+    scales:{y:Object.assign({},AY,{ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
+      x:Object.assign({},AX)}};
+  if(trendChart){ trendChart.data=data; trendChart.update(); return; }
+  trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts});
+}
+
+function renderTrends(){
+  if(!rendered.t){ fillSelect(); rendered.t=true; }
+  drawTrend();
+}
+
+function renderSupply(){
+  if(rendered.s) return; rendered.s=true;
+  var sales=DL04.states.slice().sort(function(a,b){return b.sales_mwh-a.sales_mwh;});
+  document.getElementById('fig3t').textContent='Total retail electricity sales by state, '+DL04.year;
+  new Chart(document.getElementById('chSales'),{type:'bar',
+    data:{labels:sales.map(function(r){return r.name;}),
+      datasets:[{data:sales.map(function(r){return r.sales_mwh/1e6;}),
+        backgroundColor:sales.map(function(r){return r.st===selected?GOLD:BLUE;}),barPercentage:.72}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:52}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
+      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
+        y:Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{font:{size:10,family:'Roboto,sans-serif'}})})}},
+    plugins:[valueLabels(function(v){return v.toFixed(1);})]});
+
+  var gen=DL04.states.filter(function(r){return r.gen_mwh!=null;})
+    .slice().sort(function(a,b){return b.gen_mwh-a.gen_mwh;});
+  document.getElementById('fig4t').textContent='Net electricity generation by state, '+DL04.year;
+  new Chart(document.getElementById('chGen'),{type:'bar',
+    data:{labels:gen.map(function(r){return r.name;}),
+      datasets:[{data:gen.map(function(r){return r.gen_mwh/1e6;}),
+        backgroundColor:gen.map(function(r){return r.st===selected?GOLD:BLUE;}),barPercentage:.72}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:52}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
+      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
+        y:Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{font:{size:10,family:'Roboto,sans-serif'}})})}},
+    plugins:[valueLabels(function(v){return v.toFixed(1);})]});
+}
+
+function renderTable(){
+  if(rendered.tbl) return; rendered.tbl=true;
+  var us=DL04.latest.us;
+  var body=document.querySelector('#tblStates tbody');
+  var usRow='<tr class="hl"><td class="m">United States</td><td class="n">'+us.price_cents.toFixed(2)+'</td><td class="n">n.a.</td><td class="n '+yoyCls(us.yoy_pct)+'">'+yoyTxt(us.yoy_pct)+'</td><td class="n">'+fmtM(us.sales_mwh)+'</td><td class="n">'+(us.gen_mwh!=null?fmtM(us.gen_mwh):'')+'</td><td class="n">'+(us.cap_mw!=null?Math.round(us.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n"></td></tr>';
+  var rows=DL04.states.slice().sort(function(a,b){return a.rank-b.rank;}).map(function(r){
+    var hl=r.st===selected?' class="hl-ma"':'';
+    return '<tr'+hl+' id="row-'+r.st+'"><td class="m">'+r.name+'</td><td class="n">'+r.price_cents.toFixed(2)+'</td><td class="n">'+r.rank+'</td><td class="n '+yoyCls(r.yoy_pct)+'">'+yoyTxt(r.yoy_pct)+'</td><td class="n">'+fmtM(r.sales_mwh)+'</td><td class="n">'+(r.gen_mwh!=null?fmtM(r.gen_mwh):'')+'</td><td class="n">'+(r.cap_mw!=null?Math.round(r.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n">'+(r.sales_mwh_per_capita!=null?r.sales_mwh_per_capita.toFixed(2):'')+'</td></tr>';
+  }).join('');
+  body.innerHTML=usRow+rows;
+}
+
+var STANDFIRSTS={
+  prices:'What households, businesses, and industry together pay for a kilowatthour, state by state. Rebuilt from EIA Form EIA-861 and verified against Electric Power Annual table 2.10.',
+  trends:'The all-sector average since 2012: the EIA U.S. Total against any selected state.',
+  supply:'Retail sales and in-state net generation for the latest year, with capacity and per-capita figures in the table.',
+  table:'Every state and the District of Columbia for the latest year: price, rank, sales, generation, capacity, and sales per resident.'
+};
+var RENDER={prices:renderPrices,trends:renderTrends,supply:renderSupply,table:renderTable};
+var VIEWS=['prices','trends','supply','table'];
+function showView(v){
+  VIEWS.forEach(function(k){
+    document.getElementById('view-'+k).hidden=(k!==v);
+    document.getElementById('btn-'+k).classList.toggle('on',k===v);
+  });
+  document.getElementById('standfirst').textContent=STANDFIRSTS[v];
+  (RENDER[v]||renderPrices)();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+renderPrices();
+
+var KIND_VIEW={price_rank:'prices',price_trend:'trends',sales_rank:'supply',gen_rank:'supply'};
+function revealKind(kind,flash,st){
+  if(st && DL04.entities[st]) selected=st;
+  var view=KIND_VIEW[kind]||(VIEWS.indexOf(kind)>=0?kind:null);
+  if(!view) return false;
+  VIEWS.forEach(function(k){
+    document.getElementById('view-'+k).hidden=(k!==view);
+    document.getElementById('btn-'+k).classList.toggle('on',k===view);
+  });
+  document.getElementById('standfirst').textContent=STANDFIRSTS[view];
+  (RENDER[view]||renderPrices)();
+  var el=document.getElementById('view-'+kind)||document.getElementById('row-'+kind);
+  if(!el && st) el=document.getElementById('row-'+st);
+  if(!el) return true;
+  setTimeout(function(){
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+    if(flash){
+      var ex=el.classList.contains('exhibit')?el:el.querySelector('.exhibit');
+      if(ex){ex.classList.add('hl');setTimeout(function(){ex.classList.remove('hl');},2600);}
+    }
+  },60);
+  return true;
+}
+function applyHash(){
+  var raw=(location.hash||'').replace(/^#/,'');
+  if(!raw) return;
+  var kind=raw, st=null;
+  raw.split('&').forEach(function(part){
+    if(part.indexOf('st=')===0) st=part.slice(3).toUpperCase();
+    else if(part.indexOf('view-')===0) kind=part.slice(5);
+    else if(part.indexOf('view=')===0) kind=part.slice(5);
+    else kind=part.replace(/^view-/,'');
+  });
+  if(kind && DL04.entities[kind.toUpperCase()]){ st=kind.toUpperCase(); kind='table'; }
+  revealKind(kind,true,st);
+}
+window.addEventListener('load',function(){
+  applyHash();
+  setTimeout(function(){
+    var raw=(location.hash||'').replace(/^#view-/,'');
+    if(!raw) return;
+    var el=document.getElementById('view-'+raw.split('&')[0]);
+    if(el) el.scrollIntoView({block:'start'});
+  },900);
+});
+window.addEventListener('hashchange',applyHash);
+</script>
+</body>
+</html>

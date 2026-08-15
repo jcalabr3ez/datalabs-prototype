@@ -24,6 +24,9 @@ const GOLDEN_HITS = [
   ["Should I move to Texas to avoid taxes?", "DL-01"],
   ["Will Proposition 40 pass in November?", "DL-01"],
   ["How safe is the MBTA?", "DL-03"],
+  ["What is the average retail electricity price in the United States?", "DL-04"],
+  ["How much does electricity cost in Massachusetts?", "DL-04"],
+  ["Which state has the highest electricity prices?", "DL-04"],
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context
@@ -39,7 +42,7 @@ function check(ok, msg) {
   }
 }
 
-check(tools.length >= 3, "at least the three live flagships are registered");
+check(tools.length >= 4, "at least the four live flagships are registered");
 
 for (const t of tools) {
   for (const f of REQUIRED) {

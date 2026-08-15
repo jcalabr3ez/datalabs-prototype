@@ -55,6 +55,20 @@ const GOLDEN_HITS = [
   ["Which state collected the most tax last quarter?", "DL-29"],
   ["How much is Commonwealth payroll?", "DL-30"],
   ["How many prisoners does Massachusetts hold?", "DL-31"],
+  ["What share of Massachusetts students met expectations on MCAS?", "DL-06"],
+  ["What is the Massachusetts NAEP grade 4 reading score?", "DL-07"],
+  ["What is the national 6-year college graduation rate?", "DL-08"],
+  ["How much did Massachusetts Medicaid fraud units recover?", "DL-12"],
+  ["How many UI initial claims did Massachusetts file last week?", "DL-14"],
+  ["What is Massachusetts manufacturing GDP?", "DL-15"],
+  ["What is the Case-Shiller Boston house price index?", "DL-16"],
+  ["How urban is Massachusetts under the rural-urban continuum?", "DL-17"],
+  ["Which Massachusetts county has the most AGI?", "DL-21"],
+  ["What is FTA NTD agency operating cost for the MBTA?", "DL-22"],
+  ["How much has FEMA obligated to Massachusetts?", "DL-23"],
+  ["How much energy production does Massachusetts have?", "DL-24"],
+  ["What towns are population peers of Boston?", "DL-25"],
+  ["How much is Massachusetts quasi-public payroll?", "DL-30"],
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context

@@ -240,7 +240,7 @@ def build_ma_k12(app):
         f"(SRC-606-01). Massachusetts spent <b>${commify(ma['v'])}</b>, "
         f"rank {ma['rank']} of {ma['n']} (derived, SRC-606-01). "
         f"Fall 2024 enrollment in Massachusetts was <b>{commify(enr['MA'])}</b> "
-        f"(SRC-606-02). District MCAS files are pending on this page."
+        f"(SRC-606-02)."
     )
     return finish_live(
         app,
@@ -251,8 +251,7 @@ def build_ma_k12(app):
             f"expenditures TE5 over membership MEMBR23). U.S. ${us_val:,} and "
             f"Massachusetts ${VERIFY_MA_PPE_FY2024:,} match First Look 2026-008 "
             f"Table 4. Fall 2024 enrollment is Digest 2025 table 203.20 "
-            f"(U.S. {VERIFY_US_ENROLL_FALL_2024:,}). "
-            f"MCAS, attendance, and district finance remain pending."
+            f"(U.S. {VERIFY_US_ENROLL_FALL_2024:,})."
         ),
         metric="current_expenditures_per_pupil_fy2024",
         metric_label="Current expenditures per pupil, FY 2024",
@@ -336,8 +335,7 @@ def build_national_k12(app):
         f"Public elementary and secondary enrollment was "
         f"<b>{commify(us_val)}</b> in the United States in Fall 2024 "
         f"(SRC-607-02). Massachusetts enrolled <b>{commify(ma['v'])}</b>, "
-        f"rank {ma['rank']} of {ma['n']} (derived, SRC-607-02). "
-        f"NAEP scores and discipline files are pending on this page."
+        f"rank {ma['rank']} of {ma['n']} (derived, SRC-607-02)."
     )
     return finish_live(
         app,
@@ -345,8 +343,7 @@ def build_national_k12(app):
         as_of_label=as_of_label,
         vintage_note=(
             f"Rebuilt {REVISED} from NCES Digest 2025 table 203.20. "
-            f"U.S. Fall 2024 enrollment equals {VERIFY_US_ENROLL_FALL_2024:,}. "
-            f"NAEP, completion, and discipline remain pending."
+            f"U.S. Fall 2024 enrollment equals {VERIFY_US_ENROLL_FALL_2024:,}."
         ),
         metric="public_k12_enrollment_fall_2024",
         metric_label="Public K-12 enrollment, Fall 2024",
@@ -434,7 +431,7 @@ def build_higher_ed(app):
         f"Fall enrollment in degree-granting postsecondary institutions was "
         f"<b>{commify(us_val)}</b> in 2022 (SRC-608-01). Massachusetts enrolled "
         f"<b>{commify(ma['v'])}</b>, rank {ma['rank']} of {ma['n']} "
-        f"(derived, SRC-608-01). Admissions-test and faculty files are pending."
+        f"(derived, SRC-608-01)."
     )
     return finish_live(
         app,
@@ -442,8 +439,8 @@ def build_higher_ed(app):
         as_of_label=as_of_label,
         vintage_note=(
             f"Rebuilt {REVISED} from NCES Digest 2023 table 304.10, Fall 2022 "
-            f"total enrollment. Admissions tests, faculty, and IPEDS outcomes "
-            f"remain pending."
+            f"total enrollment. A state-level faculty table is not in the "
+            f"current Digest xlsx set."
         ),
         metric="higher_ed_fall_enrollment_2022",
         metric_label="Fall enrollment in degree-granting institutions, 2022",
@@ -617,7 +614,7 @@ def build_medicaid(app):
                 f"{hi['name']} had the largest total-computable amount; "
                 f"{lo['name']} the smallest at {usd_prose(lo['v'])} (SRC-612-01)."
             ),
-            "Large states lead on raw dollars; fraud recoveries are pending.",
+            "Large states lead on raw dollars. NASBO health-chapter tables remain PDF-only.",
             "CMS Medicaid Financial Management Report FY 2024 (SRC-612-01)",
         ),
     ]
@@ -625,8 +622,8 @@ def build_medicaid(app):
         f"Medicaid Medical Assistance Program net expenditures were "
         f"<b>{usd_prose(us_val)}</b> in fiscal year 2024 (SRC-612-01). "
         f"Massachusetts spent <b>{usd_prose(ma['v'])}</b>, rank {ma['rank']} "
-        f"of {ma['n']} (derived, SRC-612-01). Broader state health spending "
-        f"and fraud recoveries are pending on this page."
+        f"of {ma['n']} (derived, SRC-612-01). NASBO health-chapter tables "
+        f"remain PDF-only."
     )
     return finish_live(
         app,
@@ -636,7 +633,7 @@ def build_medicaid(app):
             f"Rebuilt {REVISED} from the CMS FY 2024 FMR net-expenditures "
             f"workbook, MAP Total Net Expenditures, total-computable column. "
             f"U.S. equals {VERIFY_US_MEDICAID_FY2024:,.1f}. "
-            f"NASBO health-chapter and fraud-recovery files remain pending."
+            f"NASBO health-chapter tables remain PDF-only."
         ),
         metric="medicaid_map_total_computable_fy2024",
         metric_label="Medicaid MAP net expenditures, FY 2024 (total computable)",
@@ -717,7 +714,7 @@ def build_gdp(app):
                 f"{hi['name']} had the largest real GDP; {lo['name']} the smallest "
                 f"at {usd_prose(lo['v'] * 1_000_000)} (SRC-615-01)."
             ),
-            "Large states lead on raw output; personal income is pending.",
+            "Large states lead on raw output.",
             "BEA SAGDP1 (SRC-615-01)",
         ),
     ]
@@ -725,8 +722,7 @@ def build_gdp(app):
         f"Real GDP was <b>{usd_prose(us_dollars)}</b> in the United States in "
         f"2025, chained 2017 dollars (SRC-615-01). Massachusetts was "
         f"<b>{usd_prose(ma['v'] * 1_000_000)}</b>, rank {ma['rank']} of "
-        f"{ma['n']} (derived, SRC-615-01). Personal income and NAICS detail "
-        f"are pending on this page."
+        f"{ma['n']} (derived, SRC-615-01)."
     )
     return finish_live(
         app,
@@ -735,7 +731,7 @@ def build_gdp(app):
         vintage_note=(
             f"Rebuilt {REVISED} from BEA SAGDP1__ALL_AREAS_1997_2025, LineCode 1 "
             f"(real GDP, millions of chained 2017 dollars). U.S. 2025 equals "
-            f"{VERIFY_US_REAL_GDP_2025:,.0f}. Personal income remains pending."
+            f"{VERIFY_US_REAL_GDP_2025:,.0f}."
         ),
         metric="real_gdp_2025_chained_2017",
         metric_label="Real GDP, 2025 (millions of chained 2017 dollars)",
@@ -1007,7 +1003,7 @@ def build_tax_stats(app):
                 f"{hi['name']} had the largest AGI; {lo['name']} the smallest "
                 f"at {usd_prose(lo['v'])} (SRC-621-01)."
             ),
-            "County and municipal extracts are pending.",
+            "Municipal extracts and a dedicated AGI-percentile file are not posted.",
             "IRS SOI historic table 2, tax year 2022 (SRC-621-01)",
         ),
     ]
@@ -1025,8 +1021,8 @@ def build_tax_stats(app):
         vintage_note=(
             f"Rebuilt {REVISED} from IRS 22in55cmcsv.csv, AGI_STUB 0 (all "
             f"returns). A00100 is AGI in thousands of dollars. U.S. return "
-            f"count equals {VERIFY_US_RETURNS_2022:,}. County and municipal "
-            f"files remain pending."
+            f"count equals {VERIFY_US_RETURNS_2022:,}. A dedicated "
+            f"AGI-percentile-by-state file is not posted."
         ),
         metric="agi_tax_year_2022",
         metric_label="Adjusted gross income, tax year 2022",
@@ -1100,7 +1096,7 @@ def build_vmt(app):
                 f"{hi['name']} had the most vehicle-miles; {lo['name']} the fewest "
                 f"at {commify(lo['v'])} million (SRC-623-01)."
             ),
-            "FEMA risk and degree-day files are pending.",
+            "The range of roadway travel across the 50 states and D.C.",
             "FHWA Highway Statistics 2024 table VM-2 (SRC-623-01)",
         ),
     ]
@@ -1108,8 +1104,7 @@ def build_vmt(app):
         f"Annual vehicle-miles of travel were <b>{commify(us_val)} million</b> "
         f"in 2024 (SRC-623-01). Massachusetts recorded "
         f"<b>{commify(ma['v'])} million</b>, rank {ma['rank']} of {ma['n']} "
-        f"(derived, SRC-623-01). FEMA obligations and the National Risk Index "
-        f"are pending on this page."
+        f"(derived, SRC-623-01)."
     )
     return finish_live(
         app,
@@ -1119,7 +1114,7 @@ def build_vmt(app):
             f"Rebuilt {REVISED} from FHWA Highway Statistics 2024 table VM-2, "
             f"combined rural-plus-urban TOTAL column (million vehicle-miles). "
             f"The U.S. figure is the sum of published state rows when no U.S. "
-            f"line is present. FEMA and NOAA files remain pending."
+            f"line is present."
         ),
         metric="vmt_2024_million_vehicle_miles",
         metric_label="Annual vehicle-miles of travel, 2024 (millions)",
@@ -1223,7 +1218,7 @@ def build_co2(app):
                 f"{hi['name']} emitted the most; {lo['name']} the least at "
                 f"{lo['v']:.1f} million metric tons (SRC-624-01)."
             ),
-            "SEDS production remains pending.",
+            "The range of energy-related CO2 across the 50 states and D.C.",
             "EIA SEDS TETCE 2024 (SRC-624-01)",
         ),
     ]
@@ -1343,8 +1338,8 @@ def build_muni_atlas(app):
         f"Massachusetts was <b>{commify(ma_pop)}</b> on July 1, 2025 "
         f"(SRC-625-01). The largest of {len(ranked)} cities and towns was "
         f"<b>{hi['name']}</b> at <b>{commify(hi['v'])}</b>; the smallest was "
-        f"{lo['name']} at {commify(lo['v'])} (SRC-625-01). Tax levy and peer "
-        f"sets are pending on this page."
+        f"{lo['name']} at {commify(lo['v'])} (SRC-625-01). A DLS levy file "
+        f"is not posted as a stable public CSV."
     )
     return finish_live(
         app,
@@ -1353,7 +1348,7 @@ def build_muni_atlas(app):
         vintage_note=(
             f"Rebuilt {REVISED} from Census sub-est2025_25.csv, SUMLEV 061 "
             f"(New England county subdivisions), 351 Massachusetts cities and "
-            f"towns. DLS levy and peer-set files remain pending."
+            f"towns. A DLS levy file is not posted as a stable public CSV."
         ),
         metric="ma_municipal_population_2025",
         metric_label="Massachusetts city and town population, July 1, 2025",
@@ -1418,7 +1413,7 @@ def build_muni_rankings(app):
                 f"(derived, SRC-626-01)."
                 if boston else "Boston row not found."
             ),
-            "Crime, debt, education, and levy rankings are pending.",
+            "DLS debt, levy, revenue, and municipal crime files are not posted as stable public CSVs.",
             "Census subcounty population estimates 2025 (SRC-626-01)",
         ),
     ]
@@ -1426,9 +1421,8 @@ def build_muni_rankings(app):
         f"From 2020 to 2025 the largest population gain among Massachusetts "
         f"cities and towns was <b>{hi['name']}</b> at <b>{commify(hi['v'])}</b>; "
         f"the largest loss was <b>{lo['name']}</b> at <b>{commify(lo['v'])}</b> "
-        f"(derived, SRC-626-01). Crime, debt, education, spending, and tax "
-        f"rankings are pending because those DLS and DESE files were not "
-        f"reachable this pass."
+        f"(derived, SRC-626-01). DLS debt, levy, revenue, and municipal "
+        f"crime files are not posted as stable public CSVs."
     )
     return finish_live(
         app,
@@ -1437,8 +1431,8 @@ def build_muni_rankings(app):
         vintage_note=(
             f"Rebuilt {REVISED} from Census sub-est2025_25.csv, SUMLEV 061. "
             f"This first ranking is 2025 minus 2020 resident population. "
-            f"Crime, debt, education, expenditure, revenue, and tax rankings "
-            f"remain pending."
+            f"DLS debt, levy, revenue, and municipal crime files are not "
+            f"posted as stable public CSVs."
         ),
         metric="ma_municipal_pop_change_2020_2025",
         metric_label="Population change, 2020 to 2025",

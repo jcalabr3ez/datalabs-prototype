@@ -29,6 +29,7 @@ const DL03 = require('./dl03-answers.json');
 const DL02 = require('./dl02-answers.json');
 const DL01 = require('./dl01-answers.json');
 const DL04 = require('./dl04-answers.json');
+const DL05 = require('./dl05-answers.json');
 
 module.exports = [
   {
@@ -217,6 +218,67 @@ module.exports = [
     },
     src: function (d) {
       return 'EIA Form EIA-861 / Electric Power Annual table 2.10, all-sector prices and sales through ' + d.data_year + ' (SRC-401); EIA-923 generation (SRC-403); EIA-860 capacity (SRC-404); Census Bureau population (SRC-402). The U.S. figure is EIA\'s U.S. Total row.';
+    }
+  },
+  {
+    id: 'DL-05',
+    label: 'Massachusetts public pensions: every retirement board\'s funded status and returns, plus the State and Teacher retiree payroll',
+    scope: 'Covers every Massachusetts public retirement board\'s latest PERAC actuarial valuation (funded ratio, unfunded liability, actuarial accrued liability, membership, average salary and benefit, assumed rate of return) and compiled investment returns (one-year, five-year, ten-year, and since-inception), plus the compiled State (MSERS) and Teachers (MTRS) retiree payroll for calendar years 2011 through the dataset retiree_year: yearly headcount and annual pension totals, department and title rankings, and the largest individual pensions. Does NOT cover: looking up a named retiree other than the published top pensions; municipal or local-board retiree names; retirement advice, benefit estimates, or what a member will receive; forecasts of funded status; other states\' pension systems; or Commonwealth payroll and vendor payments.',
+    triggers: [
+      'pension', 'pensions', 'perac', 'funded ratio', 'unfunded', 'retirement board',
+      'retiree', 'retirees', 'mtrs', 'msers', 'mass teachers', 'teachers retirement',
+      'state retirement', 'cthru', 'public pension', 'pension payroll',
+      'springfield pension', 'boston teachers'
+    ],
+    dataset: DL05,
+    coreSlice: function (d) {
+      return {
+        tool_id: d.tool_id, as_of: d.as_of, scope: d.scope,
+        vintage_note: d.vintage_note, source_id_map: d.source_id_map,
+        board_valuation_through: d.board_valuation_through,
+        returns_year: d.returns_year, retiree_year: d.retiree_year,
+        latest: d.latest, derived: d.derived, entities: d.entities,
+        boards: d.boards.map(function (b) {
+          return {
+            id: b.id, name: b.name, valuation_year: b.valuation_year,
+            funded_pct: b.funded_pct, ual: b.ual, rank: b.rank,
+            return_1y_pct: b.return_1y_pct, return_10y_pct: b.return_10y_pct,
+            active: b.active, retired: b.retired
+          };
+        }),
+        retirees: {
+          latest: d.retirees.latest,
+          yearly: d.retirees.yearly.map(function (y) {
+            return {
+              year: y.year, count: y.count, annual_amount: y.annual_amount,
+              msers_count: y.msers.count, mtrs_count: y.mtrs.count,
+              msers_amount: y.msers.annual_amount, mtrs_amount: y.mtrs.annual_amount
+            };
+          }),
+          top_pensions: d.retirees.top_pensions
+        }
+      };
+    },
+    modelSlice: function (d) {
+      var o = {};
+      Object.keys(d).forEach(function (k) {
+        if (k !== 'funded_history' && k !== 'verification') o[k] = d[k];
+      });
+      return o;
+    },
+    charts: ['funded_rank', 'funded_trend', 'returns_rank', 'retiree_trend'],
+    views: ['boards', 'returns', 'retirees', 'table'],
+    viewDefault: 'boards',
+    highlight: { key: 'entities', uppercase: false, describe: 'the board id slug (for example state, mtrs, springfield, boston-teachers) if the question focuses on one board, else null' },
+    rules: 'DL-05 rules. Every figure cites its source in parentheses: funded ratios, unfunded liabilities, membership, and assumed returns cite (SRC-501); investment returns cite (SRC-502); State and Teacher retiree payroll, counts, department rankings, and named top pensions cite (SRC-503). Ranks and the dollar-weighted funded ratio cite (derived, SRC-501). Prefer the precomputed values in latest and derived over your own arithmetic. Funded ratio is PERAC\'s published actuarial ratio, not market value over liability. CTHRU retiree counts are named-retiree payroll rows, not the PERAC actuarial recipient census (which also counts survivors). Chart selection: funded_rank = comparing boards or who is best or worst funded; funded_trend = change over time; returns_rank = investment returns; retiree_trend = State or Teacher retiree payroll over time; none = no view fits. When the question names a board, set highlight to that board id. View selection: boards for funded status; returns for investment performance; retirees for the State and Teacher payroll; table for the full board table. Decline named-retiree lookups other than the published top pensions, benefit estimates, forecasts, and other states.',
+    link: function (p) {
+      var chart = p.chart && p.chart !== 'none' ? p.chart : (p.view && p.view !== 'boards' ? p.view : 'funded_rank');
+      var url = '/pensions/#view-' + chart;
+      if (p.highlight) url += '&st=' + p.highlight;
+      return url;
+    },
+    src: function (d) {
+      return 'PERAC board actuarial valuations through January 1, ' + d.board_valuation_through + ' (SRC-501); PERAC compiled investment returns, calendar ' + d.returns_year + ' (SRC-502); CTHRU State and Teachers Retirement Benefits, calendar years 2011 through ' + d.retiree_year + ' (SRC-503).';
     }
   }
 ];

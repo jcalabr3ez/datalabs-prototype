@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Massachusetts Public Pensions | Pioneer Institute | Board Funded Status and State &amp; Teacher Retirees</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Every Massachusetts retirement board's latest PERAC funded ratio and investment returns, plus the compiled State and Teacher retiree payroll through 2024.">
+<link rel="canonical" href="https://datalabsai.netlify.app/pensions/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="Massachusetts Public Pensions | Pioneer Institute">
+<meta property="og:description" content="Every MA retirement board's funded status and returns, plus the State and Teacher retiree payroll, rebuilt from PERAC and CTHRU.">
+<meta property="og:url" content="https://datalabsai.netlify.app/pensions/">
+<meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Massachusetts Public Pensions | Pioneer Institute">
+<meta name="twitter:description" content="Every MA retirement board's funded status and returns, plus the State and Teacher retiree payroll, rebuilt from PERAC and CTHRU.">
+<meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
+<style>
+  :root{ --bleed:clamp(18px,2.6vw,48px); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);
+           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;
+    border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);
+         margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
+    background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;
+    -webkit-mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%);
+    mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%)}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);
+         margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);
+             border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
+
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
+                 font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle button:not(.on):hover{color:var(--navy)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
+  .toggle button.on .who{color:var(--grey)}
+  @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
+
+  section{margin-top:56px}
+  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
+     border-bottom:none;padding-bottom:0;margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
+
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
+      margin-bottom:10px;min-height:30px}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .cd .up{color:var(--neg);font-weight:600} .cd .dn{color:var(--pos);font-weight:600}
+  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+
+  .metrics{border-top:1px solid var(--rule-dk);border-bottom:1px solid var(--rule)}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .metrics .cl{min-height:26px;margin-bottom:10px;color:var(--grey)}
+  .metrics .cv{font-size:clamp(22px,2vw,28px);line-height:1.05}
+  .metrics .cd{margin-top:12px;max-width:36ch;margin-left:auto;margin-right:auto}
+  .metrics .csrc{border-top:0;margin-top:10px}
+
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-ranks{height:clamp(980px,140vh,1680px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
+
+  .findrow{margin-top:8px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .sel-lab{font:600 10.5px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
+  .findrow select,.findrow input{font:600 13px/1.4 var(--sans);color:var(--ink);border:1px solid #D8DDE3;border-radius:3px;padding:9px 12px;background:#fff;min-width:220px}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;
+        border-top:1px solid var(--rule-lt);max-width:none}
+  .note b{color:var(--g1);font-weight:700}
+  .note a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .note a:hover{border-bottom-color:var(--gold)}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
+     text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  td.m{font-weight:600}
+  tr.hl td{background:var(--wash);font-weight:600}
+  tr.hl-ma td{background:var(--wash)}
+  .neg{color:var(--neg)} .pos{color:var(--pos)}
+
+  details{margin-top:18px;border-top:1px solid var(--rule-lt)}
+  summary{cursor:pointer;font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
+          list-style:none;padding:11px 0}
+  summary::-webkit-details-marker{display:none}
+  summary:after{content:"\25B6";font-size:9px;color:var(--gold);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
+  details[open]>summary:after{transform:translateY(-1px) rotate(90deg)}
+  summary:hover{color:var(--ink)}
+
+  details.math{margin-top:12px;border-top:1px solid var(--rule-lt)}
+  details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
+    font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
+  details.math > summary::-webkit-details-marker{display:none}
+  .mathbox{background:var(--wash);border:none;border-left:3px solid var(--gold);
+    padding:13px 15px;margin-bottom:10px}
+  .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
+  .mathbox .lbl{font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
+  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--navy)}
+  .mathsrc{font-size:11px;color:var(--faint);line-height:1.55;margin-top:2px}
+
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .srcline a:hover{border-bottom-color:var(--gold)}
+
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);
+         padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  footer a:hover{color:var(--goldlt);border-bottom-color:var(--goldlt)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .disclaimer b{color:#C9D2E0}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .fbrand a{color:#fff;border-bottom:1px solid rgba(255,255,255,.25)}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+
+  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:10px}
+  .simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
+                    font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
+  .simplify summary::-webkit-details-marker{display:none}
+  .simplify summary:after{content:none}
+  .simplify summary:hover{background:var(--hover);color:var(--navy)}
+  .simplify summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  .simplify[open] summary .car{transform:rotate(90deg)}
+  .simplify[open] summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
+  .simplify .dt-body{padding:14px 18px 16px}
+  .simplify .dt-body > :first-child{margin-top:0}
+
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  details.srcfold{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
+                          font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
+  details.srcfold>summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after{content:none}
+  details.srcfold>summary:hover{background:var(--hover);color:var(--navy)}
+  details.srcfold>summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  details.srcfold[open]>summary .car{transform:rotate(90deg)}
+  details.srcfold[open]>summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
+  details.srcfold .fold-body{padding:14px 18px 16px}
+  details.srcfold .fold-body>:first-child{margin-top:0}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg th{width:20%}
+  table.reg th:first-child{width:26%}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  table.reg td.src a:hover{border-bottom-color:var(--gold)}
+  table.reg tr.grp td{background:var(--hover);font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--rule)}
+  .scroll{overflow-x:auto;max-width:100%}
+  [hidden]{display:none !important}
+  .exhibit.hl{outline:2px solid var(--goldlt);outline-offset:10px;transition:outline-color 1s}
+
+  body.embed{background:#fff;padding:0}
+  body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+  body.embed header,body.embed .proto,body.embed footer{margin-left:0;margin-right:0}
+  body.embed header{padding:22px var(--bleed) 20px}
+  body.embed .org{margin-bottom:10px}
+  body.embed h1{font-size:clamp(25px,3.1vw,36px)}
+  body.embed .standfirst{margin-top:9px;font-size:14.5px}
+  body.embed .dateline{margin-top:14px}
+  body.embed .proto{padding:9px var(--bleed)}
+  body.embed .proto-txt{font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="sitebar">
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Massachusetts Public Pensions</span>
+</div>
+
+<header>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">Better Government <span class="sub">/ Public Pensions &middot; formerly Performance and State &amp; Teacher Retirees</span></div>
+  <h1>Massachusetts Public Pensions</h1>
+  <div class="standfirst" id="standfirst">Every public retirement board's latest funded ratio, and the State and Teacher retiree payroll. Rebuilt from PERAC valuations and CTHRU, verified against the partner extracts.</div>
+  <div class="dateline">
+<!-- DATA:BEGIN pensions-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <span>Board valuations through <b>Jan 1, 2023</b></span>
+    <span>Retiree payroll through <b>2024</b></span>
+    <span>Revised <b>Aug 15, 2026</b></span>
+    <span>Version <b>1.0</b></span>
+<!-- DATA:END pensions-dateline -->
+  </div>
+</header>
+
+<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+
+<div class="toggle" role="tablist" aria-label="Choose a view">
+  <button id="btn-boards" class="on" onclick="showView('boards')">Boards<span class="who">Funded ratio, every system</span></button>
+  <button id="btn-returns" onclick="showView('returns')">Returns<span class="who">One-year and long-run</span></button>
+  <button id="btn-retirees" onclick="showView('retirees')">Retirees<span class="who">State and Teacher payroll</span></button>
+  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every board, one row</span></button>
+</div>
+
+<div id="view-boards">
+
+  <section style="margin-top:30px">
+    <h2>What are the key takeaways?</h2>
+    <p class="lede">
+<!-- DATA:BEGIN pensions-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+The State Retirement Board was <b>71.3 percent</b> funded on its January 1, 2023 valuation (SRC-501). Mass Teachers (MTRS) was <b>58.7 percent</b> funded (SRC-501). Across 105 boards the dollar-weighted funded ratio was 66.4 percent (derived, SRC-501). State and Teacher retirees were paid <b>$6.41 billion</b> in calendar 2024 (SRC-503).
+<!-- DATA:END pensions-lead -->
+    </p>
+    <div class="strip metrics">
+<!-- DATA:BEGIN pensions-kpis (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+      <div class="cell">
+        <div class="cl">State Retirement Board</div>
+        <div class="cv">71.3%</div>
+        <div class="cd">Funded ratio on the January 1, 2023 valuation, rank 61 of 105 (SRC-501). Unfunded liability $14.1 billion.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the Commonwealth's own employee system, the largest board by assets after Mass Teachers.</div>
+        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Mass Teachers (MTRS)</div>
+        <div class="cv">58.7%</div>
+        <div class="cd">Funded ratio on the January 1, 2023 valuation, rank 93 of 105 (SRC-501). Unfunded liability $25.7 billion.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Teachers are the largest liability in the Commonwealth's pension obligation, and the furthest from full funding among the big systems.</div>
+        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">State and Teacher retirees, 2024</div>
+        <div class="cv">$6.41 billion</div>
+        <div class="cd">Annual pensions paid to 134,205 named MSERS and MTRS retirees (SRC-503). Average $47,744.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the payroll the funded ratios have to support, year after year, for people already retired.</div>
+        <div class="csrc">Source: CTHRU State and Teachers Retirement Benefits (SRC-503)</div>
+      </div>
+<!-- DATA:END pensions-kpis -->
+    </div>
+  </section>
+
+  <section id="view-funded_rank">
+    <h2>Which boards are best funded?</h2>
+    <div class="lede">Each bar is a retirement board's latest PERAC funded ratio. The State Retirement Board and Mass Teachers are marked in gold. Four boards sit at or above 100 percent; thirteen sit below 60 percent.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t" id="fig1t">Funded ratio by Massachusetts retirement board</span></div>
+      <div class="plot plot-ranks"><canvas id="chFunded"></canvas></div>
+      <div class="note">Funded ratio is actuarial assets divided by actuarial accrued liability, as of each board's latest valuation date (SRC-501). Most boards in this file are January 1, 2022 or January 1, 2023. A ratio of 100 percent is fully funded. The dollar-weighted ratio across all 105 boards is not the unweighted mean of the bars: the State and Teacher systems dominate the dollars.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Funded ratio (PERAC, checked by Pioneer)</div><code>funded ratio = 1 - unfunded actuarial liability / actuarial accrued liability
+
+The published PERAC ratio and this recompute match within 0.6 percentage points on every board. UAL and AAL in the extract are rounded, so a tenth of a point of gap is expected on small boards.</code><div class="out">Result: the percentages on this page are PERAC's published funded ratios, with the recompute as the verification path.</div></div><div class="mathsrc">Inputs: compiled PERAC board valuations in the Performance extract (SRC-501). Calculation of ranks and the dollar-weighted ratio: Pioneer Institute.</div></details></div>
+      <div class="srcline"><b>Source:</b> <a href="https://www.mass.gov/info-details/funded-ratios" target="_blank" rel="noopener">PERAC funded ratios and board valuation reports</a> (SRC-501). <b>Calculation:</b> Pioneer Institute (ranks and the dollar-weighted ratio).</div>
+    </div>
+  </section>
+
+  <section id="view-funded_trend">
+    <h2>How has funded status moved?</h2>
+    <div class="lede">The State Retirement Board and Mass Teachers, year by year, against one selected board. Gaps in a line are years with no new valuation on file.</div>
+    <div class="findrow">
+      <label class="sel-lab" for="bdSel">Board</label>
+      <select id="bdSel"></select>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
+        <span class="ex-t" id="fig2t">Funded ratio, State, Mass Teachers, and selected board</span></div>
+      <div class="plot"><canvas id="chTrend"></canvas></div>
+      <div class="note">State funded status fell from the mid-80s in the mid-2000s to the mid-60s after the financial crisis, then recovered into the low 70s on the 2022 and 2023 valuations (SRC-501). Mass Teachers has stayed below 60 percent for most of the last decade. Select another board to put it on the same axis.</div>
+      <div class="srcline"><b>Source:</b> PERAC board actuarial valuations, compiled (SRC-501). <b>Calculation:</b> Pioneer Institute.</div>
+    </div>
+  </section>
+
+</div><!-- /view-boards -->
+
+<div id="view-returns" hidden>
+
+  <section style="margin-top:30px" id="view-returns_rank">
+    <h2>What did each board earn in 2023?</h2>
+    <div class="lede">One-year investment return, calendar 2023, from the compiled PERAC returns file. The State and Teacher systems both printed 11.66 percent. The 2024 Investment Report is the next vintage and is not yet in this ledger.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 3</span>
+        <span class="ex-t" id="fig3t">One-year investment return by board, calendar 2023</span></div>
+      <div class="plot plot-ranks"><canvas id="chReturns"></canvas></div>
+      <div class="note">Returns are time-weighted investment performance as compiled by PERAC (SRC-502). They are not the assumed rate of return used in the valuation (that assumption is in the table, typically 7.00 percent for the large systems). Five-year, ten-year, and since-inception returns are in the table.</div>
+      <div class="srcline"><b>Source:</b> <a href="https://www.mass.gov/lists/perac-investment-schedule-7-fee-reports" target="_blank" rel="noopener">PERAC compiled investment returns</a> (SRC-502), calendar 2023. <b>Calculation:</b> Pioneer Institute (ranks only).</div>
+    </div>
+  </section>
+
+</div><!-- /view-returns -->
+
+<div id="view-retirees" hidden>
+
+  <section style="margin-top:30px" id="view-retiree_trend">
+    <h2>How large is the State and Teacher retiree payroll?</h2>
+    <div class="lede">Annual pensions paid to named MSERS and MTRS retirees, calendar years 2011 through 2024. This is the Comptroller's CTHRU file, not a PERAC actuarial headcount: it does not include survivors counted in the valuation census, and it does not cover local-board retirees.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 4</span>
+        <span class="ex-t" id="fig4t">Annual pensions paid to State and Teacher retirees</span></div>
+      <div class="plot"><canvas id="chRetirees"></canvas></div>
+      <div class="note">In 2024 the file has 65,015 MSERS retirees paid $2.88 billion and 69,190 MTRS retirees paid $3.52 billion (SRC-503). Combined annual pensions rose 78.2 percent from 2011. 3,883 people retired in 2024. The largest individual pension in 2024 was $349,516 (Thomas Manning, MSERS, UMass Medical School).</div>
+      <div class="srcline"><b>Source:</b> <a href="https://cthrupensions.mass.gov/" target="_blank" rel="noopener">CTHRU State and Teachers Retirement Benefits</a>, Office of the Comptroller (SRC-503). <b>Calculation:</b> Pioneer Institute (yearly sums and ranks).</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The largest State and Teacher pensions, 2024</h2>
+    <div class="lede">The fifteen largest annual amounts in the 2024 CTHRU file. Names and amounts are public record. This page does not offer a search of the other 134,000 named retirees.</div>
+    <div class="scroll">
+      <table id="tblTop">
+        <thead>
+          <tr>
+            <th>Retiree</th>
+            <th>System</th>
+            <th>Last department</th>
+            <th>Title</th>
+            <th class="n">Annual pension</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> CTHRU State and Teachers Retirement Benefits, calendar 2024 (SRC-503).</div>
+  </section>
+
+  <section>
+    <h2>Which departments pay the most in pensions?</h2>
+    <div class="lede">Last department worked in, 2024 file, ranked by total annual pensions. State Police has the highest average among large departments; Department of Correction has the largest total.</div>
+    <div class="scroll">
+      <table id="tblDept">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>System</th>
+            <th class="n">Retirees</th>
+            <th class="n">Total annual</th>
+            <th class="n">Average</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> CTHRU State and Teachers Retirement Benefits, calendar 2024 (SRC-503). <b>Calculation:</b> Pioneer Institute.</div>
+  </section>
+
+</div><!-- /view-retirees -->
+
+<div id="view-table" hidden>
+
+  <section style="margin-top:30px">
+    <h2>Every Massachusetts retirement board</h2>
+    <div class="lede">Latest PERAC valuation and compiled 2023 returns. Find a board by name. The State and Teacher rows are marked.</div>
+    <div class="findrow">
+      <label class="sel-lab" for="tblFilter">Find a board</label>
+      <input id="tblFilter" type="search" placeholder="Worcester, State, MTRS">
+    </div>
+    <div class="scroll">
+      <table id="tblBoards">
+        <thead>
+          <tr>
+            <th>Board</th>
+            <th class="n">Valuation</th>
+            <th class="n">Funded</th>
+            <th class="n">Rank</th>
+            <th class="n">Unfunded liability</th>
+            <th class="n">Active</th>
+            <th class="n">Retired</th>
+            <th class="n">2023 return</th>
+            <th class="n">10-year return</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> PERAC board valuations (SRC-501); PERAC compiled returns, calendar 2023 (SRC-502). Ranks are Pioneer calculations (derived).</div>
+  </section>
+
+</div><!-- /view-table -->
+
+<section id="sources">
+  <h2>Data Sources</h2>
+  <div class="subhead">Every figure on this page traces to a source below, and charts carry their own source lines where they appear. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+
+  <details class="srcfold">
+    <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
+    <div class="fold-body">
+      <div class="note" style="border-top:0;padding-top:4px">A research pass updates the ledger when PERAC publishes the next Investment Report and when CTHRU posts the next retiree year. Each row carries its own as-of date, so a refresh never implies a number is newer than its source.</div>
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports in the dashboard</th><th>Data vintage in this tool</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="5">Public Employee Retirement Administration Commission</td></tr>
+          <tr><td class="src"><a href="https://www.mass.gov/info-details/funded-ratios" target="_blank" rel="noopener">PERAC board actuarial valuations / funded ratios (SRC-501)</a></td><td>Each board at least every two years; PERAC posts a compiled table and an annual report</td><td>Figures 1 and 2, the key takeaways on funded status, and the table's funded, unfunded, and membership columns</td><td>Latest valuation on file per board, January 1, 2021 through January 1, 2023</td><td>PERAC 2024 Investment Report and the live funded-ratios table (updated July 2, 2026) are the next transcription</td></tr>
+          <tr><td class="src"><a href="https://www.mass.gov/lists/perac-investment-schedule-7-fee-reports" target="_blank" rel="noopener">PERAC compiled investment returns (SRC-502)</a></td><td>Annual, typically late spring for the prior calendar year</td><td>Figure 3 and the table's 2023 and 10-year return columns</td><td>Calendar 2023 (one-year, five-year, ten-year, since inception)</td><td>2024 Investment Report, printed May 30, 2025; next research pass</td></tr>
+          <tr class="grp"><td colspan="5">Office of the Comptroller</td></tr>
+          <tr><td class="src"><a href="https://cthrupensions.mass.gov/" target="_blank" rel="noopener">CTHRU State and Teachers Retirement Benefits (SRC-503)</a></td><td>Annual named-retiree file for MSERS and MTRS</td><td>Figure 4, the retiree payroll headline, the largest pensions, and the department ranking</td><td>Calendar years 2011 through 2024</td><td>2025 file, when CTHRU posts it</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+
+  <details class="simplify">
+    <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
+    <div class="dt-body">
+      <p class="body-p">This tool publishes board funded status and returns, and the compiled State and Teacher retiree payroll. It does not look up a named retiree beyond the published top pensions, cover local-board retiree names, estimate a future benefit, or forecast funded status. PERAC's 2024 Investment Report and the July 2026 funded-ratios table are newer than this ledger and are flagged pending. Questions on excluded subjects asked through the DataLabs front door are declined rather than improvised.</p>
+    </div>
+  </details>
+</section>
+
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+<!-- DATA:BEGIN pensions-footer-meta (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <div>Massachusetts Public Pensions &middot; Version 1.0 &middot; Board valuations through January 1, 2023 &middot; Retiree payroll through 2024 &middot; Revised August 15, 2026</div>
+<!-- DATA:END pensions-footer-meta -->
+    <div>3 sources active; see the register above</div>
+  </div>
+
+  <div class="disclaimer">
+    <div><b>About this tool.</b> Massachusetts Public Pensions is a Pioneer Institute DataLabs research tool, published and versioned. It is the successor to the Performance and State &amp; Teacher Retirees dashboards previously hosted on MA DataLabs. Corrections and data refreshes are logged, and the version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
+    <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead; agencies revise their filings and figures here are point-in-time. This tool and its contents are provided as is, without warranty of any kind, express or implied, including accuracy, completeness, or fitness for a particular purpose. Nothing here is advice about a retirement decision, a benefit estimate, or the funding of a retirement board.</div>
+    <div><b>Verified figures.</b> Board funded ratios are PERAC's published ratios, checked by recomputing 1 minus unfunded liability over actuarial accrued liability (SRC-501). Investment returns cite the compiled PERAC returns file for calendar 2023 (SRC-502). State and Teacher retiree totals are summed from the CTHRU named-retiree file (SRC-503). CTHRU headcounts are not the same cell as a PERAC actuarial recipient count, which also includes survivors.</div>
+    <div><b>Asking questions.</b> The DataLabs front door answers questions about this data in your own words when the ask box is on. Answers draw only from the figures published here, cite a source id on every figure, label derived numbers, and decline what the data cannot support; the underlying figures, not the prose, are the citable record.</div>
+  </div>
+  <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+/* DATA:BEGIN pensions-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
+const DL05={"as_of":"2024-12","board_valuation_through":2023,"returns_year":2023,"retiree_year":2024,"revised":"Aug 15, 2026","version":"1.0","entities":{"greater-lawrence":"Greater Lawrence Sanitary District","winthrop":"Winthrop","watertown":"Watertown","quincy":"Quincy","minuteman":"Minuteman Regional School District","milton":"Milton","leominster":"Leominster","massport":"MassPort","andover":"Andover","berkshire-county":"Berkshire County","shrewsbury":"Shrewsbury","brockton":"Brockton","concord":"Concord","mhfa":"Mass Housing Finance Agency (MHFA)","winchester":"Winchester","saugus":"Saugus","chicopee":"Chicopee","cambridge":"Cambridge","wellesley":"Wellesley","dedham":"Dedham","easthampton":"Easthampton","hull":"Hull","mwra":"Mass Water Resources Authority (MWRA)","stoneham":"Stoneham","chelsea":"Chelsea","montague":"Montague","blue-hills":"Blue Hills Regional School","dukes-county":"Dukes County","north-adams":"North Adams","northbridge":"Northbridge","marlborough":"Marlborough","fairhaven":"Fairhaven","boston-city":"Boston City","lexington":"Lexington","framingham":"Framingham","maynard":"Maynard","malden":"Malden","taunton":"Taunton","hingham":"Hingham","westfield":"Westfield","franklin-regional":"Franklin Regional","reading":"Reading","somerville":"Somerville","north-attleboro":"North Attleboro","holyoke":"Holyoke","northampton":"Northampton","clinton":"Clinton","norwood":"Norwood","everett":"Everett","southbridge":"Southbridge","needham":"Needham","wakefield":"Wakefield","worcester":"Worcester","newburyport":"Newburyport","west-springfield":"West Springfield","braintree":"Braintree","norfolk-county":"Norfolk County","beverly":"Beverly","marblehead":"Marblehead","falmouth":"Falmouth","state":"State Retirement Board","hampshire-county":"Hampshire County","weymouth":"Weymouth","adams":"Adams","revere":"Revere","belmont":"Belmont","natick":"Natick","milford":"Milford","swampscott":"Swampscott","attleboro":"Attleboro","brookline":"Brookline","plymouth-county":"Plymouth County","salem":"Salem","waltham":"Waltham","woburn":"Woburn","webster":"Webster","greenfield":"Greenfield","methuen":"Methuen","medford":"Medford","bristol-county":"Bristol County","barnstable-county":"Barnstable County","lynn":"Lynn","melrose":"Melrose","arlington":"Arlington","danvers":"Danvers","lowell":"Lowell","haverhill":"Haverhill","gardner":"Gardner","lawrence":"Lawrence","newton":"Newton","amesbury":"Amesbury","essex-regional":"Essex Regional","mtrs":"Mass Teachers (MTRS)","plymouth":"Plymouth","peabody":"Peabody","gloucester":"Gloucester","pittsfield":"Pittsfield","fitchburg":"Fitchburg","hampden-county":"Hampden County","middlesex-county":"Middlesex County","new-bedford":"New Bedford","fall-river":"Fall River","worcester-regional":"Worcester Regional","boston-teachers":"Boston Teachers","springfield":"Springfield"},"latest":{"n_boards":105,"valuation_years":{"2023":41,"2022":63,"2021":1},"state":{"id":"state","name":"State Retirement Board","funded_pct":71.3,"valuation_year":2023,"ual":14100000000,"aal":49128919861,"active":87554,"retired":69167,"return_1y_pct":11.66,"return_10y_pct":8.01,"rank":61},"mtrs":{"id":"mtrs","name":"Mass Teachers (MTRS)","funded_pct":58.7,"valuation_year":2023,"ual":25700000000,"aal":62227602906,"active":101286,"retired":70769,"return_1y_pct":11.66,"return_10y_pct":8.0,"rank":93},"boston_teachers":{"id":"boston-teachers","name":"Boston Teachers","funded_pct":47.7,"valuation_year":2023,"ual":2400000000,"rank":104},"highest":{"id":"greater-lawrence","name":"Greater Lawrence Sanitary District","funded_pct":106.9,"valuation_year":2023},"lowest":{"id":"springfield","name":"Springfield","funded_pct":35.6,"valuation_year":2022},"weighted_funded_pct":66.4,"total_ual":57477583000,"total_aal":171045566902,"n_at_or_above_100":4,"n_below_60":13,"median_return_1y_pct":11.56,"retirees":{"year":2024,"count":134205,"annual_amount":6407446500.96,"avg_amount":47743.72,"msers_count":65015,"msers_annual_amount":2882478581.88,"mtrs_count":69190,"mtrs_annual_amount":3524967919.08}},"derived":{"n_boards":105,"n_at_or_above_100":4,"n_below_60":13,"highest_five":[{"id":"greater-lawrence","name":"Greater Lawrence Sanitary District","funded_pct":106.9},{"id":"winthrop","name":"Winthrop","funded_pct":102.1},{"id":"watertown","name":"Watertown","funded_pct":101.3},{"id":"quincy","name":"Quincy","funded_pct":101.2},{"id":"minuteman","name":"Minuteman Regional School District","funded_pct":99.7}],"lowest_five":[{"id":"springfield","name":"Springfield","funded_pct":35.6},{"id":"boston-teachers","name":"Boston Teachers","funded_pct":47.7},{"id":"worcester-regional","name":"Worcester Regional","funded_pct":50.9},{"id":"fall-river","name":"Fall River","funded_pct":50.9},{"id":"new-bedford","name":"New Bedford","funded_pct":52.2}],"state_funded_pct":71.3,"mtrs_funded_pct":58.7,"weighted_funded_pct":66.4,"state_rank":61,"mtrs_rank":93,"retiree_count":134205,"retiree_annual_amount":6407446500.96,"retiree_avg_amount":47743.72,"largest_pension":{"name":"Manning, Thomas","system":"MSERS","annual_amount":349515.72}},"boards":[{"id":"greater-lawrence","name":"Greater Lawrence Sanitary District","valuation_year":2023,"funded_pct":106.9,"ual":-1600000,"aal":23188406,"active":36,"retired":35,"return_1y_pct":22.88,"return_5y_pct":12.27,"return_10y_pct":9.19,"rank":1,"n":105},{"id":"winthrop","name":"Winthrop","valuation_year":2023,"funded_pct":102.1,"ual":-2100000,"aal":100000000,"active":265,"retired":194,"return_1y_pct":11.56,"return_5y_pct":9.5,"return_10y_pct":7.98,"rank":2,"n":105},{"id":"watertown","name":"Watertown","valuation_year":2023,"funded_pct":101.3,"ual":-3500000,"aal":269230769,"active":551,"retired":430,"return_1y_pct":13.92,"return_5y_pct":9.84,"return_10y_pct":7.63,"rank":3,"n":105},{"id":"quincy","name":"Quincy","valuation_year":2022,"funded_pct":101.2,"ual":-10100000,"aal":841666667,"active":1575,"retired":1496,"return_1y_pct":10.27,"return_5y_pct":8.6,"return_10y_pct":6.78,"rank":4,"n":105},{"id":"minuteman","name":"Minuteman Regional School District","valuation_year":2023,"funded_pct":99.7,"ual":43000,"aal":14333333,"active":34,"retired":41,"return_1y_pct":11.33,"return_5y_pct":9.26,"return_10y_pct":7.76,"rank":5,"n":105},{"id":"milton","name":"Milton","valuation_year":2023,"funded_pct":98.4,"ual":3000000,"aal":187500000,"active":401,"retired":282,"return_1y_pct":11.52,"return_5y_pct":9.43,"return_10y_pct":7.93,"rank":6,"n":105},{"id":"leominster","name":"Leominster","valuation_year":2023,"funded_pct":97.9,"ual":5600000,"aal":266666667,"active":675,"retired":439,"return_1y_pct":11.64,"return_5y_pct":9.63,"return_10y_pct":7.79,"rank":7,"n":105},{"id":"massport","name":"MassPort","valuation_year":2023,"funded_pct":96.8,"ual":27900000,"aal":871875000,"active":1145,"retired":996,"return_1y_pct":12.86,"return_5y_pct":9.51,"return_10y_pct":7.34,"rank":8,"n":105},{"id":"andover","name":"Andover","valuation_year":2023,"funded_pct":95.6,"ual":17000000,"aal":386363636,"active":708,"retired":572,"return_1y_pct":11.12,"return_5y_pct":10.13,"return_10y_pct":8.11,"rank":9,"n":105},{"id":"berkshire-county","name":"Berkshire County","valuation_year":2023,"funded_pct":95.4,"ual":15900000,"aal":345652174,"active":1204,"retired":900,"return_1y_pct":11.48,"return_5y_pct":9.33,"return_10y_pct":7.89,"rank":10,"n":105},{"id":"shrewsbury","name":"Shrewsbury","valuation_year":2023,"funded_pct":95.4,"ual":8000000,"aal":173913043,"active":443,"retired":333,"return_1y_pct":12.78,"return_5y_pct":10.17,"return_10y_pct":8.37,"rank":11,"n":105},{"id":"brockton","name":"Brockton","valuation_year":2022,"funded_pct":94.5,"ual":46100000,"aal":838181818,"active":1948,"retired":1319,"return_1y_pct":9.78,"return_5y_pct":9.2,"return_10y_pct":6.87,"rank":12,"n":105},{"id":"concord","name":"Concord","valuation_year":2022,"funded_pct":93.4,"ual":15000000,"aal":227272727,"active":567,"retired":351,"return_1y_pct":11.23,"return_5y_pct":8.34,"return_10y_pct":7.13,"rank":13,"n":105},{"id":"mhfa","name":"Mass Housing Finance Agency (MHFA)","valuation_year":2023,"funded_pct":93.3,"ual":15900000,"aal":237313433,"active":316,"retired":210,"return_1y_pct":11.62,"return_5y_pct":10.14,"return_10y_pct":7.33,"rank":14,"n":105},{"id":"winchester","name":"Winchester","valuation_year":2023,"funded_pct":92.2,"ual":14000000,"aal":179487179,"active":399,"retired":280,"return_1y_pct":11.63,"return_5y_pct":9.55,"return_10y_pct":7.49,"rank":15,"n":105},{"id":"saugus","name":"Saugus","valuation_year":2023,"funded_pct":91.2,"ual":14600000,"aal":165909091,"active":321,"retired":305,"return_1y_pct":11.04,"return_5y_pct":9.4,"return_10y_pct":7.93,"rank":16,"n":105},{"id":"chicopee","name":"Chicopee","valuation_year":2023,"funded_pct":90.9,"ual":44700000,"aal":491208791,"active":1214,"retired":931,"return_1y_pct":12.85,"return_5y_pct":9.04,"return_10y_pct":7.48,"rank":17,"n":105},{"id":"cambridge","name":"Cambridge","valuation_year":2022,"funded_pct":90.6,"ual":175400000,"aal":1865957447,"active":3156,"retired":2306,"return_1y_pct":10.66,"return_5y_pct":8.94,"return_10y_pct":7.29,"rank":18,"n":105},{"id":"wellesley","name":"Wellesley","valuation_year":2023,"funded_pct":90.3,"ual":29800000,"aal":307216495,"active":656,"retired":436,"return_1y_pct":11.64,"return_5y_pct":9.48,"return_10y_pct":7.98,"rank":19,"n":105},{"id":"dedham","name":"Dedham","valuation_year":2022,"funded_pct":90.0,"ual":20200000,"aal":202000000,"active":476,"retired":326,"return_1y_pct":11.65,"return_5y_pct":9.53,"return_10y_pct":8.02,"rank":20,"n":105},{"id":"easthampton","name":"Easthampton","valuation_year":2022,"funded_pct":88.5,"ual":10200000,"aal":88695652,"active":258,"retired":188,"return_1y_pct":11.55,"return_5y_pct":9.46,"return_10y_pct":7.96,"rank":21,"n":105},{"id":"hull","name":"Hull","valuation_year":2022,"funded_pct":88.5,"ual":9600000,"aal":83478261,"active":166,"retired":152,"return_1y_pct":10.87,"return_5y_pct":9.35,"return_10y_pct":7.93,"rank":22,"n":105},{"id":"mwra","name":"Mass Water Resources Authority (MWRA)","valuation_year":2023,"funded_pct":88.4,"ual":91100000,"aal":785344828,"active":1045,"retired":797,"return_1y_pct":9.9,"return_5y_pct":7.74,"return_10y_pct":6.32,"rank":23,"n":105},{"id":"stoneham","name":"Stoneham","valuation_year":2022,"funded_pct":88.4,"ual":15400000,"aal":132758621,"active":309,"retired":291,"return_1y_pct":10.9,"return_5y_pct":8.88,"return_10y_pct":7.47,"rank":24,"n":105},{"id":"chelsea","name":"Chelsea","valuation_year":2023,"funded_pct":87.0,"ual":39100000,"aal":300769231,"active":793,"retired":429,"return_1y_pct":11.58,"return_5y_pct":9.44,"return_10y_pct":7.96,"rank":25,"n":105},{"id":"montague","name":"Montague","valuation_year":2022,"funded_pct":87.0,"ual":8400000,"aal":64615385,"active":194,"retired":164,"return_1y_pct":11.53,"return_5y_pct":9.42,"return_10y_pct":7.91,"rank":26,"n":105},{"id":"blue-hills","name":"Blue Hills Regional School","valuation_year":2022,"funded_pct":85.3,"ual":2500000,"aal":17006803,"active":48,"retired":47,"return_1y_pct":11.51,"return_5y_pct":9.32,"return_10y_pct":7.85,"rank":27,"n":105},{"id":"dukes-county","name":"Dukes County","valuation_year":2022,"funded_pct":85.3,"ual":37600000,"aal":255782313,"active":665,"retired":398,"return_1y_pct":14.44,"return_5y_pct":10.02,"return_10y_pct":8.77,"rank":28,"n":105},{"id":"north-adams","name":"North Adams","valuation_year":2023,"funded_pct":84.8,"ual":14500000,"aal":95394737,"active":318,"retired":251,"return_1y_pct":14.93,"return_5y_pct":6.84,"return_10y_pct":7.01,"rank":29,"n":105},{"id":"northbridge","name":"Northbridge","valuation_year":2022,"funded_pct":84.2,"ual":9200000,"aal":58227848,"active":218,"retired":115,"return_1y_pct":11.69,"return_5y_pct":9.56,"return_10y_pct":8.03,"rank":30,"n":105},{"id":"marlborough","name":"Marlborough","valuation_year":2023,"funded_pct":84.1,"ual":43000000,"aal":270440252,"active":610,"retired":499,"return_1y_pct":13.54,"return_5y_pct":9.0,"return_10y_pct":6.68,"rank":31,"n":105},{"id":"fairhaven","name":"Fairhaven","valuation_year":2022,"funded_pct":83.7,"ual":16400000,"aal":100613497,"active":259,"retired":204,"return_1y_pct":11.56,"return_5y_pct":9.47,"return_10y_pct":7.95,"rank":32,"n":105},{"id":"boston-city","name":"Boston City","valuation_year":2022,"funded_pct":82.4,"ual":1400000000,"aal":7954545455,"active":14581,"retired":9898,"return_1y_pct":11.78,"return_5y_pct":8.22,"return_10y_pct":6.38,"rank":33,"n":105},{"id":"lexington","name":"Lexington","valuation_year":2023,"funded_pct":82.3,"ual":47700000,"aal":269491525,"active":747,"retired":466,"return_1y_pct":16.55,"return_5y_pct":9.07,"return_10y_pct":7.41,"rank":34,"n":105},{"id":"framingham","name":"Framingham","valuation_year":2022,"funded_pct":80.9,"ual":98400000,"aal":515183246,"active":1271,"retired":901,"return_1y_pct":11.66,"return_5y_pct":9.38,"return_10y_pct":7.92,"rank":35,"n":105},{"id":"maynard","name":"Maynard","valuation_year":2023,"funded_pct":80.3,"ual":14700000,"aal":74619289,"active":189,"retired":136,"return_1y_pct":13.38,"return_5y_pct":9.53,"return_10y_pct":7.51,"rank":36,"n":105},{"id":"malden","name":"Malden","valuation_year":2022,"funded_pct":80.2,"ual":81100000,"aal":409595960,"active":775,"retired":706,"return_1y_pct":13.72,"return_5y_pct":6.53,"return_10y_pct":6.69,"rank":37,"n":105},{"id":"taunton","name":"Taunton","valuation_year":2022,"funded_pct":79.3,"ual":107400000,"aal":518840580,"active":1054,"retired":975,"return_1y_pct":11.94,"return_5y_pct":9.23,"return_10y_pct":7.33,"rank":38,"n":105},{"id":"hingham","name":"Hingham","valuation_year":2022,"funded_pct":78.8,"ual":42200000,"aal":199056604,"active":610,"retired":359,"return_1y_pct":11.52,"return_5y_pct":9.46,"return_10y_pct":7.77,"rank":39,"n":105},{"id":"westfield","name":"Westfield","valuation_year":2023,"funded_pct":78.4,"ual":82600000,"aal":382407407,"active":831,"retired":762,"return_1y_pct":12.17,"return_5y_pct":10.3,"return_10y_pct":8.33,"rank":40,"n":105},{"id":"franklin-regional","name":"Franklin Regional","valuation_year":2022,"funded_pct":78.3,"ual":50900000,"aal":234562212,"active":993,"retired":675,"return_1y_pct":12.1,"return_5y_pct":9.51,"return_10y_pct":7.74,"rank":41,"n":105},{"id":"reading","name":"Reading","valuation_year":2023,"funded_pct":77.5,"ual":53100000,"aal":236000000,"active":366,"retired":384,"return_1y_pct":11.44,"return_5y_pct":9.44,"return_10y_pct":7.99,"rank":42,"n":105},{"id":"somerville","name":"Somerville","valuation_year":2022,"funded_pct":77.3,"ual":119500000,"aal":526431718,"active":1266,"retired":958,"return_1y_pct":21.79,"return_5y_pct":12.39,"return_10y_pct":8.74,"rank":43,"n":105},{"id":"north-attleboro","name":"North Attleboro","valuation_year":2022,"funded_pct":77.2,"ual":44400000,"aal":194736842,"active":509,"retired":325,"return_1y_pct":16.67,"return_5y_pct":10.09,"return_10y_pct":7.98,"rank":44,"n":105},{"id":"holyoke","name":"Holyoke","valuation_year":2022,"funded_pct":76.8,"ual":113800000,"aal":490517241,"active":1168,"retired":980,"return_1y_pct":8.71,"return_5y_pct":10.47,"return_10y_pct":8.33,"rank":45,"n":105},{"id":"northampton","name":"Northampton","valuation_year":2022,"funded_pct":76.4,"ual":51400000,"aal":217796610,"active":682,"retired":471,"return_1y_pct":14.15,"return_5y_pct":6.64,"return_10y_pct":6.99,"rank":46,"n":105},{"id":"clinton","name":"Clinton","valuation_year":2023,"funded_pct":76.3,"ual":22300000,"aal":94092827,"active":281,"retired":150,"return_1y_pct":11.2,"return_5y_pct":9.69,"return_10y_pct":8.11,"rank":47,"n":105},{"id":"norwood","name":"Norwood","valuation_year":2022,"funded_pct":76.3,"ual":63000000,"aal":265822785,"active":650,"retired":439,"return_1y_pct":10.4,"return_5y_pct":11.61,"return_10y_pct":8.72,"rank":48,"n":105},{"id":"everett","name":"Everett","valuation_year":2022,"funded_pct":76.1,"ual":75200000,"aal":314644351,"active":716,"retired":512,"return_1y_pct":11.72,"return_5y_pct":9.54,"return_10y_pct":8.04,"rank":49,"n":105},{"id":"southbridge","name":"Southbridge","valuation_year":2022,"funded_pct":75.8,"ual":24100000,"aal":99586777,"active":398,"retired":187,"return_1y_pct":11.77,"return_5y_pct":9.46,"return_10y_pct":7.97,"rank":50,"n":105},{"id":"needham","name":"Needham","valuation_year":2023,"funded_pct":74.5,"ual":77000000,"aal":301960784,"active":749,"retired":481,"return_1y_pct":11.21,"return_5y_pct":9.32,"return_10y_pct":7.87,"rank":51,"n":105},{"id":"wakefield","name":"Wakefield","valuation_year":2022,"funded_pct":73.7,"ual":56100000,"aal":213307985,"active":462,"retired":372,"return_1y_pct":11.54,"return_5y_pct":9.47,"return_10y_pct":7.97,"rank":52,"n":105},{"id":"worcester","name":"Worcester","valuation_year":2023,"funded_pct":73.6,"ual":448900000,"aal":1700378788,"active":3630,"retired":2761,"return_1y_pct":11.17,"return_5y_pct":10.16,"return_10y_pct":7.57,"rank":53,"n":105},{"id":"newburyport","name":"Newburyport","valuation_year":2022,"funded_pct":73.5,"ual":40400000,"aal":152452830,"active":370,"retired":267,"return_1y_pct":11.67,"return_5y_pct":9.52,"return_10y_pct":7.88,"rank":54,"n":105},{"id":"west-springfield","name":"West Springfield","valuation_year":2022,"funded_pct":72.1,"ual":60700000,"aal":217562724,"active":625,"retired":452,"return_1y_pct":13.78,"return_5y_pct":6.46,"return_10y_pct":6.64,"rank":55,"n":105},{"id":"braintree","name":"Braintree","valuation_year":2022,"funded_pct":71.9,"ual":102500000,"aal":364768683,"active":790,"retired":568,"return_1y_pct":13.71,"return_5y_pct":9.67,"return_10y_pct":7.26,"rank":56,"n":105},{"id":"norfolk-county","name":"Norfolk County","valuation_year":2022,"funded_pct":71.8,"ual":505400000,"aal":1792198582,"active":5801,"retired":3717,"return_1y_pct":10.43,"return_5y_pct":8.9,"return_10y_pct":6.84,"rank":57,"n":105},{"id":"beverly","name":"Beverly","valuation_year":2022,"funded_pct":71.4,"ual":70700000,"aal":247202797,"active":596,"retired":476,"return_1y_pct":11.53,"return_5y_pct":9.47,"return_10y_pct":7.96,"rank":58,"n":105},{"id":"marblehead","name":"Marblehead","valuation_year":2022,"funded_pct":71.4,"ual":48300000,"aal":168881119,"active":378,"retired":346,"return_1y_pct":11.7,"return_5y_pct":9.45,"return_10y_pct":7.96,"rank":59,"n":105},{"id":"falmouth","name":"Falmouth","valuation_year":2022,"funded_pct":71.3,"ual":72700000,"aal":253310105,"active":644,"retired":435,"return_1y_pct":11.8,"return_5y_pct":9.59,"return_10y_pct":7.36,"rank":60,"n":105},{"id":"state","name":"State Retirement Board","valuation_year":2023,"funded_pct":71.3,"ual":14100000000,"aal":49128919861,"active":87554,"retired":69167,"return_1y_pct":11.66,"return_5y_pct":9.53,"return_10y_pct":8.01,"rank":61,"n":105},{"id":"hampshire-county","name":"Hampshire County","valuation_year":2022,"funded_pct":70.7,"ual":177400000,"aal":605460751,"active":1981,"retired":1392,"return_1y_pct":10.66,"return_5y_pct":9.14,"return_10y_pct":7.32,"rank":62,"n":105},{"id":"weymouth","name":"Weymouth","valuation_year":2022,"funded_pct":70.7,"ual":104300000,"aal":355972696,"active":878,"retired":659,"return_1y_pct":13.21,"return_5y_pct":9.86,"return_10y_pct":7.46,"rank":63,"n":105},{"id":"adams","name":"Adams","valuation_year":2022,"funded_pct":70.6,"ual":16900000,"aal":57482993,"active":168,"retired":177,"return_1y_pct":11.49,"return_5y_pct":8.87,"return_10y_pct":5.69,"rank":64,"n":105},{"id":"revere","name":"Revere","valuation_year":2023,"funded_pct":70.5,"ual":98100000,"aal":332542373,"active":666,"retired":502,"return_1y_pct":11.41,"return_5y_pct":9.33,"return_10y_pct":7.85,"rank":65,"n":105},{"id":"belmont","name":"Belmont","valuation_year":2022,"funded_pct":70.4,"ual":62100000,"aal":209797297,"active":460,"retired":357,"return_1y_pct":11.08,"return_5y_pct":9.23,"return_10y_pct":7.38,"rank":66,"n":105},{"id":"natick","name":"Natick","valuation_year":2021,"funded_pct":70.4,"ual":75400000,"aal":254729730,"active":635,"retired":414,"return_1y_pct":16.92,"return_5y_pct":11.11,"return_10y_pct":8.5,"rank":67,"n":105},{"id":"milford","name":"Milford","valuation_year":2023,"funded_pct":70.3,"ual":54800000,"aal":184511785,"active":526,"retired":342,"return_1y_pct":11.71,"return_5y_pct":9.42,"return_10y_pct":7.93,"rank":68,"n":105},{"id":"swampscott","name":"Swampscott","valuation_year":2023,"funded_pct":70.1,"ual":35500000,"aal":118729097,"active":243,"retired":240,"return_1y_pct":8.98,"return_5y_pct":9.49,"return_10y_pct":7.84,"rank":69,"n":105},{"id":"attleboro","name":"Attleboro","valuation_year":2022,"funded_pct":69.3,"ual":85100000,"aal":277198697,"active":712,"retired":485,"return_1y_pct":13.22,"return_5y_pct":10.17,"return_10y_pct":7.55,"rank":70,"n":105},{"id":"brookline","name":"Brookline","valuation_year":2022,"funded_pct":68.8,"ual":188200000,"aal":603205128,"active":1347,"retired":891,"return_1y_pct":11.22,"return_5y_pct":10.03,"return_10y_pct":7.92,"rank":71,"n":105},{"id":"plymouth-county","name":"Plymouth County","valuation_year":2022,"funded_pct":68.8,"ual":594400000,"aal":1905128205,"active":5824,"retired":4546,"return_1y_pct":9.44,"return_5y_pct":10.09,"return_10y_pct":7.25,"rank":72,"n":105},{"id":"salem","name":"Salem","valuation_year":2022,"funded_pct":67.2,"ual":120000000,"aal":365853659,"active":919,"retired":636,"return_1y_pct":11.24,"return_5y_pct":9.42,"return_10y_pct":7.84,"rank":73,"n":105},{"id":"waltham","name":"Waltham","valuation_year":2023,"funded_pct":67.0,"ual":164900000,"aal":499696970,"active":915,"retired":818,"return_1y_pct":14.42,"return_5y_pct":9.63,"return_10y_pct":7.72,"rank":74,"n":105},{"id":"woburn","name":"Woburn","valuation_year":2022,"funded_pct":66.8,"ual":90300000,"aal":271987952,"active":529,"retired":492,"return_1y_pct":11.35,"return_5y_pct":10.14,"return_10y_pct":7.68,"rank":75,"n":105},{"id":"webster","name":"Webster","valuation_year":2022,"funded_pct":66.7,"ual":26600000,"aal":79879880,"active":275,"retired":150,"return_1y_pct":11.61,"return_5y_pct":8.76,"return_10y_pct":6.9,"rank":76,"n":105},{"id":"greenfield","name":"Greenfield","valuation_year":2023,"funded_pct":66.6,"ual":48200000,"aal":144311377,"active":437,"retired":313,"return_1y_pct":11.55,"return_5y_pct":9.52,"return_10y_pct":8.03,"rank":77,"n":105},{"id":"methuen","name":"Methuen","valuation_year":2022,"funded_pct":66.3,"ual":109500000,"aal":324925816,"active":664,"retired":478,"return_1y_pct":11.67,"return_5y_pct":9.53,"return_10y_pct":8.21,"rank":78,"n":105},{"id":"medford","name":"Medford","valuation_year":2022,"funded_pct":66.2,"ual":117600000,"aal":347928994,"active":742,"retired":620,"return_1y_pct":10.83,"return_5y_pct":8.78,"return_10y_pct":6.56,"rank":79,"n":105},{"id":"bristol-county","name":"Bristol County","valuation_year":2022,"funded_pct":66.1,"ual":440900000,"aal":1300589971,"active":3349,"retired":2743,"return_1y_pct":9.7,"return_5y_pct":8.98,"return_10y_pct":7.05,"rank":80,"n":105},{"id":"barnstable-county","name":"Barnstable County","valuation_year":2022,"funded_pct":65.8,"ual":755200000,"aal":2208187135,"active":4790,"retired":3510,"return_1y_pct":11.66,"return_5y_pct":9.64,"return_10y_pct":8.06,"rank":81,"n":105},{"id":"lynn","name":"Lynn","valuation_year":2023,"funded_pct":65.5,"ual":272400000,"aal":789565217,"active":1520,"retired":1188,"return_1y_pct":10.5,"return_5y_pct":9.27,"return_10y_pct":7.88,"rank":82,"n":105},{"id":"melrose","name":"Melrose","valuation_year":2023,"funded_pct":65.2,"ual":61300000,"aal":176149425,"active":456,"retired":396,"return_1y_pct":11.46,"return_5y_pct":9.08,"return_10y_pct":7.59,"rank":83,"n":105},{"id":"arlington","name":"Arlington","valuation_year":2023,"funded_pct":64.7,"ual":118100000,"aal":334560907,"active":802,"retired":619,"return_1y_pct":11.53,"return_5y_pct":9.21,"return_10y_pct":7.7,"rank":84,"n":105},{"id":"danvers","name":"Danvers","valuation_year":2022,"funded_pct":64.1,"ual":8240000,"aal":22952646,"active":466,"retired":418,"return_1y_pct":17.53,"return_5y_pct":9.05,"return_10y_pct":6.5,"rank":85,"n":105},{"id":"lowell","name":"Lowell","valuation_year":2023,"funded_pct":63.6,"ual":296100000,"aal":813461538,"active":1859,"retired":1341,"return_1y_pct":11.37,"return_5y_pct":9.2,"return_10y_pct":7.72,"rank":86,"n":105},{"id":"haverhill","name":"Haverhill","valuation_year":2022,"funded_pct":63.3,"ual":153800000,"aal":419073569,"active":1063,"retired":1064,"return_1y_pct":10.53,"return_5y_pct":10.03,"return_10y_pct":7.95,"rank":87,"n":105},{"id":"gardner","name":"Gardner","valuation_year":2023,"funded_pct":62.2,"ual":42000000,"aal":111111111,"active":323,"retired":271,"return_1y_pct":11.73,"return_5y_pct":9.4,"return_10y_pct":7.92,"rank":88,"n":105},{"id":"lawrence","name":"Lawrence","valuation_year":2022,"funded_pct":61.2,"ual":194200000,"aal":500515464,"active":1554,"retired":912,"return_1y_pct":11.54,"return_5y_pct":9.39,"return_10y_pct":7.91,"rank":89,"n":105},{"id":"newton","name":"Newton","valuation_year":2022,"funded_pct":61.1,"ual":301200000,"aal":774293059,"active":1555,"retired":1334,"return_1y_pct":11.47,"return_5y_pct":9.24,"return_10y_pct":7.85,"rank":90,"n":105},{"id":"amesbury","name":"Amesbury","valuation_year":2022,"funded_pct":60.9,"ual":45200000,"aal":115601023,"active":290,"retired":267,"return_1y_pct":11.22,"return_5y_pct":9.32,"return_10y_pct":7.88,"rank":91,"n":105},{"id":"essex-regional","name":"Essex Regional","valuation_year":2022,"funded_pct":60.3,"ual":417800000,"aal":1052392947,"active":2933,"retired":2000,"return_1y_pct":11.52,"return_5y_pct":9.34,"return_10y_pct":8.01,"rank":92,"n":105},{"id":"mtrs","name":"Mass Teachers (MTRS)","valuation_year":2023,"funded_pct":58.7,"ual":25700000000,"aal":62227602906,"active":101286,"retired":70769,"return_1y_pct":11.66,"return_5y_pct":9.52,"return_10y_pct":8.0,"rank":93,"n":105},{"id":"plymouth","name":"Plymouth","valuation_year":2022,"funded_pct":58.4,"ual":165200000,"aal":397115385,"active":901,"retired":817,"return_1y_pct":13.08,"return_5y_pct":9.96,"return_10y_pct":7.96,"rank":94,"n":105},{"id":"peabody","name":"Peabody","valuation_year":2022,"funded_pct":56.4,"ual":150400000,"aal":344954128,"active":835,"retired":769,"return_1y_pct":11.46,"return_5y_pct":9.46,"return_10y_pct":7.95,"rank":95,"n":105},{"id":"gloucester","name":"Gloucester","valuation_year":2022,"funded_pct":56.3,"ual":112600000,"aal":257665904,"active":555,"retired":491,"return_1y_pct":11.67,"return_5y_pct":9.52,"return_10y_pct":8.02,"rank":96,"n":105},{"id":"pittsfield","name":"Pittsfield","valuation_year":2023,"funded_pct":55.9,"ual":146000000,"aal":331065760,"active":869,"retired":804,"return_1y_pct":11.1,"return_5y_pct":9.02,"return_10y_pct":7.71,"rank":97,"n":105},{"id":"fitchburg","name":"Fitchburg","valuation_year":2022,"funded_pct":55.3,"ual":132400000,"aal":296196868,"active":643,"retired":601,"return_1y_pct":11.66,"return_5y_pct":9.41,"return_10y_pct":7.86,"rank":98,"n":105},{"id":"hampden-county","name":"Hampden County","valuation_year":2022,"funded_pct":54.7,"ual":401700000,"aal":886754967,"active":2824,"retired":1952,"return_1y_pct":11.77,"return_5y_pct":9.26,"return_10y_pct":7.85,"rank":99,"n":105},{"id":"middlesex-county","name":"Middlesex County","valuation_year":2022,"funded_pct":54.5,"ual":1600000000,"aal":3516483516,"active":9432,"retired":6284,"return_1y_pct":11.19,"return_5y_pct":9.12,"return_10y_pct":7.62,"rank":100,"n":105},{"id":"new-bedford","name":"New Bedford","valuation_year":2022,"funded_pct":52.2,"ual":389500000,"aal":814853556,"active":2217,"retired":1813,"return_1y_pct":12.08,"return_5y_pct":9.94,"return_10y_pct":7.84,"rank":101,"n":105},{"id":"fall-river","name":"Fall River","valuation_year":2023,"funded_pct":50.9,"ual":364400000,"aal":742158859,"active":1900,"retired":1523,"return_1y_pct":11.38,"return_5y_pct":9.25,"return_10y_pct":7.78,"rank":102,"n":105},{"id":"worcester-regional","name":"Worcester Regional","valuation_year":2022,"funded_pct":50.9,"ual":933900000,"aal":1902036660,"active":7121,"retired":4112,"return_1y_pct":11.77,"return_5y_pct":9.46,"return_10y_pct":7.91,"rank":103,"n":105},{"id":"boston-teachers","name":"Boston Teachers","valuation_year":2023,"funded_pct":47.7,"ual":2400000000,"aal":4588910134,"active":6618,"retired":4789,"return_1y_pct":11.26,"return_5y_pct":9.27,"return_10y_pct":7.86,"rank":104,"n":105},{"id":"springfield","name":"Springfield","valuation_year":2022,"funded_pct":35.6,"ual":898400000,"aal":1395031056,"active":3327,"retired":2812,"return_1y_pct":11.82,"return_5y_pct":9.66,"return_10y_pct":8.17,"rank":105,"n":105}],"funded_history":{"adams":[{"y":2004,"v":84.6},{"y":2006,"v":90.7},{"y":2008,"v":90.4},{"y":2010,"v":81.2},{"y":2012,"v":80.9},{"y":2014,"v":76.6},{"y":2016,"v":71.1},{"y":2018,"v":72.1},{"y":2020,"v":67.4},{"y":2022,"v":70.6}],"amesbury":[{"y":2004,"v":58.5},{"y":2006,"v":56.3},{"y":2008,"v":65.3},{"y":2010,"v":51.9},{"y":2012,"v":49.8},{"y":2014,"v":53.6},{"y":2016,"v":56.6},{"y":2018,"v":58.7},{"y":2020,"v":57.2},{"y":2022,"v":60.9}],"andover":[{"y":2004,"v":78.1},{"y":2007,"v":73.0},{"y":2010,"v":55.1},{"y":2012,"v":49.7},{"y":2014,"v":48.3},{"y":2016,"v":47.9},{"y":2018,"v":48.6},{"y":2020,"v":47.3},{"y":2021,"v":46.9},{"y":2023,"v":95.6}],"arlington":[{"y":2005,"v":65.1},{"y":2006,"v":69.1},{"y":2007,"v":73.4},{"y":2008,"v":75.3},{"y":2010,"v":54.7},{"y":2011,"v":54.6},{"y":2012,"v":48.4},{"y":2013,"v":49.1},{"y":2014,"v":49.3},{"y":2015,"v":50.9},{"y":2016,"v":51.5},{"y":2019,"v":52.5},{"y":2020,"v":54.6},{"y":2021,"v":58.1},{"y":2022,"v":63.0},{"y":2023,"v":64.7}],"attleboro":[{"y":2004,"v":62.7},{"y":2007,"v":75.5},{"y":2010,"v":69.3},{"y":2012,"v":65.1},{"y":2014,"v":65.4},{"y":2016,"v":65.7},{"y":2018,"v":62.6},{"y":2020,"v":62.2},{"y":2022,"v":69.3}],"barnstable-county":[{"y":2004,"v":58.4},{"y":2006,"v":60.8},{"y":2007,"v":62.6},{"y":2009,"v":53.8},{"y":2010,"v":53.9},{"y":2012,"v":55.5},{"y":2014,"v":57.4},{"y":2016,"v":58.2},{"y":2018,"v":59.5},{"y":2020,"v":60.8},{"y":2022,"v":65.8}],"belmont":[{"y":2004,"v":56.2},{"y":2006,"v":52.9},{"y":2008,"v":55.3},{"y":2010,"v":51.3},{"y":2012,"v":49.9},{"y":2014,"v":51.2},{"y":2016,"v":55.0},{"y":2018,"v":58.1},{"y":2020,"v":60.4},{"y":2022,"v":70.4}],"berkshire-county":[{"y":2005,"v":76.8},{"y":2007,"v":82.0},{"y":2009,"v":75.1},{"y":2011,"v":83.5},{"y":2013,"v":77.6},{"y":2015,"v":82.2},{"y":2017,"v":82.8},{"y":2019,"v":83.8},{"y":2021,"v":87.4},{"y":2023,"v":95.4}],"beverly":[{"y":2004,"v":54.9},{"y":2006,"v":56.2},{"y":2008,"v":60.6},{"y":2010,"v":51.2},{"y":2012,"v":51.1},{"y":2014,"v":51.6},{"y":2016,"v":53.1},{"y":2018,"v":61.0},{"y":2020,"v":61.0},{"y":2022,"v":71.4}],"blue-hills":[{"y":2004,"v":62.2},{"y":2006,"v":66.7},{"y":2008,"v":78.0},{"y":2010,"v":62.0},{"y":2012,"v":68.6},{"y":2014,"v":71.0},{"y":2016,"v":71.5},{"y":2018,"v":73.7},{"y":2020,"v":73.8},{"y":2022,"v":85.3}],"boston-city":[{"y":2012,"v":70.7},{"y":2014,"v":70.2},{"y":2016,"v":75.0},{"y":2018,"v":76.9},{"y":2020,"v":75.6},{"y":2022,"v":82.4}],"boston-teachers":[{"y":2013,"v":45.6},{"y":2014,"v":41.3},{"y":2015,"v":40.5},{"y":2016,"v":39.8},{"y":2017,"v":39.3},{"y":2018,"v":39.3},{"y":2019,"v":41.1},{"y":2020,"v":41.1},{"y":2021,"v":43.0},{"y":2022,"v":47.1},{"y":2023,"v":47.7}],"braintree":[{"y":2004,"v":68.3},{"y":2006,"v":71.6},{"y":2008,"v":74.7},{"y":2010,"v":67.6},{"y":2012,"v":62.4},{"y":2014,"v":65.8},{"y":2016,"v":65.4},{"y":2018,"v":65.1},{"y":2020,"v":67.7},{"y":2022,"v":71.9}],"bristol-county":[{"y":2005,"v":62.4},{"y":2007,"v":65.8},{"y":2010,"v":64.8},{"y":2012,"v":59.3},{"y":2014,"v":61.4},{"y":2016,"v":65.7},{"y":2018,"v":67.7},{"y":2020,"v":60.1},{"y":2022,"v":66.1}],"brockton":[{"y":2005,"v":62.1},{"y":2006,"v":86.7},{"y":2007,"v":89.2},{"y":2008,"v":89.7},{"y":2010,"v":76.2},{"y":2011,"v":72.3},{"y":2013,"v":64.1},{"y":2014,"v":67.2},{"y":2016,"v":64.4},{"y":2018,"v":62.4},{"y":2020,"v":60.6},{"y":2022,"v":94.5}],"brookline":[{"y":2004,"v":66.7},{"y":2006,"v":63.7},{"y":2008,"v":67.3},{"y":2010,"v":61.6},{"y":2012,"v":55.8},{"y":2014,"v":55.7},{"y":2016,"v":55.4},{"y":2018,"v":57.0},{"y":2020,"v":59.6},{"y":2022,"v":68.8}],"cambridge":[{"y":2004,"v":86.9},{"y":2006,"v":85.4},{"y":2008,"v":92.0},{"y":2010,"v":83.8},{"y":2012,"v":77.8},{"y":2014,"v":79.1},{"y":2016,"v":81.1},{"y":2018,"v":87.7},{"y":2020,"v":85.8},{"y":2022,"v":90.6}],"chelsea":[{"y":2005,"v":43.9},{"y":2007,"v":47.6},{"y":2009,"v":45.6},{"y":2011,"v":53.3},{"y":2013,"v":53.0},{"y":2015,"v":58.9},{"y":2017,"v":64.3},{"y":2019,"v":69.6},{"y":2021,"v":77.7},{"y":2023,"v":87.0}],"chicopee":[{"y":2004,"v":58.5},{"y":2006,"v":56.7},{"y":2007,"v":58.9},{"y":2008,"v":61.7},{"y":2010,"v":57.4},{"y":2011,"v":60.1},{"y":2013,"v":63.1},{"y":2014,"v":67.4},{"y":2015,"v":72.8},{"y":2017,"v":75.9},{"y":2019,"v":79.9},{"y":2021,"v":85.7},{"y":2023,"v":90.9}],"clinton":[{"y":2005,"v":60.2},{"y":2007,"v":66.3},{"y":2009,"v":57.2},{"y":2011,"v":65.6},{"y":2013,"v":60.3},{"y":2015,"v":63.2},{"y":2017,"v":65.2},{"y":2019,"v":67.7},{"y":2021,"v":74.2},{"y":2023,"v":76.3}],"concord":[{"y":2004,"v":82.4},{"y":2006,"v":90.5},{"y":2008,"v":96.1},{"y":2010,"v":85.3},{"y":2012,"v":6.7},{"y":2014,"v":81.0},{"y":2015,"v":81.0},{"y":2016,"v":82.5},{"y":2017,"v":86.5},{"y":2019,"v":86.1},{"y":2020,"v":88.6},{"y":2021,"v":89.0},{"y":2022,"v":93.4}],"danvers":[{"y":2005,"v":73.4},{"y":2007,"v":71.3},{"y":2009,"v":59.4},{"y":2010,"v":64.4},{"y":2012,"v":58.6},{"y":2014,"v":55.5},{"y":2016,"v":54.9},{"y":2018,"v":58.6},{"y":2020,"v":60.3},{"y":2022,"v":64.1}],"dedham":[{"y":2004,"v":75.0},{"y":2006,"v":78.7},{"y":2008,"v":92.0},{"y":2010,"v":79.4},{"y":2012,"v":71.9},{"y":2014,"v":80.2},{"y":2016,"v":85.8},{"y":2018,"v":94.7},{"y":2019,"v":81.6},{"y":2020,"v":83.1},{"y":2022,"v":90.0}],"dukes-county":[{"y":2005,"v":63.8},{"y":2007,"v":64.6},{"y":2009,"v":61.9},{"y":2011,"v":67.0},{"y":2014,"v":68.6},{"y":2016,"v":72.5},{"y":2018,"v":76.4},{"y":2020,"v":78.2},{"y":2022,"v":85.3}],"easthampton":[{"y":2004,"v":54.5},{"y":2006,"v":66.6},{"y":2008,"v":77.7},{"y":2010,"v":59.5},{"y":2012,"v":62.0},{"y":2014,"v":70.6},{"y":2016,"v":65.5},{"y":2018,"v":73.3},{"y":2020,"v":74.9},{"y":2022,"v":88.5}],"essex-regional":[{"y":2004,"v":68.9},{"y":2006,"v":69.6},{"y":2008,"v":67.7},{"y":2011,"v":51.9},{"y":2013,"v":50.8},{"y":2014,"v":48.4},{"y":2016,"v":51.9},{"y":2018,"v":53.4},{"y":2020,"v":53.8},{"y":2022,"v":60.3}],"everett":[{"y":2004,"v":39.4},{"y":2006,"v":33.3},{"y":2007,"v":33.3},{"y":2008,"v":36.9},{"y":2010,"v":37.8},{"y":2012,"v":38.4},{"y":2014,"v":42.8},{"y":2016,"v":49.0},{"y":2018,"v":57.3},{"y":2020,"v":62.9},{"y":2022,"v":76.1}],"fairhaven":[{"y":2005,"v":70.0},{"y":2007,"v":78.9},{"y":2008,"v":84.2},{"y":2010,"v":61.6},{"y":2012,"v":63.4},{"y":2014,"v":73.6},{"y":2016,"v":69.8},{"y":2018,"v":72.9},{"y":2020,"v":74.5},{"y":2022,"v":83.7}],"fall-river":[{"y":2004,"v":59.6},{"y":2006,"v":57.1},{"y":2009,"v":45.7},{"y":2011,"v":46.1},{"y":2013,"v":40.2},{"y":2015,"v":41.3},{"y":2017,"v":42.0},{"y":2019,"v":41.8},{"y":2021,"v":44.5},{"y":2023,"v":50.9}],"falmouth":[{"y":2004,"v":66.4},{"y":2006,"v":66.4},{"y":2008,"v":67.6},{"y":2010,"v":61.3},{"y":2012,"v":58.9},{"y":2014,"v":59.8},{"y":2016,"v":62.5},{"y":2018,"v":64.8},{"y":2020,"v":67.1},{"y":2022,"v":71.3}],"fitchburg":[{"y":2004,"v":52.1},{"y":2006,"v":52.2},{"y":2008,"v":54.8},{"y":2010,"v":47.0},{"y":2012,"v":42.0},{"y":2014,"v":42.5},{"y":2016,"v":44.2},{"y":2018,"v":43.8},{"y":2020,"v":47.6},{"y":2022,"v":55.3}],"framingham":[{"y":2004,"v":67.3},{"y":2006,"v":65.2},{"y":2008,"v":75.3},{"y":2010,"v":67.7},{"y":2012,"v":67.3},{"y":2014,"v":67.4},{"y":2016,"v":68.0},{"y":2018,"v":71.4},{"y":2020,"v":72.8},{"y":2022,"v":80.9}],"franklin-regional":[{"y":2003,"v":56.8},{"y":2006,"v":67.0},{"y":2008,"v":73.5},{"y":2010,"v":66.6},{"y":2012,"v":63.3},{"y":2014,"v":69.8},{"y":2016,"v":71.4},{"y":2018,"v":73.2},{"y":2020,"v":74.4},{"y":2022,"v":78.3}],"gardner":[{"y":2005,"v":59.8},{"y":2006,"v":62.2},{"y":2007,"v":67.4},{"y":2008,"v":70.6},{"y":2011,"v":55.3},{"y":2013,"v":54.1},{"y":2014,"v":56.4},{"y":2015,"v":57.0},{"y":2016,"v":53.7},{"y":2017,"v":54.6},{"y":2018,"v":59.3},{"y":2019,"v":53.2},{"y":2020,"v":59.7},{"y":2021,"v":63.7},{"y":2022,"v":73.5},{"y":2023,"v":62.2}],"gloucester":[{"y":2004,"v":49.2},{"y":2006,"v":49.5},{"y":2008,"v":55.8},{"y":2010,"v":46.9},{"y":2012,"v":44.3},{"y":2014,"v":44.6},{"y":2016,"v":45.3},{"y":2018,"v":46.8},{"y":2020,"v":49.1},{"y":2022,"v":56.3}],"greater-lawrence":[{"y":2005,"v":99.3},{"y":2007,"v":95.3},{"y":2009,"v":86.4},{"y":2011,"v":89.5},{"y":2013,"v":86.9},{"y":2015,"v":85.0},{"y":2017,"v":88.6},{"y":2019,"v":87.6},{"y":2021,"v":97.0},{"y":2023,"v":106.9}],"greenfield":[{"y":2005,"v":68.4},{"y":2007,"v":67.5},{"y":2009,"v":57.3},{"y":2011,"v":61.1},{"y":2013,"v":54.2},{"y":2015,"v":56.2},{"y":2017,"v":56.0},{"y":2019,"v":59.9},{"y":2021,"v":59.9},{"y":2023,"v":66.6}],"hampden-county":[{"y":2005,"v":60.6},{"y":2006,"v":60.4},{"y":2008,"v":66.5},{"y":2010,"v":52.2},{"y":2012,"v":48.9},{"y":2014,"v":47.2},{"y":2016,"v":47.5},{"y":2018,"v":49.1},{"y":2020,"v":48.7},{"y":2022,"v":54.7}],"hampshire-county":[{"y":2004,"v":56.8},{"y":2006,"v":58.8},{"y":2007,"v":63.4},{"y":2010,"v":57.5},{"y":2012,"v":55.5},{"y":2014,"v":56.6},{"y":2016,"v":58.5},{"y":2018,"v":61.5},{"y":2020,"v":48.7},{"y":2022,"v":70.7}],"haverhill":[{"y":2004,"v":61.9},{"y":2006,"v":60.8},{"y":2008,"v":60.8},{"y":2010,"v":51.4},{"y":2012,"v":49.2},{"y":2014,"v":49.4},{"y":2016,"v":52.3},{"y":2018,"v":51.9},{"y":2020,"v":53.0},{"y":2022,"v":63.3}],"hingham":[{"y":2004,"v":70.8},{"y":2006,"v":68.0},{"y":2007,"v":73.4},{"y":2008,"v":80.1},{"y":2010,"v":69.2},{"y":2012,"v":69.4},{"y":2014,"v":68.1},{"y":2016,"v":70.9},{"y":2019,"v":70.9},{"y":2020,"v":70.4},{"y":2022,"v":78.8}],"holyoke":[{"y":2005,"v":63.3},{"y":2007,"v":66.0},{"y":2010,"v":57.4},{"y":2012,"v":50.9},{"y":2014,"v":58.1},{"y":2016,"v":62.5},{"y":2018,"v":67.7},{"y":2020,"v":69.0},{"y":2022,"v":76.8}],"hull":[{"y":2004,"v":35.2},{"y":2006,"v":42.9},{"y":2008,"v":51.5},{"y":2010,"v":42.4},{"y":2012,"v":43.7},{"y":2014,"v":54.0},{"y":2016,"v":58.8},{"y":2018,"v":63.9},{"y":2020,"v":69.6},{"y":2022,"v":88.5}],"lawrence":[{"y":2004,"v":43.7},{"y":2007,"v":47.2},{"y":2008,"v":48.9},{"y":2010,"v":39.1},{"y":2012,"v":39.4},{"y":2014,"v":44.6},{"y":2016,"v":45.9},{"y":2018,"v":52.7},{"y":2020,"v":55.4},{"y":2022,"v":61.2}],"leominster":[{"y":2004,"v":67.2},{"y":2006,"v":79.3},{"y":2008,"v":83.5},{"y":2010,"v":70.0},{"y":2011,"v":78.6},{"y":2013,"v":80.2},{"y":2014,"v":79.2},{"y":2015,"v":83.3},{"y":2017,"v":90.1},{"y":2018,"v":99.7},{"y":2019,"v":90.4},{"y":2020,"v":100.9},{"y":2021,"v":110.3},{"y":2022,"v":119.4},{"y":2023,"v":97.9}],"lexington":[{"y":2004,"v":84.7},{"y":2006,"v":88.4},{"y":2008,"v":100.5},{"y":2010,"v":88.8},{"y":2012,"v":78.3},{"y":2014,"v":82.3},{"y":2016,"v":85.3},{"y":2018,"v":87.2},{"y":2020,"v":80.4},{"y":2021,"v":76.6},{"y":2023,"v":82.3}],"lowell":[{"y":2004,"v":63.8},{"y":2006,"v":58.8},{"y":2007,"v":58.8},{"y":2010,"v":56.7},{"y":2011,"v":60.1},{"y":2013,"v":53.0},{"y":2015,"v":55.0},{"y":2017,"v":56.0},{"y":2019,"v":58.2},{"y":2021,"v":58.7},{"y":2023,"v":63.6}],"lynn":[{"y":2004,"v":50.8},{"y":2006,"v":46.7},{"y":2007,"v":48.1},{"y":2009,"v":41.9},{"y":2011,"v":46.0},{"y":2013,"v":41.9},{"y":2015,"v":45.5},{"y":2017,"v":49.2},{"y":2019,"v":52.7},{"y":2021,"v":58.5},{"y":2023,"v":65.5}],"malden":[{"y":2004,"v":75.9},{"y":2006,"v":73.9},{"y":2008,"v":73.3},{"y":2010,"v":72.5},{"y":2012,"v":70.1},{"y":2014,"v":70.3},{"y":2016,"v":71.3},{"y":2018,"v":72.0},{"y":2020,"v":72.9},{"y":2022,"v":80.2}],"marblehead":[{"y":2004,"v":83.9},{"y":2006,"v":83.3},{"y":2008,"v":89.9},{"y":2010,"v":78.2},{"y":2012,"v":73.3},{"y":2014,"v":67.0},{"y":2016,"v":65.8},{"y":2018,"v":64.8},{"y":2020,"v":62.3},{"y":2022,"v":71.4}],"marlborough":[{"y":2005,"v":61.6},{"y":2007,"v":64.5},{"y":2009,"v":62.9},{"y":2011,"v":68.4},{"y":2013,"v":66.2},{"y":2015,"v":70.7},{"y":2017,"v":76.4},{"y":2019,"v":75.0},{"y":2021,"v":79.0},{"y":2023,"v":84.1}],"mhfa":[{"y":2005,"v":91.6},{"y":2007,"v":94.4},{"y":2009,"v":65.2},{"y":2011,"v":77.4},{"y":2013,"v":79.7},{"y":2015,"v":78.8},{"y":2017,"v":76.8},{"y":2019,"v":74.4},{"y":2021,"v":94.8},{"y":2023,"v":93.3}],"mtrs":[{"y":2005,"v":67.6},{"y":2006,"v":67.2},{"y":2007,"v":71.0},{"y":2008,"v":73.9},{"y":2009,"v":58.2},{"y":2010,"v":63.0},{"y":2011,"v":66.3},{"y":2012,"v":60.7},{"y":2013,"v":55.7},{"y":2014,"v":56.3},{"y":2015,"v":54.3},{"y":2016,"v":52.8},{"y":2017,"v":52.1},{"y":2018,"v":52.4},{"y":2019,"v":51.7},{"y":2021,"v":53.0},{"y":2022,"v":59.0},{"y":2023,"v":58.7}],"mwra":[{"y":2005,"v":100.0},{"y":2007,"v":82.7},{"y":2009,"v":73.8},{"y":2010,"v":86.4},{"y":2011,"v":87.6},{"y":2013,"v":88.6},{"y":2015,"v":98.3},{"y":2017,"v":96.5},{"y":2018,"v":95.0},{"y":2019,"v":89.2},{"y":2021,"v":88.2},{"y":2022,"v":89.0},{"y":2023,"v":88.4}],"massport":[{"y":2005,"v":103.7},{"y":2006,"v":103.1},{"y":2007,"v":103.0},{"y":2008,"v":110.6},{"y":2009,"v":91.0},{"y":2010,"v":98.5},{"y":2011,"v":96.8},{"y":2012,"v":89.7},{"y":2013,"v":85.7},{"y":2014,"v":89.4},{"y":2015,"v":91.0},{"y":2016,"v":88.6},{"y":2017,"v":89.6},{"y":2018,"v":90.9},{"y":2019,"v":92.2},{"y":2020,"v":90.2},{"y":2021,"v":95.1},{"y":2022,"v":98.4},{"y":2023,"v":96.8}],"maynard":[{"y":2004,"v":63.8},{"y":2007,"v":75.1},{"y":2009,"v":65.7},{"y":2011,"v":71.8},{"y":2013,"v":64.4},{"y":2015,"v":69.1},{"y":2017,"v":70.5},{"y":2019,"v":72.2},{"y":2021,"v":75.0},{"y":2023,"v":80.3}],"medford":[{"y":2004,"v":60.2},{"y":2006,"v":64.9},{"y":2008,"v":69.1},{"y":2010,"v":64.4},{"y":2013,"v":58.8},{"y":2014,"v":61.0},{"y":2016,"v":67.3},{"y":2018,"v":68.1},{"y":2020,"v":61.3},{"y":2022,"v":66.2}],"melrose":[{"y":2004,"v":60.9},{"y":2006,"v":59.4},{"y":2008,"v":64.6},{"y":2010,"v":54.5},{"y":2012,"v":55.7},{"y":2013,"v":53.6},{"y":2015,"v":54.6},{"y":2017,"v":57.5},{"y":2019,"v":58.3},{"y":2021,"v":60.8},{"y":2023,"v":65.2}],"methuen":[{"y":2004,"v":61.2},{"y":2007,"v":54.6},{"y":2008,"v":56.6},{"y":2010,"v":49.5},{"y":2012,"v":46.8},{"y":2014,"v":46.6},{"y":2016,"v":50.3},{"y":2018,"v":53.4},{"y":2020,"v":56.2},{"y":2022,"v":66.3}],"middlesex-county":[{"y":2004,"v":50.5},{"y":2006,"v":47.9},{"y":2008,"v":50.7},{"y":2010,"v":47.1},{"y":2012,"v":43.7},{"y":2014,"v":44.0},{"y":2016,"v":45.8},{"y":2018,"v":47.9},{"y":2020,"v":48.0},{"y":2022,"v":54.5}],"milford":[{"y":2005,"v":73.3},{"y":2007,"v":73.5},{"y":2009,"v":58.0},{"y":2011,"v":62.1},{"y":2013,"v":55.8},{"y":2015,"v":57.8},{"y":2017,"v":60.9},{"y":2019,"v":61.3},{"y":2021,"v":65.8},{"y":2023,"v":70.3}],"milton":[{"y":2005,"v":78.2},{"y":2007,"v":80.5},{"y":2009,"v":73.8},{"y":2011,"v":77.3},{"y":2013,"v":71.3},{"y":2015,"v":76.6},{"y":2017,"v":81.5},{"y":2019,"v":82.6},{"y":2021,"v":88.6},{"y":2023,"v":98.4}],"minuteman":[{"y":2005,"v":108.6},{"y":2007,"v":118.3},{"y":2009,"v":99.6},{"y":2011,"v":104.0},{"y":2013,"v":89.9},{"y":2015,"v":86.7},{"y":2017,"v":88.3},{"y":2019,"v":86.0},{"y":2021,"v":94.2},{"y":2023,"v":99.7}],"montague":[{"y":2004,"v":68.6},{"y":2006,"v":77.8},{"y":2008,"v":84.3},{"y":2010,"v":80.5},{"y":2012,"v":75.6},{"y":2014,"v":73.6},{"y":2016,"v":76.7},{"y":2018,"v":77.7},{"y":2020,"v":78.1},{"y":2022,"v":87.0}],"natick":[{"y":2004,"v":64.4},{"y":2006,"v":66.6},{"y":2008,"v":69.2},{"y":2011,"v":64.0},{"y":2013,"v":61.1},{"y":2015,"v":60.8},{"y":2017,"v":62.2},{"y":2019,"v":63.9},{"y":2021,"v":70.4}],"needham":[{"y":2004,"v":73.1},{"y":2005,"v":75.0},{"y":2007,"v":79.5},{"y":2009,"v":73.7},{"y":2010,"v":78.2},{"y":2011,"v":77.9},{"y":2012,"v":72.9},{"y":2014,"v":67.9},{"y":2015,"v":68.6},{"y":2017,"v":69.4},{"y":2018,"v":68.8},{"y":2020,"v":65.6},{"y":2022,"v":73.7},{"y":2023,"v":74.5}],"new-bedford":[{"y":2004,"v":46.1},{"y":2006,"v":46.1},{"y":2007,"v":44.9},{"y":2009,"v":38.1},{"y":2010,"v":41.6},{"y":2012,"v":41.6},{"y":2014,"v":42.5},{"y":2016,"v":46.3},{"y":2018,"v":45.2},{"y":2020,"v":46.9},{"y":2022,"v":52.2}],"newburyport":[{"y":2004,"v":51.2},{"y":2006,"v":55.7},{"y":2008,"v":65.0},{"y":2010,"v":60.9},{"y":2012,"v":59.0},{"y":2014,"v":60.8},{"y":2016,"v":61.3},{"y":2018,"v":65.3},{"y":2020,"v":64.9},{"y":2022,"v":73.5}],"newton":[{"y":2005,"v":67.6},{"y":2006,"v":66.2},{"y":2007,"v":66.1},{"y":2008,"v":67.1},{"y":2009,"v":56.9},{"y":2010,"v":55.0},{"y":2011,"v":55.0},{"y":2012,"v":53.1},{"y":2013,"v":52.3},{"y":2015,"v":50.8},{"y":2016,"v":51.5},{"y":2017,"v":50.9},{"y":2018,"v":51.7},{"y":2019,"v":54.9},{"y":2021,"v":57.4},{"y":2022,"v":61.1}],"norfolk-county":[{"y":2005,"v":61.2},{"y":2007,"v":62.3},{"y":2008,"v":65.7},{"y":2010,"v":60.0},{"y":2012,"v":53.9},{"y":2014,"v":55.8},{"y":2016,"v":62.1},{"y":2018,"v":62.4},{"y":2020,"v":63.5},{"y":2022,"v":71.8}],"north-adams":[{"y":2005,"v":67.1},{"y":2007,"v":67.1},{"y":2009,"v":67.3},{"y":2011,"v":67.9},{"y":2013,"v":64.7},{"y":2015,"v":71.1},{"y":2017,"v":75.0},{"y":2019,"v":83.3},{"y":2021,"v":83.3},{"y":2023,"v":84.8}],"north-attleboro":[{"y":2004,"v":82.4},{"y":2006,"v":82.6},{"y":2008,"v":82.9},{"y":2010,"v":75.3},{"y":2011,"v":73.4},{"y":2013,"v":71.9},{"y":2015,"v":79.1},{"y":2017,"v":83.4},{"y":2019,"v":77.3},{"y":2020,"v":73.2},{"y":2022,"v":77.2}],"northampton":[{"y":2005,"v":62.3},{"y":2007,"v":64.1},{"y":2008,"v":66.0},{"y":2010,"v":65.2},{"y":2012,"v":60.5},{"y":2014,"v":63.0},{"y":2016,"v":69.7},{"y":2018,"v":68.7},{"y":2020,"v":69.2},{"y":2022,"v":76.4}],"northbridge":[{"y":2004,"v":63.9},{"y":2006,"v":74.7},{"y":2008,"v":84.8},{"y":2010,"v":69.5},{"y":2012,"v":62.2},{"y":2014,"v":64.6},{"y":2016,"v":67.8},{"y":2018,"v":71.9},{"y":2020,"v":72.8},{"y":2022,"v":84.2}],"norwood":[{"y":2005,"v":87.9},{"y":2007,"v":89.7},{"y":2010,"v":84.0},{"y":2012,"v":79.0},{"y":2014,"v":77.0},{"y":2016,"v":79.1},{"y":2018,"v":80.6},{"y":2020,"v":78.4},{"y":2022,"v":76.3}],"peabody":[{"y":2004,"v":62.1},{"y":2006,"v":58.0},{"y":2008,"v":60.3},{"y":2010,"v":53.7},{"y":2012,"v":48.5},{"y":2014,"v":49.6},{"y":2016,"v":49.9},{"y":2018,"v":52.3},{"y":2020,"v":49.3},{"y":2022,"v":56.4}],"pittsfield":[{"y":2004,"v":55.8},{"y":2006,"v":51.5},{"y":2007,"v":55.6},{"y":2009,"v":43.2},{"y":2011,"v":46.4},{"y":2013,"v":41.9},{"y":2015,"v":46.2},{"y":2017,"v":48.3},{"y":2019,"v":49.3},{"y":2021,"v":52.0},{"y":2023,"v":55.9}],"plymouth":[{"y":2005,"v":61.0},{"y":2007,"v":68.3},{"y":2008,"v":68.7},{"y":2010,"v":54.2},{"y":2013,"v":48.3},{"y":2015,"v":49.2},{"y":2017,"v":50.1},{"y":2019,"v":49.8},{"y":2020,"v":51.9},{"y":2022,"v":58.4}],"plymouth-county":[{"y":2004,"v":64.8},{"y":2006,"v":60.8},{"y":2007,"v":61.4},{"y":2010,"v":59.5},{"y":2011,"v":56.1},{"y":2013,"v":50.5},{"y":2015,"v":58.3},{"y":2017,"v":61.7},{"y":2019,"v":61.0},{"y":2020,"v":61.0},{"y":2022,"v":68.8}],"quincy":[{"y":2005,"v":58.3},{"y":2007,"v":65.0},{"y":2010,"v":47.6},{"y":2012,"v":47.6},{"y":2014,"v":46.7},{"y":2016,"v":46.8},{"y":2018,"v":45.0},{"y":2020,"v":45.9},{"y":2022,"v":101.2}],"reading":[{"y":2005,"v":70.0},{"y":2007,"v":75.7},{"y":2009,"v":68.2},{"y":2011,"v":68.0},{"y":2013,"v":72.0},{"y":2015,"v":73.0},{"y":2017,"v":73.8},{"y":2019,"v":75.0},{"y":2021,"v":75.5},{"y":2023,"v":77.5}],"revere":[{"y":2004,"v":51.2},{"y":2006,"v":50.2},{"y":2008,"v":59.4},{"y":2011,"v":57.6},{"y":2013,"v":51.8},{"y":2015,"v":53.2},{"y":2017,"v":56.1},{"y":2019,"v":63.5},{"y":2021,"v":63.5},{"y":2023,"v":70.5}],"salem":[{"y":2005,"v":52.3},{"y":2006,"v":50.8},{"y":2008,"v":55.7},{"y":2010,"v":51.7},{"y":2012,"v":49.8},{"y":2014,"v":50.7},{"y":2016,"v":53.3},{"y":2018,"v":57.4},{"y":2020,"v":59.2},{"y":2022,"v":67.2}],"saugus":[{"y":2005,"v":62.0},{"y":2007,"v":66.3},{"y":2009,"v":59.9},{"y":2011,"v":67.8},{"y":2013,"v":64.3},{"y":2015,"v":69.5},{"y":2017,"v":73.9},{"y":2019,"v":77.4},{"y":2021,"v":83.2},{"y":2023,"v":91.2}],"shrewsbury":[{"y":2004,"v":77.9},{"y":2006,"v":71.3},{"y":2008,"v":77.0},{"y":2010,"v":70.8},{"y":2012,"v":68.4},{"y":2014,"v":72.1},{"y":2016,"v":83.9},{"y":2017,"v":86.9},{"y":2018,"v":92.4},{"y":2020,"v":93.4},{"y":2021,"v":101.4},{"y":2022,"v":105.8},{"y":2023,"v":95.4}],"somerville":[{"y":2004,"v":59.1},{"y":2007,"v":62.9},{"y":2008,"v":65.5},{"y":2011,"v":60.4},{"y":2013,"v":57.7},{"y":2015,"v":62.5},{"y":2017,"v":66.4},{"y":2019,"v":62.7},{"y":2021,"v":69.7},{"y":2022,"v":77.3}],"southbridge":[{"y":2004,"v":50.4},{"y":2006,"v":52.1},{"y":2008,"v":58.6},{"y":2010,"v":47.1},{"y":2012,"v":49.1},{"y":2014,"v":50.8},{"y":2016,"v":55.1},{"y":2018,"v":60.3},{"y":2020,"v":62.9},{"y":2022,"v":75.8}],"springfield":[{"y":2004,"v":47.3},{"y":2005,"v":42.6},{"y":2008,"v":42.4},{"y":2010,"v":33.6},{"y":2012,"v":29.0},{"y":2014,"v":27.0},{"y":2016,"v":26.2},{"y":2018,"v":27.0},{"y":2020,"v":28.9},{"y":2022,"v":35.6}],"state":[{"y":2005,"v":82.8},{"y":2006,"v":81.5},{"y":2007,"v":85.1},{"y":2008,"v":89.4},{"y":2010,"v":76.5},{"y":2011,"v":81.0},{"y":2012,"v":73.8},{"y":2013,"v":69.1},{"y":2014,"v":67.5},{"y":2015,"v":67.5},{"y":2016,"v":63.5},{"y":2017,"v":64.7},{"y":2018,"v":64.9},{"y":2019,"v":63.7},{"y":2021,"v":66.4},{"y":2022,"v":72.9},{"y":2023,"v":71.3}],"stoneham":[{"y":2005,"v":60.7},{"y":2007,"v":68.2},{"y":2009,"v":65.5},{"y":2011,"v":70.4},{"y":2012,"v":66.1},{"y":2014,"v":64.5},{"y":2016,"v":70.4},{"y":2018,"v":74.7},{"y":2020,"v":78.1},{"y":2022,"v":88.4}],"swampscott":[{"y":2004,"v":54.4},{"y":2006,"v":52.5},{"y":2008,"v":51.6},{"y":2010,"v":46.6},{"y":2011,"v":46.2},{"y":2013,"v":43.7},{"y":2015,"v":48.2},{"y":2017,"v":53.5},{"y":2019,"v":59.6},{"y":2021,"v":62.4},{"y":2023,"v":70.1}],"taunton":[{"y":2004,"v":66.6},{"y":2006,"v":66.4},{"y":2008,"v":68.1},{"y":2010,"v":67.3},{"y":2012,"v":61.9},{"y":2014,"v":65.6},{"y":2016,"v":74.9},{"y":2018,"v":79.6},{"y":2020,"v":74.5},{"y":2022,"v":79.3}],"wakefield":[{"y":2004,"v":71.8},{"y":2006,"v":71.5},{"y":2008,"v":80.6},{"y":2010,"v":68.4},{"y":2012,"v":66.5},{"y":2014,"v":63.5},{"y":2016,"v":63.2},{"y":2018,"v":65.3},{"y":2020,"v":64.7},{"y":2022,"v":73.7}],"waltham":[{"y":2005,"v":51.9},{"y":2006,"v":51.1},{"y":2007,"v":51.1},{"y":2008,"v":64.4},{"y":2010,"v":57.5},{"y":2011,"v":55.8},{"y":2013,"v":50.9},{"y":2015,"v":55.9},{"y":2017,"v":57.7},{"y":2019,"v":56.8},{"y":2021,"v":61.5},{"y":2023,"v":67.0}],"watertown":[{"y":2004,"v":60.1},{"y":2006,"v":59.3},{"y":2007,"v":67.5},{"y":2008,"v":57.3},{"y":2009,"v":57.3},{"y":2011,"v":59.0},{"y":2013,"v":63.3},{"y":2015,"v":73.7},{"y":2017,"v":81.8},{"y":2018,"v":88.2},{"y":2019,"v":89.0},{"y":2020,"v":91.7},{"y":2021,"v":98.3},{"y":2022,"v":103.6},{"y":2023,"v":101.3}],"webster":[{"y":2004,"v":44.8},{"y":2006,"v":45.0},{"y":2008,"v":49.4},{"y":2010,"v":49.3},{"y":2012,"v":49.7},{"y":2014,"v":50.7},{"y":2016,"v":57.8},{"y":2018,"v":57.8},{"y":2020,"v":58.4},{"y":2022,"v":66.7}],"wellesley":[{"y":2004,"v":103.5},{"y":2006,"v":103.2},{"y":2008,"v":106.1},{"y":2010,"v":86.7},{"y":2012,"v":75.8},{"y":2013,"v":67.5},{"y":2015,"v":73.6},{"y":2017,"v":75.4},{"y":2019,"v":77.7},{"y":2021,"v":84.9},{"y":2023,"v":90.3}],"west-springfield":[{"y":2004,"v":54.0},{"y":2006,"v":58.8},{"y":2008,"v":62.2},{"y":2010,"v":57.9},{"y":2012,"v":53.2},{"y":2014,"v":55.2},{"y":2016,"v":64.4},{"y":2018,"v":64.4},{"y":2020,"v":66.4},{"y":2022,"v":72.1}],"westfield":[{"y":2005,"v":72.1},{"y":2007,"v":74.0},{"y":2009,"v":63.5},{"y":2011,"v":68.9},{"y":2013,"v":63.1},{"y":2015,"v":68.4},{"y":2017,"v":69.5},{"y":2019,"v":70.4},{"y":2021,"v":73.5},{"y":2023,"v":78.4}],"weymouth":[{"y":2005,"v":65.2},{"y":2007,"v":71.9},{"y":2010,"v":58.0},{"y":2012,"v":55.6},{"y":2014,"v":64.6},{"y":2016,"v":60.9},{"y":2018,"v":65.6},{"y":2020,"v":65.6},{"y":2022,"v":70.7}],"winchester":[{"y":2005,"v":75.6},{"y":2007,"v":81.5},{"y":2009,"v":76.0},{"y":2011,"v":84.5},{"y":2013,"v":77.4},{"y":2015,"v":78.3},{"y":2017,"v":79.0},{"y":2019,"v":80.5},{"y":2021,"v":84.7},{"y":2023,"v":92.2}],"winthrop":[{"y":2005,"v":62.9},{"y":2007,"v":69.4},{"y":2009,"v":62.9},{"y":2011,"v":73.1},{"y":2013,"v":69.9},{"y":2015,"v":75.9},{"y":2017,"v":80.8},{"y":2019,"v":83.2},{"y":2021,"v":92.7},{"y":2023,"v":102.1}],"woburn":[{"y":2005,"v":72.8},{"y":2007,"v":77.3},{"y":2008,"v":77.9},{"y":2010,"v":67.9},{"y":2012,"v":65.3},{"y":2014,"v":64.6},{"y":2016,"v":63.4},{"y":2018,"v":63.4},{"y":2020,"v":61.1},{"y":2022,"v":66.8}],"worcester":[{"y":2005,"v":78.5},{"y":2006,"v":79.8},{"y":2007,"v":85.6},{"y":2008,"v":85.3},{"y":2009,"v":68.0},{"y":2010,"v":68.8},{"y":2011,"v":70.7},{"y":2012,"v":67.7},{"y":2013,"v":63.3},{"y":2014,"v":65.8},{"y":2015,"v":66.8},{"y":2016,"v":66.0},{"y":2017,"v":63.5},{"y":2019,"v":63.2},{"y":2020,"v":63.9},{"y":2021,"v":67.1},{"y":2022,"v":72.9},{"y":2023,"v":73.6}],"worcester-regional":[{"y":2004,"v":63.5},{"y":2007,"v":56.3},{"y":2010,"v":48.0},{"y":2012,"v":44.4},{"y":2014,"v":44.9},{"y":2016,"v":43.4},{"y":2018,"v":45.3},{"y":2020,"v":46.4},{"y":2022,"v":50.9}]},"retirees":{"yearly":[{"year":2011,"count":101956,"annual_amount":3596418120.0,"msers":{"system":"MSERS","count":47993,"annual_amount":1401525085.0,"avg_amount":29202.7,"max_amount":242801.0},"mtrs":{"system":"MTRS","count":53963,"annual_amount":2194893035.0,"avg_amount":40674.04,"max_amount":209700.0},"avg_amount":35274.22},{"year":2012,"count":104497,"annual_amount":3796319310.0,"msers":{"system":"MSERS","count":48974,"annual_amount":1480748801.0,"avg_amount":30235.41,"max_amount":344576.0},"mtrs":{"system":"MTRS","count":55523,"annual_amount":2315570509.0,"avg_amount":41704.71,"max_amount":236336.0},"avg_amount":36329.46},{"year":2013,"count":108619,"annual_amount":4033577421.0,"msers":{"system":"MSERS","count":51368,"annual_amount":1596729392.0,"avg_amount":31084.13,"max_amount":344966.0},"mtrs":{"system":"MTRS","count":57251,"annual_amount":2436848029.0,"avg_amount":42564.29,"max_amount":154151.0},"avg_amount":37135.1},{"year":2014,"count":112915,"annual_amount":4296298502.0,"msers":{"system":"MSERS","count":54034,"annual_amount":1738937341.0,"avg_amount":32182.28,"max_amount":345356.0},"mtrs":{"system":"MTRS","count":58881,"annual_amount":2557361161.0,"avg_amount":43432.71,"max_amount":154541.0},"avg_amount":38048.96},{"year":2015,"count":118259,"annual_amount":4644131246.0,"msers":{"system":"MSERS","count":56512,"annual_amount":1930341504.0,"avg_amount":34158.08,"max_amount":345746.0},"mtrs":{"system":"MTRS","count":61747,"annual_amount":2713789742.0,"avg_amount":43950.15,"max_amount":191056.0},"avg_amount":39270.85},{"year":2016,"count":119039,"annual_amount":4790104154.0,"msers":{"system":"MSERS","count":57619,"annual_amount":2029790721.0,"avg_amount":35227.8,"max_amount":346136.0},"mtrs":{"system":"MTRS","count":61420,"annual_amount":2760313433.0,"avg_amount":44941.61,"max_amount":191446.0},"avg_amount":40239.79},{"year":2017,"count":122113,"annual_amount":5008575593.0,"msers":{"system":"MSERS","count":58625,"annual_amount":2119205730.0,"avg_amount":36148.5,"max_amount":346526.0},"mtrs":{"system":"MTRS","count":63488,"annual_amount":2889369863.0,"avg_amount":45510.49,"max_amount":191836.0},"avg_amount":41015.91},{"year":2018,"count":124226,"annual_amount":5205031151.0,"msers":{"system":"MSERS","count":59492,"annual_amount":2217065296.0,"avg_amount":37266.61,"max_amount":346916.0},"mtrs":{"system":"MTRS","count":64734,"annual_amount":2987965855.0,"avg_amount":46157.6,"max_amount":209149.0},"avg_amount":41899.69},{"year":2019,"count":126350,"annual_amount":5412859223.0,"msers":{"system":"MSERS","count":60604,"annual_amount":2327080041.0,"avg_amount":38398.13,"max_amount":347306.0},"mtrs":{"system":"MTRS","count":65746,"annual_amount":3085779182.0,"avg_amount":46934.86,"max_amount":209539.0},"avg_amount":42840.2},{"year":2020,"count":126289,"annual_amount":5473671675.0,"msers":{"system":"MSERS","count":60516,"annual_amount":2362898010.0,"avg_amount":39045.84,"max_amount":347306.0},"mtrs":{"system":"MTRS","count":65773,"annual_amount":3110773665.0,"avg_amount":47295.6,"max_amount":209539.0},"avg_amount":43342.43},{"year":2021,"count":130175,"annual_amount":5826589831.0,"msers":{"system":"MSERS","count":62852,"annual_amount":2565244643.0,"avg_amount":40814.05,"max_amount":348086.0},"mtrs":{"system":"MTRS","count":67323,"annual_amount":3261345188.0,"avg_amount":48443.25,"max_amount":210319.0},"avg_amount":44759.67},{"year":2022,"count":132237,"annual_amount":6072508080.0,"msers":{"system":"MSERS","count":63907,"annual_amount":2695170255.0,"avg_amount":42173.32,"max_amount":348736.0},"mtrs":{"system":"MTRS","count":68330,"annual_amount":3377337825.0,"avg_amount":49426.87,"max_amount":210969.0},"avg_amount":45921.4},{"year":2023,"count":133157,"annual_amount":6234988397.04,"msers":{"system":"MSERS","count":64384,"annual_amount":2784193514.88,"avg_amount":43243.56,"max_amount":349125.72},"mtrs":{"system":"MTRS","count":68773,"annual_amount":3450794882.16,"avg_amount":50176.59,"max_amount":211359.12},"avg_amount":46824.34},{"year":2024,"count":134205,"annual_amount":6407446500.96,"msers":{"system":"MSERS","count":65015,"annual_amount":2882478581.88,"avg_amount":44335.59,"max_amount":349515.72},"mtrs":{"system":"MTRS","count":69190,"annual_amount":3524967919.08,"avg_amount":50946.2,"max_amount":239279.76},"avg_amount":47743.72}],"latest":{"year":2024,"count":134205,"annual_amount":6407446500.96,"avg_amount":47743.72,"msers":{"system":"MSERS","count":65015,"annual_amount":2882478581.88,"avg_amount":44335.59,"max_amount":349515.72},"mtrs":{"system":"MTRS","count":69190,"annual_amount":3524967919.08,"avg_amount":50946.2,"max_amount":239279.76},"new_retirees":{"count":3883,"annual_amount":216009039.24,"by_system":{"MSERS":{"count":1871,"annual_amount":101297786.4,"avg_amount":54140.99},"MTRS":{"count":2012,"annual_amount":114711252.84,"avg_amount":57013.55}}}},"top_pensions":[{"name":"Manning, Thomas","system":"MSERS","department":"Univ. Of Mass Medical School","title":null,"retired":"2012-06-30","annual_amount":349515.72},{"name":"Budnik, Vivian","system":"MSERS","department":"Univ. Of Mass Medical School","title":"Chairman Of Department","retired":"2024-01-01","annual_amount":341414.64},{"name":"Murphy, Joyce","system":"MSERS","department":"Univ. Of Mass Medical School","title":null,"retired":"2018-08-04","annual_amount":340671.24},{"name":"Moloney, Jacqueline","system":"MSERS","department":"Univ. Of Mass/lowell Campus","title":"Fullprofessor&chancelloremerit","retired":"2022-12-31","annual_amount":339991.68},{"name":"Lovley, Derek","system":"MSERS","department":"University Of Mass/amherst","title":null,"retired":"2020-05-29","annual_amount":312696.96},{"name":"Mccarthy, John","system":"MSERS","department":"University Of Mass/amherst","title":"Staff Administrator","retired":"2023-06-30","annual_amount":292775.16},{"name":"Bulger, William","system":"MSERS","department":"Umass President's Office","title":null,"retired":"2003-09-02","annual_amount":274148.64},{"name":"Czech, Michael","system":"MSERS","department":"Univ. Of Mass Medical School","title":"Professor","retired":"2018-11-01","annual_amount":254976.12},{"name":"Kurose, James","system":"MSERS","department":"University Of Mass/amherst","title":"Associate Chancellor","retired":"2023-06-30","annual_amount":251288.4},{"name":"Pugnaire, Michele","system":"MSERS","department":"Univ. Of Mass Medical School","title":"Sr Assoc,dean Of Education","retired":"2017-07-28","annual_amount":250862.04},{"name":"Warwick, Daniel J","system":"MTRS","department":"Springfield Public Schools","title":"Superintendent","retired":"2024-06-07","annual_amount":239279.76},{"name":"Mac Cormack, Jean","system":"MSERS","department":"Univ. Of Mass/dartmouth Campus","title":null,"retired":"2012-06-30","annual_amount":238035.48},{"name":"Langley, Winston","system":"MSERS","department":"Univ. Of Mass/boston Campus","title":"Professor A","retired":"2018-05-25","annual_amount":237705.84},{"name":"Carter, Kathryn","system":"MSERS","department":"Univ. Of Mass/lowell Campus","title":"Sp AppointmnT-Interim DeaN-Umd","retired":"2020-06-30","annual_amount":231828.12},{"name":"Croft, William","system":"MSERS","department":"University Of Mass/amherst","title":null,"retired":"2018-05-22","annual_amount":230716.56}],"departments":[{"system":"MSERS","department":"Department Corrections","count":4301,"annual_amount":212944127.04,"avg_amount":49510.38},{"system":"MSERS","department":"State Police","count":2311,"annual_amount":186841422.84,"avg_amount":80848.73},{"system":"MSERS","department":"University Of Mass/amherst","count":3771,"annual_amount":172035758.64,"avg_amount":45620.73},{"system":"MTRS","department":"Worcester Public Schools","count":1976,"annual_amount":102236955.72,"avg_amount":51739.35},{"system":"MSERS","department":"Univ. Of Mass Medical School","count":2857,"annual_amount":95119515.6,"avg_amount":33293.5},{"system":"MTRS","department":"Springfield Public Schools","count":2021,"annual_amount":91590250.92,"avg_amount":45319.27},{"system":"MSERS","department":"Mass Dept Of Transportation","count":1870,"annual_amount":83688017.52,"avg_amount":44752.95},{"system":"MSERS","department":"Dept. Of Children & Families","count":1737,"annual_amount":79896934.32,"avg_amount":45997.08},{"system":"MSERS","department":"Dept. Of Trans. Assistance","count":1735,"annual_amount":73719840.36,"avg_amount":42489.82},{"system":"MTRS","department":"Brockton Public Schools","count":1111,"annual_amount":63623859.0,"avg_amount":57267.2},{"system":"MSERS","department":"Probation","count":1122,"annual_amount":63020454.0,"avg_amount":56167.96},{"system":"MTRS","department":"Lowell Public Schools","count":1144,"annual_amount":61153150.68,"avg_amount":53455.55},{"system":"MTRS","department":"New Bedford Public Schools","count":1166,"annual_amount":57768302.88,"avg_amount":49544.0},{"system":"MTRS","department":"Newton Public Schools","count":941,"annual_amount":53944248.12,"avg_amount":57326.51},{"system":"MSERS","department":"Dept. Of Revenue/hrb","count":1039,"annual_amount":53924073.12,"avg_amount":51899.97}]}};
+/* DATA:END pensions-data */
+
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
+  function postHeight(){
+    var h=Math.ceil(document.body.getBoundingClientRect().height);
+    if(window.parent!==window) window.parent.postMessage({type:'dl05:height',height:h},'*');
+  }
+  window.addEventListener('load',postHeight);
+  window.addEventListener('resize',postHeight);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(postHeight);
+  if(window.ResizeObserver) new ResizeObserver(postHeight).observe(document.body);
+  document.addEventListener('click',function(){setTimeout(postHeight,320);});
+  setInterval(postHeight,1500);
+})();
+
+const BLUE='#293C5C', GOLD='#CCB26D', INK='#222222', G3='#8DA0B5';
+const AY={grid:{color:'rgba(34,34,34,.08)'},ticks:{color:'#666',font:{size:11,family:'Roboto,sans-serif'}},border:{display:false}};
+const AX={grid:{display:false},ticks:{color:'#666',font:{size:10,family:'Roboto,sans-serif'}},border:{display:false}};
+
+function usdB(n){
+  if(n==null) return '';
+  var a=Math.abs(n);
+  if(a>=1e9) return (n<0?'-':'')+'$'+(a/1e9).toFixed(a>=1e10?1:2)+' billion';
+  if(a>=1e6) return (n<0?'-':'')+'$'+(a/1e6).toFixed(1)+' million';
+  return (n<0?'-':'')+'$'+Math.round(a).toLocaleString('en-US');
+}
+function barColor(id){
+  if(id===selected) return GOLD;
+  if(id==='state'||id==='mtrs') return '#4A5F7A';
+  return BLUE;
+}
+
+var rendered={};
+var trendChart=null;
+var selected='state';
+
+function renderBoards(){
+  if(!rendered.b){
+    var rows=DL05.boards.slice().sort(function(a,b){return b.funded_pct-a.funded_pct;});
+    document.getElementById('fig1t').textContent='Funded ratio by Massachusetts retirement board, latest valuation';
+    new Chart(document.getElementById('chFunded'),{type:'bar',
+      data:{labels:rows.map(function(r){return r.name;}),
+        datasets:[{data:rows.map(function(r){return r.funded_pct;}),
+          backgroundColor:rows.map(function(r){return barColor(r.id);}),barPercentage:.78}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:4,right:56}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' percent funded';}}}},
+        scales:{x:Object.assign({},AY,{beginAtZero:true,max:110,
+            ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+          y:Object.assign({},AX,{ticks:Object.assign({},AX.ticks,{font:{size:9,family:'Roboto,sans-serif'}})})}}});
+    rendered.b=true;
+  }
+  fillSelect();
+  drawTrend();
+}
+
+function fillSelect(){
+  var sel=document.getElementById('bdSel');
+  if(sel.dataset.ready) return;
+  var opts=DL05.boards.slice().sort(function(a,b){return a.name.localeCompare(b.name);});
+  sel.innerHTML=opts.map(function(r){
+    return '<option value="'+r.id+'"'+(r.id===selected?' selected':'')+'>'+r.name+'</option>';
+  }).join('');
+  sel.onchange=function(){ selected=sel.value; drawTrend(); history.replaceState(null,'','#view-funded_trend&st='+selected); };
+  sel.dataset.ready='1';
+}
+
+function drawTrend(){
+  var name=DL05.entities[selected]||selected;
+  document.getElementById('fig2t').textContent='Funded ratio, State, Mass Teachers, and '+name;
+  var years={};
+  ['state','mtrs',selected].forEach(function(id){
+    (DL05.funded_history[id]||[]).forEach(function(e){years[e.y]=1;});
+  });
+  var labels=Object.keys(years).map(Number).sort();
+  function align(id){
+    var m={}; (DL05.funded_history[id]||[]).forEach(function(e){m[e.y]=e.v;});
+    return labels.map(function(y){return m[y]==null?null:m[y];});
+  }
+  var data={
+    labels:labels,
+    datasets:[
+      {label:'State Retirement Board',data:align('state'),borderColor:INK,backgroundColor:'transparent',borderWidth:2,pointRadius:2,spanGaps:true,tension:.15},
+      {label:'Mass Teachers (MTRS)',data:align('mtrs'),borderColor:'#8C2F1B',backgroundColor:'transparent',borderWidth:2,pointRadius:2,spanGaps:true,tension:.15},
+      {label:name,data:align(selected),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2.4,pointRadius:3,spanGaps:true,tension:.15}
+    ]
+  };
+  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
+    plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
+      tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+(c.parsed.y==null?'':c.parsed.y.toFixed(1)+' percent');}}}},
+    scales:{y:Object.assign({},AY,{ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+      x:Object.assign({},AX)}};
+  if(trendChart){ trendChart.data=data; trendChart.update(); return; }
+  trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts});
+}
+
+function renderReturns(){
+  if(rendered.r) return; rendered.r=true;
+  var rows=DL05.boards.slice().sort(function(a,b){return (b.return_1y_pct||0)-(a.return_1y_pct||0);});
+  document.getElementById('fig3t').textContent='One-year investment return by board, calendar '+DL05.returns_year;
+  new Chart(document.getElementById('chReturns'),{type:'bar',
+    data:{labels:rows.map(function(r){return r.name;}),
+      datasets:[{data:rows.map(function(r){return r.return_1y_pct;}),
+        backgroundColor:rows.map(function(r){return barColor(r.id);}),barPercentage:.78}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:52}},
+      plugins:{legend:{display:false},
+        tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' percent';}}}},
+      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+        y:Object.assign({},AX,{ticks:Object.assign({},AX.ticks,{font:{size:9,family:'Roboto,sans-serif'}})})}}});
+}
+
+function renderRetirees(){
+  if(rendered.ret) return; rendered.ret=true;
+  var y=DL05.retirees.yearly;
+  document.getElementById('fig4t').textContent='Annual pensions paid to State and Teacher retirees, 2011 to '+DL05.retiree_year;
+  new Chart(document.getElementById('chRetirees'),{type:'line',
+    data:{labels:y.map(function(r){return r.year;}),
+      datasets:[
+        {label:'MSERS',data:y.map(function(r){return r.msers.annual_amount/1e9;}),borderColor:INK,backgroundColor:'transparent',borderWidth:2,pointRadius:2,tension:.15},
+        {label:'MTRS',data:y.map(function(r){return r.mtrs.annual_amount/1e9;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2.4,pointRadius:2,tension:.15}
+      ]},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
+      plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': $'+c.parsed.y.toFixed(2)+' billion';}}}},
+      scales:{y:Object.assign({},AY,{ticks:Object.assign({},AY.ticks,{callback:function(v){return '$'+v+'b';}})}),
+        x:Object.assign({},AX)}}});
+
+  document.querySelector('#tblTop tbody').innerHTML=DL05.retirees.top_pensions.map(function(r){
+    return '<tr><td class="m">'+r.name+'</td><td>'+r.system+'</td><td>'+(r.department||'')+'</td><td>'+(r.title||'')+'</td><td class="n">'+usdB(r.annual_amount)+'</td></tr>';
+  }).join('');
+  document.querySelector('#tblDept tbody').innerHTML=DL05.retirees.departments.map(function(r){
+    return '<tr><td class="m">'+r.department+'</td><td>'+r.system+'</td><td class="n">'+r.count.toLocaleString('en-US')+'</td><td class="n">'+usdB(r.annual_amount)+'</td><td class="n">'+usdB(r.avg_amount)+'</td></tr>';
+  }).join('');
+}
+
+function boardRow(r){
+  var hl=(r.id===selected||r.id==='state'||r.id==='mtrs')?' class="hl-ma"':'';
+  return '<tr'+hl+' id="row-'+r.id+'"><td class="m">'+r.name+'</td><td class="n">'+r.valuation_year+'</td><td class="n">'+r.funded_pct.toFixed(1)+'%</td><td class="n">'+r.rank+'</td><td class="n">'+usdB(r.ual)+'</td><td class="n">'+(r.active==null?'':r.active.toLocaleString('en-US'))+'</td><td class="n">'+(r.retired==null?'':r.retired.toLocaleString('en-US'))+'</td><td class="n">'+(r.return_1y_pct==null?'':r.return_1y_pct.toFixed(2)+'%')+'</td><td class="n">'+(r.return_10y_pct==null?'':r.return_10y_pct.toFixed(2)+'%')+'</td></tr>';
+}
+function renderTable(){
+  var q=(document.getElementById('tblFilter').value||'').toLowerCase();
+  var rows=DL05.boards.slice().sort(function(a,b){return a.rank-b.rank;});
+  if(q) rows=rows.filter(function(r){return r.name.toLowerCase().indexOf(q)>=0||r.id.indexOf(q)>=0;});
+  document.querySelector('#tblBoards tbody').innerHTML=rows.map(boardRow).join('');
+}
+
+var STANDFIRSTS={
+  boards:'Every public retirement board\'s latest funded ratio. Rebuilt from PERAC valuations and verified by recomputing assets over liability.',
+  returns:'One-year and long-run investment returns, calendar 2023, from the compiled PERAC returns file.',
+  retirees:'The compiled State (MSERS) and Teacher (MTRS) retiree payroll, calendar years 2011 through 2024, from CTHRU.',
+  table:'Every Massachusetts retirement board: funded ratio, unfunded liability, membership, and 2023 returns.'
+};
+var RENDER={boards:renderBoards,returns:renderReturns,retirees:renderRetirees,table:renderTable};
+var VIEWS=['boards','returns','retirees','table'];
+function showView(v){
+  VIEWS.forEach(function(k){
+    document.getElementById('view-'+k).hidden=(k!==v);
+    document.getElementById('btn-'+k).classList.toggle('on',k===v);
+  });
+  document.getElementById('standfirst').textContent=STANDFIRSTS[v];
+  (RENDER[v]||renderBoards)();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('tblFilter').addEventListener('input',renderTable);
+renderBoards();
+
+var KIND_VIEW={funded_rank:'boards',funded_trend:'boards',returns_rank:'returns',retiree_trend:'retirees'};
+function revealKind(kind,flash,st){
+  if(st && DL05.entities[st]) selected=st;
+  var view=KIND_VIEW[kind]||(VIEWS.indexOf(kind)>=0?kind:null);
+  if(!view) return false;
+  VIEWS.forEach(function(k){
+    document.getElementById('view-'+k).hidden=(k!==view);
+    document.getElementById('btn-'+k).classList.toggle('on',k===view);
+  });
+  document.getElementById('standfirst').textContent=STANDFIRSTS[view];
+  (RENDER[view]||renderBoards)();
+  var el=document.getElementById('view-'+kind)||document.getElementById('row-'+kind);
+  if(!el && st) el=document.getElementById('row-'+st);
+  if(!el) return true;
+  setTimeout(function(){
+    el.scrollIntoView({behavior:'smooth',block:'start'});
+    if(flash){
+      var ex=el.classList.contains('exhibit')?el:el.querySelector('.exhibit');
+      if(ex){ex.classList.add('hl');setTimeout(function(){ex.classList.remove('hl');},2600);}
+    }
+  },60);
+  return true;
+}
+function applyHash(){
+  var raw=(location.hash||'').replace(/^#/,'');
+  if(!raw) return;
+  var kind=raw, st=null;
+  raw.split('&').forEach(function(part){
+    if(part.indexOf('st=')===0) st=part.slice(3);
+    else if(part.indexOf('view-')===0) kind=part.slice(5);
+    else if(part.indexOf('view=')===0) kind=part.slice(5);
+    else kind=part.replace(/^view-/,'');
+  });
+  if(kind && DL05.entities[kind]){ st=kind; kind='table'; }
+  revealKind(kind,true,st);
+}
+window.addEventListener('load',function(){
+  applyHash();
+  setTimeout(function(){
+    var raw=(location.hash||'').replace(/^#view-/,'');
+    if(!raw) return;
+    var el=document.getElementById('view-'+raw.split('&')[0]);
+    if(el) el.scrollIntoView({block:'start'});
+  },900);
+});
+window.addEventListener('hashchange',applyHash);
+</script>
+</body>
+</html>

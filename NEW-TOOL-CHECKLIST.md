@@ -113,7 +113,7 @@ Conventions every ledger follows:
       worth leading with; desk stats must be generated from the ledger
       (see DL01D), never typed into copy.
 
-## Scaling the overlay from 4 tools to 20
+## Scaling the overlay from 5 tools to 20
 
 Do not stand up a second model call that routes from scopes alone. That
 architecture was tried (Haiku, then Sonnet 5 at low effort) and every

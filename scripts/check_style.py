@@ -85,6 +85,29 @@ for needle, label in el_sentinels:
             "the DL-04 ledger moved but the hand-authored page did not follow"
         )
 
+# ---- 4. Pensions page sentinels ----
+pn = json.loads((ROOT / "netlify/functions/dl05-answers.json").read_text(encoding="utf-8"))
+ppage = (ROOT / "pensions/index.html").read_text(encoding="utf-8")
+st_fmt = f"{pn['latest']['state']['funded_pct']}"
+pn_sentinels = [
+    (st_fmt, f"State funded ratio ({st_fmt} percent, valuation {pn['latest']['state']['valuation_year']})"),
+    (str(pn["retiree_year"]), f"ledger retiree year ({pn['retiree_year']})"),
+    (pn["page"]["revised"], f"page.revised ({pn['page']['revised']})"),
+]
+if "DATA:BEGIN pensions-data" not in ppage:
+    failures.append("pensions/index.html is missing the generated pensions-data block")
+    print("pensions charts: MISS generated block")
+else:
+    print("pensions charts: ok   generated block present")
+for needle, label in pn_sentinels:
+    ok = needle in ppage
+    print(f"pensions sentinel: {'ok  ' if ok else 'MISS'} {label}")
+    if not ok:
+        failures.append(
+            f"pensions/index.html does not mention {label}; "
+            "the DL-05 ledger moved but the hand-authored page did not follow"
+        )
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

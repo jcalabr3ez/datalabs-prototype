@@ -15,32 +15,6 @@
      "no backup"
     ],
     "vage": "red"
-   },
-   {
-    "t": "Performance",
-    "s": "MA",
-    "u": "https://madatalabs.org/pensions/pensions-performance",
-    "days": 389,
-    "views": 1287,
-    "pub": "Jun 28, 2025",
-    "vint": "2023",
-    "flags": [
-     "no backup"
-    ],
-    "vage": "red"
-   },
-   {
-    "t": "State & Teacher Retirees",
-    "s": "MA",
-    "u": "https://madatalabs.org/pensions/state-and-teacher-retirees",
-    "days": 389,
-    "views": 236378,
-    "pub": "Jun 28, 2025",
-    "vint": "2024",
-    "flags": [
-     "no backup"
-    ],
-    "vage": "amb"
    }
   ]
  },
@@ -1469,6 +1443,19 @@
   "group": "Energy"
  },
  {
+  "id": "DL-05",
+  "t": "Massachusetts Public Pensions",
+  "q": "Every MA retirement board's funded status and returns, plus the State and Teacher retiree payroll.",
+  "g": [
+   "MA"
+  ],
+  "st": "live",
+  "url": "/pensions/",
+  "ai": true,
+  "heritage": "Formerly Performance and State & Teacher Retirees",
+  "group": "Public Pensions"
+ },
+ {
   "id": "ARCHIVE",
   "t": "Archive",
   "q": "Dashboards no longer maintained, retained for the record.",
@@ -1527,6 +1514,19 @@
     "flags": [
      "no backup"
     ]
+   },
+   {
+    "t": "Pensions Performance",
+    "s": "MA",
+    "u": "https://madatalabs.org/pensions/pensions-performance",
+    "days": 389,
+    "views": 1287,
+    "pub": "Jun 28, 2025",
+    "vint": "2023",
+    "flags": [
+     "no backup"
+    ],
+    "vage": "red"
    },
    {
     "t": "MBTA",
@@ -1610,6 +1610,19 @@
     "flags": [
      "no backup"
     ]
+   },
+   {
+    "t": "State & Teacher Retirees",
+    "s": "MA",
+    "u": "https://madatalabs.org/pensions/state-and-teacher-retirees",
+    "days": 389,
+    "views": 236378,
+    "pub": "Jun 28, 2025",
+    "vint": "2024",
+    "flags": [
+     "no backup"
+    ],
+    "vage": "amb"
    },
    {
     "t": "Taxation Rates",

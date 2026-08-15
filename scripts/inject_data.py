@@ -7,6 +7,7 @@ Canonical data lives in:
     netlify/functions/dl01-answers.json   (State Tax Atlas ledger)
     netlify/functions/dl02-answers.json   (Florida ledger)
     netlify/functions/dl04-answers.json   (electricity ledger)
+    netlify/functions/dl05-answers.json   (pensions ledger)
 
 This script regenerates every embedded copy from the canonical files:
     index.html            const DATA (catalog + answers; audit preserved)
@@ -14,6 +15,7 @@ This script regenerates every embedded copy from the canonical files:
     tax-atlas/index.html  STATES, *_META, DEFAULT_SOURCES, STATE_SOURCES, CAPTIONS
     florida-insurance/index.html  chart series, dateline, footer, keyed headlines
     electricity/index.html  chart payload, dateline, KPI band, footer
+    pensions/index.html     chart payload, dateline, KPI band, footer
     netlify/functions/catalog.json        copy of root catalog.json
 
 It runs locally (python3 scripts/inject_data.py) and as the Netlify build
@@ -277,6 +279,143 @@ def inject_electricity(dl04, text, path):
     return text
 
 
+def usd_prose(n):
+    """House style: $ on the figure, million/billion spelled out."""
+    sign = "-" if n < 0 else ""
+    a = abs(n)
+    if a >= 1e9:
+        v = a / 1e9
+        fmt = f"{v:.1f}" if abs(v - round(v, 1)) < 0.005 else f"{v:.2f}"
+        return f"{sign}${fmt} billion"
+    if a >= 1e6:
+        return f"{sign}${a / 1e6:.1f} million"
+    return f"{sign}${a:,.0f}"
+
+
+def inject_pensions(dl05, text, path):
+    """Regenerate the pensions page payload and the headlines that track it."""
+    page = dl05.get("page") or {}
+    latest = dl05["latest"]
+    derived = dl05["derived"]
+    boards = [
+        {
+            "id": b["id"],
+            "name": b["name"],
+            "valuation_year": b["valuation_year"],
+            "funded_pct": b["funded_pct"],
+            "ual": b["ual"],
+            "aal": b["aal"],
+            "active": b["active"],
+            "retired": b["retired"],
+            "return_1y_pct": b.get("return_1y_pct"),
+            "return_5y_pct": b.get("return_5y_pct"),
+            "return_10y_pct": b.get("return_10y_pct"),
+            "rank": b["rank"],
+            "n": b["n"],
+        }
+        for b in dl05["boards"]
+    ]
+    payload = {
+        "as_of": dl05["as_of"],
+        "board_valuation_through": dl05["board_valuation_through"],
+        "returns_year": dl05["returns_year"],
+        "retiree_year": dl05["retiree_year"],
+        "revised": page.get("revised", ""),
+        "version": page.get("version", "1.0"),
+        "entities": dl05["entities"],
+        "latest": latest,
+        "derived": {
+            "n_boards": derived["n_boards"],
+            "n_at_or_above_100": derived["n_at_or_above_100"],
+            "n_below_60": derived["n_below_60"],
+            "highest_five": derived["highest_five"],
+            "lowest_five": derived["lowest_five"],
+            "state_funded_pct": derived["state_funded_pct"],
+            "mtrs_funded_pct": derived["mtrs_funded_pct"],
+            "weighted_funded_pct": derived["weighted_funded_pct"],
+            "state_rank": derived["state_rank"],
+            "mtrs_rank": derived["mtrs_rank"],
+            "retiree_count": derived["retiree_count"],
+            "retiree_annual_amount": derived["retiree_annual_amount"],
+            "retiree_avg_amount": derived["retiree_avg_amount"],
+            "largest_pension": derived["largest_pension"],
+        },
+        "boards": boards,
+        "funded_history": dl05["funded_history"],
+        "retirees": {
+            "yearly": dl05["retirees"]["yearly"],
+            "latest": dl05["retirees"]["latest"],
+            "top_pensions": dl05["retirees"]["top_pensions"],
+            "departments": dl05["retirees"]["departments"],
+        },
+    }
+    text = replace_block(text, "pensions-data", "const DL05=" + jdump(payload) + ";", path)
+    dateline = (
+        f'    <span>Board valuations through <b>Jan 1, {dl05["board_valuation_through"]}</b></span>\n'
+        f'    <span>Retiree payroll through <b>{dl05["retiree_year"]}</b></span>\n'
+        f'    <span>Revised <b>{page.get("revised", "")}</b></span>\n'
+        f'    <span>Version <b>{page.get("version", "1.0")}</b></span>'
+    )
+    text = replace_block(text, "pensions-dateline", dateline, path, style="html")
+    st = latest["state"]
+    mt = latest["mtrs"]
+    ret = latest["retirees"]
+    n = derived["n_boards"]
+    kpis = (
+        f'      <div class="cell">\n'
+        f'        <div class="cl">State Retirement Board</div>\n'
+        f'        <div class="cv">{st["funded_pct"]}%</div>\n'
+        f'        <div class="cd">Funded ratio on the January 1, {st["valuation_year"]} valuation, '
+        f'rank {st["rank"]} of {n} (SRC-501). Unfunded liability {usd_prose(st["ual"])}.</div>\n'
+        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the '
+        f'Commonwealth\'s own employee system, the largest board by assets after Mass Teachers.</div>\n'
+        f'        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>\n'
+        f'      </div>\n'
+        f'      <div class="cell">\n'
+        f'        <div class="cl">Mass Teachers (MTRS)</div>\n'
+        f'        <div class="cv">{mt["funded_pct"]}%</div>\n'
+        f'        <div class="cd">Funded ratio on the January 1, {mt["valuation_year"]} valuation, '
+        f'rank {mt["rank"]} of {n} (SRC-501). Unfunded liability {usd_prose(mt["ual"])}.</div>\n'
+        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Teachers are the '
+        f'largest liability in the Commonwealth\'s pension obligation, and the furthest from full '
+        f'funding among the big systems.</div>\n'
+        f'        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>\n'
+        f'      </div>\n'
+        f'      <div class="cell">\n'
+        f'        <div class="cl">State and Teacher retirees, {ret["year"]}</div>\n'
+        f'        <div class="cv">{usd_prose(ret["annual_amount"])}</div>\n'
+        f'        <div class="cd">Annual pensions paid to {ret["count"]:,} named MSERS and MTRS '
+        f'retirees (SRC-503). Average {usd_prose(ret["avg_amount"])}.</div>\n'
+        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the payroll '
+        f'the funded ratios have to support, year after year, for people already retired.</div>\n'
+        f'        <div class="csrc">Source: CTHRU State and Teachers Retirement Benefits (SRC-503)</div>\n'
+        f'      </div>'
+    )
+    text = replace_block(text, "pensions-kpis", kpis, path, style="html")
+    lead = (
+        f'The State Retirement Board was <b>{st["funded_pct"]} percent</b> funded on its '
+        f'January 1, {st["valuation_year"]} valuation (SRC-501). Mass Teachers (MTRS) was '
+        f'<b>{mt["funded_pct"]} percent</b> funded (SRC-501). Across {n} boards the '
+        f'dollar-weighted funded ratio was {derived["weighted_funded_pct"]} percent '
+        f'(derived, SRC-501). State and Teacher retirees were paid '
+        f'<b>{usd_prose(ret["annual_amount"])}</b> in calendar {ret["year"]} (SRC-503).'
+    )
+    text = replace_block(text, "pensions-lead", lead, path, style="html")
+    revised_long = page.get("revised", "")
+    for full, (short, _) in MONTH_END.items():
+        if revised_long.startswith(short + " "):
+            revised_long = full + revised_long[len(short):]
+            break
+    footer = (
+        f"    <div>Massachusetts Public Pensions &middot; Version {page.get('version', '1.0')} "
+        f"&middot; Board valuations through January 1, {dl05['board_valuation_through']} "
+        f"&middot; Retiree payroll through {dl05['retiree_year']} &middot; "
+        f"Revised {revised_long}</div>"
+    )
+    text = replace_block(text, "pensions-footer-meta", footer, path, style="html")
+    return text
+
+
 def extract_json_after(text, prefix, path):
     """Return the parsed JSON object literal that follows `prefix` on its line."""
     m = re.search(re.escape(prefix) + r"(.*?);\s*$", text, re.M)
@@ -291,6 +430,7 @@ def main():
     dl01 = load("netlify/functions/dl01-answers.json")
     dl02 = load("netlify/functions/dl02-answers.json")
     dl04 = load("netlify/functions/dl04-answers.json")
+    dl05 = load("netlify/functions/dl05-answers.json")
     changed = []
 
     # ---- index.html: const DATA = {catalog, answers, audit} + desk stats ----
@@ -318,10 +458,25 @@ def main():
         "as_of": dl04["as_of"],
         "us_trend": [[e["y"], e["v"]] for e in dl04["price_trend"]["US"]],
     }
+    dl05d = {
+        "state_funded_pct": dl05["latest"]["state"]["funded_pct"],
+        "mtrs_funded_pct": dl05["latest"]["mtrs"]["funded_pct"],
+        "weighted_funded_pct": dl05["derived"]["weighted_funded_pct"],
+        "retiree_year": dl05["retiree_year"],
+        "retiree_amount": dl05["latest"]["retirees"]["annual_amount"],
+        "retiree_amount_fmt": usd_prose(dl05["latest"]["retirees"]["annual_amount"]),
+        "retiree_count": dl05["latest"]["retirees"]["count"],
+        "n_boards": dl05["latest"]["n_boards"],
+        "as_of": dl05["as_of"],
+        "state_trend": [
+            [e["y"], e["v"]] for e in dl05["funded_history"]["state"]
+        ],
+    }
     front_payload = (
         "const DATA = " + jdump(data) + ";\n"
         + "const DL01D = " + jdump(dl01d) + ";\n"
-        + "const DL04D = " + jdump(dl04d) + ";"
+        + "const DL04D = " + jdump(dl04d) + ";\n"
+        + "const DL05D = " + jdump(dl05d) + ";"
     )
     new = replace_block(text, "front-data", front_payload, p)
 
@@ -416,6 +571,14 @@ def main():
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("electricity/index.html")
+
+    # ---- pensions/index.html: charts + keyed headlines ----
+    p = ROOT / "pensions/index.html"
+    text = p.read_text(encoding="utf-8")
+    new = inject_pensions(dl05, text, p)
+    if new != text:
+        p.write_text(new, encoding="utf-8")
+        changed.append("pensions/index.html")
 
     # ---- netlify/functions/catalog.json: copy of root ----
     p = ROOT / "netlify/functions/catalog.json"

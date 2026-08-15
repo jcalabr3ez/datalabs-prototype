@@ -27,6 +27,9 @@ const GOLDEN_HITS = [
   ["What is the average retail electricity price in the United States?", "DL-04"],
   ["How much does electricity cost in Massachusetts?", "DL-04"],
   ["Which state has the highest electricity prices?", "DL-04"],
+  ["What is the funded ratio of the Massachusetts State Retirement Board?", "DL-05"],
+  ["How funded is the Mass Teachers retirement system?", "DL-05"],
+  ["How much do State and Teacher retirees get paid in Massachusetts?", "DL-05"],
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context
@@ -42,7 +45,7 @@ function check(ok, msg) {
   }
 }
 
-check(tools.length >= 4, "at least the four live flagships are registered");
+check(tools.length >= 5, "at least the five live flagships are registered");
 
 for (const t of tools) {
   for (const f of REQUIRED) {

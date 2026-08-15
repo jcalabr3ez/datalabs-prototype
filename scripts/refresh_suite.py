@@ -597,7 +597,7 @@ def upsert_catalog(apps):
     path = ROOT / "catalog.json"
     catalog = json.loads(path.read_text(encoding="utf-8"))
     by_id = {row.get("id"): i for i, row in enumerate(catalog)}
-    archive_i = by_id.get("ARCHIVE", len(catalog))
+    insert_i = len(catalog)
     for app in apps:
         ledger = json.loads(ledger_path(app["id"]).read_text())
         vint = ""
@@ -620,8 +620,8 @@ def upsert_catalog(apps):
         if app["id"] in by_id:
             catalog[by_id[app["id"]]] = entry
         else:
-            catalog.insert(archive_i, entry)
-            archive_i += 1
+            catalog.insert(insert_i, entry)
+            insert_i += 1
             by_id = {row.get("id"): i for i, row in enumerate(catalog)}
     path.write_text(json.dumps(catalog, ensure_ascii=True, indent=1) + "\n", encoding="utf-8")
 

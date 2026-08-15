@@ -531,7 +531,7 @@ const CHART=CHART_JSON;
     <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
     <div class="dt-body">
       <p class="body-p">{esc(app['exclusions'])}</p>
-      <p class="body-p">It replaces these Tableau workbooks: {replaces}. Those URLs stay in the catalog until this page covers the same substance.</p>
+      <p class="body-p">It replaces these Tableau workbooks: {replaces}.</p>
     </div>
   </details>
 </section>

@@ -151,6 +151,31 @@ for app in load_apps():
         else:
             print(f"suite {slug}: ok   as_of {as_of}")
 
+# ---- 6. Catalog is native DataLabs applications only ----
+catalog = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
+legacy_rows = [r.get("id") for r in catalog if r.get("legacy")]
+archive_rows = [r.get("id") for r in catalog if r.get("id") == "ARCHIVE"]
+offsite = [
+    r.get("id")
+    for r in catalog
+    if r.get("url") and not (str(r["url"]).startswith("/") and not str(r["url"]).startswith("//"))
+]
+if legacy_rows:
+    failures.append("catalog.json still has legacy partner rows on " + ", ".join(legacy_rows))
+    print("catalog hygiene: MISS leftover legacy arrays")
+else:
+    print("catalog hygiene: ok   no legacy partner rows")
+if archive_rows:
+    failures.append("catalog.json still has an ARCHIVE entry")
+    print("catalog hygiene: MISS ARCHIVE")
+else:
+    print("catalog hygiene: ok   no ARCHIVE")
+if offsite:
+    failures.append("catalog.json has off-site urls on " + ", ".join(offsite))
+    print("catalog hygiene: MISS off-site urls")
+else:
+    print("catalog hygiene: ok   every application url is local")
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

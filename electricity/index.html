@@ -532,8 +532,20 @@ function drawTrend(){
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(2)+' cents';}}}},
     scales:{y:Object.assign({},AY,{title:axisTitle('Cents per kilowatt-hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
       x:Object.assign({},AX)}};
+  var endLab={id:'el',afterDatasetsDraw:function(chart){
+    var ctx=chart.ctx; ctx.save(); ctx.font='600 11px Roboto,sans-serif';
+    chart.data.datasets.forEach(function(ds,di){
+      var meta=chart.getDatasetMeta(di), i=ds.data.length-1, pt=meta.data[i];
+      if(!pt||ds.data[i]==null) return;
+      ctx.fillStyle=ds.borderColor; ctx.textAlign='left';
+      ctx.textBaseline=di%2?'top':'bottom';
+      ctx.fillText(ds.data[i].toFixed(2)+'¢', pt.x+6, pt.y+(di%2?5:-4));
+    });
+    ctx.restore();
+  }};
+  opts.layout={padding:{top:10,right:56}};
   if(trendChart){ trendChart.data=data; trendChart.update(); return; }
-  trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts});
+  trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts,plugins:[endLab]});
 }
 
 function renderTrends(){

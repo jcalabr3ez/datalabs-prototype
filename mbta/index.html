@@ -647,12 +647,26 @@ function axisTitle(text){return {display:true,text:text,color:'#5c6b7a',font:{si
 function catY(){return Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{autoSkip:false,callback:function(v){return String(this.getLabelForValue(v));}})});}
 
 const valueLabels=function(fmt){return {id:'vl',afterDatasetsDraw(c){
-  const ctx=c.ctx, meta=c.getDatasetMeta(0);
-  meta.data.forEach(function(bar,i){
-    var v=c.data.datasets[0].data[i];
-    ctx.save(); ctx.font='500 11px '+MONO; ctx.fillStyle=G2;
-    ctx.textAlign='left'; ctx.textBaseline='middle';
-    ctx.fillText(fmt(v), bar.x+6, bar.y); ctx.restore(); });}};};
+  const ctx=c.ctx; ctx.save(); ctx.font='500 11px '+MONO; ctx.fillStyle=G2;
+  c.data.datasets.forEach(function(ds,di){
+    const meta=c.getDatasetMeta(di);
+    meta.data.forEach(function(bar,i){
+      var v=ds.data[i]; if(v==null) return;
+      ctx.textAlign=Number(v)<0?'right':'left'; ctx.textBaseline='middle';
+      ctx.fillText(fmt(v), bar.x+(Number(v)<0?-6:6), bar.y);
+    });
+  });
+  ctx.restore();}};};
+const endLabels=function(fmt){return {id:'el',afterDatasetsDraw(c){
+  const ctx=c.ctx; ctx.save(); ctx.font='700 11px '+MONO;
+  c.data.datasets.forEach(function(ds,di){
+    var i=ds.data.length-1; while(i>=0&&ds.data[i]==null) i--;
+    const pt=c.getDatasetMeta(di).data[i]; if(!pt||ds.data[i]==null) return;
+    ctx.fillStyle=ds.borderColor||G2; ctx.textAlign='left';
+    ctx.textBaseline=di%2?'top':'bottom';
+    ctx.fillText(fmt(ds.data[i]), pt.x+6, pt.y+(di%2?5:-4));
+  });
+  ctx.restore();}};};
 const refLineX=function(val,color,label){return {id:'rlx',afterDatasetsDraw(c){
   const ctx=c.ctx, top=c.chartArea.top, bottom=c.chartArea.bottom, x=c.scales.x;
   var px=x.getPixelForValue(val);
@@ -746,11 +760,12 @@ function renderService(){
         {label:'2019',data:pr.map(function(r){return r.trips_per_vrh_2019;}),backgroundColor:G3,barPercentage:.72,categoryPercentage:.74},
         {label:'2025',data:pr.map(function(r){return r.trips_per_vrh;}),backgroundColor:BLUE,barPercentage:.72,categoryPercentage:.74}
       ]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{top:6,right:18}},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{top:6,right:40}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.x.toFixed(1)+' trips per revenue hour';}}}},
       scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Trips per revenue hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
-        y:catY()}}});
+        y:catY()}},
+    plugins:[valueLabels(function(v){return v.toFixed(1);})]});
 
   // service supplied vs ridership, as a share of 2019
   const codes=Object.keys(S.by_mode).sort(function(a,b){return S.by_mode[b].vrh_pct_of_2019-S.by_mode[a].vrh_pct_of_2019;});
@@ -760,12 +775,12 @@ function renderService(){
         {label:'Service (revenue hours)',data:codes.map(function(k){return S.by_mode[k].vrh_pct_of_2019;}),backgroundColor:BLUE,barPercentage:.74,categoryPercentage:.72},
         {label:'Ridership',data:codes.map(function(k){return S.by_mode[k].upt_pct_of_2019;}),backgroundColor:GOLD,barPercentage:.74,categoryPercentage:.72}
       ]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,right:16}},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,right:40}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.x+'% of 2019';}}}},
       scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Percent of 2019'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
         y:catY()}},
-    plugins:[refLineX(100,INK,'2019 level')]});
+    plugins:[valueLabels(function(v){return v+'%';}),refLineX(100,INK,'2019 level')]});
 }
 function renderReliability(){
   if(rendered.rel) return; rendered.rel=true;
@@ -790,11 +805,12 @@ function renderReliability(){
         {label:'Commuter Rail',data:yrs.map(function(y){return crMap[y]!=null?crMap[y]:null;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:.25,spanGaps:true},
         {label:'Bus',data:mb.map(function(e){return e.pct;}),borderColor:BLUE,backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:.25}
       ]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:48}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y+'%';}}}},
       scales:{y:Object.assign({},AY,{min:60,max:100,title:axisTitle('Percent of trips meeting the standard'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-        x:Object.assign({},AX)}}});
+        x:Object.assign({},AX)}},
+    plugins:[endLabels(function(v){return v+'%';})]});
 
   var crb=R.commuter_rail_by_line_ttm.map(function(r){return '<tr><td class="m">'+r.line+'</td><td class="n">'+r.pct.toFixed(1)+'%</td></tr>';}).join('');
   var crEl=document.querySelector('#tblCRlines tbody'); if(crEl) crEl.innerHTML=crb;

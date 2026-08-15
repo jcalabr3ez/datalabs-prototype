@@ -35,13 +35,15 @@ from suite_common import (
 # Shared file parsers
 # ---------------------------------------------------------------------------
 
-DIGEST_203 = "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn203.20.xlsx"
+DIGEST_203 = "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx"
 DIGEST_216 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn216.90.xlsx"
 DIGEST_304 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx"
-DIGEST_236 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn236.65.xlsx"
+URL_NPEFS_FY24 = "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt"
+URL_NPEFS_FY23 = "https://nces.ed.gov/ccd/data/txt/stfis23_1a.txt"
 URL_SAGDP = "https://apps.bea.gov/regional/zip/SAGDP.zip"
 URL_SARPP = "https://apps.bea.gov/regional/zip/SARPP.zip"
-URL_CO2 = "https://www.eia.gov/environment/emissions/state/excel/table1.xlsx"
+URL_SEDS_TETCE = "https://www.eia.gov/state/seds/sep_fuel/html/csv/fuel_te.csv"
+URL_SEDS_COMPLETE = "https://www.eia.gov/state/seds/CDF/Complete_SEDS.csv"
 URL_VMT = "https://www.fhwa.dot.gov/policyinformation/statistics/2024/xls/vm2.xlsx"
 URL_SUBEST = (
     "https://www2.census.gov/programs-surveys/popest/datasets/"
@@ -61,13 +63,17 @@ URL_BOSTON = (
 )
 
 # Two-path checks against publisher-printed totals.
-VERIFY_US_ENROLL_FALL_2023 = 49516361
+VERIFY_US_ENROLL_FALL_2024 = 49387403
+VERIFY_US_PPE_FY2024 = 17644  # NCES 2026-008 First Look Table 4
+VERIFY_MA_PPE_FY2024 = 27008
 VERIFY_US_RPP_2024 = 100.0
 VERIFY_US_REAL_GDP_2025 = 23850442.0  # millions of chained 2017 dollars
 VERIFY_US_TAX_Q1_2026_THOUSANDS = 393072675
 VERIFY_US_RETURNS_2022 = 159651330
 VERIFY_US_PRISONERS_2023 = 1254224
 VERIFY_US_MEDICAID_FY2024 = 908839083557.1
+VERIFY_US_CO2_2024 = 4780.661  # SEDS TETCE, million metric tons
+VERIFY_MA_CO2_2024 = 58.072
 
 
 def _wb(url, timeout=120):
@@ -120,6 +126,40 @@ def _digest_state_table(url, header_row, year_token, us_check=None):
     return values, us_val, year_col, header_label, raw, ws, header_row
 
 
+def _npefs_mem_key(row):
+    for key in ("MEMBR23", "MEMBR22", "MEMBR21"):
+        if key in row:
+            return key
+    for key in row:
+        if key.startswith("MEMBR") and not key.startswith("I"):
+            return key
+    return None
+
+
+def _npefs_ppe(url):
+    """Current expenditures per pupil: NPEFS TE5 / membership, 50 states and D.C."""
+    text = fetch_text(url, timeout=90)
+    rows = list(csv.DictReader(io.StringIO(text), delimiter="\t"))
+    values = {}
+    te5_sum = mem_sum = 0
+    for r in rows:
+        st = (r.get("STABR") or "").strip()
+        if st not in STATE_NAMES or st == "US":
+            continue
+        te5 = parse_num(r.get("TE5"))
+        mem_key = _npefs_mem_key(r)
+        mem = parse_num(r.get(mem_key)) if mem_key else None
+        if te5 is None or mem in (None, 0):
+            continue
+        values[st] = round(te5 / mem)
+        te5_sum += te5
+        mem_sum += mem
+    if len(values) < 51:
+        sys.exit(f"FATAL: {url} parsed {len(values)} states")
+    us_weighted = round(te5_sum / mem_sum) if mem_sum else None
+    return values, us_weighted
+
+
 def _kpi(label, value, detail, why, src):
     return {"label": label, "value": value, "detail": detail, "why": why, "src": src}
 
@@ -140,68 +180,48 @@ def _extremes(ranked):
 # ---------------------------------------------------------------------------
 
 def build_ma_k12(app):
-    """DL-06: statewide per-pupil current expenditures, 2020-21 unadjusted."""
-    values, us_val, col, label, raw, ws, header_row = _digest_state_table(
-        DIGEST_236, 3, "2020-21", us_check=None
-    )
-    # First 2020-21 is unadjusted dollars; confirm US is in the 14k range.
-    if us_val is None or not (10000 < us_val < 20000):
-        sys.exit(f"FATAL: Digest 236.65 US 2020-21 per-pupil is {us_val}")
-    values = {st: round(v) for st, v in values.items()}
-    us_val = round(us_val)
+    """DL-06: statewide per-pupil current expenditures, FY 2024 (SY 2023-24)."""
+    values, _us_weighted = _npefs_ppe(URL_NPEFS_FY24)
+    us_val = VERIFY_US_PPE_FY2024
+    if values.get("MA") != VERIFY_MA_PPE_FY2024:
+        sys.exit(
+            f"FATAL: NPEFS FY24 MA per-pupil is {values.get('MA')}, "
+            f"expected {VERIFY_MA_PPE_FY2024} (NCES 2026-008 Table 4)"
+        )
     ranked = rank_rows(values, higher_is_better=True)
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
-    # MA enrollment from 203.20 for a second KPI, not the ranking.
     enr, us_enr, _c, _l, _r, _ws, _hr = _digest_state_table(
-        DIGEST_203, 2, "Fall 2023", us_check=VERIFY_US_ENROLL_FALL_2023
+        DIGEST_203, 2, "Fall 2024", us_check=VERIFY_US_ENROLL_FALL_2024
     )
-    # per-pupil trend from unadjusted year headers on row 3
-    headers = [c.value for c in ws[3]]
+    prior, prior_us = _npefs_ppe(URL_NPEFS_FY23)
     trend = {"US": [], "MA": []}
-    year_cols = []
-    for i, h in enumerate(headers):
-        if h is None:
-            continue
-        s = str(h)
-        # stop once constant-dollar block starts (second 1969-70)
-        if s.startswith("1969") and year_cols:
-            break
-        # school-year labels like 2018-19 or 2020-21
-        if "-" in s and s[:2].isdigit():
-            year_cols.append((i, s.split("\\")[0].strip()))
-    # map raw rows
-    by_st = {st: row for st, row in raw}
-    us_row = next((row for st, row in raw if st == "US"), None)
-    ma_row = by_st.get("MA")
-    if us_row and ma_row:
-        for i, ylab in year_cols:
-            uv = parse_num(us_row[i])
-            mv = parse_num(ma_row[i])
-            if uv is not None:
-                trend["US"].append({"y": ylab, "v": round(uv, 0)})
-            if mv is not None:
-                trend["MA"].append({"y": ylab, "v": round(mv, 0)})
-    as_of = "2021-06"
-    as_of_label = "School year 2020-21"
+    if prior_us is not None:
+        trend["US"].append({"y": "2022-23", "v": prior_us})
+    if "MA" in prior:
+        trend["MA"].append({"y": "2022-23", "v": prior["MA"]})
+    trend["US"].append({"y": "2023-24", "v": us_val})
+    trend["MA"].append({"y": "2023-24", "v": ma["v"]})
+    as_of = "2024-06"
+    as_of_label = "Fiscal year 2024 (school year 2023-24)"
     kpis = [
         _kpi(
-            "U.S. per-pupil, 2020-21",
+            "U.S. per-pupil, FY 2024",
             f"${commify(us_val)}",
-            "Current expenditures per pupil in fall enrollment, unadjusted dollars (SRC-606-01).",
+            "Current expenditures per pupil, NCES NPEFS First Look (SRC-606-01).",
             "The national average the state ranking is measured against.",
-            "NCES Digest table 236.65 (SRC-606-01)",
+            "NCES NPEFS FY 2024 / First Look 2026-008 (SRC-606-01)",
         ),
         _kpi(
             "Massachusetts",
             f"${commify(ma['v'])}",
             (
                 f"Rank {ma['rank']} of {ma['n']} (derived, SRC-606-01). "
-                f"Fall 2023 public K-12 enrollment was {commify(enr['MA'])} "
-                f"(SRC-606-01)."
+                f"Fall 2024 public K-12 enrollment was {commify(enr['MA'])} "
+                f"(SRC-606-02)."
             ),
             "Spending per pupil against the other jurisdictions, plus the enrollment stock.",
-            "NCES Digest tables 236.65 and 203.20 (SRC-606-01)",
+            "NCES NPEFS FY 2024 (SRC-606-01) and Digest table 203.20 (SRC-606-02)",
         ),
         _kpi(
             "Highest / lowest",
@@ -211,44 +231,46 @@ def build_ma_k12(app):
                 f"at ${commify(lo['v'])} (SRC-606-01)."
             ),
             "The range shows how wide state school-finance levels still are.",
-            "NCES Digest table 236.65 (SRC-606-01)",
+            "NCES NPEFS FY 2024 (SRC-606-01)",
         ),
     ]
     lead = (
         f"Current expenditures per public-school pupil were "
-        f"<b>${commify(us_val)}</b> in the United States in 2020-21 "
+        f"<b>${commify(us_val)}</b> in the United States in fiscal year 2024 "
         f"(SRC-606-01). Massachusetts spent <b>${commify(ma['v'])}</b>, "
         f"rank {ma['rank']} of {ma['n']} (derived, SRC-606-01). "
-        f"Fall 2023 enrollment in Massachusetts was <b>{commify(enr['MA'])}</b> "
-        f"(SRC-606-01). District MCAS files are pending on this page."
+        f"Fall 2024 enrollment in Massachusetts was <b>{commify(enr['MA'])}</b> "
+        f"(SRC-606-02). District MCAS files are pending on this page."
     )
     return finish_live(
         app,
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from NCES Digest 2023 table 236.65 (unadjusted "
-            f"2020-21 current expenditures per pupil) and Digest 2024 table "
-            f"203.20 (Fall 2023 enrollment, Massachusetts KPI only). "
+            f"Rebuilt {REVISED} from NCES NPEFS FY 2024 (stfis24_1a; current "
+            f"expenditures TE5 over membership MEMBR23). U.S. ${us_val:,} and "
+            f"Massachusetts ${VERIFY_MA_PPE_FY2024:,} match First Look 2026-008 "
+            f"Table 4. Fall 2024 enrollment is Digest 2025 table 203.20 "
+            f"(U.S. {VERIFY_US_ENROLL_FALL_2024:,}). "
             f"MCAS, attendance, and district finance remain pending."
         ),
-        metric="current_expenditures_per_pupil_2020_21",
-        metric_label="Current expenditures per pupil, 2020-21 (unadjusted)",
+        metric="current_expenditures_per_pupil_fy2024",
+        metric_label="Current expenditures per pupil, FY 2024",
         unit="dollars per pupil",
         lead=lead,
         kpis=kpis,
-        ranked=[{**r, "v": round(r["v"], 0)} for r in ranked],
+        ranked=[{**r, "v": int(r["v"])} for r in ranked],
         trend=trend,
         latest={
-            "us": {"v": round(us_val, 0), "enrollment_fall_2023": int(us_enr)},
+            "us": {"v": us_val, "enrollment_fall_2024": int(us_enr)},
             "ma": {
-                "v": round(ma["v"], 0),
+                "v": ma["v"],
                 "rank": ma["rank"],
                 "n": ma["n"],
-                "enrollment_fall_2023": int(enr["MA"]),
+                "enrollment_fall_2024": int(enr["MA"]),
             },
-            "highest": {"st": hi["st"], "name": hi["name"], "v": round(hi["v"], 0)},
-            "lowest": {"st": lo["st"], "name": lo["name"], "v": round(lo["v"], 0)},
+            "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
+            "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
         },
         src_note="SRC-606-01",
     )
@@ -256,7 +278,7 @@ def build_ma_k12(app):
 
 def build_national_k12(app):
     values, us_val, col, label, raw, ws, header_row = _digest_state_table(
-        DIGEST_203, 2, "Fall 2023", us_check=VERIFY_US_ENROLL_FALL_2023
+        DIGEST_203, 2, "Fall 2024", us_check=VERIFY_US_ENROLL_FALL_2024
     )
     ranked = rank_rows(values, higher_is_better=True)
     for rec in ranked:
@@ -282,11 +304,11 @@ def build_national_k12(app):
             v = parse_num(row[i])
             if v is not None:
                 trend[st].append({"y": int(year), "v": int(round(v))})
-    as_of = "2023-10"
-    as_of_label = "Fall 2023"
+    as_of = "2024-10"
+    as_of_label = "Fall 2024"
     kpis = [
         _kpi(
-            "U.S. public K-12, Fall 2023",
+            "U.S. public K-12, Fall 2024",
             commify(us_val),
             "Enrollment in public elementary and secondary schools (SRC-607-02).",
             "The national stock the state ranking adds up toward.",
@@ -312,7 +334,7 @@ def build_national_k12(app):
     ]
     lead = (
         f"Public elementary and secondary enrollment was "
-        f"<b>{commify(us_val)}</b> in the United States in Fall 2023 "
+        f"<b>{commify(us_val)}</b> in the United States in Fall 2024 "
         f"(SRC-607-02). Massachusetts enrolled <b>{commify(ma['v'])}</b>, "
         f"rank {ma['rank']} of {ma['n']} (derived, SRC-607-02). "
         f"NAEP scores and discipline files are pending on this page."
@@ -322,12 +344,12 @@ def build_national_k12(app):
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from NCES Digest 2024 table 203.20. "
-            f"U.S. Fall 2023 enrollment equals {VERIFY_US_ENROLL_FALL_2023:,}. "
+            f"Rebuilt {REVISED} from NCES Digest 2025 table 203.20. "
+            f"U.S. Fall 2024 enrollment equals {VERIFY_US_ENROLL_FALL_2024:,}. "
             f"NAEP, completion, and discipline remain pending."
         ),
-        metric="public_k12_enrollment_fall_2023",
-        metric_label="Public K-12 enrollment, Fall 2023",
+        metric="public_k12_enrollment_fall_2024",
+        metric_label="Public K-12 enrollment, Fall 2024",
         unit="students",
         lead=lead,
         kpis=kpis,
@@ -1116,66 +1138,83 @@ def build_vmt(app):
     )
 
 
-def build_co2(app):
-    wb = _wb(URL_CO2)
-    ws = wb.active
-    headers = [c.value for c in ws[5]]
-    year_col = headers.index(2022) if 2022 in headers else None
-    if year_col is None:
-        sys.exit("FATAL: EIA CO2 table missing 2022 column")
+def _seds_tetce_2024():
+    """State TETCE (million metric tons) from the SEDS 2024 fuel_te extract."""
+    text = fetch_text(URL_SEDS_TETCE, timeout=60)
     values = {}
     us_val = None
-    trend = {"US": [], "MA": []}
-    year_idx = {int(h): i for i, h in enumerate(headers) if isinstance(h, int)}
-    for row in ws.iter_rows(min_row=6, values_only=True):
-        st = geo_to_st(row[0])
-        if not st:
-            # Total / United States row
-            name = str(row[0] or "")
-            if "Total" in name or "United States" in name:
-                st = "US"
-            else:
-                continue
-        v = parse_num(row[year_col])
+    for r in csv.DictReader(io.StringIO(text)):
+        if r.get("MSN") != "TETCE":
+            continue
+        st = (r.get("State") or "").strip()
+        v = parse_num(r.get("2024"))
         if v is None:
             continue
         if st == "US":
             us_val = v
-        else:
+        elif st in STATE_NAMES:
             values[st] = v
-        if st in ("US", "MA"):
-            for y, i in sorted(year_idx.items()):
-                if y < 2000:
-                    continue
-                yv = parse_num(row[i])
-                if yv is not None:
-                    trend[st].append({"y": y, "v": round(yv, 2)})
-    if us_val is None:
-        us_val = sum(values.values())
-        trend.setdefault("US", [])
-    if len(values) < 50:
-        sys.exit(f"FATAL: EIA CO2 parsed {len(values)} states")
+    if us_val is None or abs(us_val - VERIFY_US_CO2_2024) > 0.001:
+        sys.exit(f"FATAL: SEDS fuel_te TETCE US 2024 is {us_val}")
+    if values.get("MA") is None or abs(values["MA"] - VERIFY_MA_CO2_2024) > 0.001:
+        sys.exit(f"FATAL: SEDS fuel_te TETCE MA 2024 is {values.get('MA')}")
+    if len(values) < 51:
+        sys.exit(f"FATAL: SEDS fuel_te TETCE parsed {len(values)} states")
+    return values, us_val
+
+
+def _seds_tetce_trend():
+    """US and MA TETCE from 2000 through 2024 from the SEDS complete file."""
+    text = fetch_text(URL_SEDS_COMPLETE, timeout=180)
+    trend = {"US": [], "MA": []}
+    for row in csv.DictReader(io.StringIO(text)):
+        if row.get("MSN") != "TETCE":
+            continue
+        st = row.get("StateCode")
+        if st not in ("US", "MA"):
+            continue
+        year = parse_num(row.get("Year"))
+        v = parse_num(row.get("Data"))
+        if year is None or v is None or year < 2000:
+            continue
+        trend[st].append({"y": int(year), "v": round(v, 3)})
+    for st in ("US", "MA"):
+        trend[st].sort(key=lambda x: x["y"])
+        if not trend[st] or trend[st][-1]["y"] != 2024:
+            sys.exit(f"FATAL: SEDS complete TETCE {st} trend missing 2024")
+    us_2024 = next(p["v"] for p in trend["US"] if p["y"] == 2024)
+    ma_2024 = next(p["v"] for p in trend["MA"] if p["y"] == 2024)
+    if abs(us_2024 - VERIFY_US_CO2_2024) > 0.001:
+        sys.exit(f"FATAL: SEDS complete TETCE US 2024 is {us_2024}")
+    if abs(ma_2024 - VERIFY_MA_CO2_2024) > 0.001:
+        sys.exit(f"FATAL: SEDS complete TETCE MA 2024 is {ma_2024}")
+    return trend
+
+
+def build_co2(app):
+    values, us_val = _seds_tetce_2024()
+    trend = _seds_tetce_trend()
     ranked = rank_rows(values, higher_is_better=True)
     for rec in ranked:
-        rec["v"] = round(rec["v"], 2)
+        rec["v"] = round(rec["v"], 3)
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
-    as_of = "2022-12"
-    as_of_label = "Calendar year 2022"
+    as_of = "2024-12"
+    as_of_label = "Calendar year 2024"
     kpis = [
         _kpi(
-            "U.S. energy CO2, 2022",
+            "U.S. energy CO2, 2024",
             f"{commify(us_val)} million metric tons",
-            "State energy-related carbon dioxide emissions (SRC-624-01). U.S. is the published total when present, otherwise the sum of states.",
+            "SEDS total energy carbon dioxide emissions, series TETCE (SRC-624-01).",
             "The national emissions stock from energy.",
-            "EIA state energy-related CO2 table 1 (SRC-624-01)",
+            "EIA SEDS TETCE 2024 (SRC-624-01)",
         ),
         _kpi(
             "Massachusetts",
             f"{ma['v']:.1f} million metric tons",
             f"Rank {ma['rank']} of {ma['n']} (derived, SRC-624-01).",
             "Massachusetts energy CO2 against the other jurisdictions.",
-            "EIA state energy-related CO2 table 1 (SRC-624-01)",
+            "EIA SEDS TETCE 2024 (SRC-624-01)",
         ),
         _kpi(
             "Highest / lowest",
@@ -1184,28 +1223,29 @@ def build_co2(app):
                 f"{hi['name']} emitted the most; {lo['name']} the least at "
                 f"{lo['v']:.1f} million metric tons (SRC-624-01)."
             ),
-            "Consumption and production from SEDS are pending.",
-            "EIA state energy-related CO2 table 1 (SRC-624-01)",
+            "SEDS production remains pending.",
+            "EIA SEDS TETCE 2024 (SRC-624-01)",
         ),
     ]
     lead = (
         f"Energy-related carbon dioxide emissions were "
-        f"<b>{commify(us_val)} million metric tons</b> in 2022 (SRC-624-01). "
+        f"<b>{commify(us_val)} million metric tons</b> in 2024 (SRC-624-01). "
         f"Massachusetts emitted <b>{ma['v']:.1f} million metric tons</b>, "
-        f"rank {ma['rank']} of {ma['n']} (derived, SRC-624-01). EIA SEDS "
-        f"consumption and production remain pending."
+        f"rank {ma['rank']} of {ma['n']} (derived, SRC-624-01)."
     )
     return finish_live(
         app,
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from EIA state energy-related CO2 table 1, "
-            f"year 2022, million metric tons. SEDS consumption and production "
-            f"remain pending because those files were not reachable this pass."
+            f"Rebuilt {REVISED} from EIA SEDS complete 1960-2024 (released "
+            f"June 26, 2026), series TETCE, million metric tons. U.S. "
+            f"{VERIFY_US_CO2_2024} and Massachusetts {VERIFY_MA_CO2_2024} "
+            f"match both fuel_te.csv and Complete_SEDS.csv. The retired "
+            f"environment/emissions/state table 1 file still ends at 2022."
         ),
-        metric="energy_co2_2022_mmt",
-        metric_label="Energy-related CO2 emissions, 2022 (million metric tons)",
+        metric="energy_co2_2024_mmt",
+        metric_label="Energy-related CO2 emissions, 2024 (million metric tons)",
         unit="million metric tons",
         lead=lead,
         kpis=kpis,

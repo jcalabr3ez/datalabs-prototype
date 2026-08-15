@@ -402,6 +402,7 @@ module.exports = [
     triggers: [
       'k-12 enrollment', 'k12 enrollment', 'public school enrollment',
       'public k-12', 'national k-12', 'fall 2023 enrollment',
+      'fall 2024 enrollment',
       'elementary and secondary enrollment'
     ],
     extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP state scores are pending: decline those.'
@@ -553,7 +554,7 @@ module.exports = [
     src: 'SRC-624-01',
     triggers: [
       'carbon dioxide', 'co2', 'energy emissions', 'emissions from energy',
-      'state emissions'
+      'state emissions', '2024 emissions'
     ],
     extra: 'Retail electricity prices sit on DL-04. SEDS consumption sits in derived.secondary.seds_consumption_2024. SEDS production is pending.'
   }),

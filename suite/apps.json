@@ -12,11 +12,12 @@
       "g": ["MA"],
       "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
       "replaces": ["Dropouts & Graduates", "Education Fast Facts", "Enrollment by Grade", "MA Demographics", "MCAS NEXTGEN", "School Attendance", "School Finances"],
-      "scope": "This ledger ranks states on NCES Digest current expenditures per pupil (2020-21, unadjusted), reports Massachusetts Fall 2023 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views.",
+      "scope": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views.",
       "exclusions": "Does not cover national NAEP, higher education, charter-only national files, waitlists, lottery outcomes, or advice about a school choice. MCAS, district finance, and CTE waitlist files are pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-606-01", "name": "NCES Digest tables 236.65 (per-pupil) and 203.20 (enrollment)", "cadence": "Annual school year", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn236.65.xlsx"},
+        {"id": "SRC-606-01", "name": "NCES NPEFS FY 2024 current expenditures per pupil (First Look 2026-008)", "cadence": "Annual fiscal year", "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt"},
+        {"id": "SRC-606-02", "name": "NCES Digest table 203.20, public K-12 enrollment", "cadence": "Annual school year", "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx"},
         {"id": "SRC-606-03", "name": "DESE / E2C pathways enrollment, Chapter 74 career technical education", "cadence": "Annual school year", "url": "https://educationtocareer.data.mass.gov/resource/9p45-t37j.json"}
       ]
     },
@@ -30,12 +31,12 @@
       "g": ["US"],
       "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
       "replaces": ["Discipline & Security", "High School Completion", "K-12 Enrollment", "K-12 School Finance", "Reading/Math Achievement"],
-      "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view.",
+      "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view.",
       "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education. NAEP state scores are pending.",
       "wave": "live",
       "sources": [
         {"id": "SRC-607-01", "name": "NCES NAEP state results", "cadence": "Biennial", "url": "https://nces.ed.gov/nationsreportcard/"},
-        {"id": "SRC-607-02", "name": "NCES Digest table 203.20, public K-12 enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn203.20.xlsx"},
+        {"id": "SRC-607-02", "name": "NCES Digest table 203.20, public K-12 enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx"},
         {"id": "SRC-607-03", "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx"},
         {"id": "SRC-607-04", "name": "NCES Digest table 233.40, out-of-school suspension share", "cadence": "Periodic", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx"}
       ]
@@ -333,11 +334,11 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
       "replaces": ["CO2 Emissions", "Energy Consumption", "Energy Production"],
-      "scope": "This ledger ranks states on EIA energy-related carbon dioxide emissions for 2022, and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04.",
+      "scope": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04.",
       "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill. SEDS production is pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-624-01", "name": "EIA state energy-related CO2 emissions, table 1", "cadence": "Annual", "url": "https://www.eia.gov/environment/emissions/state/excel/table1.xlsx"},
+        {"id": "SRC-624-01", "name": "EIA SEDS total energy CO2 emissions (TETCE), 2024", "cadence": "Annual", "url": "https://www.eia.gov/state/seds/sep_fuel/html/csv/fuel_te.csv"},
         {"id": "SRC-624-02", "name": "EIA SEDS total energy consumption (TETCB)", "cadence": "Annual", "url": "https://www.eia.gov/state/seds/sep_use/total/csv/use_all_btu.csv"}
       ]
     },

@@ -117,7 +117,7 @@
   "ai": true,
   "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
   "group": "Education",
-  "vint": "School year 2020-21"
+  "vint": "Fiscal year 2024 (school year 2023-24)"
  },
  {
   "id": "DL-07",
@@ -131,7 +131,7 @@
   "ai": true,
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "group": "Education",
-  "vint": "Fall 2023"
+  "vint": "Fall 2024"
  },
  {
   "id": "DL-08",

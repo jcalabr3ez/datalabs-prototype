@@ -75,8 +75,13 @@
   .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
   .plot-mid{height:clamp(480px,62vh,780px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}
+  .insight-grid .exhibit.span2{grid-column:1/-1}
+  .insight-grid .lede{margin:8px 0 12px;font-size:13.5px}
+  @media(max-width:900px){.insight-grid{grid-template-columns:1fr}}
   .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
   th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
@@ -174,6 +179,21 @@ Massachusetts state tax collections were <b>$11.62 billion</b> in the first quar
 <!-- DATA:END ma-state-finances-kpis -->
     </div>
   </section>
+  <section id="insights">
+    <h2>A closer look</h2>
+    <p class="lede">Additional figures from the published files on this page. Series that are not in those files are not drawn.</p>
+    <div class="insight-grid">
+    <div class="exhibit span2">
+      <div class="ex-head"><span class="ex-n">Figure A</span>
+        <span class="ex-t">Massachusetts state tax collections by type, 2026 Q1</span></div>
+      <div class="lede">Individual income is the largest source after the total.</div>
+      <div class="plot-mid"><canvas id="chInsight0"></canvas></div>
+      <div class="note">Census QTAX 2026 Q1 table 3. Total Taxes is omitted so the type split is readable. DOR monthly reports remain pending.</div>
+      <div class="srcline"><b>Source:</b> SRC-628-01. <b>Unit:</b> dollars.</div>
+    </div>
+    </div>
+  </section>
+
   <section id="view-rank">
     <h2>How do they compare?</h2>
     <div class="lede">Massachusetts state tax collections by type, 2026 Q1. Unit: dollars. The highlighted bar is Total Taxes.</div>
@@ -254,6 +274,7 @@ Massachusetts state tax collections were <b>$11.62 billion</b> in the first quar
 const DL={"tool_id":"DL-28","as_of":"2026-03","rows":[{"st":"Total Ta","name":"Total Taxes","v":11618592000.0,"rank":1,"n":22},{"st":"Individu","name":"Individual income","v":5853793000.0,"rank":2,"n":22},{"st":"General ","name":"General sales and gross receipts","v":2256655000.0,"rank":3,"n":22},{"st":"Corporat","name":"Corporation net income","v":1906087000.0,"rank":4,"n":22},{"st":"Insuranc","name":"Insurance premiums","v":368262000.0,"rank":5,"n":22},{"st":"Death an","name":"Death and gift","v":288240000.0,"rank":6,"n":22},{"st":"Motor fu","name":"Motor fuels","v":168594000.0,"rank":7,"n":22},{"st":"Occupati","name":"Occupation and businesses","v":151049000.0,"rank":8,"n":22},{"st":"Other se","name":"Other selective sales and gross receipts","v":101009000.0,"rank":9,"n":22},{"st":"Motor ve","name":"Motor vehicles","v":95455000.0,"rank":10,"n":22},{"st":"Other li","name":"Other license taxes","v":87044000.0,"rank":11,"n":22},{"st":"Document","name":"Documentary and stock transfer","v":81371000.0,"rank":12,"n":22},{"st":"Tobacco ","name":"Tobacco products","v":64194000.0,"rank":13,"n":22},{"st":"Sports b","name":"Sports betting (including pari-mutuels)","v":56690000.0,"rank":14,"n":22},{"st":"Motor ve","name":"Motor vehicle operators","v":19796000.0,"rank":15,"n":22},{"st":"Corporat","name":"Corporations in general","v":8240000.0,"rank":16,"n":22},{"st":"Amusemen","name":"Amusements","v":4092000.0,"rank":17,"n":22},{"st":"Hunting ","name":"Hunting and fishing","v":2016000.0,"rank":18,"n":22},{"st":"Alcoholi","name":"Alcoholic beverages","v":574000.0,"rank":19,"n":22},{"st":"Property","name":"Property taxes","v":416000.0,"rank":20,"n":22},{"st":"Public u","name":"Public utilities","v":0.0,"rank":21,"n":22},{"st":"Other ta","name":"Other taxes, NEC","v":0.0,"rank":22,"n":22}],"trend":{},"latest":{"us":{"v":393072675000.0,"yoy_pct":5.7},"ma":{"v":11618592000.0,"yoy_pct":5.2},"largest_source":{"name":"Individual income","v":5853793000.0}},"derived":{"note":"Prefer these over recomputing. Ranks cite (derived, SRC-628-01).","highest_five":[{"st":"Total Ta","name":"Total Taxes","v":11618592000.0,"rank":1,"n":22},{"st":"Individu","name":"Individual income","v":5853793000.0,"rank":2,"n":22},{"st":"General ","name":"General sales and gross receipts","v":2256655000.0,"rank":3,"n":22},{"st":"Corporat","name":"Corporation net income","v":1906087000.0,"rank":4,"n":22},{"st":"Insuranc","name":"Insurance premiums","v":368262000.0,"rank":5,"n":22}],"lowest_five":[{"st":"Other ta","name":"Other taxes, NEC","v":0.0,"rank":22,"n":22},{"st":"Public u","name":"Public utilities","v":0.0,"rank":21,"n":22},{"st":"Property","name":"Property taxes","v":416000.0,"rank":20,"n":22},{"st":"Alcoholi","name":"Alcoholic beverages","v":574000.0,"rank":19,"n":22},{"st":"Hunting ","name":"Hunting and fishing","v":2016000.0,"rank":18,"n":22}],"n_ranked":22},"metric":"ma_state_tax_collections_2026q1","unit":"dollars"};
 /* DATA:END ma-state-finances-data */
 const CHART={"geo": "tax type", "format": "usd", "highlight": "Total Taxes", "n_chart": 22, "unit": "dollars", "axis_unit": "dollars", "label": "Massachusetts state tax collections by type, 2026 Q1", "title": "Massachusetts state tax collections by type, 2026 Q1 by tax type", "lede": "Massachusetts state tax collections by type, 2026 Q1. Unit: dollars. The highlighted bar is Total Taxes.", "has_trend": false, "table_noun": "Every tax type", "col_name": "Tax type", "trend_title": "Massachusetts state tax collections by type, 2026 Q1 over time"};
+const INSIGHTS=[{"id": "tax-types", "title": "Massachusetts state tax collections by type, 2026 Q1", "lede": "Individual income is the largest source after the total.", "src": "SRC-628-01", "type": "bar", "format": "usd", "unit": "dollars", "labels": ["Individual income", "General sales and gross receipts", "Corporation net income", "Insurance premiums", "Death and gift", "Motor fuels", "Occupation and businesses", "Other selective sales and gross receipts"], "series": [{"label": "", "data": [5853793000.0, 2256655000.0, 1906087000.0, 368262000.0, 288240000.0, 168594000.0, 151049000.0, 101009000.0], "colors": ["#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C"]}], "note": "Census QTAX 2026 Q1 table 3. Total Taxes is omitted so the type split is readable. DOR monthly reports remain pending.", "span": 2, "index_axis": "y", "height": "mid"}];
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -349,6 +370,67 @@ const CHART={"geo": "tax type", "format": "usd", "highlight": "Total Taxes", "n_
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
         }}});
   }
+  function fmtInsight(fmt, v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'−':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  (INSIGHTS||[]).forEach(function(fig, i){
+    var el=document.getElementById('chInsight'+i);
+    if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
+    var ifmt=fig.format||'number';
+    var iunit=fig.unit||'';
+    var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
+    var opts={
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
+        position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){
+          var lab=c.dataset.label?c.dataset.label+': ':'';
+          var val=c.parsed.x!=null&&fig.index_axis==='y'?c.parsed.x:c.parsed.y;
+          return ' '+lab+fmtInsight(ifmt,val)+extra;
+        }}}},
+      scales:{
+        x:{ticks:{color:GREY,callback:function(v){
+          return fig.index_axis==='y'?fmtInsight(ifmt,v,true):v;
+        }},grid:{color:fig.index_axis==='y'?'#EEF1F4':'transparent'}},
+        y:{ticks:{color:fig.index_axis==='y'?INK:GREY,font:{size:10,family:'Roboto,sans-serif'},
+          callback:function(v){return fig.index_axis==='y'?v:fmtInsight(ifmt,v,true);}},
+          grid:{color:fig.index_axis==='y'?'transparent':'#EEF1F4'},border:{display:false}}
+      }
+    };
+    if(fig.type==='line'){
+      new Chart(el,{type:'line',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
+            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    if(fig.type==='grouped'){
+      new Chart(el,{type:'bar',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label,data:s.data,backgroundColor:s.color||NAVY,barPercentage:.72};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    var s0=fig.series[0]||{};
+    new Chart(el,{type:'bar',
+      data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||NAVY,barPercentage:.72}]},
+      options:Object.assign({},opts,{indexAxis:'y'})});
+  });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){
     tb.innerHTML=rows.map(function(r){

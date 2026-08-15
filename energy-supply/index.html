@@ -75,8 +75,13 @@
   .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
   .plot-mid{height:clamp(480px,62vh,780px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}
+  .insight-grid .exhibit.span2{grid-column:1/-1}
+  .insight-grid .lede{margin:8px 0 12px;font-size:13.5px}
+  @media(max-width:900px){.insight-grid{grid-template-columns:1fr}}
   .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
   th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
@@ -174,6 +179,29 @@ Energy-related carbon dioxide emissions were <b>4,780.7 million metric tons</b> 
 <!-- DATA:END energy-supply-kpis -->
     </div>
   </section>
+  <section id="insights">
+    <h2>A closer look</h2>
+    <p class="lede">Additional figures from the published files on this page. Series that are not in those files are not drawn.</p>
+    <div class="insight-grid">
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure A</span>
+        <span class="ex-t">Total energy production, 2024</span></div>
+      <div class="lede">SEDS total energy production, 2024 (billion Btu). Massachusetts ranks 46 of 51 (derived).</div>
+      <div class="plot-sm"><canvas id="chInsight0"></canvas></div>
+      <div class="note">EIA SEDS TEPRB. Massachusetts ranks 46 of 51. The U.S. total is omitted so state bars remain readable.</div>
+      <div class="srcline"><b>Source:</b> SRC-624-03. <b>Unit:</b> billion Btu.</div>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure B</span>
+        <span class="ex-t">Total energy consumption, 2024</span></div>
+      <div class="lede">Total energy consumption, 2024 (billion Btu). Massachusetts ranks 27 of 51 (derived).</div>
+      <div class="plot-sm"><canvas id="chInsight1"></canvas></div>
+      <div class="note">EIA SEDS TETCB. The U.S. total is omitted so state bars remain readable.</div>
+      <div class="srcline"><b>Source:</b> SRC-624-02. <b>Unit:</b> billion Btu.</div>
+    </div>
+    </div>
+  </section>
+
   <section id="view-rank">
     <h2>How do they compare?</h2>
     <div class="lede">Energy-related CO2 emissions, 2024 (million metric tons). Massachusetts is marked in gold.</div>
@@ -262,6 +290,7 @@ Energy-related carbon dioxide emissions were <b>4,780.7 million metric tons</b> 
 const DL={"tool_id":"DL-24","as_of":"2024-12","rows":[{"st":"TX","name":"Texas","v":679.932,"rank":1,"n":51},{"st":"CA","name":"California","v":315.984,"rank":2,"n":51},{"st":"FL","name":"Florida","v":230.847,"rank":3,"n":51},{"st":"PA","name":"Pennsylvania","v":201.57,"rank":4,"n":51},{"st":"LA","name":"Louisiana","v":186.893,"rank":5,"n":51},{"st":"OH","name":"Ohio","v":186.335,"rank":6,"n":51},{"st":"IL","name":"Illinois","v":163.981,"rank":7,"n":51},{"st":"NY","name":"New York","v":163.685,"rank":8,"n":51},{"st":"IN","name":"Indiana","v":152.299,"rank":9,"n":51},{"st":"MI","name":"Michigan","v":143.105,"rank":10,"n":51},{"st":"GA","name":"Georgia","v":127.826,"rank":11,"n":51},{"st":"NC","name":"North Carolina","v":119.073,"rank":12,"n":51},{"st":"KY","name":"Kentucky","v":106.871,"rank":13,"n":51},{"st":"AL","name":"Alabama","v":104.323,"rank":14,"n":51},{"st":"VA","name":"Virginia","v":99.238,"rank":15,"n":51},{"st":"MO","name":"Missouri","v":98.033,"rank":16,"n":51},{"st":"TN","name":"Tennessee","v":90.46,"rank":17,"n":51},{"st":"OK","name":"Oklahoma","v":88.558,"rank":18,"n":51},{"st":"NJ","name":"New Jersey","v":87.844,"rank":19,"n":51},{"st":"WI","name":"Wisconsin","v":85.124,"rank":20,"n":51},{"st":"AZ","name":"Arizona","v":82.197,"rank":21,"n":51},{"st":"CO","name":"Colorado","v":79.572,"rank":22,"n":51},{"st":"MN","name":"Minnesota","v":77.89,"rank":23,"n":51},{"st":"WA","name":"Washington","v":73.808,"rank":24,"n":51},{"st":"WV","name":"West Virginia","v":72.278,"rank":25,"n":51},{"st":"SC","name":"South Carolina","v":70.812,"rank":26,"n":51},{"st":"IA","name":"Iowa","v":65.232,"rank":27,"n":51},{"st":"MS","name":"Mississippi","v":64.747,"rank":28,"n":51},{"st":"AR","name":"Arkansas","v":58.415,"rank":29,"n":51},{"st":"MA","name":"Massachusetts","v":58.072,"rank":30,"n":51},{"st":"ND","name":"North Dakota","v":55.146,"rank":31,"n":51},{"st":"KS","name":"Kansas","v":55.09,"rank":32,"n":51},{"st":"UT","name":"Utah","v":55.034,"rank":33,"n":51},{"st":"WY","name":"Wyoming","v":50.004,"rank":34,"n":51},{"st":"MD","name":"Maryland","v":48.766,"rank":35,"n":51},{"st":"AK","name":"Alaska","v":44.008,"rank":36,"n":51},{"st":"NE","name":"Nebraska","v":43.538,"rank":37,"n":51},{"st":"NM","name":"New Mexico","v":41.631,"rank":38,"n":51},{"st":"NV","name":"Nevada","v":39.278,"rank":39,"n":51},{"st":"OR","name":"Oregon","v":38.938,"rank":40,"n":51},{"st":"CT","name":"Connecticut","v":37.092,"rank":41,"n":51},{"st":"MT","name":"Montana","v":27.163,"rank":42,"n":51},{"st":"ID","name":"Idaho","v":21.105,"rank":43,"n":51},{"st":"HI","name":"Hawaii","v":17.955,"rank":44,"n":51},{"st":"ME","name":"Maine","v":15.994,"rank":45,"n":51},{"st":"SD","name":"South Dakota","v":15.113,"rank":46,"n":51},{"st":"NH","name":"New Hampshire","v":13.602,"rank":47,"n":51},{"st":"DE","name":"Delaware","v":11.523,"rank":48,"n":51},{"st":"RI","name":"Rhode Island","v":11.045,"rank":49,"n":51},{"st":"VT","name":"Vermont","v":5.355,"rank":50,"n":51},{"st":"DC","name":"District of Columbia","v":2.506,"rank":51,"n":51}],"trend":{"US":[{"y":2000,"v":5876.353},{"y":2001,"v":5763.09},{"y":2002,"v":5801.606},{"y":2003,"v":5874.545},{"y":2004,"v":5981.28},{"y":2005,"v":5994.695},{"y":2006,"v":5916.172},{"y":2007,"v":6001.215},{"y":2008,"v":5808.692},{"y":2009,"v":5388.84},{"y":2010,"v":5581.224},{"y":2011,"v":5443.97},{"y":2012,"v":5223.92},{"y":2013,"v":5346.231},{"y":2014,"v":5401.785},{"y":2015,"v":5242.065},{"y":2016,"v":5148.744},{"y":2017,"v":5112.461},{"y":2018,"v":5265.581},{"y":2019,"v":5138.432},{"y":2020,"v":4576.457},{"y":2021,"v":4896.039},{"y":2022,"v":4936.456},{"y":2023,"v":4789.249},{"y":2024,"v":4780.661}],"MA":[{"y":2000,"v":82.316},{"y":2001,"v":82.016},{"y":2002,"v":82.974},{"y":2003,"v":84.855},{"y":2004,"v":82.984},{"y":2005,"v":84.381},{"y":2006,"v":76.526},{"y":2007,"v":79.835},{"y":2008,"v":76.666},{"y":2009,"v":70.354},{"y":2010,"v":72.792},{"y":2011,"v":68.719},{"y":2012,"v":62.451},{"y":2013,"v":66.384},{"y":2014,"v":64.865},{"y":2015,"v":66.605},{"y":2016,"v":63.88},{"y":2017,"v":64.532},{"y":2018,"v":63.946},{"y":2019,"v":63.224},{"y":2020,"v":52.16},{"y":2021,"v":56.074},{"y":2022,"v":59.312},{"y":2023,"v":56.742},{"y":2024,"v":58.072}]},"latest":{"us":{"v":4780.661},"ma":{"v":58.072,"rank":30,"n":51},"highest":{"st":"TX","name":"Texas","v":679.932},"lowest":{"st":"DC","name":"District of Columbia","v":2.506}},"derived":{"note":"Prefer these over recomputing. Ranks cite (derived, SRC-624-01).","highest_five":[{"st":"TX","name":"Texas","v":679.932,"rank":1,"n":51},{"st":"CA","name":"California","v":315.984,"rank":2,"n":51},{"st":"FL","name":"Florida","v":230.847,"rank":3,"n":51},{"st":"PA","name":"Pennsylvania","v":201.57,"rank":4,"n":51},{"st":"LA","name":"Louisiana","v":186.893,"rank":5,"n":51}],"lowest_five":[{"st":"DC","name":"District of Columbia","v":2.506,"rank":51,"n":51},{"st":"VT","name":"Vermont","v":5.355,"rank":50,"n":51},{"st":"RI","name":"Rhode Island","v":11.045,"rank":49,"n":51},{"st":"DE","name":"Delaware","v":11.523,"rank":48,"n":51},{"st":"NH","name":"New Hampshire","v":13.602,"rank":47,"n":51}],"n_ranked":51,"massachusetts_rank":30,"secondary":{"seds_consumption_2024":{"us":94543438.0,"ma":{"v":1289504.0,"rank":27,"n":51},"highest":{"st":"TX","name":"Texas","v":14536890.0},"lowest":{"st":"VT","name":"Vermont","v":114172.0},"n_ranked":51,"label":"Total energy consumption, 2024 (billion Btu)","src":"SRC-624-02","unit":"billion Btu","as_of_label":"Calendar year 2024","note":"SEDS series TETCB. Production (TEPRB) was not in this consumption file."},"seds_production_2024":{"us":103447522.0,"ma":{"v":58773.0,"rank":46,"n":51},"highest":{"st":"TX","name":"Texas","v":28288241.0},"lowest":{"st":"DC","name":"District of Columbia","v":1907.0},"n_ranked":51,"label":"SEDS total energy production, 2024 (billion Btu)","src":"SRC-624-03","unit":"billion Btu","as_of_label":"Calendar year 2024"}}},"metric":"energy_co2_2024_mmt","unit":"million metric tons"};
 /* DATA:END energy-supply-data */
 const CHART={"geo": "state", "format": "number", "highlight": "MA", "n_chart": 51, "unit": "million metric tons", "axis_unit": "million metric tons", "label": "Energy-related CO2 emissions, 2024 (million metric tons)", "title": "Energy-related CO2 emissions, 2024 (million metric tons) by state", "lede": "Energy-related CO2 emissions, 2024 (million metric tons). Massachusetts is marked in gold.", "has_trend": true, "table_noun": "Every state", "col_name": "State", "trend_title": "Energy-related CO2 emissions, 2024 (million metric tons), United States and Massachusetts"};
+const INSIGHTS=[{"id": "seds-prod", "title": "Total energy production, 2024", "lede": "SEDS total energy production, 2024 (billion Btu). Massachusetts ranks 46 of 51 (derived).", "src": "SRC-624-03", "type": "bar", "format": "number", "unit": "billion Btu", "labels": ["Texas", "Massachusetts", "District of Columbia"], "series": [{"label": "", "data": [28288241.0, 58773.0, 1907.0], "colors": ["#293C5C", "#CCB26D", "#293C5C"]}], "note": "EIA SEDS TEPRB. Massachusetts ranks 46 of 51. The U.S. total is omitted so state bars remain readable.", "span": 1, "index_axis": "y"}, {"id": "seds-cons", "title": "Total energy consumption, 2024", "lede": "Total energy consumption, 2024 (billion Btu). Massachusetts ranks 27 of 51 (derived).", "src": "SRC-624-02", "type": "bar", "format": "number", "unit": "billion Btu", "labels": ["Texas", "Massachusetts", "Vermont"], "series": [{"label": "", "data": [14536890.0, 1289504.0, 114172.0], "colors": ["#293C5C", "#CCB26D", "#293C5C"]}], "note": "EIA SEDS TETCB. The U.S. total is omitted so state bars remain readable.", "span": 1, "index_axis": "y"}];
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -357,6 +386,67 @@ const CHART={"geo": "state", "format": "number", "highlight": "MA", "n_chart": 5
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
         }}});
   }
+  function fmtInsight(fmt, v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'−':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  (INSIGHTS||[]).forEach(function(fig, i){
+    var el=document.getElementById('chInsight'+i);
+    if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
+    var ifmt=fig.format||'number';
+    var iunit=fig.unit||'';
+    var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
+    var opts={
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
+        position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){
+          var lab=c.dataset.label?c.dataset.label+': ':'';
+          var val=c.parsed.x!=null&&fig.index_axis==='y'?c.parsed.x:c.parsed.y;
+          return ' '+lab+fmtInsight(ifmt,val)+extra;
+        }}}},
+      scales:{
+        x:{ticks:{color:GREY,callback:function(v){
+          return fig.index_axis==='y'?fmtInsight(ifmt,v,true):v;
+        }},grid:{color:fig.index_axis==='y'?'#EEF1F4':'transparent'}},
+        y:{ticks:{color:fig.index_axis==='y'?INK:GREY,font:{size:10,family:'Roboto,sans-serif'},
+          callback:function(v){return fig.index_axis==='y'?v:fmtInsight(ifmt,v,true);}},
+          grid:{color:fig.index_axis==='y'?'transparent':'#EEF1F4'},border:{display:false}}
+      }
+    };
+    if(fig.type==='line'){
+      new Chart(el,{type:'line',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
+            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    if(fig.type==='grouped'){
+      new Chart(el,{type:'bar',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label,data:s.data,backgroundColor:s.color||NAVY,barPercentage:.72};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    var s0=fig.series[0]||{};
+    new Chart(el,{type:'bar',
+      data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||NAVY,barPercentage:.72}]},
+      options:Object.assign({},opts,{indexAxis:'y'})});
+  });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){
     tb.innerHTML=rows.map(function(r){

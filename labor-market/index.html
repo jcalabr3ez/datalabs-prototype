@@ -75,8 +75,13 @@
   .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
   .plot-mid{height:clamp(480px,62vh,780px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}
+  .insight-grid .exhibit.span2{grid-column:1/-1}
+  .insight-grid .lede{margin:8px 0 12px;font-size:13.5px}
+  @media(max-width:900px){.insight-grid{grid-template-columns:1fr}}
   .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
   th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
@@ -174,6 +179,29 @@ Massachusetts seasonally adjusted unemployment was <b>4.4 percent</b> in Jun 202
 <!-- DATA:END labor-market-kpis -->
     </div>
   </section>
+  <section id="insights">
+    <h2>A closer look</h2>
+    <p class="lede">Additional figures from the published files on this page. Series that are not in those files are not drawn.</p>
+    <div class="insight-grid">
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure A</span>
+        <span class="ex-t">Average weekly wage, all industries, 2025 Q4</span></div>
+      <div class="lede">Massachusetts $1,980, rank 2 of 51, behind District of Columbia.</div>
+      <div class="plot-sm"><canvas id="chInsight0"></canvas></div>
+      <div class="note">The U.S. weekly wage is derived from the sum of published state wage and employment cells (derived, SRC-614-02). It is not a separate BLS U.S. line.</div>
+      <div class="srcline"><b>Source:</b> SRC-614-02. <b>Unit:</b> dollars per week.</div>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure B</span>
+        <span class="ex-t">UI initial claims, week ending 2026-08-08</span></div>
+      <div class="lede">UI initial claims, week ending 2026-08-08. Massachusetts ranks 11 of 51 (derived).</div>
+      <div class="plot-sm"><canvas id="chInsight1"></canvas></div>
+      <div class="note">ETA 539 cell C3. Massachusetts also reported 75,706 continued weeks claimed. The U.S. total is omitted so state bars remain readable.</div>
+      <div class="srcline"><b>Source:</b> SRC-614-03. <b>Unit:</b> claims.</div>
+    </div>
+    </div>
+  </section>
+
   <section id="view-rank">
     <h2>How do they compare?</h2>
     <div class="lede">Unemployment rate (seasonally adjusted). Unit: percent. Massachusetts is marked in gold.</div>
@@ -262,6 +290,7 @@ Massachusetts seasonally adjusted unemployment was <b>4.4 percent</b> in Jun 202
 const DL={"tool_id":"DL-14","as_of":"2026-06","rows":[{"st":"DC","name":"District of Columbia","v":6.0,"rank":1,"n":51,"yoy_pct":-3.2},{"st":"CA","name":"California","v":5.2,"rank":2,"n":51,"yoy_pct":-5.5},{"st":"CT","name":"Connecticut","v":5.2,"rank":3,"n":51,"yoy_pct":33.3},{"st":"OR","name":"Oregon","v":5.2,"rank":4,"n":51,"yoy_pct":0.0},{"st":"WA","name":"Washington","v":5.2,"rank":5,"n":51,"yoy_pct":15.6},{"st":"IL","name":"Illinois","v":5.1,"rank":6,"n":51,"yoy_pct":18.6},{"st":"NV","name":"Nevada","v":5.1,"rank":7,"n":51,"yoy_pct":-1.9},{"st":"MI","name":"Michigan","v":5.0,"rank":8,"n":51,"yoy_pct":0.0},{"st":"AZ","name":"Arizona","v":4.9,"rank":9,"n":51,"yoy_pct":14.0},{"st":"DE","name":"Delaware","v":4.9,"rank":10,"n":51,"yoy_pct":4.3},{"st":"NM","name":"New Mexico","v":4.8,"rank":11,"n":51,"yoy_pct":20.0},{"st":"FL","name":"Florida","v":4.7,"rank":12,"n":51,"yoy_pct":23.7},{"st":"KY","name":"Kentucky","v":4.7,"rank":13,"n":51,"yoy_pct":2.2},{"st":"NY","name":"New York","v":4.6,"rank":14,"n":51,"yoy_pct":7.0},{"st":"NJ","name":"New Jersey","v":4.5,"rank":15,"n":51,"yoy_pct":-16.7},{"st":"AK","name":"Alaska","v":4.4,"rank":16,"n":51,"yoy_pct":-4.3},{"st":"LA","name":"Louisiana","v":4.4,"rank":17,"n":51,"yoy_pct":2.3},{"st":"MA","name":"Massachusetts","v":4.4,"rank":18,"n":51,"yoy_pct":0.0},{"st":"MN","name":"Minnesota","v":4.4,"rank":19,"n":51,"yoy_pct":15.8},{"st":"SC","name":"South Carolina","v":4.4,"rank":20,"n":51,"yoy_pct":0.0},{"st":"TX","name":"Texas","v":4.4,"rank":21,"n":51,"yoy_pct":7.3},{"st":"MD","name":"Maryland","v":4.3,"rank":22,"n":51,"yoy_pct":4.9},{"st":"OK","name":"Oklahoma","v":4.2,"rank":23,"n":51,"yoy_pct":31.2},{"st":"WV","name":"West Virginia","v":4.2,"rank":24,"n":51,"yoy_pct":5.0},{"st":"AR","name":"Arkansas","v":4.1,"rank":25,"n":51,"yoy_pct":2.5},{"st":"PA","name":"Pennsylvania","v":4.1,"rank":26,"n":51,"yoy_pct":-4.7},{"st":"RI","name":"Rhode Island","v":4.1,"rank":27,"n":51,"yoy_pct":-4.7},{"st":"CO","name":"Colorado","v":3.9,"rank":28,"n":51,"yoy_pct":-2.5},{"st":"KS","name":"Kansas","v":3.8,"rank":29,"n":51,"yoy_pct":2.7},{"st":"MS","name":"Mississippi","v":3.8,"rank":30,"n":51,"yoy_pct":0.0},{"st":"ID","name":"Idaho","v":3.7,"rank":31,"n":51,"yoy_pct":2.8},{"st":"MO","name":"Missouri","v":3.7,"rank":32,"n":51,"yoy_pct":-7.5},{"st":"VA","name":"Virginia","v":3.7,"rank":33,"n":51,"yoy_pct":15.6},{"st":"NC","name":"North Carolina","v":3.6,"rank":34,"n":51,"yoy_pct":-5.3},{"st":"OH","name":"Ohio","v":3.6,"rank":35,"n":51,"yoy_pct":-21.7},{"st":"UT","name":"Utah","v":3.6,"rank":36,"n":51,"yoy_pct":2.9},{"st":"TN","name":"Tennessee","v":3.5,"rank":37,"n":51,"yoy_pct":0.0},{"st":"GA","name":"Georgia","v":3.4,"rank":38,"n":51,"yoy_pct":3.0},{"st":"IN","name":"Indiana","v":3.3,"rank":39,"n":51,"yoy_pct":-10.8},{"st":"MT","name":"Montana","v":3.3,"rank":40,"n":51,"yoy_pct":3.1},{"st":"WI","name":"Wisconsin","v":3.3,"rank":41,"n":51,"yoy_pct":6.5},{"st":"AL","name":"Alabama","v":3.2,"rank":42,"n":51,"yoy_pct":10.3},{"st":"IA","name":"Iowa","v":3.2,"rank":43,"n":51,"yoy_pct":-8.6},{"st":"WY","name":"Wyoming","v":3.2,"rank":44,"n":51,"yoy_pct":0.0},{"st":"ME","name":"Maine","v":3.1,"rank":45,"n":51,"yoy_pct":-6.1},{"st":"NE","name":"Nebraska","v":2.9,"rank":46,"n":51,"yoy_pct":0.0},{"st":"NH","name":"New Hampshire","v":2.9,"rank":47,"n":51,"yoy_pct":-6.5},{"st":"HI","name":"Hawaii","v":2.6,"rank":48,"n":51,"yoy_pct":13.0},{"st":"VT","name":"Vermont","v":2.6,"rank":49,"n":51,"yoy_pct":0.0},{"st":"ND","name":"North Dakota","v":2.3,"rank":50,"n":51,"yoy_pct":-11.5},{"st":"SD","name":"South Dakota","v":2.0,"rank":51,"n":51,"yoy_pct":0.0}],"trend":{"MA":[{"m":"2018-01","v":3.7},{"m":"2018-02","v":3.6},{"m":"2018-03","v":3.6},{"m":"2018-04","v":3.6},{"m":"2018-05","v":3.5},{"m":"2018-06","v":3.5},{"m":"2018-07","v":3.4},{"m":"2018-08","v":3.4},{"m":"2018-09","v":3.3},{"m":"2018-10","v":3.3},{"m":"2018-11","v":3.3},{"m":"2018-12","v":3.3},{"m":"2019-01","v":3.2},{"m":"2019-02","v":3.2},{"m":"2019-03","v":3.1},{"m":"2019-04","v":3.1},{"m":"2019-05","v":3.0},{"m":"2019-06","v":3.0},{"m":"2019-07","v":3.0},{"m":"2019-08","v":3.0},{"m":"2019-09","v":3.0},{"m":"2019-10","v":3.0},{"m":"2019-11","v":3.0},{"m":"2019-12","v":3.0},{"m":"2020-01","v":3.0},{"m":"2020-02","v":3.1},{"m":"2020-03","v":3.1},{"m":"2020-04","v":17.8},{"m":"2020-05","v":14.3},{"m":"2020-06","v":14.7},{"m":"2020-07","v":12.5},{"m":"2020-08","v":10.4},{"m":"2020-09","v":9.6},{"m":"2020-10","v":8.4},{"m":"2020-11","v":7.8},{"m":"2020-12","v":7.4},{"m":"2021-01","v":6.8},{"m":"2021-02","v":6.4},{"m":"2021-03","v":6.1},{"m":"2021-04","v":5.9},{"m":"2021-05","v":5.6},{"m":"2021-06","v":5.5},{"m":"2021-07","v":5.3},{"m":"2021-08","v":5.0},{"m":"2021-09","v":4.7},{"m":"2021-10","v":4.4},{"m":"2021-11","v":4.2},{"m":"2021-12","v":3.9},{"m":"2022-01","v":3.8},{"m":"2022-02","v":3.7},{"m":"2022-03","v":3.6},{"m":"2022-04","v":3.6},{"m":"2022-05","v":3.6},{"m":"2022-06","v":3.6},{"m":"2022-07","v":3.6},{"m":"2022-08","v":3.7},{"m":"2022-09","v":3.6},{"m":"2022-10","v":3.7},{"m":"2022-11","v":3.6},{"m":"2022-12","v":3.6},{"m":"2023-01","v":3.5},{"m":"2023-02","v":3.5},{"m":"2023-03","v":3.4},{"m":"2023-04","v":3.3},{"m":"2023-05","v":3.4},{"m":"2023-06","v":3.3},{"m":"2023-07","v":3.4},{"m":"2023-08","v":3.4},{"m":"2023-09","v":3.5},{"m":"2023-10","v":3.6},{"m":"2023-11","v":3.6},{"m":"2023-12","v":3.7},{"m":"2024-01","v":3.7},{"m":"2024-02","v":3.8},{"m":"2024-03","v":3.8},{"m":"2024-04","v":3.9},{"m":"2024-05","v":4.0},{"m":"2024-06","v":4.0},{"m":"2024-07","v":4.1},{"m":"2024-08","v":4.1},{"m":"2024-09","v":4.1},{"m":"2024-10","v":4.1},{"m":"2024-11","v":4.1},{"m":"2024-12","v":4.1},{"m":"2025-01","v":4.2},{"m":"2025-02","v":4.3},{"m":"2025-03","v":4.3},{"m":"2025-04","v":4.4},{"m":"2025-05","v":4.4},{"m":"2025-06","v":4.4},{"m":"2025-07","v":4.5},{"m":"2025-08","v":4.5},{"m":"2025-09","v":4.6},{"m":"2025-11","v":4.7},{"m":"2025-12","v":4.7},{"m":"2026-01","v":4.7},{"m":"2026-02","v":4.8},{"m":"2026-03","v":4.7},{"m":"2026-04","v":4.7},{"m":"2026-05","v":4.5},{"m":"2026-06","v":4.4}]},"latest":{"us":null,"ma":{"v":4.4,"rank":18,"n":51,"yoy_pct":0.0},"highest":{"st":"DC","name":"District of Columbia","v":6.0},"lowest":{"st":"SD","name":"South Dakota","v":2.0}},"derived":{"note":"Prefer these over recomputing. Ranks cite (derived, SRC-614-01).","highest_five":[{"st":"DC","name":"District of Columbia","v":6.0,"rank":1,"n":51,"yoy_pct":-3.2},{"st":"CA","name":"California","v":5.2,"rank":2,"n":51,"yoy_pct":-5.5},{"st":"CT","name":"Connecticut","v":5.2,"rank":3,"n":51,"yoy_pct":33.3},{"st":"OR","name":"Oregon","v":5.2,"rank":4,"n":51,"yoy_pct":0.0},{"st":"WA","name":"Washington","v":5.2,"rank":5,"n":51,"yoy_pct":15.6}],"lowest_five":[{"st":"SD","name":"South Dakota","v":2.0,"rank":51,"n":51,"yoy_pct":0.0},{"st":"ND","name":"North Dakota","v":2.3,"rank":50,"n":51,"yoy_pct":-11.5},{"st":"VT","name":"Vermont","v":2.6,"rank":49,"n":51,"yoy_pct":0.0},{"st":"HI","name":"Hawaii","v":2.6,"rank":48,"n":51,"yoy_pct":13.0},{"st":"NH","name":"New Hampshire","v":2.9,"rank":47,"n":51,"yoy_pct":-6.5}],"massachusetts_rank":18,"n_ranked":51,"secondary":{"qcew_avg_weekly_wage_2025q4":{"us":1569,"ma":{"v":1980.0,"rank":2,"n":51},"highest":{"st":"DC","name":"District of Columbia","v":2587.0},"lowest":{"st":"MS","name":"Mississippi","v":1075.0},"n_ranked":51,"label":"Average weekly wage, all industries, 2025 Q4","src":"SRC-614-02","unit":"dollars per week","as_of_label":"2025 Q4","ma_employment":3636257,"note":"The U.S. weekly wage is derived from the sum of published state wage and employment cells (derived, SRC-614-02). It is not a separate BLS U.S. line."},"ui_initial_claims":{"us":187408.0,"ma":{"v":4617.0,"rank":11,"n":51},"highest":{"st":"CA","name":"California","v":37675.0},"lowest":{"st":"SD","name":"South Dakota","v":144.0},"n_ranked":51,"label":"UI initial claims, week ending 2026-08-08","src":"SRC-614-03","unit":"claims","as_of_label":"2026-08-08","ma_continued":75706,"note":"ETA 539 cell C3 is initial claims; C8 is continued weeks claimed. U.S. is the sum of states and D.C."}}},"metric":"unemployment_rate_sa","unit":"percent"};
 /* DATA:END labor-market-data */
 const CHART={"geo": "state", "format": "percent", "highlight": "MA", "n_chart": 51, "unit": "percent", "axis_unit": "percent", "label": "Unemployment rate (seasonally adjusted)", "title": "Unemployment rate (seasonally adjusted) by state", "lede": "Unemployment rate (seasonally adjusted). Unit: percent. Massachusetts is marked in gold.", "has_trend": true, "table_noun": "Every state", "col_name": "State", "trend_title": "Unemployment rate (seasonally adjusted) over time"};
+const INSIGHTS=[{"id": "qcew-wage", "title": "Average weekly wage, all industries, 2025 Q4", "lede": "Massachusetts $1,980, rank 2 of 51, behind District of Columbia.", "src": "SRC-614-02", "type": "bar", "format": "usd", "unit": "dollars per week", "labels": ["United States", "District of Columbia", "Massachusetts", "Mississippi"], "series": [{"label": "", "data": [1569, 2587.0, 1980.0, 1075.0], "colors": ["#293C5C", "#293C5C", "#CCB26D", "#293C5C"]}], "note": "The U.S. weekly wage is derived from the sum of published state wage and employment cells (derived, SRC-614-02). It is not a separate BLS U.S. line.", "span": 1, "index_axis": "y"}, {"id": "ui-claims", "title": "UI initial claims, week ending 2026-08-08", "lede": "UI initial claims, week ending 2026-08-08. Massachusetts ranks 11 of 51 (derived).", "src": "SRC-614-03", "type": "bar", "format": "number", "unit": "claims", "labels": ["California", "Massachusetts", "South Dakota"], "series": [{"label": "", "data": [37675.0, 4617.0, 144.0], "colors": ["#293C5C", "#CCB26D", "#293C5C"]}], "note": "ETA 539 cell C3. Massachusetts also reported 75,706 continued weeks claimed. The U.S. total is omitted so state bars remain readable.", "span": 1, "index_axis": "y"}];
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -357,6 +386,67 @@ const CHART={"geo": "state", "format": "percent", "highlight": "MA", "n_chart": 
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
         }}});
   }
+  function fmtInsight(fmt, v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'−':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  (INSIGHTS||[]).forEach(function(fig, i){
+    var el=document.getElementById('chInsight'+i);
+    if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
+    var ifmt=fig.format||'number';
+    var iunit=fig.unit||'';
+    var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
+    var opts={
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
+        position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){
+          var lab=c.dataset.label?c.dataset.label+': ':'';
+          var val=c.parsed.x!=null&&fig.index_axis==='y'?c.parsed.x:c.parsed.y;
+          return ' '+lab+fmtInsight(ifmt,val)+extra;
+        }}}},
+      scales:{
+        x:{ticks:{color:GREY,callback:function(v){
+          return fig.index_axis==='y'?fmtInsight(ifmt,v,true):v;
+        }},grid:{color:fig.index_axis==='y'?'#EEF1F4':'transparent'}},
+        y:{ticks:{color:fig.index_axis==='y'?INK:GREY,font:{size:10,family:'Roboto,sans-serif'},
+          callback:function(v){return fig.index_axis==='y'?v:fmtInsight(ifmt,v,true);}},
+          grid:{color:fig.index_axis==='y'?'transparent':'#EEF1F4'},border:{display:false}}
+      }
+    };
+    if(fig.type==='line'){
+      new Chart(el,{type:'line',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
+            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    if(fig.type==='grouped'){
+      new Chart(el,{type:'bar',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label,data:s.data,backgroundColor:s.color||NAVY,barPercentage:.72};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    var s0=fig.series[0]||{};
+    new Chart(el,{type:'bar',
+      data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||NAVY,barPercentage:.72}]},
+      options:Object.assign({},opts,{indexAxis:'y'})});
+  });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){
     tb.innerHTML=rows.map(function(r){

@@ -479,6 +479,7 @@ def sec_case_shiller():
         sys.exit(f"FATAL: FRED BOXRSA parsed {len(rows)} months")
     last_d, last_v = rows[-1]
     prev = next((v for d, v in reversed(rows) if d[:4] == str(int(last_d[:4]) - 1) and d[5:7] == last_d[5:7]), None)
+    trend = [{"m": d[:7], "v": round(v, 2)} for d, v in rows[-36:]]
     return {
         "label": "S&P/CoreLogic Case-Shiller Boston house-price index",
         "src": "SRC-616-03",
@@ -486,6 +487,7 @@ def sec_case_shiller():
         "as_of_label": last_d[:7],
         "boston": round(last_v, 2),
         "yoy_pct": yoy_pct(last_v, prev),
+        "trend": trend,
         "note": "Seasonally adjusted Boston MSA series BOXRSA via FRED. Case-Shiller does not publish another Massachusetts city.",
     }
 

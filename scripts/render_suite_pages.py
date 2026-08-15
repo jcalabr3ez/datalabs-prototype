@@ -8,7 +8,8 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from suite_common import LEDGER_DIR, ROOT, load_apps, ledger_path
+from insight_figures import insight_figures
+from suite_common import ROOT, load_apps, ledger_path
 
 def esc(s):
     return html.escape("" if s is None else str(s), quote=True)
@@ -48,6 +49,43 @@ def kpi_html(kpis):
 def replaces_list(app, ledger):
     items = ledger.get("replaces") or app.get("replaces") or []
     return ", ".join(items)
+
+
+def insight_html(insights):
+    if not insights:
+        return ""
+    letters = "ABCDEFGH"
+    blocks = []
+    for i, fig in enumerate(insights):
+        letter = letters[i] if i < len(letters) else str(i + 1)
+        span = " span2" if fig.get("span") == 2 or len(insights) == 1 else ""
+        if fig.get("height") == "mid":
+            hclass = "plot-mid"
+        elif fig.get("span") == 2 or len(insights) == 1:
+            hclass = "plot"
+        else:
+            hclass = "plot-sm"
+        blocks.append(
+            "    <div class=\"exhibit" + span + "\">\n"
+            "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + letter + "</span>\n"
+            "        <span class=\"ex-t\">" + esc(fig["title"]) + "</span></div>\n"
+            "      <div class=\"lede\">" + esc(fig["lede"]) + "</div>\n"
+            "      <div class=\"" + hclass + "\"><canvas id=\"chInsight" + str(i) + "\"></canvas></div>\n"
+            "      <div class=\"note\">" + esc(fig["note"]) + "</div>\n"
+            "      <div class=\"srcline\"><b>Source:</b> " + esc(fig.get("src") or "see the register")
+            + ". <b>Unit:</b> " + esc(fig.get("unit") or "see the register") + ".</div>\n"
+            "    </div>"
+        )
+    return (
+        "  <section id=\"insights\">\n"
+        "    <h2>A closer look</h2>\n"
+        "    <p class=\"lede\">Additional figures from the published files on this page. "
+        "Series that are not in those files are not drawn.</p>\n"
+        "    <div class=\"insight-grid\">\n"
+        + "\n".join(blocks)
+        + "\n    </div>\n"
+        "  </section>\n"
+    )
 
 
 def chart_spec(app, ledger):
@@ -168,6 +206,7 @@ def page_html(app, ledger):
     src_word = "source" if nsrc == 1 else "sources"
     kpis = kpi_html(ledger.get("kpis") or [])
     spec = chart_spec(app, ledger) if live else {}
+    insights = insight_figures(app, ledger) if live else []
     has_trend = bool(spec.get("has_trend"))
     toggle = ""
     if live:
@@ -195,6 +234,7 @@ def page_html(app, ledger):
 <!-- DATA:END {slug}-kpis -->
     </div>
   </section>
+{insight_html(insights)}
   <section id="view-rank">
     <h2>How do they compare?</h2>
     <div class="lede">{esc(spec.get("lede") or metric_label)}</div>
@@ -268,6 +308,7 @@ def page_html(app, ledger):
 const DL=null;
 /* DATA:END SLUG-data */
 const CHART=CHART_JSON;
+const INSIGHTS=INSIGHTS_JSON;
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -363,6 +404,67 @@ const CHART=CHART_JSON;
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
         }}});
   }
+  function fmtInsight(fmt, v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'\u2212':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  (INSIGHTS||[]).forEach(function(fig, i){
+    var el=document.getElementById('chInsight'+i);
+    if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
+    var ifmt=fig.format||'number';
+    var iunit=fig.unit||'';
+    var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
+    var opts={
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
+        position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){
+          var lab=c.dataset.label?c.dataset.label+': ':'';
+          var val=c.parsed.x!=null&&fig.index_axis==='y'?c.parsed.x:c.parsed.y;
+          return ' '+lab+fmtInsight(ifmt,val)+extra;
+        }}}},
+      scales:{
+        x:{ticks:{color:GREY,callback:function(v){
+          return fig.index_axis==='y'?fmtInsight(ifmt,v,true):v;
+        }},grid:{color:fig.index_axis==='y'?'#EEF1F4':'transparent'}},
+        y:{ticks:{color:fig.index_axis==='y'?INK:GREY,font:{size:10,family:'Roboto,sans-serif'},
+          callback:function(v){return fig.index_axis==='y'?v:fmtInsight(ifmt,v,true);}},
+          grid:{color:fig.index_axis==='y'?'transparent':'#EEF1F4'},border:{display:false}}
+      }
+    };
+    if(fig.type==='line'){
+      new Chart(el,{type:'line',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
+            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    if(fig.type==='grouped'){
+      new Chart(el,{type:'bar',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label,data:s.data,backgroundColor:s.color||NAVY,barPercentage:.72};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    var s0=fig.series[0]||{};
+    new Chart(el,{type:'bar',
+      data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||NAVY,barPercentage:.72}]},
+      options:Object.assign({},opts,{indexAxis:'y'})});
+  });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){
     tb.innerHTML=rows.map(function(r){
@@ -373,7 +475,7 @@ const CHART=CHART_JSON;
   }
 })();
 </script>
-""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True))
+""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -451,8 +553,13 @@ const CHART=CHART_JSON;
   .ex-n{{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}}
   .ex-t{{font:600 14.5px/1.4 var(--sans);flex:1}}
   .plot{{height:clamp(300px,34vh,460px)}}
+  .plot-sm{{height:clamp(240px,28vh,360px)}}
   .plot-mid{{height:clamp(480px,62vh,780px)}}
   .plot-ranks{{height:clamp(720px,92vh,1180px)}}
+  .insight-grid{{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}}
+  .insight-grid .exhibit.span2{{grid-column:1/-1}}
+  .insight-grid .lede{{margin:8px 0 12px;font-size:13.5px}}
+  @media(max-width:900px){{.insight-grid{{grid-template-columns:1fr}}}}
   .note{{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}}
   table{{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}}
   th{{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}}
@@ -559,6 +666,7 @@ const CHART=CHART_JSON;
 def main():
     apps = load_apps()
     n = 0
+    missing = []
     for app in apps:
         path = ledger_path(app["id"])
         if not path.exists():
@@ -569,6 +677,10 @@ def main():
         dest.write_text(page_html(app, ledger), encoding="utf-8")
         n += 1
         print(f"render {app['id']} -> {dest.relative_to(ROOT)}")
+        if ledger.get("status") == "live" and not insight_figures(app, ledger):
+            missing.append(app["id"])
+    if missing:
+        sys.exit("FATAL: no insight figures for " + ", ".join(missing))
     print(f"rendered {n} suite pages")
 
 

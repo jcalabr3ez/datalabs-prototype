@@ -1,0 +1,44 @@
+{
+  "tool_id": "DL-26",
+  "title": "Municipal Rankings",
+  "slug": "municipal-rankings",
+  "vertical": "American Citizenship",
+  "group": "Your City & Town",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers comparable rankings of Massachusetts municipalities on crime, debt, education outcomes, expenditures, financial strength, revenues, and tax levy.",
+  "exclusions": "Does not cover the per-town atlas (Municipal Atlas), Boston payroll, or advice about a town meeting warrant.",
+  "heritage": "Formerly the Cities and Towns Rankings suite",
+  "replaces": [
+    "Rankings-Crime",
+    "Rankings-Debt",
+    "Rankings-Education",
+    "Rankings-Expenditures",
+    "Rankings-Financial Strength",
+    "Rankings-Revenues",
+    "Rankings-Taxes"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-626-01": {
+      "name": "Massachusetts DLS municipal databank, DESE, and FBI UCR / NIBRS",
+      "cadence": "Annual",
+      "url": "https://www.mass.gov/orgs/division-of-local-services",
+      "supports": "Covers comparable rankings of Massachusetts municipalities on crime, debt, education outcomes, expenditures, financial strength, revenues, and tax levy."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Rank Massachusetts cities and towns on crime, debt, education, spending, revenues, and taxes.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

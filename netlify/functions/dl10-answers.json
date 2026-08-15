@@ -1,0 +1,39 @@
+{
+  "tool_id": "DL-10",
+  "title": "Massachusetts Hospitals",
+  "slug": "ma-hospitals",
+  "vertical": "Healthcare",
+  "group": "Healthcare",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers Massachusetts hospital relative prices and the hospital operating tracker published by CHIA.",
+  "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care.",
+  "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
+  "replaces": [
+    "Hospital Tracker",
+    "Relative Price Tracker"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-610-01": {
+      "name": "Massachusetts CHIA hospital relative prices and hospital profiles",
+      "cadence": "Annual",
+      "url": "https://www.chiamass.gov/",
+      "supports": "Covers Massachusetts hospital relative prices and the hospital operating tracker published by CHIA."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Hospital relative prices and the Massachusetts hospital tracker.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

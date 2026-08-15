@@ -1,0 +1,41 @@
+{
+  "tool_id": "DL-24",
+  "title": "Energy Supply",
+  "slug": "energy-supply",
+  "vertical": "Economic Opportunity",
+  "group": "Energy",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers EIA State Energy Data System consumption and production, and CO2 emissions from energy. Retail electricity prices stay on DL-04.",
+  "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill.",
+  "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
+  "replaces": [
+    "CO2 Emissions",
+    "Energy Consumption",
+    "Energy Production"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-624-01": {
+      "name": "EIA State Energy Data System and CO2 emissions from energy",
+      "cadence": "Annual",
+      "url": "https://www.eia.gov/state/seds/",
+      "supports": "Covers EIA State Energy Data System consumption and production, and CO2 emissions from energy. Retail electricity prices stay on DL-04."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "Energy consumption, production, and CO2 emissions by state. Not the retail-price page.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

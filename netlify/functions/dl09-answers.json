@@ -1,0 +1,40 @@
+{
+  "tool_id": "DL-09",
+  "title": "Charters and School Staff",
+  "slug": "charters-staff",
+  "vertical": "Education",
+  "group": "Education",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers charter school counts and education staff by state, and Massachusetts charter enrollment where DESE publishes it.",
+  "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter.",
+  "heritage": "Formerly School Districts Charter Schools and Education Staff",
+  "replaces": [
+    "School Districts-Charter Schools",
+    "School Districts-Education Staff"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-609-01": {
+      "name": "NCES CCD local education agency and staff files",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/ccd/",
+      "supports": "Covers charter school counts and education staff by state, and Massachusetts charter enrollment where DESE publishes it."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "Charter school counts and education staff by state and district.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

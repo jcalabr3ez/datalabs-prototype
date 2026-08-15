@@ -1,0 +1,47 @@
+{
+  "tool_id": "DL-31",
+  "title": "Crime and Justice",
+  "slug": "crime-justice",
+  "vertical": "American Citizenship",
+  "group": "Crime & Justice",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers FBI UCR / NIBRS crime rates, BJS adult and juvenile incarceration, and IC3 internet-crime reports.",
+  "exclusions": "Does not cover Massachusetts municipal crime rankings (Municipal Rankings) or advice about a case.",
+  "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
+  "replaces": [
+    "Adult Incarceration",
+    "Crime Rates",
+    "Internet Crime",
+    "Juvenile Incarceration"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-631-01": {
+      "name": "FBI Crime Data Explorer / UCR and NIBRS",
+      "cadence": "Annual",
+      "url": "https://cde.ucr.cjis.gov/",
+      "supports": "Covers FBI UCR / NIBRS crime rates, BJS adult and juvenile incarceration, and IC3 internet-crime reports."
+    },
+    "SRC-631-02": {
+      "name": "Bureau of Justice Statistics incarceration series",
+      "cadence": "Annual",
+      "url": "https://bjs.ojp.gov/",
+      "supports": "Covers FBI UCR / NIBRS crime rates, BJS adult and juvenile incarceration, and IC3 internet-crime reports."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US"
+  ],
+  "q": "Crime rates, adult and juvenile incarceration, and internet crime.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

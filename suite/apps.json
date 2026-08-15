@@ -1,0 +1,454 @@
+{
+  "as_of": "2026-08-15",
+  "note": "The 26 new applications that replace the Tableau suite. The five flagships (DL-01 to DL-05) stay frozen. Each app sits in one of the four Pioneer verticals.",
+  "apps": [
+    {
+      "id": "DL-06",
+      "slug": "ma-k12",
+      "title": "Massachusetts K-12",
+      "q": "Enrollment, MCAS, attendance, dropouts, and school finances for Massachusetts districts.",
+      "vertical": "Education",
+      "group": "Education",
+      "g": ["MA"],
+      "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
+      "replaces": ["Dropouts & Graduates", "Education Fast Facts", "Enrollment by Grade", "MA Demographics", "MCAS NEXTGEN", "School Attendance", "School Finances"],
+      "scope": "Covers Massachusetts public K-12 enrollment by grade, MCAS Next-Gen results, attendance, dropouts and graduates, student demographics, and district finances.",
+      "exclusions": "Does not cover national NAEP, higher education, charter-only national files, or advice about a school choice.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-606-01", "name": "Massachusetts DESE enrollment, MCAS, attendance, and finance files", "cadence": "Annual school year", "url": "https://www.doe.mass.edu/info-services/"}
+      ]
+    },
+    {
+      "id": "DL-07",
+      "slug": "national-k12",
+      "title": "National K-12",
+      "q": "NAEP reading and math, enrollment, finance, completion, and discipline across the 50 states.",
+      "vertical": "Education",
+      "group": "Education",
+      "g": ["US"],
+      "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
+      "replaces": ["Discipline & Security", "High School Completion", "K-12 Enrollment", "K-12 School Finance", "Reading/Math Achievement"],
+      "scope": "Covers NAEP reading and mathematics, K-12 enrollment, per-pupil finance, high school completion, and discipline measures by state.",
+      "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-607-01", "name": "NCES NAEP state results", "cadence": "Biennial", "url": "https://nces.ed.gov/nationsreportcard/"},
+        {"id": "SRC-607-02", "name": "NCES Common Core of Data and Digest of Education Statistics", "cadence": "Annual", "url": "https://nces.ed.gov/ccd/"}
+      ]
+    },
+    {
+      "id": "DL-08",
+      "slug": "higher-education",
+      "title": "Higher Education",
+      "q": "College admissions tests, enrollment, faculty, and student outcomes.",
+      "vertical": "Education",
+      "group": "Education",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
+      "replaces": ["Higher Education-College Admissions", "Higher Education-College Enrollment", "Higher Education-Faculty and Staff", "Higher Education-Student Data"],
+      "scope": "Covers undergraduate admissions tests, college enrollment, faculty and staff counts, and student-level IPEDS outcomes.",
+      "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-608-01", "name": "NCES IPEDS", "cadence": "Annual", "url": "https://nces.ed.gov/ipeds/"}
+      ]
+    },
+    {
+      "id": "DL-09",
+      "slug": "charters-staff",
+      "title": "Charters and School Staff",
+      "q": "Charter school counts and education staff by state and district.",
+      "vertical": "Education",
+      "group": "Education",
+      "g": ["US", "MA"],
+      "heritage": "Formerly School Districts Charter Schools and Education Staff",
+      "replaces": ["School Districts-Charter Schools", "School Districts-Education Staff"],
+      "scope": "Covers charter school counts and education staff by state, and Massachusetts charter enrollment where DESE publishes it.",
+      "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-609-01", "name": "NCES CCD local education agency and staff files", "cadence": "Annual", "url": "https://nces.ed.gov/ccd/"}
+      ]
+    },
+    {
+      "id": "DL-10",
+      "slug": "ma-hospitals",
+      "title": "Massachusetts Hospitals",
+      "q": "Hospital relative prices and the Massachusetts hospital tracker.",
+      "vertical": "Healthcare",
+      "group": "Healthcare",
+      "g": ["MA"],
+      "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
+      "replaces": ["Hospital Tracker", "Relative Price Tracker"],
+      "scope": "Covers Massachusetts hospital relative prices and the hospital operating tracker published by CHIA.",
+      "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-610-01", "name": "Massachusetts CHIA hospital relative prices and hospital profiles", "cadence": "Annual", "url": "https://www.chiamass.gov/"}
+      ]
+    },
+    {
+      "id": "DL-11",
+      "slug": "340b",
+      "title": "340B",
+      "q": "340B program growth, hospital charity care, and state legislative mapping.",
+      "vertical": "Healthcare",
+      "group": "340B",
+      "g": ["US"],
+      "heritage": "Formerly 340B Program Growth, Hospital Charity Care, and Legislative Mapping",
+      "replaces": ["340B Program Growth", "Hospital Charity Care", "Legislative Mapping"],
+      "scope": "Covers 340B covered-entity growth, hospital charity-care shares, and a map of state 340B legislation.",
+      "exclusions": "Does not cover advice to a hospital or manufacturer, or predictions of federal rulemaking.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-611-01", "name": "HRSA Office of Pharmacy Affairs 340B covered-entity data", "cadence": "Quarterly", "url": "https://www.hrsa.gov/opa"},
+        {"id": "SRC-611-02", "name": "CMS Hospital Cost Report charity-care worksheets", "cadence": "Annual", "url": "https://www.cms.gov/"}
+      ]
+    },
+    {
+      "id": "DL-12",
+      "slug": "medicaid-health",
+      "title": "Medicaid and State Health Spending",
+      "q": "State Medicaid spending, broader state health expenses, and Medicaid fraud recoveries.",
+      "vertical": "Healthcare",
+      "group": "Healthcare",
+      "g": ["US"],
+      "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
+      "replaces": ["Medicaid Fraud", "State Health Expenses", "State Medicaid Expenses"],
+      "scope": "Covers state Medicaid expenditures, broader state health spending, and reported Medicaid fraud recoveries.",
+      "exclusions": "Does not cover individual eligibility, Massachusetts hospital prices, or 340B.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-612-01", "name": "CMS Medicaid Financial Management Reports", "cadence": "Annual", "url": "https://www.medicaid.gov/"},
+        {"id": "SRC-612-02", "name": "NASBO State Expenditure Report, health chapter", "cadence": "Annual", "url": "https://www.nasbo.org/"}
+      ]
+    },
+    {
+      "id": "DL-13",
+      "slug": "business-formation",
+      "title": "Business Formation",
+      "q": "New business applications and projected formations, state by state, from Census BFS.",
+      "vertical": "Economic Opportunity",
+      "group": "Economy & Jobs",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Business Births and Deaths and Business Dynamics",
+      "replaces": ["Business Births and Deaths", "Business Dynamics"],
+      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications and projected formations within four quarters, for the United States and each state.",
+      "exclusions": "Does not cover establishment births and deaths from the Business Employment Dynamics file, industry clusters, or advice about starting a firm.",
+      "wave": "live",
+      "sources": [
+        {"id": "SRC-613-01", "name": "Census Bureau Business Formation Statistics monthly time series", "cadence": "Monthly", "url": "https://www.census.gov/econ/bfs/csv/bfs_monthly.csv"}
+      ]
+    },
+    {
+      "id": "DL-14",
+      "slug": "labor-market",
+      "title": "Labor Market",
+      "q": "Unemployment, employment, and labor force by state from BLS LAUS.",
+      "vertical": "Economic Opportunity",
+      "group": "Economy & Jobs",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
+      "replaces": ["Employment and Wages", "Labor Demographics", "Labor Market", "Monthly Employment", "Total Labor Force", "Unemployment Insurance", "Weekly Wages"],
+      "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Wages, QCEW, and UI claims are listed as later views, not in this first ledger.",
+      "exclusions": "Does not cover occupational wages, UI claims, or advice about a job search. QCEW wages and CPS demographics are pending on this page.",
+      "wave": "live",
+      "sources": [
+        {"id": "SRC-614-01", "name": "BLS Local Area Unemployment Statistics, statewide seasonally adjusted", "cadence": "Monthly", "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS"}
+      ]
+    },
+    {
+      "id": "DL-15",
+      "slug": "gdp-profiles",
+      "title": "GDP and Economic Profiles",
+      "q": "State GDP, personal income, and the Massachusetts and U.S. economic profiles.",
+      "vertical": "Economic Opportunity",
+      "group": "Economy & Jobs",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
+      "replaces": ["GDP by NAICS Code", "Gross Domestic Product", "MA Economic Profile", "US Economic Profile", "Personal Income"],
+      "scope": "Covers BEA state GDP (all-industry and NAICS), personal income, and the profile comparisons previously split across MA and US pages.",
+      "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-615-01", "name": "BEA Regional Economic Accounts, GDP and personal income by state", "cadence": "Quarterly / annual", "url": "https://www.bea.gov/data/gdp/gdp-state"}
+      ]
+    },
+    {
+      "id": "DL-16",
+      "slug": "housing-market",
+      "title": "Housing Market",
+      "q": "Building permits by state, the production side of the housing file.",
+      "vertical": "Economic Opportunity",
+      "group": "Housing",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Housing Production and Housing Prices",
+      "replaces": ["Housing Prices", "Housing Production"],
+      "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. House-price indexes are listed as a later view, not in this first ledger.",
+      "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house. FHFA and Case-Shiller price indexes are pending on this page.",
+      "wave": "live",
+      "sources": [
+        {"id": "SRC-616-01", "name": "Census Bureau Building Permits Survey, state year-to-date files", "cadence": "Monthly", "url": "https://www2.census.gov/econ/bps/State/"}
+      ]
+    },
+    {
+      "id": "DL-17",
+      "slug": "population-migration",
+      "title": "Population and Migration",
+      "q": "State population, domestic migration, and the rural-urban continuum.",
+      "vertical": "Economic Opportunity",
+      "group": "Economy & Jobs",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban",
+      "replaces": ["US Demographics", "Domestic Migration", "Population Change", "Rural to Urban"],
+      "scope": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths. The rural-urban continuum is listed as a later view.",
+      "exclusions": "Does not cover IRS taxpayer migration (that is Taxpayer Migration) or municipal populations (that is Municipal Atlas). USDA rural-urban codes are pending on this page.",
+      "wave": "live",
+      "sources": [
+        {"id": "SRC-617-01", "name": "Census Bureau vintage 2025 state population estimates", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/totals/NST-EST2025-ALLDATA.csv"}
+      ]
+    },
+    {
+      "id": "DL-18",
+      "slug": "patents-innovation",
+      "title": "Patents and Innovation",
+      "q": "Utility patents by state and sector.",
+      "vertical": "Economic Opportunity",
+      "group": "Economy & Jobs",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Patents by State and Sector",
+      "replaces": ["Patents by State and Sector"],
+      "scope": "Covers USPTO utility patents granted by inventor state and technology class.",
+      "exclusions": "Does not cover trademarks, university rankings, or advice about filing a patent.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-618-01", "name": "USPTO PatentView / PatentsView state and class counts", "cadence": "Annual", "url": "https://patentsview.org/"}
+      ]
+    },
+    {
+      "id": "DL-19",
+      "slug": "cost-of-living",
+      "title": "Cost of Living",
+      "q": "Regional price parities, state fiscal dependency, tariffs, and defense impact.",
+      "vertical": "Economic Opportunity",
+      "group": "Economy & Jobs",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Cost of Living, State Dependency, Tariff Impacts, and Defense Impact",
+      "replaces": ["Cost of Living", "State Dependency", "US Tariff Impacts", "MA Tariff Impacts", "Defense Impact"],
+      "scope": "Covers BEA regional price parities, a state-dependency index, tariff-exposure measures, and defense-contract shares.",
+      "exclusions": "Does not cover a household budget calculator or advice about moving.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-619-01", "name": "BEA Regional Price Parities", "cadence": "Annual", "url": "https://www.bea.gov/data/prices-inflation/regional-price-parities-state-and-metro-area"}
+      ]
+    },
+    {
+      "id": "DL-20",
+      "slug": "taxpayer-migration",
+      "title": "Taxpayer Migration",
+      "q": "IRS state-to-state and county-to-county taxpayer flows.",
+      "vertical": "Economic Opportunity",
+      "group": "Taxation",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
+      "replaces": ["County to County Migration", "State to State Tax Migration", "Taxpayer Migration"],
+      "scope": "Covers IRS Statistics of Income migration: filers and adjusted gross income flowing between states and, for Massachusetts, between counties.",
+      "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-620-01", "name": "IRS SOI state-to-state and county-to-county migration", "cadence": "Annual, with a multi-year lag", "url": "https://www.irs.gov/statistics/soi-tax-stats-migration-data"}
+      ]
+    },
+    {
+      "id": "DL-21",
+      "slug": "tax-statistics",
+      "title": "Tax Statistics",
+      "q": "Income-tax statistics by state, county, and municipality, plus AGI percentiles.",
+      "vertical": "Economic Opportunity",
+      "group": "Taxation",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Individual Statistics, Tax Statistics County and Municipalities, and Tracking Wealth",
+      "replaces": ["Individual Statistics", "Tax Statistics-County", "Tax Statistics-Municipalities", "Tracking Wealth"],
+      "scope": "Covers IRS SOI individual income statistics, Massachusetts DOR municipal tax statistics, and AGI percentile tables.",
+      "exclusions": "Does not cover the wealth-tax and surtax atlas (that is DL-01) or advice about a filing.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-621-01", "name": "IRS SOI historic table 2 and AGI percentile data", "cadence": "Annual", "url": "https://www.irs.gov/statistics/soi-tax-stats-historic-table-2"}
+      ]
+    },
+    {
+      "id": "DL-22",
+      "slug": "transit-systems",
+      "title": "Transit Systems",
+      "q": "Compare U.S. transit agencies on ridership, cost, and recovery. Not the MBTA-only page.",
+      "vertical": "Economic Opportunity",
+      "group": "Transportation & Infrastructure",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Compare Systems and MassTransit Comparing Systems",
+      "replaces": ["Compare Systems", "MassTransit-Comparing Systems"],
+      "scope": "Covers FTA NTD agency-level ridership, operating cost, and farebox recovery for large U.S. transit systems, including a Massachusetts comparison that does not duplicate DL-03's MBTA-only views.",
+      "exclusions": "Does not cover MBTA mode-by-mode reliability or The RIDE (those stay on DL-03), capital budgets, or fare advice.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-622-01", "name": "FTA National Transit Database annual agency metrics", "cadence": "Annual", "url": "https://www.transit.dot.gov/ntd"}
+      ]
+    },
+    {
+      "id": "DL-23",
+      "slug": "roads-risk",
+      "title": "Roads and Risk",
+      "q": "Roadway travel, FEMA obligations, the National Risk Index, and heating and cooling days.",
+      "vertical": "Economic Opportunity",
+      "group": "Transportation & Infrastructure",
+      "g": ["US"],
+      "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
+      "replaces": ["FEMA Obligations", "Heat/Cool Days", "National Risk Index", "Roadway Transport"],
+      "scope": "Covers FHWA roadway travel, FEMA public-assistance obligations, the FEMA National Risk Index, and NOAA heating and cooling degree days.",
+      "exclusions": "Does not cover transit agencies (those sit on Transit Systems or DL-03) or Florida insurance (DL-02).",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-623-01", "name": "FHWA Highway Statistics", "cadence": "Annual", "url": "https://www.fhwa.dot.gov/policyinformation/statistics.cfm"},
+        {"id": "SRC-623-02", "name": "FEMA OpenFEMA and National Risk Index", "cadence": "Periodic", "url": "https://www.fema.gov/"}
+      ]
+    },
+    {
+      "id": "DL-24",
+      "slug": "energy-supply",
+      "title": "Energy Supply",
+      "q": "Energy consumption, production, and CO2 emissions by state. Not the retail-price page.",
+      "vertical": "Economic Opportunity",
+      "group": "Energy",
+      "g": ["US", "MA"],
+      "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
+      "replaces": ["CO2 Emissions", "Energy Consumption", "Energy Production"],
+      "scope": "Covers EIA State Energy Data System consumption and production, and CO2 emissions from energy. Retail electricity prices stay on DL-04.",
+      "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-624-01", "name": "EIA State Energy Data System and CO2 emissions from energy", "cadence": "Annual", "url": "https://www.eia.gov/state/seds/"}
+      ]
+    },
+    {
+      "id": "DL-25",
+      "slug": "municipal-atlas",
+      "title": "Municipal Atlas",
+      "q": "Choose a Massachusetts city or town, see its snapshot, and find peers.",
+      "vertical": "American Citizenship",
+      "group": "Your City & Town",
+      "g": ["MA"],
+      "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
+      "replaces": ["Choose a City or Town", "Economic Snapshot", "Find Peers"],
+      "scope": "Covers a profile for each Massachusetts municipality: population, tax levy, and a peer set. Rankings of those municipalities sit on Municipal Rankings.",
+      "exclusions": "Does not cover Boston-only payroll (that is Boston), statewide rankings (Municipal Rankings), or advice about moving.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-625-01", "name": "Massachusetts DLS municipal databank and Census ACS", "cadence": "Annual", "url": "https://www.mass.gov/orgs/division-of-local-services"}
+      ]
+    },
+    {
+      "id": "DL-26",
+      "slug": "municipal-rankings",
+      "title": "Municipal Rankings",
+      "q": "Rank Massachusetts cities and towns on crime, debt, education, spending, revenues, and taxes.",
+      "vertical": "American Citizenship",
+      "group": "Your City & Town",
+      "g": ["MA"],
+      "heritage": "Formerly the Cities and Towns Rankings suite",
+      "replaces": ["Rankings-Crime", "Rankings-Debt", "Rankings-Education", "Rankings-Expenditures", "Rankings-Financial Strength", "Rankings-Revenues", "Rankings-Taxes"],
+      "scope": "Covers comparable rankings of Massachusetts municipalities on crime, debt, education outcomes, expenditures, financial strength, revenues, and tax levy.",
+      "exclusions": "Does not cover the per-town atlas (Municipal Atlas), Boston payroll, or advice about a town meeting warrant.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-626-01", "name": "Massachusetts DLS municipal databank, DESE, and FBI UCR / NIBRS", "cadence": "Annual", "url": "https://www.mass.gov/orgs/division-of-local-services"}
+      ]
+    },
+    {
+      "id": "DL-27",
+      "slug": "boston",
+      "title": "Boston",
+      "q": "Boston city budget, payroll, and the former Boston Data Labs views.",
+      "vertical": "American Citizenship",
+      "group": "Your City & Town",
+      "g": ["Boston"],
+      "heritage": "Formerly Boston Data Labs",
+      "replaces": ["Boston Data Labs"],
+      "scope": "Covers the City of Boston adopted budget and public payroll extracts previously hosted as Boston Data Labs.",
+      "exclusions": "Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors).",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-627-01", "name": "City of Boston Checkbook Explorer and adopted budget", "cadence": "Annual / continuous", "url": "https://www.boston.gov/"}
+      ]
+    },
+    {
+      "id": "DL-28",
+      "slug": "ma-state-finances",
+      "title": "Massachusetts State Finances",
+      "q": "Commonwealth tax collections, total revenue, spending, and tax credits.",
+      "vertical": "American Citizenship",
+      "group": "State Government & Spending",
+      "g": ["MA"],
+      "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
+      "replaces": ["Revenue Tax", "Revenue Total", "Spending Total", "Tax Credits"],
+      "scope": "Covers Massachusetts tax collections by source, total revenue, total spending, and published tax-credit amounts.",
+      "exclusions": "Does not cover municipal levies (Municipal Rankings), U.S. state-finance comparisons (U.S. State Finances), or advice about a filing.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-628-01", "name": "Massachusetts Department of Revenue monthly tax collection reports", "cadence": "Monthly", "url": "https://www.mass.gov/orgs/massachusetts-department-of-revenue"}
+      ]
+    },
+    {
+      "id": "DL-29",
+      "slug": "us-state-finances",
+      "title": "U.S. State Finances",
+      "q": "State and local revenues, expenses, rainy-day funds, and public-employee counts.",
+      "vertical": "American Citizenship",
+      "group": "State Government & Spending",
+      "g": ["US"],
+      "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
+      "replaces": ["Financial Transparency", "Government Organizations", "Party Dominance", "Public Pensions", "State Employees", "State Finance-State & Local Expenses", "State Finance-State & Local Revenues", "State Finance-State Only Expenses", "State Finance-State Only Revenues", "State Finance-State Rainy Day Funds"],
+      "scope": "Covers Census Annual Survey of State Government Finances, NASBO rainy-day funds, state public-employee counts, and a U.S. public-pensions snapshot that does not duplicate Massachusetts boards (DL-05).",
+      "exclusions": "Does not cover Massachusetts retirement boards (DL-05), Massachusetts monthly tax collections (Massachusetts State Finances), or party-registration advice.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-629-01", "name": "Census Annual Survey of State Government Finances", "cadence": "Annual", "url": "https://www.census.gov/programs-surveys/state.html"},
+        {"id": "SRC-629-02", "name": "NASBO Fiscal Survey of the States, rainy-day funds", "cadence": "Twice yearly", "url": "https://www.nasbo.org/"}
+      ]
+    },
+    {
+      "id": "DL-30",
+      "slug": "payroll-vendors",
+      "title": "Payroll and Vendors",
+      "q": "Massachusetts state, higher-ed, and quasi-public payroll, plus vendor payments.",
+      "vertical": "American Citizenship",
+      "group": "State Government & Spending",
+      "g": ["MA"],
+      "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
+      "replaces": ["Payroll State Agencies", "Payroll-Higher Education", "Payroll-Quasi Public Agencies", "Vendor Payments Quasi-Public Agencies", "Vendor Payments-State"],
+      "scope": "Covers CTHRU and related extracts for state-agency, higher-education, and quasi-public payroll, and vendor payments by the Commonwealth and quasi-publics.",
+      "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), or advice about a contract bid.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-630-01", "name": "Massachusetts CTHRU payroll and vendor payment datasets", "cadence": "Monthly / annual", "url": "https://www.macomptroller.org/cthru/"}
+      ]
+    },
+    {
+      "id": "DL-31",
+      "slug": "crime-justice",
+      "title": "Crime and Justice",
+      "q": "Crime rates, adult and juvenile incarceration, and internet crime.",
+      "vertical": "American Citizenship",
+      "group": "Crime & Justice",
+      "g": ["US"],
+      "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
+      "replaces": ["Adult Incarceration", "Crime Rates", "Internet Crime", "Juvenile Incarceration"],
+      "scope": "Covers FBI UCR / NIBRS crime rates, BJS adult and juvenile incarceration, and IC3 internet-crime reports.",
+      "exclusions": "Does not cover Massachusetts municipal crime rankings (Municipal Rankings) or advice about a case.",
+      "wave": "build",
+      "sources": [
+        {"id": "SRC-631-01", "name": "FBI Crime Data Explorer / UCR and NIBRS", "cadence": "Annual", "url": "https://cde.ucr.cjis.gov/"},
+        {"id": "SRC-631-02", "name": "Bureau of Justice Statistics incarceration series", "cadence": "Annual", "url": "https://bjs.ojp.gov/"}
+      ]
+    }
+  ]
+}

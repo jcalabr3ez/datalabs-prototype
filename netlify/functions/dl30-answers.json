@@ -1,0 +1,42 @@
+{
+  "tool_id": "DL-30",
+  "title": "Payroll and Vendors",
+  "slug": "payroll-vendors",
+  "vertical": "American Citizenship",
+  "group": "State Government & Spending",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers CTHRU and related extracts for state-agency, higher-education, and quasi-public payroll, and vendor payments by the Commonwealth and quasi-publics.",
+  "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), or advice about a contract bid.",
+  "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
+  "replaces": [
+    "Payroll State Agencies",
+    "Payroll-Higher Education",
+    "Payroll-Quasi Public Agencies",
+    "Vendor Payments Quasi-Public Agencies",
+    "Vendor Payments-State"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-630-01": {
+      "name": "Massachusetts CTHRU payroll and vendor payment datasets",
+      "cadence": "Monthly / annual",
+      "url": "https://www.macomptroller.org/cthru/",
+      "supports": "Covers CTHRU and related extracts for state-agency, higher-education, and quasi-public payroll, and vendor payments by the Commonwealth and quasi-publics."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Massachusetts state, higher-ed, and quasi-public payroll, plus vendor payments.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

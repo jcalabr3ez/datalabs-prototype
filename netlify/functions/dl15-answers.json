@@ -1,0 +1,43 @@
+{
+  "tool_id": "DL-15",
+  "title": "GDP and Economic Profiles",
+  "slug": "gdp-profiles",
+  "vertical": "Economic Opportunity",
+  "group": "Economy & Jobs",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers BEA state GDP (all-industry and NAICS), personal income, and the profile comparisons previously split across MA and US pages.",
+  "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation.",
+  "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
+  "replaces": [
+    "GDP by NAICS Code",
+    "Gross Domestic Product",
+    "MA Economic Profile",
+    "US Economic Profile",
+    "Personal Income"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-615-01": {
+      "name": "BEA Regional Economic Accounts, GDP and personal income by state",
+      "cadence": "Quarterly / annual",
+      "url": "https://www.bea.gov/data/gdp/gdp-state",
+      "supports": "Covers BEA state GDP (all-industry and NAICS), personal income, and the profile comparisons previously split across MA and US pages."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "State GDP, personal income, and the Massachusetts and U.S. economic profiles.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

@@ -1,0 +1,40 @@
+{
+  "tool_id": "DL-25",
+  "title": "Municipal Atlas",
+  "slug": "municipal-atlas",
+  "vertical": "American Citizenship",
+  "group": "Your City & Town",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers a profile for each Massachusetts municipality: population, tax levy, and a peer set. Rankings of those municipalities sit on Municipal Rankings.",
+  "exclusions": "Does not cover Boston-only payroll (that is Boston), statewide rankings (Municipal Rankings), or advice about moving.",
+  "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
+  "replaces": [
+    "Choose a City or Town",
+    "Economic Snapshot",
+    "Find Peers"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-625-01": {
+      "name": "Massachusetts DLS municipal databank and Census ACS",
+      "cadence": "Annual",
+      "url": "https://www.mass.gov/orgs/division-of-local-services",
+      "supports": "Covers a profile for each Massachusetts municipality: population, tax levy, and a peer set. Rankings of those municipalities sit on Municipal Rankings."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Choose a Massachusetts city or town, see its snapshot, and find peers.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

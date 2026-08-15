@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Population and Migration | Pioneer Institute | DataLabs</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="State population, domestic migration, and the rural-urban continuum.">
+<link rel="canonical" href="https://datalabsai.netlify.app/population-migration/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="Population and Migration | Pioneer Institute">
+<meta property="og:description" content="State population, domestic migration, and the rural-urban continuum.">
+<meta property="og:url" content="https://datalabsai.netlify.app/population-migration/">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
+<style>
+  :root{ --bleed:clamp(18px,2.6vw,48px); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);margin-top:3px;color:var(--faint)}
+  section{margin-top:56px}
+  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;min-height:30px}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  td.m{font-weight:600}
+  tr.hl-ma td{background:var(--wash)}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  details.srcfold,details.simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary,details.simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;font:600 14.5px/1.4 var(--sans);color:var(--ink)}
+  details.srcfold>summary::-webkit-details-marker,details.simplify summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after,details.simplify summary:after{content:none}
+  details.srcfold .fold-body,details.simplify .dt-body{padding:14px 18px 16px}
+  .car{color:var(--gold);font-size:11px}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .scroll{overflow-x:auto;max-width:100%}
+  [hidden]{display:none !important}
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="sitebar">
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Population and Migration</span>
+</div>
+<header>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">Economic Opportunity <span class="sub">/ Economy &amp; Jobs &middot; Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban</span></div>
+  <h1>Population and Migration</h1>
+  <div class="standfirst">State population, domestic migration, and the rural-urban continuum.</div>
+  <div class="dateline">
+<!-- DATA:BEGIN population-migration-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <span>Data through <b>July 1, 2025</b></span>
+    <span>Revised <b>Aug 15, 2026</b></span>
+    <span>Version <b>0.1</b></span>
+<!-- DATA:END population-migration-dateline -->
+  </div>
+</header>
+<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+
+<div class="toggle" role="tablist" aria-label="Choose a view">
+  <button id="btn-latest" class="on" onclick="showView('latest')">Latest<span class="who">The current ranking</span></button>
+  <button id="btn-trend" onclick="showView('trend')">Trend<span class="who">How the series has moved</span></button>
+  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every jurisdiction</span></button>
+</div>
+
+
+<div id="view-latest">
+  <section style="margin-top:30px">
+    <h2>What are the key takeaways?</h2>
+    <p class="lede">
+<!-- DATA:BEGIN population-migration-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+The Census vintage 2025 estimate put the United States at <b>341,784,857</b> on July 1, 2025 (SRC-617-01). Massachusetts was <b>7,154,084</b>, with domestic migration of <b>-33,340</b>, rank 47 of 51 (derived, SRC-617-01).
+<!-- DATA:END population-migration-lead -->
+    </p>
+    <div class="strip metrics">
+<!-- DATA:BEGIN population-migration-kpis (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+      <div class="cell">
+        <div class="cl">U.S. population, July 1, 2025</div>
+        <div class="cv">341,784,857</div>
+        <div class="cd">Census vintage 2025 estimate (SRC-617-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The national stock the state rows add up to.</div>
+        <div class="csrc">Source: Census vintage 2025 state population estimates (SRC-617-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Massachusetts population</div>
+        <div class="cv">7,154,084</div>
+        <div class="cd">Domestic migration -33,340 in 2025, rank 47 of 51 (derived, SRC-617-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The stock and the domestic flow, which is the competitiveness number.</div>
+        <div class="csrc">Source: Census vintage 2025 state population estimates (SRC-617-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Largest domestic inflow</div>
+        <div class="cv">NC 84,064</div>
+        <div class="cd">North Carolina gained the most residents from other states; California lost the most at -229,077 (SRC-617-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Domestic migration is a zero-sum ranking across the 50 states and D.C.</div>
+        <div class="csrc">Source: Census vintage 2025 state population estimates (SRC-617-01)</div>
+      </div>
+<!-- DATA:END population-migration-kpis -->
+    </div>
+  </section>
+  <section id="view-rank">
+    <h2>How do the states compare?</h2>
+    <div class="lede">Domestic migration, 2025. Massachusetts is marked in gold.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t">Domestic migration, 2025 by state</span></div>
+      <div class="plot plot-ranks"><canvas id="chRank"></canvas></div>
+      <div class="note">Ranks are Pioneer calculations from the published source file (derived). The source line names the file.</div>
+      <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only).</div>
+    </div>
+  </section>
+</div>
+
+
+<div id="view-trend" hidden>
+  <section style="margin-top:30px">
+    <h2>How has the series moved?</h2>
+    <div class="lede">Select a series the ledger carries. Empty months are omitted.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
+        <span class="ex-t">Trend</span></div>
+      <div class="plot"><canvas id="chTrend"></canvas></div>
+      <div class="srcline"><b>Source:</b> see the register. <b>Calculation:</b> Pioneer Institute.</div>
+    </div>
+  </section>
+</div>
+
+
+<div id="view-table" hidden>
+  <section style="margin-top:30px">
+    <h2>Every jurisdiction</h2>
+    <div class="lede">Domestic migration, 2025, people.</div>
+    <div class="scroll">
+      <table id="tblStates">
+        <thead><tr><th>Jurisdiction</th><th class="n">Value</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> see the register. Ranks and year-over-year changes are Pioneer calculations (derived).</div>
+  </section>
+</div>
+
+<section id="sources">
+  <h2>Data Sources</h2>
+  <div class="subhead">Every figure on this page traces to a source below. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+  <details class="srcfold">
+    <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
+    <div class="fold-body">
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports</th><th>Data vintage</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr><td class="src"><a href="https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/totals/NST-EST2025-ALLDATA.csv" target="_blank" rel="noopener">Census Bureau vintage 2025 state population estimates (SRC-617-01)</a></td><td>Annual</td><td>Covers Census vintage state population estimates, domestic and international migration, births, and deaths. The rural-urban continuum is listed as a later view.</td><td>July 1, 2025</td><td>Annual</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+  <details class="simplify">
+    <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
+    <div class="dt-body">
+      <p class="body-p">Does not cover IRS taxpayer migration (that is Taxpayer Migration) or municipal populations (that is Municipal Atlas). USDA rural-urban codes are pending on this page.</p>
+      <p class="body-p">It replaces these Tableau workbooks: US Demographics, Domestic Migration, Population Change, Rural to Urban. Those URLs stay in the catalog until this page covers the same substance.</p>
+    </div>
+  </details>
+</section>
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+<!-- DATA:BEGIN population-migration-footer-meta (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <div>Population and Migration &middot; Version 0.1 &middot; Data through July 1, 2025 &middot; Revised Aug 15, 2026</div>
+<!-- DATA:END population-migration-footer-meta -->
+    <div>1 source in the register</div>
+  </div>
+  <div class="disclaimer">
+    <div><b>About this tool.</b> Population and Migration is a Pioneer Institute DataLabs research tool. Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
+    <div><b>Verified figures.</b> Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists.</div>
+  </div>
+  <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
+</footer>
+</div>
+
+<script>
+/* DATA:BEGIN population-migration-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
+const DL={"tool_id":"DL-17","as_of":"2025-07","rows":[{"st":"NC","name":"North Carolina","v":84064,"rank":1,"n":51,"pop":11197968,"mig_per_1k":7.51},{"st":"TX","name":"Texas","v":67299,"rank":2,"n":51,"pop":31709821,"mig_per_1k":2.12},{"st":"SC","name":"South Carolina","v":66622,"rank":3,"n":51,"pop":5570274,"mig_per_1k":11.96},{"st":"TN","name":"Tennessee","v":42389,"rank":4,"n":51,"pop":7315076,"mig_per_1k":5.79},{"st":"AZ","name":"Arizona","v":31107,"rank":5,"n":51,"pop":7623818,"mig_per_1k":4.08},{"st":"GA","name":"Georgia","v":27333,"rank":6,"n":51,"pop":11302748,"mig_per_1k":2.42},{"st":"AL","name":"Alabama","v":23358,"rank":7,"n":51,"pop":5193088,"mig_per_1k":4.5},{"st":"FL","name":"Florida","v":22517,"rank":8,"n":51,"pop":23462518,"mig_per_1k":0.96},{"st":"ID","name":"Idaho","v":19915,"rank":9,"n":51,"pop":2029733,"mig_per_1k":9.81},{"st":"NV","name":"Nevada","v":14914,"rank":10,"n":51,"pop":3282188,"mig_per_1k":4.54},{"st":"OK","name":"Oklahoma","v":14492,"rank":11,"n":51,"pop":4123288,"mig_per_1k":3.51},{"st":"AR","name":"Arkansas","v":14475,"rank":12,"n":51,"pop":3114791,"mig_per_1k":4.65},{"st":"MO","name":"Missouri","v":14028,"rank":13,"n":51,"pop":6270541,"mig_per_1k":2.24},{"st":"IN","name":"Indiana","v":12197,"rank":14,"n":51,"pop":6973333,"mig_per_1k":1.75},{"st":"OH","name":"Ohio","v":11926,"rank":15,"n":51,"pop":11900510,"mig_per_1k":1.0},{"st":"WA","name":"Washington","v":9238,"rank":16,"n":51,"pop":8001020,"mig_per_1k":1.15},{"st":"MN","name":"Minnesota","v":8300,"rank":17,"n":51,"pop":5830405,"mig_per_1k":1.42},{"st":"ME","name":"Maine","v":7406,"rank":18,"n":51,"pop":1414874,"mig_per_1k":5.23},{"st":"KY","name":"Kentucky","v":7269,"rank":19,"n":51,"pop":4606864,"mig_per_1k":1.58},{"st":"WI","name":"Wisconsin","v":6984,"rank":20,"n":51,"pop":5972787,"mig_per_1k":1.17},{"st":"DE","name":"Delaware","v":6855,"rank":21,"n":51,"pop":1059952,"mig_per_1k":6.47},{"st":"NH","name":"New Hampshire","v":6554,"rank":22,"n":51,"pop":1415342,"mig_per_1k":4.63},{"st":"WV","name":"West Virginia","v":6408,"rank":23,"n":51,"pop":1766147,"mig_per_1k":3.63},{"st":"MT","name":"Montana","v":6348,"rank":24,"n":51,"pop":1144694,"mig_per_1k":5.55},{"st":"VA","name":"Virginia","v":6268,"rank":25,"n":51,"pop":8880107,"mig_per_1k":0.71},{"st":"UT","name":"Utah","v":3343,"rank":26,"n":51,"pop":3538904,"mig_per_1k":0.94},{"st":"OR","name":"Oregon","v":2228,"rank":27,"n":51,"pop":4273586,"mig_per_1k":0.52},{"st":"SD","name":"South Dakota","v":2169,"rank":28,"n":51,"pop":935094,"mig_per_1k":2.32},{"st":"MI","name":"Michigan","v":1796,"rank":29,"n":51,"pop":10127884,"mig_per_1k":0.18},{"st":"WY","name":"Wyoming","v":1474,"rank":30,"n":51,"pop":588753,"mig_per_1k":2.5},{"st":"ND","name":"North Dakota","v":512,"rank":31,"n":51,"pop":799358,"mig_per_1k":0.64},{"st":"NE","name":"Nebraska","v":-366,"rank":32,"n":51,"pop":2018006,"mig_per_1k":-0.18},{"st":"KS","name":"Kansas","v":-519,"rank":33,"n":51,"pop":2977220,"mig_per_1k":-0.17},{"st":"VT","name":"Vermont","v":-726,"rank":34,"n":51,"pop":644663,"mig_per_1k":-1.13},{"st":"MS","name":"Mississippi","v":-917,"rank":35,"n":51,"pop":2954160,"mig_per_1k":-0.31},{"st":"IA","name":"Iowa","v":-970,"rank":36,"n":51,"pop":3238387,"mig_per_1k":-0.3},{"st":"RI","name":"Rhode Island","v":-1551,"rank":37,"n":51,"pop":1114521,"mig_per_1k":-1.39},{"st":"NM","name":"New Mexico","v":-2267,"rank":38,"n":51,"pop":2125498,"mig_per_1k":-1.07},{"st":"PA","name":"Pennsylvania","v":-2936,"rank":39,"n":51,"pop":13059432,"mig_per_1k":-0.22},{"st":"DC","name":"District of Columbia","v":-4128,"rank":40,"n":51,"pop":693645,"mig_per_1k":-5.95},{"st":"AK","name":"Alaska","v":-4525,"rank":41,"n":51,"pop":737270,"mig_per_1k":-6.14},{"st":"CT","name":"Connecticut","v":-5945,"rank":42,"n":51,"pop":3688496,"mig_per_1k":-1.61},{"st":"HI","name":"Hawaii","v":-8876,"rank":43,"n":51,"pop":1432820,"mig_per_1k":-6.19},{"st":"CO","name":"Colorado","v":-12100,"rank":44,"n":51,"pop":6012561,"mig_per_1k":-2.01},{"st":"MD","name":"Maryland","v":-12127,"rank":45,"n":51,"pop":6265347,"mig_per_1k":-1.94},{"st":"LA","name":"Louisiana","v":-14387,"rank":46,"n":51,"pop":4618189,"mig_per_1k":-3.12},{"st":"MA","name":"Massachusetts","v":-33340,"rank":47,"n":51,"pop":7154084,"mig_per_1k":-4.66},{"st":"NJ","name":"New Jersey","v":-37428,"rank":48,"n":51,"pop":9548215,"mig_per_1k":-3.92},{"st":"IL","name":"Illinois","v":-40017,"rank":49,"n":51,"pop":12719141,"mig_per_1k":-3.15},{"st":"NY","name":"New York","v":-137586,"rank":50,"n":51,"pop":20002427,"mig_per_1k":-6.88},{"st":"CA","name":"California","v":-229077,"rank":51,"n":51,"pop":39355309,"mig_per_1k":-5.82}],"trend":{"US":[{"y":2020,"v":331578104},{"y":2021,"v":332100166},{"y":2022,"v":333996304},{"y":2023,"v":336755052},{"y":2024,"v":340003797},{"y":2025,"v":341784857}],"MA":[{"y":2020,"v":6985320},{"y":2021,"v":6996721},{"y":2022,"v":7025465},{"y":2023,"v":7073479},{"y":2024,"v":7138560},{"y":2025,"v":7154084}]},"latest":{"us":{"pop":341784857,"domestic_mig":0},"ma":{"pop":7154084,"v":-33340,"rank":47,"n":51,"mig_per_1k":-4.66},"highest":{"st":"NC","name":"North Carolina","v":84064},"lowest":{"st":"CA","name":"California","v":-229077}},"derived":{"note":"Prefer these over recomputing. Ranks cite (derived, SRC-617-01).","highest_five":[{"st":"NC","name":"North Carolina","v":84064,"rank":1,"n":51,"pop":11197968,"mig_per_1k":7.51},{"st":"TX","name":"Texas","v":67299,"rank":2,"n":51,"pop":31709821,"mig_per_1k":2.12},{"st":"SC","name":"South Carolina","v":66622,"rank":3,"n":51,"pop":5570274,"mig_per_1k":11.96},{"st":"TN","name":"Tennessee","v":42389,"rank":4,"n":51,"pop":7315076,"mig_per_1k":5.79},{"st":"AZ","name":"Arizona","v":31107,"rank":5,"n":51,"pop":7623818,"mig_per_1k":4.08}],"lowest_five":[{"st":"CA","name":"California","v":-229077,"rank":51,"n":51,"pop":39355309,"mig_per_1k":-5.82},{"st":"NY","name":"New York","v":-137586,"rank":50,"n":51,"pop":20002427,"mig_per_1k":-6.88},{"st":"IL","name":"Illinois","v":-40017,"rank":49,"n":51,"pop":12719141,"mig_per_1k":-3.15},{"st":"NJ","name":"New Jersey","v":-37428,"rank":48,"n":51,"pop":9548215,"mig_per_1k":-3.92},{"st":"MA","name":"Massachusetts","v":-33340,"rank":47,"n":51,"pop":7154084,"mig_per_1k":-4.66}],"massachusetts_rank":47,"n_ranked":51},"metric":"domestic_migration_2025","unit":"people"};
+/* DATA:END population-migration-data */
+
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
+  var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#666666';
+  function showView(id){
+    ['latest','trend','table'].forEach(function(v){
+      var el=document.getElementById('view-'+v);
+      if(el) el.hidden = (v!==id);
+      var b=document.getElementById('btn-'+v);
+      if(b) b.classList.toggle('on', v===id);
+    });
+    if(location.hash!=='#view-'+id) history.replaceState(null,'','#view-'+id);
+  }
+  window.showView=showView;
+  function applyHash(){
+    var h=(location.hash||'').replace('#view-','');
+    if(h==='trend'||h==='table'||h==='latest') showView(h);
+  }
+  window.addEventListener('hashchange', applyHash);
+  applyHash();
+  var rows=(DL&&DL.rows)||[];
+  var chRank=document.getElementById('chRank');
+  if(chRank && rows.length && window.Chart){
+    var labels=rows.map(function(r){return r.st;});
+    var data=rows.map(function(r){return r.v;});
+    var colors=rows.map(function(r){return r.st==='MA'?GOLD:BLUE;});
+    new Chart(chRank,{type:'bar',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
+      options:{indexAxis:'y',plugins:{legend:{display:false}},
+        scales:{x:{ticks:{color:GREY},grid:{color:'#EEF1F4'}},y:{ticks:{color:INK,font:{size:10}},grid:{display:false}}}}});
+  }
+  var chTrend=document.getElementById('chTrend');
+  var trend=(DL&&DL.trend)||{};
+  if(chTrend && window.Chart){
+    var keys=Object.keys(trend);
+    var datasets=keys.map(function(k,i){
+      var series=trend[k]||[];
+      return {label:k,data:series.map(function(p){return {x:p.m||String(p.y),y:p.v};}),
+        borderColor:k==='MA'?GOLD:BLUE,backgroundColor:'transparent',tension:.15,pointRadius:0};
+    });
+    if(datasets.length){
+      new Chart(chTrend,{type:'line',data:{datasets:datasets},
+        options:{plugins:{legend:{display:true}},
+          scales:{x:{type:'category',ticks:{color:GREY,maxTicksLimit:12}},
+                   y:{ticks:{color:GREY},grid:{color:'#EEF1F4'}}}}});
+    }
+  }
+  var tb=document.querySelector('#tblStates tbody');
+  if(tb){
+    tb.innerHTML=rows.map(function(r){
+      var yoy=(r.yoy_pct==null?'':(r.yoy_pct>0?'+':'')+r.yoy_pct+'%');
+      var hl=r.st==='MA'?' class="hl-ma"':'';
+      var val=(typeof r.v==='number' && Math.abs(r.v)>=1000)?r.v.toLocaleString():r.v;
+      return '<tr'+hl+'><td class="m">'+r.name+'</td><td class="n">'+val+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
+    }).join('');
+  }
+})();
+</script>
+
+</body>
+</html>

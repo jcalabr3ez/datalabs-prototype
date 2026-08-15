@@ -1,0 +1,40 @@
+{
+  "tool_id": "DL-22",
+  "title": "Transit Systems",
+  "slug": "transit-systems",
+  "vertical": "Economic Opportunity",
+  "group": "Transportation & Infrastructure",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers FTA NTD agency-level ridership, operating cost, and farebox recovery for large U.S. transit systems, including a Massachusetts comparison that does not duplicate DL-03's MBTA-only views.",
+  "exclusions": "Does not cover MBTA mode-by-mode reliability or The RIDE (those stay on DL-03), capital budgets, or fare advice.",
+  "heritage": "Formerly Compare Systems and MassTransit Comparing Systems",
+  "replaces": [
+    "Compare Systems",
+    "MassTransit-Comparing Systems"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-622-01": {
+      "name": "FTA National Transit Database annual agency metrics",
+      "cadence": "Annual",
+      "url": "https://www.transit.dot.gov/ntd",
+      "supports": "Covers FTA NTD agency-level ridership, operating cost, and farebox recovery for large U.S. transit systems, including a Massachusetts comparison that does not duplicate DL-03's MBTA-only views."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "Compare U.S. transit agencies on ridership, cost, and recovery. Not the MBTA-only page.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

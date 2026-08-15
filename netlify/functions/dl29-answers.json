@@ -1,0 +1,53 @@
+{
+  "tool_id": "DL-29",
+  "title": "U.S. State Finances",
+  "slug": "us-state-finances",
+  "vertical": "American Citizenship",
+  "group": "State Government & Spending",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers Census Annual Survey of State Government Finances, NASBO rainy-day funds, state public-employee counts, and a U.S. public-pensions snapshot that does not duplicate Massachusetts boards (DL-05).",
+  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), Massachusetts monthly tax collections (Massachusetts State Finances), or party-registration advice.",
+  "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
+  "replaces": [
+    "Financial Transparency",
+    "Government Organizations",
+    "Party Dominance",
+    "Public Pensions",
+    "State Employees",
+    "State Finance-State & Local Expenses",
+    "State Finance-State & Local Revenues",
+    "State Finance-State Only Expenses",
+    "State Finance-State Only Revenues",
+    "State Finance-State Rainy Day Funds"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-629-01": {
+      "name": "Census Annual Survey of State Government Finances",
+      "cadence": "Annual",
+      "url": "https://www.census.gov/programs-surveys/state.html",
+      "supports": "Covers Census Annual Survey of State Government Finances, NASBO rainy-day funds, state public-employee counts, and a U.S. public-pensions snapshot that does not duplicate Massachusetts boards (DL-05)."
+    },
+    "SRC-629-02": {
+      "name": "NASBO Fiscal Survey of the States, rainy-day funds",
+      "cadence": "Twice yearly",
+      "url": "https://www.nasbo.org/",
+      "supports": "Covers Census Annual Survey of State Government Finances, NASBO rainy-day funds, state public-employee counts, and a U.S. public-pensions snapshot that does not duplicate Massachusetts boards (DL-05)."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US"
+  ],
+  "q": "State and local revenues, expenses, rainy-day funds, and public-employee counts.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

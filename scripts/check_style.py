@@ -120,6 +120,34 @@ for needle, label in pn_sentinels:
             "the DL-05 ledger moved but the hand-authored page did not follow"
         )
 
+# ---- 5. Suite live-page sentinels (DL-13, DL-14, DL-16, DL-17) ----
+for rel, slug, needles in (
+    ("netlify/functions/dl13-answers.json", "business-formation", None),
+    ("netlify/functions/dl14-answers.json", "labor-market", None),
+    ("netlify/functions/dl16-answers.json", "housing-market", None),
+    ("netlify/functions/dl17-answers.json", "population-migration", None),
+):
+    led_path = ROOT / rel
+    page_path = ROOT / slug / "index.html"
+    if not led_path.exists() or not page_path.exists():
+        failures.append(f"{slug}: missing ledger or page; run scripts/refresh_suite.py")
+        print(f"suite {slug}: MISS ledger or page")
+        continue
+    led = json.loads(led_path.read_text(encoding="utf-8"))
+    page = page_path.read_text(encoding="utf-8")
+    if f"DATA:BEGIN {slug}-data" not in page:
+        failures.append(f"{slug}/index.html is missing the generated {slug}-data block")
+        print(f"suite {slug}: MISS generated block")
+    else:
+        print(f"suite {slug}: ok   generated block present")
+    if led.get("status") == "live":
+        as_of = str(led.get("as_of") or "")
+        if as_of and as_of not in page:
+            failures.append(f"{slug}/index.html does not mention ledger as_of ({as_of})")
+            print(f"suite {slug}: MISS as_of {as_of}")
+        else:
+            print(f"suite {slug}: ok   as_of {as_of}")
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

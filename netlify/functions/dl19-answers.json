@@ -1,0 +1,43 @@
+{
+  "tool_id": "DL-19",
+  "title": "Cost of Living",
+  "slug": "cost-of-living",
+  "vertical": "Economic Opportunity",
+  "group": "Economy & Jobs",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers BEA regional price parities, a state-dependency index, tariff-exposure measures, and defense-contract shares.",
+  "exclusions": "Does not cover a household budget calculator or advice about moving.",
+  "heritage": "Formerly Cost of Living, State Dependency, Tariff Impacts, and Defense Impact",
+  "replaces": [
+    "Cost of Living",
+    "State Dependency",
+    "US Tariff Impacts",
+    "MA Tariff Impacts",
+    "Defense Impact"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-619-01": {
+      "name": "BEA Regional Price Parities",
+      "cadence": "Annual",
+      "url": "https://www.bea.gov/data/prices-inflation/regional-price-parities-state-and-metro-area",
+      "supports": "Covers BEA regional price parities, a state-dependency index, tariff-exposure measures, and defense-contract shares."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "Regional price parities, state fiscal dependency, tariffs, and defense impact.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

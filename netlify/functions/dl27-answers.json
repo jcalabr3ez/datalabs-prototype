@@ -1,0 +1,38 @@
+{
+  "tool_id": "DL-27",
+  "title": "Boston",
+  "slug": "boston",
+  "vertical": "American Citizenship",
+  "group": "Your City & Town",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers the City of Boston adopted budget and public payroll extracts previously hosted as Boston Data Labs.",
+  "exclusions": "Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors).",
+  "heritage": "Formerly Boston Data Labs",
+  "replaces": [
+    "Boston Data Labs"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-627-01": {
+      "name": "City of Boston Checkbook Explorer and adopted budget",
+      "cadence": "Annual / continuous",
+      "url": "https://www.boston.gov/",
+      "supports": "Covers the City of Boston adopted budget and public payroll extracts previously hosted as Boston Data Labs."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "Boston"
+  ],
+  "q": "Boston city budget, payroll, and the former Boston Data Labs views.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

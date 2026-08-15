@@ -29,6 +29,18 @@ RULES = {
     "netlify/functions/dl05-answers.json": (
         "YYYY-MM", 160, "CTHRU updates monthly and as_of is that file month; the 160-day gate is the backstop. Board valuations still move on the research pass."
     ),
+    "netlify/functions/dl13-answers.json": (
+        "YYYY-MM", 75, "Census BFS publishes monthly; the 75-day gate is the backstop"
+    ),
+    "netlify/functions/dl14-answers.json": (
+        "YYYY-MM", 75, "BLS LAUS publishes monthly with about a one-month lag"
+    ),
+    "netlify/functions/dl16-answers.json": (
+        "YYYY-MM", 75, "Census BPS state year-to-date files publish monthly"
+    ),
+    "netlify/functions/dl17-answers.json": (
+        "YYYY-MM", 400, "Census vintage population estimates publish once a year"
+    ),
 }
 
 

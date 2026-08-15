@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GDP and Economic Profiles | Pioneer Institute | DataLabs</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="State GDP, personal income, and the Massachusetts and U.S. economic profiles.">
+<link rel="canonical" href="https://datalabsai.netlify.app/gdp-profiles/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="GDP and Economic Profiles | Pioneer Institute">
+<meta property="og:description" content="State GDP, personal income, and the Massachusetts and U.S. economic profiles.">
+<meta property="og:url" content="https://datalabsai.netlify.app/gdp-profiles/">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
+<style>
+  :root{ --bleed:clamp(18px,2.6vw,48px); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);margin-top:3px;color:var(--faint)}
+  section{margin-top:56px}
+  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;min-height:30px}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  td.m{font-weight:600}
+  tr.hl-ma td{background:var(--wash)}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  details.srcfold,details.simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary,details.simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;font:600 14.5px/1.4 var(--sans);color:var(--ink)}
+  details.srcfold>summary::-webkit-details-marker,details.simplify summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after,details.simplify summary:after{content:none}
+  details.srcfold .fold-body,details.simplify .dt-body{padding:14px 18px 16px}
+  .car{color:var(--gold);font-size:11px}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .scroll{overflow-x:auto;max-width:100%}
+  [hidden]{display:none !important}
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="sitebar">
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; GDP and Economic Profiles</span>
+</div>
+<header>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">Economic Opportunity <span class="sub">/ Economy &amp; Jobs &middot; Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile</span></div>
+  <h1>GDP and Economic Profiles</h1>
+  <div class="standfirst">State GDP, personal income, and the Massachusetts and U.S. economic profiles.</div>
+  <div class="dateline">
+<!-- DATA:BEGIN gdp-profiles-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <span>Data through <b>pending</b></span>
+    <span>Revised <b>Aug 15, 2026</b></span>
+    <span>Version <b>0.0</b></span>
+<!-- DATA:END gdp-profiles-dateline -->
+  </div>
+</header>
+<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>In build.</b> Scope and sources are locked. Figures are not invented to fill the page. A later refresh will compile the ledger from the register below. Corrections: <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+
+
+<section style="margin-top:30px">
+  <h2>What this application will cover</h2>
+  <p class="lede">Covers BEA state GDP (all-industry and NAICS), personal income, and the profile comparisons previously split across MA and US pages.</p>
+  <p class="body-p">Does not cover forecasts, municipal GDP, or advice about relocation.</p>
+  <p class="body-p">It replaces these Tableau workbooks: GDP by NAICS Code, Gross Domestic Product, MA Economic Profile, US Economic Profile, Personal Income.</p>
+</section>
+
+
+
+<section id="sources">
+  <h2>Data Sources</h2>
+  <div class="subhead">Every figure on this page traces to a source below. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+  <details class="srcfold">
+    <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
+    <div class="fold-body">
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports</th><th>Data vintage</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr><td class="src"><a href="https://www.bea.gov/data/gdp/gdp-state" target="_blank" rel="noopener">BEA Regional Economic Accounts, GDP and personal income by state (SRC-615-01)</a></td><td>Quarterly / annual</td><td>Covers BEA state GDP (all-industry and NAICS), personal income, and the profile comparisons previously split across MA and US pages.</td><td>pending</td><td>Quarterly / annual</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+  <details class="simplify">
+    <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
+    <div class="dt-body">
+      <p class="body-p">Does not cover forecasts, municipal GDP, or advice about relocation.</p>
+      <p class="body-p">It replaces these Tableau workbooks: GDP by NAICS Code, Gross Domestic Product, MA Economic Profile, US Economic Profile, Personal Income. Those URLs stay in the catalog until this page covers the same substance.</p>
+    </div>
+  </details>
+</section>
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+<!-- DATA:BEGIN gdp-profiles-footer-meta (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <div>GDP and Economic Profiles &middot; Version 0.0 &middot; Data through pending &middot; Revised Aug 15, 2026</div>
+<!-- DATA:END gdp-profiles-footer-meta -->
+    <div>1 source in the register</div>
+  </div>
+  <div class="disclaimer">
+    <div><b>About this tool.</b> GDP and Economic Profiles is a Pioneer Institute DataLabs research tool. Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
+    <div><b>Verified figures.</b> No figures are published on this page yet. The register is the work plan.</div>
+  </div>
+  <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
+</footer>
+</div>
+
+</body>
+</html>

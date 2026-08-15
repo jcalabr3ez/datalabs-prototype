@@ -1,0 +1,41 @@
+{
+  "tool_id": "DL-28",
+  "title": "Massachusetts State Finances",
+  "slug": "ma-state-finances",
+  "vertical": "American Citizenship",
+  "group": "State Government & Spending",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers Massachusetts tax collections by source, total revenue, total spending, and published tax-credit amounts.",
+  "exclusions": "Does not cover municipal levies (Municipal Rankings), U.S. state-finance comparisons (U.S. State Finances), or advice about a filing.",
+  "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
+  "replaces": [
+    "Revenue Tax",
+    "Revenue Total",
+    "Spending Total",
+    "Tax Credits"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-628-01": {
+      "name": "Massachusetts Department of Revenue monthly tax collection reports",
+      "cadence": "Monthly",
+      "url": "https://www.mass.gov/orgs/massachusetts-department-of-revenue",
+      "supports": "Covers Massachusetts tax collections by source, total revenue, total spending, and published tax-credit amounts."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Commonwealth tax collections, total revenue, spending, and tax credits.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

@@ -1456,6 +1456,383 @@
   "group": "Public Pensions"
  },
  {
+  "id": "DL-06",
+  "t": "Massachusetts K-12",
+  "q": "Enrollment, MCAS, attendance, dropouts, and school finances for Massachusetts districts.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "url": "/ma-k12/",
+  "ai": false,
+  "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
+  "group": "Education",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-07",
+  "t": "National K-12",
+  "q": "NAEP reading and math, enrollment, finance, completion, and discipline across the 50 states.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "url": "/national-k12/",
+  "ai": false,
+  "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
+  "group": "Education",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-08",
+  "t": "Higher Education",
+  "q": "College admissions tests, enrollment, faculty, and student outcomes.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/higher-education/",
+  "ai": false,
+  "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
+  "group": "Education",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-09",
+  "t": "Charters and School Staff",
+  "q": "Charter school counts and education staff by state and district.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/charters-staff/",
+  "ai": false,
+  "heritage": "Formerly School Districts Charter Schools and Education Staff",
+  "group": "Education",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-10",
+  "t": "Massachusetts Hospitals",
+  "q": "Hospital relative prices and the Massachusetts hospital tracker.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "url": "/ma-hospitals/",
+  "ai": false,
+  "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
+  "group": "Healthcare",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-11",
+  "t": "340B",
+  "q": "340B program growth, hospital charity care, and state legislative mapping.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "url": "/340b/",
+  "ai": false,
+  "heritage": "Formerly 340B Program Growth, Hospital Charity Care, and Legislative Mapping",
+  "group": "340B",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-12",
+  "t": "Medicaid and State Health Spending",
+  "q": "State Medicaid spending, broader state health expenses, and Medicaid fraud recoveries.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "url": "/medicaid-health/",
+  "ai": false,
+  "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
+  "group": "Healthcare",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-13",
+  "t": "Business Formation",
+  "q": "New business applications and projected formations, state by state, from Census BFS.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "live",
+  "url": "/business-formation/",
+  "ai": false,
+  "heritage": "Formerly Business Births and Deaths and Business Dynamics",
+  "group": "Economy & Jobs",
+  "vint": "Jul 2026"
+ },
+ {
+  "id": "DL-14",
+  "t": "Labor Market",
+  "q": "Unemployment, employment, and labor force by state from BLS LAUS.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "live",
+  "url": "/labor-market/",
+  "ai": false,
+  "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
+  "group": "Economy & Jobs",
+  "vint": "Jun 2026"
+ },
+ {
+  "id": "DL-15",
+  "t": "GDP and Economic Profiles",
+  "q": "State GDP, personal income, and the Massachusetts and U.S. economic profiles.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/gdp-profiles/",
+  "ai": false,
+  "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
+  "group": "Economy & Jobs",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-16",
+  "t": "Housing Market",
+  "q": "Building permits by state, the production side of the housing file.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "live",
+  "url": "/housing-market/",
+  "ai": false,
+  "heritage": "Formerly Housing Production and Housing Prices",
+  "group": "Housing",
+  "vint": "Jun 2026 year-to-date"
+ },
+ {
+  "id": "DL-17",
+  "t": "Population and Migration",
+  "q": "State population, domestic migration, and the rural-urban continuum.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "live",
+  "url": "/population-migration/",
+  "ai": false,
+  "heritage": "Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban",
+  "group": "Economy & Jobs",
+  "vint": "July 1, 2025"
+ },
+ {
+  "id": "DL-18",
+  "t": "Patents and Innovation",
+  "q": "Utility patents by state and sector.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/patents-innovation/",
+  "ai": false,
+  "heritage": "Formerly Patents by State and Sector",
+  "group": "Economy & Jobs",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-19",
+  "t": "Cost of Living",
+  "q": "Regional price parities, state fiscal dependency, tariffs, and defense impact.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/cost-of-living/",
+  "ai": false,
+  "heritage": "Formerly Cost of Living, State Dependency, Tariff Impacts, and Defense Impact",
+  "group": "Economy & Jobs",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-20",
+  "t": "Taxpayer Migration",
+  "q": "IRS state-to-state and county-to-county taxpayer flows.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/taxpayer-migration/",
+  "ai": false,
+  "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
+  "group": "Taxation",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-21",
+  "t": "Tax Statistics",
+  "q": "Income-tax statistics by state, county, and municipality, plus AGI percentiles.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/tax-statistics/",
+  "ai": false,
+  "heritage": "Formerly Individual Statistics, Tax Statistics County and Municipalities, and Tracking Wealth",
+  "group": "Taxation",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-22",
+  "t": "Transit Systems",
+  "q": "Compare U.S. transit agencies on ridership, cost, and recovery. Not the MBTA-only page.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/transit-systems/",
+  "ai": false,
+  "heritage": "Formerly Compare Systems and MassTransit Comparing Systems",
+  "group": "Transportation & Infrastructure",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-23",
+  "t": "Roads and Risk",
+  "q": "Roadway travel, FEMA obligations, the National Risk Index, and heating and cooling days.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "url": "/roads-risk/",
+  "ai": false,
+  "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
+  "group": "Transportation & Infrastructure",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-24",
+  "t": "Energy Supply",
+  "q": "Energy consumption, production, and CO2 emissions by state. Not the retail-price page.",
+  "g": [
+   "US",
+   "MA"
+  ],
+  "st": "build",
+  "url": "/energy-supply/",
+  "ai": false,
+  "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
+  "group": "Energy",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-25",
+  "t": "Municipal Atlas",
+  "q": "Choose a Massachusetts city or town, see its snapshot, and find peers.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "url": "/municipal-atlas/",
+  "ai": false,
+  "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
+  "group": "Your City & Town",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-26",
+  "t": "Municipal Rankings",
+  "q": "Rank Massachusetts cities and towns on crime, debt, education, spending, revenues, and taxes.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "url": "/municipal-rankings/",
+  "ai": false,
+  "heritage": "Formerly the Cities and Towns Rankings suite",
+  "group": "Your City & Town",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-27",
+  "t": "Boston",
+  "q": "Boston city budget, payroll, and the former Boston Data Labs views.",
+  "g": [
+   "Boston"
+  ],
+  "st": "build",
+  "url": "/boston/",
+  "ai": false,
+  "heritage": "Formerly Boston Data Labs",
+  "group": "Your City & Town",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-28",
+  "t": "Massachusetts State Finances",
+  "q": "Commonwealth tax collections, total revenue, spending, and tax credits.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "url": "/ma-state-finances/",
+  "ai": false,
+  "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
+  "group": "State Government & Spending",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-29",
+  "t": "U.S. State Finances",
+  "q": "State and local revenues, expenses, rainy-day funds, and public-employee counts.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "url": "/us-state-finances/",
+  "ai": false,
+  "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
+  "group": "State Government & Spending",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-30",
+  "t": "Payroll and Vendors",
+  "q": "Massachusetts state, higher-ed, and quasi-public payroll, plus vendor payments.",
+  "g": [
+   "MA"
+  ],
+  "st": "build",
+  "url": "/payroll-vendors/",
+  "ai": false,
+  "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
+  "group": "State Government & Spending",
+  "vint": "in build"
+ },
+ {
+  "id": "DL-31",
+  "t": "Crime and Justice",
+  "q": "Crime rates, adult and juvenile incarceration, and internet crime.",
+  "g": [
+   "US"
+  ],
+  "st": "build",
+  "url": "/crime-justice/",
+  "ai": false,
+  "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
+  "group": "Crime & Justice",
+  "vint": "in build"
+ },
+ {
   "id": "ARCHIVE",
   "t": "Archive",
   "q": "Dashboards no longer maintained, retained for the record.",

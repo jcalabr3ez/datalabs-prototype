@@ -1,0 +1,44 @@
+{
+  "tool_id": "DL-06",
+  "title": "Massachusetts K-12",
+  "slug": "ma-k12",
+  "vertical": "Education",
+  "group": "Education",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers Massachusetts public K-12 enrollment by grade, MCAS Next-Gen results, attendance, dropouts and graduates, student demographics, and district finances.",
+  "exclusions": "Does not cover national NAEP, higher education, charter-only national files, or advice about a school choice.",
+  "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
+  "replaces": [
+    "Dropouts & Graduates",
+    "Education Fast Facts",
+    "Enrollment by Grade",
+    "MA Demographics",
+    "MCAS NEXTGEN",
+    "School Attendance",
+    "School Finances"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-606-01": {
+      "name": "Massachusetts DESE enrollment, MCAS, attendance, and finance files",
+      "cadence": "Annual school year",
+      "url": "https://www.doe.mass.edu/info-services/",
+      "supports": "Covers Massachusetts public K-12 enrollment by grade, MCAS Next-Gen results, attendance, dropouts and graduates, student demographics, and district finances."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Enrollment, MCAS, attendance, dropouts, and school finances for Massachusetts districts.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

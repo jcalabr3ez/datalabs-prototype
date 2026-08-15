@@ -1,0 +1,39 @@
+{
+  "tool_id": "DL-18",
+  "title": "Patents and Innovation",
+  "slug": "patents-innovation",
+  "vertical": "Economic Opportunity",
+  "group": "Economy & Jobs",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers USPTO utility patents granted by inventor state and technology class.",
+  "exclusions": "Does not cover trademarks, university rankings, or advice about filing a patent.",
+  "heritage": "Formerly Patents by State and Sector",
+  "replaces": [
+    "Patents by State and Sector"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-618-01": {
+      "name": "USPTO PatentView / PatentsView state and class counts",
+      "cadence": "Annual",
+      "url": "https://patentsview.org/",
+      "supports": "Covers USPTO utility patents granted by inventor state and technology class."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "Utility patents by state and sector.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

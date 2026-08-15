@@ -1,0 +1,41 @@
+{
+  "tool_id": "DL-20",
+  "title": "Taxpayer Migration",
+  "slug": "taxpayer-migration",
+  "vertical": "Economic Opportunity",
+  "group": "Taxation",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers IRS Statistics of Income migration: filers and adjusted gross income flowing between states and, for Massachusetts, between counties.",
+  "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons.",
+  "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
+  "replaces": [
+    "County to County Migration",
+    "State to State Tax Migration",
+    "Taxpayer Migration"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-620-01": {
+      "name": "IRS SOI state-to-state and county-to-county migration",
+      "cadence": "Annual, with a multi-year lag",
+      "url": "https://www.irs.gov/statistics/soi-tax-stats-migration-data",
+      "supports": "Covers IRS Statistics of Income migration: filers and adjusted gross income flowing between states and, for Massachusetts, between counties."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "IRS state-to-state and county-to-county taxpayer flows.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

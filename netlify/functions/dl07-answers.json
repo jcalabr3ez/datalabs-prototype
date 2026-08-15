@@ -1,0 +1,48 @@
+{
+  "tool_id": "DL-07",
+  "title": "National K-12",
+  "slug": "national-k12",
+  "vertical": "Education",
+  "group": "Education",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers NAEP reading and mathematics, K-12 enrollment, per-pupil finance, high school completion, and discipline measures by state.",
+  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education.",
+  "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
+  "replaces": [
+    "Discipline & Security",
+    "High School Completion",
+    "K-12 Enrollment",
+    "K-12 School Finance",
+    "Reading/Math Achievement"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-607-01": {
+      "name": "NCES NAEP state results",
+      "cadence": "Biennial",
+      "url": "https://nces.ed.gov/nationsreportcard/",
+      "supports": "Covers NAEP reading and mathematics, K-12 enrollment, per-pupil finance, high school completion, and discipline measures by state."
+    },
+    "SRC-607-02": {
+      "name": "NCES Common Core of Data and Digest of Education Statistics",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/ccd/",
+      "supports": "Covers NAEP reading and mathematics, K-12 enrollment, per-pupil finance, high school completion, and discipline measures by state."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US"
+  ],
+  "q": "NAEP reading and math, enrollment, finance, completion, and discipline across the 50 states.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

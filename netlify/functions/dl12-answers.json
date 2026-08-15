@@ -1,0 +1,46 @@
+{
+  "tool_id": "DL-12",
+  "title": "Medicaid and State Health Spending",
+  "slug": "medicaid-health",
+  "vertical": "Healthcare",
+  "group": "Healthcare",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers state Medicaid expenditures, broader state health spending, and reported Medicaid fraud recoveries.",
+  "exclusions": "Does not cover individual eligibility, Massachusetts hospital prices, or 340B.",
+  "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
+  "replaces": [
+    "Medicaid Fraud",
+    "State Health Expenses",
+    "State Medicaid Expenses"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-612-01": {
+      "name": "CMS Medicaid Financial Management Reports",
+      "cadence": "Annual",
+      "url": "https://www.medicaid.gov/",
+      "supports": "Covers state Medicaid expenditures, broader state health spending, and reported Medicaid fraud recoveries."
+    },
+    "SRC-612-02": {
+      "name": "NASBO State Expenditure Report, health chapter",
+      "cadence": "Annual",
+      "url": "https://www.nasbo.org/",
+      "supports": "Covers state Medicaid expenditures, broader state health spending, and reported Medicaid fraud recoveries."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US"
+  ],
+  "q": "State Medicaid spending, broader state health expenses, and Medicaid fraud recoveries.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

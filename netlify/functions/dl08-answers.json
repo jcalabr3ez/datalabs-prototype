@@ -1,0 +1,42 @@
+{
+  "tool_id": "DL-08",
+  "title": "Higher Education",
+  "slug": "higher-education",
+  "vertical": "Education",
+  "group": "Education",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers undergraduate admissions tests, college enrollment, faculty and staff counts, and student-level IPEDS outcomes.",
+  "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission.",
+  "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
+  "replaces": [
+    "Higher Education-College Admissions",
+    "Higher Education-College Enrollment",
+    "Higher Education-Faculty and Staff",
+    "Higher Education-Student Data"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-608-01": {
+      "name": "NCES IPEDS",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/ipeds/",
+      "supports": "Covers undergraduate admissions tests, college enrollment, faculty and staff counts, and student-level IPEDS outcomes."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "College admissions tests, enrollment, faculty, and student outcomes.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

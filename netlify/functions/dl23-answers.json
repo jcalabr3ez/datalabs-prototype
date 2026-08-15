@@ -1,0 +1,47 @@
+{
+  "tool_id": "DL-23",
+  "title": "Roads and Risk",
+  "slug": "roads-risk",
+  "vertical": "Economic Opportunity",
+  "group": "Transportation & Infrastructure",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers FHWA roadway travel, FEMA public-assistance obligations, the FEMA National Risk Index, and NOAA heating and cooling degree days.",
+  "exclusions": "Does not cover transit agencies (those sit on Transit Systems or DL-03) or Florida insurance (DL-02).",
+  "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
+  "replaces": [
+    "FEMA Obligations",
+    "Heat/Cool Days",
+    "National Risk Index",
+    "Roadway Transport"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-623-01": {
+      "name": "FHWA Highway Statistics",
+      "cadence": "Annual",
+      "url": "https://www.fhwa.dot.gov/policyinformation/statistics.cfm",
+      "supports": "Covers FHWA roadway travel, FEMA public-assistance obligations, the FEMA National Risk Index, and NOAA heating and cooling degree days."
+    },
+    "SRC-623-02": {
+      "name": "FEMA OpenFEMA and National Risk Index",
+      "cadence": "Periodic",
+      "url": "https://www.fema.gov/",
+      "supports": "Covers FHWA roadway travel, FEMA public-assistance obligations, the FEMA National Risk Index, and NOAA heating and cooling degree days."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US"
+  ],
+  "q": "Roadway travel, FEMA obligations, the National Risk Index, and heating and cooling days.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

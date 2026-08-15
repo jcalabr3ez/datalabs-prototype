@@ -110,7 +110,7 @@ def page_html(app, ledger):
     </div>
   </section>
   <section id="view-rank">
-    <h2>How do the states compare?</h2>
+    <h2>How do they compare?</h2>
     <div class="lede">{esc(metric_label)}. Massachusetts is marked in gold.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
@@ -198,11 +198,12 @@ const DL=null;
   window.addEventListener('hashchange', applyHash);
   applyHash();
   var rows=(DL&&DL.rows)||[];
+  var chartRows=rows.slice(0,51);
   var chRank=document.getElementById('chRank');
-  if(chRank && rows.length && window.Chart){
-    var labels=rows.map(function(r){return r.st;});
-    var data=rows.map(function(r){return r.v;});
-    var colors=rows.map(function(r){return r.st==='MA'?GOLD:BLUE;});
+  if(chRank && chartRows.length && window.Chart){
+    var labels=chartRows.map(function(r){return r.st;});
+    var data=chartRows.map(function(r){return r.v;});
+    var colors=chartRows.map(function(r){return r.st==='MA'?GOLD:BLUE;});
     new Chart(chRank,{type:'bar',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
       options:{indexAxis:'y',plugins:{legend:{display:false}},
         scales:{x:{ticks:{color:GREY},grid:{color:'#EEF1F4'}},y:{ticks:{color:INK,font:{size:10}},grid:{display:false}}}}});

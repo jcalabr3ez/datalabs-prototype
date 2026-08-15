@@ -120,21 +120,24 @@ for needle, label in pn_sentinels:
             "the DL-05 ledger moved but the hand-authored page did not follow"
         )
 
-# ---- 5. Suite live-page sentinels (DL-13, DL-14, DL-16, DL-17) ----
-for rel, slug, needles in (
-    ("netlify/functions/dl13-answers.json", "business-formation", None),
-    ("netlify/functions/dl14-answers.json", "labor-market", None),
-    ("netlify/functions/dl16-answers.json", "housing-market", None),
-    ("netlify/functions/dl17-answers.json", "population-migration", None),
-):
-    led_path = ROOT / rel
+# ---- 5. Suite live-page sentinels (every live DL-06+ ledger) ----
+sys.path.insert(0, str(ROOT / "scripts"))
+from suite_common import load_apps, ledger_path  # noqa: E402
+
+for app in load_apps():
+    led_path = ledger_path(app["id"])
+    slug = app["slug"]
     page_path = ROOT / slug / "index.html"
+    rel = str(led_path.relative_to(ROOT))
     if not led_path.exists() or not page_path.exists():
         failures.append(f"{slug}: missing ledger or page; run scripts/refresh_suite.py")
         print(f"suite {slug}: MISS ledger or page")
         continue
     led = json.loads(led_path.read_text(encoding="utf-8"))
     page = page_path.read_text(encoding="utf-8")
+    if led.get("status") != "live":
+        print(f"suite {slug}: skip status={led.get('status')}")
+        continue
     if f"DATA:BEGIN {slug}-data" not in page:
         failures.append(f"{slug}/index.html is missing the generated {slug}-data block")
         print(f"suite {slug}: MISS generated block")

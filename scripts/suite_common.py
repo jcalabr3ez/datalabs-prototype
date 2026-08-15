@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 import urllib.request
 from pathlib import Path
 
@@ -44,6 +45,16 @@ FIPS_TO_ST = {
 ST_TO_FIPS = {v: k for k, v in FIPS_TO_ST.items()}
 
 RANKED = [s for s in STATE_NAMES if s != "US"]
+NAME_TO_ST = {v: k for k, v in STATE_NAMES.items()}
+NAME_TO_ST.update({
+    "District of Columbia": "DC",
+    "D.C.": "DC",
+    "Dist. Of Col.": "DC",
+    "Dist. of Col.": "DC",
+    "U.S. total": "US",
+    "U.S. Total": "US",
+    "United States": "US",
+})
 MONTHS = [
     "jan", "feb", "mar", "apr", "may", "jun",
     "jul", "aug", "sep", "oct", "nov", "dec",
@@ -91,11 +102,58 @@ def commify(n) -> str:
 def usd_prose(n: float) -> str:
     sign = "\u2212" if n < 0 else ""
     a = abs(n)
+    if a >= 1_000_000_000_000:
+        return f"{sign}${a / 1_000_000_000_000:.2f} trillion"
     if a >= 1_000_000_000:
         return f"{sign}${a / 1_000_000_000:.2f} billion"
     if a >= 1_000_000:
         return f"{sign}${a / 1_000_000:.2f} million"
     return f"{sign}${a:,.0f}"
+
+
+def clean_geo_name(s) -> str:
+    if s is None:
+        return ""
+    t = str(s).replace("\xa0", " ").replace("\n", " ").replace("*", "")
+    t = re.sub(r"\s+", " ", t).strip()
+    t = re.sub(r"/[a-z]+$", "", t, flags=re.I).strip()
+    return t
+
+
+def geo_to_st(name):
+    t = clean_geo_name(name)
+    if t in NAME_TO_ST:
+        return NAME_TO_ST[t]
+    low = t.lower()
+    for k, v in STATE_NAMES.items():
+        if v.lower() == low:
+            return k
+    return None
+
+
+def parse_num(v):
+    if v is None or v == "":
+        return None
+    if isinstance(v, (int, float)) and not isinstance(v, bool):
+        return float(v)
+    s = str(v).replace(",", "").replace("$", "").replace("\xa0", " ").strip()
+    if s in ("", "-", "--", "\u2013", "\u2014", "\u2020", "#", "NA", "N/A", "X", "*", "na"):
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
+def rank_named(values: dict, higher_is_better=True, st_key=None):
+    """values: label -> number. For towns, departments, or tax types."""
+    items = [(k, v) for k, v in values.items() if v is not None]
+    items.sort(key=lambda x: x[1], reverse=higher_is_better)
+    out = []
+    for i, (key, v) in enumerate(items, 1):
+        st = st_key(key) if st_key else str(key)[:8]
+        out.append({"st": st, "name": key, "v": v, "rank": i, "n": len(items)})
+    return out
 
 
 def pct(n) -> str:
@@ -119,3 +177,93 @@ def rank_rows(values: dict, higher_is_better=True):
     for i, (st, v) in enumerate(items, 1):
         out.append({"st": st, "name": STATE_NAMES[st], "v": v, "rank": i, "n": len(items)})
     return out
+
+
+REVISED = "Aug 15, 2026"
+
+
+def base_ledger(app, status, as_of, vintage_note, extra):
+    out = {
+        "tool_id": app["id"],
+        "title": app["title"],
+        "slug": app["slug"],
+        "vertical": app["vertical"],
+        "group": app["group"],
+        "status": status,
+        "as_of": as_of,
+        "scope": app["scope"],
+        "exclusions": app["exclusions"],
+        "heritage": app["heritage"],
+        "replaces": app["replaces"],
+        "vintage_note": vintage_note,
+        "source_id_map": {
+            s["id"]: {
+                "name": s["name"],
+                "cadence": s["cadence"],
+                "url": s["url"],
+                "supports": app["scope"],
+            }
+            for s in app["sources"]
+        },
+        "page": {"revised": REVISED, "version": "0.1" if status == "live" else "0.0"},
+        "geo": app["g"],
+        "q": app["q"],
+    }
+    out.update(extra)
+    return out
+
+
+def stub_ledger(app):
+    return base_ledger(
+        app,
+        "build",
+        None,
+        "Ledger pending. Sources are inventoried; figures will be compiled from "
+        "those files on a later refresh. This page does not invent numbers.",
+        {
+            "pending": True,
+            "pending_plan": (
+                "A later refresh_suite.py pass will fetch the sources in "
+                "source_id_map, recompute a ranked state (or municipal) table, "
+                "and clear this flag. Until then the page publishes scope and "
+                "sources only."
+            ),
+            "rows": [],
+            "trend": {},
+            "derived": {},
+            "kpis": [],
+        },
+    )
+
+
+def finish_live(app, *, as_of, as_of_label, vintage_note, metric, metric_label,
+                unit, lead, kpis, ranked, trend, latest, src_note, extra=None):
+    derived = {
+        "note": f"Prefer these over recomputing. Ranks cite (derived, {src_note}).",
+        "highest_five": ranked[:5],
+        "lowest_five": list(reversed(ranked[-5:])) if ranked else [],
+        "n_ranked": ranked[0]["n"] if ranked else 0,
+    }
+    ma = next((r for r in ranked if r.get("st") == "MA"), None)
+    if ma:
+        derived["massachusetts_rank"] = ma["rank"]
+    payload = {
+        "pending": False,
+        "metric": metric,
+        "metric_label": metric_label,
+        "unit": unit,
+        "data_month": as_of,
+        "data_month_label": as_of_label,
+        "lead": lead,
+        "kpis": kpis,
+        "latest": latest,
+        "rows": ranked,
+        "trend": trend or {},
+        "derived": derived,
+    }
+    if extra:
+        payload.update(extra)
+        if "derived" in extra:
+            derived.update(extra["derived"])
+            payload["derived"] = derived
+    return base_ledger(app, "live", as_of, vintage_note, payload)

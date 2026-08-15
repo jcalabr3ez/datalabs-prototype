@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
-"""Build first-wave suite ledgers from public files, and stub the rest.
+"""Build suite ledgers from public files, and stub apps whose files are blocked.
 
-Live in this pass:
-  DL-13 Business Formation   Census BFS monthly CSV
-  DL-14 Labor Market         BLS LAUS statewide seasonally adjusted
-  DL-16 Housing Market       Census BPS state year-to-date
-  DL-17 Population           Census vintage 2025 PEP
-
-Never pushes to main. Re-runs render_suite_pages.py and inject_data.py.
+First-wave live builders live in this file (DL-13, 14, 16, 17). The rest of
+the live suite is in suite_builders.py. Apps without a reachable primary
+file stay honest stubs. Never invents figures. Never pushes to main.
+Re-runs render_suite_pages.py and inject_data.py.
 """
 from __future__ import annotations
 
@@ -25,21 +22,24 @@ from suite_common import (
     MONTHS,
     MONTH_ABBR,
     RANKED,
+    REVISED,
     ROOT,
     STATE_NAMES,
     ST_TO_FIPS,
+    base_ledger,
     commify,
     fetch_text,
     ledger_path,
     load_apps,
     pct,
     rank_rows,
+    stub_ledger,
     write_ledger,
     yoy_pct,
 )
+from suite_builders import BUILDERS as EXTRA_BUILDERS
 
 TODAY = date(2026, 8, 15)
-REVISED = "Aug 15, 2026"
 
 URL_BFS = "https://www.census.gov/econ/bfs/csv/bfs_monthly.csv"
 URL_LAUS = "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS"
@@ -58,60 +58,6 @@ def app_by_id(apps, tool_id):
         if a["id"] == tool_id:
             return a
     raise KeyError(tool_id)
-
-
-def base_ledger(app, status, as_of, vintage_note, extra):
-    out = {
-        "tool_id": app["id"],
-        "title": app["title"],
-        "slug": app["slug"],
-        "vertical": app["vertical"],
-        "group": app["group"],
-        "status": status,
-        "as_of": as_of,
-        "scope": app["scope"],
-        "exclusions": app["exclusions"],
-        "heritage": app["heritage"],
-        "replaces": app["replaces"],
-        "vintage_note": vintage_note,
-        "source_id_map": {
-            s["id"]: {
-                "name": s["name"],
-                "cadence": s["cadence"],
-                "url": s["url"],
-                "supports": app["scope"],
-            }
-            for s in app["sources"]
-        },
-        "page": {"revised": REVISED, "version": "0.1" if status == "live" else "0.0"},
-        "geo": app["g"],
-        "q": app["q"],
-    }
-    out.update(extra)
-    return out
-
-
-def stub_ledger(app):
-    return base_ledger(
-        app,
-        "build",
-        None,
-        "Ledger pending. Sources are inventoried; figures will be compiled from "
-        "those files on a later refresh. This page does not invent numbers.",
-        {
-            "pending": True,
-            "pending_plan": (
-                "A later refresh_suite.py pass will fetch the sources in "
-                "source_id_map, recompute a ranked state (or municipal) table, "
-                "and clear this flag. Until then the page publishes scope and "
-                "sources only."
-            ),
-            "rows": [],
-            "trend": {},
-            "derived": {},
-            "kpis": [],
-        },
-    )
 
 
 def latest_month_row(row):
@@ -642,6 +588,7 @@ BUILDERS = {
     "DL-16": build_bps,
     "DL-17": build_pep,
 }
+BUILDERS.update(EXTRA_BUILDERS)
 
 
 def upsert_catalog(apps):

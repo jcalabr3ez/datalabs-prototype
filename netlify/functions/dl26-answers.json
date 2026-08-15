@@ -3701,5 +3701,2113 @@
     ],
     "n_ranked": 351,
     "massachusetts_rank": 351
+  },
+  "entities": {
+    "Amherst Town city": {
+      "st": "Amhers",
+      "name": "Amherst Town city",
+      "v": 13183,
+      "rank": 1
+    },
+    "Worcester city": {
+      "st": "Worces",
+      "name": "Worcester city",
+      "v": 8811,
+      "rank": 2
+    },
+    "Plymouth town": {
+      "st": "Plymou",
+      "name": "Plymouth town",
+      "v": 5641,
+      "rank": 3
+    },
+    "Lowell city": {
+      "st": "Lowell",
+      "name": "Lowell city",
+      "v": 4584,
+      "rank": 4
+    },
+    "Woburn city": {
+      "st": "Woburn",
+      "name": "Woburn city",
+      "v": 3068,
+      "rank": 5
+    },
+    "Cambridge city": {
+      "st": "Cambri",
+      "name": "Cambridge city",
+      "v": 2982,
+      "rank": 6
+    },
+    "Everett city": {
+      "st": "Everet",
+      "name": "Everett city",
+      "v": 2868,
+      "rank": 7
+    },
+    "Weymouth Town city": {
+      "st": "Weymou",
+      "name": "Weymouth Town city",
+      "v": 2688,
+      "rank": 8
+    },
+    "Dartmouth town": {
+      "st": "Dartmo",
+      "name": "Dartmouth town",
+      "v": 2676,
+      "rank": 9
+    },
+    "Taunton city": {
+      "st": "Taunto",
+      "name": "Taunton city",
+      "v": 2528,
+      "rank": 10
+    },
+    "Wellesley town": {
+      "st": "Welles",
+      "name": "Wellesley town",
+      "v": 2468,
+      "rank": 11
+    },
+    "Lynn city": {
+      "st": "Lynn c",
+      "name": "Lynn city",
+      "v": 2416,
+      "rank": 12
+    },
+    "Bridgewater Town city": {
+      "st": "Bridge",
+      "name": "Bridgewater Town city",
+      "v": 2379,
+      "rank": 13
+    },
+    "Wakefield town": {
+      "st": "Wakefi",
+      "name": "Wakefield town",
+      "v": 2146,
+      "rank": 14
+    },
+    "Northampton city": {
+      "st": "Northa",
+      "name": "Northampton city",
+      "v": 2036,
+      "rank": 15
+    },
+    "Salem city": {
+      "st": "Salem ",
+      "name": "Salem city",
+      "v": 2007,
+      "rank": 16
+    },
+    "Quincy city": {
+      "st": "Quincy",
+      "name": "Quincy city",
+      "v": 1942,
+      "rank": 17
+    },
+    "Newton city": {
+      "st": "Newton",
+      "name": "Newton city",
+      "v": 1847,
+      "rank": 18
+    },
+    "South Hadley town": {
+      "st": "South ",
+      "name": "South Hadley town",
+      "v": 1725,
+      "rank": 19
+    },
+    "Waltham city": {
+      "st": "Waltha",
+      "name": "Waltham city",
+      "v": 1611,
+      "rank": 20
+    },
+    "Franklin Town city": {
+      "st": "Frankl",
+      "name": "Franklin Town city",
+      "v": 1418,
+      "rank": 21
+    },
+    "Stoneham town": {
+      "st": "Stoneh",
+      "name": "Stoneham town",
+      "v": 1363,
+      "rank": 22
+    },
+    "Shrewsbury town": {
+      "st": "Shrews",
+      "name": "Shrewsbury town",
+      "v": 1351,
+      "rank": 23
+    },
+    "Methuen city": {
+      "st": "Methue",
+      "name": "Methuen city",
+      "v": 1298,
+      "rank": 24
+    },
+    "Somerville city": {
+      "st": "Somerv",
+      "name": "Somerville city",
+      "v": 1248,
+      "rank": 25
+    },
+    "Framingham city": {
+      "st": "Framin",
+      "name": "Framingham city",
+      "v": 1232,
+      "rank": 26
+    },
+    "Hopkinton town": {
+      "st": "Hopkin",
+      "name": "Hopkinton town",
+      "v": 1209,
+      "rank": 27
+    },
+    "North Andover town": {
+      "st": "North ",
+      "name": "North Andover town",
+      "v": 1143,
+      "rank": 28
+    },
+    "Billerica town": {
+      "st": "Biller",
+      "name": "Billerica town",
+      "v": 1136,
+      "rank": 29
+    },
+    "Westborough town": {
+      "st": "Westbo",
+      "name": "Westborough town",
+      "v": 1109,
+      "rank": 30
+    },
+    "Bellingham town": {
+      "st": "Bellin",
+      "name": "Bellingham town",
+      "v": 1047,
+      "rank": 31
+    },
+    "Winchester town": {
+      "st": "Winche",
+      "name": "Winchester town",
+      "v": 1024,
+      "rank": 32
+    },
+    "Peabody city": {
+      "st": "Peabod",
+      "name": "Peabody city",
+      "v": 1016,
+      "rank": 33
+    },
+    "Rehoboth town": {
+      "st": "Rehobo",
+      "name": "Rehoboth town",
+      "v": 1014,
+      "rank": 34
+    },
+    "Burlington town": {
+      "st": "Burlin",
+      "name": "Burlington town",
+      "v": 975,
+      "rank": 35
+    },
+    "Barnstable Town city": {
+      "st": "Barnst",
+      "name": "Barnstable Town city",
+      "v": 959,
+      "rank": 36
+    },
+    "Sudbury town": {
+      "st": "Sudbur",
+      "name": "Sudbury town",
+      "v": 929,
+      "rank": 37
+    },
+    "Arlington town": {
+      "st": "Arling",
+      "name": "Arlington town",
+      "v": 910,
+      "rank": 38
+    },
+    "Bourne town": {
+      "st": "Bourne",
+      "name": "Bourne town",
+      "v": 904,
+      "rank": 39
+    },
+    "Brookline town": {
+      "st": "Brookl",
+      "name": "Brookline town",
+      "v": 903,
+      "rank": 40
+    },
+    "North Reading town": {
+      "st": "North ",
+      "name": "North Reading town",
+      "v": 867,
+      "rank": 41
+    },
+    "Newburyport city": {
+      "st": "Newbur",
+      "name": "Newburyport city",
+      "v": 863,
+      "rank": 42
+    },
+    "Millis town": {
+      "st": "Millis",
+      "name": "Millis town",
+      "v": 837,
+      "rank": 43
+    },
+    "Fall River city": {
+      "st": "Fall R",
+      "name": "Fall River city",
+      "v": 771,
+      "rank": 44
+    },
+    "Canton town": {
+      "st": "Canton",
+      "name": "Canton town",
+      "v": 766,
+      "rank": 45
+    },
+    "Medway town": {
+      "st": "Medway",
+      "name": "Medway town",
+      "v": 750,
+      "rank": 46
+    },
+    "Kingston town": {
+      "st": "Kingst",
+      "name": "Kingston town",
+      "v": 746,
+      "rank": 47
+    },
+    "Gloucester city": {
+      "st": "Glouce",
+      "name": "Gloucester city",
+      "v": 744,
+      "rank": 48
+    },
+    "Lakeville town": {
+      "st": "Lakevi",
+      "name": "Lakeville town",
+      "v": 719,
+      "rank": 49
+    },
+    "Grafton town": {
+      "st": "Grafto",
+      "name": "Grafton town",
+      "v": 698,
+      "rank": 50
+    },
+    "Needham town": {
+      "st": "Needha",
+      "name": "Needham town",
+      "v": 693,
+      "rank": 51
+    },
+    "Falmouth town": {
+      "st": "Falmou",
+      "name": "Falmouth town",
+      "v": 686,
+      "rank": 52
+    },
+    "Weston town": {
+      "st": "Weston",
+      "name": "Weston town",
+      "v": 686,
+      "rank": 53
+    },
+    "Raynham town": {
+      "st": "Raynha",
+      "name": "Raynham town",
+      "v": 675,
+      "rank": 54
+    },
+    "Tewksbury town": {
+      "st": "Tewksb",
+      "name": "Tewksbury town",
+      "v": 664,
+      "rank": 55
+    },
+    "Haverhill city": {
+      "st": "Haverh",
+      "name": "Haverhill city",
+      "v": 655,
+      "rank": 56
+    },
+    "Beverly city": {
+      "st": "Beverl",
+      "name": "Beverly city",
+      "v": 652,
+      "rank": 57
+    },
+    "Watertown city": {
+      "st": "Watert",
+      "name": "Watertown city",
+      "v": 616,
+      "rank": 58
+    },
+    "Attleboro city": {
+      "st": "Attleb",
+      "name": "Attleboro city",
+      "v": 607,
+      "rank": 59
+    },
+    "Malden city": {
+      "st": "Malden",
+      "name": "Malden city",
+      "v": 607,
+      "rank": 60
+    },
+    "Middleborough town": {
+      "st": "Middle",
+      "name": "Middleborough town",
+      "v": 587,
+      "rank": 61
+    },
+    "Acton town": {
+      "st": "Acton ",
+      "name": "Acton town",
+      "v": 575,
+      "rank": 62
+    },
+    "Swampscott town": {
+      "st": "Swamps",
+      "name": "Swampscott town",
+      "v": 573,
+      "rank": 63
+    },
+    "Chelmsford town": {
+      "st": "Chelms",
+      "name": "Chelmsford town",
+      "v": 570,
+      "rank": 64
+    },
+    "Lancaster town": {
+      "st": "Lancas",
+      "name": "Lancaster town",
+      "v": 569,
+      "rank": 65
+    },
+    "Ashland town": {
+      "st": "Ashlan",
+      "name": "Ashland town",
+      "v": 555,
+      "rank": 66
+    },
+    "Rutland town": {
+      "st": "Rutlan",
+      "name": "Rutland town",
+      "v": 552,
+      "rank": 67
+    },
+    "Danvers town": {
+      "st": "Danver",
+      "name": "Danvers town",
+      "v": 537,
+      "rank": 68
+    },
+    "Medfield town": {
+      "st": "Medfie",
+      "name": "Medfield town",
+      "v": 531,
+      "rank": 69
+    },
+    "Ayer town": {
+      "st": "Ayer t",
+      "name": "Ayer town",
+      "v": 529,
+      "rank": 70
+    },
+    "Scituate town": {
+      "st": "Scitua",
+      "name": "Scituate town",
+      "v": 527,
+      "rank": 71
+    },
+    "Uxbridge town": {
+      "st": "Uxbrid",
+      "name": "Uxbridge town",
+      "v": 506,
+      "rank": 72
+    },
+    "Reading town": {
+      "st": "Readin",
+      "name": "Reading town",
+      "v": 505,
+      "rank": 73
+    },
+    "Wilmington town": {
+      "st": "Wilmin",
+      "name": "Wilmington town",
+      "v": 500,
+      "rank": 74
+    },
+    "Easton town": {
+      "st": "Easton",
+      "name": "Easton town",
+      "v": 498,
+      "rank": 75
+    },
+    "Marlborough city": {
+      "st": "Marlbo",
+      "name": "Marlborough city",
+      "v": 484,
+      "rank": 76
+    },
+    "Fitchburg city": {
+      "st": "Fitchb",
+      "name": "Fitchburg city",
+      "v": 473,
+      "rank": 77
+    },
+    "Williamstown town": {
+      "st": "Willia",
+      "name": "Williamstown town",
+      "v": 472,
+      "rank": 78
+    },
+    "Upton town": {
+      "st": "Upton ",
+      "name": "Upton town",
+      "v": 471,
+      "rank": 79
+    },
+    "Auburn town": {
+      "st": "Auburn",
+      "name": "Auburn town",
+      "v": 459,
+      "rank": 80
+    },
+    "Douglas town": {
+      "st": "Dougla",
+      "name": "Douglas town",
+      "v": 455,
+      "rank": 81
+    },
+    "Lawrence city": {
+      "st": "Lawren",
+      "name": "Lawrence city",
+      "v": 454,
+      "rank": 82
+    },
+    "Leominster city": {
+      "st": "Leomin",
+      "name": "Leominster city",
+      "v": 454,
+      "rank": 83
+    },
+    "Dracut town": {
+      "st": "Dracut",
+      "name": "Dracut town",
+      "v": 443,
+      "rank": 84
+    },
+    "Nantucket town": {
+      "st": "Nantuc",
+      "name": "Nantucket town",
+      "v": 431,
+      "rank": 85
+    },
+    "Saugus town": {
+      "st": "Saugus",
+      "name": "Saugus town",
+      "v": 424,
+      "rank": 86
+    },
+    "Holden town": {
+      "st": "Holden",
+      "name": "Holden town",
+      "v": 423,
+      "rank": 87
+    },
+    "Mashpee town": {
+      "st": "Mashpe",
+      "name": "Mashpee town",
+      "v": 414,
+      "rank": 88
+    },
+    "Southbridge Town city": {
+      "st": "Southb",
+      "name": "Southbridge Town city",
+      "v": 402,
+      "rank": 89
+    },
+    "North Attleborough Town city": {
+      "st": "North ",
+      "name": "North Attleborough Town city",
+      "v": 400,
+      "rank": 90
+    },
+    "Norfolk town": {
+      "st": "Norfol",
+      "name": "Norfolk town",
+      "v": 400,
+      "rank": 91
+    },
+    "Northbridge town": {
+      "st": "Northb",
+      "name": "Northbridge town",
+      "v": 399,
+      "rank": 92
+    },
+    "Natick town": {
+      "st": "Natick",
+      "name": "Natick town",
+      "v": 392,
+      "rank": 93
+    },
+    "Tyngsborough town": {
+      "st": "Tyngsb",
+      "name": "Tyngsborough town",
+      "v": 379,
+      "rank": 94
+    },
+    "Seekonk town": {
+      "st": "Seekon",
+      "name": "Seekonk town",
+      "v": 378,
+      "rank": 95
+    },
+    "Medford city": {
+      "st": "Medfor",
+      "name": "Medford city",
+      "v": 378,
+      "rank": 96
+    },
+    "Andover town": {
+      "st": "Andove",
+      "name": "Andover town",
+      "v": 375,
+      "rank": 97
+    },
+    "New Bedford city": {
+      "st": "New Be",
+      "name": "New Bedford city",
+      "v": 372,
+      "rank": 98
+    },
+    "Littleton town": {
+      "st": "Little",
+      "name": "Littleton town",
+      "v": 364,
+      "rank": 99
+    },
+    "Swansea town": {
+      "st": "Swanse",
+      "name": "Swansea town",
+      "v": 363,
+      "rank": 100
+    },
+    "Westport town": {
+      "st": "Westpo",
+      "name": "Westport town",
+      "v": 360,
+      "rank": 101
+    },
+    "Millbury town": {
+      "st": "Millbu",
+      "name": "Millbury town",
+      "v": 360,
+      "rank": 102
+    },
+    "Holliston town": {
+      "st": "Hollis",
+      "name": "Holliston town",
+      "v": 359,
+      "rank": 103
+    },
+    "Ludlow town": {
+      "st": "Ludlow",
+      "name": "Ludlow town",
+      "v": 355,
+      "rank": 104
+    },
+    "Wrentham town": {
+      "st": "Wrenth",
+      "name": "Wrentham town",
+      "v": 351,
+      "rank": 105
+    },
+    "Middleton town": {
+      "st": "Middle",
+      "name": "Middleton town",
+      "v": 346,
+      "rank": 106
+    },
+    "Ipswich town": {
+      "st": "Ipswic",
+      "name": "Ipswich town",
+      "v": 345,
+      "rank": 107
+    },
+    "Hudson town": {
+      "st": "Hudson",
+      "name": "Hudson town",
+      "v": 335,
+      "rank": 108
+    },
+    "Whitman town": {
+      "st": "Whitma",
+      "name": "Whitman town",
+      "v": 334,
+      "rank": 109
+    },
+    "Sterling town": {
+      "st": "Sterli",
+      "name": "Sterling town",
+      "v": 333,
+      "rank": 110
+    },
+    "Lexington town": {
+      "st": "Lexing",
+      "name": "Lexington town",
+      "v": 330,
+      "rank": 111
+    },
+    "Clinton town": {
+      "st": "Clinto",
+      "name": "Clinton town",
+      "v": 328,
+      "rank": 112
+    },
+    "Westford town": {
+      "st": "Westfo",
+      "name": "Westford town",
+      "v": 326,
+      "rank": 113
+    },
+    "Pepperell town": {
+      "st": "Pepper",
+      "name": "Pepperell town",
+      "v": 306,
+      "rank": 114
+    },
+    "Westwood town": {
+      "st": "Westwo",
+      "name": "Westwood town",
+      "v": 304,
+      "rank": 115
+    },
+    "Brockton city": {
+      "st": "Brockt",
+      "name": "Brockton city",
+      "v": 303,
+      "rank": 116
+    },
+    "Duxbury town": {
+      "st": "Duxbur",
+      "name": "Duxbury town",
+      "v": 302,
+      "rank": 117
+    },
+    "Charlton town": {
+      "st": "Charlt",
+      "name": "Charlton town",
+      "v": 302,
+      "rank": 118
+    },
+    "West Boylston town": {
+      "st": "West B",
+      "name": "West Boylston town",
+      "v": 300,
+      "rank": 119
+    },
+    "Milford town": {
+      "st": "Milfor",
+      "name": "Milford town",
+      "v": 299,
+      "rank": 120
+    },
+    "Bedford town": {
+      "st": "Bedfor",
+      "name": "Bedford town",
+      "v": 280,
+      "rank": 121
+    },
+    "Amesbury city": {
+      "st": "Amesbu",
+      "name": "Amesbury city",
+      "v": 279,
+      "rank": 122
+    },
+    "Westminster town": {
+      "st": "Westmi",
+      "name": "Westminster town",
+      "v": 279,
+      "rank": 123
+    },
+    "Dedham town": {
+      "st": "Dedham",
+      "name": "Dedham town",
+      "v": 268,
+      "rank": 124
+    },
+    "West Springfield Town city": {
+      "st": "West S",
+      "name": "West Springfield Town city",
+      "v": 261,
+      "rank": 125
+    },
+    "Groton town": {
+      "st": "Groton",
+      "name": "Groton town",
+      "v": 256,
+      "rank": 126
+    },
+    "Sandwich town": {
+      "st": "Sandwi",
+      "name": "Sandwich town",
+      "v": 253,
+      "rank": 127
+    },
+    "Mattapoisett town": {
+      "st": "Mattap",
+      "name": "Mattapoisett town",
+      "v": 252,
+      "rank": 128
+    },
+    "Wareham town": {
+      "st": "Wareha",
+      "name": "Wareham town",
+      "v": 252,
+      "rank": 129
+    },
+    "Lynnfield town": {
+      "st": "Lynnfi",
+      "name": "Lynnfield town",
+      "v": 249,
+      "rank": 130
+    },
+    "Sutton town": {
+      "st": "Sutton",
+      "name": "Sutton town",
+      "v": 246,
+      "rank": 131
+    },
+    "Marshfield town": {
+      "st": "Marshf",
+      "name": "Marshfield town",
+      "v": 245,
+      "rank": 132
+    },
+    "Templeton town": {
+      "st": "Temple",
+      "name": "Templeton town",
+      "v": 244,
+      "rank": 133
+    },
+    "Winchendon town": {
+      "st": "Winche",
+      "name": "Winchendon town",
+      "v": 243,
+      "rank": 134
+    },
+    "Westfield city": {
+      "st": "Westfi",
+      "name": "Westfield city",
+      "v": 234,
+      "rank": 135
+    },
+    "Sturbridge town": {
+      "st": "Sturbr",
+      "name": "Sturbridge town",
+      "v": 232,
+      "rank": 136
+    },
+    "Mansfield town": {
+      "st": "Mansfi",
+      "name": "Mansfield town",
+      "v": 229,
+      "rank": 137
+    },
+    "Yarmouth town": {
+      "st": "Yarmou",
+      "name": "Yarmouth town",
+      "v": 218,
+      "rank": 138
+    },
+    "Mendon town": {
+      "st": "Mendon",
+      "name": "Mendon town",
+      "v": 217,
+      "rank": 139
+    },
+    "Milton town": {
+      "st": "Milton",
+      "name": "Milton town",
+      "v": 215,
+      "rank": 140
+    },
+    "Sharon town": {
+      "st": "Sharon",
+      "name": "Sharon town",
+      "v": 215,
+      "rank": 141
+    },
+    "Lunenburg town": {
+      "st": "Lunenb",
+      "name": "Lunenburg town",
+      "v": 215,
+      "rank": 142
+    },
+    "Rochester town": {
+      "st": "Roches",
+      "name": "Rochester town",
+      "v": 213,
+      "rank": 143
+    },
+    "Ashburnham town": {
+      "st": "Ashbur",
+      "name": "Ashburnham town",
+      "v": 210,
+      "rank": 144
+    },
+    "Hull town": {
+      "st": "Hull t",
+      "name": "Hull town",
+      "v": 209,
+      "rank": 145
+    },
+    "Boylston town": {
+      "st": "Boylst",
+      "name": "Boylston town",
+      "v": 209,
+      "rank": 146
+    },
+    "Berlin town": {
+      "st": "Berlin",
+      "name": "Berlin town",
+      "v": 208,
+      "rank": 147
+    },
+    "Belmont town": {
+      "st": "Belmon",
+      "name": "Belmont town",
+      "v": 207,
+      "rank": 148
+    },
+    "Stoughton town": {
+      "st": "Stough",
+      "name": "Stoughton town",
+      "v": 206,
+      "rank": 149
+    },
+    "Salisbury town": {
+      "st": "Salisb",
+      "name": "Salisbury town",
+      "v": 199,
+      "rank": 150
+    },
+    "Melrose city": {
+      "st": "Melros",
+      "name": "Melrose city",
+      "v": 198,
+      "rank": 151
+    },
+    "Foxborough town": {
+      "st": "Foxbor",
+      "name": "Foxborough town",
+      "v": 191,
+      "rank": 152
+    },
+    "Harwich town": {
+      "st": "Harwic",
+      "name": "Harwich town",
+      "v": 190,
+      "rank": 153
+    },
+    "Norwood town": {
+      "st": "Norwoo",
+      "name": "Norwood town",
+      "v": 190,
+      "rank": 154
+    },
+    "Dennis town": {
+      "st": "Dennis",
+      "name": "Dennis town",
+      "v": 186,
+      "rank": 155
+    },
+    "Carver town": {
+      "st": "Carver",
+      "name": "Carver town",
+      "v": 185,
+      "rank": 156
+    },
+    "Blackstone town": {
+      "st": "Blacks",
+      "name": "Blackstone town",
+      "v": 183,
+      "rank": 157
+    },
+    "Orleans town": {
+      "st": "Orlean",
+      "name": "Orleans town",
+      "v": 179,
+      "rank": 158
+    },
+    "Stow town": {
+      "st": "Stow t",
+      "name": "Stow town",
+      "v": 178,
+      "rank": 159
+    },
+    "Freetown town": {
+      "st": "Freeto",
+      "name": "Freetown town",
+      "v": 177,
+      "rank": 160
+    },
+    "Rowley town": {
+      "st": "Rowley",
+      "name": "Rowley town",
+      "v": 175,
+      "rank": 161
+    },
+    "West Newbury town": {
+      "st": "West N",
+      "name": "West Newbury town",
+      "v": 175,
+      "rank": 162
+    },
+    "Athol town": {
+      "st": "Athol ",
+      "name": "Athol town",
+      "v": 175,
+      "rank": 163
+    },
+    "Marblehead town": {
+      "st": "Marble",
+      "name": "Marblehead town",
+      "v": 174,
+      "rank": 164
+    },
+    "Norton town": {
+      "st": "Norton",
+      "name": "Norton town",
+      "v": 172,
+      "rank": 165
+    },
+    "Oxford town": {
+      "st": "Oxford",
+      "name": "Oxford town",
+      "v": 168,
+      "rank": 166
+    },
+    "Newbury town": {
+      "st": "Newbur",
+      "name": "Newbury town",
+      "v": 163,
+      "rank": 167
+    },
+    "Leicester town": {
+      "st": "Leices",
+      "name": "Leicester town",
+      "v": 160,
+      "rank": 168
+    },
+    "Gardner city": {
+      "st": "Gardne",
+      "name": "Gardner city",
+      "v": 159,
+      "rank": 169
+    },
+    "Harvard town": {
+      "st": "Harvar",
+      "name": "Harvard town",
+      "v": 158,
+      "rank": 170
+    },
+    "Edgartown town": {
+      "st": "Edgart",
+      "name": "Edgartown town",
+      "v": 157,
+      "rank": 171
+    },
+    "Northborough town": {
+      "st": "Northb",
+      "name": "Northborough town",
+      "v": 157,
+      "rank": 172
+    },
+    "Hingham town": {
+      "st": "Hingha",
+      "name": "Hingham town",
+      "v": 154,
+      "rank": 173
+    },
+    "Cohasset town": {
+      "st": "Cohass",
+      "name": "Cohasset town",
+      "v": 153,
+      "rank": 174
+    },
+    "Dighton town": {
+      "st": "Dighto",
+      "name": "Dighton town",
+      "v": 151,
+      "rank": 175
+    },
+    "Acushnet town": {
+      "st": "Acushn",
+      "name": "Acushnet town",
+      "v": 147,
+      "rank": 176
+    },
+    "Boxford town": {
+      "st": "Boxfor",
+      "name": "Boxford town",
+      "v": 145,
+      "rank": 177
+    },
+    "Randolph Town city": {
+      "st": "Randol",
+      "name": "Randolph Town city",
+      "v": 143,
+      "rank": 178
+    },
+    "Bolton town": {
+      "st": "Bolton",
+      "name": "Bolton town",
+      "v": 141,
+      "rank": 179
+    },
+    "Dover town": {
+      "st": "Dover ",
+      "name": "Dover town",
+      "v": 139,
+      "rank": 180
+    },
+    "Dunstable town": {
+      "st": "Dunsta",
+      "name": "Dunstable town",
+      "v": 138,
+      "rank": 181
+    },
+    "Norwell town": {
+      "st": "Norwel",
+      "name": "Norwell town",
+      "v": 138,
+      "rank": 182
+    },
+    "Plainville town": {
+      "st": "Plainv",
+      "name": "Plainville town",
+      "v": 136,
+      "rank": 183
+    },
+    "Brewster town": {
+      "st": "Brewst",
+      "name": "Brewster town",
+      "v": 129,
+      "rank": 184
+    },
+    "Wayland town": {
+      "st": "Waylan",
+      "name": "Wayland town",
+      "v": 128,
+      "rank": 185
+    },
+    "Spencer town": {
+      "st": "Spence",
+      "name": "Spencer town",
+      "v": 127,
+      "rank": 186
+    },
+    "Agawam Town city": {
+      "st": "Agawam",
+      "name": "Agawam Town city",
+      "v": 122,
+      "rank": 187
+    },
+    "Southborough town": {
+      "st": "Southb",
+      "name": "Southborough town",
+      "v": 122,
+      "rank": 188
+    },
+    "Berkley town": {
+      "st": "Berkle",
+      "name": "Berkley town",
+      "v": 121,
+      "rank": 189
+    },
+    "Warren town": {
+      "st": "Warren",
+      "name": "Warren town",
+      "v": 119,
+      "rank": 190
+    },
+    "Chatham town": {
+      "st": "Chatha",
+      "name": "Chatham town",
+      "v": 118,
+      "rank": 191
+    },
+    "Hubbardston town": {
+      "st": "Hubbar",
+      "name": "Hubbardston town",
+      "v": 115,
+      "rank": 192
+    },
+    "Tisbury town": {
+      "st": "Tisbur",
+      "name": "Tisbury town",
+      "v": 114,
+      "rank": 193
+    },
+    "Townsend town": {
+      "st": "Townse",
+      "name": "Townsend town",
+      "v": 113,
+      "rank": 194
+    },
+    "Hamilton town": {
+      "st": "Hamilt",
+      "name": "Hamilton town",
+      "v": 112,
+      "rank": 195
+    },
+    "Barre town": {
+      "st": "Barre ",
+      "name": "Barre town",
+      "v": 108,
+      "rank": 196
+    },
+    "East Longmeadow town": {
+      "st": "East L",
+      "name": "East Longmeadow town",
+      "v": 107,
+      "rank": 197
+    },
+    "Ware town": {
+      "st": "Ware t",
+      "name": "Ware town",
+      "v": 105,
+      "rank": 198
+    },
+    "Princeton town": {
+      "st": "Prince",
+      "name": "Princeton town",
+      "v": 104,
+      "rank": 199
+    },
+    "Groveland town": {
+      "st": "Grovel",
+      "name": "Groveland town",
+      "v": 103,
+      "rank": 200
+    },
+    "Rockport town": {
+      "st": "Rockpo",
+      "name": "Rockport town",
+      "v": 103,
+      "rank": 201
+    },
+    "Paxton town": {
+      "st": "Paxton",
+      "name": "Paxton town",
+      "v": 96,
+      "rank": 202
+    },
+    "Fairhaven town": {
+      "st": "Fairha",
+      "name": "Fairhaven town",
+      "v": 94,
+      "rank": 203
+    },
+    "Georgetown town": {
+      "st": "George",
+      "name": "Georgetown town",
+      "v": 94,
+      "rank": 204
+    },
+    "West Tisbury town": {
+      "st": "West T",
+      "name": "West Tisbury town",
+      "v": 92,
+      "rank": 205
+    },
+    "Merrimac town": {
+      "st": "Merrim",
+      "name": "Merrimac town",
+      "v": 91,
+      "rank": 206
+    },
+    "Maynard town": {
+      "st": "Maynar",
+      "name": "Maynard town",
+      "v": 91,
+      "rank": 207
+    },
+    "Sherborn town": {
+      "st": "Sherbo",
+      "name": "Sherborn town",
+      "v": 91,
+      "rank": 208
+    },
+    "Holbrook town": {
+      "st": "Holbro",
+      "name": "Holbrook town",
+      "v": 91,
+      "rank": 209
+    },
+    "Hanson town": {
+      "st": "Hanson",
+      "name": "Hanson town",
+      "v": 91,
+      "rank": 210
+    },
+    "East Bridgewater town": {
+      "st": "East B",
+      "name": "East Bridgewater town",
+      "v": 90,
+      "rank": 211
+    },
+    "West Brookfield town": {
+      "st": "West B",
+      "name": "West Brookfield town",
+      "v": 88,
+      "rank": 212
+    },
+    "Ashby town": {
+      "st": "Ashby ",
+      "name": "Ashby town",
+      "v": 86,
+      "rank": 213
+    },
+    "Pembroke town": {
+      "st": "Pembro",
+      "name": "Pembroke town",
+      "v": 85,
+      "rank": 214
+    },
+    "Somerset town": {
+      "st": "Somers",
+      "name": "Somerset town",
+      "v": 84,
+      "rank": 215
+    },
+    "Deerfield town": {
+      "st": "Deerfi",
+      "name": "Deerfield town",
+      "v": 84,
+      "rank": 216
+    },
+    "Carlisle town": {
+      "st": "Carlis",
+      "name": "Carlisle town",
+      "v": 84,
+      "rank": 217
+    },
+    "Essex town": {
+      "st": "Essex ",
+      "name": "Essex town",
+      "v": 82,
+      "rank": 218
+    },
+    "Manchester-by-the-Sea town": {
+      "st": "Manche",
+      "name": "Manchester-by-the-Sea town",
+      "v": 82,
+      "rank": 219
+    },
+    "Wellfleet town": {
+      "st": "Wellfl",
+      "name": "Wellfleet town",
+      "v": 80,
+      "rank": 220
+    },
+    "Wilbraham town": {
+      "st": "Wilbra",
+      "name": "Wilbraham town",
+      "v": 79,
+      "rank": 221
+    },
+    "Webster town": {
+      "st": "Webste",
+      "name": "Webster town",
+      "v": 79,
+      "rank": 222
+    },
+    "Eastham town": {
+      "st": "Eastha",
+      "name": "Eastham town",
+      "v": 78,
+      "rank": 223
+    },
+    "Dudley town": {
+      "st": "Dudley",
+      "name": "Dudley town",
+      "v": 77,
+      "rank": 224
+    },
+    "Oak Bluffs town": {
+      "st": "Oak Bl",
+      "name": "Oak Bluffs town",
+      "v": 75,
+      "rank": 225
+    },
+    "Provincetown town": {
+      "st": "Provin",
+      "name": "Provincetown town",
+      "v": 71,
+      "rank": 226
+    },
+    "Great Barrington town": {
+      "st": "Great ",
+      "name": "Great Barrington town",
+      "v": 71,
+      "rank": 227
+    },
+    "Boxborough town": {
+      "st": "Boxbor",
+      "name": "Boxborough town",
+      "v": 70,
+      "rank": 228
+    },
+    "Hanover town": {
+      "st": "Hanove",
+      "name": "Hanover town",
+      "v": 68,
+      "rank": 229
+    },
+    "Topsfield town": {
+      "st": "Topsfi",
+      "name": "Topsfield town",
+      "v": 65,
+      "rank": 230
+    },
+    "Oakham town": {
+      "st": "Oakham",
+      "name": "Oakham town",
+      "v": 63,
+      "rank": 231
+    },
+    "Pelham town": {
+      "st": "Pelham",
+      "name": "Pelham town",
+      "v": 62,
+      "rank": 232
+    },
+    "Brookfield town": {
+      "st": "Brookf",
+      "name": "Brookfield town",
+      "v": 62,
+      "rank": 233
+    },
+    "Southwick town": {
+      "st": "Southw",
+      "name": "Southwick town",
+      "v": 60,
+      "rank": 234
+    },
+    "West Bridgewater town": {
+      "st": "West B",
+      "name": "West Bridgewater town",
+      "v": 60,
+      "rank": 235
+    },
+    "Braintree Town city": {
+      "st": "Braint",
+      "name": "Braintree Town city",
+      "v": 59,
+      "rank": 236
+    },
+    "Hardwick town": {
+      "st": "Hardwi",
+      "name": "Hardwick town",
+      "v": 58,
+      "rank": 237
+    },
+    "Hopedale town": {
+      "st": "Hopeda",
+      "name": "Hopedale town",
+      "v": 56,
+      "rank": 238
+    },
+    "Petersham town": {
+      "st": "Peters",
+      "name": "Petersham town",
+      "v": 50,
+      "rank": 239
+    },
+    "North Brookfield town": {
+      "st": "North ",
+      "name": "North Brookfield town",
+      "v": 47,
+      "rank": 240
+    },
+    "Truro town": {
+      "st": "Truro ",
+      "name": "Truro town",
+      "v": 45,
+      "rank": 241
+    },
+    "Brimfield town": {
+      "st": "Brimfi",
+      "name": "Brimfield town",
+      "v": 44,
+      "rank": 242
+    },
+    "Halifax town": {
+      "st": "Halifa",
+      "name": "Halifax town",
+      "v": 43,
+      "rank": 243
+    },
+    "New Salem town": {
+      "st": "New Sa",
+      "name": "New Salem town",
+      "v": 41,
+      "rank": 244
+    },
+    "Colrain town": {
+      "st": "Colrai",
+      "name": "Colrain town",
+      "v": 38,
+      "rank": 245
+    },
+    "Royalston town": {
+      "st": "Royals",
+      "name": "Royalston town",
+      "v": 38,
+      "rank": 246
+    },
+    "Plympton town": {
+      "st": "Plympt",
+      "name": "Plympton town",
+      "v": 37,
+      "rank": 247
+    },
+    "Abington town": {
+      "st": "Abingt",
+      "name": "Abington town",
+      "v": 36,
+      "rank": 248
+    },
+    "Chilmark town": {
+      "st": "Chilma",
+      "name": "Chilmark town",
+      "v": 35,
+      "rank": 249
+    },
+    "Phillipston town": {
+      "st": "Philli",
+      "name": "Phillipston town",
+      "v": 35,
+      "rank": 250
+    },
+    "Belchertown town": {
+      "st": "Belche",
+      "name": "Belchertown town",
+      "v": 33,
+      "rank": 251
+    },
+    "Monson town": {
+      "st": "Monson",
+      "name": "Monson town",
+      "v": 31,
+      "rank": 252
+    },
+    "Avon town": {
+      "st": "Avon t",
+      "name": "Avon town",
+      "v": 28,
+      "rank": 253
+    },
+    "Millville town": {
+      "st": "Millvi",
+      "name": "Millville town",
+      "v": 21,
+      "rank": 254
+    },
+    "Plainfield town": {
+      "st": "Plainf",
+      "name": "Plainfield town",
+      "v": 19,
+      "rank": 255
+    },
+    "Lincoln town": {
+      "st": "Lincol",
+      "name": "Lincoln town",
+      "v": 19,
+      "rank": 256
+    },
+    "Montgomery town": {
+      "st": "Montgo",
+      "name": "Montgomery town",
+      "v": 18,
+      "rank": 257
+    },
+    "New Braintree town": {
+      "st": "New Br",
+      "name": "New Braintree town",
+      "v": 18,
+      "rank": 258
+    },
+    "Orange town": {
+      "st": "Orange",
+      "name": "Orange town",
+      "v": 17,
+      "rank": 259
+    },
+    "Northfield town": {
+      "st": "Northf",
+      "name": "Northfield town",
+      "v": 15,
+      "rank": 260
+    },
+    "East Brookfield town": {
+      "st": "East B",
+      "name": "East Brookfield town",
+      "v": 15,
+      "rank": 261
+    },
+    "Westhampton town": {
+      "st": "Westha",
+      "name": "Westhampton town",
+      "v": 14,
+      "rank": 262
+    },
+    "Bernardston town": {
+      "st": "Bernar",
+      "name": "Bernardston town",
+      "v": 12,
+      "rank": 263
+    },
+    "Wenham town": {
+      "st": "Wenham",
+      "name": "Wenham town",
+      "v": 11,
+      "rank": 264
+    },
+    "Savoy town": {
+      "st": "Savoy ",
+      "name": "Savoy town",
+      "v": 10,
+      "rank": 265
+    },
+    "Aquinnah town": {
+      "st": "Aquinn",
+      "name": "Aquinnah town",
+      "v": 8,
+      "rank": 266
+    },
+    "Whately town": {
+      "st": "Whatel",
+      "name": "Whately town",
+      "v": 8,
+      "rank": 267
+    },
+    "Hampden town": {
+      "st": "Hampde",
+      "name": "Hampden town",
+      "v": 8,
+      "rank": 268
+    },
+    "Middlefield town": {
+      "st": "Middle",
+      "name": "Middlefield town",
+      "v": 8,
+      "rank": 269
+    },
+    "Nahant town": {
+      "st": "Nahant",
+      "name": "Nahant town",
+      "v": 7,
+      "rank": 270
+    },
+    "Buckland town": {
+      "st": "Buckla",
+      "name": "Buckland town",
+      "v": 7,
+      "rank": 271
+    },
+    "Gill town": {
+      "st": "Gill t",
+      "name": "Gill town",
+      "v": 6,
+      "rank": 272
+    },
+    "Marion town": {
+      "st": "Marion",
+      "name": "Marion town",
+      "v": 6,
+      "rank": 273
+    },
+    "Washington town": {
+      "st": "Washin",
+      "name": "Washington town",
+      "v": 5,
+      "rank": 274
+    },
+    "Egremont town": {
+      "st": "Egremo",
+      "name": "Egremont town",
+      "v": 4,
+      "rank": 275
+    },
+    "Tolland town": {
+      "st": "Tollan",
+      "name": "Tolland town",
+      "v": 4,
+      "rank": 276
+    },
+    "Erving town": {
+      "st": "Erving",
+      "name": "Erving town",
+      "v": 2,
+      "rank": 277
+    },
+    "Leverett town": {
+      "st": "Levere",
+      "name": "Leverett town",
+      "v": 2,
+      "rank": 278
+    },
+    "Granville town": {
+      "st": "Granvi",
+      "name": "Granville town",
+      "v": 2,
+      "rank": 279
+    },
+    "New Ashford town": {
+      "st": "New As",
+      "name": "New Ashford town",
+      "v": 1,
+      "rank": 280
+    },
+    "Leyden town": {
+      "st": "Leyden",
+      "name": "Leyden town",
+      "v": 1,
+      "rank": 281
+    },
+    "Russell town": {
+      "st": "Russel",
+      "name": "Russell town",
+      "v": 1,
+      "rank": 282
+    },
+    "Sheffield town": {
+      "st": "Sheffi",
+      "name": "Sheffield town",
+      "v": 0,
+      "rank": 283
+    },
+    "Gosnold town": {
+      "st": "Gosnol",
+      "name": "Gosnold town",
+      "v": 0,
+      "rank": 284
+    },
+    "Hawley town": {
+      "st": "Hawley",
+      "name": "Hawley town",
+      "v": 0,
+      "rank": 285
+    },
+    "Ashfield town": {
+      "st": "Ashfie",
+      "name": "Ashfield town",
+      "v": -1,
+      "rank": 286
+    },
+    "Monroe town": {
+      "st": "Monroe",
+      "name": "Monroe town",
+      "v": -1,
+      "rank": 287
+    },
+    "Sandisfield town": {
+      "st": "Sandis",
+      "name": "Sandisfield town",
+      "v": -2,
+      "rank": 288
+    },
+    "Blandford town": {
+      "st": "Blandf",
+      "name": "Blandford town",
+      "v": -2,
+      "rank": 289
+    },
+    "Wales town": {
+      "st": "Wales ",
+      "name": "Wales town",
+      "v": -2,
+      "rank": 290
+    },
+    "Mount Washington town": {
+      "st": "Mount ",
+      "name": "Mount Washington town",
+      "v": -3,
+      "rank": 291
+    },
+    "Rowe town": {
+      "st": "Rowe t",
+      "name": "Rowe town",
+      "v": -3,
+      "rank": 292
+    },
+    "Shutesbury town": {
+      "st": "Shutes",
+      "name": "Shutesbury town",
+      "v": -3,
+      "rank": 293
+    },
+    "Heath town": {
+      "st": "Heath ",
+      "name": "Heath town",
+      "v": -4,
+      "rank": 294
+    },
+    "Chester town": {
+      "st": "Cheste",
+      "name": "Chester town",
+      "v": -4,
+      "rank": 295
+    },
+    "Alford town": {
+      "st": "Alford",
+      "name": "Alford town",
+      "v": -5,
+      "rank": 296
+    },
+    "Monterey town": {
+      "st": "Monter",
+      "name": "Monterey town",
+      "v": -5,
+      "rank": 297
+    },
+    "Richmond town": {
+      "st": "Richmo",
+      "name": "Richmond town",
+      "v": -6,
+      "rank": 298
+    },
+    "Hancock town": {
+      "st": "Hancoc",
+      "name": "Hancock town",
+      "v": -7,
+      "rank": 299
+    },
+    "Tyringham town": {
+      "st": "Tyring",
+      "name": "Tyringham town",
+      "v": -7,
+      "rank": 300
+    },
+    "Charlemont town": {
+      "st": "Charle",
+      "name": "Charlemont town",
+      "v": -7,
+      "rank": 301
+    },
+    "Windsor town": {
+      "st": "Windso",
+      "name": "Windsor town",
+      "v": -8,
+      "rank": 302
+    },
+    "Warwick town": {
+      "st": "Warwic",
+      "name": "Warwick town",
+      "v": -8,
+      "rank": 303
+    },
+    "Cummington town": {
+      "st": "Cummin",
+      "name": "Cummington town",
+      "v": -8,
+      "rank": 304
+    },
+    "Becket town": {
+      "st": "Becket",
+      "name": "Becket town",
+      "v": -9,
+      "rank": 305
+    },
+    "Peru town": {
+      "st": "Peru t",
+      "name": "Peru town",
+      "v": -10,
+      "rank": 306
+    },
+    "Shelburne town": {
+      "st": "Shelbu",
+      "name": "Shelburne town",
+      "v": -10,
+      "rank": 307
+    },
+    "Conway town": {
+      "st": "Conway",
+      "name": "Conway town",
+      "v": -11,
+      "rank": 308
+    },
+    "Wendell town": {
+      "st": "Wendel",
+      "name": "Wendell town",
+      "v": -11,
+      "rank": 309
+    },
+    "Worthington town": {
+      "st": "Worthi",
+      "name": "Worthington town",
+      "v": -11,
+      "rank": 310
+    },
+    "Chesterfield town": {
+      "st": "Cheste",
+      "name": "Chesterfield town",
+      "v": -12,
+      "rank": 311
+    },
+    "Stockbridge town": {
+      "st": "Stockb",
+      "name": "Stockbridge town",
+      "v": -13,
+      "rank": 312
+    },
+    "West Stockbridge town": {
+      "st": "West S",
+      "name": "West Stockbridge town",
+      "v": -13,
+      "rank": 313
+    },
+    "Otis town": {
+      "st": "Otis t",
+      "name": "Otis town",
+      "v": -15,
+      "rank": 314
+    },
+    "Holland town": {
+      "st": "Hollan",
+      "name": "Holland town",
+      "v": -15,
+      "rank": 315
+    },
+    "Hinsdale town": {
+      "st": "Hinsda",
+      "name": "Hinsdale town",
+      "v": -16,
+      "rank": 316
+    },
+    "Florida town": {
+      "st": "Florid",
+      "name": "Florida town",
+      "v": -17,
+      "rank": 317
+    },
+    "Hatfield town": {
+      "st": "Hatfie",
+      "name": "Hatfield town",
+      "v": -17,
+      "rank": 318
+    },
+    "Goshen town": {
+      "st": "Goshen",
+      "name": "Goshen town",
+      "v": -18,
+      "rank": 319
+    },
+    "Clarksburg town": {
+      "st": "Clarks",
+      "name": "Clarksburg town",
+      "v": -19,
+      "rank": 320
+    },
+    "Lenox town": {
+      "st": "Lenox ",
+      "name": "Lenox town",
+      "v": -19,
+      "rank": 321
+    },
+    "Huntington town": {
+      "st": "Huntin",
+      "name": "Huntington town",
+      "v": -24,
+      "rank": 322
+    },
+    "New Marlborough town": {
+      "st": "New Ma",
+      "name": "New Marlborough town",
+      "v": -25,
+      "rank": 323
+    },
+    "Williamsburg town": {
+      "st": "Willia",
+      "name": "Williamsburg town",
+      "v": -25,
+      "rank": 324
+    },
+    "Sunderland town": {
+      "st": "Sunder",
+      "name": "Sunderland town",
+      "v": -27,
+      "rank": 325
+    },
+    "Palmer Town city": {
+      "st": "Palmer",
+      "name": "Palmer Town city",
+      "v": -31,
+      "rank": 326
+    },
+    "Hadley town": {
+      "st": "Hadley",
+      "name": "Hadley town",
+      "v": -33,
+      "rank": 327
+    },
+    "Lanesborough town": {
+      "st": "Lanesb",
+      "name": "Lanesborough town",
+      "v": -34,
+      "rank": 328
+    },
+    "Granby town": {
+      "st": "Granby",
+      "name": "Granby town",
+      "v": -35,
+      "rank": 329
+    },
+    "Southampton town": {
+      "st": "Southa",
+      "name": "Southampton town",
+      "v": -40,
+      "rank": 330
+    },
+    "Cheshire town": {
+      "st": "Cheshi",
+      "name": "Cheshire town",
+      "v": -63,
+      "rank": 331
+    },
+    "Chicopee city": {
+      "st": "Chicop",
+      "name": "Chicopee city",
+      "v": -63,
+      "rank": 332
+    },
+    "Rockland town": {
+      "st": "Rockla",
+      "name": "Rockland town",
+      "v": -66,
+      "rank": 333
+    },
+    "Greenfield city": {
+      "st": "Greenf",
+      "name": "Greenfield city",
+      "v": -79,
+      "rank": 334
+    },
+    "Lee town": {
+      "st": "Lee to",
+      "name": "Lee town",
+      "v": -95,
+      "rank": 335
+    },
+    "Longmeadow town": {
+      "st": "Longme",
+      "name": "Longmeadow town",
+      "v": -101,
+      "rank": 336
+    },
+    "Dalton town": {
+      "st": "Dalton",
+      "name": "Dalton town",
+      "v": -127,
+      "rank": 337
+    },
+    "Walpole town": {
+      "st": "Walpol",
+      "name": "Walpole town",
+      "v": -128,
+      "rank": 338
+    },
+    "Montague town": {
+      "st": "Montag",
+      "name": "Montague town",
+      "v": -131,
+      "rank": 339
+    },
+    "Easthampton city": {
+      "st": "Eastha",
+      "name": "Easthampton city",
+      "v": -152,
+      "rank": 340
+    },
+    "Adams town": {
+      "st": "Adams ",
+      "name": "Adams town",
+      "v": -154,
+      "rank": 341
+    },
+    "Shirley town": {
+      "st": "Shirle",
+      "name": "Shirley town",
+      "v": -191,
+      "rank": 342
+    },
+    "North Adams city": {
+      "st": "North ",
+      "name": "North Adams city",
+      "v": -262,
+      "rank": 343
+    },
+    "Concord town": {
+      "st": "Concor",
+      "name": "Concord town",
+      "v": -272,
+      "rank": 344
+    },
+    "Holyoke city": {
+      "st": "Holyok",
+      "name": "Holyoke city",
+      "v": -301,
+      "rank": 345
+    },
+    "Chelsea city": {
+      "st": "Chelse",
+      "name": "Chelsea city",
+      "v": -304,
+      "rank": 346
+    },
+    "Springfield city": {
+      "st": "Spring",
+      "name": "Springfield city",
+      "v": -370,
+      "rank": 347
+    },
+    "Winthrop Town city": {
+      "st": "Winthr",
+      "name": "Winthrop Town city",
+      "v": -518,
+      "rank": 348
+    },
+    "Pittsfield city": {
+      "st": "Pittsf",
+      "name": "Pittsfield city",
+      "v": -715,
+      "rank": 349
+    },
+    "Revere city": {
+      "st": "Revere",
+      "name": "Revere city",
+      "v": -1209,
+      "rank": 350
+    },
+    "MA": {
+      "st": "MA",
+      "name": "Boston city",
+      "v": -2064,
+      "rank": 351
+    }
   }
 }

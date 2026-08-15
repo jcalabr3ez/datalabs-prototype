@@ -610,7 +610,7 @@ def upsert_catalog(apps):
             "g": app["g"],
             "st": "live" if ledger.get("status") == "live" else "build",
             "url": f"/{app['slug']}/",
-            "ai": False,
+            "ai": ledger.get("status") == "live",
             "heritage": app["heritage"],
             "group": app["group"],
             "vint": vint,

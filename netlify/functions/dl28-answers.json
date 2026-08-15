@@ -310,5 +310,139 @@
       }
     ],
     "n_ranked": 22
+  },
+  "entities": {
+    "Total Taxes": {
+      "st": "Total Ta",
+      "name": "Total Taxes",
+      "v": 11618592000.0,
+      "rank": 1
+    },
+    "Individual income": {
+      "st": "Individu",
+      "name": "Individual income",
+      "v": 5853793000.0,
+      "rank": 2
+    },
+    "General sales and gross receipts": {
+      "st": "General ",
+      "name": "General sales and gross receipts",
+      "v": 2256655000.0,
+      "rank": 3
+    },
+    "Corporation net income": {
+      "st": "Corporat",
+      "name": "Corporation net income",
+      "v": 1906087000.0,
+      "rank": 4
+    },
+    "Insurance premiums": {
+      "st": "Insuranc",
+      "name": "Insurance premiums",
+      "v": 368262000.0,
+      "rank": 5
+    },
+    "Death and gift": {
+      "st": "Death an",
+      "name": "Death and gift",
+      "v": 288240000.0,
+      "rank": 6
+    },
+    "Motor fuels": {
+      "st": "Motor fu",
+      "name": "Motor fuels",
+      "v": 168594000.0,
+      "rank": 7
+    },
+    "Occupation and businesses": {
+      "st": "Occupati",
+      "name": "Occupation and businesses",
+      "v": 151049000.0,
+      "rank": 8
+    },
+    "Other selective sales and gross receipts": {
+      "st": "Other se",
+      "name": "Other selective sales and gross receipts",
+      "v": 101009000.0,
+      "rank": 9
+    },
+    "Motor vehicles": {
+      "st": "Motor ve",
+      "name": "Motor vehicles",
+      "v": 95455000.0,
+      "rank": 10
+    },
+    "Other license taxes": {
+      "st": "Other li",
+      "name": "Other license taxes",
+      "v": 87044000.0,
+      "rank": 11
+    },
+    "Documentary and stock transfer": {
+      "st": "Document",
+      "name": "Documentary and stock transfer",
+      "v": 81371000.0,
+      "rank": 12
+    },
+    "Tobacco products": {
+      "st": "Tobacco ",
+      "name": "Tobacco products",
+      "v": 64194000.0,
+      "rank": 13
+    },
+    "Sports betting (including pari-mutuels)": {
+      "st": "Sports b",
+      "name": "Sports betting (including pari-mutuels)",
+      "v": 56690000.0,
+      "rank": 14
+    },
+    "Motor vehicle operators": {
+      "st": "Motor ve",
+      "name": "Motor vehicle operators",
+      "v": 19796000.0,
+      "rank": 15
+    },
+    "Corporations in general": {
+      "st": "Corporat",
+      "name": "Corporations in general",
+      "v": 8240000.0,
+      "rank": 16
+    },
+    "Amusements": {
+      "st": "Amusemen",
+      "name": "Amusements",
+      "v": 4092000.0,
+      "rank": 17
+    },
+    "Hunting and fishing": {
+      "st": "Hunting ",
+      "name": "Hunting and fishing",
+      "v": 2016000.0,
+      "rank": 18
+    },
+    "Alcoholic beverages": {
+      "st": "Alcoholi",
+      "name": "Alcoholic beverages",
+      "v": 574000.0,
+      "rank": 19
+    },
+    "Property taxes": {
+      "st": "Property",
+      "name": "Property taxes",
+      "v": 416000.0,
+      "rank": 20
+    },
+    "Public utilities": {
+      "st": "Public u",
+      "name": "Public utilities",
+      "v": 0.0,
+      "rank": 21
+    },
+    "Other taxes, NEC": {
+      "st": "Other ta",
+      "name": "Other taxes, NEC",
+      "v": 0.0,
+      "rank": 22
+    }
   }
 }

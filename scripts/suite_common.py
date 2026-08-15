@@ -74,7 +74,30 @@ def ledger_path(tool_id: str) -> Path:
     return LEDGER_DIR / f"{tool_id.lower().replace('-', '')}-answers.json"
 
 
+def attach_entities(obj: dict) -> dict:
+    """Object keyed for ask-box highlight validation (dataset.entities)."""
+    rows = obj.get("rows") or []
+    if obj.get("status") != "live" or not rows:
+        return obj
+    ent = {}
+    for r in rows:
+        st = r.get("st")
+        name = r.get("name")
+        key = st if isinstance(st, str) and len(st) == 2 else name
+        if not key:
+            continue
+        ent[str(key)] = {
+            "st": st,
+            "name": name,
+            "v": r.get("v"),
+            "rank": r.get("rank"),
+        }
+    obj["entities"] = ent
+    return obj
+
+
 def write_ledger(obj: dict) -> Path:
+    attach_entities(obj)
     path = ledger_path(obj["tool_id"])
     path.write_text(
         json.dumps(obj, ensure_ascii=True, indent=2) + "\n",

@@ -663,5 +663,313 @@
     ],
     "n_ranked": 51,
     "massachusetts_rank": 7
+  },
+  "entities": {
+    "CA": {
+      "st": "CA",
+      "name": "California",
+      "v": 110.72,
+      "rank": 1
+    },
+    "HI": {
+      "st": "HI",
+      "name": "Hawaii",
+      "v": 109.951,
+      "rank": 2
+    },
+    "DC": {
+      "st": "DC",
+      "name": "District of Columbia",
+      "v": 109.901,
+      "rank": 3
+    },
+    "NJ": {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 108.805,
+      "rank": 4
+    },
+    "NY": {
+      "st": "NY",
+      "name": "New York",
+      "v": 107.921,
+      "rank": 5
+    },
+    "WA": {
+      "st": "WA",
+      "name": "Washington",
+      "v": 107.013,
+      "rank": 6
+    },
+    "MA": {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 105.757,
+      "rank": 7
+    },
+    "MD": {
+      "st": "MD",
+      "name": "Maryland",
+      "v": 104.959,
+      "rank": 8
+    },
+    "NH": {
+      "st": "NH",
+      "name": "New Hampshire",
+      "v": 104.165,
+      "rank": 9
+    },
+    "CT": {
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 103.61,
+      "rank": 10
+    },
+    "FL": {
+      "st": "FL",
+      "name": "Florida",
+      "v": 103.414,
+      "rank": 11
+    },
+    "OR": {
+      "st": "OR",
+      "name": "Oregon",
+      "v": 103.361,
+      "rank": 12
+    },
+    "CO": {
+      "st": "CO",
+      "name": "Colorado",
+      "v": 103.052,
+      "rank": 13
+    },
+    "AK": {
+      "st": "AK",
+      "name": "Alaska",
+      "v": 102.359,
+      "rank": 14
+    },
+    "RI": {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 102.28,
+      "rank": 15
+    },
+    "VA": {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 101.104,
+      "rank": 16
+    },
+    "AZ": {
+      "st": "AZ",
+      "name": "Arizona",
+      "v": 100.677,
+      "rank": 17
+    },
+    "NV": {
+      "st": "NV",
+      "name": "Nevada",
+      "v": 99.979,
+      "rank": 18
+    },
+    "IL": {
+      "st": "IL",
+      "name": "Illinois",
+      "v": 99.958,
+      "rank": 19
+    },
+    "DE": {
+      "st": "DE",
+      "name": "Delaware",
+      "v": 99.808,
+      "rank": 20
+    },
+    "UT": {
+      "st": "UT",
+      "name": "Utah",
+      "v": 98.864,
+      "rank": 21
+    },
+    "MN": {
+      "st": "MN",
+      "name": "Minnesota",
+      "v": 98.621,
+      "rank": 22
+    },
+    "VT": {
+      "st": "VT",
+      "name": "Vermont",
+      "v": 97.958,
+      "rank": 23
+    },
+    "PA": {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 97.572,
+      "rank": 24
+    },
+    "TX": {
+      "st": "TX",
+      "name": "Texas",
+      "v": 97.057,
+      "rank": 25
+    },
+    "ME": {
+      "st": "ME",
+      "name": "Maine",
+      "v": 97.05,
+      "rank": 26
+    },
+    "GA": {
+      "st": "GA",
+      "name": "Georgia",
+      "v": 96.293,
+      "rank": 27
+    },
+    "MI": {
+      "st": "MI",
+      "name": "Michigan",
+      "v": 96.217,
+      "rank": 28
+    },
+    "ID": {
+      "st": "ID",
+      "name": "Idaho",
+      "v": 95.494,
+      "rank": 29
+    },
+    "MT": {
+      "st": "MT",
+      "name": "Montana",
+      "v": 94.645,
+      "rank": 30
+    },
+    "NC": {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 94.326,
+      "rank": 31
+    },
+    "WI": {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 94.095,
+      "rank": 32
+    },
+    "SC": {
+      "st": "SC",
+      "name": "South Carolina",
+      "v": 93.749,
+      "rank": 33
+    },
+    "IN": {
+      "st": "IN",
+      "name": "Indiana",
+      "v": 93.329,
+      "rank": 34
+    },
+    "OH": {
+      "st": "OH",
+      "name": "Ohio",
+      "v": 92.774,
+      "rank": 35
+    },
+    "WY": {
+      "st": "WY",
+      "name": "Wyoming",
+      "v": 92.691,
+      "rank": 36
+    },
+    "NM": {
+      "st": "NM",
+      "name": "New Mexico",
+      "v": 92.212,
+      "rank": 37
+    },
+    "TN": {
+      "st": "TN",
+      "name": "Tennessee",
+      "v": 91.87,
+      "rank": 38
+    },
+    "MO": {
+      "st": "MO",
+      "name": "Missouri",
+      "v": 90.817,
+      "rank": 39
+    },
+    "KY": {
+      "st": "KY",
+      "name": "Kentucky",
+      "v": 90.159,
+      "rank": 40
+    },
+    "NE": {
+      "st": "NE",
+      "name": "Nebraska",
+      "v": 90.103,
+      "rank": 41
+    },
+    "KS": {
+      "st": "KS",
+      "name": "Kansas",
+      "v": 90.068,
+      "rank": 42
+    },
+    "WV": {
+      "st": "WV",
+      "name": "West Virginia",
+      "v": 89.497,
+      "rank": 43
+    },
+    "ND": {
+      "st": "ND",
+      "name": "North Dakota",
+      "v": 88.959,
+      "rank": 44
+    },
+    "AL": {
+      "st": "AL",
+      "name": "Alabama",
+      "v": 88.823,
+      "rank": 45
+    },
+    "SD": {
+      "st": "SD",
+      "name": "South Dakota",
+      "v": 88.586,
+      "rank": 46
+    },
+    "LA": {
+      "st": "LA",
+      "name": "Louisiana",
+      "v": 88.207,
+      "rank": 47
+    },
+    "OK": {
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 87.843,
+      "rank": 48
+    },
+    "IA": {
+      "st": "IA",
+      "name": "Iowa",
+      "v": 87.762,
+      "rank": 49
+    },
+    "MS": {
+      "st": "MS",
+      "name": "Mississippi",
+      "v": 86.953,
+      "rank": 50
+    },
+    "AR": {
+      "st": "AR",
+      "name": "Arkansas",
+      "v": 86.937,
+      "rank": 51
+    }
   }
 }

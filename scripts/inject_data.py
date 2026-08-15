@@ -470,17 +470,6 @@ def main():
                                for e in dl02["takeout_net_inflow"]]) + ";",
     ])
     new = replace_block(new, "front-fl-data", fl_consts, p)
-    fl_rev = (dl02.get("page") or {}).get("revised", "")
-    revised_long = fl_rev
-    for full, (short, _) in MONTH_END.items():
-        if revised_long.startswith(short + " "):
-            revised_long = full + revised_long[len(short):]
-            break
-    front_dl = (
-        f"Series through {dl02['as_of']}. "
-        f"Revised {revised_long}."
-    )
-    new = replace_block(new, "front-dateline", front_dl, p, style="html")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("index.html")

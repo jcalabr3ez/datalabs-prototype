@@ -4,10 +4,10 @@
   "slug": "municipal-rankings",
   "vertical": "American Citizenship",
   "group": "Your City & Town",
-  "status": "build",
-  "as_of": null,
-  "scope": "Covers comparable rankings of Massachusetts municipalities on crime, debt, education outcomes, expenditures, financial strength, revenues, and tax levy.",
-  "exclusions": "Does not cover the per-town atlas (Municipal Atlas), Boston payroll, or advice about a town meeting warrant.",
+  "status": "live",
+  "as_of": "2024-07",
+  "scope": "This first ledger ranks Massachusetts cities and towns on 2020-to-2024 Census population change. Crime, debt, education, spending, revenue, and tax rankings are listed as later views.",
+  "exclusions": "Does not cover the per-town atlas stock (Municipal Atlas), Boston payroll, or advice about a town meeting warrant. DLS, DESE, and crime rankings are pending.",
   "heritage": "Formerly the Cities and Towns Rankings suite",
   "replaces": [
     "Rankings-Crime",
@@ -18,27 +18,3688 @@
     "Rankings-Revenues",
     "Rankings-Taxes"
   ],
-  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census sub-est2024_25.csv, SUMLEV 061. This first ranking is 2024 minus 2020 resident population. Crime, debt, education, expenditure, revenue, and tax rankings remain pending.",
   "source_id_map": {
     "SRC-626-01": {
-      "name": "Massachusetts DLS municipal databank, DESE, and FBI UCR / NIBRS",
+      "name": "Census vintage 2024 subcounty population estimates, Massachusetts",
       "cadence": "Annual",
-      "url": "https://www.mass.gov/orgs/division-of-local-services",
-      "supports": "Covers comparable rankings of Massachusetts municipalities on crime, debt, education outcomes, expenditures, financial strength, revenues, and tax levy."
+      "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/cities/totals/sub-est2024_25.csv",
+      "supports": "This first ledger ranks Massachusetts cities and towns on 2020-to-2024 Census population change. Crime, debt, education, spending, revenue, and tax rankings are listed as later views."
     }
   },
   "page": {
     "revised": "Aug 15, 2026",
-    "version": "0.0"
+    "version": "0.1"
   },
   "geo": [
     "MA"
   ],
   "q": "Rank Massachusetts cities and towns on crime, debt, education, spending, revenues, and taxes.",
-  "pending": true,
-  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
-  "rows": [],
+  "pending": false,
+  "metric": "ma_municipal_pop_change_2020_2024",
+  "metric_label": "Population change, 2020 to 2024",
+  "unit": "people",
+  "data_month": "2024-07",
+  "data_month_label": "2020 to 2024",
+  "lead": "From 2020 to 2024 the largest population gain among Massachusetts cities and towns was <b>Amherst Town city</b> at <b>13,183</b>; the largest loss was <b>Boston city</b> at <b>-2,064</b> (derived, SRC-626-01). Crime, debt, education, spending, and tax rankings are pending because those DLS and DESE files were not reachable this pass.",
+  "kpis": [
+    {
+      "label": "Largest gain, 2020-24",
+      "value": "Amherst Town city 13,183",
+      "detail": "+47.4% from the 2020 estimate (derived, SRC-626-01).",
+      "why": "The top of this first ranking is raw population change, not crime or debt.",
+      "src": "Census subcounty population estimates 2024 (SRC-626-01)"
+    },
+    {
+      "label": "Largest loss, 2020-24",
+      "value": "Boston city -2,064",
+      "detail": "-0.3% from the 2020 estimate (derived, SRC-626-01).",
+      "why": "The bottom of the ranking is the largest population decline.",
+      "src": "Census subcounty population estimates 2024 (SRC-626-01)"
+    },
+    {
+      "label": "Boston",
+      "value": "-2,064",
+      "detail": "Rank 351 of 351 on 2020-24 change (derived, SRC-626-01).",
+      "why": "Crime, debt, education, and levy rankings are pending.",
+      "src": "Census subcounty population estimates 2024 (SRC-626-01)"
+    }
+  ],
+  "latest": {
+    "highest": {
+      "name": "Amherst Town city",
+      "v": 13183
+    },
+    "lowest": {
+      "name": "Boston city",
+      "v": -2064
+    },
+    "boston": {
+      "name": "Boston city",
+      "v": -2064,
+      "rank": 351
+    }
+  },
+  "rows": [
+    {
+      "st": "Amhers",
+      "name": "Amherst Town city",
+      "v": 13183,
+      "rank": 1,
+      "n": 351,
+      "pop2024": 40989,
+      "pop2020": 27806,
+      "yoy_pct": 47.4
+    },
+    {
+      "st": "Worces",
+      "name": "Worcester city",
+      "v": 8811,
+      "rank": 2,
+      "n": 351,
+      "pop2024": 211286,
+      "pop2020": 202475,
+      "yoy_pct": 4.4
+    },
+    {
+      "st": "Plymou",
+      "name": "Plymouth town",
+      "v": 5641,
+      "rank": 3,
+      "n": 351,
+      "pop2024": 66663,
+      "pop2020": 61022,
+      "yoy_pct": 9.2
+    },
+    {
+      "st": "Lowell",
+      "name": "Lowell city",
+      "v": 4584,
+      "rank": 4,
+      "n": 351,
+      "pop2024": 120418,
+      "pop2020": 115834,
+      "yoy_pct": 4.0
+    },
+    {
+      "st": "Woburn",
+      "name": "Woburn city",
+      "v": 3068,
+      "rank": 5,
+      "n": 351,
+      "pop2024": 43895,
+      "pop2020": 40827,
+      "yoy_pct": 7.5
+    },
+    {
+      "st": "Cambri",
+      "name": "Cambridge city",
+      "v": 2982,
+      "rank": 6,
+      "n": 351,
+      "pop2024": 121186,
+      "pop2020": 118204,
+      "yoy_pct": 2.5
+    },
+    {
+      "st": "Everet",
+      "name": "Everett city",
+      "v": 2868,
+      "rank": 7,
+      "n": 351,
+      "pop2024": 51825,
+      "pop2020": 48957,
+      "yoy_pct": 5.9
+    },
+    {
+      "st": "Weymou",
+      "name": "Weymouth Town city",
+      "v": 2688,
+      "rank": 8,
+      "n": 351,
+      "pop2024": 60159,
+      "pop2020": 57471,
+      "yoy_pct": 4.7
+    },
+    {
+      "st": "Dartmo",
+      "name": "Dartmouth town",
+      "v": 2676,
+      "rank": 9,
+      "n": 351,
+      "pop2024": 34139,
+      "pop2020": 31463,
+      "yoy_pct": 8.5
+    },
+    {
+      "st": "Taunto",
+      "name": "Taunton city",
+      "v": 2528,
+      "rank": 10,
+      "n": 351,
+      "pop2024": 61936,
+      "pop2020": 59408,
+      "yoy_pct": 4.3
+    },
+    {
+      "st": "Welles",
+      "name": "Wellesley town",
+      "v": 2468,
+      "rank": 11,
+      "n": 351,
+      "pop2024": 31242,
+      "pop2020": 28774,
+      "yoy_pct": 8.6
+    },
+    {
+      "st": "Lynn c",
+      "name": "Lynn city",
+      "v": 2416,
+      "rank": 12,
+      "n": 351,
+      "pop2024": 103489,
+      "pop2020": 101073,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Bridge",
+      "name": "Bridgewater Town city",
+      "v": 2379,
+      "rank": 13,
+      "n": 351,
+      "pop2024": 29167,
+      "pop2020": 26788,
+      "yoy_pct": 8.9
+    },
+    {
+      "st": "Wakefi",
+      "name": "Wakefield town",
+      "v": 2146,
+      "rank": 14,
+      "n": 351,
+      "pop2024": 29216,
+      "pop2020": 27070,
+      "yoy_pct": 7.9
+    },
+    {
+      "st": "Northa",
+      "name": "Northampton city",
+      "v": 2036,
+      "rank": 15,
+      "n": 351,
+      "pop2024": 31315,
+      "pop2020": 29279,
+      "yoy_pct": 7.0
+    },
+    {
+      "st": "Salem ",
+      "name": "Salem city",
+      "v": 2007,
+      "rank": 16,
+      "n": 351,
+      "pop2024": 45677,
+      "pop2020": 43670,
+      "yoy_pct": 4.6
+    },
+    {
+      "st": "Quincy",
+      "name": "Quincy city",
+      "v": 1942,
+      "rank": 17,
+      "n": 351,
+      "pop2024": 103434,
+      "pop2020": 101492,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Newton",
+      "name": "Newton city",
+      "v": 1847,
+      "rank": 18,
+      "n": 351,
+      "pop2024": 90700,
+      "pop2020": 88853,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "South ",
+      "name": "South Hadley town",
+      "v": 1725,
+      "rank": 19,
+      "n": 351,
+      "pop2024": 18031,
+      "pop2020": 16306,
+      "yoy_pct": 10.6
+    },
+    {
+      "st": "Waltha",
+      "name": "Waltham city",
+      "v": 1611,
+      "rank": 20,
+      "n": 351,
+      "pop2024": 65849,
+      "pop2020": 64238,
+      "yoy_pct": 2.5
+    },
+    {
+      "st": "Frankl",
+      "name": "Franklin Town city",
+      "v": 1418,
+      "rank": 21,
+      "n": 351,
+      "pop2024": 33742,
+      "pop2020": 32324,
+      "yoy_pct": 4.4
+    },
+    {
+      "st": "Stoneh",
+      "name": "Stoneham town",
+      "v": 1363,
+      "rank": 22,
+      "n": 351,
+      "pop2024": 24550,
+      "pop2020": 23187,
+      "yoy_pct": 5.9
+    },
+    {
+      "st": "Shrews",
+      "name": "Shrewsbury town",
+      "v": 1351,
+      "rank": 23,
+      "n": 351,
+      "pop2024": 39620,
+      "pop2020": 38269,
+      "yoy_pct": 3.5
+    },
+    {
+      "st": "Methue",
+      "name": "Methuen city",
+      "v": 1298,
+      "rank": 24,
+      "n": 351,
+      "pop2024": 54272,
+      "pop2020": 52974,
+      "yoy_pct": 2.5
+    },
+    {
+      "st": "Somerv",
+      "name": "Somerville city",
+      "v": 1248,
+      "rank": 25,
+      "n": 351,
+      "pop2024": 82149,
+      "pop2020": 80901,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Framin",
+      "name": "Framingham city",
+      "v": 1232,
+      "rank": 26,
+      "n": 351,
+      "pop2024": 73361,
+      "pop2020": 72129,
+      "yoy_pct": 1.7
+    },
+    {
+      "st": "Hopkin",
+      "name": "Hopkinton town",
+      "v": 1209,
+      "rank": 27,
+      "n": 351,
+      "pop2024": 19971,
+      "pop2020": 18762,
+      "yoy_pct": 6.4
+    },
+    {
+      "st": "North ",
+      "name": "North Andover town",
+      "v": 1143,
+      "rank": 28,
+      "n": 351,
+      "pop2024": 32135,
+      "pop2020": 30992,
+      "yoy_pct": 3.7
+    },
+    {
+      "st": "Biller",
+      "name": "Billerica town",
+      "v": 1136,
+      "rank": 29,
+      "n": 351,
+      "pop2024": 42978,
+      "pop2020": 41842,
+      "yoy_pct": 2.7
+    },
+    {
+      "st": "Westbo",
+      "name": "Westborough town",
+      "v": 1109,
+      "rank": 30,
+      "n": 351,
+      "pop2024": 22643,
+      "pop2020": 21534,
+      "yoy_pct": 5.1
+    },
+    {
+      "st": "Bellin",
+      "name": "Bellingham town",
+      "v": 1047,
+      "rank": 31,
+      "n": 351,
+      "pop2024": 17998,
+      "pop2020": 16951,
+      "yoy_pct": 6.2
+    },
+    {
+      "st": "Winche",
+      "name": "Winchester town",
+      "v": 1024,
+      "rank": 32,
+      "n": 351,
+      "pop2024": 23953,
+      "pop2020": 22929,
+      "yoy_pct": 4.5
+    },
+    {
+      "st": "Peabod",
+      "name": "Peabody city",
+      "v": 1016,
+      "rank": 33,
+      "n": 351,
+      "pop2024": 55418,
+      "pop2020": 54402,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Rehobo",
+      "name": "Rehoboth town",
+      "v": 1014,
+      "rank": 34,
+      "n": 351,
+      "pop2024": 13537,
+      "pop2020": 12523,
+      "yoy_pct": 8.1
+    },
+    {
+      "st": "Burlin",
+      "name": "Burlington town",
+      "v": 975,
+      "rank": 35,
+      "n": 351,
+      "pop2024": 26977,
+      "pop2020": 26002,
+      "yoy_pct": 3.7
+    },
+    {
+      "st": "Barnst",
+      "name": "Barnstable Town city",
+      "v": 959,
+      "rank": 36,
+      "n": 351,
+      "pop2024": 49831,
+      "pop2020": 48872,
+      "yoy_pct": 2.0
+    },
+    {
+      "st": "Sudbur",
+      "name": "Sudbury town",
+      "v": 929,
+      "rank": 37,
+      "n": 351,
+      "pop2024": 19805,
+      "pop2020": 18876,
+      "yoy_pct": 4.9
+    },
+    {
+      "st": "Arling",
+      "name": "Arlington town",
+      "v": 910,
+      "rank": 38,
+      "n": 351,
+      "pop2024": 47112,
+      "pop2020": 46202,
+      "yoy_pct": 2.0
+    },
+    {
+      "st": "Bourne",
+      "name": "Bourne town",
+      "v": 904,
+      "rank": 39,
+      "n": 351,
+      "pop2024": 20508,
+      "pop2020": 19604,
+      "yoy_pct": 4.6
+    },
+    {
+      "st": "Brookl",
+      "name": "Brookline town",
+      "v": 903,
+      "rank": 40,
+      "n": 351,
+      "pop2024": 63925,
+      "pop2020": 63022,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "North ",
+      "name": "North Reading town",
+      "v": 867,
+      "rank": 41,
+      "n": 351,
+      "pop2024": 16379,
+      "pop2020": 15512,
+      "yoy_pct": 5.6
+    },
+    {
+      "st": "Newbur",
+      "name": "Newburyport city",
+      "v": 863,
+      "rank": 42,
+      "n": 351,
+      "pop2024": 19163,
+      "pop2020": 18300,
+      "yoy_pct": 4.7
+    },
+    {
+      "st": "Millis",
+      "name": "Millis town",
+      "v": 837,
+      "rank": 43,
+      "n": 351,
+      "pop2024": 9338,
+      "pop2020": 8501,
+      "yoy_pct": 9.8
+    },
+    {
+      "st": "Fall R",
+      "name": "Fall River city",
+      "v": 771,
+      "rank": 44,
+      "n": 351,
+      "pop2024": 94689,
+      "pop2020": 93918,
+      "yoy_pct": 0.8
+    },
+    {
+      "st": "Canton",
+      "name": "Canton town",
+      "v": 766,
+      "rank": 45,
+      "n": 351,
+      "pop2024": 25163,
+      "pop2020": 24397,
+      "yoy_pct": 3.1
+    },
+    {
+      "st": "Medway",
+      "name": "Medway town",
+      "v": 750,
+      "rank": 46,
+      "n": 351,
+      "pop2024": 13836,
+      "pop2020": 13086,
+      "yoy_pct": 5.7
+    },
+    {
+      "st": "Kingst",
+      "name": "Kingston town",
+      "v": 746,
+      "rank": 47,
+      "n": 351,
+      "pop2024": 14462,
+      "pop2020": 13716,
+      "yoy_pct": 5.4
+    },
+    {
+      "st": "Glouce",
+      "name": "Gloucester city",
+      "v": 744,
+      "rank": 48,
+      "n": 351,
+      "pop2024": 30491,
+      "pop2020": 29747,
+      "yoy_pct": 2.5
+    },
+    {
+      "st": "Lakevi",
+      "name": "Lakeville town",
+      "v": 719,
+      "rank": 49,
+      "n": 351,
+      "pop2024": 12262,
+      "pop2020": 11543,
+      "yoy_pct": 6.2
+    },
+    {
+      "st": "Grafto",
+      "name": "Grafton town",
+      "v": 698,
+      "rank": 50,
+      "n": 351,
+      "pop2024": 20352,
+      "pop2020": 19654,
+      "yoy_pct": 3.6
+    },
+    {
+      "st": "Needha",
+      "name": "Needham town",
+      "v": 693,
+      "rank": 51,
+      "n": 351,
+      "pop2024": 32931,
+      "pop2020": 32238,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Falmou",
+      "name": "Falmouth town",
+      "v": 686,
+      "rank": 52,
+      "n": 351,
+      "pop2024": 33227,
+      "pop2020": 32541,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Weston",
+      "name": "Weston town",
+      "v": 686,
+      "rank": 53,
+      "n": 351,
+      "pop2024": 11827,
+      "pop2020": 11141,
+      "yoy_pct": 6.2
+    },
+    {
+      "st": "Raynha",
+      "name": "Raynham town",
+      "v": 675,
+      "rank": 54,
+      "n": 351,
+      "pop2024": 15861,
+      "pop2020": 15186,
+      "yoy_pct": 4.4
+    },
+    {
+      "st": "Tewksb",
+      "name": "Tewksbury town",
+      "v": 664,
+      "rank": 55,
+      "n": 351,
+      "pop2024": 31796,
+      "pop2020": 31132,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Haverh",
+      "name": "Haverhill city",
+      "v": 655,
+      "rank": 56,
+      "n": 351,
+      "pop2024": 68291,
+      "pop2020": 67636,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Beverl",
+      "name": "Beverly city",
+      "v": 652,
+      "rank": 57,
+      "n": 351,
+      "pop2024": 43223,
+      "pop2020": 42571,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Watert",
+      "name": "Watertown city",
+      "v": 616,
+      "rank": 58,
+      "n": 351,
+      "pop2024": 35985,
+      "pop2020": 35369,
+      "yoy_pct": 1.7
+    },
+    {
+      "st": "Attleb",
+      "name": "Attleboro city",
+      "v": 607,
+      "rank": 59,
+      "n": 351,
+      "pop2024": 47085,
+      "pop2020": 46478,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Malden",
+      "name": "Malden city",
+      "v": 607,
+      "rank": 60,
+      "n": 351,
+      "pop2024": 66693,
+      "pop2020": 66086,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Middle",
+      "name": "Middleborough town",
+      "v": 587,
+      "rank": 61,
+      "n": 351,
+      "pop2024": 24847,
+      "pop2020": 24260,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Acton ",
+      "name": "Acton town",
+      "v": 575,
+      "rank": 62,
+      "n": 351,
+      "pop2024": 24539,
+      "pop2020": 23964,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Swamps",
+      "name": "Swampscott town",
+      "v": 573,
+      "rank": 63,
+      "n": 351,
+      "pop2024": 15658,
+      "pop2020": 15085,
+      "yoy_pct": 3.8
+    },
+    {
+      "st": "Chelms",
+      "name": "Chelmsford town",
+      "v": 570,
+      "rank": 64,
+      "n": 351,
+      "pop2024": 36953,
+      "pop2020": 36383,
+      "yoy_pct": 1.6
+    },
+    {
+      "st": "Lancas",
+      "name": "Lancaster town",
+      "v": 569,
+      "rank": 65,
+      "n": 351,
+      "pop2024": 8993,
+      "pop2020": 8424,
+      "yoy_pct": 6.8
+    },
+    {
+      "st": "Ashlan",
+      "name": "Ashland town",
+      "v": 555,
+      "rank": 66,
+      "n": 351,
+      "pop2024": 19391,
+      "pop2020": 18836,
+      "yoy_pct": 2.9
+    },
+    {
+      "st": "Rutlan",
+      "name": "Rutland town",
+      "v": 552,
+      "rank": 67,
+      "n": 351,
+      "pop2024": 9637,
+      "pop2020": 9085,
+      "yoy_pct": 6.1
+    },
+    {
+      "st": "Danver",
+      "name": "Danvers town",
+      "v": 537,
+      "rank": 68,
+      "n": 351,
+      "pop2024": 28590,
+      "pop2020": 28053,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Medfie",
+      "name": "Medfield town",
+      "v": 531,
+      "rank": 69,
+      "n": 351,
+      "pop2024": 13334,
+      "pop2020": 12803,
+      "yoy_pct": 4.1
+    },
+    {
+      "st": "Ayer t",
+      "name": "Ayer town",
+      "v": 529,
+      "rank": 70,
+      "n": 351,
+      "pop2024": 9010,
+      "pop2020": 8481,
+      "yoy_pct": 6.2
+    },
+    {
+      "st": "Scitua",
+      "name": "Scituate town",
+      "v": 527,
+      "rank": 71,
+      "n": 351,
+      "pop2024": 19598,
+      "pop2020": 19071,
+      "yoy_pct": 2.8
+    },
+    {
+      "st": "Uxbrid",
+      "name": "Uxbridge town",
+      "v": 506,
+      "rank": 72,
+      "n": 351,
+      "pop2024": 14703,
+      "pop2020": 14197,
+      "yoy_pct": 3.6
+    },
+    {
+      "st": "Readin",
+      "name": "Reading town",
+      "v": 505,
+      "rank": 73,
+      "n": 351,
+      "pop2024": 26041,
+      "pop2020": 25536,
+      "yoy_pct": 2.0
+    },
+    {
+      "st": "Wilmin",
+      "name": "Wilmington town",
+      "v": 500,
+      "rank": 74,
+      "n": 351,
+      "pop2024": 23802,
+      "pop2020": 23302,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Easton",
+      "name": "Easton town",
+      "v": 498,
+      "rank": 75,
+      "n": 351,
+      "pop2024": 25568,
+      "pop2020": 25070,
+      "yoy_pct": 2.0
+    },
+    {
+      "st": "Marlbo",
+      "name": "Marlborough city",
+      "v": 484,
+      "rank": 76,
+      "n": 351,
+      "pop2024": 42169,
+      "pop2020": 41685,
+      "yoy_pct": 1.2
+    },
+    {
+      "st": "Fitchb",
+      "name": "Fitchburg city",
+      "v": 473,
+      "rank": 77,
+      "n": 351,
+      "pop2024": 42145,
+      "pop2020": 41672,
+      "yoy_pct": 1.1
+    },
+    {
+      "st": "Willia",
+      "name": "Williamstown town",
+      "v": 472,
+      "rank": 78,
+      "n": 351,
+      "pop2024": 9189,
+      "pop2020": 8717,
+      "yoy_pct": 5.4
+    },
+    {
+      "st": "Upton ",
+      "name": "Upton town",
+      "v": 471,
+      "rank": 79,
+      "n": 351,
+      "pop2024": 8475,
+      "pop2020": 8004,
+      "yoy_pct": 5.9
+    },
+    {
+      "st": "Auburn",
+      "name": "Auburn town",
+      "v": 459,
+      "rank": 80,
+      "n": 351,
+      "pop2024": 17323,
+      "pop2020": 16864,
+      "yoy_pct": 2.7
+    },
+    {
+      "st": "Dougla",
+      "name": "Douglas town",
+      "v": 455,
+      "rank": 81,
+      "n": 351,
+      "pop2024": 9452,
+      "pop2020": 8997,
+      "yoy_pct": 5.1
+    },
+    {
+      "st": "Lawren",
+      "name": "Lawrence city",
+      "v": 454,
+      "rank": 82,
+      "n": 351,
+      "pop2024": 89332,
+      "pop2020": 88878,
+      "yoy_pct": 0.5
+    },
+    {
+      "st": "Leomin",
+      "name": "Leominster city",
+      "v": 454,
+      "rank": 83,
+      "n": 351,
+      "pop2024": 44209,
+      "pop2020": 43755,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Dracut",
+      "name": "Dracut town",
+      "v": 443,
+      "rank": 84,
+      "n": 351,
+      "pop2024": 32972,
+      "pop2020": 32529,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Nantuc",
+      "name": "Nantucket town",
+      "v": 431,
+      "rank": 85,
+      "n": 351,
+      "pop2024": 14670,
+      "pop2020": 14239,
+      "yoy_pct": 3.0
+    },
+    {
+      "st": "Saugus",
+      "name": "Saugus town",
+      "v": 424,
+      "rank": 86,
+      "n": 351,
+      "pop2024": 29029,
+      "pop2020": 28605,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Holden",
+      "name": "Holden town",
+      "v": 423,
+      "rank": 87,
+      "n": 351,
+      "pop2024": 20326,
+      "pop2020": 19903,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Mashpe",
+      "name": "Mashpee town",
+      "v": 414,
+      "rank": 88,
+      "n": 351,
+      "pop2024": 15482,
+      "pop2020": 15068,
+      "yoy_pct": 2.7
+    },
+    {
+      "st": "Southb",
+      "name": "Southbridge Town city",
+      "v": 402,
+      "rank": 89,
+      "n": 351,
+      "pop2024": 18106,
+      "pop2020": 17704,
+      "yoy_pct": 2.3
+    },
+    {
+      "st": "North ",
+      "name": "North Attleborough Town city",
+      "v": 400,
+      "rank": 90,
+      "n": 351,
+      "pop2024": 31210,
+      "pop2020": 30810,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Norfol",
+      "name": "Norfolk town",
+      "v": 400,
+      "rank": 91,
+      "n": 351,
+      "pop2024": 11962,
+      "pop2020": 11562,
+      "yoy_pct": 3.5
+    },
+    {
+      "st": "Northb",
+      "name": "Northbridge town",
+      "v": 399,
+      "rank": 92,
+      "n": 351,
+      "pop2024": 16719,
+      "pop2020": 16320,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Natick",
+      "name": "Natick town",
+      "v": 392,
+      "rank": 93,
+      "n": 351,
+      "pop2024": 37316,
+      "pop2020": 36924,
+      "yoy_pct": 1.1
+    },
+    {
+      "st": "Tyngsb",
+      "name": "Tyngsborough town",
+      "v": 379,
+      "rank": 94,
+      "n": 351,
+      "pop2024": 12779,
+      "pop2020": 12400,
+      "yoy_pct": 3.1
+    },
+    {
+      "st": "Seekon",
+      "name": "Seekonk town",
+      "v": 378,
+      "rank": 95,
+      "n": 351,
+      "pop2024": 15912,
+      "pop2020": 15534,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Medfor",
+      "name": "Medford city",
+      "v": 378,
+      "rank": 96,
+      "n": 351,
+      "pop2024": 59898,
+      "pop2020": 59520,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "Andove",
+      "name": "Andover town",
+      "v": 375,
+      "rank": 97,
+      "n": 351,
+      "pop2024": 36927,
+      "pop2020": 36552,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "New Be",
+      "name": "New Bedford city",
+      "v": 372,
+      "rank": 98,
+      "n": 351,
+      "pop2024": 101318,
+      "pop2020": 100946,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Little",
+      "name": "Littleton town",
+      "v": 364,
+      "rank": 99,
+      "n": 351,
+      "pop2024": 10495,
+      "pop2020": 10131,
+      "yoy_pct": 3.6
+    },
+    {
+      "st": "Swanse",
+      "name": "Swansea town",
+      "v": 363,
+      "rank": 100,
+      "n": 351,
+      "pop2024": 17537,
+      "pop2020": 17174,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Westpo",
+      "name": "Westport town",
+      "v": 360,
+      "rank": 101,
+      "n": 351,
+      "pop2024": 16705,
+      "pop2020": 16345,
+      "yoy_pct": 2.2
+    },
+    {
+      "st": "Millbu",
+      "name": "Millbury town",
+      "v": 360,
+      "rank": 102,
+      "n": 351,
+      "pop2024": 14173,
+      "pop2020": 13813,
+      "yoy_pct": 2.6
+    },
+    {
+      "st": "Hollis",
+      "name": "Holliston town",
+      "v": 359,
+      "rank": 103,
+      "n": 351,
+      "pop2024": 15347,
+      "pop2020": 14988,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Ludlow",
+      "name": "Ludlow town",
+      "v": 355,
+      "rank": 104,
+      "n": 351,
+      "pop2024": 21118,
+      "pop2020": 20763,
+      "yoy_pct": 1.7
+    },
+    {
+      "st": "Wrenth",
+      "name": "Wrentham town",
+      "v": 351,
+      "rank": 105,
+      "n": 351,
+      "pop2024": 12516,
+      "pop2020": 12165,
+      "yoy_pct": 2.9
+    },
+    {
+      "st": "Middle",
+      "name": "Middleton town",
+      "v": 346,
+      "rank": 106,
+      "n": 351,
+      "pop2024": 9959,
+      "pop2020": 9613,
+      "yoy_pct": 3.6
+    },
+    {
+      "st": "Ipswic",
+      "name": "Ipswich town",
+      "v": 345,
+      "rank": 107,
+      "n": 351,
+      "pop2024": 14110,
+      "pop2020": 13765,
+      "yoy_pct": 2.5
+    },
+    {
+      "st": "Hudson",
+      "name": "Hudson town",
+      "v": 335,
+      "rank": 108,
+      "n": 351,
+      "pop2024": 20364,
+      "pop2020": 20029,
+      "yoy_pct": 1.7
+    },
+    {
+      "st": "Whitma",
+      "name": "Whitman town",
+      "v": 334,
+      "rank": 109,
+      "n": 351,
+      "pop2024": 15459,
+      "pop2020": 15125,
+      "yoy_pct": 2.2
+    },
+    {
+      "st": "Sterli",
+      "name": "Sterling town",
+      "v": 333,
+      "rank": 110,
+      "n": 351,
+      "pop2024": 8310,
+      "pop2020": 7977,
+      "yoy_pct": 4.2
+    },
+    {
+      "st": "Lexing",
+      "name": "Lexington town",
+      "v": 330,
+      "rank": 111,
+      "n": 351,
+      "pop2024": 34743,
+      "pop2020": 34413,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Clinto",
+      "name": "Clinton town",
+      "v": 328,
+      "rank": 112,
+      "n": 351,
+      "pop2024": 15740,
+      "pop2020": 15412,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Westfo",
+      "name": "Westford town",
+      "v": 326,
+      "rank": 113,
+      "n": 351,
+      "pop2024": 25024,
+      "pop2020": 24698,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Pepper",
+      "name": "Pepperell town",
+      "v": 306,
+      "rank": 114,
+      "n": 351,
+      "pop2024": 11877,
+      "pop2020": 11571,
+      "yoy_pct": 2.6
+    },
+    {
+      "st": "Westwo",
+      "name": "Westwood town",
+      "v": 304,
+      "rank": 115,
+      "n": 351,
+      "pop2024": 16533,
+      "pop2020": 16229,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Brockt",
+      "name": "Brockton city",
+      "v": 303,
+      "rank": 116,
+      "n": 351,
+      "pop2024": 105788,
+      "pop2020": 105485,
+      "yoy_pct": 0.3
+    },
+    {
+      "st": "Duxbur",
+      "name": "Duxbury town",
+      "v": 302,
+      "rank": 117,
+      "n": 351,
+      "pop2024": 16377,
+      "pop2020": 16075,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Charlt",
+      "name": "Charlton town",
+      "v": 302,
+      "rank": 118,
+      "n": 351,
+      "pop2024": 13606,
+      "pop2020": 13304,
+      "yoy_pct": 2.3
+    },
+    {
+      "st": "West B",
+      "name": "West Boylston town",
+      "v": 300,
+      "rank": 119,
+      "n": 351,
+      "pop2024": 7938,
+      "pop2020": 7638,
+      "yoy_pct": 3.9
+    },
+    {
+      "st": "Milfor",
+      "name": "Milford town",
+      "v": 299,
+      "rank": 120,
+      "n": 351,
+      "pop2024": 30640,
+      "pop2020": 30341,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Bedfor",
+      "name": "Bedford town",
+      "v": 280,
+      "rank": 121,
+      "n": 351,
+      "pop2024": 14955,
+      "pop2020": 14675,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Amesbu",
+      "name": "Amesbury city",
+      "v": 279,
+      "rank": 122,
+      "n": 351,
+      "pop2024": 17617,
+      "pop2020": 17338,
+      "yoy_pct": 1.6
+    },
+    {
+      "st": "Westmi",
+      "name": "Westminster town",
+      "v": 279,
+      "rank": 123,
+      "n": 351,
+      "pop2024": 8509,
+      "pop2020": 8230,
+      "yoy_pct": 3.4
+    },
+    {
+      "st": "Dedham",
+      "name": "Dedham town",
+      "v": 268,
+      "rank": 124,
+      "n": 351,
+      "pop2024": 25485,
+      "pop2020": 25217,
+      "yoy_pct": 1.1
+    },
+    {
+      "st": "West S",
+      "name": "West Springfield Town city",
+      "v": 261,
+      "rank": 125,
+      "n": 351,
+      "pop2024": 29028,
+      "pop2020": 28767,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Groton",
+      "name": "Groton town",
+      "v": 256,
+      "rank": 126,
+      "n": 351,
+      "pop2024": 11580,
+      "pop2020": 11324,
+      "yoy_pct": 2.3
+    },
+    {
+      "st": "Sandwi",
+      "name": "Sandwich town",
+      "v": 253,
+      "rank": 127,
+      "n": 351,
+      "pop2024": 20507,
+      "pop2020": 20254,
+      "yoy_pct": 1.2
+    },
+    {
+      "st": "Mattap",
+      "name": "Mattapoisett town",
+      "v": 252,
+      "rank": 128,
+      "n": 351,
+      "pop2024": 6763,
+      "pop2020": 6511,
+      "yoy_pct": 3.9
+    },
+    {
+      "st": "Wareha",
+      "name": "Wareham town",
+      "v": 252,
+      "rank": 129,
+      "n": 351,
+      "pop2024": 23526,
+      "pop2020": 23274,
+      "yoy_pct": 1.1
+    },
+    {
+      "st": "Lynnfi",
+      "name": "Lynnfield town",
+      "v": 249,
+      "rank": 130,
+      "n": 351,
+      "pop2024": 13230,
+      "pop2020": 12981,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Sutton",
+      "name": "Sutton town",
+      "v": 246,
+      "rank": 131,
+      "n": 351,
+      "pop2024": 9599,
+      "pop2020": 9353,
+      "yoy_pct": 2.6
+    },
+    {
+      "st": "Marshf",
+      "name": "Marshfield town",
+      "v": 245,
+      "rank": 132,
+      "n": 351,
+      "pop2024": 26043,
+      "pop2020": 25798,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Temple",
+      "name": "Templeton town",
+      "v": 244,
+      "rank": 133,
+      "n": 351,
+      "pop2024": 8387,
+      "pop2020": 8143,
+      "yoy_pct": 3.0
+    },
+    {
+      "st": "Winche",
+      "name": "Winchendon town",
+      "v": 243,
+      "rank": 134,
+      "n": 351,
+      "pop2024": 10587,
+      "pop2020": 10344,
+      "yoy_pct": 2.3
+    },
+    {
+      "st": "Westfi",
+      "name": "Westfield city",
+      "v": 234,
+      "rank": 135,
+      "n": 351,
+      "pop2024": 40403,
+      "pop2020": 40169,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "Sturbr",
+      "name": "Sturbridge town",
+      "v": 232,
+      "rank": 136,
+      "n": 351,
+      "pop2024": 10097,
+      "pop2020": 9865,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Mansfi",
+      "name": "Mansfield town",
+      "v": 229,
+      "rank": 137,
+      "n": 351,
+      "pop2024": 24077,
+      "pop2020": 23848,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Yarmou",
+      "name": "Yarmouth town",
+      "v": 218,
+      "rank": 138,
+      "n": 351,
+      "pop2024": 25208,
+      "pop2020": 24990,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Mendon",
+      "name": "Mendon town",
+      "v": 217,
+      "rank": 139,
+      "n": 351,
+      "pop2024": 6441,
+      "pop2020": 6224,
+      "yoy_pct": 3.5
+    },
+    {
+      "st": "Milton",
+      "name": "Milton town",
+      "v": 215,
+      "rank": 140,
+      "n": 351,
+      "pop2024": 28811,
+      "pop2020": 28596,
+      "yoy_pct": 0.8
+    },
+    {
+      "st": "Sharon",
+      "name": "Sharon town",
+      "v": 215,
+      "rank": 141,
+      "n": 351,
+      "pop2024": 18762,
+      "pop2020": 18547,
+      "yoy_pct": 1.2
+    },
+    {
+      "st": "Lunenb",
+      "name": "Lunenburg town",
+      "v": 215,
+      "rank": 142,
+      "n": 351,
+      "pop2024": 12007,
+      "pop2020": 11792,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Roches",
+      "name": "Rochester town",
+      "v": 213,
+      "rank": 143,
+      "n": 351,
+      "pop2024": 5936,
+      "pop2020": 5723,
+      "yoy_pct": 3.7
+    },
+    {
+      "st": "Ashbur",
+      "name": "Ashburnham town",
+      "v": 210,
+      "rank": 144,
+      "n": 351,
+      "pop2024": 6522,
+      "pop2020": 6312,
+      "yoy_pct": 3.3
+    },
+    {
+      "st": "Hull t",
+      "name": "Hull town",
+      "v": 209,
+      "rank": 145,
+      "n": 351,
+      "pop2024": 10278,
+      "pop2020": 10069,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Boylst",
+      "name": "Boylston town",
+      "v": 209,
+      "rank": 146,
+      "n": 351,
+      "pop2024": 5064,
+      "pop2020": 4855,
+      "yoy_pct": 4.3
+    },
+    {
+      "st": "Berlin",
+      "name": "Berlin town",
+      "v": 208,
+      "rank": 147,
+      "n": 351,
+      "pop2024": 3479,
+      "pop2020": 3271,
+      "yoy_pct": 6.4
+    },
+    {
+      "st": "Belmon",
+      "name": "Belmont town",
+      "v": 207,
+      "rank": 148,
+      "n": 351,
+      "pop2024": 27442,
+      "pop2020": 27235,
+      "yoy_pct": 0.8
+    },
+    {
+      "st": "Stough",
+      "name": "Stoughton town",
+      "v": 206,
+      "rank": 149,
+      "n": 351,
+      "pop2024": 29457,
+      "pop2020": 29251,
+      "yoy_pct": 0.7
+    },
+    {
+      "st": "Salisb",
+      "name": "Salisbury town",
+      "v": 199,
+      "rank": 150,
+      "n": 351,
+      "pop2024": 9415,
+      "pop2020": 9216,
+      "yoy_pct": 2.2
+    },
+    {
+      "st": "Melros",
+      "name": "Melrose city",
+      "v": 198,
+      "rank": 151,
+      "n": 351,
+      "pop2024": 29938,
+      "pop2020": 29740,
+      "yoy_pct": 0.7
+    },
+    {
+      "st": "Foxbor",
+      "name": "Foxborough town",
+      "v": 191,
+      "rank": 152,
+      "n": 351,
+      "pop2024": 18791,
+      "pop2020": 18600,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Harwic",
+      "name": "Harwich town",
+      "v": 190,
+      "rank": 153,
+      "n": 351,
+      "pop2024": 13620,
+      "pop2020": 13430,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Norwoo",
+      "name": "Norwood town",
+      "v": 190,
+      "rank": 154,
+      "n": 351,
+      "pop2024": 31764,
+      "pop2020": 31574,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "Dennis",
+      "name": "Dennis town",
+      "v": 186,
+      "rank": 155,
+      "n": 351,
+      "pop2024": 14862,
+      "pop2020": 14676,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Carver",
+      "name": "Carver town",
+      "v": 185,
+      "rank": 156,
+      "n": 351,
+      "pop2024": 11817,
+      "pop2020": 11632,
+      "yoy_pct": 1.6
+    },
+    {
+      "st": "Blacks",
+      "name": "Blackstone town",
+      "v": 183,
+      "rank": 157,
+      "n": 351,
+      "pop2024": 9374,
+      "pop2020": 9191,
+      "yoy_pct": 2.0
+    },
+    {
+      "st": "Orlean",
+      "name": "Orleans town",
+      "v": 179,
+      "rank": 158,
+      "n": 351,
+      "pop2024": 6485,
+      "pop2020": 6306,
+      "yoy_pct": 2.8
+    },
+    {
+      "st": "Stow t",
+      "name": "Stow town",
+      "v": 178,
+      "rank": 159,
+      "n": 351,
+      "pop2024": 7335,
+      "pop2020": 7157,
+      "yoy_pct": 2.5
+    },
+    {
+      "st": "Freeto",
+      "name": "Freetown town",
+      "v": 177,
+      "rank": 160,
+      "n": 351,
+      "pop2024": 9380,
+      "pop2020": 9203,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Rowley",
+      "name": "Rowley town",
+      "v": 175,
+      "rank": 161,
+      "n": 351,
+      "pop2024": 6334,
+      "pop2020": 6159,
+      "yoy_pct": 2.8
+    },
+    {
+      "st": "West N",
+      "name": "West Newbury town",
+      "v": 175,
+      "rank": 162,
+      "n": 351,
+      "pop2024": 4680,
+      "pop2020": 4505,
+      "yoy_pct": 3.9
+    },
+    {
+      "st": "Athol ",
+      "name": "Athol town",
+      "v": 175,
+      "rank": 163,
+      "n": 351,
+      "pop2024": 12105,
+      "pop2020": 11930,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Marble",
+      "name": "Marblehead town",
+      "v": 174,
+      "rank": 164,
+      "n": 351,
+      "pop2024": 20576,
+      "pop2020": 20402,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Norton",
+      "name": "Norton town",
+      "v": 172,
+      "rank": 165,
+      "n": 351,
+      "pop2024": 19392,
+      "pop2020": 19220,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Oxford",
+      "name": "Oxford town",
+      "v": 168,
+      "rank": 166,
+      "n": 351,
+      "pop2024": 13503,
+      "pop2020": 13335,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Newbur",
+      "name": "Newbury town",
+      "v": 163,
+      "rank": 167,
+      "n": 351,
+      "pop2024": 6880,
+      "pop2020": 6717,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Leices",
+      "name": "Leicester town",
+      "v": 160,
+      "rank": 168,
+      "n": 351,
+      "pop2024": 11224,
+      "pop2020": 11064,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Gardne",
+      "name": "Gardner city",
+      "v": 159,
+      "rank": 169,
+      "n": 351,
+      "pop2024": 21381,
+      "pop2020": 21222,
+      "yoy_pct": 0.7
+    },
+    {
+      "st": "Harvar",
+      "name": "Harvard town",
+      "v": 158,
+      "rank": 170,
+      "n": 351,
+      "pop2024": 7004,
+      "pop2020": 6846,
+      "yoy_pct": 2.3
+    },
+    {
+      "st": "Edgart",
+      "name": "Edgartown town",
+      "v": 157,
+      "rank": 171,
+      "n": 351,
+      "pop2024": 5328,
+      "pop2020": 5171,
+      "yoy_pct": 3.0
+    },
+    {
+      "st": "Northb",
+      "name": "Northborough town",
+      "v": 157,
+      "rank": 172,
+      "n": 351,
+      "pop2024": 15867,
+      "pop2020": 15710,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Hingha",
+      "name": "Hingham town",
+      "v": 154,
+      "rank": 173,
+      "n": 351,
+      "pop2024": 24414,
+      "pop2020": 24260,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "Cohass",
+      "name": "Cohasset town",
+      "v": 153,
+      "rank": 174,
+      "n": 351,
+      "pop2024": 8532,
+      "pop2020": 8379,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Dighto",
+      "name": "Dighton town",
+      "v": 151,
+      "rank": 175,
+      "n": 351,
+      "pop2024": 8275,
+      "pop2020": 8124,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Acushn",
+      "name": "Acushnet town",
+      "v": 147,
+      "rank": 176,
+      "n": 351,
+      "pop2024": 10700,
+      "pop2020": 10553,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Boxfor",
+      "name": "Boxford town",
+      "v": 145,
+      "rank": 177,
+      "n": 351,
+      "pop2024": 8334,
+      "pop2020": 8189,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Randol",
+      "name": "Randolph Town city",
+      "v": 143,
+      "rank": 178,
+      "n": 351,
+      "pop2024": 35114,
+      "pop2020": 34971,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Bolton",
+      "name": "Bolton town",
+      "v": 141,
+      "rank": 179,
+      "n": 351,
+      "pop2024": 5809,
+      "pop2020": 5668,
+      "yoy_pct": 2.5
+    },
+    {
+      "st": "Dover ",
+      "name": "Dover town",
+      "v": 139,
+      "rank": 180,
+      "n": 351,
+      "pop2024": 6057,
+      "pop2020": 5918,
+      "yoy_pct": 2.3
+    },
+    {
+      "st": "Dunsta",
+      "name": "Dunstable town",
+      "v": 138,
+      "rank": 181,
+      "n": 351,
+      "pop2024": 3500,
+      "pop2020": 3362,
+      "yoy_pct": 4.1
+    },
+    {
+      "st": "Norwel",
+      "name": "Norwell town",
+      "v": 138,
+      "rank": 182,
+      "n": 351,
+      "pop2024": 11477,
+      "pop2020": 11339,
+      "yoy_pct": 1.2
+    },
+    {
+      "st": "Plainv",
+      "name": "Plainville town",
+      "v": 136,
+      "rank": 183,
+      "n": 351,
+      "pop2024": 10067,
+      "pop2020": 9931,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Brewst",
+      "name": "Brewster town",
+      "v": 129,
+      "rank": 184,
+      "n": 351,
+      "pop2024": 10447,
+      "pop2020": 10318,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Waylan",
+      "name": "Wayland town",
+      "v": 128,
+      "rank": 185,
+      "n": 351,
+      "pop2024": 14054,
+      "pop2020": 13926,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Spence",
+      "name": "Spencer town",
+      "v": 127,
+      "rank": 186,
+      "n": 351,
+      "pop2024": 12090,
+      "pop2020": 11963,
+      "yoy_pct": 1.1
+    },
+    {
+      "st": "Agawam",
+      "name": "Agawam Town city",
+      "v": 122,
+      "rank": 187,
+      "n": 351,
+      "pop2024": 28749,
+      "pop2020": 28627,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Southb",
+      "name": "Southborough town",
+      "v": 122,
+      "rank": 188,
+      "n": 351,
+      "pop2024": 10569,
+      "pop2020": 10447,
+      "yoy_pct": 1.2
+    },
+    {
+      "st": "Berkle",
+      "name": "Berkley town",
+      "v": 121,
+      "rank": 189,
+      "n": 351,
+      "pop2024": 6892,
+      "pop2020": 6771,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Warren",
+      "name": "Warren town",
+      "v": 119,
+      "rank": 190,
+      "n": 351,
+      "pop2024": 5086,
+      "pop2020": 4967,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Chatha",
+      "name": "Chatham town",
+      "v": 118,
+      "rank": 191,
+      "n": 351,
+      "pop2024": 6711,
+      "pop2020": 6593,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Hubbar",
+      "name": "Hubbardston town",
+      "v": 115,
+      "rank": 192,
+      "n": 351,
+      "pop2024": 4433,
+      "pop2020": 4318,
+      "yoy_pct": 2.7
+    },
+    {
+      "st": "Tisbur",
+      "name": "Tisbury town",
+      "v": 114,
+      "rank": 193,
+      "n": 351,
+      "pop2024": 4927,
+      "pop2020": 4813,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Townse",
+      "name": "Townsend town",
+      "v": 113,
+      "rank": 194,
+      "n": 351,
+      "pop2024": 9220,
+      "pop2020": 9107,
+      "yoy_pct": 1.2
+    },
+    {
+      "st": "Hamilt",
+      "name": "Hamilton town",
+      "v": 112,
+      "rank": 195,
+      "n": 351,
+      "pop2024": 7670,
+      "pop2020": 7558,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Barre ",
+      "name": "Barre town",
+      "v": 108,
+      "rank": 196,
+      "n": 351,
+      "pop2024": 5631,
+      "pop2020": 5523,
+      "yoy_pct": 2.0
+    },
+    {
+      "st": "East L",
+      "name": "East Longmeadow town",
+      "v": 107,
+      "rank": 197,
+      "n": 351,
+      "pop2024": 16515,
+      "pop2020": 16408,
+      "yoy_pct": 0.7
+    },
+    {
+      "st": "Ware t",
+      "name": "Ware town",
+      "v": 105,
+      "rank": 198,
+      "n": 351,
+      "pop2024": 10142,
+      "pop2020": 10037,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Prince",
+      "name": "Princeton town",
+      "v": 104,
+      "rank": 199,
+      "n": 351,
+      "pop2024": 3597,
+      "pop2020": 3493,
+      "yoy_pct": 3.0
+    },
+    {
+      "st": "Grovel",
+      "name": "Groveland town",
+      "v": 103,
+      "rank": 200,
+      "n": 351,
+      "pop2024": 6849,
+      "pop2020": 6746,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Rockpo",
+      "name": "Rockport town",
+      "v": 103,
+      "rank": 201,
+      "n": 351,
+      "pop2024": 7091,
+      "pop2020": 6988,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Paxton",
+      "name": "Paxton town",
+      "v": 96,
+      "rank": 202,
+      "n": 351,
+      "pop2024": 5043,
+      "pop2020": 4947,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Fairha",
+      "name": "Fairhaven town",
+      "v": 94,
+      "rank": 203,
+      "n": 351,
+      "pop2024": 16005,
+      "pop2020": 15911,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "George",
+      "name": "Georgetown town",
+      "v": 94,
+      "rank": 204,
+      "n": 351,
+      "pop2024": 8558,
+      "pop2020": 8464,
+      "yoy_pct": 1.1
+    },
+    {
+      "st": "West T",
+      "name": "West Tisbury town",
+      "v": 92,
+      "rank": 205,
+      "n": 351,
+      "pop2024": 3637,
+      "pop2020": 3545,
+      "yoy_pct": 2.6
+    },
+    {
+      "st": "Merrim",
+      "name": "Merrimac town",
+      "v": 91,
+      "rank": 206,
+      "n": 351,
+      "pop2024": 6810,
+      "pop2020": 6719,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Maynar",
+      "name": "Maynard town",
+      "v": 91,
+      "rank": 207,
+      "n": 351,
+      "pop2024": 10820,
+      "pop2020": 10729,
+      "yoy_pct": 0.8
+    },
+    {
+      "st": "Sherbo",
+      "name": "Sherborn town",
+      "v": 91,
+      "rank": 208,
+      "n": 351,
+      "pop2024": 4485,
+      "pop2020": 4394,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Holbro",
+      "name": "Holbrook town",
+      "v": 91,
+      "rank": 209,
+      "n": 351,
+      "pop2024": 11475,
+      "pop2020": 11384,
+      "yoy_pct": 0.8
+    },
+    {
+      "st": "Hanson",
+      "name": "Hanson town",
+      "v": 91,
+      "rank": 210,
+      "n": 351,
+      "pop2024": 10719,
+      "pop2020": 10628,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "East B",
+      "name": "East Bridgewater town",
+      "v": 90,
+      "rank": 211,
+      "n": 351,
+      "pop2024": 14519,
+      "pop2020": 14429,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "West B",
+      "name": "West Brookfield town",
+      "v": 88,
+      "rank": 212,
+      "n": 351,
+      "pop2024": 3917,
+      "pop2020": 3829,
+      "yoy_pct": 2.3
+    },
+    {
+      "st": "Ashby ",
+      "name": "Ashby town",
+      "v": 86,
+      "rank": 213,
+      "n": 351,
+      "pop2024": 3270,
+      "pop2020": 3184,
+      "yoy_pct": 2.7
+    },
+    {
+      "st": "Pembro",
+      "name": "Pembroke town",
+      "v": 85,
+      "rank": 214,
+      "n": 351,
+      "pop2024": 18428,
+      "pop2020": 18343,
+      "yoy_pct": 0.5
+    },
+    {
+      "st": "Somers",
+      "name": "Somerset town",
+      "v": 84,
+      "rank": 215,
+      "n": 351,
+      "pop2024": 18375,
+      "pop2020": 18291,
+      "yoy_pct": 0.5
+    },
+    {
+      "st": "Deerfi",
+      "name": "Deerfield town",
+      "v": 84,
+      "rank": 216,
+      "n": 351,
+      "pop2024": 5177,
+      "pop2020": 5093,
+      "yoy_pct": 1.6
+    },
+    {
+      "st": "Carlis",
+      "name": "Carlisle town",
+      "v": 84,
+      "rank": 217,
+      "n": 351,
+      "pop2024": 5317,
+      "pop2020": 5233,
+      "yoy_pct": 1.6
+    },
+    {
+      "st": "Essex ",
+      "name": "Essex town",
+      "v": 82,
+      "rank": 218,
+      "n": 351,
+      "pop2024": 3760,
+      "pop2020": 3678,
+      "yoy_pct": 2.2
+    },
+    {
+      "st": "Manche",
+      "name": "Manchester-by-the-Sea town",
+      "v": 82,
+      "rank": 219,
+      "n": 351,
+      "pop2024": 5467,
+      "pop2020": 5385,
+      "yoy_pct": 1.5
+    },
+    {
+      "st": "Wellfl",
+      "name": "Wellfleet town",
+      "v": 80,
+      "rank": 220,
+      "n": 351,
+      "pop2024": 3645,
+      "pop2020": 3565,
+      "yoy_pct": 2.2
+    },
+    {
+      "st": "Wilbra",
+      "name": "Wilbraham town",
+      "v": 79,
+      "rank": 221,
+      "n": 351,
+      "pop2024": 14663,
+      "pop2020": 14584,
+      "yoy_pct": 0.5
+    },
+    {
+      "st": "Webste",
+      "name": "Webster town",
+      "v": 79,
+      "rank": 222,
+      "n": 351,
+      "pop2024": 17817,
+      "pop2020": 17738,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Eastha",
+      "name": "Eastham town",
+      "v": 78,
+      "rank": 223,
+      "n": 351,
+      "pop2024": 5824,
+      "pop2020": 5746,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Dudley",
+      "name": "Dudley town",
+      "v": 77,
+      "rank": 224,
+      "n": 351,
+      "pop2024": 11984,
+      "pop2020": 11907,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "Oak Bl",
+      "name": "Oak Bluffs town",
+      "v": 75,
+      "rank": 225,
+      "n": 351,
+      "pop2024": 5407,
+      "pop2020": 5332,
+      "yoy_pct": 1.4
+    },
+    {
+      "st": "Provin",
+      "name": "Provincetown town",
+      "v": 71,
+      "rank": 226,
+      "n": 351,
+      "pop2024": 3729,
+      "pop2020": 3658,
+      "yoy_pct": 1.9
+    },
+    {
+      "st": "Great ",
+      "name": "Great Barrington town",
+      "v": 71,
+      "rank": 227,
+      "n": 351,
+      "pop2024": 7245,
+      "pop2020": 7174,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Boxbor",
+      "name": "Boxborough town",
+      "v": 70,
+      "rank": 228,
+      "n": 351,
+      "pop2024": 5565,
+      "pop2020": 5495,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Hanove",
+      "name": "Hanover town",
+      "v": 68,
+      "rank": 229,
+      "n": 351,
+      "pop2024": 14887,
+      "pop2020": 14819,
+      "yoy_pct": 0.5
+    },
+    {
+      "st": "Topsfi",
+      "name": "Topsfield town",
+      "v": 65,
+      "rank": 230,
+      "n": 351,
+      "pop2024": 6620,
+      "pop2020": 6555,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Oakham",
+      "name": "Oakham town",
+      "v": 63,
+      "rank": 231,
+      "n": 351,
+      "pop2024": 1914,
+      "pop2020": 1851,
+      "yoy_pct": 3.4
+    },
+    {
+      "st": "Pelham",
+      "name": "Pelham town",
+      "v": 62,
+      "rank": 232,
+      "n": 351,
+      "pop2024": 1343,
+      "pop2020": 1281,
+      "yoy_pct": 4.8
+    },
+    {
+      "st": "Brookf",
+      "name": "Brookfield town",
+      "v": 62,
+      "rank": 233,
+      "n": 351,
+      "pop2024": 3500,
+      "pop2020": 3438,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Southw",
+      "name": "Southwick town",
+      "v": 60,
+      "rank": 234,
+      "n": 351,
+      "pop2024": 9277,
+      "pop2020": 9217,
+      "yoy_pct": 0.7
+    },
+    {
+      "st": "West B",
+      "name": "West Bridgewater town",
+      "v": 60,
+      "rank": 235,
+      "n": 351,
+      "pop2024": 7771,
+      "pop2020": 7711,
+      "yoy_pct": 0.8
+    },
+    {
+      "st": "Braint",
+      "name": "Braintree Town city",
+      "v": 59,
+      "rank": 236,
+      "n": 351,
+      "pop2024": 39134,
+      "pop2020": 39075,
+      "yoy_pct": 0.2
+    },
+    {
+      "st": "Hardwi",
+      "name": "Hardwick town",
+      "v": 58,
+      "rank": 237,
+      "n": 351,
+      "pop2024": 2722,
+      "pop2020": 2664,
+      "yoy_pct": 2.2
+    },
+    {
+      "st": "Hopeda",
+      "name": "Hopedale town",
+      "v": 56,
+      "rank": 238,
+      "n": 351,
+      "pop2024": 6063,
+      "pop2020": 6007,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Peters",
+      "name": "Petersham town",
+      "v": 50,
+      "rank": 239,
+      "n": 351,
+      "pop2024": 1246,
+      "pop2020": 1196,
+      "yoy_pct": 4.2
+    },
+    {
+      "st": "North ",
+      "name": "North Brookfield town",
+      "v": 47,
+      "rank": 240,
+      "n": 351,
+      "pop2024": 4797,
+      "pop2020": 4750,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Truro ",
+      "name": "Truro town",
+      "v": 45,
+      "rank": 241,
+      "n": 351,
+      "pop2024": 2484,
+      "pop2020": 2439,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Brimfi",
+      "name": "Brimfield town",
+      "v": 44,
+      "rank": 242,
+      "n": 351,
+      "pop2024": 3733,
+      "pop2020": 3689,
+      "yoy_pct": 1.2
+    },
+    {
+      "st": "Halifa",
+      "name": "Halifax town",
+      "v": 43,
+      "rank": 243,
+      "n": 351,
+      "pop2024": 7786,
+      "pop2020": 7743,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "New Sa",
+      "name": "New Salem town",
+      "v": 41,
+      "rank": 244,
+      "n": 351,
+      "pop2024": 1023,
+      "pop2020": 982,
+      "yoy_pct": 4.2
+    },
+    {
+      "st": "Colrai",
+      "name": "Colrain town",
+      "v": 38,
+      "rank": 245,
+      "n": 351,
+      "pop2024": 1643,
+      "pop2020": 1605,
+      "yoy_pct": 2.4
+    },
+    {
+      "st": "Royals",
+      "name": "Royalston town",
+      "v": 38,
+      "rank": 246,
+      "n": 351,
+      "pop2024": 1291,
+      "pop2020": 1253,
+      "yoy_pct": 3.0
+    },
+    {
+      "st": "Plympt",
+      "name": "Plympton town",
+      "v": 37,
+      "rank": 247,
+      "n": 351,
+      "pop2024": 2964,
+      "pop2020": 2927,
+      "yoy_pct": 1.3
+    },
+    {
+      "st": "Abingt",
+      "name": "Abington town",
+      "v": 36,
+      "rank": 248,
+      "n": 351,
+      "pop2024": 17090,
+      "pop2020": 17054,
+      "yoy_pct": 0.2
+    },
+    {
+      "st": "Chilma",
+      "name": "Chilmark town",
+      "v": 35,
+      "rank": 249,
+      "n": 351,
+      "pop2024": 1249,
+      "pop2020": 1214,
+      "yoy_pct": 2.9
+    },
+    {
+      "st": "Philli",
+      "name": "Phillipston town",
+      "v": 35,
+      "rank": 250,
+      "n": 351,
+      "pop2024": 1759,
+      "pop2020": 1724,
+      "yoy_pct": 2.0
+    },
+    {
+      "st": "Belche",
+      "name": "Belchertown town",
+      "v": 33,
+      "rank": 251,
+      "n": 351,
+      "pop2024": 15372,
+      "pop2020": 15339,
+      "yoy_pct": 0.2
+    },
+    {
+      "st": "Monson",
+      "name": "Monson town",
+      "v": 31,
+      "rank": 252,
+      "n": 351,
+      "pop2024": 8164,
+      "pop2020": 8133,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Avon t",
+      "name": "Avon town",
+      "v": 28,
+      "rank": 253,
+      "n": 351,
+      "pop2024": 4801,
+      "pop2020": 4773,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "Millvi",
+      "name": "Millville town",
+      "v": 21,
+      "rank": 254,
+      "n": 351,
+      "pop2024": 3187,
+      "pop2020": 3166,
+      "yoy_pct": 0.7
+    },
+    {
+      "st": "Plainf",
+      "name": "Plainfield town",
+      "v": 19,
+      "rank": 255,
+      "n": 351,
+      "pop2024": 649,
+      "pop2020": 630,
+      "yoy_pct": 3.0
+    },
+    {
+      "st": "Lincol",
+      "name": "Lincoln town",
+      "v": 19,
+      "rank": 256,
+      "n": 351,
+      "pop2024": 6996,
+      "pop2020": 6977,
+      "yoy_pct": 0.3
+    },
+    {
+      "st": "Montgo",
+      "name": "Montgomery town",
+      "v": 18,
+      "rank": 257,
+      "n": 351,
+      "pop2024": 837,
+      "pop2020": 819,
+      "yoy_pct": 2.2
+    },
+    {
+      "st": "New Br",
+      "name": "New Braintree town",
+      "v": 18,
+      "rank": 258,
+      "n": 351,
+      "pop2024": 1010,
+      "pop2020": 992,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Orange",
+      "name": "Orange town",
+      "v": 17,
+      "rank": 259,
+      "n": 351,
+      "pop2024": 7583,
+      "pop2020": 7566,
+      "yoy_pct": 0.2
+    },
+    {
+      "st": "Northf",
+      "name": "Northfield town",
+      "v": 15,
+      "rank": 260,
+      "n": 351,
+      "pop2024": 2880,
+      "pop2020": 2865,
+      "yoy_pct": 0.5
+    },
+    {
+      "st": "East B",
+      "name": "East Brookfield town",
+      "v": 15,
+      "rank": 261,
+      "n": 351,
+      "pop2024": 2237,
+      "pop2020": 2222,
+      "yoy_pct": 0.7
+    },
+    {
+      "st": "Westha",
+      "name": "Westhampton town",
+      "v": 14,
+      "rank": 262,
+      "n": 351,
+      "pop2024": 1629,
+      "pop2020": 1615,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Bernar",
+      "name": "Bernardston town",
+      "v": 12,
+      "rank": 263,
+      "n": 351,
+      "pop2024": 2109,
+      "pop2020": 2097,
+      "yoy_pct": 0.6
+    },
+    {
+      "st": "Wenham",
+      "name": "Wenham town",
+      "v": 11,
+      "rank": 264,
+      "n": 351,
+      "pop2024": 4945,
+      "pop2020": 4934,
+      "yoy_pct": 0.2
+    },
+    {
+      "st": "Savoy ",
+      "name": "Savoy town",
+      "v": 10,
+      "rank": 265,
+      "n": 351,
+      "pop2024": 655,
+      "pop2020": 645,
+      "yoy_pct": 1.6
+    },
+    {
+      "st": "Aquinn",
+      "name": "Aquinnah town",
+      "v": 8,
+      "rank": 266,
+      "n": 351,
+      "pop2024": 451,
+      "pop2020": 443,
+      "yoy_pct": 1.8
+    },
+    {
+      "st": "Whatel",
+      "name": "Whately town",
+      "v": 8,
+      "rank": 267,
+      "n": 351,
+      "pop2024": 1626,
+      "pop2020": 1618,
+      "yoy_pct": 0.5
+    },
+    {
+      "st": "Hampde",
+      "name": "Hampden town",
+      "v": 8,
+      "rank": 268,
+      "n": 351,
+      "pop2024": 4964,
+      "pop2020": 4956,
+      "yoy_pct": 0.2
+    },
+    {
+      "st": "Middle",
+      "name": "Middlefield town",
+      "v": 8,
+      "rank": 269,
+      "n": 351,
+      "pop2024": 397,
+      "pop2020": 389,
+      "yoy_pct": 2.1
+    },
+    {
+      "st": "Nahant",
+      "name": "Nahant town",
+      "v": 7,
+      "rank": 270,
+      "n": 351,
+      "pop2024": 3338,
+      "pop2020": 3331,
+      "yoy_pct": 0.2
+    },
+    {
+      "st": "Buckla",
+      "name": "Buckland town",
+      "v": 7,
+      "rank": 271,
+      "n": 351,
+      "pop2024": 1818,
+      "pop2020": 1811,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Gill t",
+      "name": "Gill town",
+      "v": 6,
+      "rank": 272,
+      "n": 351,
+      "pop2024": 1553,
+      "pop2020": 1547,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Marion",
+      "name": "Marion town",
+      "v": 6,
+      "rank": 273,
+      "n": 351,
+      "pop2024": 5341,
+      "pop2020": 5335,
+      "yoy_pct": 0.1
+    },
+    {
+      "st": "Washin",
+      "name": "Washington town",
+      "v": 5,
+      "rank": 274,
+      "n": 351,
+      "pop2024": 497,
+      "pop2020": 492,
+      "yoy_pct": 1.0
+    },
+    {
+      "st": "Egremo",
+      "name": "Egremont town",
+      "v": 4,
+      "rank": 275,
+      "n": 351,
+      "pop2024": 1375,
+      "pop2020": 1371,
+      "yoy_pct": 0.3
+    },
+    {
+      "st": "Tollan",
+      "name": "Tolland town",
+      "v": 4,
+      "rank": 276,
+      "n": 351,
+      "pop2024": 474,
+      "pop2020": 470,
+      "yoy_pct": 0.9
+    },
+    {
+      "st": "Erving",
+      "name": "Erving town",
+      "v": 2,
+      "rank": 277,
+      "n": 351,
+      "pop2024": 1661,
+      "pop2020": 1659,
+      "yoy_pct": 0.1
+    },
+    {
+      "st": "Levere",
+      "name": "Leverett town",
+      "v": 2,
+      "rank": 278,
+      "n": 351,
+      "pop2024": 1863,
+      "pop2020": 1861,
+      "yoy_pct": 0.1
+    },
+    {
+      "st": "Granvi",
+      "name": "Granville town",
+      "v": 2,
+      "rank": 279,
+      "n": 351,
+      "pop2024": 1540,
+      "pop2020": 1538,
+      "yoy_pct": 0.1
+    },
+    {
+      "st": "New As",
+      "name": "New Ashford town",
+      "v": 1,
+      "rank": 280,
+      "n": 351,
+      "pop2024": 249,
+      "pop2020": 248,
+      "yoy_pct": 0.4
+    },
+    {
+      "st": "Leyden",
+      "name": "Leyden town",
+      "v": 1,
+      "rank": 281,
+      "n": 351,
+      "pop2024": 735,
+      "pop2020": 734,
+      "yoy_pct": 0.1
+    },
+    {
+      "st": "Russel",
+      "name": "Russell town",
+      "v": 1,
+      "rank": 282,
+      "n": 351,
+      "pop2024": 1640,
+      "pop2020": 1639,
+      "yoy_pct": 0.1
+    },
+    {
+      "st": "Sheffi",
+      "name": "Sheffield town",
+      "v": 0,
+      "rank": 283,
+      "n": 351,
+      "pop2024": 3324,
+      "pop2020": 3324,
+      "yoy_pct": 0.0
+    },
+    {
+      "st": "Gosnol",
+      "name": "Gosnold town",
+      "v": 0,
+      "rank": 284,
+      "n": 351,
+      "pop2024": 62,
+      "pop2020": 62,
+      "yoy_pct": 0.0
+    },
+    {
+      "st": "Hawley",
+      "name": "Hawley town",
+      "v": 0,
+      "rank": 285,
+      "n": 351,
+      "pop2024": 352,
+      "pop2020": 352,
+      "yoy_pct": 0.0
+    },
+    {
+      "st": "Ashfie",
+      "name": "Ashfield town",
+      "v": -1,
+      "rank": 286,
+      "n": 351,
+      "pop2024": 1685,
+      "pop2020": 1686,
+      "yoy_pct": -0.1
+    },
+    {
+      "st": "Monroe",
+      "name": "Monroe town",
+      "v": -1,
+      "rank": 287,
+      "n": 351,
+      "pop2024": 115,
+      "pop2020": 116,
+      "yoy_pct": -0.9
+    },
+    {
+      "st": "Sandis",
+      "name": "Sandisfield town",
+      "v": -2,
+      "rank": 288,
+      "n": 351,
+      "pop2024": 984,
+      "pop2020": 986,
+      "yoy_pct": -0.2
+    },
+    {
+      "st": "Blandf",
+      "name": "Blandford town",
+      "v": -2,
+      "rank": 289,
+      "n": 351,
+      "pop2024": 1209,
+      "pop2020": 1211,
+      "yoy_pct": -0.2
+    },
+    {
+      "st": "Wales ",
+      "name": "Wales town",
+      "v": -2,
+      "rank": 290,
+      "n": 351,
+      "pop2024": 1828,
+      "pop2020": 1830,
+      "yoy_pct": -0.1
+    },
+    {
+      "st": "Mount ",
+      "name": "Mount Washington town",
+      "v": -3,
+      "rank": 291,
+      "n": 351,
+      "pop2024": 157,
+      "pop2020": 160,
+      "yoy_pct": -1.9
+    },
+    {
+      "st": "Rowe t",
+      "name": "Rowe town",
+      "v": -3,
+      "rank": 292,
+      "n": 351,
+      "pop2024": 419,
+      "pop2020": 422,
+      "yoy_pct": -0.7
+    },
+    {
+      "st": "Shutes",
+      "name": "Shutesbury town",
+      "v": -3,
+      "rank": 293,
+      "n": 351,
+      "pop2024": 1717,
+      "pop2020": 1720,
+      "yoy_pct": -0.2
+    },
+    {
+      "st": "Heath ",
+      "name": "Heath town",
+      "v": -4,
+      "rank": 294,
+      "n": 351,
+      "pop2024": 717,
+      "pop2020": 721,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Cheste",
+      "name": "Chester town",
+      "v": -4,
+      "rank": 295,
+      "n": 351,
+      "pop2024": 1221,
+      "pop2020": 1225,
+      "yoy_pct": -0.3
+    },
+    {
+      "st": "Alford",
+      "name": "Alford town",
+      "v": -5,
+      "rank": 296,
+      "n": 351,
+      "pop2024": 483,
+      "pop2020": 488,
+      "yoy_pct": -1.0
+    },
+    {
+      "st": "Monter",
+      "name": "Monterey town",
+      "v": -5,
+      "rank": 297,
+      "n": 351,
+      "pop2024": 1085,
+      "pop2020": 1090,
+      "yoy_pct": -0.5
+    },
+    {
+      "st": "Richmo",
+      "name": "Richmond town",
+      "v": -6,
+      "rank": 298,
+      "n": 351,
+      "pop2024": 1405,
+      "pop2020": 1411,
+      "yoy_pct": -0.4
+    },
+    {
+      "st": "Hancoc",
+      "name": "Hancock town",
+      "v": -7,
+      "rank": 299,
+      "n": 351,
+      "pop2024": 740,
+      "pop2020": 747,
+      "yoy_pct": -0.9
+    },
+    {
+      "st": "Tyring",
+      "name": "Tyringham town",
+      "v": -7,
+      "rank": 300,
+      "n": 351,
+      "pop2024": 419,
+      "pop2020": 426,
+      "yoy_pct": -1.6
+    },
+    {
+      "st": "Charle",
+      "name": "Charlemont town",
+      "v": -7,
+      "rank": 301,
+      "n": 351,
+      "pop2024": 1179,
+      "pop2020": 1186,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Windso",
+      "name": "Windsor town",
+      "v": -8,
+      "rank": 302,
+      "n": 351,
+      "pop2024": 817,
+      "pop2020": 825,
+      "yoy_pct": -1.0
+    },
+    {
+      "st": "Warwic",
+      "name": "Warwick town",
+      "v": -8,
+      "rank": 303,
+      "n": 351,
+      "pop2024": 774,
+      "pop2020": 782,
+      "yoy_pct": -1.0
+    },
+    {
+      "st": "Cummin",
+      "name": "Cummington town",
+      "v": -8,
+      "rank": 304,
+      "n": 351,
+      "pop2024": 819,
+      "pop2020": 827,
+      "yoy_pct": -1.0
+    },
+    {
+      "st": "Becket",
+      "name": "Becket town",
+      "v": -9,
+      "rank": 305,
+      "n": 351,
+      "pop2024": 1922,
+      "pop2020": 1931,
+      "yoy_pct": -0.5
+    },
+    {
+      "st": "Peru t",
+      "name": "Peru town",
+      "v": -10,
+      "rank": 306,
+      "n": 351,
+      "pop2024": 798,
+      "pop2020": 808,
+      "yoy_pct": -1.2
+    },
+    {
+      "st": "Shelbu",
+      "name": "Shelburne town",
+      "v": -10,
+      "rank": 307,
+      "n": 351,
+      "pop2024": 1874,
+      "pop2020": 1884,
+      "yoy_pct": -0.5
+    },
+    {
+      "st": "Conway",
+      "name": "Conway town",
+      "v": -11,
+      "rank": 308,
+      "n": 351,
+      "pop2024": 1754,
+      "pop2020": 1765,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Wendel",
+      "name": "Wendell town",
+      "v": -11,
+      "rank": 309,
+      "n": 351,
+      "pop2024": 916,
+      "pop2020": 927,
+      "yoy_pct": -1.2
+    },
+    {
+      "st": "Worthi",
+      "name": "Worthington town",
+      "v": -11,
+      "rank": 310,
+      "n": 351,
+      "pop2024": 1181,
+      "pop2020": 1192,
+      "yoy_pct": -0.9
+    },
+    {
+      "st": "Cheste",
+      "name": "Chesterfield town",
+      "v": -12,
+      "rank": 311,
+      "n": 351,
+      "pop2024": 1174,
+      "pop2020": 1186,
+      "yoy_pct": -1.0
+    },
+    {
+      "st": "Stockb",
+      "name": "Stockbridge town",
+      "v": -13,
+      "rank": 312,
+      "n": 351,
+      "pop2024": 1986,
+      "pop2020": 1999,
+      "yoy_pct": -0.7
+    },
+    {
+      "st": "West S",
+      "name": "West Stockbridge town",
+      "v": -13,
+      "rank": 313,
+      "n": 351,
+      "pop2024": 1323,
+      "pop2020": 1336,
+      "yoy_pct": -1.0
+    },
+    {
+      "st": "Otis t",
+      "name": "Otis town",
+      "v": -15,
+      "rank": 314,
+      "n": 351,
+      "pop2024": 1619,
+      "pop2020": 1634,
+      "yoy_pct": -0.9
+    },
+    {
+      "st": "Hollan",
+      "name": "Holland town",
+      "v": -15,
+      "rank": 315,
+      "n": 351,
+      "pop2024": 2581,
+      "pop2020": 2596,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Hinsda",
+      "name": "Hinsdale town",
+      "v": -16,
+      "rank": 316,
+      "n": 351,
+      "pop2024": 1890,
+      "pop2020": 1906,
+      "yoy_pct": -0.8
+    },
+    {
+      "st": "Florid",
+      "name": "Florida town",
+      "v": -17,
+      "rank": 317,
+      "n": 351,
+      "pop2024": 673,
+      "pop2020": 690,
+      "yoy_pct": -2.5
+    },
+    {
+      "st": "Hatfie",
+      "name": "Hatfield town",
+      "v": -17,
+      "rank": 318,
+      "n": 351,
+      "pop2024": 3321,
+      "pop2020": 3338,
+      "yoy_pct": -0.5
+    },
+    {
+      "st": "Goshen",
+      "name": "Goshen town",
+      "v": -18,
+      "rank": 319,
+      "n": 351,
+      "pop2024": 942,
+      "pop2020": 960,
+      "yoy_pct": -1.9
+    },
+    {
+      "st": "Clarks",
+      "name": "Clarksburg town",
+      "v": -19,
+      "rank": 320,
+      "n": 351,
+      "pop2024": 1637,
+      "pop2020": 1656,
+      "yoy_pct": -1.1
+    },
+    {
+      "st": "Lenox ",
+      "name": "Lenox town",
+      "v": -19,
+      "rank": 321,
+      "n": 351,
+      "pop2024": 5072,
+      "pop2020": 5091,
+      "yoy_pct": -0.4
+    },
+    {
+      "st": "Huntin",
+      "name": "Huntington town",
+      "v": -24,
+      "rank": 322,
+      "n": 351,
+      "pop2024": 2071,
+      "pop2020": 2095,
+      "yoy_pct": -1.1
+    },
+    {
+      "st": "New Ma",
+      "name": "New Marlborough town",
+      "v": -25,
+      "rank": 323,
+      "n": 351,
+      "pop2024": 1503,
+      "pop2020": 1528,
+      "yoy_pct": -1.6
+    },
+    {
+      "st": "Willia",
+      "name": "Williamsburg town",
+      "v": -25,
+      "rank": 324,
+      "n": 351,
+      "pop2024": 2475,
+      "pop2020": 2500,
+      "yoy_pct": -1.0
+    },
+    {
+      "st": "Sunder",
+      "name": "Sunderland town",
+      "v": -27,
+      "rank": 325,
+      "n": 351,
+      "pop2024": 3628,
+      "pop2020": 3655,
+      "yoy_pct": -0.7
+    },
+    {
+      "st": "Palmer",
+      "name": "Palmer Town city",
+      "v": -31,
+      "rank": 326,
+      "n": 351,
+      "pop2024": 12388,
+      "pop2020": 12419,
+      "yoy_pct": -0.2
+    },
+    {
+      "st": "Hadley",
+      "name": "Hadley town",
+      "v": -33,
+      "rank": 327,
+      "n": 351,
+      "pop2024": 5284,
+      "pop2020": 5317,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Lanesb",
+      "name": "Lanesborough town",
+      "v": -34,
+      "rank": 328,
+      "n": 351,
+      "pop2024": 3004,
+      "pop2020": 3038,
+      "yoy_pct": -1.1
+    },
+    {
+      "st": "Granby",
+      "name": "Granby town",
+      "v": -35,
+      "rank": 329,
+      "n": 351,
+      "pop2024": 6064,
+      "pop2020": 6099,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Southa",
+      "name": "Southampton town",
+      "v": -40,
+      "rank": 330,
+      "n": 351,
+      "pop2024": 6181,
+      "pop2020": 6221,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Cheshi",
+      "name": "Cheshire town",
+      "v": -63,
+      "rank": 331,
+      "n": 351,
+      "pop2024": 3190,
+      "pop2020": 3253,
+      "yoy_pct": -1.9
+    },
+    {
+      "st": "Chicop",
+      "name": "Chicopee city",
+      "v": -63,
+      "rank": 332,
+      "n": 351,
+      "pop2024": 55381,
+      "pop2020": 55444,
+      "yoy_pct": -0.1
+    },
+    {
+      "st": "Rockla",
+      "name": "Rockland town",
+      "v": -66,
+      "rank": 333,
+      "n": 351,
+      "pop2024": 17708,
+      "pop2020": 17774,
+      "yoy_pct": -0.4
+    },
+    {
+      "st": "Greenf",
+      "name": "Greenfield city",
+      "v": -79,
+      "rank": 334,
+      "n": 351,
+      "pop2024": 17633,
+      "pop2020": 17712,
+      "yoy_pct": -0.4
+    },
+    {
+      "st": "Lee to",
+      "name": "Lee town",
+      "v": -95,
+      "rank": 335,
+      "n": 351,
+      "pop2024": 5682,
+      "pop2020": 5777,
+      "yoy_pct": -1.6
+    },
+    {
+      "st": "Longme",
+      "name": "Longmeadow town",
+      "v": -101,
+      "rank": 336,
+      "n": 351,
+      "pop2024": 15712,
+      "pop2020": 15813,
+      "yoy_pct": -0.6
+    },
+    {
+      "st": "Dalton",
+      "name": "Dalton town",
+      "v": -127,
+      "rank": 337,
+      "n": 351,
+      "pop2024": 6198,
+      "pop2020": 6325,
+      "yoy_pct": -2.0
+    },
+    {
+      "st": "Walpol",
+      "name": "Walpole town",
+      "v": -128,
+      "rank": 338,
+      "n": 351,
+      "pop2024": 26391,
+      "pop2020": 26519,
+      "yoy_pct": -0.5
+    },
+    {
+      "st": "Montag",
+      "name": "Montague town",
+      "v": -131,
+      "rank": 339,
+      "n": 351,
+      "pop2024": 8437,
+      "pop2020": 8568,
+      "yoy_pct": -1.5
+    },
+    {
+      "st": "Eastha",
+      "name": "Easthampton city",
+      "v": -152,
+      "rank": 340,
+      "n": 351,
+      "pop2024": 16020,
+      "pop2020": 16172,
+      "yoy_pct": -0.9
+    },
+    {
+      "st": "Adams ",
+      "name": "Adams town",
+      "v": -154,
+      "rank": 341,
+      "n": 351,
+      "pop2024": 7992,
+      "pop2020": 8146,
+      "yoy_pct": -1.9
+    },
+    {
+      "st": "Shirle",
+      "name": "Shirley town",
+      "v": -191,
+      "rank": 342,
+      "n": 351,
+      "pop2024": 7042,
+      "pop2020": 7233,
+      "yoy_pct": -2.6
+    },
+    {
+      "st": "North ",
+      "name": "North Adams city",
+      "v": -262,
+      "rank": 343,
+      "n": 351,
+      "pop2024": 12492,
+      "pop2020": 12754,
+      "yoy_pct": -2.1
+    },
+    {
+      "st": "Concor",
+      "name": "Concord town",
+      "v": -272,
+      "rank": 344,
+      "n": 351,
+      "pop2024": 18092,
+      "pop2020": 18364,
+      "yoy_pct": -1.5
+    },
+    {
+      "st": "Holyok",
+      "name": "Holyoke city",
+      "v": -301,
+      "rank": 345,
+      "n": 351,
+      "pop2024": 37838,
+      "pop2020": 38139,
+      "yoy_pct": -0.8
+    },
+    {
+      "st": "Chelse",
+      "name": "Chelsea city",
+      "v": -304,
+      "rank": 346,
+      "n": 351,
+      "pop2024": 40245,
+      "pop2020": 40549,
+      "yoy_pct": -0.7
+    },
+    {
+      "st": "Spring",
+      "name": "Springfield city",
+      "v": -370,
+      "rank": 347,
+      "n": 351,
+      "pop2024": 154888,
+      "pop2020": 155258,
+      "yoy_pct": -0.2
+    },
+    {
+      "st": "Winthr",
+      "name": "Winthrop Town city",
+      "v": -518,
+      "rank": 348,
+      "n": 351,
+      "pop2024": 18739,
+      "pop2020": 19257,
+      "yoy_pct": -2.7
+    },
+    {
+      "st": "Pittsf",
+      "name": "Pittsfield city",
+      "v": -715,
+      "rank": 349,
+      "n": 351,
+      "pop2024": 43121,
+      "pop2020": 43836,
+      "yoy_pct": -1.6
+    },
+    {
+      "st": "Revere",
+      "name": "Revere city",
+      "v": -1209,
+      "rank": 350,
+      "n": 351,
+      "pop2024": 60702,
+      "pop2020": 61911,
+      "yoy_pct": -2.0
+    },
+    {
+      "st": "MA",
+      "name": "Boston city",
+      "v": -2064,
+      "rank": 351,
+      "n": 351,
+      "pop2024": 673458,
+      "pop2020": 675522,
+      "yoy_pct": -0.3
+    }
+  ],
   "trend": {},
-  "derived": {},
-  "kpis": []
+  "derived": {
+    "note": "Prefer these over recomputing. Ranks cite (derived, SRC-626-01).",
+    "highest_five": [
+      {
+        "st": "Amhers",
+        "name": "Amherst Town city",
+        "v": 13183,
+        "rank": 1,
+        "n": 351,
+        "pop2024": 40989,
+        "pop2020": 27806,
+        "yoy_pct": 47.4
+      },
+      {
+        "st": "Worces",
+        "name": "Worcester city",
+        "v": 8811,
+        "rank": 2,
+        "n": 351,
+        "pop2024": 211286,
+        "pop2020": 202475,
+        "yoy_pct": 4.4
+      },
+      {
+        "st": "Plymou",
+        "name": "Plymouth town",
+        "v": 5641,
+        "rank": 3,
+        "n": 351,
+        "pop2024": 66663,
+        "pop2020": 61022,
+        "yoy_pct": 9.2
+      },
+      {
+        "st": "Lowell",
+        "name": "Lowell city",
+        "v": 4584,
+        "rank": 4,
+        "n": 351,
+        "pop2024": 120418,
+        "pop2020": 115834,
+        "yoy_pct": 4.0
+      },
+      {
+        "st": "Woburn",
+        "name": "Woburn city",
+        "v": 3068,
+        "rank": 5,
+        "n": 351,
+        "pop2024": 43895,
+        "pop2020": 40827,
+        "yoy_pct": 7.5
+      }
+    ],
+    "lowest_five": [
+      {
+        "st": "MA",
+        "name": "Boston city",
+        "v": -2064,
+        "rank": 351,
+        "n": 351,
+        "pop2024": 673458,
+        "pop2020": 675522,
+        "yoy_pct": -0.3
+      },
+      {
+        "st": "Revere",
+        "name": "Revere city",
+        "v": -1209,
+        "rank": 350,
+        "n": 351,
+        "pop2024": 60702,
+        "pop2020": 61911,
+        "yoy_pct": -2.0
+      },
+      {
+        "st": "Pittsf",
+        "name": "Pittsfield city",
+        "v": -715,
+        "rank": 349,
+        "n": 351,
+        "pop2024": 43121,
+        "pop2020": 43836,
+        "yoy_pct": -1.6
+      },
+      {
+        "st": "Winthr",
+        "name": "Winthrop Town city",
+        "v": -518,
+        "rank": 348,
+        "n": 351,
+        "pop2024": 18739,
+        "pop2020": 19257,
+        "yoy_pct": -2.7
+      },
+      {
+        "st": "Spring",
+        "name": "Springfield city",
+        "v": -370,
+        "rank": 347,
+        "n": 351,
+        "pop2024": 154888,
+        "pop2020": 155258,
+        "yoy_pct": -0.2
+      }
+    ],
+    "n_ranked": 351,
+    "massachusetts_rank": 351
+  }
 }

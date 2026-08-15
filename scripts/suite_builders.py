@@ -146,6 +146,8 @@ def build_ma_k12(app):
     # First 2020-21 is unadjusted dollars; confirm US is in the 14k range.
     if us_val is None or not (10000 < us_val < 20000):
         sys.exit(f"FATAL: Digest 236.65 US 2020-21 per-pupil is {us_val}")
+    values = {st: round(v) for st, v in values.items()}
+    us_val = round(us_val)
     ranked = rank_rows(values, higher_is_better=True)
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
@@ -438,11 +440,9 @@ def build_higher_ed(app):
 
 
 def build_charters(app):
-    values, us_val, col, label, raw, ws, header_row = _digest_state_table(
-        DIGEST_216, 3, "2022-23", us_check=None
-    )
     # Row 3 has four 2022-23 columns (schools, enrollment, school %, enroll %).
-    # We want fall enrollment: the second 2022-23 (column index 8 in the probe).
+    # Use fall enrollment: the second 2022-23. Do not call the generic
+    # parser first; the school-count column has daggers that drop states.
     wb = _wb(DIGEST_216)
     ws = wb.active
     headers = [c.value for c in ws[3]]

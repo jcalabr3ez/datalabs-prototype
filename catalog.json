@@ -1462,12 +1462,12 @@
   "g": [
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/ma-k12/",
   "ai": false,
   "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
   "group": "Education",
-  "vint": "in build"
+  "vint": "School year 2020-21"
  },
  {
   "id": "DL-07",
@@ -1476,12 +1476,12 @@
   "g": [
    "US"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/national-k12/",
   "ai": false,
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "group": "Education",
-  "vint": "in build"
+  "vint": "Fall 2023"
  },
  {
   "id": "DL-08",
@@ -1491,12 +1491,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/higher-education/",
   "ai": false,
   "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
   "group": "Education",
-  "vint": "in build"
+  "vint": "Fall 2022"
  },
  {
   "id": "DL-09",
@@ -1506,12 +1506,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/charters-staff/",
   "ai": false,
   "heritage": "Formerly School Districts Charter Schools and Education Staff",
   "group": "Education",
-  "vint": "in build"
+  "vint": "School year 2022-23"
  },
  {
   "id": "DL-10",
@@ -1548,12 +1548,12 @@
   "g": [
    "US"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/medicaid-health/",
   "ai": false,
   "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
   "group": "Healthcare",
-  "vint": "in build"
+  "vint": "Fiscal year 2023"
  },
  {
   "id": "DL-13",
@@ -1593,12 +1593,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/gdp-profiles/",
   "ai": false,
   "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
   "group": "Economy & Jobs",
-  "vint": "in build"
+  "vint": "Calendar year 2025"
  },
  {
   "id": "DL-16",
@@ -1653,12 +1653,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/cost-of-living/",
   "ai": false,
   "heritage": "Formerly Cost of Living, State Dependency, Tariff Impacts, and Defense Impact",
   "group": "Economy & Jobs",
-  "vint": "in build"
+  "vint": "Calendar year 2024"
  },
  {
   "id": "DL-20",
@@ -1668,12 +1668,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/taxpayer-migration/",
   "ai": false,
   "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
   "group": "Taxation",
-  "vint": "in build"
+  "vint": "Tax years 2022-23"
  },
  {
   "id": "DL-21",
@@ -1683,12 +1683,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/tax-statistics/",
   "ai": false,
   "heritage": "Formerly Individual Statistics, Tax Statistics County and Municipalities, and Tracking Wealth",
   "group": "Taxation",
-  "vint": "in build"
+  "vint": "Tax year 2022"
  },
  {
   "id": "DL-22",
@@ -1712,12 +1712,12 @@
   "g": [
    "US"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/roads-risk/",
   "ai": false,
   "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
   "group": "Transportation & Infrastructure",
-  "vint": "in build"
+  "vint": "Calendar year 2023"
  },
  {
   "id": "DL-24",
@@ -1727,12 +1727,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/energy-supply/",
   "ai": false,
   "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
   "group": "Energy",
-  "vint": "in build"
+  "vint": "Calendar year 2022"
  },
  {
   "id": "DL-25",
@@ -1741,12 +1741,12 @@
   "g": [
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/municipal-atlas/",
   "ai": false,
   "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
   "group": "Your City & Town",
-  "vint": "in build"
+  "vint": "July 1, 2024"
  },
  {
   "id": "DL-26",
@@ -1755,12 +1755,12 @@
   "g": [
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/municipal-rankings/",
   "ai": false,
   "heritage": "Formerly the Cities and Towns Rankings suite",
   "group": "Your City & Town",
-  "vint": "in build"
+  "vint": "2020 to 2024"
  },
  {
   "id": "DL-27",
@@ -1769,12 +1769,12 @@
   "g": [
    "Boston"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/boston/",
   "ai": false,
   "heritage": "Formerly Boston Data Labs",
   "group": "Your City & Town",
-  "vint": "in build"
+  "vint": "Calendar year 2025"
  },
  {
   "id": "DL-28",
@@ -1783,12 +1783,12 @@
   "g": [
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/ma-state-finances/",
   "ai": false,
   "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
   "group": "State Government & Spending",
-  "vint": "in build"
+  "vint": "2026 Q1"
  },
  {
   "id": "DL-29",
@@ -1797,12 +1797,12 @@
   "g": [
    "US"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/us-state-finances/",
   "ai": false,
   "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
   "group": "State Government & Spending",
-  "vint": "in build"
+  "vint": "2026 Q1"
  },
  {
   "id": "DL-30",
@@ -1825,12 +1825,12 @@
   "g": [
    "US"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/crime-justice/",
   "ai": false,
   "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
   "group": "Crime & Justice",
-  "vint": "in build"
+  "vint": "Year-end 2023"
  },
  {
   "id": "ARCHIVE",

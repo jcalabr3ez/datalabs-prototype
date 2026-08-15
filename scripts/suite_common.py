@@ -125,6 +125,8 @@ def geo_to_st(name):
     if t in NAME_TO_ST:
         return NAME_TO_ST[t]
     low = t.lower()
+    if low.startswith("u.s. total") or low.startswith("us total") or low.startswith("united states"):
+        return "US"
     for k, v in STATE_NAMES.items():
         if v.lower() == low:
             return k

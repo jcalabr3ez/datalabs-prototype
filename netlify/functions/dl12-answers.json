@@ -4,43 +4,526 @@
   "slug": "medicaid-health",
   "vertical": "Healthcare",
   "group": "Healthcare",
-  "status": "build",
-  "as_of": null,
-  "scope": "Covers state Medicaid expenditures, broader state health spending, and reported Medicaid fraud recoveries.",
-  "exclusions": "Does not cover individual eligibility, Massachusetts hospital prices, or 340B.",
+  "status": "live",
+  "as_of": "2023-09",
+  "scope": "This first ledger ranks states on CMS Medicaid Financial Management Report FY 2023 Medical Assistance Program total-computable net expenditures. Broader state health spending and fraud recoveries are listed as later views.",
+  "exclusions": "Does not cover individual eligibility, Massachusetts hospital prices, or 340B. NASBO health-chapter and fraud files are pending.",
   "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
   "replaces": [
     "Medicaid Fraud",
     "State Health Expenses",
     "State Medicaid Expenses"
   ],
-  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from the CMS FY 2023 FMR net-expenditures workbook, MAP Total Net Expenditures, total-computable column. NASBO health-chapter and fraud-recovery files remain pending.",
   "source_id_map": {
     "SRC-612-01": {
-      "name": "CMS Medicaid Financial Management Reports",
+      "name": "CMS Medicaid Financial Management Report FY 2023 net expenditures",
       "cadence": "Annual",
-      "url": "https://www.medicaid.gov/",
-      "supports": "Covers state Medicaid expenditures, broader state health spending, and reported Medicaid fraud recoveries."
+      "url": "https://www.medicaid.gov/medicaid/financial-management/downloads/financial-management-report-fy2023.zip",
+      "supports": "This first ledger ranks states on CMS Medicaid Financial Management Report FY 2023 Medical Assistance Program total-computable net expenditures. Broader state health spending and fraud recoveries are listed as later views."
     },
     "SRC-612-02": {
       "name": "NASBO State Expenditure Report, health chapter",
       "cadence": "Annual",
       "url": "https://www.nasbo.org/",
-      "supports": "Covers state Medicaid expenditures, broader state health spending, and reported Medicaid fraud recoveries."
+      "supports": "This first ledger ranks states on CMS Medicaid Financial Management Report FY 2023 Medical Assistance Program total-computable net expenditures. Broader state health spending and fraud recoveries are listed as later views."
     }
   },
   "page": {
     "revised": "Aug 15, 2026",
-    "version": "0.0"
+    "version": "0.1"
   },
   "geo": [
     "US"
   ],
   "q": "State Medicaid spending, broader state health expenses, and Medicaid fraud recoveries.",
-  "pending": true,
-  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
-  "rows": [],
+  "pending": false,
+  "metric": "medicaid_map_total_computable_fy2023",
+  "metric_label": "Medicaid MAP net expenditures, FY 2023 (total computable)",
+  "unit": "dollars",
+  "data_month": "2023-09",
+  "data_month_label": "Fiscal year 2023",
+  "lead": "Medicaid Medical Assistance Program net expenditures were <b>$859.88 billion</b> in fiscal year 2023 (SRC-612-01). Massachusetts spent <b>$23.23 billion</b>, rank 8 of 51 (derived, SRC-612-01). Broader state health spending and fraud recoveries are pending on this page.",
+  "kpis": [
+    {
+      "label": "U.S. Medicaid, FY 2023",
+      "value": "$859.88 billion",
+      "detail": "Total computable Medical Assistance Program net expenditures (SRC-612-01).",
+      "why": "The national Medicaid spending stock.",
+      "src": "CMS Medicaid Financial Management Report FY 2023 (SRC-612-01)"
+    },
+    {
+      "label": "Massachusetts",
+      "value": "$23.23 billion",
+      "detail": "Rank 8 of 51 (derived, SRC-612-01).",
+      "why": "Massachusetts Medicaid spending against the other jurisdictions.",
+      "src": "CMS Medicaid Financial Management Report FY 2023 (SRC-612-01)"
+    },
+    {
+      "label": "Highest / lowest",
+      "value": "CA $122.73 billion",
+      "detail": "California had the largest total-computable amount; Wyoming the smallest at $715.91 million (SRC-612-01).",
+      "why": "Large states lead on raw dollars; fraud recoveries are pending.",
+      "src": "CMS Medicaid Financial Management Report FY 2023 (SRC-612-01)"
+    }
+  ],
+  "latest": {
+    "us": {
+      "v": 859881646027.31
+    },
+    "ma": {
+      "v": 23228189899.0,
+      "rank": 8,
+      "n": 51
+    },
+    "highest": {
+      "st": "CA",
+      "name": "California",
+      "v": 122733821782.31
+    },
+    "lowest": {
+      "st": "WY",
+      "name": "Wyoming",
+      "v": 715906959.0
+    }
+  },
+  "rows": [
+    {
+      "st": "CA",
+      "name": "California",
+      "v": 122733821782.31,
+      "rank": 1,
+      "n": 51
+    },
+    {
+      "st": "NY",
+      "name": "New York",
+      "v": 92444864932.0,
+      "rank": 2,
+      "n": 51
+    },
+    {
+      "st": "TX",
+      "name": "Texas",
+      "v": 56514110478.0,
+      "rank": 3,
+      "n": 51
+    },
+    {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 43766971978.0,
+      "rank": 4,
+      "n": 51
+    },
+    {
+      "st": "FL",
+      "name": "Florida",
+      "v": 34193930124.0,
+      "rank": 5,
+      "n": 51
+    },
+    {
+      "st": "IL",
+      "name": "Illinois",
+      "v": 32190728327.0,
+      "rank": 6,
+      "n": 51
+    },
+    {
+      "st": "OH",
+      "name": "Ohio",
+      "v": 31665985589.0,
+      "rank": 7,
+      "n": 51
+    },
+    {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 23228189899.0,
+      "rank": 8,
+      "n": 51
+    },
+    {
+      "st": "MI",
+      "name": "Michigan",
+      "v": 22991355684.0,
+      "rank": 9,
+      "n": 51
+    },
+    {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 22309832720.0,
+      "rank": 10,
+      "n": 51
+    },
+    {
+      "st": "AZ",
+      "name": "Arizona",
+      "v": 22183972139.0,
+      "rank": 11,
+      "n": 51
+    },
+    {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 21121573951.0,
+      "rank": 12,
+      "n": 51
+    },
+    {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 19325608483.0,
+      "rank": 13,
+      "n": 51
+    },
+    {
+      "st": "WA",
+      "name": "Washington",
+      "v": 18341376203.0,
+      "rank": 14,
+      "n": 51
+    },
+    {
+      "st": "MN",
+      "name": "Minnesota",
+      "v": 18315485685.0,
+      "rank": 15,
+      "n": 51
+    },
+    {
+      "st": "IN",
+      "name": "Indiana",
+      "v": 17278391501.0,
+      "rank": 16,
+      "n": 51
+    },
+    {
+      "st": "MD",
+      "name": "Maryland",
+      "v": 16916738529.0,
+      "rank": 17,
+      "n": 51
+    },
+    {
+      "st": "KY",
+      "name": "Kentucky",
+      "v": 16298820904.0,
+      "rank": 18,
+      "n": 51
+    },
+    {
+      "st": "LA",
+      "name": "Louisiana",
+      "v": 16206573085.0,
+      "rank": 19,
+      "n": 51
+    },
+    {
+      "st": "GA",
+      "name": "Georgia",
+      "v": 15936633577.0,
+      "rank": 20,
+      "n": 51
+    },
+    {
+      "st": "MO",
+      "name": "Missouri",
+      "v": 15864615465.0,
+      "rank": 21,
+      "n": 51
+    },
+    {
+      "st": "OR",
+      "name": "Oregon",
+      "v": 14667985607.0,
+      "rank": 22,
+      "n": 51
+    },
+    {
+      "st": "CO",
+      "name": "Colorado",
+      "v": 12804321510.0,
+      "rank": 23,
+      "n": 51
+    },
+    {
+      "st": "TN",
+      "name": "Tennessee",
+      "v": 12469838770.0,
+      "rank": 24,
+      "n": 51
+    },
+    {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 11983836909.0,
+      "rank": 25,
+      "n": 51
+    },
+    {
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 10325691733.0,
+      "rank": 26,
+      "n": 51
+    },
+    {
+      "st": "AR",
+      "name": "Arkansas",
+      "v": 8605196491.0,
+      "rank": 27,
+      "n": 51
+    },
+    {
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 8604968217.0,
+      "rank": 28,
+      "n": 51
+    },
+    {
+      "st": "SC",
+      "name": "South Carolina",
+      "v": 8451464561.0,
+      "rank": 29,
+      "n": 51
+    },
+    {
+      "st": "NM",
+      "name": "New Mexico",
+      "v": 8105771112.0,
+      "rank": 30,
+      "n": 51
+    },
+    {
+      "st": "AL",
+      "name": "Alabama",
+      "v": 7829656078.0,
+      "rank": 31,
+      "n": 51
+    },
+    {
+      "st": "IA",
+      "name": "Iowa",
+      "v": 6776760824.0,
+      "rank": 32,
+      "n": 51
+    },
+    {
+      "st": "MS",
+      "name": "Mississippi",
+      "v": 6324317586.0,
+      "rank": 33,
+      "n": 51
+    },
+    {
+      "st": "NV",
+      "name": "Nevada",
+      "v": 5571967956.0,
+      "rank": 34,
+      "n": 51
+    },
+    {
+      "st": "WV",
+      "name": "West Virginia",
+      "v": 5427180909.0,
+      "rank": 35,
+      "n": 51
+    },
+    {
+      "st": "KS",
+      "name": "Kansas",
+      "v": 5193350486.0,
+      "rank": 36,
+      "n": 51
+    },
+    {
+      "st": "UT",
+      "name": "Utah",
+      "v": 4531351223.0,
+      "rank": 37,
+      "n": 51
+    },
+    {
+      "st": "DC",
+      "name": "District of Columbia",
+      "v": 4128553265.0,
+      "rank": 38,
+      "n": 51
+    },
+    {
+      "st": "ME",
+      "name": "Maine",
+      "v": 4100961967.0,
+      "rank": 39,
+      "n": 51
+    },
+    {
+      "st": "NE",
+      "name": "Nebraska",
+      "v": 3748830826.0,
+      "rank": 40,
+      "n": 51
+    },
+    {
+      "st": "ID",
+      "name": "Idaho",
+      "v": 3539117454.0,
+      "rank": 41,
+      "n": 51
+    },
+    {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 3448572775.0,
+      "rank": 42,
+      "n": 51
+    },
+    {
+      "st": "DE",
+      "name": "Delaware",
+      "v": 3339783691.0,
+      "rank": 43,
+      "n": 51
+    },
+    {
+      "st": "HI",
+      "name": "Hawaii",
+      "v": 2998266333.0,
+      "rank": 44,
+      "n": 51
+    },
+    {
+      "st": "AK",
+      "name": "Alaska",
+      "v": 2530260279.0,
+      "rank": 45,
+      "n": 51
+    },
+    {
+      "st": "NH",
+      "name": "New Hampshire",
+      "v": 2444300232.0,
+      "rank": 46,
+      "n": 51
+    },
+    {
+      "st": "MT",
+      "name": "Montana",
+      "v": 2338762637.0,
+      "rank": 47,
+      "n": 51
+    },
+    {
+      "st": "VT",
+      "name": "Vermont",
+      "v": 1997411908.0,
+      "rank": 48,
+      "n": 51
+    },
+    {
+      "st": "ND",
+      "name": "North Dakota",
+      "v": 1515216578.0,
+      "rank": 49,
+      "n": 51
+    },
+    {
+      "st": "SD",
+      "name": "South Dakota",
+      "v": 1173484201.0,
+      "rank": 50,
+      "n": 51
+    },
+    {
+      "st": "WY",
+      "name": "Wyoming",
+      "v": 715906959.0,
+      "rank": 51,
+      "n": 51
+    }
+  ],
   "trend": {},
-  "derived": {},
-  "kpis": []
+  "derived": {
+    "note": "Prefer these over recomputing. Ranks cite (derived, SRC-612-01).",
+    "highest_five": [
+      {
+        "st": "CA",
+        "name": "California",
+        "v": 122733821782.31,
+        "rank": 1,
+        "n": 51
+      },
+      {
+        "st": "NY",
+        "name": "New York",
+        "v": 92444864932.0,
+        "rank": 2,
+        "n": 51
+      },
+      {
+        "st": "TX",
+        "name": "Texas",
+        "v": 56514110478.0,
+        "rank": 3,
+        "n": 51
+      },
+      {
+        "st": "PA",
+        "name": "Pennsylvania",
+        "v": 43766971978.0,
+        "rank": 4,
+        "n": 51
+      },
+      {
+        "st": "FL",
+        "name": "Florida",
+        "v": 34193930124.0,
+        "rank": 5,
+        "n": 51
+      }
+    ],
+    "lowest_five": [
+      {
+        "st": "WY",
+        "name": "Wyoming",
+        "v": 715906959.0,
+        "rank": 51,
+        "n": 51
+      },
+      {
+        "st": "SD",
+        "name": "South Dakota",
+        "v": 1173484201.0,
+        "rank": 50,
+        "n": 51
+      },
+      {
+        "st": "ND",
+        "name": "North Dakota",
+        "v": 1515216578.0,
+        "rank": 49,
+        "n": 51
+      },
+      {
+        "st": "VT",
+        "name": "Vermont",
+        "v": 1997411908.0,
+        "rank": 48,
+        "n": 51
+      },
+      {
+        "st": "MT",
+        "name": "Montana",
+        "v": 2338762637.0,
+        "rank": 47,
+        "n": 51
+      }
+    ],
+    "n_ranked": 51,
+    "massachusetts_rank": 8
+  }
 }

@@ -38,6 +38,7 @@ from suite_common import (
     yoy_pct,
 )
 from suite_builders import BUILDERS as EXTRA_BUILDERS
+from suite_later import BUILDERS as LATER_BUILDERS, enrich
 
 TODAY = date(2026, 8, 15)
 
@@ -589,6 +590,7 @@ BUILDERS = {
     "DL-17": build_pep,
 }
 BUILDERS.update(EXTRA_BUILDERS)
+BUILDERS.update(LATER_BUILDERS)
 
 
 def upsert_catalog(apps):
@@ -633,6 +635,7 @@ def main():
         if tool in BUILDERS:
             print(f"refresh {tool} {app['title']} ...")
             ledger = BUILDERS[tool](app)
+            ledger = enrich(app, ledger)
         else:
             print(f"stub    {tool} {app['title']}")
             ledger = stub_ledger(app)

@@ -6,8 +6,8 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2025-12",
-  "scope": "This first ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry). Personal income and NAICS detail are listed as later views.",
-  "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation. Personal income is pending.",
+  "scope": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income and per capita personal income. NAICS industry detail remains a later view.",
+  "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation. NAICS industry detail is pending.",
   "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
   "replaces": [
     "GDP by NAICS Code",
@@ -16,13 +16,19 @@
     "US Economic Profile",
     "Personal Income"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SAGDP1__ALL_AREAS_1997_2025, LineCode 1 (real GDP, millions of chained 2017 dollars). U.S. 2025 equals 23,850,442. Personal income remains pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SAGDP1__ALL_AREAS_1997_2025, LineCode 1 (real GDP, millions of chained 2017 dollars). U.S. 2025 equals 23,850,442. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-615-01": {
       "name": "BEA SAGDP1 real GDP by state, 1997-2025",
       "cadence": "Annual",
       "url": "https://apps.bea.gov/regional/zip/SAGDP.zip",
-      "supports": "This first ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry). Personal income and NAICS detail are listed as later views."
+      "supports": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income and per capita personal income. NAICS industry detail remains a later view."
+    },
+    "SRC-615-02": {
+      "name": "BEA SAINC4 personal income and per capita personal income by state",
+      "cadence": "Annual",
+      "url": "https://apps.bea.gov/regional/zip/SAINC.zip",
+      "supports": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income and per capita personal income. NAICS industry detail remains a later view."
     }
   },
   "page": {
@@ -40,7 +46,7 @@
   "unit": "millions of chained 2017 dollars",
   "data_month": "2025-12",
   "data_month_label": "Calendar year 2025",
-  "lead": "Real GDP was <b>$23.85 trillion</b> in the United States in 2025, chained 2017 dollars (SRC-615-01). Massachusetts was <b>$644.18 billion</b>, rank 12 of 51 (derived, SRC-615-01). Personal income and NAICS detail are pending on this page.",
+  "lead": "Real GDP was <b>$23.85 trillion</b> in the United States in 2025, chained 2017 dollars (SRC-615-01). Massachusetts was <b>$644.18 billion</b>, rank 12 of 51 (derived, SRC-615-01). Personal income was <b>$26.11 trillion</b> in 2025 (SRC-615-02). Massachusetts was <b>$697.21 billion</b>, rank 13 of 51 (derived, SRC-615-02). Per capita personal income was <b>$76,393</b> in the United States and <b>$97,456</b> in Massachusetts, rank 3 of 51 (derived, SRC-615-02). NAICS industry detail remains pending.",
   "kpis": [
     {
       "label": "U.S. real GDP, 2025",
@@ -60,7 +66,7 @@
       "label": "Highest / lowest",
       "value": "CA $3.39 trillion",
       "detail": "California had the largest real GDP; Vermont the smallest at $36.91 billion (SRC-615-01).",
-      "why": "Large states lead on raw output; personal income is pending.",
+      "why": "",
       "src": "BEA SAGDP1 (SRC-615-01)"
     }
   ],
@@ -759,7 +765,53 @@
       }
     ],
     "n_ranked": 51,
-    "massachusetts_rank": 12
+    "massachusetts_rank": 12,
+    "secondary": {
+      "personal_income_2025": {
+        "label": "Personal income, 2025",
+        "src": "SRC-615-02",
+        "unit": "millions of dollars",
+        "as_of_label": "Calendar year 2025",
+        "us": 26109831.2,
+        "us_dollars": 26109831200000.0,
+        "ma": {
+          "v": 697205.3,
+          "rank": 13,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 3585890.9
+        },
+        "lowest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 48079.2
+        },
+        "n_ranked": 51,
+        "per_capita": {
+          "label": "Per capita personal income, 2025",
+          "us": 76393.0,
+          "ma": {
+            "v": 97456.0,
+            "rank": 3,
+            "n": 51
+          },
+          "highest": {
+            "st": "DC",
+            "name": "District of Columbia",
+            "v": 116121.0
+          },
+          "lowest": {
+            "st": "MS",
+            "name": "Mississippi",
+            "v": 54531.0
+          },
+          "unit": "dollars"
+        }
+      }
+    }
   },
   "entities": {
     "CA": {

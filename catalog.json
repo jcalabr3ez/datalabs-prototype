@@ -1520,12 +1520,12 @@
   "g": [
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/ma-hospitals/",
-  "ai": false,
+  "ai": true,
   "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
   "group": "Healthcare",
-  "vint": "in build"
+  "vint": "CMS Hospital General Information, retrieved Aug 2026"
  },
  {
   "id": "DL-11",
@@ -1698,12 +1698,12 @@
    "US",
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/transit-systems/",
-  "ai": false,
+  "ai": true,
   "heritage": "Formerly Compare Systems and MassTransit Comparing Systems",
   "group": "Transportation & Infrastructure",
-  "vint": "in build"
+  "vint": "June 2026"
  },
  {
   "id": "DL-23",
@@ -1811,12 +1811,12 @@
   "g": [
    "MA"
   ],
-  "st": "build",
+  "st": "live",
   "url": "/payroll-vendors/",
-  "ai": false,
+  "ai": true,
   "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
   "group": "State Government & Spending",
-  "vint": "in build"
+  "vint": "Calendar year 2025"
  },
  {
   "id": "DL-31",

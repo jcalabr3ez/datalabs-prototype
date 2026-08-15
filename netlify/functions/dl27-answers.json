@@ -6,19 +6,25 @@
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-12",
-  "scope": "This first ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS). The adopted budget is listed as a later view.",
-  "exclusions": "Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors). The adopted budget is pending.",
+  "scope": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department.",
+  "exclusions": "Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors).",
   "heritage": "Formerly Boston Data Labs",
   "replaces": [
     "Boston Data Labs"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from the City of Boston CKAN datastore dump of employee-earnings-report-2025. TOTAL GROSS is summed by DEPARTMENT_NAME. The adopted-budget file remains pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from the City of Boston CKAN datastore dump of employee-earnings-report-2025. TOTAL GROSS is summed by DEPARTMENT_NAME. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-627-01": {
       "name": "City of Boston employee earnings report 2025",
       "cadence": "Annual",
       "url": "https://data.boston.gov/datastore/dump/29b3544f-752a-4cb1-a6af-a1de153d20a0",
-      "supports": "This first ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS). The adopted budget is listed as a later view."
+      "supports": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department."
+    },
+    "SRC-627-02": {
+      "name": "City of Boston operating budget, FY26 appropriation",
+      "cadence": "Annual",
+      "url": "https://data.boston.gov/datastore/dump/8f2971f0-7a0d-401d-8376-0289e3b810ba",
+      "supports": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department."
     }
   },
   "page": {
@@ -35,7 +41,7 @@
   "unit": "dollars",
   "data_month": "2025-12",
   "data_month_label": "Calendar year 2025",
-  "lead": "City of Boston earnings totaled <b>$2.46 billion</b> in calendar year 2025 across <b>25,397</b> employees (SRC-627-01). <b>Boston Police Department</b> was the largest department at <b>$534.48 million</b> (SRC-627-01). The adopted budget is pending.",
+  "lead": "City of Boston earnings totaled <b>$2.46 billion</b> in calendar year 2025 across <b>25,397</b> employees (SRC-627-01). <b>Boston Police Department</b> was the largest department at <b>$534.48 million</b> (SRC-627-01). The FY26 adopted operating appropriation was <b>$4.91 billion</b> (SRC-627-02). <b>Boston Public Schools</b> was the largest department at <b>$1.66 billion</b> (SRC-627-02).",
   "kpis": [
     {
       "label": "City payroll, 2025",
@@ -54,7 +60,7 @@
     {
       "label": "Departments",
       "value": "228",
-      "detail": "Adopted-budget views are pending on this page.",
+      "detail": "",
       "why": "Payroll is the first Boston ledger because the file is public and current.",
       "src": "City of Boston employee earnings report 2025 (SRC-627-01)"
     }
@@ -1982,7 +1988,45 @@
         "employees": 1
       }
     ],
-    "n_ranked": 228
+    "n_ranked": 228,
+    "secondary": {
+      "boston_operating_budget_fy26": {
+        "label": "City of Boston adopted operating budget, FY26 appropriation",
+        "src": "SRC-627-02",
+        "unit": "dollars",
+        "as_of_label": "FY26 appropriation",
+        "fy25_actual": 4737135498.630003,
+        "fy26_appropriation": 4912971263.72,
+        "fy27_budget": 4942387983.310001,
+        "departments": 81,
+        "highest": {
+          "name": "Boston Public Schools",
+          "v": 1662138094.97
+        },
+        "top_five": [
+          {
+            "name": "Boston Public Schools",
+            "v": 1662138094.97
+          },
+          {
+            "name": "Police Department",
+            "v": 487396058.7900001
+          },
+          {
+            "name": "Pensions",
+            "v": 467688472.0
+          },
+          {
+            "name": "Fire Department",
+            "v": 328719256.0300001
+          },
+          {
+            "name": "Debt Service",
+            "v": 310005047.0
+          }
+        ]
+      }
+    }
   },
   "entities": {
     "Boston Police Department": {

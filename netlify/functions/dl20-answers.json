@@ -6,21 +6,27 @@
   "group": "Taxation",
   "status": "live",
   "as_of": "2023-12",
-  "scope": "This first ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns). County-to-county files are listed as a later view.",
-  "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons. County files are pending.",
+  "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties.",
+  "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons.",
   "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
   "replaces": [
     "County to County Migration",
     "State to State Tax Migration",
     "Taxpayer Migration"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from IRS SOI stateinflow2223.csv and stateoutflow2223.csv. Net equals Total Migration-US inflow n1 minus Total Migration-US outflow n1. Same-state and foreign rows are excluded. County files remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from IRS SOI stateinflow2223.csv and stateoutflow2223.csv. Net equals Total Migration-US inflow n1 minus Total Migration-US outflow n1. Same-state and foreign rows are excluded. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-620-01": {
       "name": "IRS SOI state-to-state migration, tax years 2022-23",
       "cadence": "Annual, with a multi-year lag",
       "url": "https://www.irs.gov/pub/irs-soi/stateoutflow2223.csv",
-      "supports": "This first ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns). County-to-county files are listed as a later view."
+      "supports": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties."
+    },
+    "SRC-620-02": {
+      "name": "IRS SOI county-to-county migration, tax years 2022-23, Massachusetts",
+      "cadence": "Annual, with a multi-year lag",
+      "url": "https://www.irs.gov/pub/irs-soi/countyoutflow2223.csv",
+      "supports": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties."
     }
   },
   "page": {
@@ -38,7 +44,7 @@
   "unit": "returns",
   "data_month": "2023-12",
   "data_month_label": "Tax years 2022-23",
-  "lead": "Massachusetts had a net domestic taxpayer flow of <b>-15,378</b> returns in tax years 2022-23 (83,296 in, 98,674 out), rank 47 of 51 (derived, SRC-620-01). Texas had the largest net inflow; California the largest net outflow (SRC-620-01). County-to-county files are pending.",
+  "lead": "Massachusetts had a net domestic taxpayer flow of <b>-15,378</b> returns in tax years 2022-23 (83,296 in, 98,674 out), rank 47 of 51 (derived, SRC-620-01). Texas had the largest net inflow; California the largest net outflow (SRC-620-01). Among Massachusetts counties, <b>Bristol County</b> had the largest net domestic taxpayer inflow (168 returns) and <b>Middlesex County</b> the largest net outflow (-4,549) in 2022-23 (derived, SRC-620-02).",
   "kpis": [
     {
       "label": "Massachusetts net inflow",
@@ -641,7 +647,97 @@
       }
     ],
     "n_ranked": 51,
-    "massachusetts_rank": 47
+    "massachusetts_rank": 47,
+    "secondary": {
+      "ma_county_taxpayer_migration_2022_23": {
+        "label": "Massachusetts county net domestic taxpayer migration, 2022-23",
+        "src": "SRC-620-02",
+        "unit": "returns",
+        "as_of_label": "Tax years 2022-23",
+        "n_counties": 14,
+        "highest": {
+          "name": "Bristol County",
+          "v": 168
+        },
+        "lowest": {
+          "name": "Middlesex County",
+          "v": -4549
+        },
+        "counties": [
+          {
+            "name": "Bristol County",
+            "v": 168,
+            "rank": 1
+          },
+          {
+            "name": "Nantucket County",
+            "v": -32,
+            "rank": 2
+          },
+          {
+            "name": "Franklin County",
+            "v": -54,
+            "rank": 3
+          },
+          {
+            "name": "Dukes County",
+            "v": -120,
+            "rank": 4
+          },
+          {
+            "name": "Berkshire County",
+            "v": -172,
+            "rank": 5
+          },
+          {
+            "name": "Plymouth County",
+            "v": -272,
+            "rank": 6
+          },
+          {
+            "name": "Barnstable County",
+            "v": -301,
+            "rank": 7
+          },
+          {
+            "name": "Hampshire County",
+            "v": -435,
+            "rank": 8
+          },
+          {
+            "name": "Hampden County",
+            "v": -1000,
+            "rank": 9
+          },
+          {
+            "name": "Worcester County",
+            "v": -1359,
+            "rank": 10
+          },
+          {
+            "name": "Norfolk County",
+            "v": -1670,
+            "rank": 11
+          },
+          {
+            "name": "Essex County",
+            "v": -1820,
+            "rank": 12
+          },
+          {
+            "name": "Suffolk County",
+            "v": -3762,
+            "rank": 13
+          },
+          {
+            "name": "Middlesex County",
+            "v": -4549,
+            "rank": 14
+          }
+        ],
+        "note": "Net equals Total Migration-US inflow n1 minus outflow n1. Same-state and foreign rows are excluded."
+      }
+    }
   },
   "entities": {
     "TX": {

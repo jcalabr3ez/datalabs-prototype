@@ -29,12 +29,14 @@
       "g": ["US"],
       "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
       "replaces": ["Discipline & Security", "High School Completion", "K-12 Enrollment", "K-12 School Finance", "Reading/Math Achievement"],
-      "scope": "This first ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023. NAEP, per-pupil finance (on Massachusetts K-12), completion, and discipline are listed as later views.",
-      "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education. NAEP and discipline files are pending.",
+      "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view.",
+      "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education. NAEP state scores are pending.",
       "wave": "live",
       "sources": [
         {"id": "SRC-607-01", "name": "NCES NAEP state results", "cadence": "Biennial", "url": "https://nces.ed.gov/nationsreportcard/"},
-        {"id": "SRC-607-02", "name": "NCES Digest table 203.20, public K-12 enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn203.20.xlsx"}
+        {"id": "SRC-607-02", "name": "NCES Digest table 203.20, public K-12 enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn203.20.xlsx"},
+        {"id": "SRC-607-03", "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx"},
+        {"id": "SRC-607-04", "name": "NCES Digest table 233.40, out-of-school suspension share", "cadence": "Periodic", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx"}
       ]
     },
     {
@@ -47,11 +49,13 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
       "replaces": ["Higher Education-College Admissions", "Higher Education-College Enrollment", "Higher Education-Faculty and Staff", "Higher Education-Student Data"],
-      "scope": "This first ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022. Admissions tests, faculty, and IPEDS outcomes are listed as later views.",
-      "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. Admissions-test and faculty files are pending.",
+      "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state and the national Fall 2022 faculty count. IPEDS outcomes remain a later view.",
+      "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. State-level faculty counts and IPEDS outcomes are pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-608-01", "name": "NCES Digest table 304.10, fall postsecondary enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx"}
+        {"id": "SRC-608-01", "name": "NCES Digest table 304.10, fall postsecondary enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx"},
+        {"id": "SRC-608-02", "name": "NCES Digest table 226.40, SAT mean scores by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx"},
+        {"id": "SRC-608-03", "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn315.10.xlsx"}
       ]
     },
     {
@@ -64,11 +68,12 @@
       "g": ["US", "MA"],
       "heritage": "Formerly School Districts Charter Schools and Education Staff",
       "replaces": ["School Districts-Charter Schools", "School Districts-Education Staff"],
-      "scope": "This first ledger ranks states on NCES Digest public charter fall enrollment for 2022-23. School counts as a share of all public schools, and education-staff files, are listed as later views.",
-      "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter. Staff files are pending.",
+      "scope": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022.",
+      "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-609-01", "name": "NCES Digest table 216.90, charter schools and enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn216.90.xlsx"}
+        {"id": "SRC-609-01", "name": "NCES Digest table 216.90, charter schools and enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn216.90.xlsx"},
+        {"id": "SRC-609-02", "name": "NCES Digest table 208.30, public-school teachers (FTE)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx"}
       ]
     },
     {
@@ -81,11 +86,12 @@
       "g": ["MA"],
       "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
       "replaces": ["Hospital Tracker", "Relative Price Tracker"],
-      "scope": "Covers Massachusetts hospital relative prices and the hospital operating tracker published by CHIA.",
-      "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care.",
-      "wave": "build",
+      "scope": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view.",
+      "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care. CHIA relative prices are pending.",
+      "wave": "live",
       "sources": [
-        {"id": "SRC-610-01", "name": "Massachusetts CHIA hospital relative prices and hospital profiles", "cadence": "Annual", "url": "https://www.chiamass.gov/"}
+        {"id": "SRC-610-01", "name": "Massachusetts CHIA hospital relative prices and hospital profiles", "cadence": "Annual", "url": "https://www.chiamass.gov/"},
+        {"id": "SRC-610-02", "name": "CMS Hospital General Information, Massachusetts facilities", "cadence": "Periodic", "url": "https://data.cms.gov/provider-data/dataset/xubh-q36u"}
       ]
     },
     {
@@ -151,11 +157,12 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
       "replaces": ["Employment and Wages", "Labor Demographics", "Labor Market", "Monthly Employment", "Total Labor Force", "Unemployment Insurance", "Weekly Wages"],
-      "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Wages, QCEW, and UI claims are listed as later views, not in this first ledger.",
-      "exclusions": "Does not cover occupational wages, UI claims, or advice about a job search. QCEW wages and CPS demographics are pending on this page.",
+      "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q1. UI claims and CPS demographics remain later views.",
+      "exclusions": "Does not cover occupational wages, UI claims, or advice about a job search. UI claims and CPS demographics are pending on this page.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-614-01", "name": "BLS Local Area Unemployment Statistics, statewide seasonally adjusted", "cadence": "Monthly", "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS"}
+        {"id": "SRC-614-01", "name": "BLS Local Area Unemployment Statistics, statewide seasonally adjusted", "cadence": "Monthly", "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS"},
+        {"id": "SRC-614-02", "name": "BLS QCEW average weekly wage, all industries, statewide", "cadence": "Quarterly", "url": "https://data.bls.gov/cew/data/api/2025/1/industry/10.csv"}
       ]
     },
     {
@@ -168,11 +175,12 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
       "replaces": ["GDP by NAICS Code", "Gross Domestic Product", "MA Economic Profile", "US Economic Profile", "Personal Income"],
-      "scope": "This first ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry). Personal income and NAICS detail are listed as later views.",
-      "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation. Personal income is pending.",
+      "scope": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income and per capita personal income. NAICS industry detail remains a later view.",
+      "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation. NAICS industry detail is pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-615-01", "name": "BEA SAGDP1 real GDP by state, 1997-2025", "cadence": "Annual", "url": "https://apps.bea.gov/regional/zip/SAGDP.zip"}
+        {"id": "SRC-615-01", "name": "BEA SAGDP1 real GDP by state, 1997-2025", "cadence": "Annual", "url": "https://apps.bea.gov/regional/zip/SAGDP.zip"},
+        {"id": "SRC-615-02", "name": "BEA SAINC4 personal income and per capita personal income by state", "cadence": "Annual", "url": "https://apps.bea.gov/regional/zip/SAINC.zip"}
       ]
     },
     {
@@ -185,11 +193,12 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Housing Production and Housing Prices",
       "replaces": ["Housing Prices", "Housing Production"],
-      "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. House-price indexes are listed as a later view, not in this first ledger.",
-      "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house. FHFA and Case-Shiller price indexes are pending on this page.",
+      "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state. Case-Shiller city indexes remain a later view.",
+      "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house. Case-Shiller city indexes are pending on this page.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-616-01", "name": "Census Bureau Building Permits Survey, state year-to-date files", "cadence": "Monthly", "url": "https://www2.census.gov/econ/bps/State/"}
+        {"id": "SRC-616-01", "name": "Census Bureau Building Permits Survey, state year-to-date files", "cadence": "Monthly", "url": "https://www2.census.gov/econ/bps/State/"},
+        {"id": "SRC-616-02", "name": "FHFA all-transactions house-price index, annual state file", "cadence": "Annual", "url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_state.csv"}
       ]
     },
     {
@@ -253,11 +262,12 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
       "replaces": ["County to County Migration", "State to State Tax Migration", "Taxpayer Migration"],
-      "scope": "This first ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns). County-to-county files are listed as a later view.",
-      "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons. County files are pending.",
+      "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties.",
+      "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-620-01", "name": "IRS SOI state-to-state migration, tax years 2022-23", "cadence": "Annual, with a multi-year lag", "url": "https://www.irs.gov/pub/irs-soi/stateoutflow2223.csv"}
+        {"id": "SRC-620-01", "name": "IRS SOI state-to-state migration, tax years 2022-23", "cadence": "Annual, with a multi-year lag", "url": "https://www.irs.gov/pub/irs-soi/stateoutflow2223.csv"},
+        {"id": "SRC-620-02", "name": "IRS SOI county-to-county migration, tax years 2022-23, Massachusetts", "cadence": "Annual, with a multi-year lag", "url": "https://www.irs.gov/pub/irs-soi/countyoutflow2223.csv"}
       ]
     },
     {
@@ -287,11 +297,11 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Compare Systems and MassTransit Comparing Systems",
       "replaces": ["Compare Systems", "MassTransit-Comparing Systems"],
-      "scope": "Covers FTA NTD agency-level ridership, operating cost, and farebox recovery for large U.S. transit systems, including a Massachusetts comparison that does not duplicate DL-03's MBTA-only views.",
-      "exclusions": "Does not cover MBTA mode-by-mode reliability or The RIDE (those stay on DL-03), capital budgets, or fare advice.",
-      "wave": "build",
+      "scope": "This first ledger ranks U.S. transit agencies on FTA NTD unlinked passenger trips for the latest published month, including every Massachusetts reporter. Operating cost and farebox recovery remain later views. Mode-by-mode MBTA reliability stays on DL-03.",
+      "exclusions": "Does not cover MBTA mode-by-mode reliability or The RIDE (those stay on DL-03), capital budgets, or fare advice. Agency operating cost and farebox recovery are pending.",
+      "wave": "live",
       "sources": [
-        {"id": "SRC-622-01", "name": "FTA National Transit Database annual agency metrics", "cadence": "Annual", "url": "https://www.transit.dot.gov/ntd"}
+        {"id": "SRC-622-01", "name": "FTA NTD complete monthly ridership by agency", "cadence": "Monthly", "url": "https://data.transportation.gov/resource/8bui-9xvu.json"}
       ]
     },
     {
@@ -322,11 +332,12 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
       "replaces": ["CO2 Emissions", "Energy Consumption", "Energy Production"],
-      "scope": "This first ledger ranks states on EIA energy-related carbon dioxide emissions for 2022. SEDS consumption and production are listed as later views. Retail electricity prices stay on DL-04.",
-      "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill. SEDS consumption and production are pending.",
+      "scope": "This ledger ranks states on EIA energy-related carbon dioxide emissions for 2022, and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04.",
+      "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill. SEDS production is pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-624-01", "name": "EIA state energy-related CO2 emissions, table 1", "cadence": "Annual", "url": "https://www.eia.gov/environment/emissions/state/excel/table1.xlsx"}
+        {"id": "SRC-624-01", "name": "EIA state energy-related CO2 emissions, table 1", "cadence": "Annual", "url": "https://www.eia.gov/environment/emissions/state/excel/table1.xlsx"},
+        {"id": "SRC-624-02", "name": "EIA SEDS total energy consumption (TETCB)", "cadence": "Annual", "url": "https://www.eia.gov/state/seds/sep_use/total/csv/use_all_btu.csv"}
       ]
     },
     {
@@ -373,11 +384,12 @@
       "g": ["Boston"],
       "heritage": "Formerly Boston Data Labs",
       "replaces": ["Boston Data Labs"],
-      "scope": "This first ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS). The adopted budget is listed as a later view.",
-      "exclusions": "Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors). The adopted budget is pending.",
+      "scope": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department.",
+      "exclusions": "Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors).",
       "wave": "live",
       "sources": [
-        {"id": "SRC-627-01", "name": "City of Boston employee earnings report 2025", "cadence": "Annual", "url": "https://data.boston.gov/datastore/dump/29b3544f-752a-4cb1-a6af-a1de153d20a0"}
+        {"id": "SRC-627-01", "name": "City of Boston employee earnings report 2025", "cadence": "Annual", "url": "https://data.boston.gov/datastore/dump/29b3544f-752a-4cb1-a6af-a1de153d20a0"},
+        {"id": "SRC-627-02", "name": "City of Boston operating budget, FY26 appropriation", "cadence": "Annual", "url": "https://data.boston.gov/datastore/dump/8f2971f0-7a0d-401d-8376-0289e3b810ba"}
       ]
     },
     {
@@ -425,11 +437,12 @@
       "g": ["MA"],
       "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
       "replaces": ["Payroll State Agencies", "Payroll-Higher Education", "Payroll-Quasi Public Agencies", "Vendor Payments Quasi-Public Agencies", "Vendor Payments-State"],
-      "scope": "Covers CTHRU and related extracts for state-agency, higher-education, and quasi-public payroll, and vendor payments by the Commonwealth and quasi-publics.",
-      "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), or advice about a contract bid.",
-      "wave": "build",
+      "scope": "This first ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), and reports Comptroller-recorded spending for fiscal 2025. Quasi-public payroll detail and a vendor-only extract remain later views.",
+      "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), named-employee lookups, or advice about a contract bid. Quasi-public payroll detail is pending.",
+      "wave": "live",
       "sources": [
-        {"id": "SRC-630-01", "name": "Massachusetts CTHRU payroll and vendor payment datasets", "cadence": "Monthly / annual", "url": "https://www.macomptroller.org/cthru/"}
+        {"id": "SRC-630-01", "name": "CTHRU Commonwealth of Massachusetts payroll v4", "cadence": "Annual / monthly", "url": "https://cthru.data.socrata.com/resource/9ttk-7vz6.json"},
+        {"id": "SRC-630-02", "name": "CTHRU Comptroller of the Commonwealth spending", "cadence": "Monthly / annual", "url": "https://cthru.data.socrata.com/resource/pegc-naaa.json"}
       ]
     },
     {

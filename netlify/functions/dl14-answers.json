@@ -6,8 +6,8 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2026-06",
-  "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Wages, QCEW, and UI claims are listed as later views, not in this first ledger.",
-  "exclusions": "Does not cover occupational wages, UI claims, or advice about a job search. QCEW wages and CPS demographics are pending on this page.",
+  "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q1. UI claims and CPS demographics remain later views.",
+  "exclusions": "Does not cover occupational wages, UI claims, or advice about a job search. UI claims and CPS demographics are pending on this page.",
   "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
   "replaces": [
     "Employment and Wages",
@@ -18,13 +18,19 @@
     "Unemployment Insurance",
     "Weekly Wages"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BLS LAUS statewide seasonally adjusted file la.data.3.AllStatesS. Measure 03 is the unemployment rate. The U.S. civilian rate is not in this file and is not invented here.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BLS LAUS statewide seasonally adjusted file la.data.3.AllStatesS. Measure 03 is the unemployment rate. The U.S. civilian rate is not in this file and is not invented here. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-614-01": {
       "name": "BLS Local Area Unemployment Statistics, statewide seasonally adjusted",
       "cadence": "Monthly",
       "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Wages, QCEW, and UI claims are listed as later views, not in this first ledger."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q1. UI claims and CPS demographics remain later views."
+    },
+    "SRC-614-02": {
+      "name": "BLS QCEW average weekly wage, all industries, statewide",
+      "cadence": "Quarterly",
+      "url": "https://data.bls.gov/cew/data/api/2025/1/industry/10.csv",
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q1. UI claims and CPS demographics remain later views."
     }
   },
   "page": {
@@ -42,7 +48,7 @@
   "unit": "percent",
   "data_month": "2026-06",
   "data_month_label": "Jun 2026",
-  "lead": "Massachusetts seasonally adjusted unemployment was <b>4.4 percent</b> in Jun 2026, rank 18 of 51 when states are ordered from highest rate to lowest (derived, SRC-614-01). District of Columbia was highest at 6.0 percent; South Dakota was lowest at 2.0 percent (SRC-614-01).",
+  "lead": "Massachusetts seasonally adjusted unemployment was <b>4.4 percent</b> in Jun 2026, rank 18 of 51 when states are ordered from highest rate to lowest (derived, SRC-614-01). District of Columbia was highest at 6.0 percent; South Dakota was lowest at 2.0 percent (SRC-614-01). Average weekly wages were <b>$1,592</b> in the United States in 2025 Q1 (derived, SRC-614-02). Massachusetts was <b>$2,103</b>, rank 3 of 51 (derived, SRC-614-02). UI claims remain pending.",
   "kpis": [
     {
       "label": "Massachusetts, Jun 2026",
@@ -990,7 +996,34 @@
       }
     ],
     "massachusetts_rank": 18,
-    "n_ranked": 51
+    "n_ranked": 51,
+    "secondary": {
+      "qcew_avg_weekly_wage_2025q1": {
+        "us": 1592,
+        "ma": {
+          "v": 2103.0,
+          "rank": 3,
+          "n": 51
+        },
+        "highest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 2608.0
+        },
+        "lowest": {
+          "st": "MS",
+          "name": "Mississippi",
+          "v": 1017.0
+        },
+        "n_ranked": 51,
+        "label": "Average weekly wage, all industries, 2025 Q1",
+        "src": "SRC-614-02",
+        "unit": "dollars per week",
+        "as_of_label": "2025 Q1",
+        "ma_employment": 3576953,
+        "note": "The U.S. weekly wage is derived from the sum of published state wage and employment cells (derived, SRC-614-02). It is not a separate BLS U.S. line."
+      }
+    }
   },
   "entities": {
     "DC": {

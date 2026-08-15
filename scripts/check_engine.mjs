@@ -34,6 +34,7 @@ const GOLDEN_HITS = [
   ["How many students are enrolled in public K-12 in the United States?", "DL-07"],
   ["How many students are enrolled in college in Massachusetts?", "DL-08"],
   ["How many students are in charter schools in the United States?", "DL-09"],
+  ["How many hospitals are in Massachusetts?", "DL-10"],
   ["How much does Massachusetts spend on Medicaid?", "DL-12"],
   ["How many new business applications were filed in the United States?", "DL-13"],
   ["What is the unemployment rate in Massachusetts?", "DL-14"],
@@ -43,6 +44,7 @@ const GOLDEN_HITS = [
   ["What is the cost of living in Massachusetts compared to the US?", "DL-19"],
   ["Are taxpayers leaving Massachusetts?", "DL-20"],
   ["What is Massachusetts adjusted gross income?", "DL-21"],
+  ["Which transit agency has the most riders?", "DL-22"],
   ["How many vehicle-miles were driven in Massachusetts?", "DL-23"],
   ["How much CO2 does Massachusetts emit from energy?", "DL-24"],
   ["What is the population of Boston?", "DL-25"],
@@ -50,6 +52,7 @@ const GOLDEN_HITS = [
   ["How much is Boston city payroll?", "DL-27"],
   ["How much tax did Massachusetts collect last quarter?", "DL-28"],
   ["Which state collected the most tax last quarter?", "DL-29"],
+  ["How much is Commonwealth payroll?", "DL-30"],
   ["How many prisoners does Massachusetts hold?", "DL-31"],
 ];
 
@@ -66,7 +69,7 @@ function check(ok, msg) {
   }
 }
 
-check(tools.length >= 26, "five flagships plus the 21 live suite tools are registered (" + tools.length + ")");
+check(tools.length >= 29, "five flagships plus the 24 live suite tools are registered (" + tools.length + ")");
 
 for (const t of tools) {
   for (const f of REQUIRED) {

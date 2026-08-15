@@ -6,8 +6,8 @@
   "group": "Education",
   "status": "live",
   "as_of": "2023-10",
-  "scope": "This first ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023. NAEP, per-pupil finance (on Massachusetts K-12), completion, and discipline are listed as later views.",
-  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education. NAEP and discipline files are pending.",
+  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view.",
+  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education. NAEP state scores are pending.",
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "replaces": [
     "Discipline & Security",
@@ -16,19 +16,31 @@
     "K-12 School Finance",
     "Reading/Math Achievement"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2024 table 203.20. U.S. Fall 2023 enrollment equals 49,516,361. NAEP, completion, and discipline remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2024 table 203.20. U.S. Fall 2023 enrollment equals 49,516,361. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-607-01": {
       "name": "NCES NAEP state results",
       "cadence": "Biennial",
       "url": "https://nces.ed.gov/nationsreportcard/",
-      "supports": "This first ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023. NAEP, per-pupil finance (on Massachusetts K-12), completion, and discipline are listed as later views."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
     },
     "SRC-607-02": {
       "name": "NCES Digest table 203.20, public K-12 enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn203.20.xlsx",
-      "supports": "This first ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023. NAEP, per-pupil finance (on Massachusetts K-12), completion, and discipline are listed as later views."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
+    },
+    "SRC-607-03": {
+      "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx",
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
+    },
+    "SRC-607-04": {
+      "name": "NCES Digest table 233.40, out-of-school suspension share",
+      "cadence": "Periodic",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx",
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2023, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
     }
   },
   "page": {
@@ -45,7 +57,7 @@
   "unit": "students",
   "data_month": "2023-10",
   "data_month_label": "Fall 2023",
-  "lead": "Public elementary and secondary enrollment was <b>49,516,361</b> in the United States in Fall 2023 (SRC-607-02). Massachusetts enrolled <b>914,958</b>, rank 17 of 51 (derived, SRC-607-02). NAEP scores and discipline files are pending on this page.",
+  "lead": "Public elementary and secondary enrollment was <b>49,516,361</b> in the United States in Fall 2023 (SRC-607-02). Massachusetts enrolled <b>914,958</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). NAEP state scores remain pending.",
   "kpis": [
     {
       "label": "U.S. public K-12, Fall 2023",
@@ -651,7 +663,56 @@
       }
     ],
     "n_ranked": 51,
-    "massachusetts_rank": 17
+    "massachusetts_rank": 17,
+    "secondary": {
+      "acgr_2021_22": {
+        "us": 86.6,
+        "ma": {
+          "v": 90.1,
+          "rank": 5,
+          "n": 48
+        },
+        "highest": {
+          "st": "WV",
+          "name": "West Virginia",
+          "v": 91.2
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 76.4
+        },
+        "n_ranked": 48,
+        "label": "Public high school 4-year adjusted cohort graduation rate, 2021-22",
+        "src": "SRC-607-03",
+        "unit": "percent",
+        "as_of_label": "School year 2021-22"
+      },
+      "oss_suspension_2020_21": {
+        "us": 1.32,
+        "ma": {
+          "v": 0.59,
+          "rank": 39,
+          "n": 50
+        },
+        "highest": {
+          "st": "MS",
+          "name": "Mississippi",
+          "v": 4.28
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 0.03
+        },
+        "n_ranked": 50,
+        "label": "Share of public-school students with an out-of-school suspension, 2020-21",
+        "src": "SRC-607-04",
+        "unit": "percent",
+        "as_of_label": "School year 2020-21",
+        "note": "Higher is more students suspended, not a performance ranking."
+      }
+    }
   },
   "entities": {
     "CA": {

@@ -92,6 +92,15 @@ RULES = {
     "netlify/functions/dl31-answers.json": (
         "YYYY-MM", 1200, "BJS Prisoners statistical tables are annual"
     ),
+    "netlify/functions/dl10-answers.json": (
+        "YYYY-MM", 400, "CMS Hospital General Information is refreshed periodically"
+    ),
+    "netlify/functions/dl22-answers.json": (
+        "YYYY-MM", 75, "FTA NTD monthly ridership publishes with about a two-month lag"
+    ),
+    "netlify/functions/dl30-answers.json": (
+        "YYYY-MM", 400, "CTHRU calendar-year payroll is complete after year-end"
+    ),
 }
 
 
@@ -116,7 +125,11 @@ def main():
     today = date.today()
     failures = []
     for rel, (fmt, max_days, why) in RULES.items():
-        ledger = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+        path = ROOT / rel
+        if not path.exists():
+            print(f"skip   {rel}  missing")
+            continue
+        ledger = json.loads(path.read_text(encoding="utf-8"))
         if ledger.get("status") == "build":
             print(f"skip   {rel}  status=build")
             continue

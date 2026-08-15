@@ -34,6 +34,7 @@ const DL06 = require('./dl06-answers.json');
 const DL07 = require('./dl07-answers.json');
 const DL08 = require('./dl08-answers.json');
 const DL09 = require('./dl09-answers.json');
+const DL10 = require('./dl10-answers.json');
 const DL12 = require('./dl12-answers.json');
 const DL13 = require('./dl13-answers.json');
 const DL14 = require('./dl14-answers.json');
@@ -43,6 +44,7 @@ const DL17 = require('./dl17-answers.json');
 const DL19 = require('./dl19-answers.json');
 const DL20 = require('./dl20-answers.json');
 const DL21 = require('./dl21-answers.json');
+const DL22 = require('./dl22-answers.json');
 const DL23 = require('./dl23-answers.json');
 const DL24 = require('./dl24-answers.json');
 const DL25 = require('./dl25-answers.json');
@@ -50,6 +52,7 @@ const DL26 = require('./dl26-answers.json');
 const DL27 = require('./dl27-answers.json');
 const DL28 = require('./dl28-answers.json');
 const DL29 = require('./dl29-answers.json');
+const DL30 = require('./dl30-answers.json');
 const DL31 = require('./dl31-answers.json');
 
 function suiteCore(d) {
@@ -81,7 +84,7 @@ function suiteModel(d) {
 }
 
 function suiteRules(id, src, extra) {
-  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. This first ledger answers only the metric named in metric_label. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. View and chart selection: latest = the current ranking; trend = change over time; table = every jurisdiction. When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
+  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. Answer the metric named in metric_label and any series stored under derived.secondary; cite the source id on each secondary figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. View and chart selection: latest = the current ranking; trend = change over time; table = every jurisdiction. When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
 }
 
 function suiteLink(slug) {
@@ -398,7 +401,7 @@ module.exports = [
       'public k-12', 'national k-12', 'fall 2023 enrollment',
       'elementary and secondary enrollment'
     ],
-    extra: 'NAEP scores and discipline files are pending: decline those.'
+    extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP state scores are pending: decline those.'
   }),
   suiteTool(DL08, {
     id: 'DL-08',
@@ -408,7 +411,7 @@ module.exports = [
       'college', 'college enrollment', 'higher education', 'postsecondary',
       'fall enrollment', 'degree-granting', 'university enrollment'
     ],
-    extra: 'Admissions tests and faculty counts are pending: decline those.'
+    extra: 'SAT mean scores sit in derived.secondary.sat_2023; the national faculty count sits in derived.secondary.faculty_fall_2022_us. State faculty counts and IPEDS outcomes are pending.'
   }),
   suiteTool(DL09, {
     id: 'DL-09',
@@ -417,7 +420,19 @@ module.exports = [
     triggers: [
       'charter', 'charters', 'charter school', 'charter enrollment'
     ],
-    extra: 'Education-staff files are pending: decline staff-count questions.'
+    extra: 'Teacher FTE counts sit in derived.secondary.teachers_fte_fall_2022.'
+  }),
+  suiteTool(DL10, {
+    id: 'DL-10',
+    label: 'Massachusetts hospitals from CMS Hospital General Information, including overall star ratings',
+    src: 'SRC-610-02',
+    uppercase: false,
+    hl: 'the exact hospital name as written in entities if the question focuses on one facility, else null',
+    triggers: [
+      'massachusetts hospitals', 'massachusetts hospital', 'hospital rating',
+      'cms hospital', 'hospital star', 'how many hospitals'
+    ],
+    extra: 'CHIA relative prices are pending: decline those. This is the CMS facility file, not a care-advice tool. Decline where-to-seek-care questions.'
   }),
   suiteTool(DL12, {
     id: 'DL-12',
@@ -445,7 +460,7 @@ module.exports = [
       'unemployment', 'unemployment rate', 'jobless', 'laus',
       'labor force', 'seasonally adjusted unemployment'
     ],
-    extra: 'The U.S. civilian rate is not in this file: do not invent it. Wages and UI claims are pending.'
+    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q1; the U.S. wage there is derived from state sums. UI claims are pending.'
   }),
   suiteTool(DL15, {
     id: 'DL-15',
@@ -455,7 +470,7 @@ module.exports = [
       'real gdp', 'state gdp', 'gross domestic product', 'chained 2017',
       'economic output', 'gdp by state'
     ],
-    extra: 'Personal income and NAICS detail are pending: decline those. Figures are millions of chained 2017 dollars; say that in prose.'
+    extra: 'Personal income sits in derived.secondary.personal_income_2025. NAICS industry detail is pending. Real GDP figures are millions of chained 2017 dollars; say that in prose.'
   }),
   suiteTool(DL16, {
     id: 'DL-16',
@@ -465,7 +480,7 @@ module.exports = [
       'building permits', 'housing permits', 'housing units',
       'units authorized', 'housing production', 'permit-issuing'
     ],
-    extra: 'House-price indexes are pending: decline price questions.'
+    extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. Case-Shiller city indexes are pending. FHFA has no U.S. row in that state file.'
   }),
   suiteTool(DL17, {
     id: 'DL-17',
@@ -495,7 +510,7 @@ module.exports = [
       'taxpayer migration', 'taxpayers leaving', 'filers leaving',
       'irs migration', 'state-to-state migration', 'returns in and out'
     ],
-    extra: 'Census domestic migration sits on DL-17. County-to-county files are pending. Decline relocation advice.'
+    extra: 'Census domestic migration sits on DL-17. Massachusetts county nets sit in derived.secondary.ma_county_taxpayer_migration_2022_23. Decline relocation advice.'
   }),
   suiteTool(DL21, {
     id: 'DL-21',
@@ -507,6 +522,18 @@ module.exports = [
     ],
     extra: 'This is AGI and return counts, not statutory tax rates (those sit on DL-01) and not quarterly state tax collections (DL-28 and DL-29). County files are pending.'
   }),
+  suiteTool(DL22, {
+    id: 'DL-22',
+    label: 'U.S. transit agency unlinked passenger trips from FTA NTD, latest month',
+    src: 'SRC-622-01',
+    uppercase: false,
+    hl: 'the exact agency name as written in entities if the question focuses on one agency, else null',
+    triggers: [
+      'transit agencies', 'transit agency', 'compare systems', 'compare transit',
+      'ntd ridership', 'which transit agency', 'largest transit'
+    ],
+    extra: 'This is agency-level monthly ridership. MBTA mode-by-mode reliability, cost per trip, and farebox recovery stay on DL-03. Agency operating cost is pending here.'
+  }),
   suiteTool(DL23, {
     id: 'DL-23',
     label: 'Annual vehicle-miles of travel by state from FHWA VM-2',
@@ -515,7 +542,7 @@ module.exports = [
       'vehicle-miles', 'vehicle miles', 'vmt', 'roadway travel',
       'miles driven', 'highway statistics'
     ],
-    extra: 'FEMA risk and degree-day files are pending: decline those. Transit agencies sit on DL-03 or the transit stub.'
+    extra: 'FEMA risk and degree-day files are pending: decline those. Transit agencies sit on DL-03 or DL-22.'
   }),
   suiteTool(DL24, {
     id: 'DL-24',
@@ -525,7 +552,7 @@ module.exports = [
       'carbon dioxide', 'co2', 'energy emissions', 'emissions from energy',
       'state emissions'
     ],
-    extra: 'Retail electricity prices sit on DL-04. SEDS consumption and production are pending: decline those.'
+    extra: 'Retail electricity prices sit on DL-04. SEDS consumption sits in derived.secondary.seds_consumption_2024. SEDS production is pending.'
   }),
   suiteTool(DL25, {
     id: 'DL-25',
@@ -561,7 +588,7 @@ module.exports = [
       'boston payroll', 'boston city payroll', 'boston earnings',
       'city of boston payroll', 'boston police department', 'boston departments'
     ],
-    extra: 'The adopted budget is pending. Statewide payroll sits on the CTHRU stub, not here. Decline named-employee lookups.'
+    extra: 'The FY26 operating budget sits in derived.secondary.boston_operating_budget_fy26. Statewide payroll sits on DL-30. Decline named-employee lookups.'
   }),
   suiteTool(DL28, {
     id: 'DL-28',
@@ -584,6 +611,18 @@ module.exports = [
       'quarterly tax revenue', 'state government taxes'
     ],
     extra: 'The Massachusetts type-of-tax split sits on DL-28. Rainy-day funds and public-employee counts are pending. Excludes D.C.'
+  }),
+  suiteTool(DL30, {
+    id: 'DL-30',
+    label: 'Massachusetts Commonwealth payroll by department from CTHRU, plus Comptroller spending',
+    src: 'SRC-630-01',
+    uppercase: false,
+    hl: 'the exact department name as written in entities if the question focuses on one department, else null',
+    triggers: [
+      'commonwealth payroll', 'state agency payroll', 'cthru payroll',
+      'massachusetts state payroll', 'vendor payments', 'comptroller spending'
+    ],
+    extra: 'Decline named-employee lookups. Boston city payroll sits on DL-27. Retiree pensions sit on DL-05. Quasi-public payroll detail is pending. Spending is the Comptroller all-object-class total, not a vendor-only extract.'
   }),
   suiteTool(DL31, {
     id: 'DL-31',

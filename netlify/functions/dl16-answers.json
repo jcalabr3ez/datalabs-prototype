@@ -6,20 +6,26 @@
   "group": "Housing",
   "status": "live",
   "as_of": "2026-06",
-  "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. House-price indexes are listed as a later view, not in this first ledger.",
-  "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house. FHFA and Case-Shiller price indexes are pending on this page.",
+  "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state. Case-Shiller city indexes remain a later view.",
+  "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house. Case-Shiller city indexes are pending on this page.",
   "heritage": "Formerly Housing Production and Housing Prices",
   "replaces": [
     "Housing Prices",
     "Housing Production"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census BPS state year-to-date files st2606y.txt and the matching 2025 file. Units are 1-unit + 2-unit + 3-4 unit + 5-or-more, reported buildings' units columns. The U.S. total is the sum of published state rows, not a separate Census U.S. line.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census BPS state year-to-date files st2606y.txt and the matching 2025 file. Units are 1-unit + 2-unit + 3-4 unit + 5-or-more, reported buildings' units columns. The U.S. total is the sum of published state rows, not a separate Census U.S. line. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-616-01": {
       "name": "Census Bureau Building Permits Survey, state year-to-date files",
       "cadence": "Monthly",
       "url": "https://www2.census.gov/econ/bps/State/",
-      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. House-price indexes are listed as a later view, not in this first ledger."
+      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state. Case-Shiller city indexes remain a later view."
+    },
+    "SRC-616-02": {
+      "name": "FHFA all-transactions house-price index, annual state file",
+      "cadence": "Annual",
+      "url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_state.csv",
+      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state. Case-Shiller city indexes remain a later view."
     }
   },
   "page": {
@@ -37,7 +43,7 @@
   "unit": "units",
   "data_month": "2026-06",
   "data_month_label": "Jun 2026 year-to-date",
-  "lead": "Permit-issuing places authorized <b>721,052</b> housing units in the United States through Jun 2026, -1.3% from the same months of 2025 (derived, SRC-616-01). Massachusetts authorized <b>7,148</b>, rank 30 of 51 (derived, SRC-616-01).",
+  "lead": "Permit-issuing places authorized <b>721,052</b> housing units in the United States through Jun 2026, -1.3% from the same months of 2025 (derived, SRC-616-01). Massachusetts authorized <b>7,148</b>, rank 30 of 51 (derived, SRC-616-01). The FHFA all-transactions house-price index rose <b>3.65%</b> in Massachusetts in 2025, rank 21 of 51 on annual change (derived, SRC-616-02). New Jersey had the largest increase at 6.16% (SRC-616-02).",
   "kpis": [
     {
       "label": "U.S. units, Jun 2026 year-to-date",
@@ -582,7 +588,33 @@
     ],
     "massachusetts_rank": 30,
     "n_ranked": 51,
-    "us_sum_of_states": 721052
+    "us_sum_of_states": 721052,
+    "secondary": {
+      "fhfa_hpi_annual_change_2025": {
+        "us": null,
+        "ma": {
+          "v": 3.65,
+          "rank": 21,
+          "n": 51
+        },
+        "highest": {
+          "st": "NJ",
+          "name": "New Jersey",
+          "v": 6.16
+        },
+        "lowest": {
+          "st": "FL",
+          "name": "Florida",
+          "v": -0.53
+        },
+        "n_ranked": 51,
+        "label": "FHFA all-transactions house-price index, annual change, 2025",
+        "src": "SRC-616-02",
+        "unit": "percent",
+        "as_of_label": "Calendar year 2025",
+        "note": "FHFA does not publish a U.S. row in this state file. The index is developmental (FHFA note, March 31, 2026)."
+      }
+    }
   },
   "entities": {
     "TX": {

@@ -63,6 +63,7 @@ const GOLDEN = [
   ["How many students are enrolled in public K-12 in the United States?", ["answer"], "DL-07"],
   ["How many students are enrolled in college in Massachusetts?", ["answer"], "DL-08"],
   ["How many students are in charter schools in the United States?", ["answer"], "DL-09"],
+  ["How many hospitals are in Massachusetts?", ["answer"], "DL-10"],
   ["How much does Massachusetts spend on Medicaid?", ["answer"], "DL-12"],
   ["How many new business applications were filed in the United States?", ["answer"], "DL-13"],
   ["What is the unemployment rate in Massachusetts?", ["answer"], "DL-14"],
@@ -72,6 +73,7 @@ const GOLDEN = [
   ["What is the cost of living in Massachusetts compared to the US?", ["answer"], "DL-19"],
   ["Are taxpayers leaving Massachusetts?", ["answer"], "DL-20"],
   ["What is Massachusetts adjusted gross income?", ["answer"], "DL-21"],
+  ["Which transit agency has the most riders?", ["answer"], "DL-22"],
   ["How many vehicle-miles were driven in Massachusetts?", ["answer"], "DL-23"],
   ["How much CO2 does Massachusetts emit from energy?", ["answer"], "DL-24"],
   ["What is the population of Boston?", ["answer"], "DL-25"],
@@ -79,6 +81,7 @@ const GOLDEN = [
   ["How much is Boston city payroll?", ["answer"], "DL-27"],
   ["How much tax did Massachusetts collect last quarter?", ["answer"], "DL-28"],
   ["Which state collected the most tax last quarter?", ["answer"], "DL-29"],
+  ["How much is Commonwealth payroll?", ["answer"], "DL-30"],
   ["How many prisoners does Massachusetts hold?", ["answer"], "DL-31"],
 ];
 

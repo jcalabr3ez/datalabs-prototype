@@ -6,20 +6,26 @@
   "group": "Education",
   "status": "live",
   "as_of": "2023-06",
-  "scope": "This first ledger ranks states on NCES Digest public charter fall enrollment for 2022-23. School counts as a share of all public schools, and education-staff files, are listed as later views.",
-  "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter. Staff files are pending.",
+  "scope": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022.",
+  "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter.",
   "heritage": "Formerly School Districts Charter Schools and Education Staff",
   "replaces": [
     "School Districts-Charter Schools",
     "School Districts-Education Staff"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Education-staff files remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-609-01": {
       "name": "NCES Digest table 216.90, charter schools and enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn216.90.xlsx",
-      "supports": "This first ledger ranks states on NCES Digest public charter fall enrollment for 2022-23. School counts as a share of all public schools, and education-staff files, are listed as later views."
+      "supports": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022."
+    },
+    "SRC-609-02": {
+      "name": "NCES Digest table 208.30, public-school teachers (FTE)",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx",
+      "supports": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022."
     }
   },
   "page": {
@@ -37,7 +43,7 @@
   "unit": "students",
   "data_month": "2023-06",
   "data_month_label": "School year 2022-23",
-  "lead": "Public charter-school enrollment was <b>3,717,857</b> in 2022-23 (SRC-609-01). Massachusetts enrolled <b>47,993</b>, rank 22 of 46 states with a published count (derived, SRC-609-01). Staff counts are pending on this page.",
+  "lead": "Public charter-school enrollment was <b>3,717,857</b> in 2022-23 (SRC-609-01). Massachusetts enrolled <b>47,993</b>, rank 22 of 46 states with a published count (derived, SRC-609-01). Public schools employed <b>3,228,895</b> full-time-equivalent teachers in Fall 2022 (SRC-609-02). Massachusetts employed <b>76,978</b>, rank 13 of 51 (derived, SRC-609-02).",
   "kpis": [
     {
       "label": "U.S. charter enrollment, 2022-23",
@@ -483,7 +489,32 @@
       }
     ],
     "n_ranked": 46,
-    "massachusetts_rank": 22
+    "massachusetts_rank": 22,
+    "secondary": {
+      "teachers_fte_fall_2022": {
+        "us": 3228895,
+        "ma": {
+          "v": 76978,
+          "rank": 13,
+          "n": 51
+        },
+        "highest": {
+          "st": "TX",
+          "name": "Texas",
+          "v": 373332
+        },
+        "lowest": {
+          "st": "AK",
+          "name": "Alaska",
+          "v": 7160
+        },
+        "n_ranked": 51,
+        "label": "Public elementary and secondary teachers (FTE), Fall 2022",
+        "src": "SRC-609-02",
+        "unit": "full-time-equivalent teachers",
+        "as_of_label": "Fall 2022"
+      }
+    }
   },
   "entities": {
     "CA": {

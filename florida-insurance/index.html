@@ -1105,6 +1105,30 @@ const AX={grid:{display:false},border:{color:G3},ticks:{padding:8,color:G2}};
 const AY={grid:{color:RULE,drawTicks:false},border:{display:false},ticks:{padding:10,color:G2}};
 function axisTitle(text){return {display:true,text:text,color:'#5c6b7a',font:{size:11}};}
 function catY(){return {...AX,ticks:{...AX.ticks,autoSkip:false,callback:function(v){return String(this.getLabelForValue(v));}}};}
+function pointLabels(fmt){return {id:'pl',afterDatasetsDraw(c){
+  const {ctx}=c; ctx.save(); ctx.font='600 10px '+SANS;
+  c.data.datasets.forEach((ds,di)=>{
+    const meta=c.getDatasetMeta(di);
+    meta.data.forEach((pt,i)=>{
+      const v=ds.data[i]; if(v==null||Array.isArray(v)) return;
+      ctx.fillStyle=ds.borderColor||G2; ctx.textAlign='center'; ctx.textBaseline='bottom';
+      ctx.fillText(fmt(v,di,i), pt.x, pt.y-6);
+    });
+  });
+  ctx.restore();}};
+function barLabels(fmt){return {id:'bl',afterDatasetsDraw(c){
+  const {ctx}=c; ctx.save(); ctx.font='600 10px '+SANS; ctx.fillStyle='#232B33';
+  c.data.datasets.forEach((ds,di)=>{
+    const meta=c.getDatasetMeta(di);
+    meta.data.forEach((bar,i)=>{
+      const v=ds.data[i]; if(v==null) return;
+      const text=fmt(v,di,i); if(!text) return;
+      const horiz=c.options.indexAxis==='y';
+      if(horiz){ ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(text, bar.x+6, bar.y); }
+      else { ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText(text, bar.x, bar.y-4); }
+    });
+  });
+  ctx.restore();}};}
 
 const band=()=>({id:'band',beforeDatasetsDraw(c){
   const{ctx,chartArea:{top,bottom},scales:{x}}=c;
@@ -1118,11 +1142,17 @@ function pifChart(id){
   return new Chart(document.getElementById(id),{type:'line',
     data:{labels:pif.map(r=>r[0]),datasets:[{data:pif.map(r=>r[1]),borderColor:BLUE,
       backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22,right:6}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22,right:56}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y.toLocaleString()+' homes'}}},
       scales:{y:{...AY,beginAtZero:true,title:axisTitle('Policies in force, thousands'),ticks:{...AY.ticks,callback:v=>(v/1000).toLocaleString()+'k'}},
         x:{...AX,ticks:{...AX.ticks,maxTicksLimit:12,maxRotation:0,autoSkip:true}}}},
-    plugins:[band()]});
+    plugins:[band(),{id:'el',afterDatasetsDraw(c){
+      const ds=c.data.datasets[0], i=ds.data.length-1, pt=c.getDatasetMeta(0).data[i];
+      if(!pt) return;
+      const ctx=c.ctx; ctx.save(); ctx.font='700 11px '+SANS; ctx.fillStyle=BLUE;
+      ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillText(ds.data[i].toLocaleString()+' homes', pt.x+6, pt.y-4); ctx.restore();
+    }}]});
 }
 
 const rendered={};
@@ -1177,10 +1207,10 @@ function renderPolicy(){
     data:{labels:FLCR.labels,
       datasets:[{data:FLCR.data,borderColor:BLUE,backgroundColor:'transparent',
         borderWidth:2.5,pointRadius:4,pointBackgroundColor:BLUE,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:10}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:10}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y+'% '+(c.parsed.y>100?'(loss)':'(profit)')}}},
       scales:{y:{...AY,min:72,max:126,title:axisTitle('Combined ratio, percent'),ticks:{...AY.ticks,stepSize:10,callback:v=>v+'%'}},x:{...AX}}},
-    plugins:[{id:'be',afterDatasetsDraw(c){
+    plugins:[pointLabels(v=>v+'%'),{id:'be',afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
       ctx.save(); ctx.strokeStyle='#8C2F1B'; ctx.setLineDash([4,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
@@ -1194,10 +1224,11 @@ function renderPolicy(){
        backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8C2F1B',tension:0},
       {label:'Share of nationwide homeowners claims',data:mc.map(r=>r[1]),borderColor:BLUE,
        backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:3,pointBackgroundColor:BLUE,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)+'%'+(c.label==='2025'?' (preliminary)':'')}}},
-      scales:{y:{...AY,min:0,max:90,title:axisTitle('Percent of nationwide homeowners'),ticks:{...AY.ticks,callback:v=>v+'%'}},x:{...AX}}}});
+      scales:{y:{...AY,min:0,max:90,title:axisTitle('Percent of nationwide homeowners'),ticks:{...AY.ticks,callback:v=>v+'%'}},x:{...AX}}},
+    plugins:[pointLabels(v=>v.toFixed(1)+'%')]});
   // Citizens statutory results (Gallagher Re YE2025 compilation)
   new Chart(document.getElementById('cChartP'),{type:'line',
     data:{labels:FLSTAT.labels,datasets:[
@@ -1205,12 +1236,13 @@ function renderPolicy(){
        borderColor:'#CCB26D',backgroundColor:'#CCB26D',borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25},
       {label:'Net income',data:FLSTAT.ni,
        borderColor:BLUE,backgroundColor:BLUE,borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:8}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y<0?'-':'+')+'$'+Math.abs(c.parsed.y).toLocaleString(undefined,{maximumFractionDigits:0})+'M'}}},
       scales:{y:{...AY,title:axisTitle('Billion dollars'),grid:{color:ctx=>ctx.tick.value===0?'#9AA2AA':RULE,drawTicks:false},
           ticks:{...AY.ticks,callback:v=>(v<0?'-':'')+'$'+Math.abs(v/1000).toFixed(1)+'B'}},
-        x:{...AX}}}});
+        x:{...AX}}},
+    plugins:[pointLabels(v=>(v<0?'-':'+')+'$'+Math.abs(v).toLocaleString(undefined,{maximumFractionDigits:0})+'M')]});
   // Figure 5: 100-year PML by book vintage, three normalizations. Last vintage is a Pioneer estimate range (floating bar).
   const pmv=FLPML.vintages;
   const pmViews={
@@ -1231,11 +1263,12 @@ function renderPolicy(){
       backgroundColor:pmv.map((r,i)=>i===1?'#8C2F1B':(i===5?'#CCB26D':BLUE)),
       borderColor:pmv.map((r,i)=>i===5?'#CCB26D':'transparent'),
       borderWidth:pmv.map((r,i)=>i===5?2:0)}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
       plugins:{tooltip:{callbacks:{label:c=>{const view=pmViews[window.pmCur||'abs'];
         const v=view.data[c.dataIndex]; if(v===null) return '';
         return [view.fmt(v), pmv[c.dataIndex][1]];}}}},
-      scales:{y:{...AY,min:0,max:20,title:axisTitle(pmViews.abs.title),ticks:{...AY.ticks,stepSize:5,callback:pmViews.abs.tick}},x:{...AX}}}});
+      scales:{y:{...AY,min:0,max:20,title:axisTitle(pmViews.abs.title),ticks:{...AY.ticks,stepSize:5,callback:pmViews.abs.tick}},x:{...AX}}},
+    plugins:[barLabels((v,di,i)=>{const view=pmViews[window.pmCur||'abs']; const raw=view.data[i]; if(raw==null) return ''; return view.fmt(raw);})]});
   window.pmCur='abs';
   window.setPmView=function(v){
     window.pmCur=v; const view=pmViews[v];
@@ -1271,11 +1304,11 @@ function renderPolicy(){
   new Chart(document.getElementById('iChart'),{type:'bar',
     data:{labels:inflow.map(r=>r[0]),datasets:[{data:inflow.map(r=>r[1]),
       backgroundColor:inflow.map(r=>r[1]>100?'#8C2F1B':(r[1]<0?'#177245':BLUE)),borderWidth:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y<0?'Net outflow: departures exceeded arrivals':c.parsed.y+' policies arrived per 100 taken out'}}},
       scales:{y:{...AY,min:-20,max:150,title:axisTitle('Policies arrived per 100 taken out'),grid:{color:ctx=>ctx.tick.value===0?'#9AA2AA':RULE,drawTicks:false},
           ticks:{...AY.ticks,stepSize:50}},x:{...AX}}},
-    plugins:[{id:'thr',afterDatasetsDraw(c){
+    plugins:[barLabels(v=>String(v)),{id:'thr',afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
       ctx.save(); ctx.strokeStyle='#8C2F1B'; ctx.setLineDash([4,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);

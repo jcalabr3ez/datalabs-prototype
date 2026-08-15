@@ -334,6 +334,53 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
     var s=r.name||r.st||'';
     return s.length>28?s.slice(0,26)+'…':s;
   }
+  function rawVal(ds, i, horiz){
+    var raw=ds.data[i];
+    if(raw==null||raw==='') return null;
+    if(typeof raw==='object'){
+      var v=horiz?raw.x:raw.y;
+      return (v==null||v==='')?null:v;
+    }
+    return raw;
+  }
+  function dataLabels(fmt, mode){
+    return {id:'dlbl',afterDatasetsDraw:function(chart){
+      var ctx=chart.ctx;
+      var horiz=chart.options.indexAxis==='y';
+      var isLine=chart.config.type==='line';
+      ctx.save();
+      ctx.font='600 10px Roboto,sans-serif';
+      chart.data.datasets.forEach(function(ds, di){
+        var meta=chart.getDatasetMeta(di);
+        if(!meta||meta.hidden) return;
+        var n=meta.data.length, idxs=[];
+        if(mode==='end'||(mode!=='all'&&isLine&&n>8)){
+          for(var i=n-1;i>=0;i--){ if(rawVal(ds,i,horiz)!=null){ idxs.push(i); break; } }
+        } else {
+          for(var j=0;j<n;j++) idxs.push(j);
+        }
+        idxs.forEach(function(i){
+          var el=meta.data[i]; if(!el) return;
+          var v=rawVal(ds,i,horiz); if(v==null) return;
+          var text=fmt(v); if(!text) return;
+          ctx.fillStyle=isLine?(ds.borderColor||INK):INK;
+          if(horiz){
+            ctx.textBaseline='middle';
+            if(Number(v)<0){ ctx.textAlign='right'; ctx.fillText(text, el.x-5, el.y); }
+            else { ctx.textAlign='left'; ctx.fillText(text, el.x+5, el.y); }
+          } else if(isLine){
+            ctx.textAlign='left';
+            ctx.textBaseline=(mode==='end'||n>8)&&(di%2)?'top':'bottom';
+            ctx.fillText(text, el.x+6, el.y+((mode==='end'||n>8)&&(di%2)?5:-4));
+          } else {
+            ctx.textAlign='center'; ctx.textBaseline='bottom';
+            ctx.fillText(text, el.x, el.y-4);
+          }
+        });
+      });
+      ctx.restore();
+    }};
+  }
   var rows=(DL&&DL.rows)||[];
   var nChart=CHART.n_chart||51;
   var chartRows=rows.slice(0,nChart);
@@ -345,7 +392,7 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
     new Chart(chRank,{type:'bar',
       data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        layout:{padding:{right:16,top:4}},
+        layout:{padding:{right:56,top:4}},
         plugins:{legend:{display:false},
           tooltip:{callbacks:{
             title:function(items){var i=items[0]&&items[0].dataIndex; return (chartRows[i]&&chartRows[i].name)||'';},
@@ -357,7 +404,8 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
           y:{ticks:{color:INK,font:{size:11,family:'Roboto,sans-serif'},autoSkip:false,
             callback:function(v){return String(this.getLabelForValue(v));}},
             grid:{display:false},border:{display:false}}
-        }}});
+        }},
+      plugins:[dataLabels(function(v){return fmtVal(v,true);},'all')]});
   }
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
@@ -373,6 +421,7 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
     });
     new Chart(chTrend,{type:'line',data:{datasets:datasets},
       options:{responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:8,right:64}},
         plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
           tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
         scales:{
@@ -380,7 +429,8 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
             callback:function(v){return String(this.getLabelForValue(v));}}},
           y:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
-        }}});
+        }},
+      plugins:[dataLabels(function(v){return fmtVal(v,true);})]});
   }
   function fmtInsight(fmt, v, short){
     if(v==null||v==='') return '';
@@ -428,9 +478,10 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
         grid:{display:false}},
       y:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'},border:{display:false}}
     };
+    var nLab=(fig.labels||[]).length;
     var opts={
       responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:4,right:8}},
+      layout:{padding:{top:fig.type==='grouped'?16:6,right:horiz||fig.type==='line'?56:12}},
       plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
         position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
         tooltip:{callbacks:{
@@ -446,13 +497,15 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
         }}},
       scales:scales
     };
+    var lbl=dataLabels(function(v){return fmtInsight(ifmt,v,true);}, fig.type==='line'&&nLab>8?'end':'all');
     if(fig.type==='line'){
       new Chart(el,{type:'line',
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
           return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
             backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2,spanGaps:true};
         })},
-        options:Object.assign({},opts,{indexAxis:'x'})});
+        options:Object.assign({},opts,{indexAxis:'x'}),
+        plugins:[lbl]});
       return;
     }
     if(fig.type==='grouped'){
@@ -460,13 +513,15 @@ const INSIGHTS=[{"id": "county-agi", "title": "Massachusetts county adjusted gro
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
           return {label:s.label,data:s.data,backgroundColor:s.color||NAVY,barPercentage:.72};
         })},
-        options:Object.assign({},opts,{indexAxis:'x'})});
+        options:Object.assign({},opts,{indexAxis:'x'}),
+        plugins:[lbl]});
       return;
     }
     var s0=fig.series[0]||{};
     new Chart(el,{type:'bar',
       data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||NAVY,barPercentage:.72}]},
-      options:Object.assign({},opts,{indexAxis:'y'})});
+      options:Object.assign({},opts,{indexAxis:'y'}),
+      plugins:[lbl]});
   });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){

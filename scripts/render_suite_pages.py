@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from insight_figures import insight_figures
 from page_voice import takeaways_html, voice_for
-from suite_common import ROOT, load_apps, ledger_path
+from suite_common import ROOT, catalog_dashboards, load_apps, ledger_path
 
 def esc(s):
     return html.escape("" if s is None else str(s), quote=True)
@@ -50,6 +50,37 @@ def kpi_html(kpis):
 def replaces_list(app, ledger):
     items = ledger.get("replaces") or app.get("replaces") or []
     return ", ".join(items)
+
+
+def dashboards_html(app):
+    items = catalog_dashboards(app)
+    if not items:
+        return ""
+    cards = []
+    for d in items:
+        host = ""
+        raw = d.get("u") or ""
+        if "://" in raw:
+            host = raw.split("://", 1)[1].split("/", 1)[0]
+            if host.startswith("www."):
+                host = host[4:]
+        note = d.get("q") or ""
+        cards.append(
+            '      <a class="dash" href="' + esc(raw) + '" target="_blank" rel="noopener">'
+            '<span class="dash-t">' + esc(d["t"]) + "</span>"
+            + ('<span class="dash-n">' + esc(note) + "</span>" if note else "")
+            + ('<span class="dash-h">Opens on ' + esc(host) + "</span>" if host else "")
+            + "</a>"
+        )
+    return (
+        '  <section id="dashboards">\n'
+        "    <h2>Current dashboards</h2>\n"
+        '    <p class="lede">This DataLabs page is in build. The live Tableau workbooks stay up until the ledger is compiled.</p>\n'
+        '    <div class="dashes">\n'
+        + "\n".join(cards)
+        + "\n    </div>\n"
+        "  </section>\n"
+    )
 
 
 def insight_html(insights):
@@ -343,14 +374,22 @@ def page_html(app, ledger, apps=None):
   </section>
 """
     else:
+        dash_block = dashboards_html(app)
+        jump = (
+            '<nav class="jump" aria-label="On this page">'
+            '<a href="#dashboards">Dashboards</a>'
+            '<a href="#sources">Sources</a>'
+            "</nav>\n"
+            if dash_block
+            else jump
+        )
         latest_section = f"""
 <section id="takeaways" style="margin-top:30px">
   <h2>What this application will cover</h2>
   <p class="lede">{esc(app['scope'])}</p>
   <p class="body-p">{esc(app['exclusions'])}</p>
-  <p class="body-p">It replaces these Tableau workbooks: {replaces}.</p>
 </section>
-"""
+{dash_block}"""
     trend_section = ""
     if live and has_trend:
         trend_section = f"""

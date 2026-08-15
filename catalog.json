@@ -188,7 +188,33 @@
   "url": "/340b/",
   "ai": false,
   "group": "340B",
-  "vint": "in build"
+  "vint": "in build",
+  "dashboards": [
+   {
+    "t": "340B Program Growth",
+    "u": "https://340babuse.com/340b-program-growth",
+    "g": "US",
+    "q": "Hospitals, health centers, clinics, and contract pharmacies eligible for 340B discounts."
+   },
+   {
+    "t": "Legislative Mapping",
+    "u": "https://340babuse.com/legislative-mapping",
+    "g": "US",
+    "q": "State legislative districts where 340B-participating pharmacies are located."
+   },
+   {
+    "t": "Hospital Charity Care",
+    "u": "https://340babuse.com/charity-care",
+    "g": "US",
+    "q": "Hospital charity-care shares since the start of the ACA."
+   },
+   {
+    "t": "State One Page Fact Sheets",
+    "u": "https://pioneerinstitute.org/340b-abuse/340b-state-one-page-fact-sheets/",
+    "g": "US",
+    "q": "How the 340B program is deployed in each state."
+   }
+  ]
  },
  {
   "id": "DL-12",
@@ -291,7 +317,15 @@
   "url": "/patents-innovation/",
   "ai": false,
   "group": "Economy & Jobs",
-  "vint": "in build"
+  "vint": "in build",
+  "dashboards": [
+   {
+    "t": "Patents by State and Sector",
+    "u": "https://usdatalabs.org/economy/patents-by-state-and-class",
+    "g": "US",
+    "q": "USPTO utility patents granted by inventor state and technology class."
+   }
+  ]
  },
  {
   "id": "DL-19",

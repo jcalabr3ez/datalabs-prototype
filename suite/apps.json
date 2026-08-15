@@ -118,6 +118,12 @@
       "scope": "Covers 340B covered-entity growth, hospital charity-care shares, and a map of state 340B legislation.",
       "exclusions": "Does not cover advice to a hospital or manufacturer, or predictions of federal rulemaking.",
       "wave": "build",
+      "dashboards": [
+        {"title": "340B Program Growth", "url": "https://340babuse.com/340b-program-growth", "g": "US", "note": "Hospitals, health centers, clinics, and contract pharmacies eligible for 340B discounts."},
+        {"title": "Legislative Mapping", "url": "https://340babuse.com/legislative-mapping", "g": "US", "note": "State legislative districts where 340B-participating pharmacies are located."},
+        {"title": "Hospital Charity Care", "url": "https://340babuse.com/charity-care", "g": "US", "note": "Hospital charity-care shares since the start of the ACA."},
+        {"title": "State One Page Fact Sheets", "url": "https://pioneerinstitute.org/340b-abuse/340b-state-one-page-fact-sheets/", "g": "US", "note": "How the 340B program is deployed in each state."}
+      ],
       "sources": [
         {"id": "SRC-611-01", "name": "HRSA Office of Pharmacy Affairs 340B covered-entity data", "cadence": "Quarterly", "url": "https://www.hrsa.gov/opa"},
         {"id": "SRC-611-02", "name": "CMS Hospital Cost Report charity-care worksheets", "cadence": "Annual", "url": "https://www.cms.gov/"}
@@ -249,6 +255,9 @@
       "scope": "Covers USPTO utility patents granted by inventor state and technology class.",
       "exclusions": "Does not cover trademarks, university rankings, or advice about filing a patent.",
       "wave": "build",
+      "dashboards": [
+        {"title": "Patents by State and Sector", "url": "https://usdatalabs.org/economy/patents-by-state-and-class", "g": "US", "note": "USPTO utility patents granted by inventor state and technology class."}
+      ],
       "sources": [
         {"id": "SRC-618-01", "name": "USPTO PatentView / PatentsView state and class counts", "cadence": "Annual", "url": "https://patentsview.org/"}
       ]

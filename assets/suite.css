@@ -41,6 +41,13 @@
   .related{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:8px}
   .related a{font:600 14.5px/1.4 var(--sans);color:var(--navy)}
   .related a:hover{color:var(--gold)}
+  .dashes{display:grid;grid-template-columns:1fr 1fr;gap:14px 22px;margin:8px 0 8px}
+  .dash{display:block;border:1px solid var(--rule);padding:16px 18px 14px;text-decoration:none;color:inherit}
+  .dash:hover{border-color:var(--gold)}
+  .dash-t{display:block;font:600 17px/1.25 var(--serif);color:var(--navy)}
+  .dash-n{display:block;font-size:13.5px;color:var(--grey);margin-top:6px;line-height:1.45}
+  .dash-h{display:block;font:11px/1.4 var(--mono);color:var(--faint);margin-top:10px}
+  @media(max-width:700px){.dashes{grid-template-columns:1fr}}
   .sitebar .sbleft a.nav{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none}
   .sitebar .sbleft a.nav:hover{color:var(--goldlt)}
   section{margin-top:56px}

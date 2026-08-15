@@ -624,6 +624,11 @@ def upsert_catalog(apps):
                     entry["ma"] = voice["ma"]
             except Exception:
                 pass
+        if ledger.get("status") == "build":
+            from suite_common import catalog_dashboards
+            dashes = catalog_dashboards(app)
+            if dashes:
+                entry["dashboards"] = dashes
         if app["id"] in by_id:
             catalog[by_id[app["id"]]] = entry
         else:

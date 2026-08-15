@@ -214,6 +214,22 @@ if offsite:
 else:
     print("catalog hygiene: ok   every application url is local")
 
+# Stub Tableau links may be off-site. They belong only on in-build rows.
+for r in catalog:
+    dashes = r.get("dashboards") or []
+    if not dashes:
+        continue
+    if r.get("st") != "build":
+        failures.append(f"catalog.json {r.get('id')} has dashboards but is not in build")
+        print(f"catalog hygiene: MISS dashboards on live {r.get('id')}")
+        continue
+    bad = [d.get("t") or "?" for d in dashes if not str(d.get("u") or "").startswith("https://")]
+    if bad:
+        failures.append(f"catalog.json {r.get('id')} dashboard urls must be https ({', '.join(bad)})")
+        print(f"catalog hygiene: MISS dashboard url on {r.get('id')}")
+    else:
+        print(f"catalog hygiene: ok   {r.get('id')} has {len(dashes)} Tableau dashboard(s)")
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

@@ -69,6 +69,39 @@ def load_apps():
     return json.loads((SUITE).read_text(encoding="utf-8"))["apps"]
 
 
+def catalog_dashboards(app):
+    """Tableau workbooks still live while a suite app is in build."""
+    out = []
+    for d in app.get("dashboards") or []:
+        if not d.get("title") or not d.get("url"):
+            continue
+        rec = {"t": d["title"], "u": d["url"]}
+        if d.get("g"):
+            rec["g"] = d["g"]
+        elif app.get("g"):
+            rec["g"] = app["g"][0]
+        if d.get("note"):
+            rec["q"] = d["note"]
+        out.append(rec)
+    return out
+
+
+def apply_catalog_dashboards(catalog):
+    """Copy stub Tableau links onto the matching catalog rows. Live apps stay blank."""
+    apps = {a["id"]: a for a in load_apps()}
+    by_id = {row.get("id"): row for row in catalog if isinstance(row, dict)}
+    for tid, app in apps.items():
+        row = by_id.get(tid)
+        if not row:
+            continue
+        dashes = catalog_dashboards(app) if app.get("wave") == "build" else []
+        if dashes:
+            row["dashboards"] = dashes
+        else:
+            row.pop("dashboards", None)
+    return catalog
+
+
 def ledger_path(tool_id: str) -> Path:
     # DL-13 -> dl13-answers.json, matching dl01 through dl05.
     return LEDGER_DIR / f"{tool_id.lower().replace('-', '')}-answers.json"

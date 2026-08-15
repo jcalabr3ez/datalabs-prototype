@@ -135,13 +135,11 @@
   .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(24px,3.6vw,34px); letter-spacing:-.01em; margin-top:8px; color:var(--navy); }
   .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
-  /* the desk: five featured lead cards */
-  .desk { margin-top:16px; border-top:2px solid var(--ink); display:grid; grid-template-columns:repeat(3,1fr); }
-  .lead { border-right:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:14px 16px 12px 0; display:flex; flex-direction:column;
+  /* the desk: two New Releases lead cards */
+  .desk { margin-top:16px; border-top:2px solid var(--ink); display:grid; grid-template-columns:repeat(2,1fr); }
+  .lead { border-right:1px solid var(--rule); padding:14px 16px 12px 0; display:flex; flex-direction:column;
     cursor:pointer; transition:background .16s ease; }
-  .lead:nth-child(3n) { border-right:none; padding-right:0; }
-  .lead:last-child { border-right:none; }
-  .lead:nth-last-child(-n+2) { border-bottom:none; }
+  .lead:last-child { border-right:none; padding-right:0; }
   .lead:hover { background:#FBFAF7; }
   .lead .place { display:flex; align-items:center; justify-content:space-between; gap:8px;
     font-size:10px; font-weight:800; letter-spacing:.14em; color:var(--gold); }
@@ -164,25 +162,9 @@
   .lead .askex:hover { color:var(--gold); }
   .lead .status { margin-top:auto; padding-top:10px; font-size:10.5px; color:var(--faint); line-height:1.45; }
   .lead .status b { color:#177245; font-weight:700; }
-  .also { margin-top:16px; display:grid; grid-template-columns:repeat(3,1fr); gap:0; border-top:1px solid var(--rule); }
-  .also a { display:block; padding:14px 16px 14px 0; border-bottom:1px solid var(--rule); border-right:1px solid var(--rule); }
-  .also a:nth-child(3n) { border-right:none; padding-right:0; }
-  .also .nm { font-family:var(--serif); font-size:17px; font-weight:700; color:var(--navy); }
-  .also .q { font-size:13px; color:var(--grey); margin-top:4px; line-height:1.45; }
-  .also a:hover .nm { color:var(--gold); }
-  @media (max-width:820px){ .also { grid-template-columns:1fr 1fr; } .also a:nth-child(3n) { border-right:1px solid var(--rule); padding-right:16px; } .also a:nth-child(2n) { border-right:none; padding-right:0; } }
-  @media (max-width:640px){ .also { grid-template-columns:1fr; } .also a { border-right:none; padding-right:0; } }
-  @media (max-width:1040px){
-    .desk { grid-template-columns:repeat(2,1fr); }
-    .lead:nth-child(3n) { border-right:1px solid var(--rule); padding-right:16px; }
-    .lead:nth-child(2n) { border-right:none; padding-right:0; }
-    .lead:nth-last-child(-n+2) { border-bottom:none; }
-    .lead:nth-last-child(3) { border-bottom:1px solid var(--rule); }
-  }
   @media (max-width:640px){
     .desk { grid-template-columns:1fr; }
     .lead { border-right:none; border-bottom:1px solid var(--rule); padding-left:0; padding-right:0; }
-    .lead:nth-last-child(-n+2) { border-bottom:1px solid var(--rule); }
     .lead:last-child { border-bottom:none; }
   }
 
@@ -318,7 +300,7 @@
 <header class="pibar"><div class="frame pibar-in">
     <a class="pilogo" href="https://pioneerinstitute.org">PIONEER INSTITUTE</a>
     <nav class="pinav" aria-label="DataLabs">
-      <a href="#answers">Featured</a>
+      <a href="#answers">New Releases</a>
       <a href="#directory">Catalog</a>
       <a href="#about">About</a>
       <a href="/status/">Status</a>
@@ -348,7 +330,7 @@
           <p class="dek">Browse every DataLabs application across Massachusetts, the fifty states, and Florida.</p>
           <div class="herocta">
             <a class="btn-primary" href="#directory">Browse the catalog</a>
-            <a class="btn-ghost" href="#answers">See featured tools</a>
+            <a class="btn-ghost" href="#answers">See new releases</a>
           </div>
         </div>
       </div>
@@ -365,12 +347,9 @@ Series through June 2026. Revised August 15, 2026.
   <div class="resp frame" id="resp" aria-live="polite"></div>
 
   <section class="sec frame" id="answers">
-    <h2 id="ansH2">Flagship applications</h2>
-    <p class="sub" id="ansSub">Open any one for the full briefing: charts, story, and every source.</p>
+    <h2 id="ansH2">New Releases</h2>
+    <p class="sub" id="ansSub">Florida homeowners insurance and the fifty-state tax atlas. Open either for the full briefing: charts, story, and every source.</p>
     <div id="deskList"></div>
-    <h2 style="margin-top:42px">Also live</h2>
-    <p class="sub">Twenty-four more applications sit in the catalog. These six are a start.</p>
-    <div id="alsoList" class="also"></div>
   </section>
 
   <section class="sec frame dir-sec" id="directory">
@@ -472,13 +451,13 @@ if (AI_ENABLED) {
   /* Browse-mode copy that drops any promise of a question engine. */
   var h2=document.getElementById('ansH2'), sub=document.getElementById('ansSub');
   if (!AI_ENABLED) {
-    if (h2)  h2.textContent  = 'Flagship applications';
-    if (sub) sub.textContent = 'Open any one for the full briefing: charts, story, and every source.';
+    if (h2)  h2.textContent  = 'New Releases';
+    if (sub) sub.textContent = 'Florida homeowners insurance and the fifty-state tax atlas. Open either for the full briefing: charts, story, and every source.';
     var cr=document.getElementById('pfCredo');
     if (cr) cr.textContent = 'Every figure compiled here traces to a public record.';
   } else {
-    if (h2)  h2.textContent  = 'Ask in your own words';
-    if (sub) sub.textContent = 'Five tools answer questions directly from data Pioneer has verified, led by a live number. Every figure cites its primary source, and what the data cannot support they decline.';
+    if (h2)  h2.textContent  = 'New Releases';
+    if (sub) sub.textContent = 'Two applications answer questions from data Pioneer has verified, each led by a live number. Every figure cites its primary source, and what the data cannot support they decline.';
   }
 })();
 
@@ -679,7 +658,7 @@ const CHART_TITLES = {
   takeouts:'Net policies flowing into Citizens per 100 taken out'
 };
 
-/* ---------- The desk: featured lead cards, each led by a live number ---------- */
+/* ---------- The desk: New Releases lead cards, each led by a live number ---------- */
 (function(){
   function spark(sr, getV){
     var W=300,H=28,vals=sr.map(getV),max=Math.max.apply(null,vals),min=Math.min.apply(null,vals);
@@ -688,7 +667,6 @@ const CHART_TITLES = {
       '<polyline fill="none" stroke="#293C5C" stroke-width="2" points="'+sr.map(function(d,i){return x(i)+','+y(getV(d)).toFixed(1);}).join(' ')+'"/>' +
       '<circle cx="'+x(sr.length-1)+'" cy="'+y(getV(sr[sr.length-1])).toFixed(1)+'" r="3" fill="#CCB26D"/></svg>';
   }
-  var rec = DL03.recovery_vs_2019_same_month_pct;
   var flLast = FLPIF[FLPIF.length-1][1], flPeak = Math.max.apply(null, FLPIF.map(function(r){return r[1];}));
   var cards = [
     { place:'FLORIDA', id:'DL-02', ask:true, url:'/florida-insurance/',
@@ -697,39 +675,15 @@ const CHART_TITLES = {
       spark:spark(FLPIF, function(r){return r[1];}),
       q:'What does homeowners insurance cost in Miami-Dade?', qshort:'What does Miami-Dade pay?',
       status:'<b>&#9679; Live</b> · FL OIR, Citizens, NAIC · through June 2026' },
-    { place:'MASSACHUSETTS', id:'DL-03', ask:true, url:'/mbta/',
-      stat:rec.TOTAL+'%',
-      sub:'of pre-pandemic MBTA ridership'+(function(){
-        var up=[['FB','ferry'],['CR','commuter rail']].filter(function(p){return rec[p[0]]>=100;})
-          .map(function(p){return p[1];});
-        return up.length?', with '+up.join(' and ')+' above 2019':'';
-      })(),
-      spark:spark(DL03.monthly_total_upt.slice(-24), function(d){return d.v;}),
-      q:'Is the T back to pre-pandemic ridership?', qshort:'Is the T back?',
-      status:'<b>&#9679; Live</b> · verified against FTA NTD · through June 2026' },
     // Stats come from DL01D, generated from the atlas ledger at build time,
     // so this card cannot drift from the data. No time series to spark.
     { place:'UNITED STATES', id:'DL-01', ask:true, url:'/tax-atlas/',
       stat:String(DL01D.active_or_ballot),
       sub:'states with a wealth-tax or high-income surtax vehicle in play for 2026, from California Prop 40 to active bills in '+(DL01D.active_or_ballot-DL01D.ballot)+' more',
       q:'Which states are considering a wealth tax?', qshort:'Which states have a wealth tax?',
-      status:'<b>&#9679; Live</b> · state records and Pioneer analysis · law as of '+(function(d){var p=d.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+', '+p[0];})(DL01D.as_of) },
-    // Stats come from DL04D, generated from the electricity ledger at build time.
-    { place:'UNITED STATES', id:'DL-04', ask:true, url:'/electricity/',
-      stat:DL04D.us_price_fmt+'¢',
-      sub:'all-sector average retail electricity price in '+DL04D.year+'. Massachusetts paid '+DL04D.ma_price_fmt+' cents; '+DL04D.highest_name+' was highest at '+DL04D.highest_price_fmt,
-      spark:spark(DL04D.us_trend, function(r){return r[1];}),
-      q:'What is the average retail electricity price in the United States?', qshort:'What does electricity cost?',
-      status:'<b>&#9679; Live</b> · EIA Form EIA-861, verified vs table 2.10 · '+DL04D.year },
-    // Stats come from DL05D, generated from the pensions ledger at build time.
-    { place:'MASSACHUSETTS', id:'DL-05', ask:true, url:'/pensions/',
-      stat:DL05D.state_funded_pct+'%',
-      sub:'funded, State Retirement Board, latest PERAC valuation. Mass Teachers is '+DL05D.mtrs_funded_pct+' percent funded; State and Teacher retirees were paid '+DL05D.retiree_amount_fmt+' in '+DL05D.retiree_year,
-      spark:spark(DL05D.state_trend, function(r){return r[1];}),
-      q:'What is the funded ratio of the Massachusetts State Retirement Board?', qshort:'How funded is the state system?',
-      status:'<b>&#9679; Live</b> · PERAC valuations and CTHRU retiree payroll · through '+DL05D.retiree_year+' · name search '+DL05D.search_year }
+      status:'<b>&#9679; Live</b> · state records and Pioneer analysis · law as of '+(function(d){var p=d.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+', '+p[0];})(DL01D.as_of) }
   ];
-  document.getElementById('deskList').innerHTML = '<div class="desk">' + cards.slice(0,5).map(function(c){
+  document.getElementById('deskList').innerHTML = '<div class="desk">' + cards.map(function(c){
     var t = TOOLMAP[c.id] || {};
     return '<article class="lead" data-url="'+c.url+'">' +
       '<div class="place"><span>'+c.place+'</span>'+((c.ask&&AI_ENABLED)?'<span class="askbadge">ASK</span>':'')+'</div>' +
@@ -747,14 +701,6 @@ const CHART_TITLES = {
       location.href = el.dataset.url;
     });
   });
-  var also=['DL-13','DL-14','DL-16','DL-17','DL-06','DL-25'];
-  var alsoEl=document.getElementById('alsoList');
-  if(alsoEl){
-    alsoEl.innerHTML=also.map(function(id){
-      var t=TOOLMAP[id]; if(!t||!t.url) return '';
-      return '<a href="'+esc(t.url)+'"><div class="nm">'+esc(t.t)+'</div><div class="q">'+esc(t.q||'')+'</div></a>';
-    }).join('');
-  }
   [].slice.call(document.querySelectorAll('.askex[data-q]')).forEach(function(b){
     b.addEventListener('click', function(){
       document.getElementById('q').value = b.dataset.q;

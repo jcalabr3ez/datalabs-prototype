@@ -6,8 +6,8 @@
   "group": "Transportation & Infrastructure",
   "status": "live",
   "as_of": "2024-12",
-  "scope": "This first ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems). FEMA obligations, the National Risk Index, and degree days are listed as later views.",
-  "exclusions": "Does not cover transit agencies (those sit on Transit Systems or DL-03) or Florida insurance (DL-02). FEMA and NOAA files are pending.",
+  "scope": "This ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems), and also reports OpenFEMA Public Assistance federal share obligated, FEMA National Risk Index mean county scores, and NOAA 2024 heating and cooling degree days when that file is reachable.",
+  "exclusions": "Does not cover transit agencies (those sit on Transit Systems or DL-03) or Florida insurance (DL-02).",
   "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
   "replaces": [
     "FEMA Obligations",
@@ -15,19 +15,37 @@
     "National Risk Index",
     "Roadway Transport"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from FHWA Highway Statistics 2024 table VM-2, combined rural-plus-urban TOTAL column (million vehicle-miles). The U.S. figure is the sum of published state rows when no U.S. line is present. FEMA and NOAA files remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from FHWA Highway Statistics 2024 table VM-2, combined rural-plus-urban TOTAL column (million vehicle-miles). The U.S. figure is the sum of published state rows when no U.S. line is present. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-623-01": {
       "name": "FHWA Highway Statistics 2024 table VM-2",
       "cadence": "Annual",
       "url": "https://www.fhwa.dot.gov/policyinformation/statistics/2024/xls/vm2.xlsx",
-      "supports": "This first ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems). FEMA obligations, the National Risk Index, and degree days are listed as later views."
+      "supports": "This ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems), and also reports OpenFEMA Public Assistance federal share obligated, FEMA National Risk Index mean county scores, and NOAA 2024 heating and cooling degree days when that file is reachable."
     },
     "SRC-623-02": {
       "name": "FEMA OpenFEMA and National Risk Index",
       "cadence": "Periodic",
       "url": "https://www.fema.gov/",
-      "supports": "This first ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems). FEMA obligations, the National Risk Index, and degree days are listed as later views."
+      "supports": "This ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems), and also reports OpenFEMA Public Assistance federal share obligated, FEMA National Risk Index mean county scores, and NOAA 2024 heating and cooling degree days when that file is reachable."
+    },
+    "SRC-623-03": {
+      "name": "OpenFEMA Public Assistance grant award activities, federal share obligated",
+      "cadence": "Continuous",
+      "url": "https://www.fema.gov/api/open/v2/PublicAssistanceGrantAwardActivities.csv",
+      "supports": "This ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems), and also reports OpenFEMA Public Assistance federal share obligated, FEMA National Risk Index mean county scores, and NOAA 2024 heating and cooling degree days when that file is reachable."
+    },
+    "SRC-623-04": {
+      "name": "FEMA National Risk Index, county risk scores",
+      "cadence": "Periodic",
+      "url": "https://hazards.fema.gov/nri/",
+      "supports": "This ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems), and also reports OpenFEMA Public Assistance federal share obligated, FEMA National Risk Index mean county scores, and NOAA 2024 heating and cooling degree days when that file is reachable."
+    },
+    "SRC-623-05": {
+      "name": "NOAA climate-at-a-glance heating and cooling degree days",
+      "cadence": "Annual",
+      "url": "https://www.ncei.noaa.gov/access/monitoring/climate-at-a-glance/",
+      "supports": "This ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems), and also reports OpenFEMA Public Assistance federal share obligated, FEMA National Risk Index mean county scores, and NOAA 2024 heating and cooling degree days when that file is reachable."
     }
   },
   "page": {
@@ -44,7 +62,7 @@
   "unit": "million vehicle-miles",
   "data_month": "2024-12",
   "data_month_label": "Calendar year 2024",
-  "lead": "Annual vehicle-miles of travel were <b>3,294,031.2 million</b> in 2024 (SRC-623-01). Massachusetts recorded <b>62,013.3 million</b>, rank 19 of 50 (derived, SRC-623-01). FEMA obligations and the National Risk Index are pending on this page.",
+  "lead": "Annual vehicle-miles of travel were <b>3,294,031.2 million</b> in 2024 (SRC-623-01). Massachusetts recorded <b>62,013.3 million</b>, rank 19 of 50 (derived, SRC-623-01). OpenFEMA Public Assistance records show <b>$4.22 billion</b> in federal share obligated to Massachusetts (SRC-623-03). The National Risk Index mean county score is <b>78.8</b>, rank 7 of 51 (derived, SRC-623-04).",
   "kpis": [
     {
       "label": "U.S. VMT, 2024",
@@ -64,7 +82,7 @@
       "label": "Highest / lowest",
       "value": "CA 325,959.2 million",
       "detail": "California had the most vehicle-miles; District of Columbia the fewest at 3,539.3 million (SRC-623-01).",
-      "why": "FEMA risk and degree-day files are pending.",
+      "why": "The range of roadway travel across the 50 states and D.C.",
       "src": "FHWA Highway Statistics 2024 table VM-2 (SRC-623-01)"
     }
   ],
@@ -518,7 +536,57 @@
       }
     ],
     "n_ranked": 50,
-    "massachusetts_rank": 19
+    "massachusetts_rank": 19,
+    "secondary": {
+      "fema_pa_obligations": {
+        "us": 221445368869.0,
+        "ma": {
+          "v": 4215051856.0,
+          "rank": 9,
+          "n": 51
+        },
+        "highest": {
+          "st": "NY",
+          "name": "New York",
+          "v": 41061245385.0
+        },
+        "lowest": {
+          "st": "WY",
+          "name": "Wyoming",
+          "v": 109096039.0
+        },
+        "n_ranked": 51,
+        "label": "FEMA Public Assistance federal share obligated, all disasters on file",
+        "src": "SRC-623-03",
+        "unit": "dollars",
+        "as_of_label": "OpenFEMA extract, retrieved Aug 2026",
+        "award_rows": 1113831
+      },
+      "nri_mean_county_score": {
+        "us": null,
+        "ma": {
+          "v": 78.8,
+          "rank": 7,
+          "n": 51
+        },
+        "highest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 97.6
+        },
+        "lowest": {
+          "st": "ND",
+          "name": "North Dakota",
+          "v": 22.2
+        },
+        "n_ranked": 51,
+        "label": "FEMA National Risk Index, mean county risk score",
+        "src": "SRC-623-04",
+        "unit": "index score",
+        "as_of_label": "NRI v1.20, December 2025",
+        "note": "State figure is the unweighted mean of county risk scores."
+      }
+    }
   },
   "entities": {
     "CA": {

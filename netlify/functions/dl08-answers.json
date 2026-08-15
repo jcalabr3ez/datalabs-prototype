@@ -6,8 +6,8 @@
   "group": "Education",
   "status": "live",
   "as_of": "2022-10",
-  "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state and the national Fall 2023 faculty count. IPEDS outcomes remain a later view.",
-  "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. State-level faculty counts and IPEDS outcomes are pending.",
+  "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 faculty count, and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort.",
+  "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. State-level faculty counts are not in the current Digest xlsx set. Digest 326.10 has no state column.",
   "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
   "replaces": [
     "Higher Education-College Admissions",
@@ -15,25 +15,31 @@
     "Higher Education-Faculty and Staff",
     "Higher Education-Student Data"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 304.10, Fall 2022 total enrollment. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 304.10, Fall 2022 total enrollment. A state-level faculty table is not in the current Digest xlsx set. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-608-01": {
       "name": "NCES Digest table 304.10, fall postsecondary enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state and the national Fall 2023 faculty count. IPEDS outcomes remain a later view."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 faculty count, and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
     },
     "SRC-608-02": {
       "name": "NCES Digest table 226.40, SAT mean scores by state",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state and the national Fall 2023 faculty count. IPEDS outcomes remain a later view."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 faculty count, and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
     },
     "SRC-608-03": {
       "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state and the national Fall 2023 faculty count. IPEDS outcomes remain a later view."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 faculty count, and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
+    },
+    "SRC-608-04": {
+      "name": "NCES Digest table 326.10, IPEDS 6-year bachelor's graduation rate (national)",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn326.10.xlsx",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 faculty count, and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
     }
   },
   "page": {
@@ -51,7 +57,7 @@
   "unit": "students",
   "data_month": "2022-10",
   "data_month_label": "Fall 2022",
-  "lead": "Fall enrollment in degree-granting postsecondary institutions was <b>18,580,026</b> in 2022 (SRC-608-01). Massachusetts enrolled <b>468,960</b>, rank 12 of 51 (derived, SRC-608-01). The SAT mean total score for 2023 graduates was <b>1028</b> in the United States, with 51.2% of graduates taking the test (SRC-608-02). Massachusetts scored <b>1112</b> (57.0% taking the test) (SRC-608-02). Degree-granting institutions employed <b>1,530,513</b> faculty in Fall 2023 (SRC-608-03). State faculty counts are not in that national table.",
+  "lead": "Fall enrollment in degree-granting postsecondary institutions was <b>18,580,026</b> in 2022 (SRC-608-01). Massachusetts enrolled <b>468,960</b>, rank 12 of 51 (derived, SRC-608-01). The SAT mean total score for 2023 graduates was <b>1028</b> in the United States, with 51.2% of graduates taking the test (SRC-608-02). Massachusetts scored <b>1112</b> (57.0% taking the test) (SRC-608-02). Degree-granting institutions employed <b>1,530,513</b> faculty in Fall 2023 (SRC-608-03). State faculty counts are not in that national table. The IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort was <b>64.5%</b> at all 4-year institutions (SRC-608-04). That Digest table is national; it has no state column. A state-level faculty table is not in the current Digest xlsx set.",
   "kpis": [
     {
       "label": "U.S. fall enrollment, 2022",
@@ -570,6 +576,15 @@
         "us": 1530513,
         "ma": null,
         "note": "This Digest table is national only; it has no state column."
+      },
+      "ipeds_6yr_grad_2017": {
+        "label": "IPEDS 6-year bachelor's graduation rate, 2017 entry cohort",
+        "src": "SRC-608-04",
+        "unit": "percent",
+        "as_of_label": "2017 cohort, completing by 2023",
+        "us": 64.5,
+        "ma": null,
+        "note": "National table. Digest 326.10 has no state column."
       }
     }
   },

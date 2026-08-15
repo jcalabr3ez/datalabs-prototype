@@ -6,8 +6,8 @@
   "group": "Taxation",
   "status": "live",
   "as_of": "2022-12",
-  "scope": "This first ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns). County, municipal, and AGI-percentile tables are listed as later views.",
-  "exclusions": "Does not cover the wealth-tax and surtax atlas (that is DL-01) or advice about a filing. County and municipal files are pending.",
+  "scope": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), and also reports Massachusetts county AGI from the same-year SOI county file (sum of size-of-AGI stubs). A dedicated AGI-percentile-by-state file is not posted.",
+  "exclusions": "Does not cover the wealth-tax and surtax atlas (that is DL-01) or advice about a filing. Municipal extracts and a dedicated AGI-percentile-by-state file are not posted.",
   "heritage": "Formerly Individual Statistics, Tax Statistics County and Municipalities, and Tracking Wealth",
   "replaces": [
     "Individual Statistics",
@@ -15,13 +15,19 @@
     "Tax Statistics-Municipalities",
     "Tracking Wealth"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from IRS 22in55cmcsv.csv, AGI_STUB 0 (all returns). A00100 is AGI in thousands of dollars. U.S. return count equals 159,651,330. County and municipal files remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from IRS 22in55cmcsv.csv, AGI_STUB 0 (all returns). A00100 is AGI in thousands of dollars. U.S. return count equals 159,651,330. A dedicated AGI-percentile-by-state file is not posted. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-621-01": {
       "name": "IRS SOI historic table 2, tax year 2022 (22in55cmcsv.csv)",
       "cadence": "Annual",
       "url": "https://www.irs.gov/pub/irs-soi/22in55cmcsv.csv",
-      "supports": "This first ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns). County, municipal, and AGI-percentile tables are listed as later views."
+      "supports": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), and also reports Massachusetts county AGI from the same-year SOI county file (sum of size-of-AGI stubs). A dedicated AGI-percentile-by-state file is not posted."
+    },
+    "SRC-621-02": {
+      "name": "IRS SOI county AGI, tax year 2022 (22incyallagi.csv)",
+      "cadence": "Annual",
+      "url": "https://www.irs.gov/pub/irs-soi/22incyallagi.csv",
+      "supports": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), and also reports Massachusetts county AGI from the same-year SOI county file (sum of size-of-AGI stubs). A dedicated AGI-percentile-by-state file is not posted."
     }
   },
   "page": {
@@ -39,7 +45,7 @@
   "unit": "dollars",
   "data_month": "2022-12",
   "data_month_label": "Tax year 2022",
-  "lead": "Adjusted gross income on individual returns was <b>$14.78 trillion</b> in tax year 2022, from <b>159,651,330</b> returns (SRC-621-01). Massachusetts AGI was <b>$422.21 billion</b> on 3,567,790 returns, rank 9 of 51 (derived, SRC-621-01).",
+  "lead": "Adjusted gross income on individual returns was <b>$14.78 trillion</b> in tax year 2022, from <b>159,651,330</b> returns (SRC-621-01). Massachusetts AGI was <b>$422.21 billion</b> on 3,567,790 returns, rank 9 of 51 (derived, SRC-621-01). Among Massachusetts counties, <b>Middlesex County</b> had the most adjusted gross income in tax year 2022 at <b>$125.60 billion</b> (derived, SRC-621-02). A dedicated AGI-percentile-by-state file is not posted; size-of-AGI stubs are stored under derived.secondary.",
   "kpis": [
     {
       "label": "U.S. AGI, tax year 2022",
@@ -59,7 +65,7 @@
       "label": "Highest / lowest AGI",
       "value": "CA $1.99 trillion",
       "detail": "California had the largest AGI; Vermont the smallest at $27.15 billion (SRC-621-01).",
-      "why": "County and municipal extracts are pending.",
+      "why": "Municipal extracts and a dedicated AGI-percentile file are not posted.",
       "src": "IRS SOI historic table 2, tax year 2022 (SRC-621-01)"
     }
   ],
@@ -583,7 +589,81 @@
       }
     ],
     "n_ranked": 51,
-    "massachusetts_rank": 9
+    "massachusetts_rank": 9,
+    "secondary": {
+      "ma_county_agi_2022": {
+        "label": "Massachusetts county adjusted gross income, tax year 2022",
+        "src": "SRC-621-02",
+        "unit": "dollars",
+        "as_of_label": "Tax year 2022",
+        "counties": 14,
+        "highest": {
+          "name": "Middlesex County",
+          "v": 125597401000
+        },
+        "lowest": {
+          "name": "Nantucket County",
+          "v": 1189230000
+        },
+        "size_class": {
+          "1": {
+            "returns": 43890,
+            "agi_thousands": -1975412
+          },
+          "2": {
+            "returns": 386000,
+            "agi_thousands": 1884006
+          },
+          "3": {
+            "returns": 461530,
+            "agi_thousands": 7884203
+          },
+          "4": {
+            "returns": 685360,
+            "agi_thousands": 25645877
+          },
+          "5": {
+            "returns": 535450,
+            "agi_thousands": 33066965
+          },
+          "6": {
+            "returns": 366220,
+            "agi_thousands": 31725413
+          },
+          "7": {
+            "returns": 667360,
+            "agi_thousands": 93450830
+          },
+          "8": {
+            "returns": 421800,
+            "agi_thousands": 230578452
+          }
+        },
+        "note": "County AGI is the sum of SOI size-of-AGI stubs. Amounts in A00100 are thousands of dollars. A dedicated AGI-percentile-by-state file is not posted.",
+        "top_five": [
+          {
+            "name": "Middlesex County",
+            "v": 125597401000
+          },
+          {
+            "name": "Norfolk County",
+            "v": 60805988000
+          },
+          {
+            "name": "Suffolk County",
+            "v": 48021113000
+          },
+          {
+            "name": "Essex County",
+            "v": 47161780000
+          },
+          {
+            "name": "Worcester County",
+            "v": 38990169000
+          }
+        ]
+      }
+    }
   },
   "entities": {
     "CA": {

@@ -75,8 +75,13 @@
   .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
   .plot-mid{height:clamp(480px,62vh,780px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}
+  .insight-grid .exhibit.span2{grid-column:1/-1}
+  .insight-grid .lede{margin:8px 0 12px;font-size:13.5px}
+  @media(max-width:900px){.insight-grid{grid-template-columns:1fr}}
   .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
   th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
@@ -120,7 +125,7 @@
 </div>
 <header>
   <div class="dots" aria-hidden="true"></div>
-  <div class="org">Healthcare <span class="sub">/ Healthcare &middot; Formerly Hospital Tracker and Relative Price Tracker</span></div>
+  <div class="org">Healthcare <span class="sub">/ Healthcare</span></div>
   <h1>Massachusetts Hospitals</h1>
   <div class="standfirst">Hospital relative prices and the Massachusetts hospital tracker.</div>
   <div class="dateline">
@@ -174,6 +179,37 @@ CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a fiv
 <!-- DATA:END ma-hospitals-kpis -->
     </div>
   </section>
+  <section id="insights">
+    <h2>A closer look</h2>
+    <p class="lede">Additional figures from the published files on this page. Series that are not in those files are not drawn.</p>
+    <div class="insight-grid">
+    <div class="exhibit span2">
+      <div class="ex-head"><span class="ex-n">Figure A</span>
+        <span class="ex-t">Massachusetts hospitals by CMS type</span></div>
+      <div class="lede">84 facilities. 9 have a five-star overall rating.</div>
+      <div class="plot"><canvas id="chInsight0"></canvas></div>
+      <div class="note">CMS Hospital General Information, Massachusetts facilities. CHIA relative prices remain pending.</div>
+      <div class="srcline"><b>Source:</b> SRC-610-02. <b>Unit:</b> hospitals.</div>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure B</span>
+        <span class="ex-t">Rated Massachusetts hospitals by overall star rating</span></div>
+      <div class="lede">54 rated, 30 unrated. Unrated facilities are omitted from this figure.</div>
+      <div class="plot-sm"><canvas id="chInsight1"></canvas></div>
+      <div class="note">CMS overall star rating among rated facilities only.</div>
+      <div class="srcline"><b>Source:</b> SRC-610-02. <b>Unit:</b> hospitals.</div>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure C</span>
+        <span class="ex-t">Massachusetts hospitals by ownership</span></div>
+      <div class="lede">Nonprofit private is the largest ownership group.</div>
+      <div class="plot-sm"><canvas id="chInsight2"></canvas></div>
+      <div class="note">CMS ownership labels, shortened for the axis.</div>
+      <div class="srcline"><b>Source:</b> SRC-610-02. <b>Unit:</b> hospitals.</div>
+    </div>
+    </div>
+  </section>
+
   <section id="view-rank">
     <h2>How do they compare?</h2>
     <div class="lede">CMS overall hospital star rating, Massachusetts facilities. Unit: star rating (1-5).</div>
@@ -219,8 +255,8 @@ CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a fiv
       <div class="scroll"><table class="reg">
         <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports</th><th>Data vintage</th><th>Next release</th></tr></thead>
         <tbody>
-          <tr><td class="src"><a href="https://www.chiamass.gov/" target="_blank" rel="noopener">Massachusetts CHIA hospital relative prices and hospital profiles (SRC-610-01)</a></td><td>Annual</td><td>This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view.</td><td>CMS Hospital General Information, retrieved Aug 2026</td><td>Annual</td></tr>
-          <tr><td class="src"><a href="https://data.cms.gov/provider-data/dataset/xubh-q36u" target="_blank" rel="noopener">CMS Hospital General Information, Massachusetts facilities (SRC-610-02)</a></td><td>Periodic</td><td>This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view.</td><td>CMS Hospital General Information, retrieved Aug 2026</td><td>Periodic</td></tr>
+          <tr><td class="src"><a href="https://www.chiamass.gov/" target="_blank" rel="noopener">Massachusetts CHIA hospital relative prices and hospital profiles (SRC-610-01)</a></td><td>Annual</td><td>This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment.</td><td>CMS Hospital General Information, retrieved Aug 2026</td><td>Annual</td></tr>
+          <tr><td class="src"><a href="https://data.cms.gov/provider-data/dataset/xubh-q36u" target="_blank" rel="noopener">CMS Hospital General Information, Massachusetts facilities (SRC-610-02)</a></td><td>Periodic</td><td>This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment.</td><td>CMS Hospital General Information, retrieved Aug 2026</td><td>Periodic</td></tr>
         </tbody>
       </table></div>
     </div>
@@ -228,7 +264,7 @@ CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a fiv
   <details class="simplify">
     <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
     <div class="dt-body">
-      <p class="body-p">Does not cover 340B, Medicaid, other states, or advice about where to seek care. CHIA relative prices are pending.</p>
+      <p class="body-p">Does not cover 340B, Medicaid, other states, or advice about where to seek care. CHIA relative prices are pending: decline those.</p>
       <p class="body-p">It replaces these Tableau workbooks: Hospital Tracker, Relative Price Tracker.</p>
     </div>
   </details>
@@ -242,7 +278,7 @@ CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a fiv
     <div>2 sources in the register</div>
   </div>
   <div class="disclaimer">
-    <div><b>About this tool.</b> Massachusetts Hospitals is a Pioneer Institute DataLabs research tool. Formerly Hospital Tracker and Relative Price Tracker. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> Massachusetts Hospitals is a Pioneer Institute DataLabs research tool. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
     <div><b>Verified figures.</b> Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists.</div>
   </div>
@@ -255,6 +291,7 @@ CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a fiv
 const DL={"tool_id":"DL-10","as_of":"2026-08","rows":[{"st":"NORTH SHORE MEDICAL CENTER -","name":"NORTH SHORE MEDICAL CENTER -","v":5,"rank":1,"n":54,"city":"SALEM","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MASSACHUSETTS GENERAL HOSPITAL","name":"MASSACHUSETTS GENERAL HOSPITAL","v":5,"rank":2,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM","name":"BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM","v":5,"rank":3,"n":54,"city":"NEEDHAM","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"EMERSON HOSPITAL -","name":"EMERSON HOSPITAL -","v":5,"rank":4,"n":54,"city":"W CONCORD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"NEW ENGLAND BAPTIST HOSPITAL","name":"NEW ENGLAND BAPTIST HOSPITAL","v":5,"rank":5,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"NEWTON-WELLESLEY HOSPITAL","name":"NEWTON-WELLESLEY HOSPITAL","v":5,"rank":6,"n":54,"city":"NEWTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BRIGHAM AND WOMEN'S HOSPITAL","name":"BRIGHAM AND WOMEN'S HOSPITAL","v":5,"rank":7,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BRIGHAM AND WOMEN FAULKNER HOSPITAL","name":"BRIGHAM AND WOMEN FAULKNER HOSPITAL","v":5,"rank":8,"n":54,"city":"JAMAICA PLAIN","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"FAIRVIEW HOSPITAL","name":"FAIRVIEW HOSPITAL","v":5,"rank":9,"n":54,"city":"GREAT BARRINGTON","type":"Critical Access Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MOUNT AUBURN HOSPITAL","name":"MOUNT AUBURN HOSPITAL","v":4,"rank":10,"n":54,"city":"CAMBRIDGE","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"HOLYOKE MEDICAL CENTER","name":"HOLYOKE MEDICAL CENTER","v":4,"rank":11,"n":54,"city":"HOLYOKE","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BAYSTATE WING HOSPITAL","name":"BAYSTATE WING HOSPITAL","v":4,"rank":12,"n":54,"city":"PALMER","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Other"},{"st":"BERKSHIRE MEDICAL CENTER","name":"BERKSHIRE MEDICAL CENTER","v":4,"rank":13,"n":54,"city":"PITTSFIELD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Other"},{"st":"BETH ISRAEL DEACONESS HOSPITAL PLYMOUTH","name":"BETH ISRAEL DEACONESS HOSPITAL PLYMOUTH","v":4,"rank":14,"n":54,"city":"PLYMOUTH","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"SOUTHCOAST HOSPITALS GROUP","name":"SOUTHCOAST HOSPITALS GROUP","v":4,"rank":15,"n":54,"city":"FALL RIVER","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MILFORD REGIONAL MEDICAL CENTER","name":"MILFORD REGIONAL MEDICAL CENTER","v":4,"rank":16,"n":54,"city":"MILFORD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Other"},{"st":"BETH ISRAEL DEACONESS HOSPITAL - MILTON","name":"BETH ISRAEL DEACONESS HOSPITAL - MILTON","v":4,"rank":17,"n":54,"city":"MILTON","type":"Acute Care Hospitals","ownership":"Government - Federal"},{"st":"VA BOSTON HEALTHCARE SYSTEM - JAMAICA PLAIN","name":"VA BOSTON HEALTHCARE SYSTEM - JAMAICA PLAIN","v":4,"rank":18,"n":54,"city":"JAMAICA PLAIN","type":"Acute Care - Veterans Administration","ownership":"Veterans Health Administration"},{"st":"FALMOUTH HOSPITAL","name":"FALMOUTH HOSPITAL","v":4,"rank":19,"n":54,"city":"FALMOUTH","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON","name":"LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON","v":4,"rank":20,"n":54,"city":"BURLINGTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MARTHA'S VINEYARD HOSPITAL INC","name":"MARTHA'S VINEYARD HOSPITAL INC","v":4,"rank":21,"n":54,"city":"OAK BLUFFS","type":"Critical Access Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"UMASS MEMORIAL HEALTHALLIANCE HOSPITALS","name":"UMASS MEMORIAL HEALTHALLIANCE HOSPITALS","v":3,"rank":22,"n":54,"city":"LEOMINSTER","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Other"},{"st":"STURDY MEMORIAL HOSPITAL","name":"STURDY MEMORIAL HOSPITAL","v":3,"rank":23,"n":54,"city":"ATTLEBORO","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Other"},{"st":"CAMBRIDGE HEALTH ALLIANCE","name":"CAMBRIDGE HEALTH ALLIANCE","v":3,"rank":24,"n":54,"city":"CAMBRIDGE","type":"Acute Care Hospitals","ownership":"Government - Local"},{"st":"BAYSTATE FRANKLIN MEDICAL CENTER","name":"BAYSTATE FRANKLIN MEDICAL CENTER","v":3,"rank":25,"n":54,"city":"GREENFIELD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"UMASS MEMORIAL HEALTH - HARRINGTON HOSPITAL","name":"UMASS MEMORIAL HEALTH - HARRINGTON HOSPITAL","v":3,"rank":26,"n":54,"city":"SOUTHBRIDGE","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"SAINT ANNE'S HOSPITAL","name":"SAINT ANNE'S HOSPITAL","v":3,"rank":27,"n":54,"city":"FALL RIVER","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"ANNA JAQUES HOSPITAL","name":"ANNA JAQUES HOSPITAL","v":3,"rank":28,"n":54,"city":"NEWBURYPORT","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BOSTON MEDICAL CENTER","name":"BOSTON MEDICAL CENTER","v":3,"rank":29,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"NORTHEAST HOSPITAL CORPORATION","name":"NORTHEAST HOSPITAL CORPORATION","v":3,"rank":30,"n":54,"city":"BEVERLY","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BOSTON MEDICAL CENTER-BRIGHTON","name":"BOSTON MEDICAL CENTER-BRIGHTON","v":3,"rank":31,"n":54,"city":"BRIGHTON","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"SIGNATURE HEALTHCARE BROCKTON HOSPITAL","name":"SIGNATURE HEALTHCARE BROCKTON HOSPITAL","v":3,"rank":32,"n":54,"city":"BROCKTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Other"},{"st":"MELROSEWAKEFIELD HEALTHCARE","name":"MELROSEWAKEFIELD HEALTHCARE","v":3,"rank":33,"n":54,"city":"MELROSE","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BETH ISRAEL DEACONESS MEDICAL CENTER","name":"BETH ISRAEL DEACONESS MEDICAL CENTER","v":3,"rank":34,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"WINCHESTER HOSPITAL","name":"WINCHESTER HOSPITAL","v":3,"rank":35,"n":54,"city":"WINCHESTER","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"UMASS MEMORIAL MEDICAL CENTER/UNIVERSITY CAMPUS","name":"UMASS MEMORIAL MEDICAL CENTER/UNIVERSITY CAMPUS","v":3,"rank":36,"n":54,"city":"WORCESTER","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"NANTUCKET COTTAGE HOSPITAL","name":"NANTUCKET COTTAGE HOSPITAL","v":3,"rank":37,"n":54,"city":"NANTUCKET","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MERRIMACK HEALTH LAWRENCE HOSPITAL","name":"MERRIMACK HEALTH LAWRENCE HOSPITAL","v":2,"rank":38,"n":54,"city":"LAWRENCE","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"CAPE COD HOSPITAL","name":"CAPE COD HOSPITAL","v":2,"rank":39,"n":54,"city":"HYANNIS","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"COOLEY DICKINSON HOSPITAL INC,THE","name":"COOLEY DICKINSON HOSPITAL INC,THE","v":2,"rank":40,"n":54,"city":"NORTHAMPTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MARLBOROUGH HOSPITAL","name":"MARLBOROUGH HOSPITAL","v":2,"rank":41,"n":54,"city":"MARLBOROUGH","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"LOWELL GENERAL HOSPITAL","name":"LOWELL GENERAL HOSPITAL","v":2,"rank":42,"n":54,"city":"LOWELL","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BAYSTATE NOBLE HOSPITAL","name":"BAYSTATE NOBLE HOSPITAL","v":2,"rank":43,"n":54,"city":"WESTFIELD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MERCY MEDICAL CTR","name":"MERCY MEDICAL CTR","v":2,"rank":44,"n":54,"city":"SPRINGFIELD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BAYSTATE MEDICAL CENTER","name":"BAYSTATE MEDICAL CENTER","v":2,"rank":45,"n":54,"city":"SPRINGFIELD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"HOLY FAMILY HOSPITAL","name":"HOLY FAMILY HOSPITAL","v":2,"rank":46,"n":54,"city":"METHUEN","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"HEYWOOD HOSPITAL -","name":"HEYWOOD HOSPITAL -","v":2,"rank":47,"n":54,"city":"GARDNER","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"SOUTH SHORE HOSPITAL","name":"SOUTH SHORE HOSPITAL","v":2,"rank":48,"n":54,"city":"SOUTH WEYMOUTH","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"GOOD SAMARITAN MEDICAL CENTER","name":"GOOD SAMARITAN MEDICAL CENTER","v":2,"rank":49,"n":54,"city":"BROCKTON","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"TUFTS MEDICAL CENTER","name":"TUFTS MEDICAL CENTER","v":2,"rank":50,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"ST VINCENT HOSPITAL","name":"ST VINCENT HOSPITAL","v":2,"rank":51,"n":54,"city":"WORCESTER","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"ATHOL MEMORIAL HOSPITAL","name":"ATHOL MEMORIAL HOSPITAL","v":2,"rank":52,"n":54,"city":"ATHOL","type":"Critical Access Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BROWN UNIVERSITY HEALTH MORTON HOSPITAL","name":"BROWN UNIVERSITY HEALTH MORTON HOSPITAL","v":1,"rank":53,"n":54,"city":"TAUNTON","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"METROWEST MEDICAL CENTER","name":"METROWEST MEDICAL CENTER","v":1,"rank":54,"n":54,"city":"FRAMINGHAM","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"}],"trend":{},"latest":{"n_hospitals":84,"n_rated":54,"n_unrated":30,"five_star":9,"emergency_services":60,"by_type":{"Acute Care Hospitals":55,"Acute Care - Veterans Administration":3,"Critical Access Hospitals":4,"Childrens":3,"Psychiatric":19},"highest":{"name":"NORTH SHORE MEDICAL CENTER -","v":5,"city":"SALEM"}},"derived":{"note":"Prefer these over recomputing. Ranks cite (derived, SRC-610-02).","highest_five":[{"st":"NORTH SHORE MEDICAL CENTER -","name":"NORTH SHORE MEDICAL CENTER -","v":5,"rank":1,"n":54,"city":"SALEM","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"MASSACHUSETTS GENERAL HOSPITAL","name":"MASSACHUSETTS GENERAL HOSPITAL","v":5,"rank":2,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM","name":"BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM","v":5,"rank":3,"n":54,"city":"NEEDHAM","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"EMERSON HOSPITAL -","name":"EMERSON HOSPITAL -","v":5,"rank":4,"n":54,"city":"W CONCORD","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"NEW ENGLAND BAPTIST HOSPITAL","name":"NEW ENGLAND BAPTIST HOSPITAL","v":5,"rank":5,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"}],"lowest_five":[{"st":"METROWEST MEDICAL CENTER","name":"METROWEST MEDICAL CENTER","v":1,"rank":54,"n":54,"city":"FRAMINGHAM","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"BROWN UNIVERSITY HEALTH MORTON HOSPITAL","name":"BROWN UNIVERSITY HEALTH MORTON HOSPITAL","v":1,"rank":53,"n":54,"city":"TAUNTON","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"ATHOL MEMORIAL HOSPITAL","name":"ATHOL MEMORIAL HOSPITAL","v":2,"rank":52,"n":54,"city":"ATHOL","type":"Critical Access Hospitals","ownership":"Voluntary non-profit - Private"},{"st":"ST VINCENT HOSPITAL","name":"ST VINCENT HOSPITAL","v":2,"rank":51,"n":54,"city":"WORCESTER","type":"Acute Care Hospitals","ownership":"Proprietary"},{"st":"TUFTS MEDICAL CENTER","name":"TUFTS MEDICAL CENTER","v":2,"rank":50,"n":54,"city":"BOSTON","type":"Acute Care Hospitals","ownership":"Voluntary non-profit - Private"}],"n_ranked":54,"unrated_count":30,"by_ownership":{"Voluntary non-profit - Other":6,"Voluntary non-profit - Private":43,"Government - Local":1,"Proprietary":23,"Veterans Health Administration":3,"Government - Federal":3,"Government - State":5}},"metric":"cms_ma_hospital_overall_rating","unit":"star rating (1-5)"};
 /* DATA:END ma-hospitals-data */
 const CHART={"geo": "hospital", "format": "stars", "highlight": null, "n_chart": 25, "unit": "star rating (1-5)", "axis_unit": "star rating (1-5)", "label": "CMS overall hospital star rating, Massachusetts facilities", "title": "CMS overall hospital star rating, Massachusetts facilities (largest 25 of 54)", "lede": "CMS overall hospital star rating, Massachusetts facilities. Unit: star rating (1-5).", "has_trend": false, "table_noun": "Every hospital", "col_name": "Hospital", "trend_title": "CMS overall hospital star rating, Massachusetts facilities over time"};
+const INSIGHTS=[{"id": "hospital-type", "title": "Massachusetts hospitals by CMS type", "lede": "84 facilities. 9 have a five-star overall rating.", "src": "SRC-610-02", "type": "bar", "format": "number", "unit": "hospitals", "labels": ["Acute Care Hospitals", "Psychiatric", "Critical Access Hospitals", "Acute Care - Veterans Administration", "Childrens"], "series": [{"label": "", "data": [55, 19, 4, 3, 3], "colors": ["#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C"]}], "note": "CMS Hospital General Information, Massachusetts facilities. CHIA relative prices remain pending.", "span": 2, "index_axis": "y"}, {"id": "hospital-stars", "title": "Rated Massachusetts hospitals by overall star rating", "lede": "54 rated, 30 unrated. Unrated facilities are omitted from this figure.", "src": "SRC-610-02", "type": "bar", "format": "number", "unit": "hospitals", "labels": ["5 stars", "4 stars", "3 stars", "2 stars", "1 star"], "series": [{"label": "", "data": [9, 12, 16, 15, 2], "colors": ["#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C"]}], "note": "CMS overall star rating among rated facilities only.", "span": 1, "index_axis": "y"}, {"id": "hospital-own", "title": "Massachusetts hospitals by ownership", "lede": "Nonprofit private is the largest ownership group.", "src": "SRC-610-02", "type": "bar", "format": "number", "unit": "hospitals", "labels": ["Nonprofit, Private", "Proprietary", "Nonprofit, Other", "Government - State", "Veterans Health Administration", "Government - Federal", "Government - Local"], "series": [{"label": "", "data": [43, 23, 6, 5, 3, 3, 1], "colors": ["#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C", "#293C5C"]}], "note": "CMS ownership labels, shortened for the axis.", "span": 1, "index_axis": "y"}];
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -350,6 +387,67 @@ const CHART={"geo": "hospital", "format": "stars", "highlight": null, "n_chart":
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
         }}});
   }
+  function fmtInsight(fmt, v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'−':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  (INSIGHTS||[]).forEach(function(fig, i){
+    var el=document.getElementById('chInsight'+i);
+    if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
+    var ifmt=fig.format||'number';
+    var iunit=fig.unit||'';
+    var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
+    var opts={
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
+        position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+        tooltip:{callbacks:{label:function(c){
+          var lab=c.dataset.label?c.dataset.label+': ':'';
+          var val=c.parsed.x!=null&&fig.index_axis==='y'?c.parsed.x:c.parsed.y;
+          return ' '+lab+fmtInsight(ifmt,val)+extra;
+        }}}},
+      scales:{
+        x:{ticks:{color:GREY,callback:function(v){
+          return fig.index_axis==='y'?fmtInsight(ifmt,v,true):v;
+        }},grid:{color:fig.index_axis==='y'?'#EEF1F4':'transparent'}},
+        y:{ticks:{color:fig.index_axis==='y'?INK:GREY,font:{size:10,family:'Roboto,sans-serif'},
+          callback:function(v){return fig.index_axis==='y'?v:fmtInsight(ifmt,v,true);}},
+          grid:{color:fig.index_axis==='y'?'transparent':'#EEF1F4'},border:{display:false}}
+      }
+    };
+    if(fig.type==='line'){
+      new Chart(el,{type:'line',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
+            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    if(fig.type==='grouped'){
+      new Chart(el,{type:'bar',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label,data:s.data,backgroundColor:s.color||NAVY,barPercentage:.72};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x'})});
+      return;
+    }
+    var s0=fig.series[0]||{};
+    new Chart(el,{type:'bar',
+      data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||NAVY,barPercentage:.72}]},
+      options:Object.assign({},opts,{indexAxis:'y'})});
+  });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){
     tb.innerHTML=rows.map(function(r){

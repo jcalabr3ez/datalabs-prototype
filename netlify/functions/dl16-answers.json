@@ -6,8 +6,8 @@
   "group": "Housing",
   "status": "live",
   "as_of": "2026-06",
-  "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state. Case-Shiller city indexes remain a later view.",
-  "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house. Case-Shiller city indexes are pending on this page.",
+  "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state and the S&P/CoreLogic Case-Shiller Boston MSA index (FRED BOXRSA). Boston is the only Massachusetts city in that series.",
+  "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house.",
   "heritage": "Formerly Housing Production and Housing Prices",
   "replaces": [
     "Housing Prices",
@@ -19,13 +19,19 @@
       "name": "Census Bureau Building Permits Survey, state year-to-date files",
       "cadence": "Monthly",
       "url": "https://www2.census.gov/econ/bps/State/",
-      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state. Case-Shiller city indexes remain a later view."
+      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state and the S&P/CoreLogic Case-Shiller Boston MSA index (FRED BOXRSA). Boston is the only Massachusetts city in that series."
     },
     "SRC-616-02": {
       "name": "FHFA all-transactions house-price index, annual state file",
       "cadence": "Annual",
       "url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_state.csv",
-      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state. Case-Shiller city indexes remain a later view."
+      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state and the S&P/CoreLogic Case-Shiller Boston MSA index (FRED BOXRSA). Boston is the only Massachusetts city in that series."
+    },
+    "SRC-616-03": {
+      "name": "S&P/CoreLogic Case-Shiller Boston house-price index (FRED BOXRSA)",
+      "cadence": "Monthly",
+      "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOXRSA",
+      "supports": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state and the S&P/CoreLogic Case-Shiller Boston MSA index (FRED BOXRSA). Boston is the only Massachusetts city in that series."
     }
   },
   "page": {
@@ -43,7 +49,7 @@
   "unit": "units",
   "data_month": "2026-06",
   "data_month_label": "Jun 2026 year-to-date",
-  "lead": "Permit-issuing places authorized <b>721,052</b> housing units in the United States through Jun 2026, -1.3% from the same months of 2025 (derived, SRC-616-01). Massachusetts authorized <b>7,148</b>, rank 30 of 51 (derived, SRC-616-01). The FHFA all-transactions house-price index rose <b>3.65%</b> in Massachusetts in 2025, rank 21 of 51 on annual change (derived, SRC-616-02). New Jersey had the largest increase at 6.16% (SRC-616-02).",
+  "lead": "Permit-issuing places authorized <b>721,052</b> housing units in the United States through Jun 2026, -1.3% from the same months of 2025 (derived, SRC-616-01). Massachusetts authorized <b>7,148</b>, rank 30 of 51 (derived, SRC-616-01). The FHFA all-transactions house-price index rose <b>3.65%</b> in Massachusetts in 2025, rank 21 of 51 on annual change (derived, SRC-616-02). New Jersey had the largest increase at 6.16% (SRC-616-02). The S&P/CoreLogic Case-Shiller Boston index was <b>356.29</b> in 2026-05 (+2.7% from a year earlier) (SRC-616-03). Boston is the only Massachusetts city in that series.",
   "kpis": [
     {
       "label": "U.S. units, Jun 2026 year-to-date",
@@ -613,6 +619,53 @@
         "unit": "percent",
         "as_of_label": "Calendar year 2025",
         "note": "FHFA does not publish a U.S. row in this state file. The index is developmental (FHFA note, March 31, 2026)."
+      },
+      "case_shiller_boston": {
+        "label": "S&P/CoreLogic Case-Shiller Boston house-price index",
+        "src": "SRC-616-03",
+        "unit": "index, January 2000 = 100",
+        "as_of_label": "2026-05",
+        "boston": 356.29,
+        "yoy_pct": 2.7,
+        "trend": [
+          {"m": "2023-06", "v": 312.73},
+          {"m": "2023-07", "v": 314.24},
+          {"m": "2023-08", "v": 317.85},
+          {"m": "2023-09", "v": 321.47},
+          {"m": "2023-10", "v": 324.35},
+          {"m": "2023-11", "v": 325.35},
+          {"m": "2023-12", "v": 325.21},
+          {"m": "2024-01", "v": 325.16},
+          {"m": "2024-02", "v": 328.29},
+          {"m": "2024-03", "v": 330.33},
+          {"m": "2024-04", "v": 333.27},
+          {"m": "2024-05", "v": 331.66},
+          {"m": "2024-06", "v": 333.0},
+          {"m": "2024-07", "v": 334.31},
+          {"m": "2024-08", "v": 335.19},
+          {"m": "2024-09", "v": 335.85},
+          {"m": "2024-10", "v": 338.71},
+          {"m": "2024-11", "v": 342.24},
+          {"m": "2024-12", "v": 345.96},
+          {"m": "2025-01", "v": 346.53},
+          {"m": "2025-02", "v": 347.75},
+          {"m": "2025-03", "v": 345.78},
+          {"m": "2025-04", "v": 346.26},
+          {"m": "2025-05", "v": 346.81},
+          {"m": "2025-06", "v": 346.9},
+          {"m": "2025-07", "v": 347.81},
+          {"m": "2025-08", "v": 348.75},
+          {"m": "2025-09", "v": 349.66},
+          {"m": "2025-10", "v": 348.71},
+          {"m": "2025-11", "v": 348.37},
+          {"m": "2025-12", "v": 350.03},
+          {"m": "2026-01", "v": 351.84},
+          {"m": "2026-02", "v": 352.19},
+          {"m": "2026-03", "v": 354.54},
+          {"m": "2026-04", "v": 353.94},
+          {"m": "2026-05", "v": 356.29}
+        ],
+        "note": "Seasonally adjusted Boston MSA series BOXRSA via FRED. Case-Shiller does not publish another Massachusetts city."
       }
     }
   },

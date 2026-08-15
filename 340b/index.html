@@ -75,8 +75,13 @@
   .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
+  .plot-sm{height:clamp(240px,28vh,360px)}
   .plot-mid{height:clamp(480px,62vh,780px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}
+  .insight-grid .exhibit.span2{grid-column:1/-1}
+  .insight-grid .lede{margin:8px 0 12px;font-size:13.5px}
+  @media(max-width:900px){.insight-grid{grid-template-columns:1fr}}
   .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
   th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
@@ -120,7 +125,7 @@
 </div>
 <header>
   <div class="dots" aria-hidden="true"></div>
-  <div class="org">Healthcare <span class="sub">/ 340B &middot; Formerly 340B Program Growth, Hospital Charity Care, and Legislative Mapping</span></div>
+  <div class="org">Healthcare <span class="sub">/ 340B</span></div>
   <h1>340B</h1>
   <div class="standfirst">340B program growth, hospital charity care, and state legislative mapping.</div>
   <div class="dateline">
@@ -175,7 +180,7 @@
     <div>2 sources in the register</div>
   </div>
   <div class="disclaimer">
-    <div><b>About this tool.</b> 340B is a Pioneer Institute DataLabs research tool. Formerly 340B Program Growth, Hospital Charity Care, and Legislative Mapping. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> 340B is a Pioneer Institute DataLabs research tool. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
     <div><b>Verified figures.</b> No figures are published on this page yet. The register is the work plan.</div>
   </div>

@@ -6,8 +6,8 @@
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-07",
-  "scope": "This first ledger ranks Massachusetts cities and towns on 2020-to-2025 Census population change. Crime, debt, education, spending, revenue, and tax rankings are listed as later views.",
-  "exclusions": "Does not cover the per-town atlas stock (Municipal Atlas), Boston payroll, or advice about a town meeting warrant. DLS, DESE, and crime rankings are pending.",
+  "scope": "This ledger ranks Massachusetts cities and towns on 2020-to-2025 Census population change, and also reports DESE FY 2025 district total expenditures per pupil. DLS debt, levy, revenue, tax, and municipal crime files are not posted as stable public CSVs.",
+  "exclusions": "Does not cover the per-town atlas stock (Municipal Atlas), Boston payroll, or advice about a town meeting warrant. DLS debt, levy, revenue, tax, and municipal crime rankings are not a stable public CSV: decline those.",
   "heritage": "Formerly the Cities and Towns Rankings suite",
   "replaces": [
     "Rankings-Crime",
@@ -18,13 +18,19 @@
     "Rankings-Revenues",
     "Rankings-Taxes"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census sub-est2025_25.csv, SUMLEV 061. This first ranking is 2025 minus 2020 resident population. Crime, debt, education, expenditure, revenue, and tax rankings remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census sub-est2025_25.csv, SUMLEV 061. This first ranking is 2025 minus 2020 resident population. DLS debt, levy, revenue, and municipal crime files are not posted as stable public CSVs. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-626-01": {
       "name": "Census vintage 2025 subcounty population estimates, Massachusetts",
       "cadence": "Annual",
       "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_25.csv",
-      "supports": "This first ledger ranks Massachusetts cities and towns on 2020-to-2025 Census population change. Crime, debt, education, spending, revenue, and tax rankings are listed as later views."
+      "supports": "This ledger ranks Massachusetts cities and towns on 2020-to-2025 Census population change, and also reports DESE FY 2025 district total expenditures per pupil. DLS debt, levy, revenue, tax, and municipal crime files are not posted as stable public CSVs."
+    },
+    "SRC-626-02": {
+      "name": "DESE / E2C district finance, total expenditures per pupil (education ranking)",
+      "cadence": "Annual fiscal year",
+      "url": "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json",
+      "supports": "This ledger ranks Massachusetts cities and towns on 2020-to-2025 Census population change, and also reports DESE FY 2025 district total expenditures per pupil. DLS debt, levy, revenue, tax, and municipal crime files are not posted as stable public CSVs."
     }
   },
   "page": {
@@ -41,7 +47,7 @@
   "unit": "people",
   "data_month": "2025-07",
   "data_month_label": "2020 to 2025",
-  "lead": "From 2020 to 2025 the largest population gain among Massachusetts cities and towns was <b>Amherst Town city</b> at <b>13,117</b>; the largest loss was <b>Revere city</b> at <b>-1,768</b> (derived, SRC-626-01). Crime, debt, education, spending, and tax rankings are pending because those DLS and DESE files were not reachable this pass.",
+  "lead": "From 2020 to 2025 the largest population gain among Massachusetts cities and towns was <b>Amherst Town city</b> at <b>13,117</b>; the largest loss was <b>Revere city</b> at <b>-1,768</b> (derived, SRC-626-01). DLS debt, levy, revenue, and municipal crime files are not posted as stable public CSVs. On DESE FY 2025 total expenditures per pupil, <b>Truro</b> was highest at <b>$59,111</b> among 389 districts (SRC-626-02). DLS debt, levy, revenue, and municipal crime files are not posted as stable public CSVs on this pass.",
   "kpis": [
     {
       "label": "Largest gain, 2020-25",
@@ -61,7 +67,7 @@
       "label": "Boston",
       "value": "3,308",
       "detail": "Rank 8 of 351 on 2020-25 change (derived, SRC-626-01).",
-      "why": "Crime, debt, education, and levy rankings are pending.",
+      "why": "DLS debt, levy, revenue, and municipal crime files are not posted as stable public CSVs.",
       "src": "Census subcounty population estimates 2025 (SRC-626-01)"
     }
   ],
@@ -3700,7 +3706,47 @@
       }
     ],
     "n_ranked": 351,
-    "massachusetts_rank": 8
+    "massachusetts_rank": 8,
+    "secondary": {
+      "district_ppe_fy2025": {
+        "label": "Massachusetts district total expenditures per pupil, FY 2025",
+        "src": "SRC-606-07",
+        "unit": "dollars per pupil",
+        "as_of_label": "Fiscal year 2025",
+        "districts": 389,
+        "highest": {
+          "name": "Truro",
+          "v": 59111
+        },
+        "lowest": {
+          "name": "TEC Connections Academy Commonwealth Virtual School District",
+          "v": 11230
+        },
+        "state_row": null,
+        "top_five": [
+          {
+            "name": "Truro",
+            "v": 59111
+          },
+          {
+            "name": "Provincetown",
+            "v": 55181
+          },
+          {
+            "name": "Warwick",
+            "v": 48802
+          },
+          {
+            "name": "Erving",
+            "v": 46927
+          },
+          {
+            "name": "Rowe",
+            "v": 45431
+          }
+        ]
+      }
+    }
   },
   "entities": {
     "Amherst Town city": {

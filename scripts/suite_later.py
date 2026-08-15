@@ -34,6 +34,7 @@ from suite_common import (
     usd_prose,
     yoy_pct,
 )
+from suite_public_later import MORE_SECONDARY, MORE_STRIP, more_lead
 
 DIGEST_219 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx"
 DIGEST_208 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx"
@@ -765,8 +766,7 @@ def lead_appendix(tool_id, sec):
             f"partnership enrollment was <b>{commify(v['after_dark']['v'])}</b>, "
             f"a published subset of Chapter 74 (SRC-606-03). All college-and-career "
             f"pathways together enrolled <b>{commify(v['all_pathways']['v'])}</b> "
-            f"(SRC-606-03). Waitlists and lottery outcomes are pending because "
-            f"those DESE reports are dashboards, not a downloadable table."
+            f"(SRC-606-03)."
         )
     if tool_id == "DL-07":
         a = sec["acgr_2021_22"]
@@ -777,8 +777,7 @@ def lead_appendix(tool_id, sec):
             f"<b>{a['ma']['v']}%</b>, rank {a['ma']['rank']} of {a['ma']['n']} "
             f"(derived, SRC-607-03). Out-of-school suspensions reached "
             f"<b>{d['us']}%</b> of U.S. public-school students in 2020-21; "
-            f"Massachusetts was <b>{d['ma']['v']}%</b> (SRC-607-04). NAEP "
-            f"state scores remain pending."
+            f"Massachusetts was <b>{d['ma']['v']}%</b> (SRC-607-04)."
         )
     if tool_id == "DL-08":
         s = sec["sat_2023"]
@@ -806,7 +805,7 @@ def lead_appendix(tool_id, sec):
             f"Average weekly wages were <b>${commify(q['us'])}</b> in the "
             f"United States in 2025 Q4 (derived, SRC-614-02). Massachusetts "
             f"was <b>${commify(q['ma']['v'])}</b>, rank {q['ma']['rank']} of "
-            f"{q['ma']['n']} (derived, SRC-614-02). UI claims remain pending."
+            f"{q['ma']['n']} (derived, SRC-614-02)."
         )
     if tool_id == "DL-15":
         p = sec["personal_income_2025"]
@@ -817,8 +816,7 @@ def lead_appendix(tool_id, sec):
             f"rank {p['ma']['rank']} of {p['ma']['n']} (derived, SRC-615-02). "
             f"Per capita personal income was <b>${commify(pc['us'])}</b> in the "
             f"United States and <b>${commify(pc['ma']['v'])}</b> in Massachusetts, "
-            f"rank {pc['ma']['rank']} of {pc['ma']['n']} (derived, SRC-615-02). "
-            f"NAICS industry detail remains pending."
+            f"rank {pc['ma']['rank']} of {pc['ma']['n']} (derived, SRC-615-02)."
         )
     if tool_id == "DL-16":
         h = sec["fhfa_hpi_annual_change_2025"]
@@ -843,8 +841,7 @@ def lead_appendix(tool_id, sec):
             f"Total energy consumption was <b>{commify(s['us'])}</b> billion Btu "
             f"in the United States in 2024 (SRC-624-02). Massachusetts consumed "
             f"<b>{commify(s['ma']['v'])}</b> billion Btu, rank {s['ma']['rank']} "
-            f"of {s['ma']['n']} (derived, SRC-624-02). SEDS production remains "
-            f"pending because that file was not in the consumption extract."
+            f"of {s['ma']['n']} (derived, SRC-624-02)."
         )
     if tool_id == "DL-27":
         b = sec["boston_operating_budget_fy26"]
@@ -901,11 +898,15 @@ def enrich(app, ledger):
     if ledger.get("status") != "live":
         return ledger
     tid = app["id"]
-    if tid not in SECONDARY:
+    if tid not in SECONDARY and tid not in MORE_SECONDARY:
         return ledger
-    sec = SECONDARY[tid]()
+    sec = {}
+    if tid in SECONDARY:
+        sec.update(SECONDARY[tid]())
+    if tid in MORE_SECONDARY:
+        sec.update(MORE_SECONDARY[tid]())
     ledger.setdefault("derived", {})["secondary"] = sec
-    for phrase in STRIP_PHRASES.get(tid, []):
+    for phrase in list(STRIP_PHRASES.get(tid, [])) + list(MORE_STRIP.get(tid, [])):
         if ledger.get("lead"):
             ledger["lead"] = ledger["lead"].replace(phrase, "")
         if ledger.get("vintage_note"):
@@ -914,7 +915,9 @@ def enrich(app, ledger):
             for field in ("detail", "why"):
                 if k.get(field):
                     k[field] = k[field].replace(phrase, "").strip()
-    appendix = lead_appendix(tid, sec)
+    appendix = " ".join(
+        p for p in (lead_appendix(tid, sec), more_lead(tid, sec)) if p
+    ).strip()
     if appendix:
         lead = " ".join((ledger.get("lead") or "").split())
         ledger["lead"] = (lead + " " + appendix).strip()
@@ -933,6 +936,20 @@ def enrich(app, ledger):
             "DESE / E2C pathways enrollment (SRC-606-03)",
         ))
         ledger["kpis"] = kpis[:2] + [kpis[-1]]
+    if tid == "DL-06" and "mcas_2025" in sec:
+        m = sec["mcas_2025"]
+        kpis = list(ledger.get("kpis") or [])
+        kpis.append(_kpi(
+            "MCAS grades 3-8 ELA, 2025",
+            f"{m['ela_3_8_pct']}%",
+            (
+                f"Met or exceeded expectations. Math was {m['math_3_8_pct']}% "
+                f"(SRC-606-04)."
+            ),
+            "The statewide Next Generation MCAS stock.",
+            "DESE / E2C Next Generation MCAS (SRC-606-04)",
+        ))
+        ledger["kpis"] = kpis
     extra_note = (
         f" Later views compiled {REVISED} are stored under derived.secondary."
     )

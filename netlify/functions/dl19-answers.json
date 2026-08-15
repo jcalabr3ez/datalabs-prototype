@@ -6,8 +6,8 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2024-12",
-  "scope": "This first ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100). State-dependency, tariff, and defense measures are listed as later views.",
-  "exclusions": "Does not cover a household budget calculator or advice about moving. Tariff and defense files are pending.",
+  "scope": "This first ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100). Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo.",
+  "exclusions": "Does not cover a household budget calculator or advice about moving. Tariff, defense, and fiscal-dependency measures are pending: decline those. Do not substitute a Census dump for Pioneer's method.",
   "heritage": "Formerly Cost of Living, State Dependency, Tariff Impacts, and Defense Impact",
   "replaces": [
     "Cost of Living",
@@ -22,7 +22,7 @@
       "name": "BEA SARPP all-items regional price parities, 2008-2024",
       "cadence": "Annual",
       "url": "https://apps.bea.gov/regional/zip/SARPP.zip",
-      "supports": "This first ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100). State-dependency, tariff, and defense measures are listed as later views."
+      "supports": "This first ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100). Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo."
     }
   },
   "page": {

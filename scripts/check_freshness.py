@@ -42,7 +42,7 @@ RULES = {
         "YYYY-MM", 400, "Census vintage population estimates publish once a year"
     ),
     "netlify/functions/dl06-answers.json": (
-        "YYYY-MM", 2000, "NCES Digest per-pupil finance lags several school years"
+        "YYYY-MM", 2000, "NCES NPEFS per-pupil finance is annual with a multi-year lag"
     ),
     "netlify/functions/dl07-answers.json": (
         "YYYY-MM", 1200, "NCES Digest enrollment is annual with a long lag"
@@ -72,7 +72,7 @@ RULES = {
         "YYYY-MM", 1200, "FHWA Highway Statistics are annual"
     ),
     "netlify/functions/dl24-answers.json": (
-        "YYYY-MM", 1600, "EIA state CO2 is annual with a multi-year lag"
+        "YYYY-MM", 800, "EIA SEDS complete CO2 (TETCE) publishes the prior calendar year each June"
     ),
     "netlify/functions/dl25-answers.json": (
         "YYYY-MM", 900, "Census subcounty population estimates are annual"

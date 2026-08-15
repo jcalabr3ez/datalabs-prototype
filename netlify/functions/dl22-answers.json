@@ -6,20 +6,26 @@
   "group": "Transportation & Infrastructure",
   "status": "live",
   "as_of": "2026-06",
-  "scope": "This first ledger ranks U.S. transit agencies on FTA NTD unlinked passenger trips for the latest published month, including every Massachusetts reporter. Operating cost and farebox recovery remain later views. Mode-by-mode MBTA reliability stays on DL-03.",
-  "exclusions": "Does not cover MBTA mode-by-mode reliability or The RIDE (those stay on DL-03), capital budgets, or fare advice. Agency operating cost and farebox recovery are pending.",
+  "scope": "This ledger ranks U.S. transit agencies on FTA NTD unlinked passenger trips for the latest published month, including every Massachusetts reporter, and also reports NTD report-year 2024 agency operating expenses and farebox recovery. Mode-by-mode MBTA reliability stays on DL-03.",
+  "exclusions": "Does not cover MBTA mode-by-mode reliability or The RIDE (those stay on DL-03), capital budgets, or fare advice.",
   "heritage": "Formerly Compare Systems and MassTransit Comparing Systems",
   "replaces": [
     "Compare Systems",
     "MassTransit-Comparing Systems"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from FTA NTD Complete Monthly Ridership (Socrata 8bui-9xvu). Headline is unlinked passenger trips summed by agency for June 2026. U.S. total equals 690,656,393. Mode-by-mode MBTA reliability and cost stay on DL-03.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from FTA NTD Complete Monthly Ridership (Socrata 8bui-9xvu). Headline is unlinked passenger trips summed by agency for June 2026. U.S. total equals 690,656,393. Mode-by-mode MBTA reliability and cost stay on DL-03. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-622-01": {
       "name": "FTA NTD complete monthly ridership by agency",
       "cadence": "Monthly",
       "url": "https://data.transportation.gov/resource/8bui-9xvu.json",
-      "supports": "This first ledger ranks U.S. transit agencies on FTA NTD unlinked passenger trips for the latest published month, including every Massachusetts reporter. Operating cost and farebox recovery remain later views. Mode-by-mode MBTA reliability stays on DL-03."
+      "supports": "This ledger ranks U.S. transit agencies on FTA NTD unlinked passenger trips for the latest published month, including every Massachusetts reporter, and also reports NTD report-year 2024 agency operating expenses and farebox recovery. Mode-by-mode MBTA reliability stays on DL-03."
+    },
+    "SRC-622-02": {
+      "name": "FTA NTD annual agency operating expenses and fare revenues, report year 2024",
+      "cadence": "Annual",
+      "url": "https://data.transportation.gov/resource/ekg5-frzt.json",
+      "supports": "This ledger ranks U.S. transit agencies on FTA NTD unlinked passenger trips for the latest published month, including every Massachusetts reporter, and also reports NTD report-year 2024 agency operating expenses and farebox recovery. Mode-by-mode MBTA reliability stays on DL-03."
     }
   },
   "page": {
@@ -37,7 +43,7 @@
   "unit": "unlinked passenger trips",
   "data_month": "2026-06",
   "data_month_label": "June 2026",
-  "lead": "U.S. transit agencies reported <b>690,656,393</b> unlinked passenger trips in June 2026 (SRC-622-01). The MBTA reported <b>26,288,869</b>, rank 5 of 518 agencies (derived, SRC-622-01). <b>MTA New York City Transit</b> was the largest agency (SRC-622-01).",
+  "lead": "U.S. transit agencies reported <b>690,656,393</b> unlinked passenger trips in June 2026 (SRC-622-01). The MBTA reported <b>26,288,869</b>, rank 5 of 518 agencies (derived, SRC-622-01). <b>MTA New York City Transit</b> was the largest agency (SRC-622-01). In NTD report year 2024, U.S. agencies reported <b>$65.62 billion</b> in operating expenses, with a <b>17.2%</b> farebox recovery rate (derived, SRC-622-02). The MBTA spent <b>$2.16 billion</b>, recovered <b>19.2%</b> from fares, and cost <b>$8.59</b> per unlinked trip (derived, SRC-622-02).",
   "kpis": [
     {
       "label": "U.S. unlinked trips, June 2026",
@@ -4389,7 +4395,30 @@
         "v": 22887,
         "rank": 431
       }
-    ]
+    ],
+    "secondary": {
+      "ntd_annual_2024": {
+        "label": "FTA NTD agency operating expenses and farebox, report year 2024",
+        "src": "SRC-622-02",
+        "unit": "dollars",
+        "as_of_label": "Report year 2024",
+        "us_operating": 65621335420,
+        "us_farebox_pct": 17.2,
+        "agencies": 2219,
+        "mbta": {
+          "name": "Massachusetts Bay Transportation Authority",
+          "operating": 2161635514,
+          "farebox_pct": 19.2,
+          "cost_per_trip": 8.59,
+          "rank": 6,
+          "n": 2219
+        },
+        "highest": {
+          "name": "MTA New York City Transit",
+          "v": 10685052353
+        }
+      }
+    }
   },
   "entities": {
     "MTA New York City Transit": {

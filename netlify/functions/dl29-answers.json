@@ -6,8 +6,8 @@
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2026-03",
-  "scope": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Annual Survey of State Government Finances, NASBO rainy-day funds, and public-employee counts are listed as later views.",
-  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts State Finances), or party-registration advice. Annual finance and rainy-day files are pending.",
+  "scope": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Census Annual Survey of State Government Finances, NASBO rainy-day funds, and Census public-employment counts remain later views because those files are 404, PDF-only, or fixed-width without a verified layout on this pass.",
+  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts State Finances), or party-registration advice. Annual finance, rainy-day, and public-employee files are pending: decline those.",
   "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
   "replaces": [
     "Financial Transparency",
@@ -27,13 +27,13 @@
       "name": "Census QTAX 2026 Q1 table 3, total state taxes",
       "cadence": "Quarterly",
       "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx",
-      "supports": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Annual Survey of State Government Finances, NASBO rainy-day funds, and public-employee counts are listed as later views."
+      "supports": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Census Annual Survey of State Government Finances, NASBO rainy-day funds, and Census public-employment counts remain later views because those files are 404, PDF-only, or fixed-width without a verified layout on this pass."
     },
     "SRC-629-02": {
       "name": "NASBO Fiscal Survey of the States, rainy-day funds",
       "cadence": "Twice yearly",
       "url": "https://www.nasbo.org/",
-      "supports": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Annual Survey of State Government Finances, NASBO rainy-day funds, and public-employee counts are listed as later views."
+      "supports": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Census Annual Survey of State Government Finances, NASBO rainy-day funds, and Census public-employment counts remain later views because those files are 404, PDF-only, or fixed-width without a verified layout on this pass."
     }
   },
   "page": {

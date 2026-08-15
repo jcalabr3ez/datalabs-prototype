@@ -6,8 +6,8 @@
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2026-03",
-  "scope": "This first ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue. DOR monthly collections, total spending, and tax credits are listed as later views.",
-  "exclusions": "Does not cover municipal levies (Municipal Rankings), the 51-state ranking (U.S. State Finances), or advice about a filing. DOR monthly and tax-credit files are pending.",
+  "scope": "This first ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment.",
+  "exclusions": "Does not cover municipal levies (Municipal Rankings), the 51-state ranking (U.S. State Finances), or advice about a filing. DOR monthly reports and tax credits are pending: decline those.",
   "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
   "replaces": [
     "Revenue Tax",
@@ -21,7 +21,7 @@
       "name": "Census QTAX 2026 Q1 table 3, state tax collections by type",
       "cadence": "Quarterly",
       "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx",
-      "supports": "This first ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue. DOR monthly collections, total spending, and tax credits are listed as later views."
+      "supports": "This first ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment."
     }
   },
   "page": {

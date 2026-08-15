@@ -13,7 +13,9 @@
    month so a refresh cannot silently drop those headlines.
 """
 import json
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -52,6 +54,40 @@ if "DATA:BEGIN florida-charts" not in page:
     print("florida charts: MISS generated block")
 else:
     print("florida charts: ok   generated block present")
+
+# Flagship page scripts must parse. A missing brace blanks every chart
+# and leaves the view tabs as no-ops (showView is never defined).
+for rel in (
+    "florida-insurance/index.html",
+    "electricity/index.html",
+    "pensions/index.html",
+    "mbta/index.html",
+):
+    html = (ROOT / rel).read_text(encoding="utf-8")
+    start = html.rfind("<script>")
+    stop = html.rfind("</script>")
+    if start < 0 or stop < start:
+        failures.append(f"{rel}: could not find the trailing chart script")
+        print(f"js syntax {rel}: MISS script")
+        continue
+    js = html[start + 8 : stop]
+    with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as tmp:
+        tmp.write(js)
+        tmp_path = tmp.name
+    try:
+        proc = subprocess.run(
+            ["node", "--check", tmp_path],
+            capture_output=True,
+            text=True,
+        )
+    finally:
+        Path(tmp_path).unlink(missing_ok=True)
+    if proc.returncode != 0:
+        err = (proc.stderr or proc.stdout or "syntax error").strip().splitlines()[-1]
+        failures.append(f"{rel}: chart script does not parse ({err})")
+        print(f"js syntax {rel}: FAIL {err}")
+    else:
+        print(f"js syntax {rel}: ok")
 
 for needle, label in sentinels:
     ok = needle in page

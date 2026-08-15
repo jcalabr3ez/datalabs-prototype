@@ -1567,19 +1567,6 @@
      "no backup"
     ],
     "vage": "amb"
-   },
-   {
-    "t": "Retail-Price Electricity",
-    "s": "US",
-    "u": "https://usdatalabs.org/energy/retail-price-electriciy",
-    "days": 255,
-    "views": 699,
-    "pub": "Nov 9, 2025",
-    "vint": "2023",
-    "flags": [
-     "no backup"
-    ],
-    "vage": "red"
    }
   ]
  },
@@ -1618,6 +1605,19 @@
   "url": "/mbta/",
   "ai": true,
   "heritage": "Formerly MBTAAnalysis"
+ },
+ {
+  "id": "DL-04",
+  "t": "Retail Electricity Prices",
+  "q": "What every state pays for a kilowatthour, all sectors combined, from EIA's annual record.",
+  "g": [
+   "US"
+  ],
+  "st": "live",
+  "url": "/electricity/",
+  "ai": true,
+  "heritage": "Formerly Retail-Price Electricity",
+  "group": "Energy"
  },
  {
   "id": "ARCHIVE",

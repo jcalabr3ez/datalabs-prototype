@@ -9,10 +9,11 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     AGENTS.md                      Hard rules for cloud agents (draft PR, no main)
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic categories, legacy
-                                   dashboards, the three flagships, the archive
+                                   dashboards, the four flagships, the archive
     mbta/index.html                DL-03 Transportation & MBTA flagship page
     florida-insurance/index.html   DL-02 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-01 State Tax Atlas flagship page
+    electricity/index.html         DL-04 Retail Electricity Prices flagship page
     netlify/functions/ask.js       The engine: one Sonnet 5 call reads the
                                    catalog, every tool's scope, and a
                                    selected payload of ledgers (full
@@ -28,11 +29,14 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     netlify/functions/dl03-answers.json  CANONICAL DL-03 (MBTA) ledger
     netlify/functions/dl02-answers.json  CANONICAL DL-02 (Florida) ledger
     netlify/functions/dl01-answers.json  CANONICAL DL-01 (Tax Atlas) ledger
+    netlify/functions/dl04-answers.json  CANONICAL DL-04 (electricity) ledger
     scripts/inject_data.py         Build step: regenerates every embedded page
                                    copy from the canonical ledgers, including
                                    Florida charts and keyed headlines
     scripts/refresh_dl03.py        Recomputes the DL-03 ledger from the live
                                    FTA NTD API; run by the monthly workflow
+    scripts/refresh_dl04.py        Recomputes the DL-04 ledger from EIA and
+                                   Census files; run by the yearly workflow
     scripts/check_freshness.py     Fails when a ledger ages past its cadence
     scripts/check_style.py         House-style lint (no em dashes) plus the
                                    Florida page's ledger-sentinel checks
@@ -190,6 +194,12 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
                        merge, and the deploy carries the new data. First
                        run: Actions tab > DL-03 monthly refresh > Run
                        workflow.
+    dl04-refresh.yml   Yearly, mid-October. Rebuilds retail electricity
+                       prices from EIA Form EIA-861 (checked against
+                       Electric Power Annual table 2.10), generation,
+                       capacity, and Census population, then opens a
+                       PULL REQUEST. First run: Actions tab > DL-04
+                       yearly refresh > Run workflow.
     checks.yml         Weekly and on every PR. Fails when a ledger ages past
                        its publisher cadence, when a generated page block is
                        out of sync with its canonical ledger, or when the

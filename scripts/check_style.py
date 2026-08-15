@@ -62,6 +62,29 @@ for needle, label in sentinels:
             "the DL-02 ledger moved but the hand-authored page did not follow"
         )
 
+# ---- 3. Electricity page sentinels ----
+el = json.loads((ROOT / "netlify/functions/dl04-answers.json").read_text(encoding="utf-8"))
+epage = (ROOT / "electricity/index.html").read_text(encoding="utf-8")
+us_fmt = f"{el['latest']['us']['price_cents']:.2f}"
+el_sentinels = [
+    (us_fmt, f"latest U.S. all-sector price ({us_fmt} cents, year {el['data_year']})"),
+    (str(el["data_year"]), f"ledger data year ({el['data_year']})"),
+    (el["page"]["revised"], f"page.revised ({el['page']['revised']})"),
+]
+if "DATA:BEGIN electricity-data" not in epage:
+    failures.append("electricity/index.html is missing the generated electricity-data block")
+    print("electricity charts: MISS generated block")
+else:
+    print("electricity charts: ok   generated block present")
+for needle, label in el_sentinels:
+    ok = needle in epage
+    print(f"electricity sentinel: {'ok  ' if ok else 'MISS'} {label}")
+    if not ok:
+        failures.append(
+            f"electricity/index.html does not mention {label}; "
+            "the DL-04 ledger moved but the hand-authored page did not follow"
+        )
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

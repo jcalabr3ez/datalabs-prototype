@@ -9,6 +9,7 @@ pull requests**. They do not merge and they do not push `main`.
 - `netlify/functions/dl01-answers.json`
 - `netlify/functions/dl02-answers.json`
 - `netlify/functions/dl03-answers.json`
+- `netlify/functions/dl04-answers.json`
 - Hand-authored prose: hero / methodology / source register / footer on
   `tax-atlas/index.html`, remaining Florida narrative (charts and keyed
   headlines are generated), and front-door chrome in `index.html`
@@ -29,6 +30,9 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   this into the weekly DL-01 PR.
 - **DL-03 (monthly):** `.github/workflows/dl03-refresh.yml` already opens
   a PR from the FTA NTD API. Do not invent a second refresh.
+- **DL-04 (yearly, October):** `.github/workflows/dl04-refresh.yml` already
+  opens a PR from EIA Form EIA-861, EIA-923, EIA-860, and Census
+  population. Do not invent a second refresh.
 
 ## House style
 

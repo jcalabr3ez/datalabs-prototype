@@ -1,0 +1,51 @@
+# Yearly DL-04 refresh: all-sector retail electricity prices, sales,
+# generation, and capacity from EIA, plus Census population.
+# Opens a pull request; never pushes to main (a push deploys the site).
+# Timed for late October, after EIA's typical Electric Power Annual release.
+name: DL-04 yearly refresh
+
+on:
+  schedule:
+    - cron: "0 14 20 10 *" # October 20, 14:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install spreadsheet readers
+        run: python3 -m pip install --quiet openpyxl xlrd
+      - name: Refresh electricity ledger from EIA and Census, re-inject pages
+        run: python3 scripts/refresh_dl04.py
+      - name: Freshness report
+        run: python3 scripts/check_freshness.py || true
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/dl04-refresh
+          title: "DL-04: yearly refresh of retail electricity prices"
+          commit-message: "DL-04: yearly refresh of retail electricity prices"
+          body: |
+            Automated yearly refresh of the retail electricity ledger:
+
+            - All-sector prices and sales from EIA Form EIA-861
+              (HS861 2010-), checked against Electric Power Annual
+              table 2.10 (SRC-401), via scripts/refresh_dl04.py.
+            - Net generation from EIA-923 (SRC-403).
+            - Net summer capacity from EIA-860 (SRC-404).
+            - State population from Census vintage estimates (SRC-402).
+
+            Review the ledger diff before merging. A new calendar year
+            extends the series; a change to a historical year is an EIA
+            revision and worth a note. The U.S. figure must remain EIA's
+            U.S. Total row, never an unweighted mean of the state prices.
+            Merging to main deploys the site.
+          delete-branch: true

@@ -51,6 +51,10 @@ const GOLDEN = [
   ["Will Proposition 40 pass in November?", ["none"], null],
   ["How safe is the MBTA?", ["none", "route"], null],
   ["Where can I find crime data for Boston?", ["route"], null],
+  ["What is the average retail electricity price in the United States?", ["answer"], "DL-04"],
+  ["How much does electricity cost in Massachusetts?", ["answer"], "DL-04"],
+  ["Which state has the highest electricity prices?", ["answer"], "DL-04"],
+  ["What will electricity cost next year?", ["none", "route"], null],
 ];
 
 let failures = 0;

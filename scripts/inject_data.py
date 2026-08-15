@@ -6,12 +6,14 @@ Canonical data lives in:
     netlify/functions/dl03-answers.json   (MBTA ledger)
     netlify/functions/dl01-answers.json   (State Tax Atlas ledger)
     netlify/functions/dl02-answers.json   (Florida ledger)
+    netlify/functions/dl04-answers.json   (electricity ledger)
 
 This script regenerates every embedded copy from the canonical files:
     index.html            const DATA (catalog + answers; audit preserved)
     mbta/index.html       const ANSWERS
     tax-atlas/index.html  STATES, *_META, DEFAULT_SOURCES, STATE_SOURCES, CAPTIONS
     florida-insurance/index.html  chart series, dateline, footer, keyed headlines
+    electricity/index.html  chart payload, dateline, KPI band, footer
     netlify/functions/catalog.json        copy of root catalog.json
 
 It runs locally (python3 scripts/inject_data.py) and as the Netlify build
@@ -180,6 +182,101 @@ def inject_florida(dl02, text, path):
     return text
 
 
+def inject_electricity(dl04, text, path):
+    """Regenerate the electricity page payload and the headlines that track it."""
+    latest = dl04["latest"]
+    page = dl04.get("page") or {}
+    year = dl04["data_year"]
+    payload = {
+        "year": year,
+        "as_of": dl04["as_of"],
+        "revised": page.get("revised", ""),
+        "version": page.get("version", "1.0"),
+        "entities": dl04["entities"],
+        "latest": latest,
+        "states": dl04["latest_states"],
+        "price_trend": dl04["price_trend"],
+        "derived": {
+            "highest_five": dl04["derived"]["highest_five"],
+            "lowest_five": dl04["derived"]["lowest_five"],
+            "us_change_from_first_pct": dl04["derived"]["us_change_from_first_pct"],
+            "ma_change_from_first_pct": dl04["derived"]["ma_change_from_first_pct"],
+            "us_price_first_year": dl04["derived"]["us_price_first_year"],
+            "ma_price_first_year": dl04["derived"]["ma_price_first_year"],
+            "massachusetts_rank": dl04["derived"]["massachusetts_rank"],
+            "n_ranked": dl04["derived"]["n_ranked"],
+        },
+    }
+    text = replace_block(text, "electricity-data", "const DL04=" + jdump(payload) + ";", path)
+    dateline = (
+        f'    <span>Data through <b>Dec 31, {year}</b></span>\n'
+        f'    <span>Revised <b>{page.get("revised", "")}</b></span>\n'
+        f'    <span>Version <b>{page.get("version", "1.0")}</b></span>'
+    )
+    text = replace_block(text, "electricity-dateline", dateline, path, style="html")
+    us_p = f"{latest['us']['price_cents']:.2f}"
+    ma_p = f"{latest['ma']['price_cents']:.2f}"
+    hi_p = f"{latest['highest']['price_cents']:.2f}"
+    lo_p = f"{latest['lowest']['price_cents']:.2f}"
+    us_yoy = latest["us"].get("yoy_pct")
+    ma_yoy = latest["ma"].get("yoy_pct")
+    us_yoy_html = (
+        f'<span class="{"up" if us_yoy and us_yoy > 0 else "dn"}">'
+        f'{us_yoy:+.1f}% from {year - 1}</span>'
+        if us_yoy is not None else f"EIA U.S. Total, {year}"
+    )
+    ma_yoy_txt = (
+        f"{ma_yoy:+.1f} percent from {year - 1}"
+        if ma_yoy is not None else f"all-sector average, {year}"
+    )
+    kpis = (
+        f'      <div class="cell">\n'
+        f'        <div class="cl">U.S. average, {year}</div>\n'
+        f'        <div class="cv">{us_p}&cent;</div>\n'
+        f'        <div class="cd">All-sector average retail price, EIA U.S. Total row, not an average of the state prices (SRC-401). {us_yoy_html}.</div>\n'
+        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the national price the rest of the page is measured against.</div>\n'
+        f'        <div class="csrc">Source: EIA Form EIA-861 / Electric Power Annual table 2.10 (SRC-401)</div>\n'
+        f'      </div>\n'
+        f'      <div class="cell">\n'
+        f'        <div class="cl">Massachusetts</div>\n'
+        f'        <div class="cv">{ma_p}&cent;</div>\n'
+        f'        <div class="cd">Rank {latest["ma"]["rank"]} of {latest["ma"]["n"]} states and D.C. (derived, SRC-401). {ma_yoy_txt}.</div>\n'
+        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Massachusetts sits well above the national average, with the rest of New England.</div>\n'
+        f'        <div class="csrc">Source: EIA Form EIA-861 (SRC-401)</div>\n'
+        f'      </div>\n'
+        f'      <div class="cell">\n'
+        f'        <div class="cl">Highest / lowest</div>\n'
+        f'        <div class="cv">{latest["highest"]["st"]} {float(latest["highest"]["price_cents"]):.2f}</div>\n'
+        f'        <div class="cd">{latest["highest"]["name"]} is the highest all-sector average; {latest["lowest"]["name"]} is the lowest at {lo_p} cents (SRC-401).</div>\n'
+        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The spread is the story: the same kilowatthour costs several times more in some states than in others.</div>\n'
+        f'        <div class="csrc">Source: EIA Form EIA-861 (SRC-401)</div>\n'
+        f'      </div>'
+    )
+    text = replace_block(text, "electricity-kpis", kpis, path, style="html")
+    us_dir = "up" if us_yoy and us_yoy > 0 else "down"
+    lead = (
+        f'The United States all-sector average was <b>{us_p} cents</b> per kilowatthour '
+        f'in {year}, {us_dir} {abs(us_yoy):.1f} percent from {year - 1} (SRC-401). '
+        f'Massachusetts paid <b>{ma_p} cents</b>, rank {latest["ma"]["rank"]} of '
+        f'{latest["ma"]["n"]} (derived, SRC-401). {latest["highest"]["name"]} was '
+        f'highest at {hi_p} cents and {latest["lowest"]["name"]} lowest at {lo_p} '
+        f'cents (SRC-401).'
+    )
+    text = replace_block(text, "electricity-lead", lead, path, style="html")
+    revised_long = page.get("revised", "")
+    for full, (short, _) in MONTH_END.items():
+        if revised_long.startswith(short + " "):
+            revised_long = full + revised_long[len(short):]
+            break
+    footer = (
+        f"    <div>Retail Electricity Prices &middot; Version {page.get('version', '1.0')} "
+        f"&middot; Data through December 31, {year} &middot; "
+        f"Revised {revised_long}</div>"
+    )
+    text = replace_block(text, "electricity-footer-meta", footer, path, style="html")
+    return text
+
+
 def extract_json_after(text, prefix, path):
     """Return the parsed JSON object literal that follows `prefix` on its line."""
     m = re.search(re.escape(prefix) + r"(.*?);\s*$", text, re.M)
@@ -193,6 +290,7 @@ def main():
     dl03 = load("netlify/functions/dl03-answers.json")
     dl01 = load("netlify/functions/dl01-answers.json")
     dl02 = load("netlify/functions/dl02-answers.json")
+    dl04 = load("netlify/functions/dl04-answers.json")
     changed = []
 
     # ---- index.html: const DATA = {catalog, answers, audit} + desk stats ----
@@ -209,9 +307,21 @@ def main():
                        .get("Certified for the 2026 ballot", {}).get("count", 0),
         "as_of": dl01["as_of"],
     }
+    dl04d = {
+        "year": dl04["data_year"],
+        "us_price": dl04["latest"]["us"]["price_cents"],
+        "us_price_fmt": f"{dl04['latest']['us']['price_cents']:.2f}",
+        "ma_price_fmt": f"{dl04['latest']['ma']['price_cents']:.2f}",
+        "us_yoy": dl04["latest"]["us"].get("yoy_pct"),
+        "highest_name": dl04["latest"]["highest"]["name"],
+        "highest_price_fmt": f"{dl04['latest']['highest']['price_cents']:.2f}",
+        "as_of": dl04["as_of"],
+        "us_trend": [[e["y"], e["v"]] for e in dl04["price_trend"]["US"]],
+    }
     front_payload = (
         "const DATA = " + jdump(data) + ";\n"
-        + "const DL01D = " + jdump(dl01d) + ";"
+        + "const DL01D = " + jdump(dl01d) + ";\n"
+        + "const DL04D = " + jdump(dl04d) + ";"
     )
     new = replace_block(text, "front-data", front_payload, p)
 
@@ -298,6 +408,14 @@ def main():
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("florida-insurance/index.html")
+
+    # ---- electricity/index.html: charts + keyed headlines ----
+    p = ROOT / "electricity/index.html"
+    text = p.read_text(encoding="utf-8")
+    new = inject_electricity(dl04, text, p)
+    if new != text:
+        p.write_text(new, encoding="utf-8")
+        changed.append("electricity/index.html")
 
     # ---- netlify/functions/catalog.json: copy of root ----
     p = ROOT / "netlify/functions/catalog.json"

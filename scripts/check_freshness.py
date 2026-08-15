@@ -23,6 +23,9 @@ RULES = {
     "netlify/functions/dl01-answers.json": (
         "YYYY-MM-DD", 45, "weekly Cursor Automation rechecks the register; this 45-day gate is the backstop"
     ),
+    "netlify/functions/dl04-answers.json": (
+        "YYYY-MM", 700, "EIA Electric Power Annual / Form EIA-861 publishes the prior calendar year each October"
+    ),
 }
 
 

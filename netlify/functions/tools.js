@@ -28,6 +28,7 @@
 const DL03 = require('./dl03-answers.json');
 const DL02 = require('./dl02-answers.json');
 const DL01 = require('./dl01-answers.json');
+const DL04 = require('./dl04-answers.json');
 
 module.exports = [
   {
@@ -175,6 +176,47 @@ module.exports = [
         d.state_sources[p.highlight].forEach(function (x) { srcs.push(x.label); });
       }
       return 'State Tax Atlas, law and measures as of ' + d.as_of + '. Sources: ' + srcs.join('; ') + '.';
+    }
+  },
+  {
+    id: 'DL-04',
+    label: 'Retail electricity prices: all-sector average cents per kilowatthour by state, plus sales, generation, and capacity',
+    scope: 'Covers the all-sector average retail price of electricity by state and for the United States, plus retail sales, net generation, net summer capacity, and per-capita sales and generation, calendar years 2012 through the dataset data_year. The U.S. figure is EIA\'s published U.S. Total row, a sales-weighted all-sector average, never an unweighted mean of the state prices. Does NOT cover: residential, commercial, or industrial prices as separate series; utility, city, or customer-class rates; forecasts or what prices will do next year; bill calculators or rate-case advice; other fuels.',
+    triggers: [
+      'electricity', 'electric', 'kilowatthour', 'kwh', 'cents per', 'retail price',
+      'electricity price', 'electricity cost', 'power price', 'utility rate',
+      'eia-861', 'form eia', 'all-sector', 'hawaii electricity',
+      'massachusetts electricity', 'state electricity'
+    ],
+    dataset: DL04,
+    coreSlice: function (d) {
+      return {
+        tool_id: d.tool_id, as_of: d.as_of, data_year: d.data_year, scope: d.scope,
+        vintage_note: d.vintage_note, source_id_map: d.source_id_map,
+        entities: d.entities, latest: d.latest, latest_states: d.latest_states,
+        derived: d.derived,
+        price_trend_us: d.price_trend.US,
+        price_trend_ma: d.price_trend.MA
+      };
+    },
+    modelSlice: function (d) {
+      var o = {};
+      Object.keys(d).forEach(function (k) { if (k !== 'series') o[k] = d[k]; });
+      return o;
+    },
+    charts: ['price_rank', 'price_trend', 'sales_rank', 'gen_rank'],
+    views: ['prices', 'trends', 'supply', 'table'],
+    viewDefault: 'prices',
+    highlight: { key: 'entities', uppercase: true, describe: 'the exact two-letter jurisdiction code (for example MA, HI, ND, US) if the question focuses on one state, else null' },
+    rules: 'DL-04 rules. Every figure cites its source in parentheses: prices and sales cite (SRC-401); generation cites (SRC-403); capacity cites (SRC-404); population and per-capita figures cite (SRC-402) or (derived, SRC-401, SRC-402). Ranks and year-over-year changes cite (derived, SRC-401). Prefer the precomputed values in latest, latest_states, and derived over your own arithmetic. The U.S. average is latest.us.price_cents, EIA\'s U.S. Total row; never average the 50 state prices. Prices are all-sector averages in cents per kilowatthour, not a household bill and not a residential-only rate. Chart selection: price_rank = comparing states or who pays the most or least; price_trend = change over time or since 2012; sales_rank = how much electricity was sold; gen_rank = how much was generated; none = no view fits. When the question names a state, set highlight to that state code. View selection: prices for the latest-year ranking; trends for the 2012-forward series; supply for sales or generation; table for the full latest-year table. Decline forecasts, utility-specific rates, residential-only rates, and bill advice.',
+    link: function (p) {
+      var chart = p.chart && p.chart !== 'none' ? p.chart : (p.view && p.view !== 'prices' ? p.view : 'price_rank');
+      var url = '/electricity/#view-' + chart;
+      if (p.highlight) url += '&st=' + p.highlight;
+      return url;
+    },
+    src: function (d) {
+      return 'EIA Form EIA-861 / Electric Power Annual table 2.10, all-sector prices and sales through ' + d.data_year + ' (SRC-401); EIA-923 generation (SRC-403); EIA-860 capacity (SRC-404); Census Bureau population (SRC-402). The U.S. figure is EIA\'s U.S. Total row.';
     }
   }
 ];

@@ -181,19 +181,6 @@
     "vage": "red"
    },
    {
-    "t": "Rankings-Local Public Employees",
-    "s": "MA",
-    "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/local-public-employees",
-    "days": 391,
-    "views": 84,
-    "pub": "Jun 26, 2025",
-    "vint": "2024",
-    "flags": [
-     "no backup"
-    ],
-    "vage": "amb"
-   },
-   {
     "t": "Rankings-Revenues",
     "s": "MA",
     "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/revenues",
@@ -369,17 +356,6 @@
     "vage": "red"
    },
    {
-    "t": "MCAS Legacy",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-mcas-legacy",
-    "days": 382,
-    "views": 99,
-    "pub": "Jul 5, 2025",
-    "flags": [
-     "no backup"
-    ]
-   },
-   {
     "t": "MCAS NEXTGEN",
     "s": "MA",
     "u": "https://madatalabs.org/education/education-mcas-nextgen",
@@ -430,17 +406,6 @@
      "no backup"
     ],
     "vage": "red"
-   },
-   {
-    "t": "School Districts-District Directory",
-    "s": "US",
-    "u": "https://usdatalabs.org/education/school-districts/directory-of-school-districts",
-    "days": 723,
-    "views": 950,
-    "pub": "Jul 29, 2024",
-    "flags": [
-     "no backup"
-    ]
    },
    {
     "t": "School Districts-Education Staff",
@@ -847,19 +812,6 @@
     "vage": "red"
    },
    {
-    "t": "Employment and Establishments",
-    "s": "MA",
-    "u": "https://madatalabs.org/economy/employment-and-establishments",
-    "days": 186,
-    "views": 5,
-    "pub": "Jan 17, 2026",
-    "vint": "Lagging",
-    "flags": [
-     "no backup"
-    ],
-    "vage": ""
-   },
-   {
     "t": "Employment and Wages",
     "s": "US",
     "u": "https://usdatalabs.org/economy/employment-and-wages",
@@ -925,19 +877,6 @@
     "vage": ""
    },
    {
-    "t": "Industry Clusters",
-    "s": "MA",
-    "u": "https://madatalabs.org/economy/industry-clusters",
-    "days": 1323,
-    "views": 614,
-    "pub": "Dec 7, 2022",
-    "vint": "2020",
-    "flags": [
-     "no backup"
-    ],
-    "vage": "red"
-   },
-   {
     "t": "Labor Demographics",
     "s": "US",
     "u": "https://usdatalabs.org/economy/labor-demographics",
@@ -977,19 +916,6 @@
     "vage": ""
    },
    {
-    "t": "NAICS Code Detail",
-    "s": "MA",
-    "u": "https://madatalabs.org/economy/naics-code-detail",
-    "days": 1323,
-    "views": 683,
-    "pub": "Dec 7, 2022",
-    "vint": "2020",
-    "flags": [
-     "no backup"
-    ],
-    "vage": "red"
-   },
-   {
     "t": "Patents by State and Sector",
     "s": "US",
     "u": "https://usdatalabs.org/economy/patents-by-state-and-class",
@@ -1001,17 +927,6 @@
      "no backup"
     ],
     "vage": ""
-   },
-   {
-    "t": "Peer Finder",
-    "s": "US",
-    "u": "https://usdatalabs.org/peer-finder",
-    "days": 523,
-    "views": 550,
-    "pub": "Feb 14, 2025",
-    "flags": [
-     "no backup"
-    ]
    },
    {
     "t": "Personal Income",
@@ -1380,17 +1295,6 @@
     "vage": "amb"
    },
    {
-    "t": "Inventory of Dams",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/national-inventory-of-dams",
-    "days": 380,
-    "views": 186,
-    "pub": "Jul 7, 2025",
-    "flags": [
-     "no backup"
-    ]
-   },
-   {
     "t": "MBTA",
     "s": "MA",
     "u": "https://madatalabs.org/mbta/mbta",
@@ -1423,17 +1327,6 @@
     "days": 180,
     "views": 405,
     "pub": "Jan 23, 2026",
-    "flags": [
-     "no backup"
-    ]
-   },
-   {
-    "t": "Rail, Air and Water",
-    "s": "US",
-    "u": "https://usdatalabs.org/infrastructure/rail-air-and-water-transportation",
-    "days": 734,
-    "views": 301,
-    "pub": "Jul 18, 2024",
     "flags": [
      "no backup"
     ]
@@ -1554,19 +1447,6 @@
      "no backup"
     ],
     "vage": "red"
-   },
-   {
-    "t": "Energy Storage",
-    "s": "US",
-    "u": "https://usdatalabs.org/energy/energy-storage",
-    "days": 213,
-    "views": 66,
-    "pub": "Dec 21, 2025",
-    "vint": "2024",
-    "flags": [
-     "no backup"
-    ],
-    "vage": "amb"
    }
   ]
  },
@@ -1647,6 +1527,126 @@
     "days": 1181,
     "views": 5686,
     "pub": "Apr 28, 2023",
+    "flags": [
+     "no backup"
+    ]
+   },
+   {
+    "t": "Employment and Establishments",
+    "s": "MA",
+    "u": "https://madatalabs.org/economy/employment-and-establishments",
+    "days": 186,
+    "views": 5,
+    "pub": "Jan 17, 2026",
+    "vint": "Lagging",
+    "flags": [
+     "no backup"
+    ],
+    "vage": ""
+   },
+   {
+    "t": "Energy Storage",
+    "s": "US",
+    "u": "https://usdatalabs.org/energy/energy-storage",
+    "days": 213,
+    "views": 66,
+    "pub": "Dec 21, 2025",
+    "vint": "2024",
+    "flags": [
+     "no backup"
+    ],
+    "vage": "amb"
+   },
+   {
+    "t": "Industry Clusters",
+    "s": "MA",
+    "u": "https://madatalabs.org/economy/industry-clusters",
+    "days": 1323,
+    "views": 614,
+    "pub": "Dec 7, 2022",
+    "vint": "2020",
+    "flags": [
+     "no backup"
+    ],
+    "vage": "red"
+   },
+   {
+    "t": "Inventory of Dams",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/national-inventory-of-dams",
+    "days": 380,
+    "views": 186,
+    "pub": "Jul 7, 2025",
+    "flags": [
+     "no backup"
+    ]
+   },
+   {
+    "t": "MCAS Legacy",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-mcas-legacy",
+    "days": 382,
+    "views": 99,
+    "pub": "Jul 5, 2025",
+    "flags": [
+     "no backup"
+    ]
+   },
+   {
+    "t": "NAICS Code Detail",
+    "s": "MA",
+    "u": "https://madatalabs.org/economy/naics-code-detail",
+    "days": 1323,
+    "views": 683,
+    "pub": "Dec 7, 2022",
+    "vint": "2020",
+    "flags": [
+     "no backup"
+    ],
+    "vage": "red"
+   },
+   {
+    "t": "Peer Finder",
+    "s": "US",
+    "u": "https://usdatalabs.org/peer-finder",
+    "days": 523,
+    "views": 550,
+    "pub": "Feb 14, 2025",
+    "flags": [
+     "no backup"
+    ]
+   },
+   {
+    "t": "Rail, Air and Water",
+    "s": "US",
+    "u": "https://usdatalabs.org/infrastructure/rail-air-and-water-transportation",
+    "days": 734,
+    "views": 301,
+    "pub": "Jul 18, 2024",
+    "flags": [
+     "no backup"
+    ]
+   },
+   {
+    "t": "Rankings-Local Public Employees",
+    "s": "MA",
+    "u": "https://madatalabs.org/cities-and-towns/cities-and-towns-rankings/local-public-employees",
+    "days": 391,
+    "views": 84,
+    "pub": "Jun 26, 2025",
+    "vint": "2024",
+    "flags": [
+     "no backup"
+    ],
+    "vage": "amb"
+   },
+   {
+    "t": "School Districts-District Directory",
+    "s": "US",
+    "u": "https://usdatalabs.org/education/school-districts/directory-of-school-districts",
+    "days": 723,
+    "views": 950,
+    "pub": "Jul 29, 2024",
     "flags": [
      "no backup"
     ]

@@ -44,10 +44,11 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   `scripts/dl05-research-pass.md`. Update an existing PR only if it is a
   draft whose title starts with `DL-05`. Do not invent a fetch for the
   Investment Report; that source is a PDF.
-- **Suite (DL-06 to DL-31):** `python3 scripts/refresh_suite.py` rebuilds
-  the four live first-wave ledgers (business formation, labor market,
-  housing permits, population) and restubs the other 22. Do not mark a
-  stub `live` or invent figures. The five flagships stay frozen.
+- **Suite (DL-06 to DL-31):** `.github/workflows/suite-refresh.yml`
+  already opens a monthly PR from `scripts/refresh_suite.py` (first-wave
+  builders plus later public-file builders; 340B and Patents stay stubs).
+  Do not invent a second suite refresh. Do not mark a stub `live` or
+  invent figures. The five flagships stay frozen.
 
 ## House style
 

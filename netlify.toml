@@ -3,13 +3,9 @@
   command = "python3 scripts/inject_data.py"
   functions = "netlify/functions"
 
-# Keep the whole site out of search indexes (prototype, not for public discovery).
-# noindex is what actually removes pages from results; deliberately no robots.txt
-# Disallow, which would stop crawlers from fetching the page and seeing this.
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Robots-Tag = "noindex, nofollow"
+# The public site is indexable. robots.txt Allow plus the absence of a
+# site-wide noindex is what lets search engines list the catalog.
+# Pension name-search shards stay out of results: they are gzip payloads.
 
 # Serve search shards as raw gzip so the page can decompress once.
 # If the CDN already decoded them, the page checks the magic bytes.

@@ -274,12 +274,16 @@ exports.handler = async function (event) {
     };
     console.log(JSON.stringify(logEntry));
 
-    // Durable log: webhook to a spreadsheet (see SETUP.md Step 6).
-    // Fire-and-forget with a timeout; logging can never break the ask box.
-    if (process.env.QUESTION_LOG_URL) {
+    // Durable log: built-in function, plus an optional spreadsheet webhook
+    // (SETUP.md Step 6). Fire-and-forget; logging can never break the ask box.
+    const logTargets = [];
+    if (process.env.QUESTION_LOG_URL) logTargets.push(process.env.QUESTION_LOG_URL);
+    const siteBase = process.env.URL || process.env.DEPLOY_URL;
+    if (siteBase) logTargets.push(siteBase.replace(/\/$/, '') + '/.netlify/functions/log-question');
+    for (const logUrl of logTargets) {
       try {
         await Promise.race([
-          fetch(process.env.QUESTION_LOG_URL, {
+          fetch(logUrl, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(logEntry)

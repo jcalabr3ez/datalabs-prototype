@@ -7,10 +7,9 @@
    <link rel="stylesheet" href="/assets/datalabs.css">, before each page's own
    inline <style> (which keeps only page-specific rules and layout scalars).
 
-   NOTE: Chart.js color and font CONSTANTS in each page's JavaScript are separate
-   from these variables (JS cannot read CSS custom properties). Keep them in sync
-   by hand for now; consolidating them is the next maintenance step (see the
-   scalability notes / house-style memory).
+   NOTE: Chart.js is self-hosted at /assets/chart.umd.min.js. Color and font
+   CONSTANTS in each page's JavaScript are separate from these variables
+   (JS cannot read CSS custom properties). Keep them in sync by hand.
    ========================================================================== */
 :root{
   /* neutrals */

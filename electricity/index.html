@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="Retail Electricity Prices | Pioneer Institute">
 <meta name="twitter:description" content="All-sector average retail electricity prices by state, rebuilt from EIA Form EIA-861 and verified against Electric Power Annual table 2.10.">
 <meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/assets/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
@@ -430,7 +430,8 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
   </div>
 
   <div class="disclaimer">
-    <div><b>About this tool.</b> Retail Electricity Prices is a Pioneer Institute DataLabs research tool, published and versioned. It is the successor to the Retail-Price Electricity dashboard previously hosted on US DataLabs. Corrections and data refreshes are logged, and the version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> Retail Electricity Prices is a Pioneer Institute DataLabs research tool, published and versioned. It is the successor to the Retail-Price Electricity dashboard previously hosted on US DataLabs. Corrections and data refreshes are logged in the <a href="/changelog/">public changelog</a>. It is a living data tool, not a static report.</div>
+    <div><b>How to cite.</b> Pioneer Institute DataLabs, Retail Electricity Prices, data through Dec 31, 2024 (SRC-401). Name the source id next to any other figure.</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the federal sources named in the register and are accurate to the verification date shown in the masthead; agencies revise their filings and figures here are point-in-time. This tool and its contents are provided as is, without warranty of any kind, express or implied, including accuracy, completeness, or fitness for a particular purpose. Nothing here is advice about a utility bill, a rate case, or a purchase of power.</div>
     <div><b>Verified figures.</b> All-sector prices and sales are rebuilt from EIA Form EIA-861 and checked against Electric Power Annual table 2.10 (SRC-401). Massachusetts 2023 at 23.21 cents per kilowatthour matches both EIA publications and the recovered Retail-Price Electricity extract. Generation cites EIA-923 (SRC-403). Capacity cites EIA-860 (SRC-404). Population cites the Census Bureau (SRC-402). The U.S. average is EIA&rsquo;s U.S. Total row, never an unweighted mean of the state prices.</div>
     <div><b>Asking questions.</b> The DataLabs front door answers questions about this data in your own words when the ask box is on. Answers draw only from the figures published here, cite a source id on every figure, label derived numbers, and decline what the data cannot support; the underlying figures, not the prose, are the citable record.</div>
@@ -493,6 +494,11 @@ function refLineX(x,color,label){
 var rendered={};
 var trendChart=null;
 var selected='MA';
+(function(){
+  var qs=new URLSearchParams(location.search);
+  var st=(qs.get('st')||'').toUpperCase();
+  if(st && DL04.entities[st]) selected=st;
+})();
 
 function fmtM(v){ return (v/1e6).toFixed(1); }
 function yoyCls(v){ return v==null?'':(v>0?'neg':(v<0?'pos':'')); }
@@ -612,6 +618,13 @@ function renderTable(){
   }).join('');
   body.innerHTML=usRow+rows;
   var find=document.getElementById('tblFind');
+  var qs=new URLSearchParams(location.search);
+  if(find && !find.value){
+    var start=qs.get('q')||'';
+    var st0=(qs.get('st')||'').toUpperCase();
+    if(!start && st0 && DL04.entities[st0]) start=DL04.entities[st0];
+    if(start) find.value=start;
+  }
   function applyFind(){
     var q=(find&&find.value||'').toLowerCase();
     [].slice.call(body.querySelectorAll('tr')).forEach(function(tr){
@@ -619,7 +632,11 @@ function renderTable(){
       tr.hidden=!!q && name.toLowerCase().indexOf(q)<0;
     });
   }
-  if(find && !find.dataset.bound){ find.addEventListener('input', applyFind); find.dataset.bound='1'; }
+  function writeQuery(){
+    var q=(find&&find.value||'').replace(/^\s+|\s+$/g,'');
+    history.replaceState(null,'',location.pathname+(q?('?q='+encodeURIComponent(q)):'')+location.hash);
+  }
+  if(find && !find.dataset.bound){ find.addEventListener('input', function(){ applyFind(); writeQuery(); }); find.dataset.bound='1'; }
   applyFind();
 }
 

@@ -1,0 +1,2873 @@
+{
+  "acs_towns": {
+    "Barnstable Town city": {
+      "median_hh_income": 91982,
+      "median_home_value": 602500,
+      "poverty_pct": 7.4,
+      "bachelors_pct": 42.1,
+      "median_age": 49.1,
+      "pop": 50101
+    },
+    "Bourne town": {
+      "median_hh_income": 91058,
+      "median_home_value": 575600,
+      "poverty_pct": 6.2,
+      "bachelors_pct": 46.0,
+      "median_age": 52.0,
+      "pop": 20772
+    },
+    "Brewster town": {
+      "median_hh_income": 103317,
+      "median_home_value": 707700,
+      "poverty_pct": 6.8,
+      "bachelors_pct": 55.5,
+      "median_age": 59.6,
+      "pop": 10457
+    },
+    "Chatham town": {
+      "median_hh_income": 85167,
+      "median_home_value": 942800,
+      "poverty_pct": 10.8,
+      "bachelors_pct": 60.7,
+      "median_age": 63.4,
+      "pop": 6752
+    },
+    "Dennis town": {
+      "median_hh_income": 88154,
+      "median_home_value": 627100,
+      "poverty_pct": 6.7,
+      "bachelors_pct": 44.1,
+      "median_age": 59.5,
+      "pop": 14906
+    },
+    "Eastham town": {
+      "median_hh_income": 72992,
+      "median_home_value": 732200,
+      "poverty_pct": 10.7,
+      "bachelors_pct": 54.4,
+      "median_age": 60.4,
+      "pop": 5844
+    },
+    "Falmouth town": {
+      "median_hh_income": 93043,
+      "median_home_value": 629900,
+      "poverty_pct": 9.6,
+      "bachelors_pct": 51.8,
+      "median_age": 56.6,
+      "pop": 33361
+    },
+    "Harwich town": {
+      "median_hh_income": 96966,
+      "median_home_value": 658600,
+      "poverty_pct": 4.9,
+      "bachelors_pct": 50.6,
+      "median_age": 58.6,
+      "pop": 13635
+    },
+    "Mashpee town": {
+      "median_hh_income": 95299,
+      "median_home_value": 562200,
+      "poverty_pct": 5.5,
+      "bachelors_pct": 44.3,
+      "median_age": 55.9,
+      "pop": 15468
+    },
+    "Orleans town": {
+      "median_hh_income": 102335,
+      "median_home_value": 957000,
+      "poverty_pct": 8.6,
+      "bachelors_pct": 58.8,
+      "median_age": 64.7,
+      "pop": 6524
+    },
+    "Provincetown town": {
+      "median_hh_income": 136904,
+      "median_home_value": 902200,
+      "poverty_pct": 6.2,
+      "bachelors_pct": 61.3,
+      "median_age": 56.3,
+      "pop": 3729
+    },
+    "Sandwich town": {
+      "median_hh_income": 122486,
+      "median_home_value": 601400,
+      "poverty_pct": 7.0,
+      "bachelors_pct": 51.7,
+      "median_age": 51.8,
+      "pop": 20575
+    },
+    "Truro town": {
+      "median_hh_income": 118984,
+      "median_home_value": 888200,
+      "poverty_pct": 4.4,
+      "bachelors_pct": 57.9,
+      "median_age": 64.1,
+      "pop": 2483
+    },
+    "Wellfleet town": {
+      "median_hh_income": 117938,
+      "median_home_value": 855300,
+      "poverty_pct": 9.2,
+      "bachelors_pct": 64.6,
+      "median_age": 58.4,
+      "pop": 3707
+    },
+    "Yarmouth town": {
+      "median_hh_income": 86039,
+      "median_home_value": 551800,
+      "poverty_pct": 9.5,
+      "bachelors_pct": 41.2,
+      "median_age": 54.6,
+      "pop": 25225
+    },
+    "Adams town": {
+      "median_hh_income": 58929,
+      "median_home_value": 209900,
+      "poverty_pct": 13.2,
+      "bachelors_pct": 24.5,
+      "median_age": 47.3,
+      "pop": 7934
+    },
+    "Alford town": {
+      "median_hh_income": 121042,
+      "median_home_value": 794400,
+      "poverty_pct": 2.3,
+      "bachelors_pct": 63.7,
+      "median_age": 63.1,
+      "pop": 488
+    },
+    "Becket town": {
+      "median_hh_income": 80417,
+      "median_home_value": 361000,
+      "poverty_pct": 12.1,
+      "bachelors_pct": 45.3,
+      "median_age": 49.6,
+      "pop": 1922
+    },
+    "Cheshire town": {
+      "median_hh_income": 69803,
+      "median_home_value": 268200,
+      "poverty_pct": 8.6,
+      "bachelors_pct": 26.9,
+      "median_age": 53.7,
+      "pop": 3180
+    },
+    "Clarksburg town": {
+      "median_hh_income": 77143,
+      "median_home_value": 239900,
+      "poverty_pct": 4.0,
+      "bachelors_pct": 29.6,
+      "median_age": 49.8,
+      "pop": 1625
+    },
+    "Dalton town": {
+      "median_hh_income": 79438,
+      "median_home_value": 295700,
+      "poverty_pct": 7.4,
+      "bachelors_pct": 44.3,
+      "median_age": 49.7,
+      "pop": 6157
+    },
+    "Egremont town": {
+      "median_hh_income": 101458,
+      "median_home_value": 664900,
+      "poverty_pct": 8.0,
+      "bachelors_pct": 67.8,
+      "median_age": 56.9,
+      "pop": 1369
+    },
+    "Florida town": {
+      "median_hh_income": 86875,
+      "median_home_value": 246800,
+      "poverty_pct": 5.8,
+      "bachelors_pct": 24.3,
+      "median_age": 56.1,
+      "pop": 700
+    },
+    "Great Barrington town": {
+      "median_hh_income": 84132,
+      "median_home_value": 494300,
+      "poverty_pct": 9.2,
+      "bachelors_pct": 49.8,
+      "median_age": 49.7,
+      "pop": 7239
+    },
+    "Hancock town": {
+      "median_hh_income": 96250,
+      "median_home_value": 375500,
+      "poverty_pct": 10.6,
+      "bachelors_pct": 35.7,
+      "median_age": 47.1,
+      "pop": 748
+    },
+    "Hinsdale town": {
+      "median_hh_income": 77845,
+      "median_home_value": 267600,
+      "poverty_pct": 3.1,
+      "bachelors_pct": 24.0,
+      "median_age": 43.8,
+      "pop": 1880
+    },
+    "Lanesborough town": {
+      "median_hh_income": 86219,
+      "median_home_value": 299400,
+      "poverty_pct": 5.6,
+      "bachelors_pct": 42.4,
+      "median_age": 51.2,
+      "pop": 2999
+    },
+    "Lee town": {
+      "median_hh_income": 83750,
+      "median_home_value": 352700,
+      "poverty_pct": 7.2,
+      "bachelors_pct": 44.1,
+      "median_age": 55.2,
+      "pop": 5673
+    },
+    "Lenox town": {
+      "median_hh_income": 106080,
+      "median_home_value": 466700,
+      "poverty_pct": 8.5,
+      "bachelors_pct": 52.7,
+      "median_age": 60.1,
+      "pop": 5059
+    },
+    "Monterey town": {
+      "median_hh_income": 152353,
+      "median_home_value": 603200,
+      "poverty_pct": 4.1,
+      "bachelors_pct": 64.4,
+      "median_age": 62.3,
+      "pop": 1093
+    },
+    "Mount Washington town": {
+      "median_hh_income": 142500,
+      "median_home_value": 714300,
+      "poverty_pct": 2.1,
+      "bachelors_pct": 46.2,
+      "median_age": 52.1,
+      "pop": 154
+    },
+    "New Ashford town": {
+      "median_hh_income": 102188,
+      "median_home_value": 390700,
+      "poverty_pct": 5.8,
+      "bachelors_pct": 41.6,
+      "median_age": 57.1,
+      "pop": 246
+    },
+    "New Marlborough town": {
+      "median_hh_income": 117188,
+      "median_home_value": 608300,
+      "poverty_pct": 2.5,
+      "bachelors_pct": 47.6,
+      "median_age": 52.5,
+      "pop": 1500
+    },
+    "North Adams city": {
+      "median_hh_income": 47500,
+      "median_home_value": 195900,
+      "poverty_pct": 18.6,
+      "bachelors_pct": 28.4,
+      "median_age": 44.1,
+      "pop": 12368
+    },
+    "Otis town": {
+      "median_hh_income": 108898,
+      "median_home_value": 396700,
+      "poverty_pct": 1.2,
+      "bachelors_pct": 39.2,
+      "median_age": 51.0,
+      "pop": 1610
+    },
+    "Peru town": {
+      "median_hh_income": 90750,
+      "median_home_value": 267400,
+      "poverty_pct": 3.2,
+      "bachelors_pct": 28.0,
+      "median_age": 52.6,
+      "pop": 791
+    },
+    "Pittsfield city": {
+      "median_hh_income": 70582,
+      "median_home_value": 256900,
+      "poverty_pct": 14.9,
+      "bachelors_pct": 34.2,
+      "median_age": 42.4,
+      "pop": 42909
+    },
+    "Richmond town": {
+      "median_hh_income": 106250,
+      "median_home_value": 584500,
+      "poverty_pct": 7.3,
+      "bachelors_pct": 67.6,
+      "median_age": 62.1,
+      "pop": 1400
+    },
+    "Sandisfield town": {
+      "median_hh_income": 91111,
+      "median_home_value": 360300,
+      "poverty_pct": 3.2,
+      "bachelors_pct": 26.0,
+      "median_age": 49.9,
+      "pop": 983
+    },
+    "Savoy town": {
+      "median_hh_income": 61328,
+      "median_home_value": 285200,
+      "poverty_pct": 12.7,
+      "bachelors_pct": 25.9,
+      "median_age": 49.8,
+      "pop": 655
+    },
+    "Sheffield town": {
+      "median_hh_income": 92120,
+      "median_home_value": 409400,
+      "poverty_pct": 6.4,
+      "bachelors_pct": 37.5,
+      "median_age": 48.2,
+      "pop": 3314
+    },
+    "Stockbridge town": {
+      "median_hh_income": 146250,
+      "median_home_value": 600000,
+      "poverty_pct": 7.2,
+      "bachelors_pct": 62.4,
+      "median_age": 63.7,
+      "pop": 1982
+    },
+    "Tyringham town": {
+      "median_hh_income": 163333,
+      "median_home_value": 699400,
+      "poverty_pct": 3.6,
+      "bachelors_pct": 66.3,
+      "median_age": 59.2,
+      "pop": 422
+    },
+    "Washington town": {
+      "median_hh_income": 95278,
+      "median_home_value": 370700,
+      "poverty_pct": 2.7,
+      "bachelors_pct": 32.1,
+      "median_age": 56.5,
+      "pop": 502
+    },
+    "West Stockbridge town": {
+      "median_hh_income": 107083,
+      "median_home_value": 535700,
+      "poverty_pct": 7.7,
+      "bachelors_pct": 74.2,
+      "median_age": 56.8,
+      "pop": 1319
+    },
+    "Williamstown town": {
+      "median_hh_income": 106650,
+      "median_home_value": 437100,
+      "poverty_pct": 11.2,
+      "bachelors_pct": 70.9,
+      "median_age": 37.5,
+      "pop": 9186
+    },
+    "Windsor town": {
+      "median_hh_income": 115563,
+      "median_home_value": 389700,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 41.5,
+      "median_age": 44.8,
+      "pop": 817
+    },
+    "Acushnet town": {
+      "median_hh_income": 89503,
+      "median_home_value": 436400,
+      "poverty_pct": 6.0,
+      "bachelors_pct": 26.4,
+      "median_age": 46.0,
+      "pop": 10800
+    },
+    "Attleboro city": {
+      "median_hh_income": 98954,
+      "median_home_value": 448100,
+      "poverty_pct": 8.6,
+      "bachelors_pct": 34.0,
+      "median_age": 39.8,
+      "pop": 47447
+    },
+    "Berkley town": {
+      "median_hh_income": 144205,
+      "median_home_value": 511200,
+      "poverty_pct": 2.1,
+      "bachelors_pct": 37.6,
+      "median_age": 43.4,
+      "pop": 6950
+    },
+    "Dartmouth town": {
+      "median_hh_income": 99839,
+      "median_home_value": 496500,
+      "poverty_pct": 6.3,
+      "bachelors_pct": 39.0,
+      "median_age": 42.5,
+      "pop": 34367
+    },
+    "Dighton town": {
+      "median_hh_income": 136646,
+      "median_home_value": 501900,
+      "poverty_pct": 2.9,
+      "bachelors_pct": 35.9,
+      "median_age": 42.7,
+      "pop": 8348
+    },
+    "Easton town": {
+      "median_hh_income": 124271,
+      "median_home_value": 581200,
+      "poverty_pct": 6.0,
+      "bachelors_pct": 53.4,
+      "median_age": 42.8,
+      "pop": 25795
+    },
+    "Fairhaven town": {
+      "median_hh_income": 95965,
+      "median_home_value": 446700,
+      "poverty_pct": 8.3,
+      "bachelors_pct": 32.5,
+      "median_age": 48.5,
+      "pop": 16110
+    },
+    "Fall River city": {
+      "median_hh_income": 56673,
+      "median_home_value": 395500,
+      "poverty_pct": 19.6,
+      "bachelors_pct": 16.4,
+      "median_age": 39.3,
+      "pop": 95298
+    },
+    "Freetown town": {
+      "median_hh_income": 143884,
+      "median_home_value": 518200,
+      "poverty_pct": 3.1,
+      "bachelors_pct": 40.0,
+      "median_age": 40.9,
+      "pop": 9443
+    },
+    "Mansfield town": {
+      "median_hh_income": 125273,
+      "median_home_value": 603500,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 51.1,
+      "median_age": 41.4,
+      "pop": 24236
+    },
+    "New Bedford city": {
+      "median_hh_income": 56981,
+      "median_home_value": 357300,
+      "poverty_pct": 20.6,
+      "bachelors_pct": 17.0,
+      "median_age": 37.0,
+      "pop": 101834
+    },
+    "North Attleborough Town city": {
+      "median_hh_income": 112665,
+      "median_home_value": 482200,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 46.4,
+      "median_age": 42.4,
+      "pop": 31506
+    },
+    "Norton town": {
+      "median_hh_income": 124535,
+      "median_home_value": 501400,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 45.8,
+      "median_age": 39.6,
+      "pop": 19559
+    },
+    "Raynham town": {
+      "median_hh_income": 124012,
+      "median_home_value": 524400,
+      "poverty_pct": 7.7,
+      "bachelors_pct": 39.7,
+      "median_age": 42.9,
+      "pop": 16579
+    },
+    "Rehoboth town": {
+      "median_hh_income": 138214,
+      "median_home_value": 563000,
+      "poverty_pct": 3.6,
+      "bachelors_pct": 42.6,
+      "median_age": 47.2,
+      "pop": 13567
+    },
+    "Seekonk town": {
+      "median_hh_income": 120613,
+      "median_home_value": 482800,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 43.6,
+      "median_age": 46.0,
+      "pop": 16046
+    },
+    "Somerset town": {
+      "median_hh_income": 112677,
+      "median_home_value": 418800,
+      "poverty_pct": 4.9,
+      "bachelors_pct": 37.6,
+      "median_age": 47.0,
+      "pop": 18681
+    },
+    "Swansea town": {
+      "median_hh_income": 116364,
+      "median_home_value": 445000,
+      "poverty_pct": 2.8,
+      "bachelors_pct": 36.8,
+      "median_age": 45.0,
+      "pop": 17701
+    },
+    "Taunton city": {
+      "median_hh_income": 79283,
+      "median_home_value": 422800,
+      "poverty_pct": 13.0,
+      "bachelors_pct": 23.9,
+      "median_age": 38.9,
+      "pop": 62522
+    },
+    "Westport town": {
+      "median_hh_income": 96000,
+      "median_home_value": 521900,
+      "poverty_pct": 6.7,
+      "bachelors_pct": 29.7,
+      "median_age": 50.7,
+      "pop": 16851
+    },
+    "Aquinnah town": {
+      "median_hh_income": 146354,
+      "median_home_value": 1878700,
+      "poverty_pct": 5.4,
+      "bachelors_pct": 65.5,
+      "median_age": 47.8,
+      "pop": 451
+    },
+    "Chilmark town": {
+      "median_hh_income": 168750,
+      "median_home_value": 1895300,
+      "poverty_pct": 4.1,
+      "bachelors_pct": 68.1,
+      "median_age": 53.6,
+      "pop": 1253
+    },
+    "Edgartown town": {
+      "median_hh_income": 125236,
+      "median_home_value": 1199300,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 56.3,
+      "median_age": 51.9,
+      "pop": 5446
+    },
+    "Gosnold town": {
+      "median_hh_income": -666666666,
+      "median_home_value": 700000,
+      "poverty_pct": 0.0,
+      "bachelors_pct": 67.7,
+      "median_age": 60.5,
+      "pop": 62
+    },
+    "Oak Bluffs town": {
+      "median_hh_income": 145196,
+      "median_home_value": 923100,
+      "poverty_pct": 2.2,
+      "bachelors_pct": 47.8,
+      "median_age": 43.6,
+      "pop": 5428
+    },
+    "Tisbury town": {
+      "median_hh_income": 74113,
+      "median_home_value": 993600,
+      "poverty_pct": 7.1,
+      "bachelors_pct": 39.8,
+      "median_age": 52.9,
+      "pop": 4934
+    },
+    "West Tisbury town": {
+      "median_hh_income": 182750,
+      "median_home_value": 1302100,
+      "poverty_pct": 3.6,
+      "bachelors_pct": 58.5,
+      "median_age": 54.8,
+      "pop": 3645
+    },
+    "Amesbury city": {
+      "median_hh_income": 103554,
+      "median_home_value": 519300,
+      "poverty_pct": 7.1,
+      "bachelors_pct": 44.8,
+      "median_age": 43.7,
+      "pop": 17588
+    },
+    "Andover town": {
+      "median_hh_income": 172606,
+      "median_home_value": 855600,
+      "poverty_pct": 2.9,
+      "bachelors_pct": 75.6,
+      "median_age": 42.9,
+      "pop": 37014
+    },
+    "Beverly city": {
+      "median_hh_income": 106044,
+      "median_home_value": 650300,
+      "poverty_pct": 9.4,
+      "bachelors_pct": 53.4,
+      "median_age": 39.0,
+      "pop": 43363
+    },
+    "Boxford town": {
+      "median_hh_income": 200871,
+      "median_home_value": 907000,
+      "poverty_pct": 3.1,
+      "bachelors_pct": 70.9,
+      "median_age": 49.1,
+      "pop": 8520
+    },
+    "Danvers town": {
+      "median_hh_income": 125395,
+      "median_home_value": 644200,
+      "poverty_pct": 4.8,
+      "bachelors_pct": 48.4,
+      "median_age": 45.3,
+      "pop": 29211
+    },
+    "Essex town": {
+      "median_hh_income": 157147,
+      "median_home_value": 897400,
+      "poverty_pct": 8.1,
+      "bachelors_pct": 69.0,
+      "median_age": 45.0,
+      "pop": 3770
+    },
+    "Georgetown town": {
+      "median_hh_income": 151595,
+      "median_home_value": 651200,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 56.1,
+      "median_age": 42.8,
+      "pop": 8577
+    },
+    "Gloucester city": {
+      "median_hh_income": 83883,
+      "median_home_value": 600600,
+      "poverty_pct": 9.6,
+      "bachelors_pct": 40.3,
+      "median_age": 50.2,
+      "pop": 30627
+    },
+    "Groveland town": {
+      "median_hh_income": 141487,
+      "median_home_value": 610900,
+      "poverty_pct": 3.2,
+      "bachelors_pct": 45.6,
+      "median_age": 42.2,
+      "pop": 7102
+    },
+    "Hamilton town": {
+      "median_hh_income": 129833,
+      "median_home_value": 720000,
+      "poverty_pct": 7.8,
+      "bachelors_pct": 68.8,
+      "median_age": 43.5,
+      "pop": 7674
+    },
+    "Haverhill city": {
+      "median_hh_income": 88326,
+      "median_home_value": 453900,
+      "poverty_pct": 11.3,
+      "bachelors_pct": 32.6,
+      "median_age": 39.4,
+      "pop": 68361
+    },
+    "Ipswich town": {
+      "median_hh_income": 138750,
+      "median_home_value": 745400,
+      "poverty_pct": 5.7,
+      "bachelors_pct": 60.2,
+      "median_age": 47.2,
+      "pop": 14131
+    },
+    "Lawrence city": {
+      "median_hh_income": 60433,
+      "median_home_value": 415200,
+      "poverty_pct": 17.6,
+      "bachelors_pct": 16.8,
+      "median_age": 32.6,
+      "pop": 89320
+    },
+    "Lynn city": {
+      "median_hh_income": 75043,
+      "median_home_value": 510100,
+      "poverty_pct": 13.8,
+      "bachelors_pct": 24.1,
+      "median_age": 36.5,
+      "pop": 104236
+    },
+    "Lynnfield town": {
+      "median_hh_income": 175265,
+      "median_home_value": 917600,
+      "poverty_pct": 6.0,
+      "bachelors_pct": 62.7,
+      "median_age": 41.4,
+      "pop": 13274
+    },
+    "Manchester-by-the-Sea town": {
+      "median_hh_income": 206389,
+      "median_home_value": 942000,
+      "poverty_pct": 2.1,
+      "bachelors_pct": 78.3,
+      "median_age": 48.9,
+      "pop": 5475
+    },
+    "Marblehead town": {
+      "median_hh_income": 182132,
+      "median_home_value": 943900,
+      "poverty_pct": 4.4,
+      "bachelors_pct": 78.3,
+      "median_age": 49.1,
+      "pop": 20583
+    },
+    "Merrimac town": {
+      "median_hh_income": 123054,
+      "median_home_value": 553400,
+      "poverty_pct": 9.4,
+      "bachelors_pct": 41.0,
+      "median_age": 49.4,
+      "pop": 6818
+    },
+    "Methuen city": {
+      "median_hh_income": 113310,
+      "median_home_value": 499700,
+      "poverty_pct": 7.9,
+      "bachelors_pct": 31.0,
+      "median_age": 39.9,
+      "pop": 54584
+    },
+    "Middleton town": {
+      "median_hh_income": 167402,
+      "median_home_value": 742700,
+      "poverty_pct": 3.4,
+      "bachelors_pct": 41.7,
+      "median_age": 43.1,
+      "pop": 9895
+    },
+    "Nahant town": {
+      "median_hh_income": 112762,
+      "median_home_value": 748800,
+      "poverty_pct": 8.9,
+      "bachelors_pct": 61.6,
+      "median_age": 60.7,
+      "pop": 3331
+    },
+    "Newbury town": {
+      "median_hh_income": 174868,
+      "median_home_value": 840600,
+      "poverty_pct": 4.4,
+      "bachelors_pct": 60.1,
+      "median_age": 55.1,
+      "pop": 6895
+    },
+    "Newburyport city": {
+      "median_hh_income": 139625,
+      "median_home_value": 834000,
+      "poverty_pct": 5.0,
+      "bachelors_pct": 67.0,
+      "median_age": 49.8,
+      "pop": 19148
+    },
+    "North Andover town": {
+      "median_hh_income": 140670,
+      "median_home_value": 732900,
+      "poverty_pct": 9.4,
+      "bachelors_pct": 61.1,
+      "median_age": 39.6,
+      "pop": 32161
+    },
+    "Peabody city": {
+      "median_hh_income": 96657,
+      "median_home_value": 596200,
+      "poverty_pct": 7.7,
+      "bachelors_pct": 35.0,
+      "median_age": 45.3,
+      "pop": 55953
+    },
+    "Rockport town": {
+      "median_hh_income": 96250,
+      "median_home_value": 746100,
+      "poverty_pct": 6.3,
+      "bachelors_pct": 55.1,
+      "median_age": 59.7,
+      "pop": 7126
+    },
+    "Rowley town": {
+      "median_hh_income": 132734,
+      "median_home_value": 667300,
+      "poverty_pct": 3.1,
+      "bachelors_pct": 56.8,
+      "median_age": 50.0,
+      "pop": 6356
+    },
+    "Salem city": {
+      "median_hh_income": 85153,
+      "median_home_value": 542800,
+      "poverty_pct": 12.1,
+      "bachelors_pct": 47.8,
+      "median_age": 39.3,
+      "pop": 45381
+    },
+    "Salisbury town": {
+      "median_hh_income": 93361,
+      "median_home_value": 478700,
+      "poverty_pct": 5.0,
+      "bachelors_pct": 43.8,
+      "median_age": 51.3,
+      "pop": 9530
+    },
+    "Saugus town": {
+      "median_hh_income": 101539,
+      "median_home_value": 603400,
+      "poverty_pct": 6.0,
+      "bachelors_pct": 31.4,
+      "median_age": 44.5,
+      "pop": 29179
+    },
+    "Swampscott town": {
+      "median_hh_income": 134386,
+      "median_home_value": 771100,
+      "poverty_pct": 7.1,
+      "bachelors_pct": 62.2,
+      "median_age": 44.5,
+      "pop": 15183
+    },
+    "Topsfield town": {
+      "median_hh_income": 195718,
+      "median_home_value": 853400,
+      "poverty_pct": 7.5,
+      "bachelors_pct": 71.8,
+      "median_age": 42.2,
+      "pop": 6626
+    },
+    "Wenham town": {
+      "median_hh_income": 194781,
+      "median_home_value": 885400,
+      "poverty_pct": 3.7,
+      "bachelors_pct": 70.8,
+      "median_age": 29.3,
+      "pop": 4952
+    },
+    "West Newbury town": {
+      "median_hh_income": 179500,
+      "median_home_value": 808200,
+      "poverty_pct": 1.6,
+      "bachelors_pct": 64.8,
+      "median_age": 49.5,
+      "pop": 4709
+    },
+    "Ashfield town": {
+      "median_hh_income": 80833,
+      "median_home_value": 400600,
+      "poverty_pct": 9.1,
+      "bachelors_pct": 52.0,
+      "median_age": 58.6,
+      "pop": 1680
+    },
+    "Bernardston town": {
+      "median_hh_income": 81940,
+      "median_home_value": 332000,
+      "poverty_pct": 5.2,
+      "bachelors_pct": 29.1,
+      "median_age": 49.0,
+      "pop": 2108
+    },
+    "Buckland town": {
+      "median_hh_income": 82877,
+      "median_home_value": 321400,
+      "poverty_pct": 13.0,
+      "bachelors_pct": 43.9,
+      "median_age": 49.5,
+      "pop": 1812
+    },
+    "Charlemont town": {
+      "median_hh_income": 53063,
+      "median_home_value": 305500,
+      "poverty_pct": 14.3,
+      "bachelors_pct": 29.0,
+      "median_age": 59.6,
+      "pop": 1163
+    },
+    "Colrain town": {
+      "median_hh_income": 80673,
+      "median_home_value": 284300,
+      "poverty_pct": 7.2,
+      "bachelors_pct": 37.3,
+      "median_age": 49.6,
+      "pop": 1654
+    },
+    "Conway town": {
+      "median_hh_income": 97250,
+      "median_home_value": 395900,
+      "poverty_pct": 4.4,
+      "bachelors_pct": 60.5,
+      "median_age": 55.6,
+      "pop": 1750
+    },
+    "Deerfield town": {
+      "median_hh_income": 106136,
+      "median_home_value": 414900,
+      "poverty_pct": 7.8,
+      "bachelors_pct": 44.4,
+      "median_age": 51.8,
+      "pop": 5147
+    },
+    "Erving town": {
+      "median_hh_income": 77656,
+      "median_home_value": 271800,
+      "poverty_pct": 5.2,
+      "bachelors_pct": 24.1,
+      "median_age": 43.3,
+      "pop": 1651
+    },
+    "Gill town": {
+      "median_hh_income": 90208,
+      "median_home_value": 340100,
+      "poverty_pct": 5.8,
+      "bachelors_pct": 42.3,
+      "median_age": 43.8,
+      "pop": 1551
+    },
+    "Greenfield city": {
+      "median_hh_income": 55614,
+      "median_home_value": 263100,
+      "poverty_pct": 15.2,
+      "bachelors_pct": 39.1,
+      "median_age": 44.6,
+      "pop": 17691
+    },
+    "Hawley town": {
+      "median_hh_income": 87500,
+      "median_home_value": 309600,
+      "poverty_pct": 7.9,
+      "bachelors_pct": 39.4,
+      "median_age": 56.8,
+      "pop": 350
+    },
+    "Heath town": {
+      "median_hh_income": 98750,
+      "median_home_value": 295000,
+      "poverty_pct": 6.6,
+      "bachelors_pct": 46.8,
+      "median_age": 53.8,
+      "pop": 721
+    },
+    "Leverett town": {
+      "median_hh_income": 104688,
+      "median_home_value": 435500,
+      "poverty_pct": 10.0,
+      "bachelors_pct": 67.4,
+      "median_age": 56.0,
+      "pop": 1850
+    },
+    "Leyden town": {
+      "median_hh_income": 105893,
+      "median_home_value": 372900,
+      "poverty_pct": 10.8,
+      "bachelors_pct": 40.0,
+      "median_age": 53.2,
+      "pop": 725
+    },
+    "Monroe town": {
+      "median_hh_income": -666666666,
+      "median_home_value": 165000,
+      "poverty_pct": 38.5,
+      "bachelors_pct": 19.8,
+      "median_age": 60.2,
+      "pop": 115
+    },
+    "Montague town": {
+      "median_hh_income": 70510,
+      "median_home_value": 282100,
+      "poverty_pct": 11.5,
+      "bachelors_pct": 37.5,
+      "median_age": 44.3,
+      "pop": 8377
+    },
+    "New Salem town": {
+      "median_hh_income": 79688,
+      "median_home_value": 359000,
+      "poverty_pct": 9.7,
+      "bachelors_pct": 35.4,
+      "median_age": 55.6,
+      "pop": 1028
+    },
+    "Northfield town": {
+      "median_hh_income": 103375,
+      "median_home_value": 375800,
+      "poverty_pct": 6.8,
+      "bachelors_pct": 42.4,
+      "median_age": 48.9,
+      "pop": 2857
+    },
+    "Orange town": {
+      "median_hh_income": 55824,
+      "median_home_value": 245900,
+      "poverty_pct": 22.4,
+      "bachelors_pct": 15.7,
+      "median_age": 41.8,
+      "pop": 7569
+    },
+    "Rowe town": {
+      "median_hh_income": 69583,
+      "median_home_value": 275000,
+      "poverty_pct": 15.8,
+      "bachelors_pct": 26.2,
+      "median_age": 48.9,
+      "pop": 417
+    },
+    "Shelburne town": {
+      "median_hh_income": 83000,
+      "median_home_value": 405400,
+      "poverty_pct": 10.4,
+      "bachelors_pct": 51.7,
+      "median_age": 57.0,
+      "pop": 1868
+    },
+    "Shutesbury town": {
+      "median_hh_income": 123333,
+      "median_home_value": 376100,
+      "poverty_pct": 3.3,
+      "bachelors_pct": 70.0,
+      "median_age": 50.2,
+      "pop": 1705
+    },
+    "Sunderland town": {
+      "median_hh_income": 68083,
+      "median_home_value": 458100,
+      "poverty_pct": 14.3,
+      "bachelors_pct": 62.8,
+      "median_age": 35.1,
+      "pop": 3607
+    },
+    "Warwick town": {
+      "median_hh_income": 93333,
+      "median_home_value": 349400,
+      "poverty_pct": 5.0,
+      "bachelors_pct": 40.5,
+      "median_age": 51.4,
+      "pop": 769
+    },
+    "Wendell town": {
+      "median_hh_income": 65288,
+      "median_home_value": 290300,
+      "poverty_pct": 21.3,
+      "bachelors_pct": 51.2,
+      "median_age": 47.1,
+      "pop": 911
+    },
+    "Whately town": {
+      "median_hh_income": 116563,
+      "median_home_value": 431500,
+      "poverty_pct": 5.4,
+      "bachelors_pct": 47.6,
+      "median_age": 49.3,
+      "pop": 1622
+    },
+    "Agawam Town city": {
+      "median_hh_income": 85421,
+      "median_home_value": 311600,
+      "poverty_pct": 6.7,
+      "bachelors_pct": 34.0,
+      "median_age": 47.4,
+      "pop": 28783
+    },
+    "Blandford town": {
+      "median_hh_income": 91902,
+      "median_home_value": 287900,
+      "poverty_pct": 5.5,
+      "bachelors_pct": 34.3,
+      "median_age": 52.9,
+      "pop": 1212
+    },
+    "Brimfield town": {
+      "median_hh_income": 111250,
+      "median_home_value": 389100,
+      "poverty_pct": 3.6,
+      "bachelors_pct": 44.7,
+      "median_age": 43.7,
+      "pop": 3739
+    },
+    "Chester town": {
+      "median_hh_income": 89390,
+      "median_home_value": 281900,
+      "poverty_pct": 1.8,
+      "bachelors_pct": 27.3,
+      "median_age": 45.9,
+      "pop": 1222
+    },
+    "Chicopee city": {
+      "median_hh_income": 62615,
+      "median_home_value": 274500,
+      "poverty_pct": 17.3,
+      "bachelors_pct": 22.9,
+      "median_age": 41.9,
+      "pop": 55310
+    },
+    "East Longmeadow town": {
+      "median_hh_income": 106676,
+      "median_home_value": 376800,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 49.3,
+      "median_age": 43.7,
+      "pop": 16581
+    },
+    "Granville town": {
+      "median_hh_income": 84375,
+      "median_home_value": 356300,
+      "poverty_pct": 10.4,
+      "bachelors_pct": 34.7,
+      "median_age": 50.1,
+      "pop": 1541
+    },
+    "Hampden town": {
+      "median_hh_income": 104536,
+      "median_home_value": 358200,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 36.9,
+      "median_age": 50.9,
+      "pop": 4960
+    },
+    "Holland town": {
+      "median_hh_income": 91979,
+      "median_home_value": 333600,
+      "poverty_pct": 5.9,
+      "bachelors_pct": 35.3,
+      "median_age": 51.9,
+      "pop": 2577
+    },
+    "Holyoke city": {
+      "median_hh_income": 53605,
+      "median_home_value": 274100,
+      "poverty_pct": 27.0,
+      "bachelors_pct": 25.9,
+      "median_age": 40.0,
+      "pop": 38023
+    },
+    "Longmeadow town": {
+      "median_hh_income": 149601,
+      "median_home_value": 454100,
+      "poverty_pct": 4.1,
+      "bachelors_pct": 67.1,
+      "median_age": 44.6,
+      "pop": 15688
+    },
+    "Ludlow town": {
+      "median_hh_income": 84838,
+      "median_home_value": 335300,
+      "poverty_pct": 6.8,
+      "bachelors_pct": 27.0,
+      "median_age": 44.3,
+      "pop": 21279
+    },
+    "Monson town": {
+      "median_hh_income": 96688,
+      "median_home_value": 348400,
+      "poverty_pct": 8.5,
+      "bachelors_pct": 29.2,
+      "median_age": 47.8,
+      "pop": 8175
+    },
+    "Montgomery town": {
+      "median_hh_income": 123000,
+      "median_home_value": 357500,
+      "poverty_pct": 1.5,
+      "bachelors_pct": 38.1,
+      "median_age": 49.7,
+      "pop": 838
+    },
+    "Palmer Town city": {
+      "median_hh_income": 78480,
+      "median_home_value": 271400,
+      "poverty_pct": 8.3,
+      "bachelors_pct": 23.5,
+      "median_age": 47.8,
+      "pop": 12367
+    },
+    "Russell town": {
+      "median_hh_income": 108750,
+      "median_home_value": 303300,
+      "poverty_pct": 6.3,
+      "bachelors_pct": 30.4,
+      "median_age": 47.7,
+      "pop": 1637
+    },
+    "Southwick town": {
+      "median_hh_income": 120462,
+      "median_home_value": 397500,
+      "poverty_pct": 4.0,
+      "bachelors_pct": 35.1,
+      "median_age": 46.8,
+      "pop": 9305
+    },
+    "Springfield city": {
+      "median_hh_income": 52656,
+      "median_home_value": 245000,
+      "poverty_pct": 25.8,
+      "bachelors_pct": 20.5,
+      "median_age": 33.7,
+      "pop": 154702
+    },
+    "Tolland town": {
+      "median_hh_income": 106250,
+      "median_home_value": 355700,
+      "poverty_pct": 6.3,
+      "bachelors_pct": 39.3,
+      "median_age": 51.7,
+      "pop": 476
+    },
+    "Wales town": {
+      "median_hh_income": 89006,
+      "median_home_value": 296200,
+      "poverty_pct": 5.1,
+      "bachelors_pct": 22.4,
+      "median_age": 42.3,
+      "pop": 1833
+    },
+    "Westfield city": {
+      "median_hh_income": 87753,
+      "median_home_value": 325100,
+      "poverty_pct": 10.7,
+      "bachelors_pct": 33.2,
+      "median_age": 39.9,
+      "pop": 40546
+    },
+    "West Springfield Town city": {
+      "median_hh_income": 69371,
+      "median_home_value": 321500,
+      "poverty_pct": 11.9,
+      "bachelors_pct": 34.0,
+      "median_age": 40.1,
+      "pop": 28829
+    },
+    "Wilbraham town": {
+      "median_hh_income": 122051,
+      "median_home_value": 416000,
+      "poverty_pct": 4.6,
+      "bachelors_pct": 51.9,
+      "median_age": 44.3,
+      "pop": 14715
+    },
+    "Amherst Town city": {
+      "median_hh_income": 66968,
+      "median_home_value": 484900,
+      "poverty_pct": 23.7,
+      "bachelors_pct": 75.6,
+      "median_age": 21.4,
+      "pop": 40920
+    },
+    "Belchertown town": {
+      "median_hh_income": 108068,
+      "median_home_value": 371300,
+      "poverty_pct": 8.5,
+      "bachelors_pct": 47.3,
+      "median_age": 43.9,
+      "pop": 15265
+    },
+    "Chesterfield town": {
+      "median_hh_income": 103967,
+      "median_home_value": 390800,
+      "poverty_pct": 6.4,
+      "bachelors_pct": 34.3,
+      "median_age": 44.3,
+      "pop": 1154
+    },
+    "Cummington town": {
+      "median_hh_income": 104167,
+      "median_home_value": 300600,
+      "poverty_pct": 3.5,
+      "bachelors_pct": 55.2,
+      "median_age": 55.1,
+      "pop": 803
+    },
+    "Easthampton city": {
+      "median_hh_income": 71673,
+      "median_home_value": 371500,
+      "poverty_pct": 8.0,
+      "bachelors_pct": 38.0,
+      "median_age": 46.0,
+      "pop": 15851
+    },
+    "Goshen town": {
+      "median_hh_income": 98906,
+      "median_home_value": 351900,
+      "poverty_pct": 11.0,
+      "bachelors_pct": 47.5,
+      "median_age": 58.0,
+      "pop": 943
+    },
+    "Granby town": {
+      "median_hh_income": 119297,
+      "median_home_value": 352600,
+      "poverty_pct": 4.5,
+      "bachelors_pct": 36.1,
+      "median_age": 46.3,
+      "pop": 5991
+    },
+    "Hadley town": {
+      "median_hh_income": 119259,
+      "median_home_value": 511000,
+      "poverty_pct": 6.4,
+      "bachelors_pct": 61.3,
+      "median_age": 45.8,
+      "pop": 5213
+    },
+    "Hatfield town": {
+      "median_hh_income": 89005,
+      "median_home_value": 440800,
+      "poverty_pct": 8.9,
+      "bachelors_pct": 48.5,
+      "median_age": 46.8,
+      "pop": 3286
+    },
+    "Huntington town": {
+      "median_hh_income": 94398,
+      "median_home_value": 293100,
+      "poverty_pct": 12.5,
+      "bachelors_pct": 29.5,
+      "median_age": 44.8,
+      "pop": 2039
+    },
+    "Middlefield town": {
+      "median_hh_income": 103750,
+      "median_home_value": 332800,
+      "poverty_pct": 12.2,
+      "bachelors_pct": 31.8,
+      "median_age": 56.9,
+      "pop": 392
+    },
+    "Northampton city": {
+      "median_hh_income": 80288,
+      "median_home_value": 429700,
+      "poverty_pct": 13.4,
+      "bachelors_pct": 62.7,
+      "median_age": 41.3,
+      "pop": 31047
+    },
+    "Pelham town": {
+      "median_hh_income": 113750,
+      "median_home_value": 447600,
+      "poverty_pct": 10.3,
+      "bachelors_pct": 64.8,
+      "median_age": 45.0,
+      "pop": 1308
+    },
+    "Plainfield town": {
+      "median_hh_income": 63500,
+      "median_home_value": 309000,
+      "poverty_pct": 16.9,
+      "bachelors_pct": 52.6,
+      "median_age": 50.6,
+      "pop": 643
+    },
+    "Southampton town": {
+      "median_hh_income": 123125,
+      "median_home_value": 452300,
+      "poverty_pct": 2.6,
+      "bachelors_pct": 41.1,
+      "median_age": 43.4,
+      "pop": 6085
+    },
+    "South Hadley town": {
+      "median_hh_income": 93910,
+      "median_home_value": 357900,
+      "poverty_pct": 7.5,
+      "bachelors_pct": 50.2,
+      "median_age": 42.6,
+      "pop": 17768
+    },
+    "Ware town": {
+      "median_hh_income": 67475,
+      "median_home_value": 289700,
+      "poverty_pct": 11.8,
+      "bachelors_pct": 24.0,
+      "median_age": 43.1,
+      "pop": 10128
+    },
+    "Westhampton town": {
+      "median_hh_income": 100000,
+      "median_home_value": 413200,
+      "poverty_pct": 6.5,
+      "bachelors_pct": 47.0,
+      "median_age": 49.3,
+      "pop": 1618
+    },
+    "Williamsburg town": {
+      "median_hh_income": 104792,
+      "median_home_value": 403100,
+      "poverty_pct": 2.3,
+      "bachelors_pct": 60.6,
+      "median_age": 50.0,
+      "pop": 2445
+    },
+    "Worthington town": {
+      "median_hh_income": 91667,
+      "median_home_value": 380400,
+      "poverty_pct": 4.5,
+      "bachelors_pct": 46.8,
+      "median_age": 61.6,
+      "pop": 1166
+    },
+    "Acton town": {
+      "median_hh_income": 158230,
+      "median_home_value": 807300,
+      "poverty_pct": 3.4,
+      "bachelors_pct": 79.5,
+      "median_age": 44.5,
+      "pop": 24786
+    },
+    "Arlington town": {
+      "median_hh_income": 150701,
+      "median_home_value": 933800,
+      "poverty_pct": 5.4,
+      "bachelors_pct": 76.1,
+      "median_age": 41.6,
+      "pop": 46563
+    },
+    "Ashby town": {
+      "median_hh_income": 115598,
+      "median_home_value": 390500,
+      "poverty_pct": 2.6,
+      "bachelors_pct": 43.7,
+      "median_age": 50.5,
+      "pop": 3274
+    },
+    "Ashland town": {
+      "median_hh_income": 127539,
+      "median_home_value": 611700,
+      "poverty_pct": 3.5,
+      "bachelors_pct": 60.7,
+      "median_age": 42.1,
+      "pop": 19177
+    },
+    "Ayer town": {
+      "median_hh_income": 101875,
+      "median_home_value": 463800,
+      "poverty_pct": 10.7,
+      "bachelors_pct": 42.3,
+      "median_age": 39.2,
+      "pop": 9267
+    },
+    "Bedford town": {
+      "median_hh_income": 172400,
+      "median_home_value": 898500,
+      "poverty_pct": 5.5,
+      "bachelors_pct": 69.6,
+      "median_age": 44.3,
+      "pop": 14836
+    },
+    "Belmont town": {
+      "median_hh_income": 183137,
+      "median_home_value": 1159000,
+      "poverty_pct": 3.6,
+      "bachelors_pct": 80.9,
+      "median_age": 42.9,
+      "pop": 27118
+    },
+    "Billerica town": {
+      "median_hh_income": 148200,
+      "median_home_value": 612000,
+      "poverty_pct": 5.4,
+      "bachelors_pct": 40.0,
+      "median_age": 43.3,
+      "pop": 42632
+    },
+    "Boxborough town": {
+      "median_hh_income": 144611,
+      "median_home_value": 706900,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 80.6,
+      "median_age": 42.7,
+      "pop": 5508
+    },
+    "Burlington town": {
+      "median_hh_income": 146436,
+      "median_home_value": 740600,
+      "poverty_pct": 5.9,
+      "bachelors_pct": 58.4,
+      "median_age": 45.9,
+      "pop": 26778
+    },
+    "Cambridge city": {
+      "median_hh_income": 130748,
+      "median_home_value": 1092100,
+      "poverty_pct": 12.8,
+      "bachelors_pct": 80.8,
+      "median_age": 30.4,
+      "pop": 122588
+    },
+    "Carlisle town": {
+      "median_hh_income": 250001,
+      "median_home_value": 1103900,
+      "poverty_pct": 1.5,
+      "bachelors_pct": 87.2,
+      "median_age": 45.3,
+      "pop": 5286
+    },
+    "Chelmsford town": {
+      "median_hh_income": 140629,
+      "median_home_value": 593700,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 52.8,
+      "median_age": 41.6,
+      "pop": 38549
+    },
+    "Concord town": {
+      "median_hh_income": 195350,
+      "median_home_value": 1210000,
+      "poverty_pct": 3.7,
+      "bachelors_pct": 79.4,
+      "median_age": 47.6,
+      "pop": 18208
+    },
+    "Dracut town": {
+      "median_hh_income": 114036,
+      "median_home_value": 473900,
+      "poverty_pct": 7.8,
+      "bachelors_pct": 36.4,
+      "median_age": 41.7,
+      "pop": 32783
+    },
+    "Dunstable town": {
+      "median_hh_income": 208512,
+      "median_home_value": 674000,
+      "poverty_pct": 0.5,
+      "bachelors_pct": 62.4,
+      "median_age": 41.5,
+      "pop": 3486
+    },
+    "Everett city": {
+      "median_hh_income": 85218,
+      "median_home_value": 610000,
+      "poverty_pct": 14.7,
+      "bachelors_pct": 24.9,
+      "median_age": 35.2,
+      "pop": 53572
+    },
+    "Framingham city": {
+      "median_hh_income": 107419,
+      "median_home_value": 627300,
+      "poverty_pct": 10.4,
+      "bachelors_pct": 48.7,
+      "median_age": 37.5,
+      "pop": 73021
+    },
+    "Groton town": {
+      "median_hh_income": 192958,
+      "median_home_value": 743400,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 70.1,
+      "median_age": 41.4,
+      "pop": 11541
+    },
+    "Holliston town": {
+      "median_hh_income": 159817,
+      "median_home_value": 650300,
+      "poverty_pct": 3.1,
+      "bachelors_pct": 65.9,
+      "median_age": 45.2,
+      "pop": 15206
+    },
+    "Hopkinton town": {
+      "median_hh_income": 222801,
+      "median_home_value": 802700,
+      "poverty_pct": 2.5,
+      "bachelors_pct": 77.5,
+      "median_age": 40.8,
+      "pop": 19866
+    },
+    "Hudson town": {
+      "median_hh_income": 103400,
+      "median_home_value": 496800,
+      "poverty_pct": 5.3,
+      "bachelors_pct": 46.1,
+      "median_age": 42.9,
+      "pop": 20341
+    },
+    "Lexington town": {
+      "median_hh_income": 238444,
+      "median_home_value": 1203100,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 84.3,
+      "median_age": 47.3,
+      "pop": 34648
+    },
+    "Lincoln town": {
+      "median_hh_income": 175117,
+      "median_home_value": 1208200,
+      "poverty_pct": 2.3,
+      "bachelors_pct": 76.2,
+      "median_age": 42.3,
+      "pop": 6925
+    },
+    "Littleton town": {
+      "median_hh_income": 149722,
+      "median_home_value": 658300,
+      "poverty_pct": 5.6,
+      "bachelors_pct": 59.6,
+      "median_age": 43.5,
+      "pop": 10404
+    },
+    "Lowell city": {
+      "median_hh_income": 78658,
+      "median_home_value": 429200,
+      "poverty_pct": 16.9,
+      "bachelors_pct": 30.0,
+      "median_age": 35.6,
+      "pop": 119971
+    },
+    "Malden city": {
+      "median_hh_income": 100606,
+      "median_home_value": 633500,
+      "poverty_pct": 11.4,
+      "bachelors_pct": 45.1,
+      "median_age": 35.8,
+      "pop": 66370
+    },
+    "Marlborough city": {
+      "median_hh_income": 91968,
+      "median_home_value": 513100,
+      "poverty_pct": 9.6,
+      "bachelors_pct": 40.5,
+      "median_age": 37.5,
+      "pop": 42772
+    },
+    "Maynard town": {
+      "median_hh_income": 124067,
+      "median_home_value": 527400,
+      "poverty_pct": 8.3,
+      "bachelors_pct": 64.2,
+      "median_age": 45.3,
+      "pop": 10703
+    },
+    "Medford city": {
+      "median_hh_income": 129540,
+      "median_home_value": 755500,
+      "poverty_pct": 7.6,
+      "bachelors_pct": 59.8,
+      "median_age": 35.9,
+      "pop": 59834
+    },
+    "Melrose city": {
+      "median_hh_income": 133953,
+      "median_home_value": 822900,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 62.0,
+      "median_age": 43.6,
+      "pop": 29597
+    },
+    "Natick town": {
+      "median_hh_income": 138538,
+      "median_home_value": 821000,
+      "poverty_pct": 5.8,
+      "bachelors_pct": 70.8,
+      "median_age": 43.3,
+      "pop": 36969
+    },
+    "Newton city": {
+      "median_hh_income": 190304,
+      "median_home_value": 1264900,
+      "poverty_pct": 4.5,
+      "bachelors_pct": 81.1,
+      "median_age": 42.1,
+      "pop": 90741
+    },
+    "North Reading town": {
+      "median_hh_income": 147768,
+      "median_home_value": 710500,
+      "poverty_pct": 2.7,
+      "bachelors_pct": 56.4,
+      "median_age": 43.0,
+      "pop": 16553
+    },
+    "Pepperell town": {
+      "median_hh_income": 124073,
+      "median_home_value": 482100,
+      "poverty_pct": 8.0,
+      "bachelors_pct": 43.8,
+      "median_age": 42.4,
+      "pop": 11762
+    },
+    "Reading town": {
+      "median_hh_income": 165912,
+      "median_home_value": 809000,
+      "poverty_pct": 3.2,
+      "bachelors_pct": 66.3,
+      "median_age": 43.7,
+      "pop": 25803
+    },
+    "Sherborn town": {
+      "median_hh_income": 250001,
+      "median_home_value": 1026800,
+      "poverty_pct": 3.1,
+      "bachelors_pct": 82.3,
+      "median_age": 42.8,
+      "pop": 4455
+    },
+    "Shirley town": {
+      "median_hh_income": 122365,
+      "median_home_value": 427600,
+      "poverty_pct": 9.9,
+      "bachelors_pct": 36.7,
+      "median_age": 44.3,
+      "pop": 7189
+    },
+    "Somerville city": {
+      "median_hh_income": 132572,
+      "median_home_value": 911300,
+      "poverty_pct": 9.8,
+      "bachelors_pct": 69.4,
+      "median_age": 31.9,
+      "pop": 84211
+    },
+    "Stoneham town": {
+      "median_hh_income": 113964,
+      "median_home_value": 671900,
+      "poverty_pct": 5.4,
+      "bachelors_pct": 55.9,
+      "median_age": 42.2,
+      "pop": 24253
+    },
+    "Stow town": {
+      "median_hh_income": 185809,
+      "median_home_value": 729600,
+      "poverty_pct": 5.2,
+      "bachelors_pct": 75.1,
+      "median_age": 44.1,
+      "pop": 7248
+    },
+    "Sudbury town": {
+      "median_hh_income": 236250,
+      "median_home_value": 988900,
+      "poverty_pct": 3.0,
+      "bachelors_pct": 83.3,
+      "median_age": 42.3,
+      "pop": 19643
+    },
+    "Tewksbury town": {
+      "median_hh_income": 128061,
+      "median_home_value": 573600,
+      "poverty_pct": 3.4,
+      "bachelors_pct": 40.3,
+      "median_age": 46.1,
+      "pop": 31901
+    },
+    "Townsend town": {
+      "median_hh_income": 121528,
+      "median_home_value": 433200,
+      "poverty_pct": 8.9,
+      "bachelors_pct": 35.5,
+      "median_age": 40.9,
+      "pop": 9143
+    },
+    "Tyngsborough town": {
+      "median_hh_income": 129348,
+      "median_home_value": 552500,
+      "poverty_pct": 6.6,
+      "bachelors_pct": 51.8,
+      "median_age": 39.4,
+      "pop": 12721
+    },
+    "Wakefield town": {
+      "median_hh_income": 134306,
+      "median_home_value": 723500,
+      "poverty_pct": 4.9,
+      "bachelors_pct": 59.7,
+      "median_age": 42.4,
+      "pop": 29234
+    },
+    "Waltham city": {
+      "median_hh_income": 120216,
+      "median_home_value": 748700,
+      "poverty_pct": 9.4,
+      "bachelors_pct": 57.3,
+      "median_age": 34.4,
+      "pop": 65037
+    },
+    "Watertown city": {
+      "median_hh_income": 126265,
+      "median_home_value": 784600,
+      "poverty_pct": 7.5,
+      "bachelors_pct": 66.5,
+      "median_age": 39.4,
+      "pop": 35710
+    },
+    "Wayland town": {
+      "median_hh_income": 224000,
+      "median_home_value": 978400,
+      "poverty_pct": 4.9,
+      "bachelors_pct": 78.8,
+      "median_age": 45.0,
+      "pop": 13913
+    },
+    "Westford town": {
+      "median_hh_income": 187198,
+      "median_home_value": 748500,
+      "poverty_pct": 3.2,
+      "bachelors_pct": 73.9,
+      "median_age": 42.8,
+      "pop": 24853
+    },
+    "Weston town": {
+      "median_hh_income": 250001,
+      "median_home_value": 1694400,
+      "poverty_pct": 2.9,
+      "bachelors_pct": 84.3,
+      "median_age": 44.9,
+      "pop": 11729
+    },
+    "Wilmington town": {
+      "median_hh_income": 168152,
+      "median_home_value": 680500,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 50.4,
+      "median_age": 42.3,
+      "pop": 23629
+    },
+    "Winchester town": {
+      "median_hh_income": 230198,
+      "median_home_value": 1215200,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 79.5,
+      "median_age": 42.5,
+      "pop": 23710
+    },
+    "Woburn city": {
+      "median_hh_income": 111185,
+      "median_home_value": 673500,
+      "poverty_pct": 7.9,
+      "bachelors_pct": 46.5,
+      "median_age": 39.3,
+      "pop": 43962
+    },
+    "Nantucket town": {
+      "median_hh_income": 139688,
+      "median_home_value": 1593800,
+      "poverty_pct": 3.2,
+      "bachelors_pct": 56.3,
+      "median_age": 42.4,
+      "pop": 14758
+    },
+    "Avon town": {
+      "median_hh_income": 130625,
+      "median_home_value": 509600,
+      "poverty_pct": 4.6,
+      "bachelors_pct": 30.6,
+      "median_age": 37.5,
+      "pop": 4861
+    },
+    "Bellingham town": {
+      "median_hh_income": 125307,
+      "median_home_value": 450700,
+      "poverty_pct": 5.7,
+      "bachelors_pct": 40.1,
+      "median_age": 38.2,
+      "pop": 18032
+    },
+    "Braintree Town city": {
+      "median_hh_income": 122214,
+      "median_home_value": 656800,
+      "poverty_pct": 5.9,
+      "bachelors_pct": 47.5,
+      "median_age": 41.3,
+      "pop": 38957
+    },
+    "Brookline town": {
+      "median_hh_income": 142101,
+      "median_home_value": 1246800,
+      "poverty_pct": 8.7,
+      "bachelors_pct": 85.4,
+      "median_age": 35.2,
+      "pop": 63414
+    },
+    "Canton town": {
+      "median_hh_income": 143381,
+      "median_home_value": 710600,
+      "poverty_pct": 5.2,
+      "bachelors_pct": 67.5,
+      "median_age": 42.6,
+      "pop": 25165
+    },
+    "Cohasset town": {
+      "median_hh_income": 199306,
+      "median_home_value": 1318900,
+      "poverty_pct": 3.0,
+      "bachelors_pct": 76.7,
+      "median_age": 43.9,
+      "pop": 8461
+    },
+    "Dedham town": {
+      "median_hh_income": 128955,
+      "median_home_value": 661800,
+      "poverty_pct": 5.6,
+      "bachelors_pct": 55.0,
+      "median_age": 44.6,
+      "pop": 25731
+    },
+    "Dover town": {
+      "median_hh_income": 250001,
+      "median_home_value": 1340300,
+      "poverty_pct": 2.7,
+      "bachelors_pct": 84.8,
+      "median_age": 44.9,
+      "pop": 6026
+    },
+    "Foxborough town": {
+      "median_hh_income": 115833,
+      "median_home_value": 606300,
+      "poverty_pct": 5.7,
+      "bachelors_pct": 58.3,
+      "median_age": 42.4,
+      "pop": 18934
+    },
+    "Franklin Town city": {
+      "median_hh_income": 145773,
+      "median_home_value": 611700,
+      "poverty_pct": 5.9,
+      "bachelors_pct": 58.1,
+      "median_age": 41.3,
+      "pop": 33955
+    },
+    "Holbrook town": {
+      "median_hh_income": 115210,
+      "median_home_value": 465400,
+      "poverty_pct": 7.7,
+      "bachelors_pct": 34.6,
+      "median_age": 42.8,
+      "pop": 11401
+    },
+    "Medfield town": {
+      "median_hh_income": 235800,
+      "median_home_value": 911100,
+      "poverty_pct": 2.1,
+      "bachelors_pct": 78.1,
+      "median_age": 42.4,
+      "pop": 13248
+    },
+    "Medway town": {
+      "median_hh_income": 173750,
+      "median_home_value": 617300,
+      "poverty_pct": 3.3,
+      "bachelors_pct": 62.4,
+      "median_age": 40.7,
+      "pop": 13804
+    },
+    "Millis town": {
+      "median_hh_income": 155996,
+      "median_home_value": 603500,
+      "poverty_pct": 4.8,
+      "bachelors_pct": 54.5,
+      "median_age": 46.4,
+      "pop": 9463
+    },
+    "Milton town": {
+      "median_hh_income": 188529,
+      "median_home_value": 933200,
+      "poverty_pct": 4.7,
+      "bachelors_pct": 71.9,
+      "median_age": 41.1,
+      "pop": 28537
+    },
+    "Needham town": {
+      "median_hh_income": 214308,
+      "median_home_value": 1188500,
+      "poverty_pct": 3.7,
+      "bachelors_pct": 81.9,
+      "median_age": 43.1,
+      "pop": 32897
+    },
+    "Norfolk town": {
+      "median_hh_income": 200720,
+      "median_home_value": 725200,
+      "poverty_pct": 2.2,
+      "bachelors_pct": 61.6,
+      "median_age": 41.6,
+      "pop": 12096
+    },
+    "Norwood town": {
+      "median_hh_income": 107030,
+      "median_home_value": 651700,
+      "poverty_pct": 8.8,
+      "bachelors_pct": 55.4,
+      "median_age": 39.0,
+      "pop": 31714
+    },
+    "Plainville town": {
+      "median_hh_income": 104106,
+      "median_home_value": 476000,
+      "poverty_pct": 7.4,
+      "bachelors_pct": 44.4,
+      "median_age": 43.2,
+      "pop": 10175
+    },
+    "Quincy city": {
+      "median_hh_income": 98882,
+      "median_home_value": 618500,
+      "poverty_pct": 10.6,
+      "bachelors_pct": 50.3,
+      "median_age": 38.6,
+      "pop": 103173
+    },
+    "Randolph Town city": {
+      "median_hh_income": 109573,
+      "median_home_value": 496400,
+      "poverty_pct": 8.4,
+      "bachelors_pct": 35.5,
+      "median_age": 41.3,
+      "pop": 34948
+    },
+    "Sharon town": {
+      "median_hh_income": 191835,
+      "median_home_value": 737100,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 76.7,
+      "median_age": 42.5,
+      "pop": 18798
+    },
+    "Stoughton town": {
+      "median_hh_income": 104794,
+      "median_home_value": 523800,
+      "poverty_pct": 8.4,
+      "bachelors_pct": 41.9,
+      "median_age": 45.7,
+      "pop": 29845
+    },
+    "Walpole town": {
+      "median_hh_income": 171500,
+      "median_home_value": 687100,
+      "poverty_pct": 3.6,
+      "bachelors_pct": 67.4,
+      "median_age": 40.9,
+      "pop": 26237
+    },
+    "Wellesley town": {
+      "median_hh_income": 250001,
+      "median_home_value": 1582700,
+      "poverty_pct": 4.0,
+      "bachelors_pct": 89.0,
+      "median_age": 37.1,
+      "pop": 31239
+    },
+    "Westwood town": {
+      "median_hh_income": 223125,
+      "median_home_value": 1041500,
+      "poverty_pct": 4.6,
+      "bachelors_pct": 72.4,
+      "median_age": 43.9,
+      "pop": 16426
+    },
+    "Weymouth Town city": {
+      "median_hh_income": 102714,
+      "median_home_value": 552100,
+      "poverty_pct": 7.7,
+      "bachelors_pct": 42.8,
+      "median_age": 44.1,
+      "pop": 59759
+    },
+    "Wrentham town": {
+      "median_hh_income": 151676,
+      "median_home_value": 654900,
+      "poverty_pct": 6.9,
+      "bachelors_pct": 55.1,
+      "median_age": 46.8,
+      "pop": 12453
+    },
+    "Abington town": {
+      "median_hh_income": 125400,
+      "median_home_value": 539600,
+      "poverty_pct": 5.2,
+      "bachelors_pct": 40.0,
+      "median_age": 39.1,
+      "pop": 17142
+    },
+    "Bridgewater Town city": {
+      "median_hh_income": 112651,
+      "median_home_value": 533100,
+      "poverty_pct": 4.8,
+      "bachelors_pct": 39.5,
+      "median_age": 37.6,
+      "pop": 29309
+    },
+    "Brockton city": {
+      "median_hh_income": 80115,
+      "median_home_value": 437500,
+      "poverty_pct": 13.5,
+      "bachelors_pct": 22.3,
+      "median_age": 36.7,
+      "pop": 106134
+    },
+    "Carver town": {
+      "median_hh_income": 91250,
+      "median_home_value": 434200,
+      "poverty_pct": 7.5,
+      "bachelors_pct": 28.9,
+      "median_age": 45.9,
+      "pop": 11981
+    },
+    "Duxbury town": {
+      "median_hh_income": 176583,
+      "median_home_value": 874600,
+      "poverty_pct": 5.1,
+      "bachelors_pct": 70.9,
+      "median_age": 47.6,
+      "pop": 16498
+    },
+    "East Bridgewater town": {
+      "median_hh_income": 133853,
+      "median_home_value": 510200,
+      "poverty_pct": 4.6,
+      "bachelors_pct": 34.2,
+      "median_age": 41.6,
+      "pop": 14602
+    },
+    "Halifax town": {
+      "median_hh_income": 118556,
+      "median_home_value": 481500,
+      "poverty_pct": 2.6,
+      "bachelors_pct": 36.1,
+      "median_age": 41.9,
+      "pop": 7845
+    },
+    "Hanover town": {
+      "median_hh_income": 189803,
+      "median_home_value": 755400,
+      "poverty_pct": 4.8,
+      "bachelors_pct": 56.8,
+      "median_age": 41.8,
+      "pop": 14971
+    },
+    "Hanson town": {
+      "median_hh_income": 132200,
+      "median_home_value": 533900,
+      "poverty_pct": 2.7,
+      "bachelors_pct": 42.6,
+      "median_age": 42.8,
+      "pop": 10927
+    },
+    "Hingham town": {
+      "median_hh_income": 178390,
+      "median_home_value": 1134200,
+      "poverty_pct": 4.3,
+      "bachelors_pct": 76.2,
+      "median_age": 48.4,
+      "pop": 24481
+    },
+    "Hull town": {
+      "median_hh_income": 115485,
+      "median_home_value": 646000,
+      "poverty_pct": 5.8,
+      "bachelors_pct": 50.4,
+      "median_age": 56.1,
+      "pop": 10266
+    },
+    "Kingston town": {
+      "median_hh_income": 119876,
+      "median_home_value": 610600,
+      "poverty_pct": 3.1,
+      "bachelors_pct": 48.2,
+      "median_age": 46.5,
+      "pop": 14548
+    },
+    "Lakeville town": {
+      "median_hh_income": 133984,
+      "median_home_value": 565900,
+      "poverty_pct": 4.0,
+      "bachelors_pct": 38.6,
+      "median_age": 43.8,
+      "pop": 12430
+    },
+    "Marion town": {
+      "median_hh_income": 143092,
+      "median_home_value": 653500,
+      "poverty_pct": 9.0,
+      "bachelors_pct": 46.7,
+      "median_age": 53.8,
+      "pop": 5366
+    },
+    "Marshfield town": {
+      "median_hh_income": 125986,
+      "median_home_value": 680300,
+      "poverty_pct": 8.7,
+      "bachelors_pct": 52.4,
+      "median_age": 45.9,
+      "pop": 26826
+    },
+    "Mattapoisett town": {
+      "median_hh_income": 130241,
+      "median_home_value": 681600,
+      "poverty_pct": 4.3,
+      "bachelors_pct": 57.2,
+      "median_age": 57.2,
+      "pop": 6831
+    },
+    "Middleborough town": {
+      "median_hh_income": 97056,
+      "median_home_value": 468700,
+      "poverty_pct": 6.2,
+      "bachelors_pct": 32.0,
+      "median_age": 43.4,
+      "pop": 25149
+    },
+    "Norwell town": {
+      "median_hh_income": 188699,
+      "median_home_value": 865700,
+      "poverty_pct": 2.7,
+      "bachelors_pct": 69.6,
+      "median_age": 39.2,
+      "pop": 11546
+    },
+    "Pembroke town": {
+      "median_hh_income": 146285,
+      "median_home_value": 586500,
+      "poverty_pct": 4.0,
+      "bachelors_pct": 44.7,
+      "median_age": 45.5,
+      "pop": 18492
+    },
+    "Plymouth town": {
+      "median_hh_income": 116941,
+      "median_home_value": 527400,
+      "poverty_pct": 6.8,
+      "bachelors_pct": 46.5,
+      "median_age": 47.4,
+      "pop": 67846
+    },
+    "Plympton town": {
+      "median_hh_income": 126736,
+      "median_home_value": 517800,
+      "poverty_pct": 10.3,
+      "bachelors_pct": 38.4,
+      "median_age": 46.4,
+      "pop": 2985
+    },
+    "Rochester town": {
+      "median_hh_income": 120273,
+      "median_home_value": 599100,
+      "poverty_pct": 5.4,
+      "bachelors_pct": 43.5,
+      "median_age": 46.5,
+      "pop": 5956
+    },
+    "Rockland town": {
+      "median_hh_income": 112405,
+      "median_home_value": 472900,
+      "poverty_pct": 6.5,
+      "bachelors_pct": 32.7,
+      "median_age": 40.7,
+      "pop": 17949
+    },
+    "Scituate town": {
+      "median_hh_income": 136732,
+      "median_home_value": 847600,
+      "poverty_pct": 2.9,
+      "bachelors_pct": 66.8,
+      "median_age": 47.1,
+      "pop": 19662
+    },
+    "Wareham town": {
+      "median_hh_income": 90383,
+      "median_home_value": 424500,
+      "poverty_pct": 6.7,
+      "bachelors_pct": 27.1,
+      "median_age": 52.1,
+      "pop": 23689
+    },
+    "West Bridgewater town": {
+      "median_hh_income": 123406,
+      "median_home_value": 503800,
+      "poverty_pct": 5.0,
+      "bachelors_pct": 43.6,
+      "median_age": 38.4,
+      "pop": 7872
+    },
+    "Whitman town": {
+      "median_hh_income": 108933,
+      "median_home_value": 472700,
+      "poverty_pct": 7.9,
+      "bachelors_pct": 31.3,
+      "median_age": 40.4,
+      "pop": 15526
+    },
+    "Boston city": {
+      "median_hh_income": 97344,
+      "median_home_value": 731700,
+      "poverty_pct": 16.6,
+      "bachelors_pct": 54.9,
+      "median_age": 33.3,
+      "pop": 672973
+    },
+    "Chelsea city": {
+      "median_hh_income": 72179,
+      "median_home_value": 493500,
+      "poverty_pct": 20.7,
+      "bachelors_pct": 22.2,
+      "median_age": 34.4,
+      "pop": 40130
+    },
+    "Revere city": {
+      "median_hh_income": 86969,
+      "median_home_value": 597400,
+      "poverty_pct": 11.5,
+      "bachelors_pct": 24.6,
+      "median_age": 39.2,
+      "pop": 60141
+    },
+    "Winthrop Town city": {
+      "median_hh_income": 116167,
+      "median_home_value": 649600,
+      "poverty_pct": 7.2,
+      "bachelors_pct": 45.6,
+      "median_age": 43.0,
+      "pop": 18647
+    },
+    "Ashburnham town": {
+      "median_hh_income": 118809,
+      "median_home_value": 390700,
+      "poverty_pct": 6.8,
+      "bachelors_pct": 44.0,
+      "median_age": 40.7,
+      "pop": 6554
+    },
+    "Athol town": {
+      "median_hh_income": 69316,
+      "median_home_value": 268100,
+      "poverty_pct": 16.3,
+      "bachelors_pct": 20.4,
+      "median_age": 41.3,
+      "pop": 12129
+    },
+    "Auburn town": {
+      "median_hh_income": 116711,
+      "median_home_value": 400000,
+      "poverty_pct": 5.2,
+      "bachelors_pct": 45.4,
+      "median_age": 44.8,
+      "pop": 17566
+    },
+    "Barre town": {
+      "median_hh_income": 107727,
+      "median_home_value": 394300,
+      "poverty_pct": 8.2,
+      "bachelors_pct": 31.6,
+      "median_age": 43.8,
+      "pop": 5641
+    },
+    "Berlin town": {
+      "median_hh_income": 121336,
+      "median_home_value": 616600,
+      "poverty_pct": 5.0,
+      "bachelors_pct": 48.3,
+      "median_age": 49.7,
+      "pop": 3486
+    },
+    "Blackstone town": {
+      "median_hh_income": 94191,
+      "median_home_value": 404400,
+      "poverty_pct": 8.0,
+      "bachelors_pct": 31.9,
+      "median_age": 43.2,
+      "pop": 9416
+    },
+    "Bolton town": {
+      "median_hh_income": 205449,
+      "median_home_value": 796000,
+      "poverty_pct": 2.9,
+      "bachelors_pct": 81.9,
+      "median_age": 41.2,
+      "pop": 6477
+    },
+    "Boylston town": {
+      "median_hh_income": 140962,
+      "median_home_value": 578600,
+      "poverty_pct": 6.4,
+      "bachelors_pct": 54.9,
+      "median_age": 48.2,
+      "pop": 5104
+    },
+    "Brookfield town": {
+      "median_hh_income": 81250,
+      "median_home_value": 341900,
+      "poverty_pct": 8.9,
+      "bachelors_pct": 28.9,
+      "median_age": 52.4,
+      "pop": 3516
+    },
+    "Charlton town": {
+      "median_hh_income": 117587,
+      "median_home_value": 427500,
+      "poverty_pct": 2.5,
+      "bachelors_pct": 37.6,
+      "median_age": 43.0,
+      "pop": 13685
+    },
+    "Clinton town": {
+      "median_hh_income": 89781,
+      "median_home_value": 387300,
+      "poverty_pct": 8.6,
+      "bachelors_pct": 36.6,
+      "median_age": 38.6,
+      "pop": 15718
+    },
+    "Douglas town": {
+      "median_hh_income": 152267,
+      "median_home_value": 470600,
+      "poverty_pct": 4.8,
+      "bachelors_pct": 41.7,
+      "median_age": 44.0,
+      "pop": 9545
+    },
+    "Dudley town": {
+      "median_hh_income": 84604,
+      "median_home_value": 392600,
+      "poverty_pct": 6.4,
+      "bachelors_pct": 24.1,
+      "median_age": 40.2,
+      "pop": 11972
+    },
+    "East Brookfield town": {
+      "median_hh_income": 81042,
+      "median_home_value": 381200,
+      "poverty_pct": 7.1,
+      "bachelors_pct": 27.0,
+      "median_age": 52.1,
+      "pop": 2231
+    },
+    "Fitchburg city": {
+      "median_hh_income": 73040,
+      "median_home_value": 336400,
+      "poverty_pct": 15.6,
+      "bachelors_pct": 25.1,
+      "median_age": 36.3,
+      "pop": 42136
+    },
+    "Gardner city": {
+      "median_hh_income": 67518,
+      "median_home_value": 301600,
+      "poverty_pct": 13.7,
+      "bachelors_pct": 23.8,
+      "median_age": 43.7,
+      "pop": 21483
+    },
+    "Grafton town": {
+      "median_hh_income": 131484,
+      "median_home_value": 525300,
+      "poverty_pct": 6.3,
+      "bachelors_pct": 55.7,
+      "median_age": 41.1,
+      "pop": 21043
+    },
+    "Hardwick town": {
+      "median_hh_income": 75000,
+      "median_home_value": 346700,
+      "poverty_pct": 11.0,
+      "bachelors_pct": 30.9,
+      "median_age": 45.3,
+      "pop": 2736
+    },
+    "Harvard town": {
+      "median_hh_income": 213996,
+      "median_home_value": 833600,
+      "poverty_pct": 4.5,
+      "bachelors_pct": 62.0,
+      "median_age": 44.1,
+      "pop": 7014
+    },
+    "Holden town": {
+      "median_hh_income": 141923,
+      "median_home_value": 470700,
+      "poverty_pct": 4.4,
+      "bachelors_pct": 58.2,
+      "median_age": 41.5,
+      "pop": 20526
+    },
+    "Hopedale town": {
+      "median_hh_income": 115722,
+      "median_home_value": 466100,
+      "poverty_pct": 2.9,
+      "bachelors_pct": 48.3,
+      "median_age": 44.4,
+      "pop": 6066
+    },
+    "Hubbardston town": {
+      "median_hh_income": 123500,
+      "median_home_value": 371600,
+      "poverty_pct": 4.3,
+      "bachelors_pct": 33.7,
+      "median_age": 46.8,
+      "pop": 4460
+    },
+    "Lancaster town": {
+      "median_hh_income": 134833,
+      "median_home_value": 519100,
+      "poverty_pct": 1.4,
+      "bachelors_pct": 50.3,
+      "median_age": 43.1,
+      "pop": 9161
+    },
+    "Leicester town": {
+      "median_hh_income": 105173,
+      "median_home_value": 413100,
+      "poverty_pct": 3.8,
+      "bachelors_pct": 31.0,
+      "median_age": 42.4,
+      "pop": 11428
+    },
+    "Leominster city": {
+      "median_hh_income": 83816,
+      "median_home_value": 380400,
+      "poverty_pct": 9.2,
+      "bachelors_pct": 33.5,
+      "median_age": 43.3,
+      "pop": 44194
+    },
+    "Lunenburg town": {
+      "median_hh_income": 112828,
+      "median_home_value": 463900,
+      "poverty_pct": 4.2,
+      "bachelors_pct": 44.0,
+      "median_age": 43.2,
+      "pop": 12043
+    },
+    "Mendon town": {
+      "median_hh_income": 132256,
+      "median_home_value": 616000,
+      "poverty_pct": 7.1,
+      "bachelors_pct": 46.9,
+      "median_age": 44.1,
+      "pop": 6479
+    },
+    "Milford town": {
+      "median_hh_income": 96365,
+      "median_home_value": 476700,
+      "poverty_pct": 7.6,
+      "bachelors_pct": 35.3,
+      "median_age": 38.9,
+      "pop": 30832
+    },
+    "Millbury town": {
+      "median_hh_income": 118790,
+      "median_home_value": 450100,
+      "poverty_pct": 5.0,
+      "bachelors_pct": 36.1,
+      "median_age": 42.6,
+      "pop": 14276
+    },
+    "Millville town": {
+      "median_hh_income": 127188,
+      "median_home_value": 444600,
+      "poverty_pct": 4.6,
+      "bachelors_pct": 30.6,
+      "median_age": 46.0,
+      "pop": 3186
+    },
+    "New Braintree town": {
+      "median_hh_income": 99500,
+      "median_home_value": 408800,
+      "poverty_pct": 7.2,
+      "bachelors_pct": 41.4,
+      "median_age": 47.8,
+      "pop": 1013
+    },
+    "Northborough town": {
+      "median_hh_income": 153199,
+      "median_home_value": 620000,
+      "poverty_pct": 3.7,
+      "bachelors_pct": 65.5,
+      "median_age": 45.0,
+      "pop": 16080
+    },
+    "Northbridge town": {
+      "median_hh_income": 111319,
+      "median_home_value": 448600,
+      "poverty_pct": 7.9,
+      "bachelors_pct": 36.9,
+      "median_age": 43.8,
+      "pop": 16799
+    },
+    "North Brookfield town": {
+      "median_hh_income": 79285,
+      "median_home_value": 359100,
+      "poverty_pct": 12.9,
+      "bachelors_pct": 26.3,
+      "median_age": 45.2,
+      "pop": 4793
+    },
+    "Oakham town": {
+      "median_hh_income": 102000,
+      "median_home_value": 420100,
+      "poverty_pct": 4.4,
+      "bachelors_pct": 40.3,
+      "median_age": 49.0,
+      "pop": 1917
+    },
+    "Oxford town": {
+      "median_hh_income": 103862,
+      "median_home_value": 374900,
+      "poverty_pct": 7.7,
+      "bachelors_pct": 29.6,
+      "median_age": 42.0,
+      "pop": 13514
+    },
+    "Paxton town": {
+      "median_hh_income": 134083,
+      "median_home_value": 472300,
+      "poverty_pct": 1.4,
+      "bachelors_pct": 54.7,
+      "median_age": 41.8,
+      "pop": 5046
+    },
+    "Petersham town": {
+      "median_hh_income": 110750,
+      "median_home_value": 392400,
+      "poverty_pct": 8.8,
+      "bachelors_pct": 42.6,
+      "median_age": 56.3,
+      "pop": 1242
+    },
+    "Phillipston town": {
+      "median_hh_income": 94692,
+      "median_home_value": 372400,
+      "poverty_pct": 5.7,
+      "bachelors_pct": 25.4,
+      "median_age": 48.8,
+      "pop": 1794
+    },
+    "Princeton town": {
+      "median_hh_income": 158750,
+      "median_home_value": 520500,
+      "poverty_pct": 4.2,
+      "bachelors_pct": 59.4,
+      "median_age": 46.1,
+      "pop": 3618
+    },
+    "Royalston town": {
+      "median_hh_income": 102109,
+      "median_home_value": 346300,
+      "poverty_pct": 11.8,
+      "bachelors_pct": 28.5,
+      "median_age": 47.8,
+      "pop": 1297
+    },
+    "Rutland town": {
+      "median_hh_income": 145707,
+      "median_home_value": 462800,
+      "poverty_pct": 2.1,
+      "bachelors_pct": 42.0,
+      "median_age": 41.4,
+      "pop": 9776
+    },
+    "Shrewsbury town": {
+      "median_hh_income": 139302,
+      "median_home_value": 592300,
+      "poverty_pct": 3.7,
+      "bachelors_pct": 65.6,
+      "median_age": 40.6,
+      "pop": 39627
+    },
+    "Southborough town": {
+      "median_hh_income": 196808,
+      "median_home_value": 821100,
+      "poverty_pct": 3.7,
+      "bachelors_pct": 76.2,
+      "median_age": 43.6,
+      "pop": 10559
+    },
+    "Southbridge Town city": {
+      "median_hh_income": 66287,
+      "median_home_value": 294800,
+      "poverty_pct": 15.3,
+      "bachelors_pct": 19.4,
+      "median_age": 40.9,
+      "pop": 18105
+    },
+    "Spencer town": {
+      "median_hh_income": 80533,
+      "median_home_value": 382000,
+      "poverty_pct": 11.0,
+      "bachelors_pct": 29.1,
+      "median_age": 48.9,
+      "pop": 12173
+    },
+    "Sterling town": {
+      "median_hh_income": 129063,
+      "median_home_value": 498800,
+      "poverty_pct": 6.0,
+      "bachelors_pct": 48.3,
+      "median_age": 51.5,
+      "pop": 8358
+    },
+    "Sturbridge town": {
+      "median_hh_income": 136759,
+      "median_home_value": 425800,
+      "poverty_pct": 3.7,
+      "bachelors_pct": 49.3,
+      "median_age": 47.2,
+      "pop": 10120
+    },
+    "Sutton town": {
+      "median_hh_income": 147125,
+      "median_home_value": 523100,
+      "poverty_pct": 5.8,
+      "bachelors_pct": 52.8,
+      "median_age": 44.3,
+      "pop": 9662
+    },
+    "Templeton town": {
+      "median_hh_income": 101154,
+      "median_home_value": 358500,
+      "poverty_pct": 10.6,
+      "bachelors_pct": 26.9,
+      "median_age": 40.3,
+      "pop": 8553
+    },
+    "Upton town": {
+      "median_hh_income": 155508,
+      "median_home_value": 576700,
+      "poverty_pct": 3.2,
+      "bachelors_pct": 53.5,
+      "median_age": 46.4,
+      "pop": 8560
+    },
+    "Uxbridge town": {
+      "median_hh_income": 124725,
+      "median_home_value": 441100,
+      "poverty_pct": 3.6,
+      "bachelors_pct": 38.0,
+      "median_age": 41.7,
+      "pop": 14783
+    },
+    "Warren town": {
+      "median_hh_income": 66082,
+      "median_home_value": 333700,
+      "poverty_pct": 9.0,
+      "bachelors_pct": 23.2,
+      "median_age": 38.7,
+      "pop": 5122
+    },
+    "Webster town": {
+      "median_hh_income": 72895,
+      "median_home_value": 361500,
+      "poverty_pct": 12.7,
+      "bachelors_pct": 25.3,
+      "median_age": 39.9,
+      "pop": 17835
+    },
+    "Westborough town": {
+      "median_hh_income": 141944,
+      "median_home_value": 685300,
+      "poverty_pct": 6.3,
+      "bachelors_pct": 65.2,
+      "median_age": 38.8,
+      "pop": 22894
+    },
+    "West Boylston town": {
+      "median_hh_income": 104551,
+      "median_home_value": 440000,
+      "poverty_pct": 6.6,
+      "bachelors_pct": 41.8,
+      "median_age": 45.5,
+      "pop": 7923
+    },
+    "West Brookfield town": {
+      "median_hh_income": 95613,
+      "median_home_value": 354000,
+      "poverty_pct": 8.5,
+      "bachelors_pct": 34.0,
+      "median_age": 58.5,
+      "pop": 3947
+    },
+    "Westminster town": {
+      "median_hh_income": 106331,
+      "median_home_value": 422000,
+      "poverty_pct": 2.3,
+      "bachelors_pct": 45.9,
+      "median_age": 48.3,
+      "pop": 8807
+    },
+    "Winchendon town": {
+      "median_hh_income": 75690,
+      "median_home_value": 323800,
+      "poverty_pct": 18.5,
+      "bachelors_pct": 21.4,
+      "median_age": 39.6,
+      "pop": 10620
+    },
+    "Worcester city": {
+      "median_hh_income": 70102,
+      "median_home_value": 374400,
+      "poverty_pct": 19.6,
+      "bachelors_pct": 35.2,
+      "median_age": 33.9,
+      "pop": 213862
+    }
+  },
+  "chia_srp": {
+    "Nantucket Cottage Hospital": 1.79,
+    "Dana-Farber Cancer Institute": 1.64,
+    "Martha's Vineyard Hospital": 1.51,
+    "Boston Children's Hospital": 1.48,
+    "Falmouth Hospital": 1.38,
+    "Cape Cod Hospital": 1.35,
+    "Brigham and Women's Hospital": 1.34,
+    "Massachusetts General Hospital": 1.29,
+    "Fairview Hospital": 1.2,
+    "UMass Memorial Medical Center": 1.17,
+    "Boston Medical Center - Brighton": 1.1,
+    "Saint Anne's Hospital": 1.09,
+    "Tufts Medical Center": 1.08,
+    "Berkshire Medical Center": 1.08,
+    "Lahey Hospital and Medical Center": 1.05,
+    "Holy Family Hospital": 1.05,
+    "MetroWest Medical Center": 1.03,
+    "Beth Israel Deaconess Medical Center": 1.03,
+    "Nashoba Valley Medical Center *": 1.02,
+    "Saint Vincent Hospital": 1.01,
+    "Boston Medical Center - South": 1.0,
+    "Sturdy Memorial Hospital": 0.99,
+    "South Shore Hospital": 0.99,
+    "Marlborough Hospital": 0.99,
+    "MelroseWakefield Healthcare (formerly Hallmark Health)": 0.97,
+    "Athol Memorial Hospital": 0.96,
+    "Cooley Dickinson Hospital": 0.96,
+    "Boston Medical Center": 0.96,
+    "Newton-Wellesley Hospital": 0.95,
+    "Signature Healthcare Brockton Hospital": 0.95,
+    "Baystate Medical Center": 0.93,
+    "Morton Hospital": 0.93,
+    "North Shore Medical Center": 0.93,
+    "Beth Israel Deaconess Hospital - Needham": 0.92,
+    "Emerson Hospital": 0.92,
+    "Carney Hospital *": 0.91,
+    "Harrington Memorial Hospital": 0.91,
+    "Beth Israel Deaconess Hospital - Plymouth": 0.91,
+    "Southcoast Hospitals Group": 0.91,
+    "Mount Auburn Hospital": 0.9,
+    "Baystate Franklin Medical Center": 0.9,
+    "HealthAlliance-Clinton Hospital (formerly HealthAlliance Hospital)": 0.89,
+    "Winchester Hospital": 0.88,
+    "Brigham and Women's Faulkner Hospital": 0.87,
+    "Milford Regional Medical Center": 0.85,
+    "Lawrence General Hospital": 0.84,
+    "New England Baptist Hospital": 0.83,
+    "Massachusetts Eye and Ear Infirmary": 0.83,
+    "Mercy Medical Center": 0.82,
+    "Northeast Hospital": 0.81,
+    "Beth Israel Deaconess Hospital - Milton": 0.81,
+    "Lowell General Hospital": 0.81,
+    "Cambridge Health Alliance": 0.8,
+    "Baystate Wing Hospital": 0.77,
+    "Holyoke Medical Center": 0.76,
+    "Heywood Hospital": 0.75,
+    "Shriners Hospitals for Children - Boston": 0.75,
+    "Anna Jaques Hospital": 0.74,
+    "Baystate Noble Hospital": 0.74
+  }
+}

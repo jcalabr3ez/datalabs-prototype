@@ -46,6 +46,17 @@
   section{margin-top:56px}
   h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
   .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .takeaways{margin:8px 0 16px;padding-left:22px;max-width:72em}
+  .takeaways li{margin:0 0 10px;font-size:16.5px;line-height:1.45;color:var(--ink)}
+  .takeaways li b{font-weight:700}
+  .findcard{border:1px solid var(--rule);background:var(--wash);padding:16px 18px 14px;margin:0 0 18px}
+  .findcard .fc-k{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
+  .findcard h3{font:600 22px/1.2 var(--serif);margin:4px 0 6px;color:var(--navy)}
+  .findcard .fc-val{font:600 28px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums}
+  .findcard .fc-rank{font-size:13px;color:var(--grey);margin-top:6px}
+  .findcard .fc-facts{margin:10px 0 0 18px;font-size:13.5px;color:var(--g1);line-height:1.5}
+  .findcard .fc-facts li{margin:0 0 4px}
+  .findcard .fc-src{font-size:10.5px;color:var(--faint);margin-top:10px}
   .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
   .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
   .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}

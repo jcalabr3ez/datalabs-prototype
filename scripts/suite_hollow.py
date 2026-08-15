@@ -31,6 +31,7 @@ from suite_builders import (
 from suite_common import (
     FIPS_TO_ST,
     RANKED,
+    ROOT,
     STATE_NAMES,
     UA,
     commify,
@@ -43,6 +44,18 @@ from suite_common import (
     usd_prose,
     yoy_pct,
 )
+
+LOOKUPS_PATH = ROOT / "netlify" / "functions" / "find-lookups.json"
+
+
+def _write_lookup(key, payload):
+    """Store town/hospital name cards outside the ledger so ask-box cores stay small."""
+    data = {}
+    if LOOKUPS_PATH.exists():
+        data = json.loads(LOOKUPS_PATH.read_text(encoding="utf-8"))
+    data[key] = payload
+    LOOKUPS_PATH.write_text(json.dumps(data, ensure_ascii=True, indent=2) + "\n", encoding="utf-8")
+
 
 URL_LAUS = "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS"
 URL_SUBEST = (
@@ -241,6 +254,7 @@ def sec_chia_srp():
     ranked = rank_named(values, higher_is_better=True, st_key=lambda n: n)
     for rec in ranked:
         rec["v"] = round(rec["v"], 2)
+    _write_lookup("chia_srp", {r["name"]: r["v"] for r in ranked})
     return {
         "label": "CHIA statewide commercial relative price, CY 2023",
         "src": "SRC-610-03",
@@ -660,6 +674,18 @@ def sec_acs_towns():
                 "median_home_value": rec["median_home_value"],
                 "bachelors_pct": rec["bachelors_pct"],
             })
+
+    _write_lookup("acs_towns", {
+        r["name"]: {
+            "median_hh_income": r.get("median_hh_income"),
+            "median_home_value": r.get("median_home_value"),
+            "poverty_pct": r.get("poverty_pct"),
+            "bachelors_pct": r.get("bachelors_pct"),
+            "median_age": r.get("median_age"),
+            "pop": r.get("pop"),
+        }
+        for r in rows
+    })
 
     return {
         "label": "ACS 2020-2024 5-year socioeconomic measures, Massachusetts cities and towns",

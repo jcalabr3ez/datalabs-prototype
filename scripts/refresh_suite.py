@@ -616,6 +616,14 @@ def upsert_catalog(apps):
             "group": app["group"],
             "vint": vint,
         }
+        if ledger.get("status") == "live":
+            try:
+                from page_voice import voice_for
+                voice = voice_for(app, ledger)
+                if voice and voice.get("ma"):
+                    entry["ma"] = voice["ma"]
+            except Exception:
+                pass
         if app["id"] in by_id:
             catalog[by_id[app["id"]]] = entry
         else:

@@ -224,55 +224,17 @@ def inject_electricity(dl04, text, path):
         f'    <span>Version <b>{page.get("version", "1.0")}</b></span>'
     )
     text = replace_block(text, "electricity-dateline", dateline, path, style="html")
-    us_p = f"{latest['us']['price_cents']:.2f}"
-    ma_p = f"{latest['ma']['price_cents']:.2f}"
-    hi_p = f"{latest['highest']['price_cents']:.2f}"
-    lo_p = f"{latest['lowest']['price_cents']:.2f}"
-    us_yoy = latest["us"].get("yoy_pct")
-    ma_yoy = latest["ma"].get("yoy_pct")
-    us_yoy_html = (
-        f'<span class="{"up" if us_yoy and us_yoy > 0 else "dn"}">'
-        f'{us_yoy:+.1f}% from {year - 1}</span>'
-        if us_yoy is not None else f"EIA U.S. Total, {year}"
-    )
-    ma_yoy_txt = (
-        f"{ma_yoy:+.1f} percent from {year - 1}"
-        if ma_yoy is not None else f"all-sector average, {year}"
-    )
-    kpis = (
-        f'      <div class="cell">\n'
-        f'        <div class="cl">U.S. average, {year}</div>\n'
-        f'        <div class="cv">{us_p}&cent;</div>\n'
-        f'        <div class="cd">All-sector average retail price, EIA U.S. Total row, not an average of the state prices (SRC-401). {us_yoy_html}.</div>\n'
-        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the national price the rest of the page is measured against.</div>\n'
-        f'        <div class="csrc">Source: EIA Form EIA-861 / Electric Power Annual table 2.10 (SRC-401)</div>\n'
-        f'      </div>\n'
-        f'      <div class="cell">\n'
-        f'        <div class="cl">Massachusetts</div>\n'
-        f'        <div class="cv">{ma_p}&cent;</div>\n'
-        f'        <div class="cd">Rank {latest["ma"]["rank"]} of {latest["ma"]["n"]} states and D.C. (derived, SRC-401). {ma_yoy_txt}.</div>\n'
-        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Massachusetts sits well above the national average, with the rest of New England.</div>\n'
-        f'        <div class="csrc">Source: EIA Form EIA-861 (SRC-401)</div>\n'
-        f'      </div>\n'
-        f'      <div class="cell">\n'
-        f'        <div class="cl">Highest / lowest</div>\n'
-        f'        <div class="cv">{latest["highest"]["st"]} {float(latest["highest"]["price_cents"]):.2f}</div>\n'
-        f'        <div class="cd">{latest["highest"]["name"]} is the highest all-sector average; {latest["lowest"]["name"]} is the lowest at {lo_p} cents (SRC-401).</div>\n'
-        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The spread is the story: the same kilowatthour costs several times more in some states than in others.</div>\n'
-        f'        <div class="csrc">Source: EIA Form EIA-861 (SRC-401)</div>\n'
-        f'      </div>'
-    )
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from page_voice import flagship_voice, takeaways_html  # noqa: E402
+    from render_suite_pages import kpi_html  # noqa: E402
+    voice = flagship_voice("DL-04", dl04)
+    if has_block(text, "electricity-takeaways", style="html") and voice.get("takeaways"):
+        text = replace_block(text, "electricity-takeaways", takeaways_html(voice["takeaways"]), path, style="html")
+    kpis = kpi_html(voice.get("kpis") or [])
     text = replace_block(text, "electricity-kpis", kpis, path, style="html")
-    us_dir = "up" if us_yoy and us_yoy > 0 else "down"
-    lead = (
-        f'The United States all-sector average was <b>{us_p} cents</b> per kilowatthour '
-        f'in {year}, {us_dir} {abs(us_yoy):.1f} percent from {year - 1} (SRC-401). '
-        f'Massachusetts paid <b>{ma_p} cents</b>, rank {latest["ma"]["rank"]} of '
-        f'{latest["ma"]["n"]} (derived, SRC-401). {latest["highest"]["name"]} was '
-        f'highest at {hi_p} cents and {latest["lowest"]["name"]} lowest at {lo_p} '
-        f'cents (SRC-401).'
-    )
-    text = replace_block(text, "electricity-lead", lead, path, style="html")
+    text = replace_block(text, "electricity-lead", voice.get("lead") or "", path, style="html")
+    if has_block(text, "electricity-cite", style="html") and voice.get("cite"):
+        text = replace_block(text, "electricity-cite", voice["cite"], path, style="html")
     revised_long = page.get("revised", "")
     for full, (short, _) in MONTH_END.items():
         if revised_long.startswith(short + " "):
@@ -375,46 +337,16 @@ def inject_pensions(dl05, text, path):
     mt = latest["mtrs"]
     ret = latest["retirees"]
     n = derived["n_boards"]
-    kpis = (
-        f'      <div class="cell">\n'
-        f'        <div class="cl">State Retirement Board</div>\n'
-        f'        <div class="cv">{st["funded_pct"]}%</div>\n'
-        f'        <div class="cd">Funded ratio on the January 1, {st["valuation_year"]} valuation, '
-        f'rank {st["rank"]} of {n} (SRC-501). Unfunded liability {usd_prose(st["ual"])}.</div>\n'
-        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the '
-        f'Commonwealth\'s own employee system, the largest board by assets after Mass Teachers.</div>\n'
-        f'        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>\n'
-        f'      </div>\n'
-        f'      <div class="cell">\n'
-        f'        <div class="cl">Mass Teachers (MTRS)</div>\n'
-        f'        <div class="cv">{mt["funded_pct"]}%</div>\n'
-        f'        <div class="cd">Funded ratio on the January 1, {mt["valuation_year"]} valuation, '
-        f'rank {mt["rank"]} of {n} (SRC-501). Unfunded liability {usd_prose(mt["ual"])}.</div>\n'
-        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Teachers are the '
-        f'largest liability in the Commonwealth\'s pension obligation, and the furthest from full '
-        f'funding among the big systems.</div>\n'
-        f'        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>\n'
-        f'      </div>\n'
-        f'      <div class="cell">\n'
-        f'        <div class="cl">State and Teacher retirees, {ret["year"]}</div>\n'
-        f'        <div class="cv">{usd_prose(ret["annual_amount"])}</div>\n'
-        f'        <div class="cd">Annual pensions paid to {ret["count"]:,} named MSERS and MTRS '
-        f'retirees (SRC-503). Average {usd_prose(ret["avg_amount"])}.</div>\n'
-        f'        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the payroll '
-        f'the funded ratios have to support, year after year, for people already retired.</div>\n'
-        f'        <div class="csrc">Source: CTHRU State and Teachers Retirement Benefits (SRC-503)</div>\n'
-        f'      </div>'
-    )
-    text = replace_block(text, "pensions-kpis", kpis, path, style="html")
-    lead = (
-        f'The State Retirement Board was <b>{st["funded_pct"]} percent</b> funded on its '
-        f'January 1, {st["valuation_year"]} valuation (SRC-501). Mass Teachers (MTRS) was '
-        f'<b>{mt["funded_pct"]} percent</b> funded (SRC-501). Across {n} boards the '
-        f'dollar-weighted funded ratio was {derived["weighted_funded_pct"]} percent '
-        f'(derived, SRC-501). State and Teacher retirees were paid '
-        f'<b>{usd_prose(ret["annual_amount"])}</b> in calendar {ret["year"]} (SRC-503).'
-    )
-    text = replace_block(text, "pensions-lead", lead, path, style="html")
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from page_voice import flagship_voice, takeaways_html  # noqa: E402
+    from render_suite_pages import kpi_html  # noqa: E402
+    voice = flagship_voice("DL-05", dl05)
+    if has_block(text, "pensions-takeaways", style="html") and voice.get("takeaways"):
+        text = replace_block(text, "pensions-takeaways", takeaways_html(voice["takeaways"]), path, style="html")
+    text = replace_block(text, "pensions-kpis", kpi_html(voice.get("kpis") or []), path, style="html")
+    text = replace_block(text, "pensions-lead", voice.get("lead") or "", path, style="html")
+    if has_block(text, "pensions-cite", style="html") and voice.get("cite"):
+        text = replace_block(text, "pensions-cite", voice["cite"], path, style="html")
     revised_long = page.get("revised", "")
     for full, (short, _) in MONTH_END.items():
         if revised_long.startswith(short + " "):
@@ -461,6 +393,12 @@ def extract_json_after(text, prefix, path):
 
 def main():
     catalog = load("catalog.json")
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from page_voice import apply_catalog_ma  # noqa: E402
+    apply_catalog_ma(catalog)
+    (ROOT / "catalog.json").write_text(
+        json.dumps(catalog, ensure_ascii=True, indent=1) + "\n", encoding="utf-8"
+    )
     dl03 = load("netlify/functions/dl03-answers.json")
     dl01 = load("netlify/functions/dl01-answers.json")
     dl02 = load("netlify/functions/dl02-answers.json")
@@ -620,6 +558,7 @@ def main():
     # ---- suite pages (DL-06 onward): dateline, KPIs, chart payload ----
     sys.path.insert(0, str(ROOT / "scripts"))
     from render_suite_pages import kpi_html  # noqa: E402
+    from page_voice import takeaways_html, voice_for  # noqa: E402
     from suite_common import load_apps, ledger_path  # noqa: E402
 
     for app in load_apps():
@@ -633,6 +572,7 @@ def main():
         as_of_label = led.get("data_month_label") or "pending"
         revised = (led.get("page") or {}).get("revised", "")
         version = (led.get("page") or {}).get("version", "0.0")
+        voice = voice_for(app, led)
         if has_block(new, slug + "-dateline", style="html"):
             new = replace_block(
                 new,
@@ -652,10 +592,15 @@ def main():
                 p,
                 style="html",
             )
+        if has_block(new, slug + "-takeaways", style="html") and voice and voice.get("takeaways"):
+            new = replace_block(new, slug + "-takeaways", takeaways_html(voice["takeaways"]), p, style="html")
         if has_block(new, slug + "-lead", style="html") and led.get("lead"):
             new = replace_block(new, slug + "-lead", led["lead"], p, style="html")
-        if has_block(new, slug + "-kpis", style="html") and led.get("kpis"):
-            new = replace_block(new, slug + "-kpis", kpi_html(led["kpis"]), p, style="html")
+        kpis_in = (voice or {}).get("kpis") or led.get("kpis") or []
+        if has_block(new, slug + "-kpis", style="html") and kpis_in:
+            new = replace_block(new, slug + "-kpis", kpi_html(kpis_in), p, style="html")
+        if has_block(new, slug + "-cite", style="html") and voice and voice.get("cite"):
+            new = replace_block(new, slug + "-cite", voice["cite"], p, style="html")
         if has_block(new, slug + "-data"):
             payload = {
                 "tool_id": led["tool_id"],

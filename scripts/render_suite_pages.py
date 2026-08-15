@@ -9,6 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from insight_figures import insight_figures
+from page_voice import takeaways_html, voice_for
 from suite_common import ROOT, load_apps, ledger_path
 
 def esc(s):
@@ -282,7 +283,15 @@ def page_html(app, ledger, apps=None):
     replaces = esc(replaces_list(app, ledger))
     nsrc = len(ledger.get("source_id_map") or {})
     src_word = "source" if nsrc == 1 else "sources"
-    kpis = kpi_html(ledger.get("kpis") or [])
+    voice = voice_for(app, ledger) if app.get("id") not in ("DL-01", "DL-02") else None
+    finding_kpis = (voice or {}).get("kpis") or []
+    kpis = kpi_html(finding_kpis or ledger.get("kpis") or [])
+    takes = takeaways_html((voice or {}).get("takeaways") or [])
+    cite = (voice or {}).get("cite") or (
+        f"Pioneer Institute DataLabs, {title}, {as_of_label and ('data through ' + as_of_label + '. ') or ''}"
+        f"Name the source id next to the figure. The version and vintage in the masthead belong in the citation."
+    )
+    find_spec = (voice or {}).get("find") or {"kind": None, "cards": {}, "metric": ""}
     spec = chart_spec(app, ledger) if live else {}
     insights = insight_figures(app, ledger) if live else []
     has_trend = bool(spec.get("has_trend"))
@@ -306,6 +315,9 @@ def page_html(app, ledger, apps=None):
         latest_section = f"""
 <section id="takeaways" style="margin-top:30px">
     <h2>What are the key takeaways?</h2>
+<!-- DATA:BEGIN {slug}-takeaways -->
+{takes}
+<!-- DATA:END {slug}-takeaways -->
     <p class="lede">
 <!-- DATA:BEGIN {slug}-lead -->
 {lead}
@@ -358,12 +370,13 @@ def page_html(app, ledger, apps=None):
         table_section = f"""
 <section id="view-table">
     <h2>{esc(spec.get("table_noun") or "Every row")}</h2>
-    <div class="lede">{esc(metric_label)}{', ' + esc(unit) if unit else ''}. Type a name to jump to a row.</div>
+    <div class="lede">{esc(metric_label)}{', ' + esc(unit) if unit else ''}. Type a name to jump to a row. A unique match opens a card; share it with ?q= on the URL.</div>
     <div class="findrow">
       <label class="sel-lab" for="tblFind">Find a {esc(find_noun)}</label>
       <input id="tblFind" type="search" placeholder="Type a name" autocomplete="off">
       <span id="tblCount" class="findcount"></span>
     </div>
+    <div id="findCard" class="findcard" hidden></div>
     <div class="scroll">
       <table id="tblStates">
         <thead><tr><th>{esc(spec.get("col_name") or "Name")}</th><th class="n">Value</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
@@ -383,6 +396,7 @@ const DL=null;
 /* DATA:END SLUG-data */
 const CHART=CHART_JSON;
 const INSIGHTS=INSIGHTS_JSON;
+const FIND=FIND_JSON;
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -601,12 +615,73 @@ const INSIGHTS=INSIGHTS_JSON;
       var next=location.pathname+(q?('?q='+encodeURIComponent(q)):'')+location.hash;
       history.replaceState(null,'',next);
     }
+    var card=document.getElementById('findCard');
+    function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\\b(city|town|the)\\b/g,' ').replace(/^\\s+|\\s+$/g,'').replace(/\\s+/g,' '); }
+    function renderCard(row, extra){
+      if(!card) return;
+      extra=extra||{};
+      var facts=extra.facts||[];
+      var yoy=row && row.yoy_pct!=null ? ((row.yoy_pct>0?'+':'')+row.yoy_pct+'%') : (extra.yoy!=null?((extra.yoy>0?'+':'')+extra.yoy+'%'):'');
+      var rank=(row && row.rank) || extra.rank;
+      var n=(row && row.n) || extra.n;
+      var val=extra.value || (row?fmtVal(row.v):'');
+      var name=extra.name || (row && row.name) || '';
+      var metric=(FIND&&FIND.metric)||'Value';
+      card.hidden=false;
+      card.innerHTML='<div class="fc-k">'+metric+'</div>'+
+        '<h3>'+name.replace(/</g,'')+'</h3>'+
+        '<div class="fc-val">'+val+'</div>'+
+        (rank?'<div class="fc-rank">Rank '+rank+(n?(' of '+n):'')+(yoy?(' \\u00b7 '+yoy):'')+'</div>':'')+
+        (facts.length?'<ul class="fc-facts">'+facts.map(function(f){return '<li>'+String(f).replace(/</g,'')+'</li>';}).join('')+'</ul>':'')+
+        '<div class="fc-src">Share this row: add ?q='+encodeURIComponent(name)+' to the URL.</div>';
+    }
+    function hideCard(){ if(card){ card.hidden=true; card.innerHTML=''; } }
+    function matchCard(q){
+      if(!q || !FIND || !FIND.cards) return null;
+      var nq=norm(q);
+      var cards=FIND.cards;
+      if(cards[nq]) return cards[nq];
+      var hits=[];
+      Object.keys(cards).forEach(function(k){
+        if(k.indexOf(nq)>=0 || nq.indexOf(k)>=0) hits.push(cards[k]);
+      });
+      if(hits.length===1) return hits[0];
+      return null;
+    }
+    var _apply=applyFind;
+    applyFind=function(){
+      _apply();
+      var q=(find&&find.value||'').replace(/^\\s+|\\s+$/g,'');
+      var extra=matchCard(q);
+      var shown=[];
+      [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){ if(!tr.hidden) shown.push(tr); });
+      if(extra && shown.length===1){
+        var key=(shown[0].getAttribute('data-q')||'');
+        var row=null;
+        rows.forEach(function(r){
+          var rk=((r.name||'')+' '+(r.st||'')).toLowerCase();
+          if(rk===key) row=r;
+        });
+        renderCard(row, extra);
+      } else if(shown.length===1){
+        var key2=(shown[0].getAttribute('data-q')||'');
+        var row2=null;
+        rows.forEach(function(r){
+          var rk=((r.name||'')+' '+(r.st||'')).toLowerCase();
+          if(rk===key2) row2=r;
+        });
+        var extra2=row2?matchCard(row2.name):null;
+        renderCard(row2, extra2||{});
+      } else {
+        hideCard();
+      }
+    };
     if(find) find.addEventListener('input', function(){ applyFind(); writeQuery(); });
     applyFind();
   }
 })();
 </script>
-""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True))
+""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True)).replace("FIND_JSON", json.dumps(find_spec, ensure_ascii=True))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -694,7 +769,11 @@ const INSIGHTS=INSIGHTS_JSON;
   </div>
   <div class="disclaimer">
     <div><b>About this tool.</b> {esc(title)} is a Pioneer Institute DataLabs research tool. Corrections and data refreshes are logged in the <a href="/changelog/">public changelog</a>. It is a living data tool, not a static report.</div>
-    <div><b>How to cite.</b> Pioneer Institute DataLabs, {esc(title)}, data through {esc(as_of_label)}. Name the source id next to the figure (for example SRC-13-01). The version and vintage in the masthead belong in the citation.</div>
+    <div><b>How to cite.</b>
+<!-- DATA:BEGIN {slug}-cite -->
+{esc(cite)}
+<!-- DATA:END {slug}-cite -->
+    </div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
     <div><b>Verified figures.</b> {"Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists." if live else "No figures are published on this page yet. The register is the work plan."}</div>
   </div>

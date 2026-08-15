@@ -76,7 +76,8 @@
   ],
   "st": "live",
   "url": "/mbta/",
-  "ai": true
+  "ai": true,
+  "ma": "88.1% of June 2019 ridership"
  },
  {
   "id": "DL-04",
@@ -88,7 +89,8 @@
   "st": "live",
   "url": "/electricity/",
   "ai": true,
-  "group": "Energy"
+  "group": "Energy",
+  "ma": "23.94\u00a2 / kWh, rank 5 of 51"
  },
  {
   "id": "DL-05",
@@ -100,7 +102,8 @@
   "st": "live",
   "url": "/pensions/",
   "ai": true,
-  "group": "Public Pensions"
+  "group": "Public Pensions",
+  "ma": "Teachers 58.7% funded"
  },
  {
   "id": "DL-06",
@@ -113,7 +116,8 @@
   "url": "/ma-k12/",
   "ai": true,
   "group": "Education",
-  "vint": "Fiscal year 2024 (school year 2023-24)"
+  "vint": "Fiscal year 2024 (school year 2023-24)",
+  "ma": "$27,008 per pupil, rank 5 of 51"
  },
  {
   "id": "DL-07",
@@ -126,7 +130,8 @@
   "url": "/national-k12/",
   "ai": true,
   "group": "Education",
-  "vint": "Fall 2024"
+  "vint": "Fall 2024",
+  "ma": "NAEP reading rank 1"
  },
  {
   "id": "DL-08",
@@ -140,7 +145,8 @@
   "url": "/higher-education/",
   "ai": true,
   "group": "Education",
-  "vint": "Fall 2022"
+  "vint": "Fall 2022",
+  "ma": "SAT mean 1112"
  },
  {
   "id": "DL-09",
@@ -154,7 +160,8 @@
   "url": "/charters-staff/",
   "ai": true,
   "group": "Education",
-  "vint": "School year 2022-23"
+  "vint": "School year 2022-23",
+  "ma": "47,993 charter students, rank 22 of 46"
  },
  {
   "id": "DL-10",
@@ -167,7 +174,8 @@
   "url": "/ma-hospitals/",
   "ai": true,
   "group": "Healthcare",
-  "vint": "CMS Hospital General Information, retrieved Aug 2026"
+  "vint": "CMS Hospital General Information, retrieved Aug 2026",
+  "ma": "Nantucket Cottage Hospital S-RP 1.79"
  },
  {
   "id": "DL-11",
@@ -193,7 +201,8 @@
   "url": "/medicaid-health/",
   "ai": true,
   "group": "Healthcare",
-  "vint": "Fiscal year 2024"
+  "vint": "Fiscal year 2024",
+  "ma": "$24.81 billion Medicaid, rank 9 of 51"
  },
  {
   "id": "DL-13",
@@ -207,7 +216,8 @@
   "url": "/business-formation/",
   "ai": true,
   "group": "Economy & Jobs",
-  "vint": "Jul 2026"
+  "vint": "Jul 2026",
+  "ma": "7,497 applications, rank 25 of 51"
  },
  {
   "id": "DL-14",
@@ -221,7 +231,8 @@
   "url": "/labor-market/",
   "ai": true,
   "group": "Economy & Jobs",
-  "vint": "Jun 2026"
+  "vint": "Jun 2026",
+  "ma": "LFPR 65.3%, rank 11 of 51"
  },
  {
   "id": "DL-15",
@@ -235,7 +246,8 @@
   "url": "/gdp-profiles/",
   "ai": true,
   "group": "Economy & Jobs",
-  "vint": "Calendar year 2025"
+  "vint": "Calendar year 2025",
+  "ma": "$644.18 billion real GDP, rank 12 of 51"
  },
  {
   "id": "DL-16",
@@ -249,7 +261,8 @@
   "url": "/housing-market/",
   "ai": true,
   "group": "Housing",
-  "vint": "Jun 2026 year-to-date"
+  "vint": "Jun 2026 year-to-date",
+  "ma": "house prices +3.65%, rank 21 of 51"
  },
  {
   "id": "DL-17",
@@ -263,7 +276,8 @@
   "url": "/population-migration/",
   "ai": true,
   "group": "Economy & Jobs",
-  "vint": "July 1, 2025"
+  "vint": "July 1, 2025",
+  "ma": "domestic migration \u221233,340, rank 47 of 51"
  },
  {
   "id": "DL-18",
@@ -291,7 +305,8 @@
   "url": "/cost-of-living/",
   "ai": true,
   "group": "Economy & Jobs",
-  "vint": "Calendar year 2024"
+  "vint": "Calendar year 2024",
+  "ma": "housing RPP 128.1, rank 4 of 51"
  },
  {
   "id": "DL-20",
@@ -305,7 +320,8 @@
   "url": "/taxpayer-migration/",
   "ai": true,
   "group": "Taxation",
-  "vint": "Tax years 2022-23"
+  "vint": "Tax years 2022-23",
+  "ma": "net \u221215,378 taxpayer returns, rank 47 of 51"
  },
  {
   "id": "DL-21",
@@ -319,7 +335,8 @@
   "url": "/tax-statistics/",
   "ai": true,
   "group": "Taxation",
-  "vint": "Tax year 2022"
+  "vint": "Tax year 2022",
+  "ma": "million-plus AGI share 21.87%"
  },
  {
   "id": "DL-22",
@@ -333,7 +350,8 @@
   "url": "/transit-systems/",
   "ai": true,
   "group": "Transportation & Infrastructure",
-  "vint": "June 2026"
+  "vint": "June 2026",
+  "ma": "MBTA 26,288,869 trips, rank 5 of 518"
  },
  {
   "id": "DL-23",
@@ -346,7 +364,8 @@
   "url": "/roads-risk/",
   "ai": true,
   "group": "Transportation & Infrastructure",
-  "vint": "Calendar year 2024"
+  "vint": "Calendar year 2024",
+  "ma": "NRI 78.8, rank 7 of 51"
  },
  {
   "id": "DL-24",
@@ -360,7 +379,8 @@
   "url": "/energy-supply/",
   "ai": true,
   "group": "Energy",
-  "vint": "Calendar year 2024"
+  "vint": "Calendar year 2024",
+  "ma": "58.1 million mt CO2, rank 30 of 51"
  },
  {
   "id": "DL-25",
@@ -373,7 +393,8 @@
   "url": "/municipal-atlas/",
   "ai": true,
   "group": "Your City & Town",
-  "vint": "July 1, 2025"
+  "vint": "July 1, 2025",
+  "ma": "Boston income $97,344"
  },
  {
   "id": "DL-26",
@@ -386,7 +407,8 @@
   "url": "/municipal-rankings/",
   "ai": true,
   "group": "Your City & Town",
-  "vint": "2020 to 2025"
+  "vint": "2020 to 2025",
+  "ma": "Amherst Town city 13,117 residents"
  },
  {
   "id": "DL-27",
@@ -399,7 +421,8 @@
   "url": "/boston/",
   "ai": true,
   "group": "Your City & Town",
-  "vint": "Calendar year 2025"
+  "vint": "Calendar year 2025",
+  "ma": "Boston Police Department $534.48 million"
  },
  {
   "id": "DL-28",
@@ -412,7 +435,8 @@
   "url": "/ma-state-finances/",
   "ai": true,
   "group": "State Government & Spending",
-  "vint": "2026 Q1"
+  "vint": "2026 Q1",
+  "ma": "income tax 50.4% of 2026 Q1"
  },
  {
   "id": "DL-29",
@@ -425,7 +449,8 @@
   "url": "/us-state-finances/",
   "ai": true,
   "group": "State Government & Spending",
-  "vint": "2026 Q1"
+  "vint": "2026 Q1",
+  "ma": "$11.62 billion in 2026 Q1, rank 8 of 50"
  },
  {
   "id": "DL-30",
@@ -438,7 +463,8 @@
   "url": "/payroll-vendors/",
   "ai": true,
   "group": "State Government & Spending",
-  "vint": "Calendar year 2025"
+  "vint": "Calendar year 2025",
+  "ma": "UNIVERSITY OF MASSACHUSETTS SYSTEM (UMS) $1.82 billion"
  },
  {
   "id": "DL-31",
@@ -451,6 +477,7 @@
   "url": "/crime-justice/",
   "ai": true,
   "group": "Crime & Justice",
-  "vint": "Year-end 2023"
+  "vint": "Year-end 2023",
+  "ma": "imprisonment rate 96, rank 50 of 50"
  }
 ]

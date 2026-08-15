@@ -3,11 +3,13 @@
 
 Canonical data lives in:
     catalog.json                          (site root)
+    suite/apps.json                       (26-app registry)
     netlify/functions/dl03-answers.json   (MBTA ledger)
     netlify/functions/dl01-answers.json   (State Tax Atlas ledger)
     netlify/functions/dl02-answers.json   (Florida ledger)
     netlify/functions/dl04-answers.json   (electricity ledger)
     netlify/functions/dl05-answers.json   (pensions ledger)
+    netlify/functions/dlXX-answers.json   (suite ledgers, DL-06 onward)
 
 This script regenerates every embedded copy from the canonical files:
     index.html            const DATA (catalog + answers; audit preserved)
@@ -16,6 +18,7 @@ This script regenerates every embedded copy from the canonical files:
     florida-insurance/index.html  chart series, dateline, footer, keyed headlines
     electricity/index.html  chart payload, dateline, KPI band, footer
     pensions/index.html     chart payload, dateline, KPI band, footer
+    <slug>/index.html     suite pages (DL-06 onward)
     netlify/functions/catalog.json        copy of root catalog.json
 
 It runs locally (python3 scripts/inject_data.py) and as the Netlify build
@@ -39,6 +42,11 @@ def load(rel):
 def jdump(obj):
     # Compact, ascii-safe, deterministic: stable bytes keep diffs reviewable.
     return json.dumps(obj, ensure_ascii=True, separators=(",", ":"), sort_keys=False)
+
+
+def has_block(text, name, style="js"):
+    begin = ("<!-- DATA:BEGIN " if style == "html" else "/* DATA:BEGIN ") + name
+    return begin in text
 
 
 def replace_block(text, name, payload, path, style="js"):
@@ -607,6 +615,61 @@ def main():
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("pensions/index.html")
+
+    # ---- suite pages (DL-06 onward): dateline, KPIs, chart payload ----
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from render_suite_pages import kpi_html  # noqa: E402
+    from suite_common import load_apps, ledger_path  # noqa: E402
+
+    for app in load_apps():
+        slug = app["slug"]
+        p = ROOT / slug / "index.html"
+        if not p.exists():
+            continue
+        led = json.loads(ledger_path(app["id"]).read_text(encoding="utf-8"))
+        text = p.read_text(encoding="utf-8")
+        new = text
+        as_of_label = led.get("data_month_label") or "pending"
+        revised = (led.get("page") or {}).get("revised", "")
+        version = (led.get("page") or {}).get("version", "0.0")
+        if has_block(new, slug + "-dateline", style="html"):
+            new = replace_block(
+                new,
+                slug + "-dateline",
+                f"    <span>Data through <b>{as_of_label}</b></span>\n"
+                f"    <span>Revised <b>{revised}</b></span>\n"
+                f"    <span>Version <b>{version}</b></span>",
+                p,
+                style="html",
+            )
+        if has_block(new, slug + "-footer-meta", style="html"):
+            new = replace_block(
+                new,
+                slug + "-footer-meta",
+                f"    <div>{led['title']} &middot; Version {version} "
+                f"&middot; Data through {as_of_label} &middot; Revised {revised}</div>",
+                p,
+                style="html",
+            )
+        if has_block(new, slug + "-lead", style="html") and led.get("lead"):
+            new = replace_block(new, slug + "-lead", led["lead"], p, style="html")
+        if has_block(new, slug + "-kpis", style="html") and led.get("kpis"):
+            new = replace_block(new, slug + "-kpis", kpi_html(led["kpis"]), p, style="html")
+        if has_block(new, slug + "-data"):
+            payload = {
+                "tool_id": led["tool_id"],
+                "as_of": led.get("as_of"),
+                "rows": led.get("rows") or [],
+                "trend": led.get("trend") or {},
+                "latest": led.get("latest"),
+                "derived": led.get("derived") or {},
+                "metric": led.get("metric"),
+                "unit": led.get("unit"),
+            }
+            new = replace_block(new, slug + "-data", "const DL=" + jdump(payload) + ";", p)
+        if new != text:
+            p.write_text(new, encoding="utf-8")
+            changed.append(str(p.relative_to(ROOT)))
 
     # ---- netlify/functions/catalog.json: copy of root ----
     p = ROOT / "netlify/functions/catalog.json"

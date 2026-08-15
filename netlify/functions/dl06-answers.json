@@ -1,0 +1,2638 @@
+{
+  "tool_id": "DL-06",
+  "title": "Massachusetts K-12",
+  "slug": "ma-k12",
+  "vertical": "Education",
+  "group": "Education",
+  "status": "live",
+  "as_of": "2021-06",
+  "scope": "This ledger ranks states on NCES Digest current expenditures per pupil (2020-21, unadjusted), reports Massachusetts Fall 2023 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views.",
+  "exclusions": "Does not cover national NAEP, higher education, charter-only national files, waitlists, lottery outcomes, or advice about a school choice. MCAS, district finance, and CTE waitlist files are pending.",
+  "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
+  "replaces": [
+    "Dropouts & Graduates",
+    "Education Fast Facts",
+    "Enrollment by Grade",
+    "MA Demographics",
+    "MCAS NEXTGEN",
+    "School Attendance",
+    "School Finances"
+  ],
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 236.65 (unadjusted 2020-21 current expenditures per pupil) and Digest 2024 table 203.20 (Fall 2023 enrollment, Massachusetts KPI only). MCAS, attendance, and district finance remain pending. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "source_id_map": {
+    "SRC-606-01": {
+      "name": "NCES Digest tables 236.65 (per-pupil) and 203.20 (enrollment)",
+      "cadence": "Annual school year",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn236.65.xlsx",
+      "supports": "This ledger ranks states on NCES Digest current expenditures per pupil (2020-21, unadjusted), reports Massachusetts Fall 2023 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views."
+    },
+    "SRC-606-03": {
+      "name": "DESE / E2C pathways enrollment, Chapter 74 career technical education",
+      "cadence": "Annual school year",
+      "url": "https://educationtocareer.data.mass.gov/resource/9p45-t37j.json",
+      "supports": "This ledger ranks states on NCES Digest current expenditures per pupil (2020-21, unadjusted), reports Massachusetts Fall 2023 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.1"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Enrollment, MCAS, attendance, dropouts, school finances, and Chapter 74 vocational-technical programs for Massachusetts districts.",
+  "pending": false,
+  "metric": "current_expenditures_per_pupil_2020_21",
+  "metric_label": "Current expenditures per pupil, 2020-21 (unadjusted)",
+  "unit": "dollars per pupil",
+  "data_month": "2021-06",
+  "data_month_label": "School year 2020-21",
+  "lead": "Current expenditures per public-school pupil were <b>$14,295</b> in the United States in 2020-21 (SRC-606-01). Massachusetts spent <b>$21,529</b>, rank 6 of 51 (derived, SRC-606-01). Fall 2023 enrollment in Massachusetts was <b>914,958</b> (SRC-606-01). District MCAS files are pending on this page. Chapter 74 career technical education enrolled <b>59,962</b> Massachusetts high-school students in 2025-26, 21.2 percent of high-school enrollment (SRC-606-03). That is <b>5,676</b> more students than in 2021-22 (derived, SRC-606-03). <b>95</b> districts and <b>111</b> schools reported a Chapter 74 program; <b>29</b> were regional vocational or agricultural districts (derived, SRC-606-03). <b>Greater Lowell Regional Vocational Technical</b> was the largest district at <b>2,312</b> (SRC-606-03). Grade-9 exploratory enrolled <b>17,147</b>; the largest occupational program was <b>Health Assisting</b> at <b>3,617</b> (SRC-606-03). After Dark partnership enrollment was <b>406</b>, a published subset of Chapter 74 (SRC-606-03). All college-and-career pathways together enrolled <b>82,903</b> (SRC-606-03). Waitlists and lottery outcomes are pending because those DESE reports are dashboards, not a downloadable table.",
+  "kpis": [
+    {
+      "label": "U.S. per-pupil, 2020-21",
+      "value": "$14,295",
+      "detail": "Current expenditures per pupil in fall enrollment, unadjusted dollars (SRC-606-01).",
+      "why": "The national average the state ranking is measured against.",
+      "src": "NCES Digest table 236.65 (SRC-606-01)"
+    },
+    {
+      "label": "Massachusetts",
+      "value": "$21,529",
+      "detail": "Rank 6 of 51 (derived, SRC-606-01). Fall 2023 public K-12 enrollment was 914,958 (SRC-606-01).",
+      "why": "Spending per pupil against the other jurisdictions, plus the enrollment stock.",
+      "src": "NCES Digest tables 236.65 and 203.20 (SRC-606-01)"
+    },
+    {
+      "label": "MA Chapter 74 CTE, 2025-26",
+      "value": "59,962",
+      "detail": "21.2 percent of high-school enrollment. 95 districts, 111 schools (SRC-606-03).",
+      "why": "The vocational-technical stock the research portfolio asked for.",
+      "src": "DESE / E2C pathways enrollment (SRC-606-03)"
+    }
+  ],
+  "latest": {
+    "us": {
+      "v": 14295,
+      "enrollment_fall_2023": 49516361
+    },
+    "ma": {
+      "v": 21529,
+      "rank": 6,
+      "n": 51,
+      "enrollment_fall_2023": 914958
+    },
+    "highest": {
+      "st": "NY",
+      "name": "New York",
+      "v": 26097
+    },
+    "lowest": {
+      "st": "UT",
+      "name": "Utah",
+      "v": 9014
+    }
+  },
+  "rows": [
+    {
+      "st": "NY",
+      "name": "New York",
+      "v": 26097,
+      "rank": 1,
+      "n": 51
+    },
+    {
+      "st": "DC",
+      "name": "District of Columbia",
+      "v": 25113,
+      "rank": 2,
+      "n": 51
+    },
+    {
+      "st": "VT",
+      "name": "Vermont",
+      "v": 24050,
+      "rank": 3,
+      "n": 51
+    },
+    {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 22784,
+      "rank": 4,
+      "n": 51
+    },
+    {
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 22216,
+      "rank": 5,
+      "n": 51
+    },
+    {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 21529,
+      "rank": 6,
+      "n": 51
+    },
+    {
+      "st": "AK",
+      "name": "Alaska",
+      "v": 19540,
+      "rank": 7,
+      "n": 51
+    },
+    {
+      "st": "NH",
+      "name": "New Hampshire",
+      "v": 19396,
+      "rank": 8,
+      "n": 51
+    },
+    {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 18810,
+      "rank": 9,
+      "n": 51
+    },
+    {
+      "st": "IL",
+      "name": "Illinois",
+      "v": 18527,
+      "rank": 10,
+      "n": 51
+    },
+    {
+      "st": "ME",
+      "name": "Maine",
+      "v": 18385,
+      "rank": 11,
+      "n": 51
+    },
+    {
+      "st": "WY",
+      "name": "Wyoming",
+      "v": 18140,
+      "rank": 12,
+      "n": 51
+    },
+    {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 17822,
+      "rank": 13,
+      "n": 51
+    },
+    {
+      "st": "MD",
+      "name": "Maryland",
+      "v": 16873,
+      "rank": 14,
+      "n": 51
+    },
+    {
+      "st": "DE",
+      "name": "Delaware",
+      "v": 16589,
+      "rank": 15,
+      "n": 51
+    },
+    {
+      "st": "HI",
+      "name": "Hawaii",
+      "v": 16550,
+      "rank": 16,
+      "n": 51
+    },
+    {
+      "st": "WA",
+      "name": "Washington",
+      "v": 15615,
+      "rank": 17,
+      "n": 51
+    },
+    {
+      "st": "ND",
+      "name": "North Dakota",
+      "v": 15139,
+      "rank": 18,
+      "n": 51
+    },
+    {
+      "st": "CA",
+      "name": "California",
+      "v": 14697,
+      "rank": 19,
+      "n": 51
+    },
+    {
+      "st": "OH",
+      "name": "Ohio",
+      "v": 14389,
+      "rank": 20,
+      "n": 51
+    },
+    {
+      "st": "MN",
+      "name": "Minnesota",
+      "v": 14213,
+      "rank": 21,
+      "n": 51
+    },
+    {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 13856,
+      "rank": 22,
+      "n": 51
+    },
+    {
+      "st": "OR",
+      "name": "Oregon",
+      "v": 13820,
+      "rank": 23,
+      "n": 51
+    },
+    {
+      "st": "NE",
+      "name": "Nebraska",
+      "v": 13723,
+      "rank": 24,
+      "n": 51
+    },
+    {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 13687,
+      "rank": 25,
+      "n": 51
+    },
+    {
+      "st": "MI",
+      "name": "Michigan",
+      "v": 13351,
+      "rank": 26,
+      "n": 51
+    },
+    {
+      "st": "WV",
+      "name": "West Virginia",
+      "v": 13279,
+      "rank": 27,
+      "n": 51
+    },
+    {
+      "st": "MT",
+      "name": "Montana",
+      "v": 13262,
+      "rank": 28,
+      "n": 51
+    },
+    {
+      "st": "LA",
+      "name": "Louisiana",
+      "v": 13183,
+      "rank": 29,
+      "n": 51
+    },
+    {
+      "st": "KS",
+      "name": "Kansas",
+      "v": 12788,
+      "rank": 30,
+      "n": 51
+    },
+    {
+      "st": "IA",
+      "name": "Iowa",
+      "v": 12714,
+      "rank": 31,
+      "n": 51
+    },
+    {
+      "st": "CO",
+      "name": "Colorado",
+      "v": 12233,
+      "rank": 32,
+      "n": 51
+    },
+    {
+      "st": "SC",
+      "name": "South Carolina",
+      "v": 12139,
+      "rank": 33,
+      "n": 51
+    },
+    {
+      "st": "GA",
+      "name": "Georgia",
+      "v": 12108,
+      "rank": 34,
+      "n": 51
+    },
+    {
+      "st": "KY",
+      "name": "Kentucky",
+      "v": 12016,
+      "rank": 35,
+      "n": 51
+    },
+    {
+      "st": "MO",
+      "name": "Missouri",
+      "v": 11999,
+      "rank": 36,
+      "n": 51
+    },
+    {
+      "st": "NM",
+      "name": "New Mexico",
+      "v": 11912,
+      "rank": 37,
+      "n": 51
+    },
+    {
+      "st": "IN",
+      "name": "Indiana",
+      "v": 11411,
+      "rank": 38,
+      "n": 51
+    },
+    {
+      "st": "AR",
+      "name": "Arkansas",
+      "v": 11239,
+      "rank": 39,
+      "n": 51
+    },
+    {
+      "st": "SD",
+      "name": "South Dakota",
+      "v": 11095,
+      "rank": 40,
+      "n": 51
+    },
+    {
+      "st": "TX",
+      "name": "Texas",
+      "v": 11049,
+      "rank": 41,
+      "n": 51
+    },
+    {
+      "st": "FL",
+      "name": "Florida",
+      "v": 10823,
+      "rank": 42,
+      "n": 51
+    },
+    {
+      "st": "AL",
+      "name": "Alabama",
+      "v": 10728,
+      "rank": 43,
+      "n": 51
+    },
+    {
+      "st": "TN",
+      "name": "Tennessee",
+      "v": 10571,
+      "rank": 44,
+      "n": 51
+    },
+    {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 10519,
+      "rank": 45,
+      "n": 51
+    },
+    {
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 10084,
+      "rank": 46,
+      "n": 51
+    },
+    {
+      "st": "NV",
+      "name": "Nevada",
+      "v": 10073,
+      "rank": 47,
+      "n": 51
+    },
+    {
+      "st": "MS",
+      "name": "Mississippi",
+      "v": 10060,
+      "rank": 48,
+      "n": 51
+    },
+    {
+      "st": "AZ",
+      "name": "Arizona",
+      "v": 9571,
+      "rank": 49,
+      "n": 51
+    },
+    {
+      "st": "ID",
+      "name": "Idaho",
+      "v": 9054,
+      "rank": 50,
+      "n": 51
+    },
+    {
+      "st": "UT",
+      "name": "Utah",
+      "v": 9014,
+      "rank": 51,
+      "n": 51
+    }
+  ],
+  "trend": {
+    "US": [
+      {
+        "y": "1969-70",
+        "v": 751.0
+      },
+      {
+        "y": "1979-80",
+        "v": 2088.0
+      },
+      {
+        "y": "1989-90",
+        "v": 4643.0
+      },
+      {
+        "y": "1999-2000",
+        "v": 6912.0
+      },
+      {
+        "y": "2010-11",
+        "v": 10663.0
+      },
+      {
+        "y": "2011-12",
+        "v": 10648.0
+      },
+      {
+        "y": "2012-13",
+        "v": 10771.0
+      },
+      {
+        "y": "2013-14",
+        "v": 11066.0
+      },
+      {
+        "y": "2014-15",
+        "v": 11445.0
+      },
+      {
+        "y": "2015-16",
+        "v": 11842.0
+      },
+      {
+        "y": "2016-17",
+        "v": 12260.0
+      },
+      {
+        "y": "2017-18",
+        "v": 12649.0
+      },
+      {
+        "y": "2018-19",
+        "v": 13189.0
+      },
+      {
+        "y": "2019-20",
+        "v": 13496.0
+      },
+      {
+        "y": "2020-21",
+        "v": 14295.0
+      }
+    ],
+    "MA": [
+      {
+        "y": "1969-70",
+        "v": 791.0
+      },
+      {
+        "y": "1979-80",
+        "v": 2548.0
+      },
+      {
+        "y": "1989-90",
+        "v": 5766.0
+      },
+      {
+        "y": "1999-2000",
+        "v": 8816.0
+      },
+      {
+        "y": "2010-11",
+        "v": 14612.0
+      },
+      {
+        "y": "2011-12",
+        "v": 14844.0
+      },
+      {
+        "y": "2012-13",
+        "v": 15321.0
+      },
+      {
+        "y": "2013-14",
+        "v": 15886.0
+      },
+      {
+        "y": "2014-15",
+        "v": 16450.0
+      },
+      {
+        "y": "2015-16",
+        "v": 16986.0
+      },
+      {
+        "y": "2016-17",
+        "v": 17718.0
+      },
+      {
+        "y": "2017-18",
+        "v": 18328.0
+      },
+      {
+        "y": "2018-19",
+        "v": 19196.0
+      },
+      {
+        "y": "2019-20",
+        "v": 19747.0
+      },
+      {
+        "y": "2020-21",
+        "v": 21529.0
+      }
+    ]
+  },
+  "derived": {
+    "note": "Prefer these over recomputing. Ranks cite (derived, SRC-606-01).",
+    "highest_five": [
+      {
+        "st": "NY",
+        "name": "New York",
+        "v": 26097,
+        "rank": 1,
+        "n": 51
+      },
+      {
+        "st": "DC",
+        "name": "District of Columbia",
+        "v": 25113,
+        "rank": 2,
+        "n": 51
+      },
+      {
+        "st": "VT",
+        "name": "Vermont",
+        "v": 24050,
+        "rank": 3,
+        "n": 51
+      },
+      {
+        "st": "NJ",
+        "name": "New Jersey",
+        "v": 22784,
+        "rank": 4,
+        "n": 51
+      },
+      {
+        "st": "CT",
+        "name": "Connecticut",
+        "v": 22216,
+        "rank": 5,
+        "n": 51
+      }
+    ],
+    "lowest_five": [
+      {
+        "st": "UT",
+        "name": "Utah",
+        "v": 9014,
+        "rank": 51,
+        "n": 51
+      },
+      {
+        "st": "ID",
+        "name": "Idaho",
+        "v": 9054,
+        "rank": 50,
+        "n": 51
+      },
+      {
+        "st": "AZ",
+        "name": "Arizona",
+        "v": 9571,
+        "rank": 49,
+        "n": 51
+      },
+      {
+        "st": "MS",
+        "name": "Mississippi",
+        "v": 10060,
+        "rank": 48,
+        "n": 51
+      },
+      {
+        "st": "NV",
+        "name": "Nevada",
+        "v": 10073,
+        "rank": 47,
+        "n": 51
+      }
+    ],
+    "n_ranked": 51,
+    "massachusetts_rank": 6,
+    "secondary": {
+      "ma_chapter74_cte": {
+        "label": "Massachusetts Chapter 74 career technical education enrollment, 2025-26",
+        "src": "SRC-606-03",
+        "unit": "students",
+        "as_of_label": "School year 2025-26",
+        "v": 59962,
+        "hs_enrollment": 283064,
+        "share": 0.2118,
+        "yoy_pct": 4.1,
+        "change_since_2021_22_pct": 10.5,
+        "change_since_2021_22": 5676,
+        "districts": 95,
+        "schools": 111,
+        "regional_vocational_districts": 29,
+        "highest": {
+          "name": "Greater Lowell Regional Vocational Technical",
+          "v": 2312
+        },
+        "female_share": 0.46,
+        "male_share": 0.536,
+        "low_income": 26113,
+        "low_income_share": 0.435,
+        "swd": 11390,
+        "swd_share": 0.19,
+        "english_learners": 4054,
+        "english_learner_share": 0.068,
+        "after_dark": {
+          "v": 406,
+          "share": 0.001,
+          "hs_enrollment": 283064
+        },
+        "career_connections": {
+          "v": 9280,
+          "share": 0.033,
+          "hs_enrollment": 283064
+        },
+        "early_college": {
+          "v": 10038,
+          "share": 0.035,
+          "hs_enrollment": 283064
+        },
+        "innovation_pathways": {
+          "v": 6973,
+          "share": 0.025,
+          "hs_enrollment": 283064
+        },
+        "all_pathways": {
+          "v": 82903,
+          "share": 0.293,
+          "hs_enrollment": 283064
+        },
+        "exploratory": {
+          "name": "Exploratory",
+          "v": 17147,
+          "g9": 16086,
+          "g10": 770,
+          "g11": 286,
+          "g12": 5
+        },
+        "top_occupational_programs": [
+          {
+            "name": "Health Assisting",
+            "v": 3617,
+            "g9": 261,
+            "g10": 1186,
+            "g11": 1126,
+            "g12": 1044
+          },
+          {
+            "name": "Culinary Arts",
+            "v": 2812,
+            "g9": 50,
+            "g10": 1038,
+            "g11": 883,
+            "g12": 820
+          },
+          {
+            "name": "Carpentry",
+            "v": 2739,
+            "g9": 28,
+            "g10": 924,
+            "g11": 908,
+            "g12": 878
+          },
+          {
+            "name": "Electricity",
+            "v": 2724,
+            "g9": 7,
+            "g10": 944,
+            "g11": 911,
+            "g12": 861
+          },
+          {
+            "name": "Automotive Technology",
+            "v": 2594,
+            "g9": 12,
+            "g10": 899,
+            "g11": 875,
+            "g12": 807
+          },
+          {
+            "name": "Early Education & Care",
+            "v": 2041,
+            "g9": 93,
+            "g10": 761,
+            "g11": 626,
+            "g12": 560
+          },
+          {
+            "name": "Cosmetology",
+            "v": 1872,
+            "g9": 3,
+            "g10": 654,
+            "g11": 620,
+            "g12": 594
+          },
+          {
+            "name": "Plumbing",
+            "v": 1709,
+            "g9": 3,
+            "g10": 573,
+            "g11": 582,
+            "g12": 551
+          }
+        ],
+        "trend": [
+          {
+            "y": "School year 2021-22",
+            "v": 54286
+          },
+          {
+            "y": "School year 2022-23",
+            "v": 54811
+          },
+          {
+            "y": "School year 2023-24",
+            "v": 55728
+          },
+          {
+            "y": "School year 2024-25",
+            "v": 57589
+          },
+          {
+            "y": "School year 2025-26",
+            "v": 59962
+          }
+        ],
+        "district_rows": [
+          {
+            "name": "Greater Lowell Regional Vocational Technical",
+            "v": 2312,
+            "rank": 1,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Worcester",
+            "v": 2271,
+            "rank": 2,
+            "n": 95,
+            "share_of_org": 0.292
+          },
+          {
+            "name": "Greater New Bedford Regional Vocational Technical",
+            "v": 2161,
+            "rank": 3,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Essex North Shore Agricultural and Technical School District",
+            "v": 1927,
+            "rank": 4,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Greater Lawrence Regional Vocational Technical",
+            "v": 1893,
+            "rank": 5,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Attleboro",
+            "v": 1733,
+            "rank": 6,
+            "n": 95,
+            "share_of_org": 0.841
+          },
+          {
+            "name": "Southeastern Regional Vocational Technical",
+            "v": 1636,
+            "rank": 7,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Springfield",
+            "v": 1633,
+            "rank": 8,
+            "n": 95,
+            "share_of_org": 0.23
+          },
+          {
+            "name": "Greater Fall River Regional Vocational Technical",
+            "v": 1479,
+            "rank": 9,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Northeast Metropolitan Regional Vocational Technical",
+            "v": 1414,
+            "rank": 10,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Montachusett Regional Vocational Technical",
+            "v": 1403,
+            "rank": 11,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Boston",
+            "v": 1355,
+            "rank": 12,
+            "n": 95,
+            "share_of_org": 0.099
+          },
+          {
+            "name": "Bristol-Plymouth Regional Vocational Technical",
+            "v": 1341,
+            "rank": 13,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Quincy",
+            "v": 1328,
+            "rank": 14,
+            "n": 95,
+            "share_of_org": 0.443
+          },
+          {
+            "name": "Shawsheen Valley Regional Vocational Technical",
+            "v": 1293,
+            "rank": 15,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Whittier Regional Vocational Technical",
+            "v": 1288,
+            "rank": 16,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Lynn",
+            "v": 1267,
+            "rank": 17,
+            "n": 95,
+            "share_of_org": 0.251
+          },
+          {
+            "name": "Blackstone Valley Regional Vocational Technical",
+            "v": 1236,
+            "rank": 18,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Southern Worcester County Regional Vocational School District",
+            "v": 1180,
+            "rank": 19,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Assabet Valley Regional Vocational Technical",
+            "v": 1131,
+            "rank": 20,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Fall River",
+            "v": 1022,
+            "rank": 21,
+            "n": 95,
+            "share_of_org": 0.36
+          },
+          {
+            "name": "Tri-County Regional Vocational Technical",
+            "v": 992,
+            "rank": 22,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Taunton",
+            "v": 974,
+            "rank": 23,
+            "n": 95,
+            "share_of_org": 0.418
+          },
+          {
+            "name": "Everett",
+            "v": 960,
+            "rank": 24,
+            "n": 95,
+            "share_of_org": 0.433
+          },
+          {
+            "name": "Blue Hills Regional Vocational Technical",
+            "v": 924,
+            "rank": 25,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "South Middlesex Regional Vocational Technical",
+            "v": 907,
+            "rank": 26,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Somerville",
+            "v": 893,
+            "rank": 27,
+            "n": 95,
+            "share_of_org": 0.626
+          },
+          {
+            "name": "Upper Cape Cod Regional Vocational Technical",
+            "v": 867,
+            "rank": 28,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Waltham",
+            "v": 834,
+            "rank": 29,
+            "n": 95,
+            "share_of_org": 0.455
+          },
+          {
+            "name": "Medford",
+            "v": 828,
+            "rank": 30,
+            "n": 95,
+            "share_of_org": 0.678
+          },
+          {
+            "name": "Leominster",
+            "v": 820,
+            "rank": 31,
+            "n": 95,
+            "share_of_org": 0.414
+          },
+          {
+            "name": "Nashoba Valley Regional Vocational Technical",
+            "v": 769,
+            "rank": 32,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Methuen",
+            "v": 760,
+            "rank": 33,
+            "n": 95,
+            "share_of_org": 0.434
+          },
+          {
+            "name": "Plymouth",
+            "v": 752,
+            "rank": 34,
+            "n": 95,
+            "share_of_org": 0.364
+          },
+          {
+            "name": "Pittsfield",
+            "v": 723,
+            "rank": 35,
+            "n": 95,
+            "share_of_org": 0.483
+          },
+          {
+            "name": "Cape Cod Regional Vocational Technical",
+            "v": 704,
+            "rank": 36,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "South Shore Regional Vocational Technical",
+            "v": 695,
+            "rank": 37,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Salem",
+            "v": 678,
+            "rank": 38,
+            "n": 95,
+            "share_of_org": 0.654
+          },
+          {
+            "name": "Minuteman Regional Vocational Technical",
+            "v": 657,
+            "rank": 39,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Chicopee",
+            "v": 657,
+            "rank": 40,
+            "n": 95,
+            "share_of_org": 0.309
+          },
+          {
+            "name": "Pathfinder Regional Vocational Technical",
+            "v": 647,
+            "rank": 41,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Franklin County Regional Vocational Technical",
+            "v": 647,
+            "rank": 42,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Bristol County Agricultural",
+            "v": 637,
+            "rank": 43,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Cambridge",
+            "v": 606,
+            "rank": 44,
+            "n": 95,
+            "share_of_org": 0.289
+          },
+          {
+            "name": "Norfolk County Agricultural",
+            "v": 599,
+            "rank": 45,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Northampton-Smith Vocational Agricultural",
+            "v": 589,
+            "rank": 46,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Westfield",
+            "v": 589,
+            "rank": 47,
+            "n": 95,
+            "share_of_org": 0.377
+          },
+          {
+            "name": "Old Colony Regional Vocational Technical",
+            "v": 554,
+            "rank": 48,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Tantasqua",
+            "v": 510,
+            "rank": 49,
+            "n": 95,
+            "share_of_org": 0.45
+          },
+          {
+            "name": "Weymouth",
+            "v": 491,
+            "rank": 50,
+            "n": 95,
+            "share_of_org": 0.296
+          },
+          {
+            "name": "Northern Berkshire Regional Vocational Technical",
+            "v": 491,
+            "rank": 51,
+            "n": 95,
+            "share_of_org": 1.0
+          },
+          {
+            "name": "Newton",
+            "v": 490,
+            "rank": 52,
+            "n": 95,
+            "share_of_org": 0.125
+          },
+          {
+            "name": "Brockton",
+            "v": 484,
+            "rank": 53,
+            "n": 95,
+            "share_of_org": 0.126
+          },
+          {
+            "name": "Holyoke",
+            "v": 424,
+            "rank": 54,
+            "n": 95,
+            "share_of_org": 0.286
+          },
+          {
+            "name": "Peabody",
+            "v": 399,
+            "rank": 55,
+            "n": 95,
+            "share_of_org": 0.299
+          },
+          {
+            "name": "Edward M. Kennedy Academy for Health Careers: A Horace Mann Charter Public School (District)",
+            "v": 363,
+            "rank": 56,
+            "n": 95,
+            "share_of_org": 0.856
+          },
+          {
+            "name": "Silver Lake",
+            "v": 351,
+            "rank": 57,
+            "n": 95,
+            "share_of_org": 0.345
+          },
+          {
+            "name": "Martha's Vineyard",
+            "v": 338,
+            "rank": 58,
+            "n": 95,
+            "share_of_org": 0.481
+          },
+          {
+            "name": "Dighton-Rehoboth",
+            "v": 276,
+            "rank": 59,
+            "n": 95,
+            "share_of_org": 0.465
+          },
+          {
+            "name": "Gloucester",
+            "v": 258,
+            "rank": 60,
+            "n": 95,
+            "share_of_org": 0.336
+          },
+          {
+            "name": "Marshfield",
+            "v": 250,
+            "rank": 61,
+            "n": 95,
+            "share_of_org": 0.235
+          },
+          {
+            "name": "Leicester",
+            "v": 217,
+            "rank": 62,
+            "n": 95,
+            "share_of_org": 0.531
+          },
+          {
+            "name": "Haverhill",
+            "v": 187,
+            "rank": 63,
+            "n": 95,
+            "share_of_org": 0.094
+          },
+          {
+            "name": "Agawam",
+            "v": 139,
+            "rank": 64,
+            "n": 95,
+            "share_of_org": 0.135
+          },
+          {
+            "name": "West Springfield",
+            "v": 135,
+            "rank": 65,
+            "n": 95,
+            "share_of_org": 0.115
+          },
+          {
+            "name": "New Bedford",
+            "v": 125,
+            "rank": 66,
+            "n": 95,
+            "share_of_org": 0.041
+          },
+          {
+            "name": "Ludlow",
+            "v": 111,
+            "rank": 67,
+            "n": 95,
+            "share_of_org": 0.153
+          },
+          {
+            "name": "Barnstable",
+            "v": 109,
+            "rank": 68,
+            "n": 95,
+            "share_of_org": 0.088
+          },
+          {
+            "name": "Spencer-E Brookfield",
+            "v": 95,
+            "rank": 69,
+            "n": 95,
+            "share_of_org": 0.296
+          },
+          {
+            "name": "Old Rochester",
+            "v": 92,
+            "rank": 70,
+            "n": 95,
+            "share_of_org": 0.151
+          },
+          {
+            "name": "Boston Green Academy Horace Mann Charter School (District)",
+            "v": 73,
+            "rank": 71,
+            "n": 95,
+            "share_of_org": 0.25
+          },
+          {
+            "name": "Hampden-Wilbraham",
+            "v": 69,
+            "rank": 72,
+            "n": 95,
+            "share_of_org": 0.072
+          },
+          {
+            "name": "Norton",
+            "v": 68,
+            "rank": 73,
+            "n": 95,
+            "share_of_org": 0.103
+          },
+          {
+            "name": "South Hadley",
+            "v": 67,
+            "rank": 74,
+            "n": 95,
+            "share_of_org": 0.147
+          },
+          {
+            "name": "East Longmeadow",
+            "v": 62,
+            "rank": 75,
+            "n": 95,
+            "share_of_org": 0.083
+          },
+          {
+            "name": "Southwick-Tolland-Granville Regional School District",
+            "v": 57,
+            "rank": 76,
+            "n": 95,
+            "share_of_org": 0.153
+          },
+          {
+            "name": "Lawrence",
+            "v": 53,
+            "rank": 77,
+            "n": 95,
+            "share_of_org": 0.015
+          },
+          {
+            "name": "Maynard",
+            "v": 52,
+            "rank": 78,
+            "n": 95,
+            "share_of_org": 0.172
+          },
+          {
+            "name": "Fitchburg",
+            "v": 51,
+            "rank": 79,
+            "n": 95,
+            "share_of_org": 0.036
+          },
+          {
+            "name": "Beverly",
+            "v": 50,
+            "rank": 80,
+            "n": 95,
+            "share_of_org": 0.042
+          },
+          {
+            "name": "Berkshire Hills",
+            "v": 50,
+            "rank": 81,
+            "n": 95,
+            "share_of_org": 0.127
+          },
+          {
+            "name": "Wareham",
+            "v": 50,
+            "rank": 82,
+            "n": 95,
+            "share_of_org": 0.115
+          },
+          {
+            "name": "Lowell",
+            "v": 49,
+            "rank": 83,
+            "n": 95,
+            "share_of_org": 0.014
+          },
+          {
+            "name": "Quaboag Regional",
+            "v": 45,
+            "rank": 84,
+            "n": 95,
+            "share_of_org": 0.136
+          },
+          {
+            "name": "Gateway",
+            "v": 43,
+            "rank": 85,
+            "n": 95,
+            "share_of_org": 0.261
+          },
+          {
+            "name": "Falmouth",
+            "v": 39,
+            "rank": 86,
+            "n": 95,
+            "share_of_org": 0.057
+          },
+          {
+            "name": "Webster",
+            "v": 35,
+            "rank": 87,
+            "n": 95,
+            "share_of_org": 0.08
+          },
+          {
+            "name": "Somerset Berkley Regional School District",
+            "v": 29,
+            "rank": 88,
+            "n": 95,
+            "share_of_org": 0.032
+          },
+          {
+            "name": "Watertown",
+            "v": 28,
+            "rank": 89,
+            "n": 95,
+            "share_of_org": 0.038
+          },
+          {
+            "name": "Easthampton",
+            "v": 26,
+            "rank": 90,
+            "n": 95,
+            "share_of_org": 0.069
+          },
+          {
+            "name": "North Andover",
+            "v": 17,
+            "rank": 91,
+            "n": 95,
+            "share_of_org": 0.013
+          },
+          {
+            "name": "Gardner",
+            "v": 15,
+            "rank": 92,
+            "n": 95,
+            "share_of_org": 0.022
+          },
+          {
+            "name": "Longmeadow",
+            "v": 14,
+            "rank": 93,
+            "n": 95,
+            "share_of_org": 0.016
+          },
+          {
+            "name": "Narragansett",
+            "v": 12,
+            "rank": 94,
+            "n": 95,
+            "share_of_org": 0.034
+          },
+          {
+            "name": "Swampscott",
+            "v": 8,
+            "rank": 95,
+            "n": 95,
+            "share_of_org": 0.012
+          }
+        ],
+        "school_rows": [
+          {
+            "name": "Gr Lowell Regional Vocational Technical",
+            "district": "Greater Lowell Regional Vocational Technical",
+            "v": 2312,
+            "rank": 1,
+            "n": 111
+          },
+          {
+            "name": "Gr New Bedford Vocational Technical",
+            "district": "Greater New Bedford Regional Vocational Technical",
+            "v": 2161,
+            "rank": 2,
+            "n": 111
+          },
+          {
+            "name": "Essex North Shore Agricultural and Technical School",
+            "district": "Essex North Shore Agricultural and Technical School District",
+            "v": 1927,
+            "rank": 3,
+            "n": 111
+          },
+          {
+            "name": "Gr Lawrence Regional Vocational Technical",
+            "district": "Greater Lawrence Regional Vocational Technical",
+            "v": 1893,
+            "rank": 4,
+            "n": 111
+          },
+          {
+            "name": "Attleboro High",
+            "district": "Attleboro",
+            "v": 1733,
+            "rank": 5,
+            "n": 111
+          },
+          {
+            "name": "Southeastern Regional Vocational Technical",
+            "district": "Southeastern Regional Vocational Technical",
+            "v": 1636,
+            "rank": 6,
+            "n": 111
+          },
+          {
+            "name": "Diman Regional Vocational Technical High",
+            "district": "Greater Fall River Regional Vocational Technical",
+            "v": 1479,
+            "rank": 7,
+            "n": 111
+          },
+          {
+            "name": "Northeast Metro Regional Vocational",
+            "district": "Northeast Metropolitan Regional Vocational Technical",
+            "v": 1414,
+            "rank": 8,
+            "n": 111
+          },
+          {
+            "name": "Montachusett Regional Vocational Technical",
+            "district": "Montachusett Regional Vocational Technical",
+            "v": 1403,
+            "rank": 9,
+            "n": 111
+          },
+          {
+            "name": "Roger L. Putnam Vocational Technical Academy",
+            "district": "Springfield",
+            "v": 1354,
+            "rank": 10,
+            "n": 111
+          },
+          {
+            "name": "Worcester Technical High",
+            "district": "Worcester",
+            "v": 1341,
+            "rank": 11,
+            "n": 111
+          },
+          {
+            "name": "Bristol-Plymouth Vocational Technical",
+            "district": "Bristol-Plymouth Regional Vocational Technical",
+            "v": 1341,
+            "rank": 12,
+            "n": 111
+          },
+          {
+            "name": "Shawsheen Valley Vocational Technical High School",
+            "district": "Shawsheen Valley Regional Vocational Technical",
+            "v": 1293,
+            "rank": 13,
+            "n": 111
+          },
+          {
+            "name": "Whittier Regional Vocational",
+            "district": "Whittier Regional Vocational Technical",
+            "v": 1288,
+            "rank": 14,
+            "n": 111
+          },
+          {
+            "name": "Blackstone Valley",
+            "district": "Blackstone Valley Regional Vocational Technical",
+            "v": 1236,
+            "rank": 15,
+            "n": 111
+          },
+          {
+            "name": "Lynn Vocational Technical Institute",
+            "district": "Lynn",
+            "v": 1212,
+            "rank": 16,
+            "n": 111
+          },
+          {
+            "name": "Bay Path Regional Vocational Technical High School",
+            "district": "Southern Worcester County Regional Vocational School District",
+            "v": 1180,
+            "rank": 17,
+            "n": 111
+          },
+          {
+            "name": "Quincy High",
+            "district": "Quincy",
+            "v": 1135,
+            "rank": 18,
+            "n": 111
+          },
+          {
+            "name": "Assabet Valley Vocational High School",
+            "district": "Assabet Valley Regional Vocational Technical",
+            "v": 1131,
+            "rank": 19,
+            "n": 111
+          },
+          {
+            "name": "B M C Durfee High",
+            "district": "Fall River",
+            "v": 1022,
+            "rank": 20,
+            "n": 111
+          },
+          {
+            "name": "Tri-County Regional Vocational Technical",
+            "district": "Tri-County Regional Vocational Technical",
+            "v": 992,
+            "rank": 21,
+            "n": 111
+          },
+          {
+            "name": "Taunton High",
+            "district": "Taunton",
+            "v": 974,
+            "rank": 22,
+            "n": 111
+          },
+          {
+            "name": "Everett High",
+            "district": "Everett",
+            "v": 960,
+            "rank": 23,
+            "n": 111
+          },
+          {
+            "name": "Madison Park Technical Vocational High School",
+            "district": "Boston",
+            "v": 925,
+            "rank": 24,
+            "n": 111
+          },
+          {
+            "name": "Blue Hills Regional Vocational Technical",
+            "district": "Blue Hills Regional Vocational Technical",
+            "v": 924,
+            "rank": 25,
+            "n": 111
+          },
+          {
+            "name": "Joseph P Keefe Technical High School",
+            "district": "South Middlesex Regional Vocational Technical",
+            "v": 907,
+            "rank": 26,
+            "n": 111
+          },
+          {
+            "name": "Somerville High",
+            "district": "Somerville",
+            "v": 872,
+            "rank": 27,
+            "n": 111
+          },
+          {
+            "name": "Upper Cape Cod Vocational Technical",
+            "district": "Upper Cape Cod Regional Vocational Technical",
+            "v": 867,
+            "rank": 28,
+            "n": 111
+          },
+          {
+            "name": "Waltham Sr High",
+            "district": "Waltham",
+            "v": 834,
+            "rank": 29,
+            "n": 111
+          },
+          {
+            "name": "Medford High",
+            "district": "Medford",
+            "v": 828,
+            "rank": 30,
+            "n": 111
+          },
+          {
+            "name": "Center For Technical Education Innovation",
+            "district": "Leominster",
+            "v": 820,
+            "rank": 31,
+            "n": 111
+          },
+          {
+            "name": "Nashoba Valley Technical High School",
+            "district": "Nashoba Valley Regional Vocational Technical",
+            "v": 769,
+            "rank": 32,
+            "n": 111
+          },
+          {
+            "name": "Methuen High",
+            "district": "Methuen",
+            "v": 760,
+            "rank": 33,
+            "n": 111
+          },
+          {
+            "name": "Taconic High",
+            "district": "Pittsfield",
+            "v": 723,
+            "rank": 34,
+            "n": 111
+          },
+          {
+            "name": "Cape Cod Region Vocational Technical",
+            "district": "Cape Cod Regional Vocational Technical",
+            "v": 704,
+            "rank": 35,
+            "n": 111
+          },
+          {
+            "name": "South Shore Vocational Technical High",
+            "district": "South Shore Regional Vocational Technical",
+            "v": 695,
+            "rank": 36,
+            "n": 111
+          },
+          {
+            "name": "Salem High",
+            "district": "Salem",
+            "v": 677,
+            "rank": 37,
+            "n": 111
+          },
+          {
+            "name": "Minuteman Regional High",
+            "district": "Minuteman Regional Vocational Technical",
+            "v": 657,
+            "rank": 38,
+            "n": 111
+          },
+          {
+            "name": "Chicopee Comprehensive High School",
+            "district": "Chicopee",
+            "v": 657,
+            "rank": 39,
+            "n": 111
+          },
+          {
+            "name": "Franklin County Technical",
+            "district": "Franklin County Regional Vocational Technical",
+            "v": 647,
+            "rank": 40,
+            "n": 111
+          }
+        ],
+        "note": "After Dark enrollment is a published subset of Chapter 74. Students may appear in more than one college-and-career pathway, so pathway totals do not add to the all-pathways count. Waitlists and lottery outcomes are not in this file."
+      }
+    }
+  },
+  "entities": {
+    "NY": {
+      "st": "NY",
+      "name": "New York",
+      "v": 26097,
+      "rank": 1
+    },
+    "DC": {
+      "st": "DC",
+      "name": "District of Columbia",
+      "v": 25113,
+      "rank": 2
+    },
+    "VT": {
+      "st": "VT",
+      "name": "Vermont",
+      "v": 24050,
+      "rank": 3
+    },
+    "NJ": {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 22784,
+      "rank": 4
+    },
+    "CT": {
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 22216,
+      "rank": 5
+    },
+    "MA": {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 21529,
+      "rank": 6
+    },
+    "AK": {
+      "st": "AK",
+      "name": "Alaska",
+      "v": 19540,
+      "rank": 7
+    },
+    "NH": {
+      "st": "NH",
+      "name": "New Hampshire",
+      "v": 19396,
+      "rank": 8
+    },
+    "RI": {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 18810,
+      "rank": 9
+    },
+    "IL": {
+      "st": "IL",
+      "name": "Illinois",
+      "v": 18527,
+      "rank": 10
+    },
+    "ME": {
+      "st": "ME",
+      "name": "Maine",
+      "v": 18385,
+      "rank": 11
+    },
+    "WY": {
+      "st": "WY",
+      "name": "Wyoming",
+      "v": 18140,
+      "rank": 12
+    },
+    "PA": {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 17822,
+      "rank": 13
+    },
+    "MD": {
+      "st": "MD",
+      "name": "Maryland",
+      "v": 16873,
+      "rank": 14
+    },
+    "DE": {
+      "st": "DE",
+      "name": "Delaware",
+      "v": 16589,
+      "rank": 15
+    },
+    "HI": {
+      "st": "HI",
+      "name": "Hawaii",
+      "v": 16550,
+      "rank": 16
+    },
+    "WA": {
+      "st": "WA",
+      "name": "Washington",
+      "v": 15615,
+      "rank": 17
+    },
+    "ND": {
+      "st": "ND",
+      "name": "North Dakota",
+      "v": 15139,
+      "rank": 18
+    },
+    "CA": {
+      "st": "CA",
+      "name": "California",
+      "v": 14697,
+      "rank": 19
+    },
+    "OH": {
+      "st": "OH",
+      "name": "Ohio",
+      "v": 14389,
+      "rank": 20
+    },
+    "MN": {
+      "st": "MN",
+      "name": "Minnesota",
+      "v": 14213,
+      "rank": 21
+    },
+    "VA": {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 13856,
+      "rank": 22
+    },
+    "OR": {
+      "st": "OR",
+      "name": "Oregon",
+      "v": 13820,
+      "rank": 23
+    },
+    "NE": {
+      "st": "NE",
+      "name": "Nebraska",
+      "v": 13723,
+      "rank": 24
+    },
+    "WI": {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 13687,
+      "rank": 25
+    },
+    "MI": {
+      "st": "MI",
+      "name": "Michigan",
+      "v": 13351,
+      "rank": 26
+    },
+    "WV": {
+      "st": "WV",
+      "name": "West Virginia",
+      "v": 13279,
+      "rank": 27
+    },
+    "MT": {
+      "st": "MT",
+      "name": "Montana",
+      "v": 13262,
+      "rank": 28
+    },
+    "LA": {
+      "st": "LA",
+      "name": "Louisiana",
+      "v": 13183,
+      "rank": 29
+    },
+    "KS": {
+      "st": "KS",
+      "name": "Kansas",
+      "v": 12788,
+      "rank": 30
+    },
+    "IA": {
+      "st": "IA",
+      "name": "Iowa",
+      "v": 12714,
+      "rank": 31
+    },
+    "CO": {
+      "st": "CO",
+      "name": "Colorado",
+      "v": 12233,
+      "rank": 32
+    },
+    "SC": {
+      "st": "SC",
+      "name": "South Carolina",
+      "v": 12139,
+      "rank": 33
+    },
+    "GA": {
+      "st": "GA",
+      "name": "Georgia",
+      "v": 12108,
+      "rank": 34
+    },
+    "KY": {
+      "st": "KY",
+      "name": "Kentucky",
+      "v": 12016,
+      "rank": 35
+    },
+    "MO": {
+      "st": "MO",
+      "name": "Missouri",
+      "v": 11999,
+      "rank": 36
+    },
+    "NM": {
+      "st": "NM",
+      "name": "New Mexico",
+      "v": 11912,
+      "rank": 37
+    },
+    "IN": {
+      "st": "IN",
+      "name": "Indiana",
+      "v": 11411,
+      "rank": 38
+    },
+    "AR": {
+      "st": "AR",
+      "name": "Arkansas",
+      "v": 11239,
+      "rank": 39
+    },
+    "SD": {
+      "st": "SD",
+      "name": "South Dakota",
+      "v": 11095,
+      "rank": 40
+    },
+    "TX": {
+      "st": "TX",
+      "name": "Texas",
+      "v": 11049,
+      "rank": 41
+    },
+    "FL": {
+      "st": "FL",
+      "name": "Florida",
+      "v": 10823,
+      "rank": 42
+    },
+    "AL": {
+      "st": "AL",
+      "name": "Alabama",
+      "v": 10728,
+      "rank": 43
+    },
+    "TN": {
+      "st": "TN",
+      "name": "Tennessee",
+      "v": 10571,
+      "rank": 44
+    },
+    "NC": {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 10519,
+      "rank": 45
+    },
+    "OK": {
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 10084,
+      "rank": 46
+    },
+    "NV": {
+      "st": "NV",
+      "name": "Nevada",
+      "v": 10073,
+      "rank": 47
+    },
+    "MS": {
+      "st": "MS",
+      "name": "Mississippi",
+      "v": 10060,
+      "rank": 48
+    },
+    "AZ": {
+      "st": "AZ",
+      "name": "Arizona",
+      "v": 9571,
+      "rank": 49
+    },
+    "ID": {
+      "st": "ID",
+      "name": "Idaho",
+      "v": 9054,
+      "rank": 50
+    },
+    "UT": {
+      "st": "UT",
+      "name": "Utah",
+      "v": 9014,
+      "rank": 51
+    },
+    "Greater Lowell Regional Vocational Technical": {
+      "st": "Greater Lowell Regional Vocational Technical",
+      "name": "Greater Lowell Regional Vocational Technical",
+      "v": 2312,
+      "rank": 1
+    },
+    "Worcester": {
+      "st": "Worcester",
+      "name": "Worcester",
+      "v": 2271,
+      "rank": 2
+    },
+    "Greater New Bedford Regional Vocational Technical": {
+      "st": "Greater New Bedford Regional Vocational Technical",
+      "name": "Greater New Bedford Regional Vocational Technical",
+      "v": 2161,
+      "rank": 3
+    },
+    "Essex North Shore Agricultural and Technical School District": {
+      "st": "Essex North Shore Agricultural and Technical School District",
+      "name": "Essex North Shore Agricultural and Technical School District",
+      "v": 1927,
+      "rank": 4
+    },
+    "Greater Lawrence Regional Vocational Technical": {
+      "st": "Greater Lawrence Regional Vocational Technical",
+      "name": "Greater Lawrence Regional Vocational Technical",
+      "v": 1893,
+      "rank": 5
+    },
+    "Attleboro": {
+      "st": "Attleboro",
+      "name": "Attleboro",
+      "v": 1733,
+      "rank": 6
+    },
+    "Southeastern Regional Vocational Technical": {
+      "st": "Southeastern Regional Vocational Technical",
+      "name": "Southeastern Regional Vocational Technical",
+      "v": 1636,
+      "rank": 7
+    },
+    "Springfield": {
+      "st": "Springfield",
+      "name": "Springfield",
+      "v": 1633,
+      "rank": 8
+    },
+    "Greater Fall River Regional Vocational Technical": {
+      "st": "Greater Fall River Regional Vocational Technical",
+      "name": "Greater Fall River Regional Vocational Technical",
+      "v": 1479,
+      "rank": 9
+    },
+    "Northeast Metropolitan Regional Vocational Technical": {
+      "st": "Northeast Metropolitan Regional Vocational Technical",
+      "name": "Northeast Metropolitan Regional Vocational Technical",
+      "v": 1414,
+      "rank": 10
+    },
+    "Montachusett Regional Vocational Technical": {
+      "st": "Montachusett Regional Vocational Technical",
+      "name": "Montachusett Regional Vocational Technical",
+      "v": 1403,
+      "rank": 11
+    },
+    "Boston": {
+      "st": "Boston",
+      "name": "Boston",
+      "v": 1355,
+      "rank": 12
+    },
+    "Bristol-Plymouth Regional Vocational Technical": {
+      "st": "Bristol-Plymouth Regional Vocational Technical",
+      "name": "Bristol-Plymouth Regional Vocational Technical",
+      "v": 1341,
+      "rank": 13
+    },
+    "Quincy": {
+      "st": "Quincy",
+      "name": "Quincy",
+      "v": 1328,
+      "rank": 14
+    },
+    "Shawsheen Valley Regional Vocational Technical": {
+      "st": "Shawsheen Valley Regional Vocational Technical",
+      "name": "Shawsheen Valley Regional Vocational Technical",
+      "v": 1293,
+      "rank": 15
+    },
+    "Whittier Regional Vocational Technical": {
+      "st": "Whittier Regional Vocational Technical",
+      "name": "Whittier Regional Vocational Technical",
+      "v": 1288,
+      "rank": 16
+    },
+    "Lynn": {
+      "st": "Lynn",
+      "name": "Lynn",
+      "v": 1267,
+      "rank": 17
+    },
+    "Blackstone Valley Regional Vocational Technical": {
+      "st": "Blackstone Valley Regional Vocational Technical",
+      "name": "Blackstone Valley Regional Vocational Technical",
+      "v": 1236,
+      "rank": 18
+    },
+    "Southern Worcester County Regional Vocational School District": {
+      "st": "Southern Worcester County Regional Vocational School District",
+      "name": "Southern Worcester County Regional Vocational School District",
+      "v": 1180,
+      "rank": 19
+    },
+    "Assabet Valley Regional Vocational Technical": {
+      "st": "Assabet Valley Regional Vocational Technical",
+      "name": "Assabet Valley Regional Vocational Technical",
+      "v": 1131,
+      "rank": 20
+    },
+    "Fall River": {
+      "st": "Fall River",
+      "name": "Fall River",
+      "v": 1022,
+      "rank": 21
+    },
+    "Tri-County Regional Vocational Technical": {
+      "st": "Tri-County Regional Vocational Technical",
+      "name": "Tri-County Regional Vocational Technical",
+      "v": 992,
+      "rank": 22
+    },
+    "Taunton": {
+      "st": "Taunton",
+      "name": "Taunton",
+      "v": 974,
+      "rank": 23
+    },
+    "Everett": {
+      "st": "Everett",
+      "name": "Everett",
+      "v": 960,
+      "rank": 24
+    },
+    "Blue Hills Regional Vocational Technical": {
+      "st": "Blue Hills Regional Vocational Technical",
+      "name": "Blue Hills Regional Vocational Technical",
+      "v": 924,
+      "rank": 25
+    },
+    "South Middlesex Regional Vocational Technical": {
+      "st": "South Middlesex Regional Vocational Technical",
+      "name": "South Middlesex Regional Vocational Technical",
+      "v": 907,
+      "rank": 26
+    },
+    "Somerville": {
+      "st": "Somerville",
+      "name": "Somerville",
+      "v": 893,
+      "rank": 27
+    },
+    "Upper Cape Cod Regional Vocational Technical": {
+      "st": "Upper Cape Cod Regional Vocational Technical",
+      "name": "Upper Cape Cod Regional Vocational Technical",
+      "v": 867,
+      "rank": 28
+    },
+    "Waltham": {
+      "st": "Waltham",
+      "name": "Waltham",
+      "v": 834,
+      "rank": 29
+    },
+    "Medford": {
+      "st": "Medford",
+      "name": "Medford",
+      "v": 828,
+      "rank": 30
+    },
+    "Leominster": {
+      "st": "Leominster",
+      "name": "Leominster",
+      "v": 820,
+      "rank": 31
+    },
+    "Nashoba Valley Regional Vocational Technical": {
+      "st": "Nashoba Valley Regional Vocational Technical",
+      "name": "Nashoba Valley Regional Vocational Technical",
+      "v": 769,
+      "rank": 32
+    },
+    "Methuen": {
+      "st": "Methuen",
+      "name": "Methuen",
+      "v": 760,
+      "rank": 33
+    },
+    "Plymouth": {
+      "st": "Plymouth",
+      "name": "Plymouth",
+      "v": 752,
+      "rank": 34
+    },
+    "Pittsfield": {
+      "st": "Pittsfield",
+      "name": "Pittsfield",
+      "v": 723,
+      "rank": 35
+    },
+    "Cape Cod Regional Vocational Technical": {
+      "st": "Cape Cod Regional Vocational Technical",
+      "name": "Cape Cod Regional Vocational Technical",
+      "v": 704,
+      "rank": 36
+    },
+    "South Shore Regional Vocational Technical": {
+      "st": "South Shore Regional Vocational Technical",
+      "name": "South Shore Regional Vocational Technical",
+      "v": 695,
+      "rank": 37
+    },
+    "Salem": {
+      "st": "Salem",
+      "name": "Salem",
+      "v": 678,
+      "rank": 38
+    },
+    "Minuteman Regional Vocational Technical": {
+      "st": "Minuteman Regional Vocational Technical",
+      "name": "Minuteman Regional Vocational Technical",
+      "v": 657,
+      "rank": 39
+    },
+    "Chicopee": {
+      "st": "Chicopee",
+      "name": "Chicopee",
+      "v": 657,
+      "rank": 40
+    },
+    "Pathfinder Regional Vocational Technical": {
+      "st": "Pathfinder Regional Vocational Technical",
+      "name": "Pathfinder Regional Vocational Technical",
+      "v": 647,
+      "rank": 41
+    },
+    "Franklin County Regional Vocational Technical": {
+      "st": "Franklin County Regional Vocational Technical",
+      "name": "Franklin County Regional Vocational Technical",
+      "v": 647,
+      "rank": 42
+    },
+    "Bristol County Agricultural": {
+      "st": "Bristol County Agricultural",
+      "name": "Bristol County Agricultural",
+      "v": 637,
+      "rank": 43
+    },
+    "Cambridge": {
+      "st": "Cambridge",
+      "name": "Cambridge",
+      "v": 606,
+      "rank": 44
+    },
+    "Norfolk County Agricultural": {
+      "st": "Norfolk County Agricultural",
+      "name": "Norfolk County Agricultural",
+      "v": 599,
+      "rank": 45
+    },
+    "Northampton-Smith Vocational Agricultural": {
+      "st": "Northampton-Smith Vocational Agricultural",
+      "name": "Northampton-Smith Vocational Agricultural",
+      "v": 589,
+      "rank": 46
+    },
+    "Westfield": {
+      "st": "Westfield",
+      "name": "Westfield",
+      "v": 589,
+      "rank": 47
+    },
+    "Old Colony Regional Vocational Technical": {
+      "st": "Old Colony Regional Vocational Technical",
+      "name": "Old Colony Regional Vocational Technical",
+      "v": 554,
+      "rank": 48
+    },
+    "Tantasqua": {
+      "st": "Tantasqua",
+      "name": "Tantasqua",
+      "v": 510,
+      "rank": 49
+    },
+    "Weymouth": {
+      "st": "Weymouth",
+      "name": "Weymouth",
+      "v": 491,
+      "rank": 50
+    },
+    "Northern Berkshire Regional Vocational Technical": {
+      "st": "Northern Berkshire Regional Vocational Technical",
+      "name": "Northern Berkshire Regional Vocational Technical",
+      "v": 491,
+      "rank": 51
+    },
+    "Newton": {
+      "st": "Newton",
+      "name": "Newton",
+      "v": 490,
+      "rank": 52
+    },
+    "Brockton": {
+      "st": "Brockton",
+      "name": "Brockton",
+      "v": 484,
+      "rank": 53
+    },
+    "Holyoke": {
+      "st": "Holyoke",
+      "name": "Holyoke",
+      "v": 424,
+      "rank": 54
+    },
+    "Peabody": {
+      "st": "Peabody",
+      "name": "Peabody",
+      "v": 399,
+      "rank": 55
+    },
+    "Edward M. Kennedy Academy for Health Careers: A Horace Mann Charter Public School (District)": {
+      "st": "Edward M. Kennedy Academy for Health Careers: A Horace Mann Charter Public School (District)",
+      "name": "Edward M. Kennedy Academy for Health Careers: A Horace Mann Charter Public School (District)",
+      "v": 363,
+      "rank": 56
+    },
+    "Silver Lake": {
+      "st": "Silver Lake",
+      "name": "Silver Lake",
+      "v": 351,
+      "rank": 57
+    },
+    "Martha's Vineyard": {
+      "st": "Martha's Vineyard",
+      "name": "Martha's Vineyard",
+      "v": 338,
+      "rank": 58
+    },
+    "Dighton-Rehoboth": {
+      "st": "Dighton-Rehoboth",
+      "name": "Dighton-Rehoboth",
+      "v": 276,
+      "rank": 59
+    },
+    "Gloucester": {
+      "st": "Gloucester",
+      "name": "Gloucester",
+      "v": 258,
+      "rank": 60
+    },
+    "Marshfield": {
+      "st": "Marshfield",
+      "name": "Marshfield",
+      "v": 250,
+      "rank": 61
+    },
+    "Leicester": {
+      "st": "Leicester",
+      "name": "Leicester",
+      "v": 217,
+      "rank": 62
+    },
+    "Haverhill": {
+      "st": "Haverhill",
+      "name": "Haverhill",
+      "v": 187,
+      "rank": 63
+    },
+    "Agawam": {
+      "st": "Agawam",
+      "name": "Agawam",
+      "v": 139,
+      "rank": 64
+    },
+    "West Springfield": {
+      "st": "West Springfield",
+      "name": "West Springfield",
+      "v": 135,
+      "rank": 65
+    },
+    "New Bedford": {
+      "st": "New Bedford",
+      "name": "New Bedford",
+      "v": 125,
+      "rank": 66
+    },
+    "Ludlow": {
+      "st": "Ludlow",
+      "name": "Ludlow",
+      "v": 111,
+      "rank": 67
+    },
+    "Barnstable": {
+      "st": "Barnstable",
+      "name": "Barnstable",
+      "v": 109,
+      "rank": 68
+    },
+    "Spencer-E Brookfield": {
+      "st": "Spencer-E Brookfield",
+      "name": "Spencer-E Brookfield",
+      "v": 95,
+      "rank": 69
+    },
+    "Old Rochester": {
+      "st": "Old Rochester",
+      "name": "Old Rochester",
+      "v": 92,
+      "rank": 70
+    },
+    "Boston Green Academy Horace Mann Charter School (District)": {
+      "st": "Boston Green Academy Horace Mann Charter School (District)",
+      "name": "Boston Green Academy Horace Mann Charter School (District)",
+      "v": 73,
+      "rank": 71
+    },
+    "Hampden-Wilbraham": {
+      "st": "Hampden-Wilbraham",
+      "name": "Hampden-Wilbraham",
+      "v": 69,
+      "rank": 72
+    },
+    "Norton": {
+      "st": "Norton",
+      "name": "Norton",
+      "v": 68,
+      "rank": 73
+    },
+    "South Hadley": {
+      "st": "South Hadley",
+      "name": "South Hadley",
+      "v": 67,
+      "rank": 74
+    },
+    "East Longmeadow": {
+      "st": "East Longmeadow",
+      "name": "East Longmeadow",
+      "v": 62,
+      "rank": 75
+    },
+    "Southwick-Tolland-Granville Regional School District": {
+      "st": "Southwick-Tolland-Granville Regional School District",
+      "name": "Southwick-Tolland-Granville Regional School District",
+      "v": 57,
+      "rank": 76
+    },
+    "Lawrence": {
+      "st": "Lawrence",
+      "name": "Lawrence",
+      "v": 53,
+      "rank": 77
+    },
+    "Maynard": {
+      "st": "Maynard",
+      "name": "Maynard",
+      "v": 52,
+      "rank": 78
+    },
+    "Fitchburg": {
+      "st": "Fitchburg",
+      "name": "Fitchburg",
+      "v": 51,
+      "rank": 79
+    },
+    "Beverly": {
+      "st": "Beverly",
+      "name": "Beverly",
+      "v": 50,
+      "rank": 80
+    },
+    "Berkshire Hills": {
+      "st": "Berkshire Hills",
+      "name": "Berkshire Hills",
+      "v": 50,
+      "rank": 81
+    },
+    "Wareham": {
+      "st": "Wareham",
+      "name": "Wareham",
+      "v": 50,
+      "rank": 82
+    },
+    "Lowell": {
+      "st": "Lowell",
+      "name": "Lowell",
+      "v": 49,
+      "rank": 83
+    },
+    "Quaboag Regional": {
+      "st": "Quaboag Regional",
+      "name": "Quaboag Regional",
+      "v": 45,
+      "rank": 84
+    },
+    "Gateway": {
+      "st": "Gateway",
+      "name": "Gateway",
+      "v": 43,
+      "rank": 85
+    },
+    "Falmouth": {
+      "st": "Falmouth",
+      "name": "Falmouth",
+      "v": 39,
+      "rank": 86
+    },
+    "Webster": {
+      "st": "Webster",
+      "name": "Webster",
+      "v": 35,
+      "rank": 87
+    },
+    "Somerset Berkley Regional School District": {
+      "st": "Somerset Berkley Regional School District",
+      "name": "Somerset Berkley Regional School District",
+      "v": 29,
+      "rank": 88
+    },
+    "Watertown": {
+      "st": "Watertown",
+      "name": "Watertown",
+      "v": 28,
+      "rank": 89
+    },
+    "Easthampton": {
+      "st": "Easthampton",
+      "name": "Easthampton",
+      "v": 26,
+      "rank": 90
+    },
+    "North Andover": {
+      "st": "North Andover",
+      "name": "North Andover",
+      "v": 17,
+      "rank": 91
+    },
+    "Gardner": {
+      "st": "Gardner",
+      "name": "Gardner",
+      "v": 15,
+      "rank": 92
+    },
+    "Longmeadow": {
+      "st": "Longmeadow",
+      "name": "Longmeadow",
+      "v": 14,
+      "rank": 93
+    },
+    "Narragansett": {
+      "st": "Narragansett",
+      "name": "Narragansett",
+      "v": 12,
+      "rank": 94
+    },
+    "Swampscott": {
+      "st": "Swampscott",
+      "name": "Swampscott",
+      "v": 8,
+      "rank": 95
+    }
+  }
+}

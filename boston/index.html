@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Boston | Pioneer Institute | DataLabs</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Boston city budget, payroll, and the former Boston Data Labs views.">
+<link rel="canonical" href="https://datalabsai.netlify.app/boston/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="Boston | Pioneer Institute">
+<meta property="og:description" content="Boston city budget, payroll, and the former Boston Data Labs views.">
+<meta property="og:url" content="https://datalabsai.netlify.app/boston/">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
+<style>
+  :root{ --bleed:clamp(18px,2.6vw,48px); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);margin-top:3px;color:var(--faint)}
+  section{margin-top:56px}
+  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;min-height:30px}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-mid{height:clamp(480px,62vh,780px)}
+  .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  td.m{font-weight:600}
+  tr.hl-ma td{background:var(--wash)}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  details.srcfold,details.simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary,details.simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;font:600 14.5px/1.4 var(--sans);color:var(--ink)}
+  details.srcfold>summary::-webkit-details-marker,details.simplify summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after,details.simplify summary:after{content:none}
+  details.srcfold .fold-body,details.simplify .dt-body{padding:14px 18px 16px}
+  .car{color:var(--gold);font-size:11px}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .scroll{overflow-x:auto;max-width:100%}
+  [hidden]{display:none !important}
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="sitebar">
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Boston</span>
+</div>
+<header>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">American Citizenship <span class="sub">/ Your City &amp; Town &middot; Formerly Boston Data Labs</span></div>
+  <h1>Boston</h1>
+  <div class="standfirst">Boston city budget, payroll, and the former Boston Data Labs views.</div>
+  <div class="dateline">
+<!-- DATA:BEGIN boston-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <span>Data through <b>Calendar year 2025</b></span>
+    <span>Revised <b>Aug 15, 2026</b></span>
+    <span>Version <b>0.1</b></span>
+<!-- DATA:END boston-dateline -->
+  </div>
+</header>
+<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+
+<div class="toggle" role="tablist" aria-label="Choose a view">
+  <button id="btn-latest" class="on" onclick="showView('latest')">Latest<span class="who">The current ranking</span></button>
+  <button id="btn-trend" onclick="showView('trend')">Trend<span class="who">How the series has moved</span></button>
+  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every row</span></button>
+</div>
+
+
+<div id="view-latest">
+  <section style="margin-top:30px">
+    <h2>What are the key takeaways?</h2>
+    <p class="lede">
+<!-- DATA:BEGIN boston-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+City of Boston earnings totaled <b>$2.46 billion</b> in calendar year 2025 across <b>25,397</b> employees (SRC-627-01). <b>Boston Police Department</b> was the largest department at <b>$534.48 million</b> (SRC-627-01). The FY26 adopted operating appropriation was <b>$4.91 billion</b> (SRC-627-02). <b>Boston Public Schools</b> was the largest department at <b>$1.66 billion</b> (SRC-627-02).
+<!-- DATA:END boston-lead -->
+    </p>
+    <div class="strip metrics">
+<!-- DATA:BEGIN boston-kpis (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+      <div class="cell">
+        <div class="cl">City payroll, 2025</div>
+        <div class="cv">$2.46 billion</div>
+        <div class="cd">25,397 employees across 228 departments (SRC-627-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The citywide earnings stock.</div>
+        <div class="csrc">Source: City of Boston employee earnings report 2025 (SRC-627-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Largest department</div>
+        <div class="cv">Boston Police Department</div>
+        <div class="cd">$534.48 million across 3,094 employees (SRC-627-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The department that accounts for the most earnings.</div>
+        <div class="csrc">Source: City of Boston employee earnings report 2025 (SRC-627-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Departments</div>
+        <div class="cv">228</div>
+        <div class="cd"></div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Payroll is the first Boston ledger because the file is public and current.</div>
+        <div class="csrc">Source: City of Boston employee earnings report 2025 (SRC-627-01)</div>
+      </div>
+<!-- DATA:END boston-kpis -->
+    </div>
+  </section>
+  <section id="view-rank">
+    <h2>How do they compare?</h2>
+    <div class="lede">Department earnings, calendar year 2025. Unit: dollars. The highlighted bar is Boston Police Department.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t">Department earnings, calendar year 2025 (largest 25 of 228)</span></div>
+      <div class="plot plot-mid"><canvas id="chRank"></canvas></div>
+      <div class="note">Hover a bar for the full name and figure. Ranks are Pioneer calculations from the published source file (derived).</div>
+      <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> dollars.</div>
+    </div>
+  </section>
+</div>
+
+
+<div id="view-trend" hidden>
+  <section style="margin-top:30px">
+    <h2>How has the series moved?</h2>
+    <div class="lede">A multi-year trend is not in this ledger. Use Latest for the current ranking and Table for every row.</div>
+  </section>
+</div>
+
+
+<div id="view-table" hidden>
+  <section style="margin-top:30px">
+    <h2>Every department</h2>
+    <div class="lede">Department earnings, calendar year 2025, dollars.</div>
+    <div class="scroll">
+      <table id="tblStates">
+        <thead><tr><th>Department</th><th class="n">dollars</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> see the register. Ranks and year-over-year changes are Pioneer calculations (derived).</div>
+  </section>
+</div>
+
+<section id="sources">
+  <h2>Data Sources</h2>
+  <div class="subhead">Every figure on this page traces to a source below. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+  <details class="srcfold">
+    <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
+    <div class="fold-body">
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports</th><th>Data vintage</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr><td class="src"><a href="https://data.boston.gov/datastore/dump/29b3544f-752a-4cb1-a6af-a1de153d20a0" target="_blank" rel="noopener">City of Boston employee earnings report 2025 (SRC-627-01)</a></td><td>Annual</td><td>This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department.</td><td>Calendar year 2025</td><td>Annual</td></tr>
+          <tr><td class="src"><a href="https://data.boston.gov/datastore/dump/8f2971f0-7a0d-401d-8376-0289e3b810ba" target="_blank" rel="noopener">City of Boston operating budget, FY26 appropriation (SRC-627-02)</a></td><td>Annual</td><td>This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department.</td><td>Calendar year 2025</td><td>Annual</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+  <details class="simplify">
+    <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
+    <div class="dt-body">
+      <p class="body-p">Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors).</p>
+      <p class="body-p">It replaces these Tableau workbooks: Boston Data Labs. Those URLs stay in the catalog until this page covers the same substance.</p>
+    </div>
+  </details>
+</section>
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+<!-- DATA:BEGIN boston-footer-meta (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <div>Boston &middot; Version 0.1 &middot; Data through Calendar year 2025 &middot; Revised Aug 15, 2026</div>
+<!-- DATA:END boston-footer-meta -->
+    <div>2 sources in the register</div>
+  </div>
+  <div class="disclaimer">
+    <div><b>About this tool.</b> Boston is a Pioneer Institute DataLabs research tool. Formerly Boston Data Labs. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
+    <div><b>Verified figures.</b> Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists.</div>
+  </div>
+  <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
+</footer>
+</div>
+
+<script>
+/* DATA:BEGIN boston-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
+const DL={"tool_id":"DL-27","as_of":"2025-12","rows":[{"st":"Boston P","name":"Boston Police Department","v":534478396.67999893,"rank":1,"n":228,"employees":3094},{"st":"Boston F","name":"Boston Fire Department","v":316676060.00000036,"rank":2,"n":228,"employees":1805},{"st":"Special ","name":"Special Education","v":85502813.95000014,"rank":3,"n":228,"employees":1107},{"st":"Boston P","name":"Boston Public Library","v":39241988.27000006,"rank":4,"n":228,"employees":556},{"st":"Faciliti","name":"Facilities Management","v":37639160.109999925,"rank":5,"n":228,"employees":609},{"st":"Public W","name":"Public Works Department","v":33248518.839999985,"rank":6,"n":228,"employees":401},{"st":"Traffic ","name":"Traffic Division","v":27810665.64999995,"rank":7,"n":228,"employees":411},{"st":"Madison ","name":"Madison Park Tech Vocational","v":26443310.050000023,"rank":8,"n":228,"employees":252},{"st":"Transpor","name":"Transportation","v":25915538.32999999,"rank":9,"n":228,"employees":761},{"st":"Boston C","name":"Boston Cntr - Youth & Families","v":22945399.270000003,"rank":10,"n":228,"employees":460},{"st":"Parks De","name":"Parks Department","v":22914455.679999977,"rank":11,"n":228,"employees":396},{"st":"Inspecti","name":"Inspectional Services Dept","v":22372059.049999993,"rank":12,"n":228,"employees":244},{"st":"Boston L","name":"Boston Latin","v":22214407.499999996,"rank":13,"n":228,"employees":189},{"st":"Planning","name":"Planning","v":20515866.429999992,"rank":14,"n":228,"employees":219},{"st":"BPS Subs","name":"BPS Substitute Teachers/Nurs","v":20233578.579999972,"rank":15,"n":228,"employees":1031},{"st":"Dpt of I","name":"Dpt of Innovation & Technology","v":20152757.110000003,"rank":16,"n":228,"employees":201},{"st":"East Bos","name":"East Boston High","v":19349066.67000001,"rank":17,"n":228,"employees":169},{"st":"Curley K","name":"Curley K-8","v":19239458.07000001,"rank":18,"n":228,"employees":209},{"st":"Food & N","name":"Food & Nutrition Services","v":19186316.819999985,"rank":19,"n":228,"employees":668},{"st":"O'Bryant","name":"O'Bryant School of Math & Sci","v":17998685.26,"rank":20,"n":228,"employees":156},{"st":"Boston L","name":"Boston Latin Academy","v":17050448.38000001,"rank":21,"n":228,"employees":156},{"st":"Charlest","name":"Charlestown High","v":16273532.519999994,"rank":22,"n":228,"employees":166},{"st":"Henderso","name":"Henderson K-12 Inclusion","v":15947018.609999998,"rank":23,"n":228,"employees":166},{"st":"Property","name":"Property Management","v":15834224.399999997,"rank":24,"n":228,"employees":197},{"st":"TechBost","name":"TechBoston Academy","v":15198794.810000002,"rank":25,"n":228,"employees":145},{"st":"Office o","name":"Office of Housing","v":14892813.700000005,"rank":26,"n":228,"employees":163},{"st":"Murphy K","name":"Murphy K-8","v":14866449.48000001,"rank":27,"n":228,"employees":151},{"st":"Mel H Ki","name":"Mel H King South End Academy","v":14365046.879999995,"rank":28,"n":228,"employees":141},{"st":"English ","name":"English High","v":14363930.349999996,"rank":29,"n":228,"employees":136},{"st":"Brighton","name":"Brighton High","v":13908465.650000002,"rank":30,"n":228,"employees":132},{"st":"Lee K-8","name":"Lee K-8","v":13634810.040000003,"rank":31,"n":228,"employees":156},{"st":"Teaching","name":"Teaching & Learning","v":13398095.889999999,"rank":32,"n":228,"employees":110},{"st":"Ruth Bat","name":"Ruth Batson Academy","v":12821960.339999994,"rank":33,"n":228,"employees":131},{"st":"Blacksto","name":"Blackstone Elementary","v":12765107.010000002,"rank":34,"n":228,"employees":145},{"st":"Orchard ","name":"Orchard Gardens K-8","v":12708639.549999999,"rank":35,"n":228,"employees":152},{"st":"New Miss","name":"New Mission High","v":12621386.290000003,"rank":36,"n":228,"employees":119},{"st":"Quincy E","name":"Quincy Elementary","v":12399312.459999999,"rank":37,"n":228,"employees":141},{"st":"Umana Ac","name":"Umana Academy","v":12098769.520000007,"rank":38,"n":228,"employees":144},{"st":"Sarah Ro","name":"Sarah Roberts ElementarySchool","v":11827336.900000002,"rank":39,"n":228,"employees":136},{"st":"Edison E","name":"Edison Elementary School","v":11295583.820000002,"rank":40,"n":228,"employees":121},{"st":"Kennedy ","name":"Kennedy Academy Health Careers","v":11267350.740000004,"rank":41,"n":228,"employees":99},{"st":"Eliot K-","name":"Eliot K-8","v":11188311.36000001,"rank":42,"n":228,"employees":132},{"st":"Office o","name":"Office of Human Resources BPS","v":11131767.810000006,"rank":43,"n":228,"employees":106},{"st":"Condon K","name":"Condon K-8","v":10888700.81000001,"rank":44,"n":228,"employees":136},{"st":"McKay K-","name":"McKay K-8","v":10882721.470000003,"rank":45,"n":228,"employees":104},{"st":"Mattahun","name":"Mattahunt Elementary","v":10876085.19,"rank":46,"n":228,"employees":131},{"st":"Mildred ","name":"Mildred Avenue K-8","v":10850234.940000005,"rank":47,"n":228,"employees":109},{"st":"Dearborn","name":"Dearborn STEM Academy","v":10781006.389999999,"rank":48,"n":228,"employees":91},{"st":"Public F","name":"Public Facilities Department","v":10624224.640000006,"rank":49,"n":228,"employees":89},{"st":"Hennigan","name":"Hennigan Elementary School","v":10484395.029999996,"rank":50,"n":228,"employees":123},{"st":"UP Acade","name":"UP Academy Dorchester","v":10163017.24,"rank":51,"n":228,"employees":119},{"st":"King Ele","name":"King Elementary","v":9990894.87,"rank":52,"n":228,"employees":150},{"st":"Boston A","name":"Boston Arts Academy","v":9525471.300000004,"rank":53,"n":228,"employees":92},{"st":"Shaw-Tay","name":"Shaw-Taylor Elementary School","v":9393990.180000005,"rank":54,"n":228,"employees":115},{"st":"Boston G","name":"Boston Green Academy","v":9354562.209999999,"rank":55,"n":228,"employees":94},{"st":"Ohrenber","name":"Ohrenberger 3-8","v":9301505.56,"rank":56,"n":228,"employees":93},{"st":"UP Acade","name":"UP Academy Holland","v":9296807.74,"rank":57,"n":228,"employees":109},{"st":"Warren-P","name":"Warren-Prescott K-8","v":9184681.459999999,"rank":58,"n":228,"employees":96},{"st":"Horace M","name":"Horace Mann","v":9014633.57,"rank":59,"n":228,"employees":97},{"st":"Quincy U","name":"Quincy Upper","v":8898140.37,"rank":60,"n":228,"employees":87},{"st":"Young Ac","name":"Young Achievers Elementary Sch","v":8533323.45,"rank":61,"n":228,"employees":99},{"st":"Mather E","name":"Mather Elementary","v":8473479.629999999,"rank":62,"n":228,"employees":87},{"st":"Kilmer K","name":"Kilmer K-8","v":8369817.860000001,"rank":63,"n":228,"employees":91},{"st":"Albert H","name":"Albert HollandSch ofTechnology","v":8305531.820000003,"rank":64,"n":228,"employees":90},{"st":"Muniz Ac","name":"Muniz Academy","v":8203022.420000001,"rank":65,"n":228,"employees":82},{"st":"Law Depa","name":"Law Department","v":7829210.309999999,"rank":66,"n":228,"employees":77},{"st":"Boston C","name":"Boston City Council","v":7778587.269999999,"rank":67,"n":228,"employees":141},{"st":"ASD Huma","name":"ASD Human Resources","v":7774996.969999999,"rank":68,"n":228,"employees":93},{"st":"Planning","name":"Planning & Engineering","v":7762449.640000003,"rank":69,"n":228,"employees":71},{"st":"Lyndon K","name":"Lyndon K-8","v":7721752.989999999,"rank":70,"n":228,"employees":84},{"st":"Harvard-","name":"Harvard-Kent Elementary","v":7613096.489999998,"rank":71,"n":228,"employees":87},{"st":"Greenwoo","name":"Greenwood K-8","v":7583167.370000003,"rank":72,"n":228,"employees":79},{"st":"Trotter ","name":"Trotter Elementary","v":7545676.270000001,"rank":73,"n":228,"employees":88},{"st":"Ellis El","name":"Ellis Elementary","v":7496109.300000001,"rank":74,"n":228,"employees":91},{"st":"Snowden ","name":"Snowden International High","v":7438106.21,"rank":75,"n":228,"employees":68},{"st":"Boston D","name":"Boston Day & Evening Academy","v":7403663.079999998,"rank":76,"n":228,"employees":70},{"st":"Roosevel","name":"Roosevelt K-8","v":7301732.209999998,"rank":77,"n":228,"employees":76},{"st":"Haley Pi","name":"Haley Pilot","v":7236211.61,"rank":78,"n":228,"employees":78},{"st":"Age Stro","name":"Age Strong","v":7020961.349999998,"rank":79,"n":228,"employees":103},{"st":"Comm Aca","name":"Comm Academy of Sci & Health","v":6886881.330000001,"rank":80,"n":228,"employees":73},{"st":"Fenway H","name":"Fenway High","v":6635504.14,"rank":81,"n":228,"employees":67},{"st":"Tobin K-","name":"Tobin K-8","v":6624872.109999999,"rank":82,"n":228,"employees":82},{"st":"School S","name":"School Support","v":6495192.96,"rank":83,"n":228,"employees":41},{"st":"Boston I","name":"Boston International High","v":6413420.750000001,"rank":84,"n":228,"employees":62},{"st":"Dever El","name":"Dever Elementary","v":6347805.009999997,"rank":85,"n":228,"employees":75},{"st":"Chittick","name":"Chittick Elementary","v":6290557.910000001,"rank":86,"n":228,"employees":68},{"st":"Multilin","name":"Multilingual Multicultural Ed","v":6285611.599999995,"rank":87,"n":228,"employees":63},{"st":"Kenny El","name":"Kenny Elementary","v":6209650.600000001,"rank":88,"n":228,"employees":70},{"st":"Assessin","name":"Assessing Department","v":6207692.840000004,"rank":89,"n":228,"employees":88},{"st":"Mayor's ","name":"Mayor's Office","v":6161152.449999997,"rank":90,"n":228,"employees":81},{"st":"Gardner ","name":"Gardner Pilot Academy","v":6144981.350000001,"rank":91,"n":228,"employees":67},{"st":"Hernande","name":"Hernandez Elementary School","v":6099361.660000001,"rank":92,"n":228,"employees":67},{"st":"Adams El","name":"Adams Elementary","v":6036355.610000002,"rank":93,"n":228,"employees":70},{"st":"Holmes E","name":"Holmes Elementary","v":5940124.560000001,"rank":94,"n":228,"employees":68},{"st":"Boston A","name":"Boston Adult Technical Academy","v":5877548.630000001,"rank":95,"n":228,"employees":52},{"st":"Tynan El","name":"Tynan Elementary","v":5868377.690000002,"rank":96,"n":228,"employees":76},{"st":"Excel Hi","name":"Excel High","v":5803822.830000003,"rank":97,"n":228,"employees":54},{"st":"Student ","name":"Student Support","v":5802010.210000001,"rank":98,"n":228,"employees":60},{"st":"Safety S","name":"Safety Services","v":5787798.54,"rank":99,"n":228,"employees":90},{"st":"Beethove","name":"Beethoven Elementary","v":5776636.970000002,"rank":100,"n":228,"employees":53},{"st":"Russell ","name":"Russell Elementary","v":5729791.929999998,"rank":101,"n":228,"employees":63},{"st":"Ellison-","name":"Ellison-Parks Early Ed","v":5678242.009999998,"rank":102,"n":228,"employees":66},{"st":"Otis Ele","name":"Otis Elementary","v":5661897.509999999,"rank":103,"n":228,"employees":64},{"st":"Early Ch","name":"Early Childhood","v":5625530.189999996,"rank":104,"n":228,"employees":61},{"st":"Hurley K","name":"Hurley K-8","v":5588236.16,"rank":105,"n":228,"employees":65},{"st":"Office o","name":"Office ofWorkforce Development","v":5571889.070000002,"rank":106,"n":228,"employees":78},{"st":"Kennedy ","name":"Kennedy PJ Elementary","v":5512449.249999999,"rank":107,"n":228,"employees":62},{"st":"Bates El","name":"Bates Elementary","v":5438468.650000001,"rank":108,"n":228,"employees":62},{"st":"Instr & ","name":"Instr & Info Technology","v":5429879.750000003,"rank":109,"n":228,"employees":56},{"st":"Mendell ","name":"Mendell Elementary","v":5302478.080000001,"rank":110,"n":228,"employees":60},{"st":"Kennedy ","name":"Kennedy JF Elementary","v":5300186.460000003,"rank":111,"n":228,"employees":59},{"st":"Higginso","name":"Higginson-Lewis 3-8","v":5285745.6099999985,"rank":112,"n":228,"employees":62},{"st":"Everett ","name":"Everett Elementary","v":5241990.08,"rank":113,"n":228,"employees":55},{"st":"Neighbor","name":"Neighborhood Services","v":5238564.3100000005,"rank":114,"n":228,"employees":76},{"st":"Bradley ","name":"Bradley Elementary","v":5219315.820000002,"rank":115,"n":228,"employees":57},{"st":"Boston R","name":"Boston Retirement System","v":5198054.55,"rank":116,"n":228,"employees":61},{"st":"Guild El","name":"Guild Elementary","v":5162152.959999998,"rank":117,"n":228,"employees":57},{"st":"Another ","name":"Another Course to College","v":5062251.240000001,"rank":118,"n":228,"employees":53},{"st":"Business","name":"Business Services","v":5039640.049999998,"rank":119,"n":228,"employees":94},{"st":"Haynes E","name":"Haynes EEC","v":4788527.510000003,"rank":120,"n":228,"employees":75},{"st":"Boston T","name":"Boston TeachersUnionElementary","v":4774778.650000002,"rank":121,"n":228,"employees":52},{"st":"Mason El","name":"Mason Elementary","v":4716659.56,"rank":122,"n":228,"employees":57},{"st":"Dudley S","name":"Dudley St Neighborhood Charter","v":4655787.359999999,"rank":123,"n":228,"employees":50},{"st":"Newcomer","name":"Newcomers Academy","v":4542823.830000001,"rank":124,"n":228,"employees":45},{"st":"Winship ","name":"Winship Elementary","v":4512305.259999999,"rank":125,"n":228,"employees":49},{"st":"Channing","name":"Channing Elementary","v":4462448.5,"rank":126,"n":228,"employees":56},{"st":"Perry El","name":"Perry Elementary","v":4353616.860000001,"rank":127,"n":228,"employees":51},{"st":"Baldwin ","name":"Baldwin Early Learning Academy","v":4330196.819999999,"rank":128,"n":228,"employees":56},{"st":"Carter","name":"Carter","v":4292178.079999999,"rank":129,"n":228,"employees":66},{"st":"Lee Acad","name":"Lee Academy","v":4283563.699999999,"rank":130,"n":228,"employees":50},{"st":"Office o","name":"Office of Streets","v":4282277.909999998,"rank":131,"n":228,"employees":45},{"st":"Boston C","name":"Boston Collaborative High","v":4277334.32,"rank":132,"n":228,"employees":42},{"st":"Family &","name":"Family & Community Advancement","v":4240434.590000001,"rank":133,"n":228,"employees":50},{"st":"Human Se","name":"Human Services","v":4234544.220000001,"rank":134,"n":228,"employees":52},{"st":"Perkins ","name":"Perkins Elementary","v":4216597.380000001,"rank":135,"n":228,"employees":52},{"st":"Environm","name":"Environment Department","v":4214782.349999999,"rank":136,"n":228,"employees":56},{"st":"Winthrop","name":"Winthrop Elementary","v":4186789.5100000007,"rank":137,"n":228,"employees":48},{"st":"O'Donnel","name":"O'Donnell Elementary","v":4165846.4500000007,"rank":138,"n":228,"employees":48},{"st":"Lyon Ele","name":"Lyon Elementary School","v":4018882.9799999995,"rank":139,"n":228,"employees":45},{"st":"Conley E","name":"Conley Elementary","v":4004219.33,"rank":140,"n":228,"employees":44},{"st":"Off of E","name":"Off of Eco Opp & Incl","v":3996350.9,"rank":141,"n":228,"employees":42},{"st":"Auditing","name":"Auditing Department","v":3943856.9600000004,"rank":142,"n":228,"employees":43},{"st":"Manning ","name":"Manning Elementary","v":3884186.390000001,"rank":143,"n":228,"employees":44},{"st":"Higginso","name":"Higginson Inclusion K0-2","v":3816644.4499999983,"rank":144,"n":228,"employees":54},{"st":"Grew Ele","name":"Grew Elementary","v":3741233.3100000005,"rank":145,"n":228,"employees":39},{"st":"Behavior","name":"Behavioral Health Services","v":3735125.51,"rank":146,"n":228,"employees":92},{"st":"Procurem","name":"Procurement","v":3675061.5499999993,"rank":147,"n":228,"employees":36},{"st":"Treasury","name":"Treasury-Treasury Division","v":3618784.650000001,"rank":148,"n":228,"employees":33},{"st":"Lyon Hig","name":"Lyon High","v":3581655.7500000014,"rank":149,"n":228,"employees":39},{"st":"Data & A","name":"Data & Accountability","v":3494103.2600000007,"rank":150,"n":228,"employees":35},{"st":"Mozart E","name":"Mozart Elementary","v":3379059.27,"rank":151,"n":228,"employees":38},{"st":"Clap Ele","name":"Clap Elementary","v":3122911.289999999,"rank":152,"n":228,"employees":36},{"st":"Chief Ac","name":"Chief Academic Officer","v":3077897.4000000004,"rank":153,"n":228,"employees":23},{"st":"Health S","name":"Health Services","v":3024123.98,"rank":154,"n":228,"employees":30},{"st":"Succeed ","name":"Succeed Boston","v":2992997.44,"rank":155,"n":228,"employees":23},{"st":"Transpor","name":"Transportation-Parking Clerk","v":2924799.1,"rank":156,"n":228,"employees":53},{"st":"Chief of","name":"Chief of Staff","v":2824938.5300000003,"rank":157,"n":228,"employees":18},{"st":"Election","name":"Election Division","v":2822750.9100000006,"rank":158,"n":228,"employees":47},{"st":"East Bos","name":"East Boston EEC","v":2720442.240000001,"rank":159,"n":228,"employees":48},{"st":"Hale Ele","name":"Hale Elementary","v":2702141.600000001,"rank":160,"n":228,"employees":31},{"st":"Adult Ed","name":"Adult Education","v":2700351.6300000004,"rank":161,"n":228,"employees":33},{"st":"Health &","name":"Health & Wellness","v":2696353.9399999995,"rank":162,"n":228,"employees":27},{"st":"Communit","name":"Community Academy","v":2603322.5299999993,"rank":163,"n":228,"employees":26},{"st":"ASD Offi","name":"ASD Office of Budget Mangmnt","v":2524628.18,"rank":164,"n":228,"employees":29},{"st":"Treasury","name":"Treasury-Collecting Division","v":2403044.83,"rank":165,"n":228,"employees":33},{"st":"Office o","name":"Office of Equity","v":2402543.3200000003,"rank":166,"n":228,"employees":31},{"st":"Office o","name":"Office of Arts & Culture","v":2398437.3499999996,"rank":167,"n":228,"employees":51},{"st":"Finance","name":"Finance","v":2305702.289999999,"rank":168,"n":228,"employees":25},{"st":"Welcome ","name":"Welcome Services","v":2273985.4299999997,"rank":169,"n":228,"employees":47},{"st":"High Sch","name":"High School Renewal","v":2266922.9800000004,"rank":170,"n":228,"employees":22},{"st":"Emergenc","name":"Emergency Preparedness","v":2261890.86,"rank":171,"n":228,"employees":27},{"st":"Opportun","name":"Opportunity Gaps","v":2260060.69,"rank":172,"n":228,"employees":25},{"st":"Greater ","name":"Greater Egleston High","v":2191674.32,"rank":173,"n":228,"employees":21},{"st":"Alighier","name":"Alighieri Montessori","v":2121237.98,"rank":174,"n":228,"employees":24},{"st":"Alternat","name":"Alternative Education","v":2117152.5999999996,"rank":175,"n":228,"employees":19},{"st":"Cemetery","name":"Cemetery Division","v":2110447.9299999992,"rank":176,"n":228,"employees":33},{"st":"Registry","name":"Registry Division","v":1954349.1799999997,"rank":177,"n":228,"employees":33},{"st":"Workers ","name":"Workers Compensation Service","v":1932418.29,"rank":178,"n":228,"employees":48},{"st":"Consumer","name":"Consumer Affairs & Licensing","v":1843776.25,"rank":179,"n":228,"employees":27},{"st":"Capital ","name":"Capital Planning","v":1727708.17,"rank":180,"n":228,"employees":17},{"st":"Athletic","name":"Athletics","v":1603359.4099999997,"rank":181,"n":228,"employees":79},{"st":"Labor Co","name":"Labor Compliance & Worker Prot","v":1585875.31,"rank":182,"n":228,"employees":15},{"st":"City Cle","name":"City Clerk","v":1527130.0899999999,"rank":183,"n":228,"employees":17},{"st":"Off of H","name":"Off of Historic Pres","v":1522227.8599999999,"rank":184,"n":228,"employees":16},{"st":"Immigran","name":"Immigrant Advancement","v":1298570.3,"rank":185,"n":228,"employees":17},{"st":"Office o","name":"Office of Finance","v":1288850.3800000001,"rank":186,"n":228,"employees":12},{"st":"Data Inf","name":"Data Info and Sys Improvement","v":1287651.27,"rank":187,"n":228,"employees":11},{"st":"Labor Re","name":"Labor Relations","v":1282564.93,"rank":188,"n":228,"employees":15},{"st":"ASD Offi","name":"ASD Office Of Labor Relation","v":1197840.06,"rank":189,"n":228,"employees":13},{"st":"Office o","name":"Office of Tourism","v":1196184.0899999999,"rank":190,"n":228,"employees":14},{"st":"Communic","name":"Communications","v":1184611.56,"rank":191,"n":228,"employees":11},{"st":"Youth Em","name":"Youth Employment & Opportunity","v":1176424.8800000001,"rank":192,"n":228,"employees":16},{"st":"Veterans","name":"Veterans' Services","v":1172653.9400000002,"rank":193,"n":228,"employees":15},{"st":"Operatio","name":"Operations","v":1162189.25,"rank":194,"n":228,"employees":8},{"st":"Road to ","name":"Road to Success","v":1147095.6300000001,"rank":195,"n":228,"employees":11},{"st":"Supplier","name":"Supplier Diversity","v":1126876.0399999998,"rank":196,"n":228,"employees":14},{"st":"Offc of ","name":"Offc of Language and Communica","v":1121667.0099999998,"rank":197,"n":228,"employees":15},{"st":"Enrollme","name":"Enrollment Services","v":1119520.8599999999,"rank":198,"n":228,"employees":9},{"st":"Special ","name":"Special Education Transition","v":1038930.92,"rank":199,"n":228,"employees":11},{"st":"Black Ma","name":"Black Male Ad","v":993661.6099999999,"rank":200,"n":228,"employees":14},{"st":"Budget","name":"Budget","v":953755.9099999998,"rank":201,"n":228,"employees":31},{"st":"Equity","name":"Equity","v":951782.9299999999,"rank":202,"n":228,"employees":20},{"st":"OPAT","name":"OPAT","v":878705.0999999997,"rank":203,"n":228,"employees":23},{"st":"Office o","name":"Office of People Operations","v":857839.36,"rank":204,"n":228,"employees":8},{"st":"Comm. fo","name":"Comm. for Persons with Disabil","v":773166.4299999999,"rank":205,"n":228,"employees":9},{"st":"Transfor","name":"Transformation","v":764339.94,"rank":206,"n":228,"employees":7},{"st":"Fair Hou","name":"Fair Housing & Equity","v":735638.8,"rank":207,"n":228,"employees":13},{"st":"ASD Inte","name":"ASD Intergvernmtl Relations","v":704496.1699999999,"rank":208,"n":228,"employees":7},{"st":"Expanded","name":"Expanded Learning Opps","v":686938.0,"rank":209,"n":228,"employees":56},{"st":"Office o","name":"Office of Food Justice","v":584955.95,"rank":210,"n":228,"employees":10},{"st":"Superint","name":"Superintendent's Office","v":577583.2699999999,"rank":211,"n":228,"employees":3},{"st":"LGBTQ+ A","name":"LGBTQ+ Advancement","v":491324.6,"rank":212,"n":228,"employees":6},{"st":"Finance ","name":"Finance Commission","v":447053.32000000007,"rank":213,"n":228,"employees":4},{"st":"Off of P","name":"Off of Part  Budgeting","v":376211.33,"rank":214,"n":228,"employees":3},{"st":"Career &","name":"Career & Technical Education","v":366236.86,"rank":215,"n":228,"employees":3},{"st":"Institut","name":"Institutional Advancemt","v":340166.6,"rank":216,"n":228,"employees":3},{"st":"Women's ","name":"Women's Advancement","v":286177.80000000005,"rank":217,"n":228,"employees":5},{"st":"BPS Long","name":"BPS Long Term Leave","v":237249.88,"rank":218,"n":228,"employees":4},{"st":"Legal Ad","name":"Legal Advisor","v":205864.26,"rank":219,"n":228,"employees":2},{"st":"Election","name":"Election Dept-Listing Board","v":172023.40000000002,"rank":220,"n":228,"employees":23},{"st":"Boston S","name":"Boston School Committee","v":167939.70999999996,"rank":221,"n":228,"employees":9},{"st":"Frederic","name":"Frederick Pilot Middle","v":142833.37,"rank":222,"n":228,"employees":3},{"st":"West Zon","name":"West Zone ELC","v":133999.73,"rank":223,"n":228,"employees":4},{"st":"Jackson/","name":"Jackson/Mann K-8","v":52868.59,"rank":224,"n":228,"employees":1},{"st":"Philbric","name":"Philbrick Elementary","v":37649.39,"rank":225,"n":228,"employees":2},{"st":"Strategy","name":"Strategy","v":20550.42,"rank":226,"n":228,"employees":1},{"st":"Shaw Ele","name":"Shaw Elementary","v":10952.44,"rank":227,"n":228,"employees":1},{"st":"Human Ri","name":"Human Rights Commission","v":4610.0,"rank":228,"n":228,"employees":1}],"trend":{},"latest":{"total":2455548218.850001,"employees":25397,"departments":228,"highest":{"name":"Boston Police Department","v":534478396.67999893,"employees":3094}},"derived":{"note":"Prefer these over recomputing. Ranks cite (derived, SRC-627-01).","highest_five":[{"st":"Boston P","name":"Boston Police Department","v":534478396.67999893,"rank":1,"n":228,"employees":3094},{"st":"Boston F","name":"Boston Fire Department","v":316676060.00000036,"rank":2,"n":228,"employees":1805},{"st":"Special ","name":"Special Education","v":85502813.95000014,"rank":3,"n":228,"employees":1107},{"st":"Boston P","name":"Boston Public Library","v":39241988.27000006,"rank":4,"n":228,"employees":556},{"st":"Faciliti","name":"Facilities Management","v":37639160.109999925,"rank":5,"n":228,"employees":609}],"lowest_five":[{"st":"Human Ri","name":"Human Rights Commission","v":4610.0,"rank":228,"n":228,"employees":1},{"st":"Shaw Ele","name":"Shaw Elementary","v":10952.44,"rank":227,"n":228,"employees":1},{"st":"Strategy","name":"Strategy","v":20550.42,"rank":226,"n":228,"employees":1},{"st":"Philbric","name":"Philbrick Elementary","v":37649.39,"rank":225,"n":228,"employees":2},{"st":"Jackson/","name":"Jackson/Mann K-8","v":52868.59,"rank":224,"n":228,"employees":1}],"n_ranked":228,"secondary":{"boston_operating_budget_fy26":{"label":"City of Boston adopted operating budget, FY26 appropriation","src":"SRC-627-02","unit":"dollars","as_of_label":"FY26 appropriation","fy25_actual":4737135498.630003,"fy26_appropriation":4912971263.72,"fy27_budget":4942387983.310001,"departments":81,"highest":{"name":"Boston Public Schools","v":1662138094.97},"top_five":[{"name":"Boston Public Schools","v":1662138094.97},{"name":"Police Department","v":487396058.7900001},{"name":"Pensions","v":467688472.0},{"name":"Fire Department","v":328719256.0300001},{"name":"Debt Service","v":310005047.0}]}}},"metric":"boston_department_earnings_2025","unit":"dollars"};
+/* DATA:END boston-data */
+const CHART={"geo": "department", "format": "usd", "highlight": "Boston Police Department", "n_chart": 25, "unit": "dollars", "axis_unit": "dollars", "label": "Department earnings, calendar year 2025", "title": "Department earnings, calendar year 2025 (largest 25 of 228)", "lede": "Department earnings, calendar year 2025. Unit: dollars. The highlighted bar is Boston Police Department.", "has_trend": false, "table_noun": "Every department", "col_name": "Department", "trend_title": "Department earnings, calendar year 2025 over time"};
+
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
+  var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#666666';
+  function showView(id){
+    ['latest','trend','table'].forEach(function(v){
+      var el=document.getElementById('view-'+v);
+      if(el) el.hidden = (v!==id);
+      var b=document.getElementById('btn-'+v);
+      if(b) b.classList.toggle('on', v===id);
+    });
+    if(location.hash!=='#view-'+id) history.replaceState(null,'','#view-'+id);
+  }
+  window.showView=showView;
+  function applyHash(){
+    var h=(location.hash||'').replace('#view-','');
+    if(h==='trend'||h==='table'||h==='latest') showView(h);
+  }
+  window.addEventListener('hashchange', applyHash);
+  applyHash();
+  var fmt=CHART.format||'number';
+  var unit=CHART.unit||'';
+  var axisUnit=CHART.axis_unit||unit;
+  function isHL(r){
+    if(r.st==='MA') return true;
+    if(CHART.highlight && (r.name===CHART.highlight || r.st===CHART.highlight)) return true;
+    return false;
+  }
+  function fmtVal(v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'−':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(fmt==='stars') return n+' star'+(n===1?'':'s');
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  function rowLabel(r){
+    if(CHART.geo==='state' && r.st && String(r.st).length===2) return r.st;
+    var s=r.name||r.st||'';
+    return s.length>28?s.slice(0,26)+'…':s;
+  }
+  var rows=(DL&&DL.rows)||[];
+  var nChart=CHART.n_chart||51;
+  var chartRows=rows.slice(0,nChart);
+  var chRank=document.getElementById('chRank');
+  if(chRank && chartRows.length && window.Chart){
+    var labels=chartRows.map(rowLabel);
+    var data=chartRows.map(function(r){return r.v;});
+    var colors=chartRows.map(function(r){return isHL(r)?GOLD:BLUE;});
+    new Chart(chRank,{type:'bar',
+      data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{right:16,top:4}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{
+            title:function(items){var i=items[0]&&items[0].dataIndex; return (chartRows[i]&&chartRows[i].name)||'';},
+            label:function(c){var r=chartRows[c.dataIndex]||{}; var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' · '+unit:''); return ' '+fmtVal(c.parsed.x)+' · rank '+(r.rank||'')+extra;}
+          }}},
+        scales:{
+          x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}},
+          y:{ticks:{color:INK,font:{size:10,family:'Roboto,sans-serif'}},grid:{display:false},border:{display:false}}
+        }}});
+  }
+  var chTrend=document.getElementById('chTrend');
+  var trend=(DL&&DL.trend)||{};
+  var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
+  if(chTrend && window.Chart && keys.length){
+    var pretty={US:'United States',MA:'Massachusetts',Boston:'Boston'};
+    var datasets=keys.map(function(k){
+      var series=trend[k]||[];
+      return {label:pretty[k]||k,
+        data:series.map(function(p){return {x:p.m||String(p.y),y:p.v};}),
+        borderColor:(k==='MA'||k==='Boston')?GOLD:(k==='US'?INK:BLUE),
+        backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:k==='MA'?2.4:2};
+    });
+    new Chart(chTrend,{type:'line',data:{datasets:datasets},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+          tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
+        scales:{
+          x:{type:'category',ticks:{color:GREY,maxTicksLimit:12}},
+          y:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
+        }}});
+  }
+  var tb=document.querySelector('#tblStates tbody');
+  if(tb){
+    tb.innerHTML=rows.map(function(r){
+      var yoy=(r.yoy_pct==null?'':(r.yoy_pct>0?'+':'')+r.yoy_pct+'%');
+      var hl=isHL(r)?' class="hl-ma"':'';
+      return '<tr'+hl+'><td class="m">'+r.name+'</td><td class="n">'+fmtVal(r.v)+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
+    }).join('');
+  }
+})();
+</script>
+
+</body>
+</html>

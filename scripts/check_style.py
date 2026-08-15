@@ -120,6 +120,37 @@ for needle, label in pn_sentinels:
             "the DL-05 ledger moved but the hand-authored page did not follow"
         )
 
+# ---- 5. Suite live-page sentinels (every live DL-06+ ledger) ----
+sys.path.insert(0, str(ROOT / "scripts"))
+from suite_common import load_apps, ledger_path  # noqa: E402
+
+for app in load_apps():
+    led_path = ledger_path(app["id"])
+    slug = app["slug"]
+    page_path = ROOT / slug / "index.html"
+    rel = str(led_path.relative_to(ROOT))
+    if not led_path.exists() or not page_path.exists():
+        failures.append(f"{slug}: missing ledger or page; run scripts/refresh_suite.py")
+        print(f"suite {slug}: MISS ledger or page")
+        continue
+    led = json.loads(led_path.read_text(encoding="utf-8"))
+    page = page_path.read_text(encoding="utf-8")
+    if led.get("status") != "live":
+        print(f"suite {slug}: skip status={led.get('status')}")
+        continue
+    if f"DATA:BEGIN {slug}-data" not in page:
+        failures.append(f"{slug}/index.html is missing the generated {slug}-data block")
+        print(f"suite {slug}: MISS generated block")
+    else:
+        print(f"suite {slug}: ok   generated block present")
+    if led.get("status") == "live":
+        as_of = str(led.get("as_of") or "")
+        if as_of and as_of not in page:
+            failures.append(f"{slug}/index.html does not mention ledger as_of ({as_of})")
+            print(f"suite {slug}: MISS as_of {as_of}")
+        else:
+            print(f"suite {slug}: ok   as_of {as_of}")
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

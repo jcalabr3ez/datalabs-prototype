@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>U.S. State Finances | Pioneer Institute | DataLabs</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="State and local revenues, expenses, rainy-day funds, and public-employee counts.">
+<link rel="canonical" href="https://datalabsai.netlify.app/us-state-finances/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="U.S. State Finances | Pioneer Institute">
+<meta property="og:description" content="State and local revenues, expenses, rainy-day funds, and public-employee counts.">
+<meta property="og:url" content="https://datalabsai.netlify.app/us-state-finances/">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
+<style>
+  :root{ --bleed:clamp(18px,2.6vw,48px); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);margin-top:3px;color:var(--faint)}
+  section{margin-top:56px}
+  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;min-height:30px}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-mid{height:clamp(480px,62vh,780px)}
+  .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  td.m{font-weight:600}
+  tr.hl-ma td{background:var(--wash)}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  details.srcfold,details.simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary,details.simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;font:600 14.5px/1.4 var(--sans);color:var(--ink)}
+  details.srcfold>summary::-webkit-details-marker,details.simplify summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after,details.simplify summary:after{content:none}
+  details.srcfold .fold-body,details.simplify .dt-body{padding:14px 18px 16px}
+  .car{color:var(--gold);font-size:11px}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .scroll{overflow-x:auto;max-width:100%}
+  [hidden]{display:none !important}
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="sitebar">
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; U.S. State Finances</span>
+</div>
+<header>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">American Citizenship <span class="sub">/ State Government &amp; Spending &middot; Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions</span></div>
+  <h1>U.S. State Finances</h1>
+  <div class="standfirst">State and local revenues, expenses, rainy-day funds, and public-employee counts.</div>
+  <div class="dateline">
+<!-- DATA:BEGIN us-state-finances-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <span>Data through <b>2026 Q1</b></span>
+    <span>Revised <b>Aug 15, 2026</b></span>
+    <span>Version <b>0.1</b></span>
+<!-- DATA:END us-state-finances-dateline -->
+  </div>
+</header>
+<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+
+<div class="toggle" role="tablist" aria-label="Choose a view">
+  <button id="btn-latest" class="on" onclick="showView('latest')">Latest<span class="who">The current ranking</span></button>
+  <button id="btn-trend" onclick="showView('trend')">Trend<span class="who">How the series has moved</span></button>
+  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every row</span></button>
+</div>
+
+
+<div id="view-latest">
+  <section style="margin-top:30px">
+    <h2>What are the key takeaways?</h2>
+    <p class="lede">
+<!-- DATA:BEGIN us-state-finances-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+State government tax collections were <b>$393.07 billion</b> in the first quarter of 2026, +5.7% from a year earlier, excluding D.C. (SRC-629-01). Massachusetts collected <b>$11.62 billion</b>, rank 8 of 50 (derived, SRC-629-01). Rainy-day funds and public-employee counts are pending.
+<!-- DATA:END us-state-finances-lead -->
+    </p>
+    <div class="strip metrics">
+<!-- DATA:BEGIN us-state-finances-kpis (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+      <div class="cell">
+        <div class="cl">U.S. state taxes, 2026 Q1</div>
+        <div class="cv">$393.07 billion</div>
+        <div class="cd">+5.7% from 2025 Q1. Excludes D.C. (SRC-629-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The national quarterly tax take.</div>
+        <div class="csrc">Source: Census QTAX table 3 (SRC-629-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Massachusetts</div>
+        <div class="cv">$11.62 billion</div>
+        <div class="cd">Rank 8 of 50 (derived, SRC-629-01). +5.2% from 2025 Q1.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Massachusetts against the other states on the same Census file.</div>
+        <div class="csrc">Source: Census QTAX table 3 (SRC-629-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Highest / lowest</div>
+        <div class="cv">CA $73.97 billion</div>
+        <div class="cd">California collected the most; Alaska the least at $190.63 million (SRC-629-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Annual Census state-finance, NASBO rainy-day, and employee counts are pending.</div>
+        <div class="csrc">Source: Census QTAX table 3 (SRC-629-01)</div>
+      </div>
+<!-- DATA:END us-state-finances-kpis -->
+    </div>
+  </section>
+  <section id="view-rank">
+    <h2>How do they compare?</h2>
+    <div class="lede">State government tax collections, 2026 Q1. Unit: dollars. Massachusetts is marked in gold.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t">State government tax collections, 2026 Q1 by state</span></div>
+      <div class="plot plot-ranks"><canvas id="chRank"></canvas></div>
+      <div class="note">Hover a bar for the full name and figure. Ranks are Pioneer calculations from the published source file (derived).</div>
+      <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> dollars.</div>
+    </div>
+  </section>
+</div>
+
+
+<div id="view-trend" hidden>
+  <section style="margin-top:30px">
+    <h2>How has the series moved?</h2>
+    <div class="lede">A multi-year trend is not in this ledger. Use Latest for the current ranking and Table for every row.</div>
+  </section>
+</div>
+
+
+<div id="view-table" hidden>
+  <section style="margin-top:30px">
+    <h2>Every state</h2>
+    <div class="lede">State government tax collections, 2026 Q1, dollars.</div>
+    <div class="scroll">
+      <table id="tblStates">
+        <thead><tr><th>State</th><th class="n">dollars</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> see the register. Ranks and year-over-year changes are Pioneer calculations (derived).</div>
+  </section>
+</div>
+
+<section id="sources">
+  <h2>Data Sources</h2>
+  <div class="subhead">Every figure on this page traces to a source below. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+  <details class="srcfold">
+    <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
+    <div class="fold-body">
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports</th><th>Data vintage</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr><td class="src"><a href="https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx" target="_blank" rel="noopener">Census QTAX 2026 Q1 table 3, total state taxes (SRC-629-01)</a></td><td>Quarterly</td><td>This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Annual Survey of State Government Finances, NASBO rainy-day funds, and public-employee counts are listed as later views.</td><td>2026 Q1</td><td>Quarterly</td></tr>
+          <tr><td class="src"><a href="https://www.nasbo.org/" target="_blank" rel="noopener">NASBO Fiscal Survey of the States, rainy-day funds (SRC-629-02)</a></td><td>Twice yearly</td><td>This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Annual Survey of State Government Finances, NASBO rainy-day funds, and public-employee counts are listed as later views.</td><td>2026 Q1</td><td>Twice yearly</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+  <details class="simplify">
+    <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
+    <div class="dt-body">
+      <p class="body-p">Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts State Finances), or party-registration advice. Annual finance and rainy-day files are pending.</p>
+      <p class="body-p">It replaces these Tableau workbooks: Financial Transparency, Government Organizations, Party Dominance, Public Pensions, State Employees, State Finance-State &amp; Local Expenses, State Finance-State &amp; Local Revenues, State Finance-State Only Expenses, State Finance-State Only Revenues, State Finance-State Rainy Day Funds. Those URLs stay in the catalog until this page covers the same substance.</p>
+    </div>
+  </details>
+</section>
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+<!-- DATA:BEGIN us-state-finances-footer-meta (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <div>U.S. State Finances &middot; Version 0.1 &middot; Data through 2026 Q1 &middot; Revised Aug 15, 2026</div>
+<!-- DATA:END us-state-finances-footer-meta -->
+    <div>2 sources in the register</div>
+  </div>
+  <div class="disclaimer">
+    <div><b>About this tool.</b> U.S. State Finances is a Pioneer Institute DataLabs research tool. Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
+    <div><b>Verified figures.</b> Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists.</div>
+  </div>
+  <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
+</footer>
+</div>
+
+<script>
+/* DATA:BEGIN us-state-finances-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
+const DL={"tool_id":"DL-29","as_of":"2026-03","rows":[{"st":"CA","name":"California","v":73974755000.0,"rank":1,"n":50,"yoy_pct":6.6},{"st":"NY","name":"New York","v":45826234000.0,"rank":2,"n":50,"yoy_pct":11.6},{"st":"TX","name":"Texas","v":21895163000.0,"rank":3,"n":50,"yoy_pct":2.7},{"st":"IL","name":"Illinois","v":17449803000.0,"rank":4,"n":50,"yoy_pct":8.2},{"st":"PA","name":"Pennsylvania","v":15828321000.0,"rank":5,"n":50,"yoy_pct":2.9},{"st":"FL","name":"Florida","v":15697558000.0,"rank":6,"n":50,"yoy_pct":0.6},{"st":"NJ","name":"New Jersey","v":13827109000.0,"rank":7,"n":50,"yoy_pct":5.6},{"st":"MA","name":"Massachusetts","v":11618592000.0,"rank":8,"n":50,"yoy_pct":5.2},{"st":"WA","name":"Washington","v":10920459000.0,"rank":9,"n":50,"yoy_pct":7.2},{"st":"OH","name":"Ohio","v":10730886000.0,"rank":10,"n":50,"yoy_pct":18.1},{"st":"VA","name":"Virginia","v":10231911000.0,"rank":11,"n":50,"yoy_pct":16.5},{"st":"NC","name":"North Carolina","v":9769391000.0,"rank":12,"n":50,"yoy_pct":0.1},{"st":"MN","name":"Minnesota","v":8790235000.0,"rank":13,"n":50,"yoy_pct":8.0},{"st":"MD","name":"Maryland","v":8685405000.0,"rank":14,"n":50,"yoy_pct":9.3},{"st":"MI","name":"Michigan","v":8586358000.0,"rank":15,"n":50,"yoy_pct":3.6},{"st":"GA","name":"Georgia","v":8083631000.0,"rank":16,"n":50,"yoy_pct":1.1},{"st":"CT","name":"Connecticut","v":6659637000.0,"rank":17,"n":50,"yoy_pct":7.7},{"st":"IN","name":"Indiana","v":6604936000.0,"rank":18,"n":50,"yoy_pct":4.2},{"st":"TN","name":"Tennessee","v":6041014000.0,"rank":19,"n":50,"yoy_pct":12.3},{"st":"WI","name":"Wisconsin","v":5384708000.0,"rank":20,"n":50,"yoy_pct":0.2},{"st":"AZ","name":"Arizona","v":5312148000.0,"rank":21,"n":50,"yoy_pct":1.7},{"st":"AL","name":"Alabama","v":4219308000.0,"rank":22,"n":50,"yoy_pct":1.8},{"st":"SC","name":"South Carolina","v":4209418000.0,"rank":23,"n":50,"yoy_pct":6.1},{"st":"MO","name":"Missouri","v":4152175000.0,"rank":24,"n":50,"yoy_pct":-0.7},{"st":"KY","name":"Kentucky","v":4009792000.0,"rank":25,"n":50,"yoy_pct":0.5},{"st":"NV","name":"Nevada","v":3961028000.0,"rank":26,"n":50,"yoy_pct":2.2},{"st":"OR","name":"Oregon","v":3947419000.0,"rank":27,"n":50,"yoy_pct":-7.7},{"st":"CO","name":"Colorado","v":3849072000.0,"rank":28,"n":50,"yoy_pct":6.4},{"st":"NM","name":"New Mexico","v":3760324000.0,"rank":29,"n":50,"yoy_pct":-0.4},{"st":"LA","name":"Louisiana","v":3500066000.0,"rank":30,"n":50,"yoy_pct":6.1},{"st":"KS","name":"Kansas","v":3315661000.0,"rank":31,"n":50,"yoy_pct":1.0},{"st":"UT","name":"Utah","v":3195608000.0,"rank":32,"n":50,"yoy_pct":-8.1},{"st":"OK","name":"Oklahoma","v":2929798000.0,"rank":33,"n":50,"yoy_pct":0.4},{"st":"AR","name":"Arkansas","v":2877889000.0,"rank":34,"n":50,"yoy_pct":7.7},{"st":"IA","name":"Iowa","v":2611561000.0,"rank":35,"n":50,"yoy_pct":-5.7},{"st":"MS","name":"Mississippi","v":2544500000.0,"rank":36,"n":50,"yoy_pct":0.9},{"st":"HI","name":"Hawaii","v":2485520000.0,"rank":37,"n":50,"yoy_pct":3.9},{"st":"ID","name":"Idaho","v":2064262000.0,"rank":38,"n":50,"yoy_pct":3.2},{"st":"DE","name":"Delaware","v":1875823000.0,"rank":39,"n":50,"yoy_pct":6.8},{"st":"NE","name":"Nebraska","v":1833382000.0,"rank":40,"n":50,"yoy_pct":3.5},{"st":"WV","name":"West Virginia","v":1791702000.0,"rank":41,"n":50,"yoy_pct":10.0},{"st":"ME","name":"Maine","v":1253923000.0,"rank":42,"n":50,"yoy_pct":3.1},{"st":"RI","name":"Rhode Island","v":1226217000.0,"rank":43,"n":50,"yoy_pct":3.3},{"st":"MT","name":"Montana","v":1173934000.0,"rank":44,"n":50,"yoy_pct":-1.4},{"st":"ND","name":"North Dakota","v":1171712000.0,"rank":45,"n":50,"yoy_pct":-7.3},{"st":"VT","name":"Vermont","v":919954000.0,"rank":46,"n":50,"yoy_pct":-0.7},{"st":"NH","name":"New Hampshire","v":809683000.0,"rank":47,"n":50,"yoy_pct":7.1},{"st":"SD","name":"South Dakota","v":687797000.0,"rank":48,"n":50,"yoy_pct":7.6},{"st":"WY","name":"Wyoming","v":586266000.0,"rank":49,"n":50,"yoy_pct":-1.0},{"st":"AK","name":"Alaska","v":190631000.0,"rank":50,"n":50,"yoy_pct":-23.1}],"trend":{},"latest":{"us":{"v":393072675000.0,"yoy_pct":5.7},"ma":{"v":11618592000.0,"rank":8,"n":50,"yoy_pct":5.2},"highest":{"st":"CA","name":"California","v":73974755000.0},"lowest":{"st":"AK","name":"Alaska","v":190631000.0}},"derived":{"note":"Prefer these over recomputing. Ranks cite (derived, SRC-629-01).","highest_five":[{"st":"CA","name":"California","v":73974755000.0,"rank":1,"n":50,"yoy_pct":6.6},{"st":"NY","name":"New York","v":45826234000.0,"rank":2,"n":50,"yoy_pct":11.6},{"st":"TX","name":"Texas","v":21895163000.0,"rank":3,"n":50,"yoy_pct":2.7},{"st":"IL","name":"Illinois","v":17449803000.0,"rank":4,"n":50,"yoy_pct":8.2},{"st":"PA","name":"Pennsylvania","v":15828321000.0,"rank":5,"n":50,"yoy_pct":2.9}],"lowest_five":[{"st":"AK","name":"Alaska","v":190631000.0,"rank":50,"n":50,"yoy_pct":-23.1},{"st":"WY","name":"Wyoming","v":586266000.0,"rank":49,"n":50,"yoy_pct":-1.0},{"st":"SD","name":"South Dakota","v":687797000.0,"rank":48,"n":50,"yoy_pct":7.6},{"st":"NH","name":"New Hampshire","v":809683000.0,"rank":47,"n":50,"yoy_pct":7.1},{"st":"VT","name":"Vermont","v":919954000.0,"rank":46,"n":50,"yoy_pct":-0.7}],"n_ranked":50,"massachusetts_rank":8},"metric":"state_tax_collections_2026q1","unit":"dollars"};
+/* DATA:END us-state-finances-data */
+const CHART={"geo": "state", "format": "usd", "highlight": "MA", "n_chart": 50, "unit": "dollars", "axis_unit": "dollars", "label": "State government tax collections, 2026 Q1", "title": "State government tax collections, 2026 Q1 by state", "lede": "State government tax collections, 2026 Q1. Unit: dollars. Massachusetts is marked in gold.", "has_trend": false, "table_noun": "Every state", "col_name": "State", "trend_title": "State government tax collections, 2026 Q1 over time"};
+
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
+  var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#666666';
+  function showView(id){
+    ['latest','trend','table'].forEach(function(v){
+      var el=document.getElementById('view-'+v);
+      if(el) el.hidden = (v!==id);
+      var b=document.getElementById('btn-'+v);
+      if(b) b.classList.toggle('on', v===id);
+    });
+    if(location.hash!=='#view-'+id) history.replaceState(null,'','#view-'+id);
+  }
+  window.showView=showView;
+  function applyHash(){
+    var h=(location.hash||'').replace('#view-','');
+    if(h==='trend'||h==='table'||h==='latest') showView(h);
+  }
+  window.addEventListener('hashchange', applyHash);
+  applyHash();
+  var fmt=CHART.format||'number';
+  var unit=CHART.unit||'';
+  var axisUnit=CHART.axis_unit||unit;
+  function isHL(r){
+    if(r.st==='MA') return true;
+    if(CHART.highlight && (r.name===CHART.highlight || r.st===CHART.highlight)) return true;
+    return false;
+  }
+  function fmtVal(v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'−':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(fmt==='stars') return n+' star'+(n===1?'':'s');
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  function rowLabel(r){
+    if(CHART.geo==='state' && r.st && String(r.st).length===2) return r.st;
+    var s=r.name||r.st||'';
+    return s.length>28?s.slice(0,26)+'…':s;
+  }
+  var rows=(DL&&DL.rows)||[];
+  var nChart=CHART.n_chart||51;
+  var chartRows=rows.slice(0,nChart);
+  var chRank=document.getElementById('chRank');
+  if(chRank && chartRows.length && window.Chart){
+    var labels=chartRows.map(rowLabel);
+    var data=chartRows.map(function(r){return r.v;});
+    var colors=chartRows.map(function(r){return isHL(r)?GOLD:BLUE;});
+    new Chart(chRank,{type:'bar',
+      data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{right:16,top:4}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{
+            title:function(items){var i=items[0]&&items[0].dataIndex; return (chartRows[i]&&chartRows[i].name)||'';},
+            label:function(c){var r=chartRows[c.dataIndex]||{}; var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' · '+unit:''); return ' '+fmtVal(c.parsed.x)+' · rank '+(r.rank||'')+extra;}
+          }}},
+        scales:{
+          x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}},
+          y:{ticks:{color:INK,font:{size:10,family:'Roboto,sans-serif'}},grid:{display:false},border:{display:false}}
+        }}});
+  }
+  var chTrend=document.getElementById('chTrend');
+  var trend=(DL&&DL.trend)||{};
+  var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
+  if(chTrend && window.Chart && keys.length){
+    var pretty={US:'United States',MA:'Massachusetts',Boston:'Boston'};
+    var datasets=keys.map(function(k){
+      var series=trend[k]||[];
+      return {label:pretty[k]||k,
+        data:series.map(function(p){return {x:p.m||String(p.y),y:p.v};}),
+        borderColor:(k==='MA'||k==='Boston')?GOLD:(k==='US'?INK:BLUE),
+        backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:k==='MA'?2.4:2};
+    });
+    new Chart(chTrend,{type:'line',data:{datasets:datasets},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+          tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
+        scales:{
+          x:{type:'category',ticks:{color:GREY,maxTicksLimit:12}},
+          y:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
+        }}});
+  }
+  var tb=document.querySelector('#tblStates tbody');
+  if(tb){
+    tb.innerHTML=rows.map(function(r){
+      var yoy=(r.yoy_pct==null?'':(r.yoy_pct>0?'+':'')+r.yoy_pct+'%');
+      var hl=isHL(r)?' class="hl-ma"':'';
+      return '<tr'+hl+'><td class="m">'+r.name+'</td><td class="n">'+fmtVal(r.v)+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
+    }).join('');
+  }
+})();
+</script>
+
+</body>
+</html>

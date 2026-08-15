@@ -1,0 +1,1053 @@
+{
+  "tool_id": "DL-24",
+  "title": "Energy Supply",
+  "slug": "energy-supply",
+  "vertical": "Economic Opportunity",
+  "group": "Energy",
+  "status": "live",
+  "as_of": "2022-12",
+  "scope": "This ledger ranks states on EIA energy-related carbon dioxide emissions for 2022, and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04.",
+  "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill. SEDS production is pending.",
+  "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
+  "replaces": [
+    "CO2 Emissions",
+    "Energy Consumption",
+    "Energy Production"
+  ],
+  "vintage_note": "Rebuilt Aug 15, 2026 from EIA state energy-related CO2 table 1, year 2022, million metric tons. SEDS consumption and production Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "source_id_map": {
+    "SRC-624-01": {
+      "name": "EIA state energy-related CO2 emissions, table 1",
+      "cadence": "Annual",
+      "url": "https://www.eia.gov/environment/emissions/state/excel/table1.xlsx",
+      "supports": "This ledger ranks states on EIA energy-related carbon dioxide emissions for 2022, and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04."
+    },
+    "SRC-624-02": {
+      "name": "EIA SEDS total energy consumption (TETCB)",
+      "cadence": "Annual",
+      "url": "https://www.eia.gov/state/seds/sep_use/total/csv/use_all_btu.csv",
+      "supports": "This ledger ranks states on EIA energy-related carbon dioxide emissions for 2022, and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.1"
+  },
+  "geo": [
+    "US",
+    "MA"
+  ],
+  "q": "Energy consumption, production, and CO2 emissions by state. Not the retail-price page.",
+  "pending": false,
+  "metric": "energy_co2_2022_mmt",
+  "metric_label": "Energy-related CO2 emissions, 2022 (million metric tons)",
+  "unit": "million metric tons",
+  "data_month": "2022-12",
+  "data_month_label": "Calendar year 2022",
+  "lead": "Energy-related carbon dioxide emissions were <b>4,934.4 million metric tons</b> in 2022 (SRC-624-01). Massachusetts emitted <b>59.2 million metric tons</b>, rank 32 of 51 (derived, SRC-624-01). Total energy consumption was <b>94,543,438</b> billion Btu in the United States in 2024 (SRC-624-02). Massachusetts consumed <b>1,289,504</b> billion Btu, rank 27 of 51 (derived, SRC-624-02). SEDS production remains pending because that file was not in the consumption extract.",
+  "kpis": [
+    {
+      "label": "U.S. energy CO2, 2022",
+      "value": "4,934.4 million metric tons",
+      "detail": "State energy-related carbon dioxide emissions (SRC-624-01). U.S. is the published total when present, otherwise the sum of states.",
+      "why": "The national emissions stock from energy.",
+      "src": "EIA state energy-related CO2 table 1 (SRC-624-01)"
+    },
+    {
+      "label": "Massachusetts",
+      "value": "59.2 million metric tons",
+      "detail": "Rank 32 of 51 (derived, SRC-624-01).",
+      "why": "Massachusetts energy CO2 against the other jurisdictions.",
+      "src": "EIA state energy-related CO2 table 1 (SRC-624-01)"
+    },
+    {
+      "label": "Highest / lowest",
+      "value": "TX 663.0",
+      "detail": "Texas emitted the most; District of Columbia the least at 2.6 million metric tons (SRC-624-01).",
+      "why": "",
+      "src": "EIA state energy-related CO2 table 1 (SRC-624-01)"
+    }
+  ],
+  "latest": {
+    "us": {
+      "v": 4934.407552317108
+    },
+    "ma": {
+      "v": 59.2,
+      "rank": 32,
+      "n": 51
+    },
+    "highest": {
+      "st": "TX",
+      "name": "Texas",
+      "v": 663.0
+    },
+    "lowest": {
+      "st": "DC",
+      "name": "District of Columbia",
+      "v": 2.65
+    }
+  },
+  "rows": [
+    {
+      "st": "TX",
+      "name": "Texas",
+      "v": 663.0,
+      "rank": 1,
+      "n": 51
+    },
+    {
+      "st": "CA",
+      "name": "California",
+      "v": 326.21,
+      "rank": 2,
+      "n": 51
+    },
+    {
+      "st": "FL",
+      "name": "Florida",
+      "v": 231.0,
+      "rank": 3,
+      "n": 51
+    },
+    {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 213.51,
+      "rank": 4,
+      "n": 51
+    },
+    {
+      "st": "OH",
+      "name": "Ohio",
+      "v": 196.19,
+      "rank": 5,
+      "n": 51
+    },
+    {
+      "st": "LA",
+      "name": "Louisiana",
+      "v": 191.77,
+      "rank": 6,
+      "n": 51
+    },
+    {
+      "st": "IL",
+      "name": "Illinois",
+      "v": 183.69,
+      "rank": 7,
+      "n": 51
+    },
+    {
+      "st": "NY",
+      "name": "New York",
+      "v": 166.06,
+      "rank": 8,
+      "n": 51
+    },
+    {
+      "st": "IN",
+      "name": "Indiana",
+      "v": 163.19,
+      "rank": 9,
+      "n": 51
+    },
+    {
+      "st": "MI",
+      "name": "Michigan",
+      "v": 153.96,
+      "rank": 10,
+      "n": 51
+    },
+    {
+      "st": "GA",
+      "name": "Georgia",
+      "v": 124.76,
+      "rank": 11,
+      "n": 51
+    },
+    {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 116.61,
+      "rank": 12,
+      "n": 51
+    },
+    {
+      "st": "MO",
+      "name": "Missouri",
+      "v": 112.87,
+      "rank": 13,
+      "n": 51
+    },
+    {
+      "st": "KY",
+      "name": "Kentucky",
+      "v": 109.6,
+      "rank": 14,
+      "n": 51
+    },
+    {
+      "st": "AL",
+      "name": "Alabama",
+      "v": 109.29,
+      "rank": 15,
+      "n": 51
+    },
+    {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 96.23,
+      "rank": 16,
+      "n": 51
+    },
+    {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 92.52,
+      "rank": 17,
+      "n": 51
+    },
+    {
+      "st": "TN",
+      "name": "Tennessee",
+      "v": 91.11,
+      "rank": 18,
+      "n": 51
+    },
+    {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 90.59,
+      "rank": 19,
+      "n": 51
+    },
+    {
+      "st": "CO",
+      "name": "Colorado",
+      "v": 88.69,
+      "rank": 20,
+      "n": 51
+    },
+    {
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 87.08,
+      "rank": 21,
+      "n": 51
+    },
+    {
+      "st": "MN",
+      "name": "Minnesota",
+      "v": 84.41,
+      "rank": 22,
+      "n": 51
+    },
+    {
+      "st": "AZ",
+      "name": "Arizona",
+      "v": 81.43,
+      "rank": 23,
+      "n": 51
+    },
+    {
+      "st": "WV",
+      "name": "West Virginia",
+      "v": 79.18,
+      "rank": 24,
+      "n": 51
+    },
+    {
+      "st": "WA",
+      "name": "Washington",
+      "v": 74.7,
+      "rank": 25,
+      "n": 51
+    },
+    {
+      "st": "IA",
+      "name": "Iowa",
+      "v": 71.48,
+      "rank": 26,
+      "n": 51
+    },
+    {
+      "st": "SC",
+      "name": "South Carolina",
+      "v": 67.29,
+      "rank": 27,
+      "n": 51
+    },
+    {
+      "st": "MS",
+      "name": "Mississippi",
+      "v": 65.07,
+      "rank": 28,
+      "n": 51
+    },
+    {
+      "st": "AR",
+      "name": "Arkansas",
+      "v": 63.18,
+      "rank": 29,
+      "n": 51
+    },
+    {
+      "st": "KS",
+      "name": "Kansas",
+      "v": 62.15,
+      "rank": 30,
+      "n": 51
+    },
+    {
+      "st": "UT",
+      "name": "Utah",
+      "v": 60.05,
+      "rank": 31,
+      "n": 51
+    },
+    {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 59.2,
+      "rank": 32,
+      "n": 51
+    },
+    {
+      "st": "ND",
+      "name": "North Dakota",
+      "v": 57.03,
+      "rank": 33,
+      "n": 51
+    },
+    {
+      "st": "WY",
+      "name": "Wyoming",
+      "v": 56.18,
+      "rank": 34,
+      "n": 51
+    },
+    {
+      "st": "MD",
+      "name": "Maryland",
+      "v": 50.56,
+      "rank": 35,
+      "n": 51
+    },
+    {
+      "st": "NE",
+      "name": "Nebraska",
+      "v": 48.07,
+      "rank": 36,
+      "n": 51
+    },
+    {
+      "st": "NM",
+      "name": "New Mexico",
+      "v": 46.45,
+      "rank": 37,
+      "n": 51
+    },
+    {
+      "st": "AK",
+      "name": "Alaska",
+      "v": 41.3,
+      "rank": 38,
+      "n": 51
+    },
+    {
+      "st": "NV",
+      "name": "Nevada",
+      "v": 40.39,
+      "rank": 39,
+      "n": 51
+    },
+    {
+      "st": "OR",
+      "name": "Oregon",
+      "v": 37.61,
+      "rank": 40,
+      "n": 51
+    },
+    {
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 37.04,
+      "rank": 41,
+      "n": 51
+    },
+    {
+      "st": "MT",
+      "name": "Montana",
+      "v": 29.5,
+      "rank": 42,
+      "n": 51
+    },
+    {
+      "st": "ID",
+      "name": "Idaho",
+      "v": 20.72,
+      "rank": 43,
+      "n": 51
+    },
+    {
+      "st": "HI",
+      "name": "Hawaii",
+      "v": 18.09,
+      "rank": 44,
+      "n": 51
+    },
+    {
+      "st": "SD",
+      "name": "South Dakota",
+      "v": 15.64,
+      "rank": 45,
+      "n": 51
+    },
+    {
+      "st": "ME",
+      "name": "Maine",
+      "v": 14.94,
+      "rank": 46,
+      "n": 51
+    },
+    {
+      "st": "NH",
+      "name": "New Hampshire",
+      "v": 13.8,
+      "rank": 47,
+      "n": 51
+    },
+    {
+      "st": "DE",
+      "name": "Delaware",
+      "v": 12.66,
+      "rank": 48,
+      "n": 51
+    },
+    {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 10.17,
+      "rank": 49,
+      "n": 51
+    },
+    {
+      "st": "VT",
+      "name": "Vermont",
+      "v": 5.51,
+      "rank": 50,
+      "n": 51
+    },
+    {
+      "st": "DC",
+      "name": "District of Columbia",
+      "v": 2.65,
+      "rank": 51,
+      "n": 51
+    }
+  ],
+  "trend": {
+    "US": [
+      {
+        "y": 2000,
+        "v": 5857.67
+      },
+      {
+        "y": 2001,
+        "v": 5748.12
+      },
+      {
+        "y": 2002,
+        "v": 5783.7
+      },
+      {
+        "y": 2003,
+        "v": 5855.12
+      },
+      {
+        "y": 2004,
+        "v": 5953.15
+      },
+      {
+        "y": 2005,
+        "v": 5978.62
+      },
+      {
+        "y": 2006,
+        "v": 5899.97
+      },
+      {
+        "y": 2007,
+        "v": 5990.39
+      },
+      {
+        "y": 2008,
+        "v": 5797.6
+      },
+      {
+        "y": 2009,
+        "v": 5384.83
+      },
+      {
+        "y": 2010,
+        "v": 5576.38
+      },
+      {
+        "y": 2011,
+        "v": 5436.29
+      },
+      {
+        "y": 2012,
+        "v": 5215.67
+      },
+      {
+        "y": 2013,
+        "v": 5340.02
+      },
+      {
+        "y": 2014,
+        "v": 5395.77
+      },
+      {
+        "y": 2015,
+        "v": 5242.87
+      },
+      {
+        "y": 2016,
+        "v": 5149.66
+      },
+      {
+        "y": 2017,
+        "v": 5114.43
+      },
+      {
+        "y": 2018,
+        "v": 5267.16
+      },
+      {
+        "y": 2019,
+        "v": 5134.77
+      },
+      {
+        "y": 2020,
+        "v": 4571.97
+      },
+      {
+        "y": 2021,
+        "v": 4895.6
+      },
+      {
+        "y": 2022,
+        "v": 4934.41
+      }
+    ],
+    "MA": [
+      {
+        "y": 2000,
+        "v": 82.3
+      },
+      {
+        "y": 2001,
+        "v": 81.99
+      },
+      {
+        "y": 2002,
+        "v": 82.95
+      },
+      {
+        "y": 2003,
+        "v": 84.81
+      },
+      {
+        "y": 2004,
+        "v": 82.95
+      },
+      {
+        "y": 2005,
+        "v": 84.36
+      },
+      {
+        "y": 2006,
+        "v": 76.55
+      },
+      {
+        "y": 2007,
+        "v": 79.86
+      },
+      {
+        "y": 2008,
+        "v": 76.65
+      },
+      {
+        "y": 2009,
+        "v": 70.32
+      },
+      {
+        "y": 2010,
+        "v": 72.73
+      },
+      {
+        "y": 2011,
+        "v": 68.64
+      },
+      {
+        "y": 2012,
+        "v": 62.37
+      },
+      {
+        "y": 2013,
+        "v": 66.27
+      },
+      {
+        "y": 2014,
+        "v": 64.76
+      },
+      {
+        "y": 2015,
+        "v": 66.51
+      },
+      {
+        "y": 2016,
+        "v": 63.79
+      },
+      {
+        "y": 2017,
+        "v": 64.47
+      },
+      {
+        "y": 2018,
+        "v": 63.87
+      },
+      {
+        "y": 2019,
+        "v": 63.12
+      },
+      {
+        "y": 2020,
+        "v": 52.06
+      },
+      {
+        "y": 2021,
+        "v": 56.0
+      },
+      {
+        "y": 2022,
+        "v": 59.2
+      }
+    ]
+  },
+  "derived": {
+    "note": "Prefer these over recomputing. Ranks cite (derived, SRC-624-01).",
+    "highest_five": [
+      {
+        "st": "TX",
+        "name": "Texas",
+        "v": 663.0,
+        "rank": 1,
+        "n": 51
+      },
+      {
+        "st": "CA",
+        "name": "California",
+        "v": 326.21,
+        "rank": 2,
+        "n": 51
+      },
+      {
+        "st": "FL",
+        "name": "Florida",
+        "v": 231.0,
+        "rank": 3,
+        "n": 51
+      },
+      {
+        "st": "PA",
+        "name": "Pennsylvania",
+        "v": 213.51,
+        "rank": 4,
+        "n": 51
+      },
+      {
+        "st": "OH",
+        "name": "Ohio",
+        "v": 196.19,
+        "rank": 5,
+        "n": 51
+      }
+    ],
+    "lowest_five": [
+      {
+        "st": "DC",
+        "name": "District of Columbia",
+        "v": 2.65,
+        "rank": 51,
+        "n": 51
+      },
+      {
+        "st": "VT",
+        "name": "Vermont",
+        "v": 5.51,
+        "rank": 50,
+        "n": 51
+      },
+      {
+        "st": "RI",
+        "name": "Rhode Island",
+        "v": 10.17,
+        "rank": 49,
+        "n": 51
+      },
+      {
+        "st": "DE",
+        "name": "Delaware",
+        "v": 12.66,
+        "rank": 48,
+        "n": 51
+      },
+      {
+        "st": "NH",
+        "name": "New Hampshire",
+        "v": 13.8,
+        "rank": 47,
+        "n": 51
+      }
+    ],
+    "n_ranked": 51,
+    "massachusetts_rank": 32,
+    "secondary": {
+      "seds_consumption_2024": {
+        "us": 94543438.0,
+        "ma": {
+          "v": 1289504.0,
+          "rank": 27,
+          "n": 51
+        },
+        "highest": {
+          "st": "TX",
+          "name": "Texas",
+          "v": 14536890.0
+        },
+        "lowest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 114172.0
+        },
+        "n_ranked": 51,
+        "label": "Total energy consumption, 2024 (billion Btu)",
+        "src": "SRC-624-02",
+        "unit": "billion Btu",
+        "as_of_label": "Calendar year 2024",
+        "note": "SEDS series TETCB. Production (TEPRB) was not in this consumption file."
+      }
+    }
+  },
+  "entities": {
+    "TX": {
+      "st": "TX",
+      "name": "Texas",
+      "v": 663.0,
+      "rank": 1
+    },
+    "CA": {
+      "st": "CA",
+      "name": "California",
+      "v": 326.21,
+      "rank": 2
+    },
+    "FL": {
+      "st": "FL",
+      "name": "Florida",
+      "v": 231.0,
+      "rank": 3
+    },
+    "PA": {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 213.51,
+      "rank": 4
+    },
+    "OH": {
+      "st": "OH",
+      "name": "Ohio",
+      "v": 196.19,
+      "rank": 5
+    },
+    "LA": {
+      "st": "LA",
+      "name": "Louisiana",
+      "v": 191.77,
+      "rank": 6
+    },
+    "IL": {
+      "st": "IL",
+      "name": "Illinois",
+      "v": 183.69,
+      "rank": 7
+    },
+    "NY": {
+      "st": "NY",
+      "name": "New York",
+      "v": 166.06,
+      "rank": 8
+    },
+    "IN": {
+      "st": "IN",
+      "name": "Indiana",
+      "v": 163.19,
+      "rank": 9
+    },
+    "MI": {
+      "st": "MI",
+      "name": "Michigan",
+      "v": 153.96,
+      "rank": 10
+    },
+    "GA": {
+      "st": "GA",
+      "name": "Georgia",
+      "v": 124.76,
+      "rank": 11
+    },
+    "NC": {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 116.61,
+      "rank": 12
+    },
+    "MO": {
+      "st": "MO",
+      "name": "Missouri",
+      "v": 112.87,
+      "rank": 13
+    },
+    "KY": {
+      "st": "KY",
+      "name": "Kentucky",
+      "v": 109.6,
+      "rank": 14
+    },
+    "AL": {
+      "st": "AL",
+      "name": "Alabama",
+      "v": 109.29,
+      "rank": 15
+    },
+    "VA": {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 96.23,
+      "rank": 16
+    },
+    "NJ": {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 92.52,
+      "rank": 17
+    },
+    "TN": {
+      "st": "TN",
+      "name": "Tennessee",
+      "v": 91.11,
+      "rank": 18
+    },
+    "WI": {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 90.59,
+      "rank": 19
+    },
+    "CO": {
+      "st": "CO",
+      "name": "Colorado",
+      "v": 88.69,
+      "rank": 20
+    },
+    "OK": {
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 87.08,
+      "rank": 21
+    },
+    "MN": {
+      "st": "MN",
+      "name": "Minnesota",
+      "v": 84.41,
+      "rank": 22
+    },
+    "AZ": {
+      "st": "AZ",
+      "name": "Arizona",
+      "v": 81.43,
+      "rank": 23
+    },
+    "WV": {
+      "st": "WV",
+      "name": "West Virginia",
+      "v": 79.18,
+      "rank": 24
+    },
+    "WA": {
+      "st": "WA",
+      "name": "Washington",
+      "v": 74.7,
+      "rank": 25
+    },
+    "IA": {
+      "st": "IA",
+      "name": "Iowa",
+      "v": 71.48,
+      "rank": 26
+    },
+    "SC": {
+      "st": "SC",
+      "name": "South Carolina",
+      "v": 67.29,
+      "rank": 27
+    },
+    "MS": {
+      "st": "MS",
+      "name": "Mississippi",
+      "v": 65.07,
+      "rank": 28
+    },
+    "AR": {
+      "st": "AR",
+      "name": "Arkansas",
+      "v": 63.18,
+      "rank": 29
+    },
+    "KS": {
+      "st": "KS",
+      "name": "Kansas",
+      "v": 62.15,
+      "rank": 30
+    },
+    "UT": {
+      "st": "UT",
+      "name": "Utah",
+      "v": 60.05,
+      "rank": 31
+    },
+    "MA": {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 59.2,
+      "rank": 32
+    },
+    "ND": {
+      "st": "ND",
+      "name": "North Dakota",
+      "v": 57.03,
+      "rank": 33
+    },
+    "WY": {
+      "st": "WY",
+      "name": "Wyoming",
+      "v": 56.18,
+      "rank": 34
+    },
+    "MD": {
+      "st": "MD",
+      "name": "Maryland",
+      "v": 50.56,
+      "rank": 35
+    },
+    "NE": {
+      "st": "NE",
+      "name": "Nebraska",
+      "v": 48.07,
+      "rank": 36
+    },
+    "NM": {
+      "st": "NM",
+      "name": "New Mexico",
+      "v": 46.45,
+      "rank": 37
+    },
+    "AK": {
+      "st": "AK",
+      "name": "Alaska",
+      "v": 41.3,
+      "rank": 38
+    },
+    "NV": {
+      "st": "NV",
+      "name": "Nevada",
+      "v": 40.39,
+      "rank": 39
+    },
+    "OR": {
+      "st": "OR",
+      "name": "Oregon",
+      "v": 37.61,
+      "rank": 40
+    },
+    "CT": {
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 37.04,
+      "rank": 41
+    },
+    "MT": {
+      "st": "MT",
+      "name": "Montana",
+      "v": 29.5,
+      "rank": 42
+    },
+    "ID": {
+      "st": "ID",
+      "name": "Idaho",
+      "v": 20.72,
+      "rank": 43
+    },
+    "HI": {
+      "st": "HI",
+      "name": "Hawaii",
+      "v": 18.09,
+      "rank": 44
+    },
+    "SD": {
+      "st": "SD",
+      "name": "South Dakota",
+      "v": 15.64,
+      "rank": 45
+    },
+    "ME": {
+      "st": "ME",
+      "name": "Maine",
+      "v": 14.94,
+      "rank": 46
+    },
+    "NH": {
+      "st": "NH",
+      "name": "New Hampshire",
+      "v": 13.8,
+      "rank": 47
+    },
+    "DE": {
+      "st": "DE",
+      "name": "Delaware",
+      "v": 12.66,
+      "rank": 48
+    },
+    "RI": {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 10.17,
+      "rank": 49
+    },
+    "VT": {
+      "st": "VT",
+      "name": "Vermont",
+      "v": 5.51,
+      "rank": 50
+    },
+    "DC": {
+      "st": "DC",
+      "name": "District of Columbia",
+      "v": 2.65,
+      "rank": 51
+    }
+  }
+}

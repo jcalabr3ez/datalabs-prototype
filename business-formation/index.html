@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Formation | Pioneer Institute | DataLabs</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="New business applications and projected formations, state by state, from Census BFS.">
+<link rel="canonical" href="https://datalabsai.netlify.app/business-formation/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pioneer DataLabs">
+<meta property="og:title" content="Business Formation | Pioneer Institute">
+<meta property="og:description" content="New business applications and projected formations, state by state, from Census BFS.">
+<meta property="og:url" content="https://datalabsai.netlify.app/business-formation/">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/datalabs.css">
+<style>
+  :root{ --bleed:clamp(18px,2.6vw,48px); }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%}
+  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
+  a{color:var(--navy)}
+  a:hover{color:var(--gold)}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
+  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar img{height:24px;width:auto;display:block}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
+  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
+  .sitebar .tag b{color:var(--goldlt);font-weight:700}
+  @media(max-width:520px){.sitebar .tag{display:none}}
+  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
+  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px}
+  header>*:not(.dots){position:relative}
+  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
+  .org .sub{color:#8DA0B5}
+  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
+  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
+  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
+  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
+  .dateline span:first-child{padding-left:0;border-left:none}
+  .dateline b{color:var(--goldlt);font-weight:500}
+  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
+  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
+  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
+  .proto-txt b{color:#fff;font-weight:600}
+  .proto-txt a{color:inherit;text-decoration:underline}
+  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
+  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle .who{display:block;font:400 11px/1.35 var(--sans);margin-top:3px;color:var(--faint)}
+  section{margin-top:56px}
+  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .cell:last-child{border-right:0;padding-right:0}
+  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;min-height:30px}
+  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
+  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
+  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
+  .metrics .cell{text-align:center;padding:20px 16px}
+  .exhibit{margin-top:30px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot{height:clamp(300px,34vh,460px)}
+  .plot-mid{height:clamp(480px,62vh,780px)}
+  .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
+  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
+  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
+  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
+  td.m{font-weight:600}
+  tr.hl-ma td{background:var(--wash)}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
+  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  details.srcfold,details.simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
+  details.srcfold>summary,details.simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;font:600 14.5px/1.4 var(--sans);color:var(--ink)}
+  details.srcfold>summary::-webkit-details-marker,details.simplify summary::-webkit-details-marker{display:none}
+  details.srcfold>summary:after,details.simplify summary:after{content:none}
+  details.srcfold .fold-body,details.simplify .dt-body{padding:14px 18px 16px}
+  .car{color:var(--gold);font-size:11px}
+  table.reg{font-size:11.5px;line-height:1.55}
+  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
+  table.reg td.src{color:var(--ink);font-weight:600}
+  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
+  .scroll{overflow-x:auto;max-width:100%}
+  [hidden]{display:none !important}
+  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer b{color:#fff}
+  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
+  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
+  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
+  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
+  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
+  body.embed .sitebar,body.embed footer .fbrand{display:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="sitebar">
+  <div class="sbleft">
+    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+  </div>
+  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Business Formation</span>
+</div>
+<header>
+  <div class="dots" aria-hidden="true"></div>
+  <div class="org">Economic Opportunity <span class="sub">/ Economy &amp; Jobs &middot; Formerly Business Births and Deaths and Business Dynamics</span></div>
+  <h1>Business Formation</h1>
+  <div class="standfirst">New business applications and projected formations, state by state, from Census BFS.</div>
+  <div class="dateline">
+<!-- DATA:BEGIN business-formation-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <span>Data through <b>Jul 2026</b></span>
+    <span>Revised <b>Aug 15, 2026</b></span>
+    <span>Version <b>0.1</b></span>
+<!-- DATA:END business-formation-dateline -->
+  </div>
+</header>
+<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+
+<div class="toggle" role="tablist" aria-label="Choose a view">
+  <button id="btn-latest" class="on" onclick="showView('latest')">Latest<span class="who">The current ranking</span></button>
+  <button id="btn-trend" onclick="showView('trend')">Trend<span class="who">How the series has moved</span></button>
+  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every row</span></button>
+</div>
+
+
+<div id="view-latest">
+  <section style="margin-top:30px">
+    <h2>What are the key takeaways?</h2>
+    <p class="lede">
+<!-- DATA:BEGIN business-formation-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+Seasonally adjusted business applications were <b>578,926</b> in Jul 2026, +23.4% from a year earlier (SRC-613-01). Massachusetts filed <b>7,497</b>, rank 25 of 51 (derived, SRC-613-01).
+<!-- DATA:END business-formation-lead -->
+    </p>
+    <div class="strip metrics">
+<!-- DATA:BEGIN business-formation-kpis (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+      <div class="cell">
+        <div class="cl">U.S. applications, Jul 2026</div>
+        <div class="cv">578,926</div>
+        <div class="cd">Seasonally adjusted business applications (SRC-613-01). +23.4% from Jul 2025.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> This is the national count the rest of the page is measured against.</div>
+        <div class="csrc">Source: Census BFS monthly time series (SRC-613-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Massachusetts</div>
+        <div class="cv">7,497</div>
+        <div class="cd">Rank 25 of 51 (derived, SRC-613-01). +14.0% from Jul 2025.</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Massachusetts applications against the other 50 jurisdictions.</div>
+        <div class="csrc">Source: Census BFS monthly time series (SRC-613-01)</div>
+      </div>
+      <div class="cell">
+        <div class="cl">Highest / lowest</div>
+        <div class="cv">FL 65,332</div>
+        <div class="cd">Florida filed the most applications; Vermont the fewest at 731 (SRC-613-01).</div>
+        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Large states lead on raw counts; the table also shows the rank.</div>
+        <div class="csrc">Source: Census BFS monthly time series (SRC-613-01)</div>
+      </div>
+<!-- DATA:END business-formation-kpis -->
+    </div>
+  </section>
+  <section id="view-rank">
+    <h2>How do they compare?</h2>
+    <div class="lede">Business applications (seasonally adjusted). Massachusetts is marked in gold.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t">Business applications (seasonally adjusted) by state</span></div>
+      <div class="plot plot-ranks"><canvas id="chRank"></canvas></div>
+      <div class="note">Hover a bar for the full name and figure. Ranks are Pioneer calculations from the published source file (derived).</div>
+      <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> applications.</div>
+    </div>
+  </section>
+</div>
+
+
+<div id="view-trend" hidden>
+  <section style="margin-top:30px">
+    <h2>How has the series moved?</h2>
+    <div class="lede">Business applications (seasonally adjusted), United States and Massachusetts. Empty periods are omitted.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
+        <span class="ex-t">Business applications (seasonally adjusted), United States and Massachusetts</span></div>
+      <div class="plot"><canvas id="chTrend"></canvas></div>
+      <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> applications. <b>Calculation:</b> Pioneer Institute.</div>
+    </div>
+  </section>
+</div>
+
+
+<div id="view-table" hidden>
+  <section style="margin-top:30px">
+    <h2>Every state</h2>
+    <div class="lede">Business applications (seasonally adjusted), applications.</div>
+    <div class="scroll">
+      <table id="tblStates">
+        <thead><tr><th>State</th><th class="n">applications</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> see the register. Ranks and year-over-year changes are Pioneer calculations (derived).</div>
+  </section>
+</div>
+
+<section id="sources">
+  <h2>Data Sources</h2>
+  <div class="subhead">Every figure on this page traces to a source below. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+  <details class="srcfold">
+    <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
+    <div class="fold-body">
+      <div class="scroll"><table class="reg">
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports</th><th>Data vintage</th><th>Next release</th></tr></thead>
+        <tbody>
+          <tr><td class="src"><a href="https://www.census.gov/econ/bfs/csv/bfs_monthly.csv" target="_blank" rel="noopener">Census Bureau Business Formation Statistics monthly time series (SRC-613-01)</a></td><td>Monthly</td><td>Covers Census Business Formation Statistics: seasonally adjusted business applications and projected formations within four quarters, for the United States and each state.</td><td>Jul 2026</td><td>Monthly</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </details>
+  <details class="simplify">
+    <summary><span class="car">&#9654;</span><span>What this page does not cover</span></summary>
+    <div class="dt-body">
+      <p class="body-p">Does not cover establishment births and deaths from the Business Employment Dynamics file, industry clusters, or advice about starting a firm.</p>
+      <p class="body-p">It replaces these Tableau workbooks: Business Births and Deaths, Business Dynamics. Those URLs stay in the catalog until this page covers the same substance.</p>
+    </div>
+  </details>
+</section>
+<footer>
+  <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
+  <div class="frow">
+<!-- DATA:BEGIN business-formation-footer-meta (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <div>Business Formation &middot; Version 0.1 &middot; Data through Jul 2026 &middot; Revised Aug 15, 2026</div>
+<!-- DATA:END business-formation-footer-meta -->
+    <div>1 source in the register</div>
+  </div>
+  <div class="disclaimer">
+    <div><b>About this tool.</b> Business Formation is a Pioneer Institute DataLabs research tool. Formerly Business Births and Deaths and Business Dynamics. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
+    <div><b>Verified figures.</b> Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists.</div>
+  </div>
+  <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
+</footer>
+</div>
+
+<script>
+/* DATA:BEGIN business-formation-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
+const DL={"tool_id":"DL-13","as_of":"2026-07","rows":[{"st":"FL","name":"Florida","v":65332,"rank":1,"n":51,"yoy_pct":22.3},{"st":"CA","name":"California","v":61133,"rank":2,"n":51,"yoy_pct":38.1},{"st":"TX","name":"Texas","v":57190,"rank":3,"n":51,"yoy_pct":25.5},{"st":"NY","name":"New York","v":31072,"rank":4,"n":51,"yoy_pct":25.6},{"st":"GA","name":"Georgia","v":25863,"rank":5,"n":51,"yoy_pct":20.7},{"st":"IL","name":"Illinois","v":18288,"rank":6,"n":51,"yoy_pct":16.1},{"st":"NC","name":"North Carolina","v":17717,"rank":7,"n":51,"yoy_pct":7.0},{"st":"CO","name":"Colorado","v":17259,"rank":8,"n":51,"yoy_pct":44.7},{"st":"OH","name":"Ohio","v":17061,"rank":9,"n":51,"yoy_pct":14.2},{"st":"MI","name":"Michigan","v":16514,"rank":10,"n":51,"yoy_pct":41.3},{"st":"NJ","name":"New Jersey","v":15826,"rank":11,"n":51,"yoy_pct":19.0},{"st":"AZ","name":"Arizona","v":14085,"rank":12,"n":51,"yoy_pct":30.1},{"st":"PA","name":"Pennsylvania","v":13920,"rank":13,"n":51,"yoy_pct":-2.6},{"st":"VA","name":"Virginia","v":12753,"rank":14,"n":51,"yoy_pct":-3.2},{"st":"MO","name":"Missouri","v":12159,"rank":15,"n":51,"yoy_pct":43.8},{"st":"TN","name":"Tennessee","v":11313,"rank":16,"n":51,"yoy_pct":35.6},{"st":"IN","name":"Indiana","v":10639,"rank":17,"n":51,"yoy_pct":42.8},{"st":"WA","name":"Washington","v":9885,"rank":18,"n":51,"yoy_pct":-4.9},{"st":"SC","name":"South Carolina","v":9368,"rank":19,"n":51,"yoy_pct":19.4},{"st":"MD","name":"Maryland","v":9134,"rank":20,"n":51,"yoy_pct":5.7},{"st":"AL","name":"Alabama","v":7731,"rank":21,"n":51,"yoy_pct":27.7},{"st":"UT","name":"Utah","v":7663,"rank":22,"n":51,"yoy_pct":24.6},{"st":"WI","name":"Wisconsin","v":7657,"rank":23,"n":51,"yoy_pct":38.5},{"st":"WY","name":"Wyoming","v":7538,"rank":24,"n":51,"yoy_pct":14.9},{"st":"MA","name":"Massachusetts","v":7497,"rank":25,"n":51,"yoy_pct":14.0},{"st":"LA","name":"Louisiana","v":7317,"rank":26,"n":51,"yoy_pct":22.6},{"st":"KY","name":"Kentucky","v":7088,"rank":27,"n":51,"yoy_pct":25.2},{"st":"MS","name":"Mississippi","v":6979,"rank":28,"n":51,"yoy_pct":57.0},{"st":"MN","name":"Minnesota","v":6604,"rank":29,"n":51,"yoy_pct":8.6},{"st":"OK","name":"Oklahoma","v":6461,"rank":30,"n":51,"yoy_pct":51.0},{"st":"NV","name":"Nevada","v":6174,"rank":31,"n":51,"yoy_pct":18.9},{"st":"OR","name":"Oregon","v":5742,"rank":32,"n":51,"yoy_pct":22.1},{"st":"DE","name":"Delaware","v":5314,"rank":33,"n":51,"yoy_pct":9.9},{"st":"CT","name":"Connecticut","v":5026,"rank":34,"n":51,"yoy_pct":23.3},{"st":"AR","name":"Arkansas","v":5023,"rank":35,"n":51,"yoy_pct":61.8},{"st":"KS","name":"Kansas","v":4392,"rank":36,"n":51,"yoy_pct":52.1},{"st":"ID","name":"Idaho","v":3454,"rank":37,"n":51,"yoy_pct":23.0},{"st":"NM","name":"New Mexico","v":3439,"rank":38,"n":51,"yoy_pct":2.8},{"st":"IA","name":"Iowa","v":3321,"rank":39,"n":51,"yoy_pct":16.0},{"st":"MT","name":"Montana","v":2730,"rank":40,"n":51,"yoy_pct":12.6},{"st":"NE","name":"Nebraska","v":2059,"rank":41,"n":51,"yoy_pct":11.2},{"st":"NH","name":"New Hampshire","v":1947,"rank":42,"n":51,"yoy_pct":37.3},{"st":"WV","name":"West Virginia","v":1645,"rank":43,"n":51,"yoy_pct":7.0},{"st":"HI","name":"Hawaii","v":1478,"rank":44,"n":51,"yoy_pct":-7.4},{"st":"ME","name":"Maine","v":1467,"rank":45,"n":51,"yoy_pct":33.5},{"st":"DC","name":"District of Columbia","v":1422,"rank":46,"n":51,"yoy_pct":17.4},{"st":"AK","name":"Alaska","v":1367,"rank":47,"n":51,"yoy_pct":95.8},{"st":"SD","name":"South Dakota","v":1224,"rank":48,"n":51,"yoy_pct":23.5},{"st":"RI","name":"Rhode Island","v":1063,"rank":49,"n":51,"yoy_pct":9.7},{"st":"ND","name":"North Dakota","v":862,"rank":50,"n":51,"yoy_pct":14.5},{"st":"VT","name":"Vermont","v":731,"rank":51,"n":51,"yoy_pct":19.1}],"trend":{"US":[{"m":"2018-01","v":295555},{"m":"2018-02","v":285597},{"m":"2018-03","v":289624},{"m":"2018-04","v":285744},{"m":"2018-05","v":293199},{"m":"2018-06","v":296623},{"m":"2018-07","v":291042},{"m":"2018-08","v":295949},{"m":"2018-09","v":290040},{"m":"2018-10","v":285939},{"m":"2018-11","v":290747},{"m":"2018-12","v":298548},{"m":"2019-01","v":275827},{"m":"2019-02","v":299331},{"m":"2019-03","v":301093},{"m":"2019-04","v":293060},{"m":"2019-05","v":287481},{"m":"2019-06","v":290529},{"m":"2019-07","v":280547},{"m":"2019-08","v":292063},{"m":"2019-09","v":290721},{"m":"2019-10","v":297723},{"m":"2019-11","v":293965},{"m":"2019-12","v":315267},{"m":"2020-01","v":282360},{"m":"2020-02","v":303982},{"m":"2020-03","v":259162},{"m":"2020-04","v":235568},{"m":"2020-05","v":298466},{"m":"2020-06","v":376926},{"m":"2020-07","v":546719},{"m":"2020-08","v":484772},{"m":"2020-09","v":433059},{"m":"2020-10","v":410569},{"m":"2020-11","v":396615},{"m":"2020-12","v":351615},{"m":"2021-01","v":488126},{"m":"2021-02","v":434622},{"m":"2021-03","v":448765},{"m":"2021-04","v":498579},{"m":"2021-05","v":505645},{"m":"2021-06","v":446232},{"m":"2021-07","v":443113},{"m":"2021-08","v":427748},{"m":"2021-09","v":427508},{"m":"2021-10","v":428017},{"m":"2021-11","v":432545},{"m":"2021-12","v":427901},{"m":"2022-01","v":436674},{"m":"2022-02","v":427960},{"m":"2022-03","v":412246},{"m":"2022-04","v":433663},{"m":"2022-05","v":430119},{"m":"2022-06","v":407753},{"m":"2022-07","v":423929},{"m":"2022-08","v":419560},{"m":"2022-09","v":422293},{"m":"2022-10","v":429432},{"m":"2022-11","v":416428},{"m":"2022-12","v":423745},{"m":"2023-01","v":428614},{"m":"2023-02","v":446842},{"m":"2023-03","v":452843},{"m":"2023-04","v":444715},{"m":"2023-05","v":449234},{"m":"2023-06","v":470793},{"m":"2023-07","v":478273},{"m":"2023-08","v":467208},{"m":"2023-09","v":470317},{"m":"2023-10","v":470393},{"m":"2023-11","v":455805},{"m":"2023-12","v":454137},{"m":"2024-01","v":450041},{"m":"2024-02","v":443944},{"m":"2024-03","v":431289},{"m":"2024-04","v":431531},{"m":"2024-05","v":427923},{"m":"2024-06","v":436016},{"m":"2024-07","v":424927},{"m":"2024-08","v":436267},{"m":"2024-09","v":427221},{"m":"2024-10","v":426875},{"m":"2024-11","v":446146},{"m":"2024-12","v":464450},{"m":"2025-01","v":385618},{"m":"2025-02","v":432820},{"m":"2025-03","v":461056},{"m":"2025-04","v":456024},{"m":"2025-05","v":448815},{"m":"2025-06","v":462692},{"m":"2025-07","v":469274},{"m":"2025-08","v":478074},{"m":"2025-09","v":510794},{"m":"2025-10","v":498416},{"m":"2025-11","v":537266},{"m":"2025-12","v":496139},{"m":"2026-01","v":526115},{"m":"2026-02","v":496121},{"m":"2026-03","v":493792},{"m":"2026-04","v":506807},{"m":"2026-05","v":528929},{"m":"2026-06","v":535690},{"m":"2026-07","v":578926}],"MA":[{"m":"2018-01","v":4919},{"m":"2018-02","v":4943},{"m":"2018-03","v":4897},{"m":"2018-04","v":4876},{"m":"2018-05","v":4934},{"m":"2018-06","v":5148},{"m":"2018-07","v":4861},{"m":"2018-08","v":5060},{"m":"2018-09","v":4930},{"m":"2018-10","v":4781},{"m":"2018-11","v":4980},{"m":"2018-12","v":5105},{"m":"2019-01","v":4469},{"m":"2019-02","v":4987},{"m":"2019-03","v":5066},{"m":"2019-04","v":4818},{"m":"2019-05","v":4809},{"m":"2019-06","v":4912},{"m":"2019-07","v":4364},{"m":"2019-08","v":4757},{"m":"2019-09","v":4851},{"m":"2019-10","v":4865},{"m":"2019-11","v":4654},{"m":"2019-12","v":4831},{"m":"2020-01","v":4465},{"m":"2020-02","v":4889},{"m":"2020-03","v":4043},{"m":"2020-04","v":3299},{"m":"2020-05","v":4056},{"m":"2020-06","v":4980},{"m":"2020-07","v":6446},{"m":"2020-08","v":6549},{"m":"2020-09","v":6090},{"m":"2020-10","v":6085},{"m":"2020-11","v":6010},{"m":"2020-12","v":5248},{"m":"2021-01","v":6744},{"m":"2021-02","v":6291},{"m":"2021-03","v":6285},{"m":"2021-04","v":6589},{"m":"2021-05","v":6642},{"m":"2021-06","v":6279},{"m":"2021-07","v":6217},{"m":"2021-08","v":6030},{"m":"2021-09","v":6146},{"m":"2021-10","v":6271},{"m":"2021-11","v":6356},{"m":"2021-12","v":6137},{"m":"2022-01","v":6153},{"m":"2022-02","v":5885},{"m":"2022-03","v":5936},{"m":"2022-04","v":6104},{"m":"2022-05","v":6125},{"m":"2022-06","v":5614},{"m":"2022-07","v":5999},{"m":"2022-08","v":5822},{"m":"2022-09","v":6008},{"m":"2022-10","v":6006},{"m":"2022-11","v":6000},{"m":"2022-12","v":5775},{"m":"2023-01","v":5877},{"m":"2023-02","v":6184},{"m":"2023-03","v":6297},{"m":"2023-04","v":6111},{"m":"2023-05","v":6340},{"m":"2023-06","v":6363},{"m":"2023-07","v":6612},{"m":"2023-08","v":6951},{"m":"2023-09","v":6567},{"m":"2023-10","v":6480},{"m":"2023-11","v":6338},{"m":"2023-12","v":6160},{"m":"2024-01","v":6299},{"m":"2024-02","v":6454},{"m":"2024-03","v":6259},{"m":"2024-04","v":6209},{"m":"2024-05","v":6167},{"m":"2024-06","v":6261},{"m":"2024-07","v":6085},{"m":"2024-08","v":6200},{"m":"2024-09","v":6304},{"m":"2024-10","v":6398},{"m":"2024-11","v":6341},{"m":"2024-12","v":6733},{"m":"2025-01","v":5724},{"m":"2025-02","v":6212},{"m":"2025-03","v":6488},{"m":"2025-04","v":6244},{"m":"2025-05","v":6311},{"m":"2025-06","v":6538},{"m":"2025-07","v":6576},{"m":"2025-08","v":7126},{"m":"2025-09","v":6644},{"m":"2025-10","v":6642},{"m":"2025-11","v":6906},{"m":"2025-12","v":7079},{"m":"2026-01","v":7219},{"m":"2026-02","v":7011},{"m":"2026-03","v":7032},{"m":"2026-04","v":7328},{"m":"2026-05","v":7382},{"m":"2026-06","v":7571},{"m":"2026-07","v":7497}]},"latest":{"us":{"v":578926,"yoy_pct":23.4},"ma":{"v":7497,"rank":25,"n":51,"yoy_pct":14.0},"highest":{"st":"FL","name":"Florida","v":65332},"lowest":{"st":"VT","name":"Vermont","v":731}},"derived":{"note":"Prefer these over recomputing. All ranks cite (derived, SRC-613-01).","highest_five":[{"st":"FL","name":"Florida","v":65332,"rank":1,"n":51,"yoy_pct":22.3},{"st":"CA","name":"California","v":61133,"rank":2,"n":51,"yoy_pct":38.1},{"st":"TX","name":"Texas","v":57190,"rank":3,"n":51,"yoy_pct":25.5},{"st":"NY","name":"New York","v":31072,"rank":4,"n":51,"yoy_pct":25.6},{"st":"GA","name":"Georgia","v":25863,"rank":5,"n":51,"yoy_pct":20.7}],"lowest_five":[{"st":"VT","name":"Vermont","v":731,"rank":51,"n":51,"yoy_pct":19.1},{"st":"ND","name":"North Dakota","v":862,"rank":50,"n":51,"yoy_pct":14.5},{"st":"RI","name":"Rhode Island","v":1063,"rank":49,"n":51,"yoy_pct":9.7},{"st":"SD","name":"South Dakota","v":1224,"rank":48,"n":51,"yoy_pct":23.5},{"st":"AK","name":"Alaska","v":1367,"rank":47,"n":51,"yoy_pct":95.8}],"massachusetts_rank":25,"n_ranked":51},"metric":"seasonally_adjusted_business_applications","unit":"applications"};
+/* DATA:END business-formation-data */
+const CHART={"geo": "state", "format": "number", "highlight": "MA", "n_chart": 51, "unit": "applications", "axis_unit": "applications", "label": "Business applications (seasonally adjusted)", "title": "Business applications (seasonally adjusted) by state", "lede": "Business applications (seasonally adjusted). Massachusetts is marked in gold.", "has_trend": true, "table_noun": "Every state", "col_name": "State", "trend_title": "Business applications (seasonally adjusted), United States and Massachusetts"};
+
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
+  var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#666666';
+  function showView(id){
+    ['latest','trend','table'].forEach(function(v){
+      var el=document.getElementById('view-'+v);
+      if(el) el.hidden = (v!==id);
+      var b=document.getElementById('btn-'+v);
+      if(b) b.classList.toggle('on', v===id);
+    });
+    if(location.hash!=='#view-'+id) history.replaceState(null,'','#view-'+id);
+  }
+  window.showView=showView;
+  function applyHash(){
+    var h=(location.hash||'').replace('#view-','');
+    if(h==='trend'||h==='table'||h==='latest') showView(h);
+  }
+  window.addEventListener('hashchange', applyHash);
+  applyHash();
+  var fmt=CHART.format||'number';
+  var unit=CHART.unit||'';
+  var axisUnit=CHART.axis_unit||unit;
+  function isHL(r){
+    if(r.st==='MA') return true;
+    if(CHART.highlight && (r.name===CHART.highlight || r.st===CHART.highlight)) return true;
+    return false;
+  }
+  function fmtVal(v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'−':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(fmt==='stars') return n+' star'+(n===1?'':'s');
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  function rowLabel(r){
+    if(CHART.geo==='state' && r.st && String(r.st).length===2) return r.st;
+    var s=r.name||r.st||'';
+    return s.length>28?s.slice(0,26)+'…':s;
+  }
+  var rows=(DL&&DL.rows)||[];
+  var nChart=CHART.n_chart||51;
+  var chartRows=rows.slice(0,nChart);
+  var chRank=document.getElementById('chRank');
+  if(chRank && chartRows.length && window.Chart){
+    var labels=chartRows.map(rowLabel);
+    var data=chartRows.map(function(r){return r.v;});
+    var colors=chartRows.map(function(r){return isHL(r)?GOLD:BLUE;});
+    new Chart(chRank,{type:'bar',
+      data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{right:16,top:4}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{
+            title:function(items){var i=items[0]&&items[0].dataIndex; return (chartRows[i]&&chartRows[i].name)||'';},
+            label:function(c){var r=chartRows[c.dataIndex]||{}; var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' · '+unit:''); return ' '+fmtVal(c.parsed.x)+' · rank '+(r.rank||'')+extra;}
+          }}},
+        scales:{
+          x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}},
+          y:{ticks:{color:INK,font:{size:10,family:'Roboto,sans-serif'}},grid:{display:false},border:{display:false}}
+        }}});
+  }
+  var chTrend=document.getElementById('chTrend');
+  var trend=(DL&&DL.trend)||{};
+  var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
+  if(chTrend && window.Chart && keys.length){
+    var pretty={US:'United States',MA:'Massachusetts',Boston:'Boston'};
+    var datasets=keys.map(function(k){
+      var series=trend[k]||[];
+      return {label:pretty[k]||k,
+        data:series.map(function(p){return {x:p.m||String(p.y),y:p.v};}),
+        borderColor:(k==='MA'||k==='Boston')?GOLD:(k==='US'?INK:BLUE),
+        backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:k==='MA'?2.4:2};
+    });
+    new Chart(chTrend,{type:'line',data:{datasets:datasets},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+          tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
+        scales:{
+          x:{type:'category',ticks:{color:GREY,maxTicksLimit:12}},
+          y:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
+        }}});
+  }
+  var tb=document.querySelector('#tblStates tbody');
+  if(tb){
+    tb.innerHTML=rows.map(function(r){
+      var yoy=(r.yoy_pct==null?'':(r.yoy_pct>0?'+':'')+r.yoy_pct+'%');
+      var hl=isHL(r)?' class="hl-ma"':'';
+      return '<tr'+hl+'><td class="m">'+r.name+'</td><td class="n">'+fmtVal(r.v)+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
+    }).join('');
+  }
+})();
+</script>
+
+</body>
+</html>

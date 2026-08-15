@@ -1,0 +1,46 @@
+{
+  "tool_id": "DL-11",
+  "title": "340B",
+  "slug": "340b",
+  "vertical": "Healthcare",
+  "group": "340B",
+  "status": "build",
+  "as_of": null,
+  "scope": "Covers 340B covered-entity growth, hospital charity-care shares, and a map of state 340B legislation.",
+  "exclusions": "Does not cover advice to a hospital or manufacturer, or predictions of federal rulemaking.",
+  "heritage": "Formerly 340B Program Growth, Hospital Charity Care, and Legislative Mapping",
+  "replaces": [
+    "340B Program Growth",
+    "Hospital Charity Care",
+    "Legislative Mapping"
+  ],
+  "vintage_note": "Ledger pending. Sources are inventoried; figures will be compiled from those files on a later refresh. This page does not invent numbers.",
+  "source_id_map": {
+    "SRC-611-01": {
+      "name": "HRSA Office of Pharmacy Affairs 340B covered-entity data",
+      "cadence": "Quarterly",
+      "url": "https://www.hrsa.gov/opa",
+      "supports": "Covers 340B covered-entity growth, hospital charity-care shares, and a map of state 340B legislation."
+    },
+    "SRC-611-02": {
+      "name": "CMS Hospital Cost Report charity-care worksheets",
+      "cadence": "Annual",
+      "url": "https://www.cms.gov/",
+      "supports": "Covers 340B covered-entity growth, hospital charity-care shares, and a map of state 340B legislation."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.0"
+  },
+  "geo": [
+    "US"
+  ],
+  "q": "340B program growth, hospital charity care, and state legislative mapping.",
+  "pending": true,
+  "pending_plan": "A later refresh_suite.py pass will fetch the sources in source_id_map, recompute a ranked state (or municipal) table, and clear this flag. Until then the page publishes scope and sources only.",
+  "rows": [],
+  "trend": {},
+  "derived": {},
+  "kpis": []
+}

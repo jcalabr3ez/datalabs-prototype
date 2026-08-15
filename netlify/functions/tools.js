@@ -30,6 +30,98 @@ const DL02 = require('./dl02-answers.json');
 const DL01 = require('./dl01-answers.json');
 const DL04 = require('./dl04-answers.json');
 const DL05 = require('./dl05-answers.json');
+const DL06 = require('./dl06-answers.json');
+const DL07 = require('./dl07-answers.json');
+const DL08 = require('./dl08-answers.json');
+const DL09 = require('./dl09-answers.json');
+const DL10 = require('./dl10-answers.json');
+const DL12 = require('./dl12-answers.json');
+const DL13 = require('./dl13-answers.json');
+const DL14 = require('./dl14-answers.json');
+const DL15 = require('./dl15-answers.json');
+const DL16 = require('./dl16-answers.json');
+const DL17 = require('./dl17-answers.json');
+const DL19 = require('./dl19-answers.json');
+const DL20 = require('./dl20-answers.json');
+const DL21 = require('./dl21-answers.json');
+const DL22 = require('./dl22-answers.json');
+const DL23 = require('./dl23-answers.json');
+const DL24 = require('./dl24-answers.json');
+const DL25 = require('./dl25-answers.json');
+const DL26 = require('./dl26-answers.json');
+const DL27 = require('./dl27-answers.json');
+const DL28 = require('./dl28-answers.json');
+const DL29 = require('./dl29-answers.json');
+const DL30 = require('./dl30-answers.json');
+const DL31 = require('./dl31-answers.json');
+
+function suiteCore(d) {
+  var src = {};
+  Object.keys(d.source_id_map || {}).forEach(function (k) {
+    var s = d.source_id_map[k] || {};
+    src[k] = { name: s.name, cadence: s.cadence };
+  });
+  return {
+    tool_id: d.tool_id, title: d.title, as_of: d.as_of,
+    scope: d.scope, exclusions: d.exclusions,
+    vintage_note: d.vintage_note, metric: d.metric,
+    metric_label: d.metric_label, unit: d.unit,
+    data_month_label: d.data_month_label,
+    latest: d.latest, derived: d.derived, source_ids: src
+  };
+}
+
+function suiteModel(d) {
+  return {
+    tool_id: d.tool_id, title: d.title, as_of: d.as_of,
+    scope: d.scope, exclusions: d.exclusions,
+    vintage_note: d.vintage_note, metric: d.metric,
+    metric_label: d.metric_label, unit: d.unit,
+    data_month_label: d.data_month_label,
+    latest: d.latest, derived: d.derived, rows: d.rows, trend: d.trend,
+    source_id_map: d.source_id_map, pending: d.pending
+  };
+}
+
+function suiteRules(id, src, extra) {
+  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. Answer the metric named in metric_label and any series stored under derived.secondary; cite the source id on each secondary figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. View and chart selection: latest = the current ranking; trend = change over time; table = every row. When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
+}
+
+function suiteLink(slug) {
+  return function (p) {
+    var view = (p.view && ['latest', 'trend', 'table'].indexOf(p.view) >= 0) ? p.view : 'latest';
+    var url = '/' + slug + '/#view-' + view;
+    if (p.highlight) url += '&st=' + encodeURIComponent(p.highlight);
+    return url;
+  };
+}
+
+function suiteSrc(d) {
+  return d.title + ', through ' + (d.data_month_label || d.as_of) + '. ' + (d.vintage_note || '');
+}
+
+function suiteTool(d, spec) {
+  return {
+    id: spec.id,
+    label: spec.label,
+    scope: (d.scope || '') + ' ' + (d.exclusions || ''),
+    triggers: spec.triggers,
+    dataset: d,
+    coreSlice: suiteCore,
+    modelSlice: suiteModel,
+    charts: ['latest', 'trend', 'table'],
+    views: ['latest', 'trend', 'table'],
+    viewDefault: 'latest',
+    highlight: {
+      key: 'entities',
+      uppercase: spec.uppercase !== false,
+      describe: spec.hl || 'the exact two-letter jurisdiction code (for example MA, CA, TX) if the question focuses on one state, else null'
+    },
+    rules: suiteRules(spec.id, spec.src, spec.extra),
+    link: suiteLink(d.slug),
+    src: suiteSrc
+  };
+}
 
 module.exports = [
   {
@@ -290,5 +382,259 @@ module.exports = [
     src: function (d) {
       return 'PERAC board actuarial valuations through January 1, ' + d.board_valuation_through + ' (SRC-501); PERAC compiled investment returns, calendar ' + d.returns_year + ' (SRC-502); CTHRU State and Teachers Retirement Benefits, calendar years 2011 through ' + d.retiree_year + ' (SRC-503). Name search uses calendar ' + d.search_year + '.';
     }
-  }
+  },
+  suiteTool(DL06, {
+    id: 'DL-06',
+    label: 'Massachusetts K-12: current expenditures per pupil by state, Massachusetts public enrollment, and Chapter 74 vocational-technical enrollment',
+    src: 'SRC-606-01',
+    triggers: [
+      'per-pupil', 'per pupil', 'school spending', 'massachusetts k-12',
+      'k-12 spending', 'k12 spending', 'current expenditures per pupil',
+      'vocational', 'voc-tech', 'voc tech', 'chapter 74', 'career technical',
+      'cte enrollment', 'vocational technical'
+    ],
+    extra: 'Chapter 74 CTE sits in derived.secondary.ma_chapter74_cte, including district_rows, school_rows, program totals, After Dark, and the 2021-22 to 2025-26 trend. Waitlists, lottery outcomes, and a 30,000-seat target are pending: decline those. MCAS remains pending.'
+  }),
+  suiteTool(DL07, {
+    id: 'DL-07',
+    label: 'National K-12: public elementary and secondary enrollment by state',
+    src: 'SRC-607-02',
+    triggers: [
+      'k-12 enrollment', 'k12 enrollment', 'public school enrollment',
+      'public k-12', 'national k-12', 'fall 2023 enrollment',
+      'elementary and secondary enrollment'
+    ],
+    extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP state scores are pending: decline those.'
+  }),
+  suiteTool(DL08, {
+    id: 'DL-08',
+    label: 'Higher education: fall enrollment in degree-granting institutions by state',
+    src: 'SRC-608-01',
+    triggers: [
+      'college', 'college enrollment', 'higher education', 'postsecondary',
+      'fall enrollment', 'degree-granting', 'university enrollment'
+    ],
+    extra: 'SAT mean scores sit in derived.secondary.sat_2023; the national faculty count sits in derived.secondary.faculty_fall_2023_us. State faculty counts and IPEDS outcomes are pending.'
+  }),
+  suiteTool(DL09, {
+    id: 'DL-09',
+    label: 'Charter school fall enrollment by state',
+    src: 'SRC-609-01',
+    triggers: [
+      'charter', 'charters', 'charter school', 'charter enrollment'
+    ],
+    extra: 'Teacher FTE counts sit in derived.secondary.teachers_fte_fall_2022.'
+  }),
+  suiteTool(DL10, {
+    id: 'DL-10',
+    label: 'Massachusetts hospitals from CMS Hospital General Information, including overall star ratings',
+    src: 'SRC-610-02',
+    uppercase: false,
+    hl: 'the exact hospital name as written in entities if the question focuses on one facility, else null',
+    triggers: [
+      'massachusetts hospitals', 'massachusetts hospital', 'hospital rating',
+      'cms hospital', 'hospital star', 'how many hospitals'
+    ],
+    extra: 'CHIA relative prices are pending: decline those. This is the CMS facility file, not a care-advice tool. Decline where-to-seek-care questions.'
+  }),
+  suiteTool(DL12, {
+    id: 'DL-12',
+    label: 'Medicaid Medical Assistance Program net expenditures by state, FY 2024',
+    src: 'SRC-612-01',
+    triggers: [
+      'medicaid', 'medicaid spending', 'medicaid expenditures', 'map net expenditures'
+    ],
+    extra: 'Fraud recoveries and NASBO health-chapter totals are pending: decline those.'
+  }),
+  suiteTool(DL13, {
+    id: 'DL-13',
+    label: 'Business formation: seasonally adjusted business applications by state',
+    src: 'SRC-613-01',
+    triggers: [
+      'business applications', 'business formation', 'new businesses',
+      'bfs', 'startup applications', 'applications to start'
+    ]
+  }),
+  suiteTool(DL14, {
+    id: 'DL-14',
+    label: 'Labor market: seasonally adjusted unemployment rate by state',
+    src: 'SRC-614-01',
+    triggers: [
+      'unemployment', 'unemployment rate', 'jobless', 'laus',
+      'labor force', 'seasonally adjusted unemployment'
+    ],
+    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the U.S. wage there is derived from state sums. UI claims are pending.'
+  }),
+  suiteTool(DL15, {
+    id: 'DL-15',
+    label: 'State real GDP, chained 2017 dollars, all industry',
+    src: 'SRC-615-01',
+    triggers: [
+      'real gdp', 'state gdp', 'gross domestic product', 'chained 2017',
+      'economic output', 'gdp by state'
+    ],
+    extra: 'Personal income sits in derived.secondary.personal_income_2025. NAICS industry detail is pending. Real GDP figures are millions of chained 2017 dollars; say that in prose.'
+  }),
+  suiteTool(DL16, {
+    id: 'DL-16',
+    label: 'Housing units authorized by building permit, year-to-date by state',
+    src: 'SRC-616-01',
+    triggers: [
+      'building permits', 'housing permits', 'housing units',
+      'units authorized', 'housing production', 'permit-issuing'
+    ],
+    extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. Case-Shiller city indexes are pending. FHFA has no U.S. row in that state file.'
+  }),
+  suiteTool(DL17, {
+    id: 'DL-17',
+    label: 'State population and domestic migration from Census vintage estimates',
+    src: 'SRC-617-01',
+    triggers: [
+      'domestic migration', 'state population', 'population estimate',
+      'vintage 2025', 'who is moving'
+    ],
+    extra: 'The ranking is DOMESTICMIG, not total population. IRS taxpayer migration sits on DL-20. Municipal populations sit on DL-25.'
+  }),
+  suiteTool(DL19, {
+    id: 'DL-19',
+    label: 'Regional price parities, all items, United States = 100',
+    src: 'SRC-619-01',
+    triggers: [
+      'cost of living', 'regional price', 'price parity', 'rpp',
+      'how expensive is'
+    ],
+    extra: 'Tariff, defense, and fiscal-dependency measures are pending: decline those. United States is 100 by construction.'
+  }),
+  suiteTool(DL20, {
+    id: 'DL-20',
+    label: 'IRS net domestic taxpayer migration, returns in minus returns out',
+    src: 'SRC-620-01',
+    triggers: [
+      'taxpayer migration', 'taxpayers leaving', 'filers leaving',
+      'irs migration', 'state-to-state migration', 'returns in and out'
+    ],
+    extra: 'Census domestic migration sits on DL-17. Massachusetts county nets sit in derived.secondary.ma_county_taxpayer_migration_2022_23. Decline relocation advice.'
+  }),
+  suiteTool(DL21, {
+    id: 'DL-21',
+    label: 'IRS Statistics of Income: adjusted gross income and return counts by state',
+    src: 'SRC-621-01',
+    triggers: [
+      'adjusted gross income', 'agi', 'tax year 2022', 'soi historic',
+      'number of returns', 'income statistics'
+    ],
+    extra: 'This is AGI and return counts, not statutory tax rates (those sit on DL-01) and not quarterly state tax collections (DL-28 and DL-29). County files are pending.'
+  }),
+  suiteTool(DL22, {
+    id: 'DL-22',
+    label: 'U.S. transit agency unlinked passenger trips from FTA NTD, latest month',
+    src: 'SRC-622-01',
+    uppercase: false,
+    hl: 'the exact agency name as written in entities if the question focuses on one agency, else null',
+    triggers: [
+      'transit agencies', 'transit agency', 'compare systems', 'compare transit',
+      'ntd ridership', 'which transit agency', 'largest transit'
+    ],
+    extra: 'This is agency-level monthly ridership. MBTA mode-by-mode reliability, cost per trip, and farebox recovery stay on DL-03. Agency operating cost is pending here.'
+  }),
+  suiteTool(DL23, {
+    id: 'DL-23',
+    label: 'Annual vehicle-miles of travel by state from FHWA VM-2',
+    src: 'SRC-623-01',
+    triggers: [
+      'vehicle-miles', 'vehicle miles', 'vmt', 'roadway travel',
+      'miles driven', 'highway statistics'
+    ],
+    extra: 'FEMA risk and degree-day files are pending: decline those. Transit agencies sit on DL-03 or DL-22.'
+  }),
+  suiteTool(DL24, {
+    id: 'DL-24',
+    label: 'Energy-related carbon dioxide emissions by state',
+    src: 'SRC-624-01',
+    triggers: [
+      'carbon dioxide', 'co2', 'energy emissions', 'emissions from energy',
+      'state emissions'
+    ],
+    extra: 'Retail electricity prices sit on DL-04. SEDS consumption sits in derived.secondary.seds_consumption_2024. SEDS production is pending.'
+  }),
+  suiteTool(DL25, {
+    id: 'DL-25',
+    label: 'Massachusetts city and town population, Census subcounty estimates',
+    src: 'SRC-625-01',
+    uppercase: false,
+    hl: 'the exact municipality name as written in entities (for example Boston city) if the question focuses on one city or town, else null',
+    triggers: [
+      'massachusetts towns', 'massachusetts cities', 'municipal population',
+      'city or town', 'boston population', 'population of boston'
+    ],
+    extra: 'Tax levy and peer sets are pending. Statewide population sits on DL-17. Boston payroll sits on DL-27.'
+  }),
+  suiteTool(DL26, {
+    id: 'DL-26',
+    label: 'Massachusetts municipal population change, 2020 to 2025',
+    src: 'SRC-626-01',
+    uppercase: false,
+    hl: 'the exact municipality name as written in entities if the question focuses on one city or town, else null',
+    triggers: [
+      'town grew', 'towns growing', 'municipal rankings', 'population change',
+      'which town grew', 'fastest growing town'
+    ],
+    extra: 'Crime, debt, education, spending, and tax rankings are pending: decline those. This ranking is 2025 minus 2020 population only.'
+  }),
+  suiteTool(DL27, {
+    id: 'DL-27',
+    label: 'City of Boston department earnings, calendar year 2025',
+    src: 'SRC-627-01',
+    uppercase: false,
+    hl: 'the exact department name as written in entities if the question focuses on one department, else null',
+    triggers: [
+      'boston payroll', 'boston city payroll', 'boston earnings',
+      'city of boston payroll', 'boston police department', 'boston departments'
+    ],
+    extra: 'The FY26 operating budget sits in derived.secondary.boston_operating_budget_fy26. Statewide payroll sits on DL-30. Decline named-employee lookups.'
+  }),
+  suiteTool(DL28, {
+    id: 'DL-28',
+    label: 'Massachusetts state tax collections by type, Census QTAX latest quarter',
+    src: 'SRC-628-01',
+    uppercase: false,
+    hl: 'the exact tax-type name as written in entities if the question focuses on one source, else null',
+    triggers: [
+      'massachusetts tax collections', 'commonwealth tax', 'qtax massachusetts',
+      'massachusetts collected', 'massachusetts collect', 'ma state taxes'
+    ],
+    extra: 'The 51-state ranking sits on DL-29. DOR monthly reports and tax credits are pending. Statutory rates sit on DL-01.'
+  }),
+  suiteTool(DL29, {
+    id: 'DL-29',
+    label: 'State government tax collections by state, Census QTAX latest quarter',
+    src: 'SRC-629-01',
+    triggers: [
+      'state tax collections', 'which state collected', 'qtax',
+      'quarterly tax revenue', 'state government taxes'
+    ],
+    extra: 'The Massachusetts type-of-tax split sits on DL-28. Rainy-day funds and public-employee counts are pending. Excludes D.C.'
+  }),
+  suiteTool(DL30, {
+    id: 'DL-30',
+    label: 'Massachusetts Commonwealth payroll by department from CTHRU, plus Comptroller spending',
+    src: 'SRC-630-01',
+    uppercase: false,
+    hl: 'the exact department name as written in entities if the question focuses on one department, else null',
+    triggers: [
+      'commonwealth payroll', 'state agency payroll', 'cthru payroll',
+      'massachusetts state payroll', 'vendor payments', 'comptroller spending'
+    ],
+    extra: 'Decline named-employee lookups. Boston city payroll sits on DL-27. Retiree pensions sit on DL-05. Quasi-public payroll detail is pending. Spending is the Comptroller all-object-class total, not a vendor-only extract.'
+  }),
+  suiteTool(DL31, {
+    id: 'DL-31',
+    label: 'Prisoners under state or federal jurisdiction, year-end count by state',
+    src: 'SRC-631-02',
+    triggers: [
+      'prisoners', 'incarceration', 'prison population', 'how many prisoners',
+      'correctional authorities', 'bjs prisoners'
+    ],
+    extra: 'FBI crime rates, juvenile incarceration, and internet-crime reports are pending: decline those. Municipal crime rankings are pending. This ledger is jurisdiction prisoner counts, not a Boston crime rate.'
+  })
 ];

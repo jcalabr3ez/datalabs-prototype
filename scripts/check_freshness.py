@@ -29,6 +29,78 @@ RULES = {
     "netlify/functions/dl05-answers.json": (
         "YYYY-MM", 160, "CTHRU updates monthly and as_of is that file month; the 160-day gate is the backstop. Board valuations still move on the research pass."
     ),
+    "netlify/functions/dl13-answers.json": (
+        "YYYY-MM", 75, "Census BFS publishes monthly; the 75-day gate is the backstop"
+    ),
+    "netlify/functions/dl14-answers.json": (
+        "YYYY-MM", 75, "BLS LAUS publishes monthly with about a one-month lag"
+    ),
+    "netlify/functions/dl16-answers.json": (
+        "YYYY-MM", 75, "Census BPS state year-to-date files publish monthly"
+    ),
+    "netlify/functions/dl17-answers.json": (
+        "YYYY-MM", 400, "Census vintage population estimates publish once a year"
+    ),
+    "netlify/functions/dl06-answers.json": (
+        "YYYY-MM", 2000, "NCES Digest per-pupil finance lags several school years"
+    ),
+    "netlify/functions/dl07-answers.json": (
+        "YYYY-MM", 1200, "NCES Digest enrollment is annual with a long lag"
+    ),
+    "netlify/functions/dl08-answers.json": (
+        "YYYY-MM", 1600, "NCES Digest higher-education enrollment is annual with a long lag"
+    ),
+    "netlify/functions/dl09-answers.json": (
+        "YYYY-MM", 1400, "NCES Digest charter tables are annual with a long lag"
+    ),
+    "netlify/functions/dl12-answers.json": (
+        "YYYY-MM", 1200, "CMS Medicaid FMR is annual"
+    ),
+    "netlify/functions/dl15-answers.json": (
+        "YYYY-MM", 400, "BEA state GDP annual revision"
+    ),
+    "netlify/functions/dl19-answers.json": (
+        "YYYY-MM", 800, "BEA regional price parities are annual"
+    ),
+    "netlify/functions/dl20-answers.json": (
+        "YYYY-MM", 1200, "IRS SOI migration is annual with a multi-year lag"
+    ),
+    "netlify/functions/dl21-answers.json": (
+        "YYYY-MM", 1600, "IRS SOI historic table 2 is annual with a multi-year lag"
+    ),
+    "netlify/functions/dl23-answers.json": (
+        "YYYY-MM", 1200, "FHWA Highway Statistics are annual"
+    ),
+    "netlify/functions/dl24-answers.json": (
+        "YYYY-MM", 1600, "EIA state CO2 is annual with a multi-year lag"
+    ),
+    "netlify/functions/dl25-answers.json": (
+        "YYYY-MM", 900, "Census subcounty population estimates are annual"
+    ),
+    "netlify/functions/dl26-answers.json": (
+        "YYYY-MM", 900, "Census subcounty population estimates are annual"
+    ),
+    "netlify/functions/dl27-answers.json": (
+        "YYYY-MM", 400, "City of Boston earnings report is annual"
+    ),
+    "netlify/functions/dl28-answers.json": (
+        "YYYY-MM", 200, "Census QTAX publishes quarterly"
+    ),
+    "netlify/functions/dl29-answers.json": (
+        "YYYY-MM", 200, "Census QTAX publishes quarterly"
+    ),
+    "netlify/functions/dl31-answers.json": (
+        "YYYY-MM", 1200, "BJS Prisoners statistical tables are annual"
+    ),
+    "netlify/functions/dl10-answers.json": (
+        "YYYY-MM", 400, "CMS Hospital General Information is refreshed periodically"
+    ),
+    "netlify/functions/dl22-answers.json": (
+        "YYYY-MM", 75, "FTA NTD monthly ridership publishes with about a two-month lag"
+    ),
+    "netlify/functions/dl30-answers.json": (
+        "YYYY-MM", 400, "CTHRU calendar-year payroll is complete after year-end"
+    ),
 }
 
 
@@ -53,7 +125,14 @@ def main():
     today = date.today()
     failures = []
     for rel, (fmt, max_days, why) in RULES.items():
-        ledger = json.loads((ROOT / rel).read_text(encoding="utf-8"))
+        path = ROOT / rel
+        if not path.exists():
+            print(f"skip   {rel}  missing")
+            continue
+        ledger = json.loads(path.read_text(encoding="utf-8"))
+        if ledger.get("status") == "build":
+            print(f"skip   {rel}  status=build")
+            continue
         as_of = ledger.get("as_of")
         if not as_of:
             failures.append(f"{rel}: no as_of field")

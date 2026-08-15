@@ -30,6 +30,31 @@ const GOLDEN_HITS = [
   ["What is the funded ratio of the Massachusetts State Retirement Board?", "DL-05"],
   ["How funded is the Mass Teachers retirement system?", "DL-05"],
   ["How much do State and Teacher retirees get paid in Massachusetts?", "DL-05"],
+  ["What does Massachusetts spend per pupil?", "DL-06"],
+  ["How many students are in vocational technical programs in Massachusetts?", "DL-06"],
+  ["How many students are enrolled in public K-12 in the United States?", "DL-07"],
+  ["How many students are enrolled in college in Massachusetts?", "DL-08"],
+  ["How many students are in charter schools in the United States?", "DL-09"],
+  ["How many hospitals are in Massachusetts?", "DL-10"],
+  ["How much does Massachusetts spend on Medicaid?", "DL-12"],
+  ["How many new business applications were filed in the United States?", "DL-13"],
+  ["What is the unemployment rate in Massachusetts?", "DL-14"],
+  ["What is Massachusetts real GDP?", "DL-15"],
+  ["How many housing units were authorized in Massachusetts?", "DL-16"],
+  ["What was domestic migration in Massachusetts?", "DL-17"],
+  ["What is the cost of living in Massachusetts compared to the US?", "DL-19"],
+  ["Are taxpayers leaving Massachusetts?", "DL-20"],
+  ["What is Massachusetts adjusted gross income?", "DL-21"],
+  ["Which transit agency has the most riders?", "DL-22"],
+  ["How many vehicle-miles were driven in Massachusetts?", "DL-23"],
+  ["How much CO2 does Massachusetts emit from energy?", "DL-24"],
+  ["What is the population of Boston?", "DL-25"],
+  ["Which Massachusetts town grew the most since 2020?", "DL-26"],
+  ["How much is Boston city payroll?", "DL-27"],
+  ["How much tax did Massachusetts collect last quarter?", "DL-28"],
+  ["Which state collected the most tax last quarter?", "DL-29"],
+  ["How much is Commonwealth payroll?", "DL-30"],
+  ["How many prisoners does Massachusetts hold?", "DL-31"],
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context
@@ -45,7 +70,7 @@ function check(ok, msg) {
   }
 }
 
-check(tools.length >= 5, "at least the five live flagships are registered");
+check(tools.length >= 29, "five flagships plus the 24 live suite tools are registered (" + tools.length + ")");
 
 for (const t of tools) {
   for (const f of REQUIRED) {
@@ -72,12 +97,12 @@ for (const [q, tool] of GOLDEN_HITS) {
   check(JSON.stringify(selected.cores[tool]) === core, "hit " + tool + " still ships its coreSlice");
 }
 
-const crime = ask.selectDatasets("Where can I find crime data for Boston?", []);
-check(crime.hits.length === 0, "crime/Boston is a catalog-route question (no AI-tool hit)");
-check(Object.keys(crime.full).length === 0, "no-hit questions ship no DATASETS_FULL upgrades");
+const nohit = ask.selectDatasets("What will the weather be in Boston tomorrow?", []);
+check(nohit.hits.length === 0, "weather is a no-hit question (hits: " + nohit.hits.join(",") + ")");
+check(Object.keys(nohit.full).length === 0, "no-hit questions ship no DATASETS_FULL upgrades");
 for (const t of tools) {
   const core = JSON.stringify(t.coreSlice(t.dataset));
-  check(JSON.stringify(crime.cores[t.id]) === core, t.id + " ships coreSlice on a no-hit question");
+  check(JSON.stringify(nohit.cores[t.id]) === core, t.id + " ships coreSlice on a no-hit question");
 }
 
 check(!ask.matchesTrigger("stable", "t"), "single-letter trigger would be whole-word only");

@@ -6,6 +6,7 @@ pull requests**. They do not merge and they do not push `main`.
 ## Canonical files (edit these)
 
 - `catalog.json`
+- `suite/apps.json` (the 26-app registry; do not invent a 27th without a source)
 - `netlify/functions/dl01-answers.json`
 - `netlify/functions/dl02-answers.json`
 - `netlify/functions/dl03-answers.json`
@@ -43,6 +44,10 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   `scripts/dl05-research-pass.md`. Update an existing PR only if it is a
   draft whose title starts with `DL-05`. Do not invent a fetch for the
   Investment Report; that source is a PDF.
+- **Suite (DL-06 to DL-31):** `python3 scripts/refresh_suite.py` rebuilds
+  the four live first-wave ledgers (business formation, labor market,
+  housing permits, population) and restubs the other 22. Do not mark a
+  stub `live` or invent figures. The five flagships stay frozen.
 
 ## House style
 

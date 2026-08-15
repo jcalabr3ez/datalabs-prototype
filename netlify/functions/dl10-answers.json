@@ -1,0 +1,1075 @@
+{
+  "tool_id": "DL-10",
+  "title": "Massachusetts Hospitals",
+  "slug": "ma-hospitals",
+  "vertical": "Healthcare",
+  "group": "Healthcare",
+  "status": "live",
+  "as_of": "2026-08",
+  "scope": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view.",
+  "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care. CHIA relative prices are pending.",
+  "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
+  "replaces": [
+    "Hospital Tracker",
+    "Relative Price Tracker"
+  ],
+  "vintage_note": "Rebuilt Aug 15, 2026 from the CMS provider-data Hospital General Information datastore (dataset xubh-q36u), filtered to state=MA. Count equals 84. The ranking is the CMS overall star rating (5 to 1) among rated facilities. CHIA relative-price files remain pending.",
+  "source_id_map": {
+    "SRC-610-01": {
+      "name": "Massachusetts CHIA hospital relative prices and hospital profiles",
+      "cadence": "Annual",
+      "url": "https://www.chiamass.gov/",
+      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view."
+    },
+    "SRC-610-02": {
+      "name": "CMS Hospital General Information, Massachusetts facilities",
+      "cadence": "Periodic",
+      "url": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view."
+    }
+  },
+  "page": {
+    "revised": "Aug 15, 2026",
+    "version": "0.1"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "Hospital relative prices and the Massachusetts hospital tracker.",
+  "pending": false,
+  "metric": "cms_ma_hospital_overall_rating",
+  "metric_label": "CMS overall hospital star rating, Massachusetts facilities",
+  "unit": "star rating (1-5)",
+  "data_month": "2026-08",
+  "data_month_label": "CMS Hospital General Information, retrieved Aug 2026",
+  "lead": "CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a five-star overall rating; 54 have any star rating (SRC-610-02). CHIA relative prices remain pending on this page.",
+  "kpis": [
+    {
+      "label": "Massachusetts hospitals",
+      "value": "84",
+      "detail": "54 have a CMS overall star rating; 30 are unrated (SRC-610-02).",
+      "why": "The facility count behind the Massachusetts hospital tracker.",
+      "src": "CMS Hospital General Information (SRC-610-02)"
+    },
+    {
+      "label": "Five-star ratings",
+      "value": "9",
+      "detail": "60 facilities report emergency services (SRC-610-02).",
+      "why": "Star ratings are CMS overall ratings, not CHIA relative prices.",
+      "src": "CMS Hospital General Information (SRC-610-02)"
+    },
+    {
+      "label": "Most common type",
+      "value": "Acute Care Hospitals",
+      "detail": "55 of 84 facilities (SRC-610-02). CHIA relative prices remain pending.",
+      "why": "Type mix is the first cut of the hospital file.",
+      "src": "CMS Hospital General Information (SRC-610-02)"
+    }
+  ],
+  "latest": {
+    "n_hospitals": 84,
+    "n_rated": 54,
+    "n_unrated": 30,
+    "five_star": 9,
+    "emergency_services": 60,
+    "by_type": {
+      "Acute Care Hospitals": 55,
+      "Acute Care - Veterans Administration": 3,
+      "Critical Access Hospitals": 4,
+      "Childrens": 3,
+      "Psychiatric": 19
+    },
+    "highest": {
+      "name": "NORTH SHORE MEDICAL CENTER -",
+      "v": 5,
+      "city": "SALEM"
+    }
+  },
+  "rows": [
+    {
+      "st": "NORTH SHORE MEDICAL CENTER -",
+      "name": "NORTH SHORE MEDICAL CENTER -",
+      "v": 5,
+      "rank": 1,
+      "n": 54,
+      "city": "SALEM",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "MASSACHUSETTS GENERAL HOSPITAL",
+      "name": "MASSACHUSETTS GENERAL HOSPITAL",
+      "v": 5,
+      "rank": 2,
+      "n": 54,
+      "city": "BOSTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM",
+      "name": "BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM",
+      "v": 5,
+      "rank": 3,
+      "n": 54,
+      "city": "NEEDHAM",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "EMERSON HOSPITAL -",
+      "name": "EMERSON HOSPITAL -",
+      "v": 5,
+      "rank": 4,
+      "n": 54,
+      "city": "W CONCORD",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "NEW ENGLAND BAPTIST HOSPITAL",
+      "name": "NEW ENGLAND BAPTIST HOSPITAL",
+      "v": 5,
+      "rank": 5,
+      "n": 54,
+      "city": "BOSTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "NEWTON-WELLESLEY HOSPITAL",
+      "name": "NEWTON-WELLESLEY HOSPITAL",
+      "v": 5,
+      "rank": 6,
+      "n": 54,
+      "city": "NEWTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BRIGHAM AND WOMEN'S HOSPITAL",
+      "name": "BRIGHAM AND WOMEN'S HOSPITAL",
+      "v": 5,
+      "rank": 7,
+      "n": 54,
+      "city": "BOSTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BRIGHAM AND WOMEN FAULKNER HOSPITAL",
+      "name": "BRIGHAM AND WOMEN FAULKNER HOSPITAL",
+      "v": 5,
+      "rank": 8,
+      "n": 54,
+      "city": "JAMAICA PLAIN",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "FAIRVIEW HOSPITAL",
+      "name": "FAIRVIEW HOSPITAL",
+      "v": 5,
+      "rank": 9,
+      "n": 54,
+      "city": "GREAT BARRINGTON",
+      "type": "Critical Access Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "MOUNT AUBURN HOSPITAL",
+      "name": "MOUNT AUBURN HOSPITAL",
+      "v": 4,
+      "rank": 10,
+      "n": 54,
+      "city": "CAMBRIDGE",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "HOLYOKE MEDICAL CENTER",
+      "name": "HOLYOKE MEDICAL CENTER",
+      "v": 4,
+      "rank": 11,
+      "n": 54,
+      "city": "HOLYOKE",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BAYSTATE WING HOSPITAL",
+      "name": "BAYSTATE WING HOSPITAL",
+      "v": 4,
+      "rank": 12,
+      "n": 54,
+      "city": "PALMER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Other"
+    },
+    {
+      "st": "BERKSHIRE MEDICAL CENTER",
+      "name": "BERKSHIRE MEDICAL CENTER",
+      "v": 4,
+      "rank": 13,
+      "n": 54,
+      "city": "PITTSFIELD",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Other"
+    },
+    {
+      "st": "BETH ISRAEL DEACONESS HOSPITAL PLYMOUTH",
+      "name": "BETH ISRAEL DEACONESS HOSPITAL PLYMOUTH",
+      "v": 4,
+      "rank": 14,
+      "n": 54,
+      "city": "PLYMOUTH",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "SOUTHCOAST HOSPITALS GROUP",
+      "name": "SOUTHCOAST HOSPITALS GROUP",
+      "v": 4,
+      "rank": 15,
+      "n": 54,
+      "city": "FALL RIVER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "MILFORD REGIONAL MEDICAL CENTER",
+      "name": "MILFORD REGIONAL MEDICAL CENTER",
+      "v": 4,
+      "rank": 16,
+      "n": 54,
+      "city": "MILFORD",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Other"
+    },
+    {
+      "st": "BETH ISRAEL DEACONESS HOSPITAL - MILTON",
+      "name": "BETH ISRAEL DEACONESS HOSPITAL - MILTON",
+      "v": 4,
+      "rank": 17,
+      "n": 54,
+      "city": "MILTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Government - Federal"
+    },
+    {
+      "st": "VA BOSTON HEALTHCARE SYSTEM - JAMAICA PLAIN",
+      "name": "VA BOSTON HEALTHCARE SYSTEM - JAMAICA PLAIN",
+      "v": 4,
+      "rank": 18,
+      "n": 54,
+      "city": "JAMAICA PLAIN",
+      "type": "Acute Care - Veterans Administration",
+      "ownership": "Veterans Health Administration"
+    },
+    {
+      "st": "FALMOUTH HOSPITAL",
+      "name": "FALMOUTH HOSPITAL",
+      "v": 4,
+      "rank": 19,
+      "n": 54,
+      "city": "FALMOUTH",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON",
+      "name": "LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON",
+      "v": 4,
+      "rank": 20,
+      "n": 54,
+      "city": "BURLINGTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "MARTHA'S VINEYARD HOSPITAL INC",
+      "name": "MARTHA'S VINEYARD HOSPITAL INC",
+      "v": 4,
+      "rank": 21,
+      "n": 54,
+      "city": "OAK BLUFFS",
+      "type": "Critical Access Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "UMASS MEMORIAL HEALTHALLIANCE HOSPITALS",
+      "name": "UMASS MEMORIAL HEALTHALLIANCE HOSPITALS",
+      "v": 3,
+      "rank": 22,
+      "n": 54,
+      "city": "LEOMINSTER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Other"
+    },
+    {
+      "st": "STURDY MEMORIAL HOSPITAL",
+      "name": "STURDY MEMORIAL HOSPITAL",
+      "v": 3,
+      "rank": 23,
+      "n": 54,
+      "city": "ATTLEBORO",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Other"
+    },
+    {
+      "st": "CAMBRIDGE HEALTH ALLIANCE",
+      "name": "CAMBRIDGE HEALTH ALLIANCE",
+      "v": 3,
+      "rank": 24,
+      "n": 54,
+      "city": "CAMBRIDGE",
+      "type": "Acute Care Hospitals",
+      "ownership": "Government - Local"
+    },
+    {
+      "st": "BAYSTATE FRANKLIN MEDICAL CENTER",
+      "name": "BAYSTATE FRANKLIN MEDICAL CENTER",
+      "v": 3,
+      "rank": 25,
+      "n": 54,
+      "city": "GREENFIELD",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "UMASS MEMORIAL HEALTH - HARRINGTON HOSPITAL",
+      "name": "UMASS MEMORIAL HEALTH - HARRINGTON HOSPITAL",
+      "v": 3,
+      "rank": 26,
+      "n": 54,
+      "city": "SOUTHBRIDGE",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "SAINT ANNE'S HOSPITAL",
+      "name": "SAINT ANNE'S HOSPITAL",
+      "v": 3,
+      "rank": 27,
+      "n": 54,
+      "city": "FALL RIVER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Proprietary"
+    },
+    {
+      "st": "ANNA JAQUES HOSPITAL",
+      "name": "ANNA JAQUES HOSPITAL",
+      "v": 3,
+      "rank": 28,
+      "n": 54,
+      "city": "NEWBURYPORT",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BOSTON MEDICAL CENTER",
+      "name": "BOSTON MEDICAL CENTER",
+      "v": 3,
+      "rank": 29,
+      "n": 54,
+      "city": "BOSTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "NORTHEAST HOSPITAL CORPORATION",
+      "name": "NORTHEAST HOSPITAL CORPORATION",
+      "v": 3,
+      "rank": 30,
+      "n": 54,
+      "city": "BEVERLY",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BOSTON MEDICAL CENTER-BRIGHTON",
+      "name": "BOSTON MEDICAL CENTER-BRIGHTON",
+      "v": 3,
+      "rank": 31,
+      "n": 54,
+      "city": "BRIGHTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Proprietary"
+    },
+    {
+      "st": "SIGNATURE HEALTHCARE BROCKTON HOSPITAL",
+      "name": "SIGNATURE HEALTHCARE BROCKTON HOSPITAL",
+      "v": 3,
+      "rank": 32,
+      "n": 54,
+      "city": "BROCKTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Other"
+    },
+    {
+      "st": "MELROSEWAKEFIELD HEALTHCARE",
+      "name": "MELROSEWAKEFIELD HEALTHCARE",
+      "v": 3,
+      "rank": 33,
+      "n": 54,
+      "city": "MELROSE",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BETH ISRAEL DEACONESS MEDICAL CENTER",
+      "name": "BETH ISRAEL DEACONESS MEDICAL CENTER",
+      "v": 3,
+      "rank": 34,
+      "n": 54,
+      "city": "BOSTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "WINCHESTER HOSPITAL",
+      "name": "WINCHESTER HOSPITAL",
+      "v": 3,
+      "rank": 35,
+      "n": 54,
+      "city": "WINCHESTER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "UMASS MEMORIAL MEDICAL CENTER/UNIVERSITY CAMPUS",
+      "name": "UMASS MEMORIAL MEDICAL CENTER/UNIVERSITY CAMPUS",
+      "v": 3,
+      "rank": 36,
+      "n": 54,
+      "city": "WORCESTER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "NANTUCKET COTTAGE HOSPITAL",
+      "name": "NANTUCKET COTTAGE HOSPITAL",
+      "v": 3,
+      "rank": 37,
+      "n": 54,
+      "city": "NANTUCKET",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "MERRIMACK HEALTH LAWRENCE HOSPITAL",
+      "name": "MERRIMACK HEALTH LAWRENCE HOSPITAL",
+      "v": 2,
+      "rank": 38,
+      "n": 54,
+      "city": "LAWRENCE",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "CAPE COD HOSPITAL",
+      "name": "CAPE COD HOSPITAL",
+      "v": 2,
+      "rank": 39,
+      "n": 54,
+      "city": "HYANNIS",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "COOLEY DICKINSON HOSPITAL INC,THE",
+      "name": "COOLEY DICKINSON HOSPITAL INC,THE",
+      "v": 2,
+      "rank": 40,
+      "n": 54,
+      "city": "NORTHAMPTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "MARLBOROUGH HOSPITAL",
+      "name": "MARLBOROUGH HOSPITAL",
+      "v": 2,
+      "rank": 41,
+      "n": 54,
+      "city": "MARLBOROUGH",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "LOWELL GENERAL HOSPITAL",
+      "name": "LOWELL GENERAL HOSPITAL",
+      "v": 2,
+      "rank": 42,
+      "n": 54,
+      "city": "LOWELL",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BAYSTATE NOBLE HOSPITAL",
+      "name": "BAYSTATE NOBLE HOSPITAL",
+      "v": 2,
+      "rank": 43,
+      "n": 54,
+      "city": "WESTFIELD",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "MERCY MEDICAL CTR",
+      "name": "MERCY MEDICAL CTR",
+      "v": 2,
+      "rank": 44,
+      "n": 54,
+      "city": "SPRINGFIELD",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BAYSTATE MEDICAL CENTER",
+      "name": "BAYSTATE MEDICAL CENTER",
+      "v": 2,
+      "rank": 45,
+      "n": 54,
+      "city": "SPRINGFIELD",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "HOLY FAMILY HOSPITAL",
+      "name": "HOLY FAMILY HOSPITAL",
+      "v": 2,
+      "rank": 46,
+      "n": 54,
+      "city": "METHUEN",
+      "type": "Acute Care Hospitals",
+      "ownership": "Proprietary"
+    },
+    {
+      "st": "HEYWOOD HOSPITAL -",
+      "name": "HEYWOOD HOSPITAL -",
+      "v": 2,
+      "rank": 47,
+      "n": 54,
+      "city": "GARDNER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "SOUTH SHORE HOSPITAL",
+      "name": "SOUTH SHORE HOSPITAL",
+      "v": 2,
+      "rank": 48,
+      "n": 54,
+      "city": "SOUTH WEYMOUTH",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "GOOD SAMARITAN MEDICAL CENTER",
+      "name": "GOOD SAMARITAN MEDICAL CENTER",
+      "v": 2,
+      "rank": 49,
+      "n": 54,
+      "city": "BROCKTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Proprietary"
+    },
+    {
+      "st": "TUFTS MEDICAL CENTER",
+      "name": "TUFTS MEDICAL CENTER",
+      "v": 2,
+      "rank": 50,
+      "n": 54,
+      "city": "BOSTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "ST VINCENT HOSPITAL",
+      "name": "ST VINCENT HOSPITAL",
+      "v": 2,
+      "rank": 51,
+      "n": 54,
+      "city": "WORCESTER",
+      "type": "Acute Care Hospitals",
+      "ownership": "Proprietary"
+    },
+    {
+      "st": "ATHOL MEMORIAL HOSPITAL",
+      "name": "ATHOL MEMORIAL HOSPITAL",
+      "v": 2,
+      "rank": 52,
+      "n": 54,
+      "city": "ATHOL",
+      "type": "Critical Access Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    },
+    {
+      "st": "BROWN UNIVERSITY HEALTH MORTON HOSPITAL",
+      "name": "BROWN UNIVERSITY HEALTH MORTON HOSPITAL",
+      "v": 1,
+      "rank": 53,
+      "n": 54,
+      "city": "TAUNTON",
+      "type": "Acute Care Hospitals",
+      "ownership": "Proprietary"
+    },
+    {
+      "st": "METROWEST MEDICAL CENTER",
+      "name": "METROWEST MEDICAL CENTER",
+      "v": 1,
+      "rank": 54,
+      "n": 54,
+      "city": "FRAMINGHAM",
+      "type": "Acute Care Hospitals",
+      "ownership": "Voluntary non-profit - Private"
+    }
+  ],
+  "trend": {},
+  "derived": {
+    "note": "Prefer these over recomputing. Ranks cite (derived, SRC-610-02).",
+    "highest_five": [
+      {
+        "st": "NORTH SHORE MEDICAL CENTER -",
+        "name": "NORTH SHORE MEDICAL CENTER -",
+        "v": 5,
+        "rank": 1,
+        "n": 54,
+        "city": "SALEM",
+        "type": "Acute Care Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      },
+      {
+        "st": "MASSACHUSETTS GENERAL HOSPITAL",
+        "name": "MASSACHUSETTS GENERAL HOSPITAL",
+        "v": 5,
+        "rank": 2,
+        "n": 54,
+        "city": "BOSTON",
+        "type": "Acute Care Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      },
+      {
+        "st": "BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM",
+        "name": "BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM",
+        "v": 5,
+        "rank": 3,
+        "n": 54,
+        "city": "NEEDHAM",
+        "type": "Acute Care Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      },
+      {
+        "st": "EMERSON HOSPITAL -",
+        "name": "EMERSON HOSPITAL -",
+        "v": 5,
+        "rank": 4,
+        "n": 54,
+        "city": "W CONCORD",
+        "type": "Acute Care Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      },
+      {
+        "st": "NEW ENGLAND BAPTIST HOSPITAL",
+        "name": "NEW ENGLAND BAPTIST HOSPITAL",
+        "v": 5,
+        "rank": 5,
+        "n": 54,
+        "city": "BOSTON",
+        "type": "Acute Care Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      }
+    ],
+    "lowest_five": [
+      {
+        "st": "METROWEST MEDICAL CENTER",
+        "name": "METROWEST MEDICAL CENTER",
+        "v": 1,
+        "rank": 54,
+        "n": 54,
+        "city": "FRAMINGHAM",
+        "type": "Acute Care Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      },
+      {
+        "st": "BROWN UNIVERSITY HEALTH MORTON HOSPITAL",
+        "name": "BROWN UNIVERSITY HEALTH MORTON HOSPITAL",
+        "v": 1,
+        "rank": 53,
+        "n": 54,
+        "city": "TAUNTON",
+        "type": "Acute Care Hospitals",
+        "ownership": "Proprietary"
+      },
+      {
+        "st": "ATHOL MEMORIAL HOSPITAL",
+        "name": "ATHOL MEMORIAL HOSPITAL",
+        "v": 2,
+        "rank": 52,
+        "n": 54,
+        "city": "ATHOL",
+        "type": "Critical Access Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      },
+      {
+        "st": "ST VINCENT HOSPITAL",
+        "name": "ST VINCENT HOSPITAL",
+        "v": 2,
+        "rank": 51,
+        "n": 54,
+        "city": "WORCESTER",
+        "type": "Acute Care Hospitals",
+        "ownership": "Proprietary"
+      },
+      {
+        "st": "TUFTS MEDICAL CENTER",
+        "name": "TUFTS MEDICAL CENTER",
+        "v": 2,
+        "rank": 50,
+        "n": 54,
+        "city": "BOSTON",
+        "type": "Acute Care Hospitals",
+        "ownership": "Voluntary non-profit - Private"
+      }
+    ],
+    "n_ranked": 54,
+    "unrated_count": 30,
+    "by_ownership": {
+      "Voluntary non-profit - Other": 6,
+      "Voluntary non-profit - Private": 43,
+      "Government - Local": 1,
+      "Proprietary": 23,
+      "Veterans Health Administration": 3,
+      "Government - Federal": 3,
+      "Government - State": 5
+    }
+  },
+  "entities": {
+    "NORTH SHORE MEDICAL CENTER -": {
+      "st": "NORTH SHORE MEDICAL CENTER -",
+      "name": "NORTH SHORE MEDICAL CENTER -",
+      "v": 5,
+      "rank": 1
+    },
+    "MASSACHUSETTS GENERAL HOSPITAL": {
+      "st": "MASSACHUSETTS GENERAL HOSPITAL",
+      "name": "MASSACHUSETTS GENERAL HOSPITAL",
+      "v": 5,
+      "rank": 2
+    },
+    "BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM": {
+      "st": "BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM",
+      "name": "BETH ISRAEL DEACONESS HOSPITAL - NEEDHAM",
+      "v": 5,
+      "rank": 3
+    },
+    "EMERSON HOSPITAL -": {
+      "st": "EMERSON HOSPITAL -",
+      "name": "EMERSON HOSPITAL -",
+      "v": 5,
+      "rank": 4
+    },
+    "NEW ENGLAND BAPTIST HOSPITAL": {
+      "st": "NEW ENGLAND BAPTIST HOSPITAL",
+      "name": "NEW ENGLAND BAPTIST HOSPITAL",
+      "v": 5,
+      "rank": 5
+    },
+    "NEWTON-WELLESLEY HOSPITAL": {
+      "st": "NEWTON-WELLESLEY HOSPITAL",
+      "name": "NEWTON-WELLESLEY HOSPITAL",
+      "v": 5,
+      "rank": 6
+    },
+    "BRIGHAM AND WOMEN'S HOSPITAL": {
+      "st": "BRIGHAM AND WOMEN'S HOSPITAL",
+      "name": "BRIGHAM AND WOMEN'S HOSPITAL",
+      "v": 5,
+      "rank": 7
+    },
+    "BRIGHAM AND WOMEN FAULKNER HOSPITAL": {
+      "st": "BRIGHAM AND WOMEN FAULKNER HOSPITAL",
+      "name": "BRIGHAM AND WOMEN FAULKNER HOSPITAL",
+      "v": 5,
+      "rank": 8
+    },
+    "FAIRVIEW HOSPITAL": {
+      "st": "FAIRVIEW HOSPITAL",
+      "name": "FAIRVIEW HOSPITAL",
+      "v": 5,
+      "rank": 9
+    },
+    "MOUNT AUBURN HOSPITAL": {
+      "st": "MOUNT AUBURN HOSPITAL",
+      "name": "MOUNT AUBURN HOSPITAL",
+      "v": 4,
+      "rank": 10
+    },
+    "HOLYOKE MEDICAL CENTER": {
+      "st": "HOLYOKE MEDICAL CENTER",
+      "name": "HOLYOKE MEDICAL CENTER",
+      "v": 4,
+      "rank": 11
+    },
+    "BAYSTATE WING HOSPITAL": {
+      "st": "BAYSTATE WING HOSPITAL",
+      "name": "BAYSTATE WING HOSPITAL",
+      "v": 4,
+      "rank": 12
+    },
+    "BERKSHIRE MEDICAL CENTER": {
+      "st": "BERKSHIRE MEDICAL CENTER",
+      "name": "BERKSHIRE MEDICAL CENTER",
+      "v": 4,
+      "rank": 13
+    },
+    "BETH ISRAEL DEACONESS HOSPITAL PLYMOUTH": {
+      "st": "BETH ISRAEL DEACONESS HOSPITAL PLYMOUTH",
+      "name": "BETH ISRAEL DEACONESS HOSPITAL PLYMOUTH",
+      "v": 4,
+      "rank": 14
+    },
+    "SOUTHCOAST HOSPITALS GROUP": {
+      "st": "SOUTHCOAST HOSPITALS GROUP",
+      "name": "SOUTHCOAST HOSPITALS GROUP",
+      "v": 4,
+      "rank": 15
+    },
+    "MILFORD REGIONAL MEDICAL CENTER": {
+      "st": "MILFORD REGIONAL MEDICAL CENTER",
+      "name": "MILFORD REGIONAL MEDICAL CENTER",
+      "v": 4,
+      "rank": 16
+    },
+    "BETH ISRAEL DEACONESS HOSPITAL - MILTON": {
+      "st": "BETH ISRAEL DEACONESS HOSPITAL - MILTON",
+      "name": "BETH ISRAEL DEACONESS HOSPITAL - MILTON",
+      "v": 4,
+      "rank": 17
+    },
+    "VA BOSTON HEALTHCARE SYSTEM - JAMAICA PLAIN": {
+      "st": "VA BOSTON HEALTHCARE SYSTEM - JAMAICA PLAIN",
+      "name": "VA BOSTON HEALTHCARE SYSTEM - JAMAICA PLAIN",
+      "v": 4,
+      "rank": 18
+    },
+    "FALMOUTH HOSPITAL": {
+      "st": "FALMOUTH HOSPITAL",
+      "name": "FALMOUTH HOSPITAL",
+      "v": 4,
+      "rank": 19
+    },
+    "LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON": {
+      "st": "LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON",
+      "name": "LAHEY HOSPITAL & MEDICAL CENTER, BURLINGTON",
+      "v": 4,
+      "rank": 20
+    },
+    "MARTHA'S VINEYARD HOSPITAL INC": {
+      "st": "MARTHA'S VINEYARD HOSPITAL INC",
+      "name": "MARTHA'S VINEYARD HOSPITAL INC",
+      "v": 4,
+      "rank": 21
+    },
+    "UMASS MEMORIAL HEALTHALLIANCE HOSPITALS": {
+      "st": "UMASS MEMORIAL HEALTHALLIANCE HOSPITALS",
+      "name": "UMASS MEMORIAL HEALTHALLIANCE HOSPITALS",
+      "v": 3,
+      "rank": 22
+    },
+    "STURDY MEMORIAL HOSPITAL": {
+      "st": "STURDY MEMORIAL HOSPITAL",
+      "name": "STURDY MEMORIAL HOSPITAL",
+      "v": 3,
+      "rank": 23
+    },
+    "CAMBRIDGE HEALTH ALLIANCE": {
+      "st": "CAMBRIDGE HEALTH ALLIANCE",
+      "name": "CAMBRIDGE HEALTH ALLIANCE",
+      "v": 3,
+      "rank": 24
+    },
+    "BAYSTATE FRANKLIN MEDICAL CENTER": {
+      "st": "BAYSTATE FRANKLIN MEDICAL CENTER",
+      "name": "BAYSTATE FRANKLIN MEDICAL CENTER",
+      "v": 3,
+      "rank": 25
+    },
+    "UMASS MEMORIAL HEALTH - HARRINGTON HOSPITAL": {
+      "st": "UMASS MEMORIAL HEALTH - HARRINGTON HOSPITAL",
+      "name": "UMASS MEMORIAL HEALTH - HARRINGTON HOSPITAL",
+      "v": 3,
+      "rank": 26
+    },
+    "SAINT ANNE'S HOSPITAL": {
+      "st": "SAINT ANNE'S HOSPITAL",
+      "name": "SAINT ANNE'S HOSPITAL",
+      "v": 3,
+      "rank": 27
+    },
+    "ANNA JAQUES HOSPITAL": {
+      "st": "ANNA JAQUES HOSPITAL",
+      "name": "ANNA JAQUES HOSPITAL",
+      "v": 3,
+      "rank": 28
+    },
+    "BOSTON MEDICAL CENTER": {
+      "st": "BOSTON MEDICAL CENTER",
+      "name": "BOSTON MEDICAL CENTER",
+      "v": 3,
+      "rank": 29
+    },
+    "NORTHEAST HOSPITAL CORPORATION": {
+      "st": "NORTHEAST HOSPITAL CORPORATION",
+      "name": "NORTHEAST HOSPITAL CORPORATION",
+      "v": 3,
+      "rank": 30
+    },
+    "BOSTON MEDICAL CENTER-BRIGHTON": {
+      "st": "BOSTON MEDICAL CENTER-BRIGHTON",
+      "name": "BOSTON MEDICAL CENTER-BRIGHTON",
+      "v": 3,
+      "rank": 31
+    },
+    "SIGNATURE HEALTHCARE BROCKTON HOSPITAL": {
+      "st": "SIGNATURE HEALTHCARE BROCKTON HOSPITAL",
+      "name": "SIGNATURE HEALTHCARE BROCKTON HOSPITAL",
+      "v": 3,
+      "rank": 32
+    },
+    "MELROSEWAKEFIELD HEALTHCARE": {
+      "st": "MELROSEWAKEFIELD HEALTHCARE",
+      "name": "MELROSEWAKEFIELD HEALTHCARE",
+      "v": 3,
+      "rank": 33
+    },
+    "BETH ISRAEL DEACONESS MEDICAL CENTER": {
+      "st": "BETH ISRAEL DEACONESS MEDICAL CENTER",
+      "name": "BETH ISRAEL DEACONESS MEDICAL CENTER",
+      "v": 3,
+      "rank": 34
+    },
+    "WINCHESTER HOSPITAL": {
+      "st": "WINCHESTER HOSPITAL",
+      "name": "WINCHESTER HOSPITAL",
+      "v": 3,
+      "rank": 35
+    },
+    "UMASS MEMORIAL MEDICAL CENTER/UNIVERSITY CAMPUS": {
+      "st": "UMASS MEMORIAL MEDICAL CENTER/UNIVERSITY CAMPUS",
+      "name": "UMASS MEMORIAL MEDICAL CENTER/UNIVERSITY CAMPUS",
+      "v": 3,
+      "rank": 36
+    },
+    "NANTUCKET COTTAGE HOSPITAL": {
+      "st": "NANTUCKET COTTAGE HOSPITAL",
+      "name": "NANTUCKET COTTAGE HOSPITAL",
+      "v": 3,
+      "rank": 37
+    },
+    "MERRIMACK HEALTH LAWRENCE HOSPITAL": {
+      "st": "MERRIMACK HEALTH LAWRENCE HOSPITAL",
+      "name": "MERRIMACK HEALTH LAWRENCE HOSPITAL",
+      "v": 2,
+      "rank": 38
+    },
+    "CAPE COD HOSPITAL": {
+      "st": "CAPE COD HOSPITAL",
+      "name": "CAPE COD HOSPITAL",
+      "v": 2,
+      "rank": 39
+    },
+    "COOLEY DICKINSON HOSPITAL INC,THE": {
+      "st": "COOLEY DICKINSON HOSPITAL INC,THE",
+      "name": "COOLEY DICKINSON HOSPITAL INC,THE",
+      "v": 2,
+      "rank": 40
+    },
+    "MARLBOROUGH HOSPITAL": {
+      "st": "MARLBOROUGH HOSPITAL",
+      "name": "MARLBOROUGH HOSPITAL",
+      "v": 2,
+      "rank": 41
+    },
+    "LOWELL GENERAL HOSPITAL": {
+      "st": "LOWELL GENERAL HOSPITAL",
+      "name": "LOWELL GENERAL HOSPITAL",
+      "v": 2,
+      "rank": 42
+    },
+    "BAYSTATE NOBLE HOSPITAL": {
+      "st": "BAYSTATE NOBLE HOSPITAL",
+      "name": "BAYSTATE NOBLE HOSPITAL",
+      "v": 2,
+      "rank": 43
+    },
+    "MERCY MEDICAL CTR": {
+      "st": "MERCY MEDICAL CTR",
+      "name": "MERCY MEDICAL CTR",
+      "v": 2,
+      "rank": 44
+    },
+    "BAYSTATE MEDICAL CENTER": {
+      "st": "BAYSTATE MEDICAL CENTER",
+      "name": "BAYSTATE MEDICAL CENTER",
+      "v": 2,
+      "rank": 45
+    },
+    "HOLY FAMILY HOSPITAL": {
+      "st": "HOLY FAMILY HOSPITAL",
+      "name": "HOLY FAMILY HOSPITAL",
+      "v": 2,
+      "rank": 46
+    },
+    "HEYWOOD HOSPITAL -": {
+      "st": "HEYWOOD HOSPITAL -",
+      "name": "HEYWOOD HOSPITAL -",
+      "v": 2,
+      "rank": 47
+    },
+    "SOUTH SHORE HOSPITAL": {
+      "st": "SOUTH SHORE HOSPITAL",
+      "name": "SOUTH SHORE HOSPITAL",
+      "v": 2,
+      "rank": 48
+    },
+    "GOOD SAMARITAN MEDICAL CENTER": {
+      "st": "GOOD SAMARITAN MEDICAL CENTER",
+      "name": "GOOD SAMARITAN MEDICAL CENTER",
+      "v": 2,
+      "rank": 49
+    },
+    "TUFTS MEDICAL CENTER": {
+      "st": "TUFTS MEDICAL CENTER",
+      "name": "TUFTS MEDICAL CENTER",
+      "v": 2,
+      "rank": 50
+    },
+    "ST VINCENT HOSPITAL": {
+      "st": "ST VINCENT HOSPITAL",
+      "name": "ST VINCENT HOSPITAL",
+      "v": 2,
+      "rank": 51
+    },
+    "ATHOL MEMORIAL HOSPITAL": {
+      "st": "ATHOL MEMORIAL HOSPITAL",
+      "name": "ATHOL MEMORIAL HOSPITAL",
+      "v": 2,
+      "rank": 52
+    },
+    "BROWN UNIVERSITY HEALTH MORTON HOSPITAL": {
+      "st": "BROWN UNIVERSITY HEALTH MORTON HOSPITAL",
+      "name": "BROWN UNIVERSITY HEALTH MORTON HOSPITAL",
+      "v": 1,
+      "rank": 53
+    },
+    "METROWEST MEDICAL CENTER": {
+      "st": "METROWEST MEDICAL CENTER",
+      "name": "METROWEST MEDICAL CENTER",
+      "v": 1,
+      "rank": 54
+    }
+  }
+}

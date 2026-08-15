@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Massachusetts Public Pensions | Pioneer Institute | Board Funded Status and State &amp; Teacher Retirees</title>
-<meta name="robots" content="noindex, nofollow">
 <meta name="description" content="Every Massachusetts retirement board's latest PERAC funded ratio and investment returns, plus the compiled State and Teacher retiree payroll through 2025 and a last-name search of the 2026 CTHRU file.">
 <link rel="canonical" href="https://datalabsai.netlify.app/pensions/">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -80,6 +79,10 @@
   .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
   .toggle button.on .who{color:var(--grey)}
   @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
+  .jump{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}
+  .jump a{font:600 13px/1.3 var(--sans);color:var(--navy);text-decoration:none}
+  .jump a:hover{color:var(--gold)}
+  .plot-mid{height:clamp(420px,52vh,640px)}
 
   section{margin-top:56px}
   h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
@@ -225,6 +228,8 @@
   <div class="sbleft">
     <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
     <a class="backlink" href="/">&#8592; All of DataLabs</a>
+    <a class="backlink" href="/#directory">Catalog</a>
+    <a class="backlink" href="/#about">About</a>
   </div>
   <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Massachusetts Public Pensions</span>
 </div>
@@ -245,14 +250,15 @@
   </div>
 </header>
 
-<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+<div class="proto"><span class="proto-tag">DataLabs</span><span class="proto-txt"><b>A living data tool.</b> Figures trace to the register below, with vintage and next scheduled release. For corrections e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
 
-<div class="toggle" role="tablist" aria-label="Choose a view">
-  <button id="btn-boards" class="on" onclick="showView('boards')">Boards<span class="who">Funded ratio, every system</span></button>
-  <button id="btn-returns" onclick="showView('returns')">Returns<span class="who">One-year and long-run</span></button>
-  <button id="btn-retirees" onclick="showView('retirees')">Retirees<span class="who">State and Teacher payroll</span></button>
-  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every board, one row</span></button>
-</div>
+<nav class="jump" aria-label="On this page">
+  <a href="#view-boards">Boards</a>
+  <a href="#view-returns_rank">Returns</a>
+  <a href="#view-retirees">Retirees</a>
+  <a href="#view-retiree-search">Name search</a>
+  <a href="#view-table">Table</a>
+</nav>
 
 <div id="view-boards">
 
@@ -296,7 +302,7 @@ The State Retirement Board was <b>71.3 percent</b> funded on its January 1, 2023
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
         <span class="ex-t" id="fig1t">Funded ratio by Massachusetts retirement board</span></div>
-      <div class="plot plot-ranks"><canvas id="chFunded"></canvas></div>
+      <div class="plot plot-mid"><canvas id="chFunded"></canvas></div>
       <div class="note">Funded ratio is actuarial assets divided by actuarial accrued liability, as of each board's latest valuation date (SRC-501). Most boards in this file are January 1, 2022 or January 1, 2023. A ratio of 100 percent is fully funded. The dollar-weighted ratio across all 105 boards is not the unweighted mean of the bars: the State and Teacher systems dominate the dollars.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Funded ratio (PERAC, checked by Pioneer)</div><code>funded ratio = 1 - unfunded actuarial liability / actuarial accrued liability
 
 The published PERAC ratio and this recompute match within 0.6 percentage points on every board. UAL and AAL in the extract are rounded, so a tenth of a point of gap is expected on small boards.</code><div class="out">Result: the percentages on this page are PERAC's published funded ratios, with the recompute as the verification path.</div></div><div class="mathsrc">Inputs: compiled PERAC board valuations in the Performance extract (SRC-501). Calculation of ranks and the dollar-weighted ratio: Pioneer Institute.</div></details></div>
@@ -322,7 +328,7 @@ The published PERAC ratio and this recompute match within 0.6 percentage points 
 
 </div><!-- /view-boards -->
 
-<div id="view-returns" hidden>
+<div id="view-returns">
 
   <section style="margin-top:30px" id="view-returns_rank">
     <h2>What did each board earn in 2023?</h2>
@@ -330,7 +336,7 @@ The published PERAC ratio and this recompute match within 0.6 percentage points 
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 3</span>
         <span class="ex-t" id="fig3t">One-year investment return by board, calendar 2023</span></div>
-      <div class="plot plot-ranks"><canvas id="chReturns"></canvas></div>
+      <div class="plot plot-mid"><canvas id="chReturns"></canvas></div>
       <div class="note">Returns are time-weighted investment performance as compiled by PERAC (SRC-502). They are not the assumed rate of return used in the valuation (that assumption is in the table, typically 7.00 percent for the large systems). Five-year, ten-year, and since-inception returns are in the table.</div>
       <div class="srcline"><b>Source:</b> <a href="https://www.mass.gov/lists/perac-investment-schedule-7-fee-reports" target="_blank" rel="noopener">PERAC compiled investment returns</a> (SRC-502), calendar 2023. <b>Calculation:</b> Pioneer Institute (ranks only).</div>
     </div>
@@ -338,7 +344,7 @@ The published PERAC ratio and this recompute match within 0.6 percentage points 
 
 </div><!-- /view-returns -->
 
-<div id="view-retirees" hidden>
+<div id="view-retirees">
 
   <section style="margin-top:30px" id="view-retiree_trend">
     <h2>How large is the State and Teacher retiree payroll?</h2>
@@ -432,7 +438,7 @@ The largest State and Teacher pensions, 2026
 
 </div><!-- /view-retirees -->
 
-<div id="view-table" hidden>
+<div id="view-table">
 
   <section style="margin-top:30px">
     <h2>Every Massachusetts retirement board</h2>
@@ -585,9 +591,19 @@ var rendered={};
 var trendChart=null;
 var selected='state';
 
+function boardSlice(rows, key, n){
+  var sorted=rows.slice().sort(function(a,b){return (b[key]||0)-(a[key]||0);});
+  var top=sorted.slice(0,n||12);
+  ['state','mtrs',selected].forEach(function(id){
+    if(top.some(function(r){return r.id===id;})) return;
+    var extra=sorted.filter(function(r){return r.id===id;})[0];
+    if(extra) top.push(extra);
+  });
+  return top;
+}
 function renderBoards(){
   if(!rendered.b){
-    var rows=DL05.boards.slice().sort(function(a,b){return b.funded_pct-a.funded_pct;});
+    var rows=boardSlice(DL05.boards,'funded_pct',12);
     document.getElementById('fig1t').textContent='Funded ratio by Massachusetts retirement board, latest valuation';
     new Chart(document.getElementById('chFunded'),{type:'bar',
       data:{labels:rows.map(function(r){return r.name;}),
@@ -649,7 +665,7 @@ function drawTrend(){
 
 function renderReturns(){
   if(rendered.r) return; rendered.r=true;
-  var rows=DL05.boards.slice().sort(function(a,b){return (b.return_1y_pct||0)-(a.return_1y_pct||0);});
+  var rows=boardSlice(DL05.boards,'return_1y_pct',12);
   document.getElementById('fig3t').textContent='One-year investment return by board, calendar '+DL05.returns_year;
   new Chart(document.getElementById('chReturns'),{type:'bar',
     data:{labels:rows.map(function(r){return r.name;}),
@@ -803,27 +819,17 @@ var STANDFIRSTS={
 var RENDER={boards:renderBoards,returns:renderReturns,retirees:renderRetirees,table:renderTable};
 var VIEWS=['boards','returns','retirees','table'];
 function showView(v){
-  VIEWS.forEach(function(k){
-    document.getElementById('view-'+k).hidden=(k!==v);
-    document.getElementById('btn-'+k).classList.toggle('on',k===v);
-  });
-  document.getElementById('standfirst').textContent=STANDFIRSTS[v];
-  (RENDER[v]||renderBoards)();
-  window.scrollTo({top:0,behavior:'smooth'});
+  var el=document.getElementById('view-'+v)||document.getElementById(v);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
 }
 document.getElementById('tblFilter').addEventListener('input',renderTable);
-renderBoards();
+renderBoards(); renderReturns(); renderRetirees(); renderTable();
 
 var KIND_VIEW={funded_rank:'boards',funded_trend:'boards',returns_rank:'returns',retiree_trend:'retirees','retiree-search':'retirees'};
 function revealKind(kind,flash,st){
   if(st && DL05.entities[st]) selected=st;
   var view=KIND_VIEW[kind]||(VIEWS.indexOf(kind)>=0?kind:null);
   if(!view) return false;
-  VIEWS.forEach(function(k){
-    document.getElementById('view-'+k).hidden=(k!==view);
-    document.getElementById('btn-'+k).classList.toggle('on',k===view);
-  });
-  document.getElementById('standfirst').textContent=STANDFIRSTS[view];
   (RENDER[view]||renderBoards)();
   var el=document.getElementById('view-'+kind)||document.getElementById('row-'+kind);
   if(!el && st) el=document.getElementById('row-'+st);

@@ -79,11 +79,89 @@ def insight_html(insights):
     return (
         "  <section id=\"insights\">\n"
         "    <h2>A closer look</h2>\n"
-        "    <p class=\"lede\">Additional figures from the published files on this page. "
-        "Series that are not in those files are not drawn.</p>\n"
+        "    <p class=\"lede\">More published series on this page.</p>\n"
         "    <div class=\"insight-grid\">\n"
         + "\n".join(blocks)
         + "\n    </div>\n"
+        "  </section>\n"
+    )
+
+
+RELATED_PAIRS = {
+    "DL-06": ["DL-07", "DL-09", "DL-08"],
+    "DL-07": ["DL-06", "DL-08", "DL-09"],
+    "DL-08": ["DL-07", "DL-06"],
+    "DL-09": ["DL-06", "DL-07"],
+    "DL-10": ["DL-12"],
+    "DL-12": ["DL-10"],
+    "DL-13": ["DL-14", "DL-15"],
+    "DL-14": ["DL-13", "DL-15"],
+    "DL-15": ["DL-14", "DL-19"],
+    "DL-16": ["DL-17", "DL-19"],
+    "DL-17": ["DL-16", "DL-20", "DL-25"],
+    "DL-19": ["DL-15", "DL-20"],
+    "DL-20": ["DL-17", "DL-21"],
+    "DL-21": ["DL-20"],
+    "DL-22": ["DL-03"],
+    "DL-23": ["DL-22", "DL-24"],
+    "DL-24": ["DL-04", "DL-23"],
+    "DL-25": ["DL-26", "DL-27"],
+    "DL-26": ["DL-25", "DL-27"],
+    "DL-27": ["DL-25", "DL-26"],
+    "DL-28": ["DL-29", "DL-30"],
+    "DL-29": ["DL-28", "DL-21"],
+    "DL-30": ["DL-28", "DL-27"],
+    "DL-31": ["DL-26"],
+}
+
+FLAGSHIP_LINKS = {
+    "DL-01": {"title": "State Tax Atlas", "slug": "tax-atlas"},
+    "DL-03": {"title": "Transportation & MBTA", "slug": "mbta"},
+    "DL-04": {"title": "Retail Electricity Prices", "slug": "electricity"},
+    "DL-05": {"title": "Massachusetts Public Pensions", "slug": "pensions"},
+}
+
+
+def related_html(app, apps):
+    by_id = {a["id"]: a for a in apps}
+    seen = {app["id"]}
+    picks = []
+
+    def add(tid):
+        if tid in seen:
+            return
+        if tid in FLAGSHIP_LINKS:
+            seen.add(tid)
+            picks.append(FLAGSHIP_LINKS[tid])
+            return
+        other = by_id.get(tid)
+        if other:
+            seen.add(tid)
+            picks.append({"title": other["title"], "slug": other["slug"]})
+
+    for tid in RELATED_PAIRS.get(app["id"], []):
+        add(tid)
+        if len(picks) >= 3:
+            break
+    if len(picks) < 3:
+        for other in apps:
+            if other["id"] in seen:
+                continue
+            if other.get("group") == app.get("group"):
+                add(other["id"])
+            if len(picks) >= 3:
+                break
+    if not picks:
+        return ""
+    links = "".join(
+        '<a href="/' + esc(p["slug"]) + '/">' + esc(p["title"]) + "</a>"
+        for p in picks[:3]
+    )
+    return (
+        '  <section id="related">\n'
+        "    <h2>Related applications</h2>\n"
+        '    <p class="lede">Other DataLabs tools on the same desk.</p>\n'
+        '    <div class="related">' + links + "</div>\n"
         "  </section>\n"
     )
 
@@ -95,19 +173,19 @@ def chart_spec(app, ledger):
     label = ledger.get("metric_label") or "Figure"
     n_rows = len(ledger.get("rows") or [])
     named = {
-        "DL-10": ("hospital", 25, None),
-        "DL-22": ("transit agency", 25, "Massachusetts Bay Transportation Authority"),
-        "DL-25": ("city or town", 25, "Boston city"),
-        "DL-26": ("city or town", 25, "Boston city"),
-        "DL-27": ("department", 25, "Boston Police Department"),
-        "DL-28": ("tax type", n_rows or 22, "Total Taxes"),
-        "DL-30": ("department", 25, None),
+        "DL-10": ("hospital", 12, None),
+        "DL-22": ("transit agency", 12, "Massachusetts Bay Transportation Authority"),
+        "DL-25": ("city or town", 12, "Boston city"),
+        "DL-26": ("city or town", 12, "Boston city"),
+        "DL-27": ("department", 12, "Boston Police Department"),
+        "DL-28": ("tax type", n_rows or 12, "Total Taxes"),
+        "DL-30": ("department", 12, None),
     }
     if tid in named:
         geo, n_chart, highlight = named[tid]
         n_chart = min(n_chart, n_rows) if n_rows else n_chart
     else:
-        geo, n_chart, highlight = "state", min(51, n_rows) if n_rows else 51, "MA"
+        geo, n_chart, highlight = "state", min(12, n_rows) if n_rows else 12, "MA"
     ulow = unit.lower()
     if "percent" in ulow:
         fmt = "percent"
@@ -174,13 +252,14 @@ def chart_spec(app, ledger):
     }
 
 
-def page_html(app, ledger):
+def page_html(app, ledger, apps=None):
     live = ledger.get("status") == "live"
     title = app["title"]
     slug = app["slug"]
     vertical = app["vertical"]
     topic = app["group"]
     standfirst = app["q"]
+    apps = apps or []
     as_of_label = ledger.get("data_month_label") or "pending"
     revised = ledger.get("page", {}).get("revised", "")
     version = ledger.get("page", {}).get("version", "0.0")
@@ -190,15 +269,14 @@ def page_html(app, ledger):
         "This application is in build. The source register below is the inventory. "
         "Figures will appear here once they are recomputed from those sources."
     )
+    proto_tag = "In build" if not live else "DataLabs"
     proto = (
-        "<b>A living data tool, not a static report.</b> Figures trace to source "
-        "in the register below, with vintage and next scheduled release. For all "
-        "corrections please e-mail "
+        "<b>A living data tool.</b> Figures trace to the register below, with vintage "
+        "and next scheduled release. For corrections e-mail "
         "<a href=\"mailto:datalabs@pioneerinstitute.org\">datalabs@pioneerinstitute.org</a>."
         if live else
-        "<b>In build.</b> Scope and sources are locked. Figures are not invented "
-        "to fill the page. A later refresh will compile the ledger from the "
-        "register below. Corrections: "
+        "<b>Sources are locked. Figures are not published yet.</b> A later refresh "
+        "will compile the ledger from the register below. Corrections: "
         "<a href=\"mailto:datalabs@pioneerinstitute.org\">datalabs@pioneerinstitute.org</a>."
     )
     replaces = esc(replaces_list(app, ledger))
@@ -208,20 +286,25 @@ def page_html(app, ledger):
     spec = chart_spec(app, ledger) if live else {}
     insights = insight_figures(app, ledger) if live else []
     has_trend = bool(spec.get("has_trend"))
-    toggle = ""
+    find_noun = (spec.get("geo") or "name").replace("_", " ")
+    jump = ""
     if live:
-        toggle = """
-<div class="toggle" role="tablist" aria-label="Choose a view">
-  <button id="btn-latest" class="on" onclick="showView('latest')">Latest<span class="who">The current ranking</span></button>
-  <button id="btn-trend" onclick="showView('trend')">Trend<span class="who">How the series has moved</span></button>
-  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every row</span></button>
-</div>
-"""
+        jump_links = [
+            '<a href="#takeaways">Takeaways</a>',
+            '<a href="#view-rank">Compare</a>',
+        ]
+        if has_trend:
+            jump_links.append('<a href="#view-trend">Trend</a>')
+        jump_links.append('<a href="#view-table">Table</a>')
+        jump = (
+            '<nav class="jump" aria-label="On this page">'
+            + "".join(jump_links)
+            + "</nav>\n"
+        )
     latest_section = ""
     if live:
         latest_section = f"""
-<div id="view-latest">
-  <section style="margin-top:30px">
+<section id="takeaways" style="margin-top:30px">
     <h2>What are the key takeaways?</h2>
     <p class="lede">
 <!-- DATA:BEGIN {slug}-lead -->
@@ -236,21 +319,20 @@ def page_html(app, ledger):
   </section>
 {insight_html(insights)}
   <section id="view-rank">
-    <h2>How do they compare?</h2>
-    <div class="lede">{esc(spec.get("lede") or metric_label)}</div>
+    <h2>{esc(spec.get("title") or metric_label)}</h2>
+    <div class="lede">{esc(spec.get("lede") or metric_label)} The full list is in the table below.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
         <span class="ex-t">{esc(spec.get("title") or metric_label)}</span></div>
-      <div class="plot {'plot-ranks' if spec.get('n_chart', 51) >= 40 else 'plot-mid'}"><canvas id="chRank"></canvas></div>
-      <div class="note">Hover a bar for the full name and figure. Ranks are Pioneer calculations from the published source file (derived).</div>
+      <div class="plot plot-mid"><canvas id="chRank"></canvas></div>
+      <div class="note">Ranks are Pioneer calculations from the published source file (derived). Values are labeled on each bar.</div>
       <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
     </div>
   </section>
-</div>
 """
     else:
         latest_section = f"""
-<section style="margin-top:30px">
+<section id="takeaways" style="margin-top:30px">
   <h2>What this application will cover</h2>
   <p class="lede">{esc(app['scope'])}</p>
   <p class="body-p">{esc(app['exclusions'])}</p>
@@ -258,11 +340,9 @@ def page_html(app, ledger):
 </section>
 """
     trend_section = ""
-    if live:
-        if has_trend:
-            trend_section = f"""
-<div id="view-trend" hidden>
-  <section style="margin-top:30px">
+    if live and has_trend:
+        trend_section = f"""
+<section id="view-trend">
     <h2>How has the series moved?</h2>
     <div class="lede">{esc(spec.get("trend_title"))}. Empty periods are omitted.</div>
     <div class="exhibit">
@@ -272,34 +352,28 @@ def page_html(app, ledger):
       <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
-</div>
-"""
-        else:
-            trend_section = """
-<div id="view-trend" hidden>
-  <section style="margin-top:30px">
-    <h2>How has the series moved?</h2>
-    <div class="lede">A multi-year trend is not in this ledger. Use Latest for the current ranking and Table for every row.</div>
-  </section>
-</div>
 """
     table_section = ""
     if live:
         table_section = f"""
-<div id="view-table" hidden>
-  <section style="margin-top:30px">
+<section id="view-table">
     <h2>{esc(spec.get("table_noun") or "Every row")}</h2>
-    <div class="lede">{esc(metric_label)}{', ' + esc(unit) if unit else ''}.</div>
+    <div class="lede">{esc(metric_label)}{', ' + esc(unit) if unit else ''}. Type a name to jump to a row.</div>
+    <div class="findrow">
+      <label class="sel-lab" for="tblFind">Find a {esc(find_noun)}</label>
+      <input id="tblFind" type="search" placeholder="Type a name" autocomplete="off">
+      <span id="tblCount" class="findcount"></span>
+    </div>
     <div class="scroll">
       <table id="tblStates">
-        <thead><tr><th>{esc(spec.get("col_name") or "Name")}</th><th class="n">{esc(unit or "Value")}</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
+        <thead><tr><th>{esc(spec.get("col_name") or "Name")}</th><th class="n">Value</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
     <div class="srcline"><b>Source:</b> see the register. Ranks and year-over-year changes are Pioneer calculations (derived).</div>
   </section>
-</div>
 """
+    related_section = related_html(app, apps) if live else ""
     js = ""
     if live:
         js = """
@@ -314,22 +388,14 @@ const INSIGHTS=INSIGHTS_JSON;
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
   var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#666666';
-  function showView(id){
-    ['latest','trend','table'].forEach(function(v){
-      var el=document.getElementById('view-'+v);
-      if(el) el.hidden = (v!==id);
-      var b=document.getElementById('btn-'+v);
-      if(b) b.classList.toggle('on', v===id);
-    });
-    if(location.hash!=='#view-'+id) history.replaceState(null,'','#view-'+id);
-  }
-  window.showView=showView;
   function applyHash(){
-    var h=(location.hash||'').replace('#view-','');
-    if(h==='trend'||h==='table'||h==='latest') showView(h);
+    var h=(location.hash||'').replace(/^#/,'');
+    if(!h) return;
+    var el=document.getElementById(h)||document.getElementById('view-'+h);
+    if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
   }
   window.addEventListener('hashchange', applyHash);
-  applyHash();
+  window.addEventListener('load', applyHash);
   var fmt=CHART.format||'number';
   var unit=CHART.unit||'';
   var axisUnit=CHART.axis_unit||unit;
@@ -407,8 +473,11 @@ const INSIGHTS=INSIGHTS_JSON;
     }};
   }
   var rows=(DL&&DL.rows)||[];
-  var nChart=CHART.n_chart||51;
+  var nChart=CHART.n_chart||12;
   var chartRows=rows.slice(0,nChart);
+  if(CHART.highlight && !chartRows.some(isHL)){
+    for(var hi=0;hi<rows.length;hi++){ if(isHL(rows[hi])){ chartRows=chartRows.concat([rows[hi]]); break; } }
+  }
   var chRank=document.getElementById('chRank');
   if(chRank && chartRows.length && window.Chart){
     var labels=chartRows.map(rowLabel);
@@ -553,8 +622,25 @@ const INSIGHTS=INSIGHTS_JSON;
     tb.innerHTML=rows.map(function(r){
       var yoy=(r.yoy_pct==null?'':(r.yoy_pct>0?'+':'')+r.yoy_pct+'%');
       var hl=isHL(r)?' class="hl-ma"':'';
-      return '<tr'+hl+'><td class="m">'+r.name+'</td><td class="n">'+fmtVal(r.v)+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
+      var key=((r.name||'')+' '+(r.st||'')).toLowerCase();
+      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'"><td class="m">'+r.name+'</td><td class="n">'+fmtVal(r.v)+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
     }).join('');
+    var find=document.getElementById('tblFind');
+    var countEl=document.getElementById('tblCount');
+    function applyFind(){
+      var q=(find&&find.value||'').toLowerCase().replace(/^\\s+|\\s+$/g,'');
+      var n=0, shown=0, first=null;
+      [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){
+        var ok=!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0;
+        tr.hidden=!ok;
+        n++;
+        if(ok){ shown++; if(!first) first=tr; }
+      });
+      if(countEl) countEl.textContent = q ? (shown+' of '+n) : (n+' '+(n===1?'row':'rows'));
+      if(q && shown===1 && first) first.scrollIntoView({block:'nearest'});
+    }
+    if(find) find.addEventListener('input', applyFind);
+    applyFind();
   }
 })();
 </script>
@@ -565,7 +651,6 @@ const INSIGHTS=INSIGHTS_JSON;
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{esc(title)} | Pioneer Institute | DataLabs</title>
-<meta name="robots" content="noindex, nofollow">
 <meta name="description" content="{esc(standfirst)}">
 <link rel="canonical" href="https://datalabsai.netlify.app/{esc(slug)}/">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -575,6 +660,7 @@ const INSIGHTS=INSIGHTS_JSON;
 <meta property="og:title" content="{esc(title)} | Pioneer Institute">
 <meta property="og:description" content="{esc(standfirst)}">
 <meta property="og:url" content="https://datalabsai.netlify.app/{esc(slug)}/">
+<meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -614,15 +700,23 @@ const INSIGHTS=INSIGHTS_JSON;
   .proto-txt{{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}}
   .proto-txt b{{color:#fff;font-weight:600}}
   .proto-txt a{{color:inherit;text-decoration:underline}}
-  .toggle{{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}}
-  .toggle button{{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent}}
-  .toggle button.on{{color:var(--ink);border-bottom-color:var(--gold)}}
-  .toggle .who{{display:block;font:400 11px/1.35 var(--sans);margin-top:3px;color:var(--faint)}}
+  .jump{{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}}
+  .jump a{{font:600 13px/1.3 var(--sans);color:var(--navy);text-decoration:none}}
+  .jump a:hover{{color:var(--gold)}}
+  .findrow{{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 16px}}
+  .sel-lab{{font:600 12px/1 var(--sans);color:var(--grey)}}
+  .findrow input{{border:1px solid var(--rule);border-radius:2px;padding:9px 12px;font:15px/1.3 var(--sans);min-width:220px}}
+  .findcount{{font:12px/1.3 var(--sans);color:var(--faint)}}
+  .related{{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:8px}}
+  .related a{{font:600 14.5px/1.4 var(--sans);color:var(--navy)}}
+  .related a:hover{{color:var(--gold)}}
+  .sitebar .sbleft a.nav{{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none}}
+  .sitebar .sbleft a.nav:hover{{color:var(--goldlt)}}
   section{{margin-top:56px}}
   h2{{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}}
   .lede{{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}}
   .body-p{{font-size:15px;margin-bottom:14px;max-width:72em}}
-  .strip{{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}}
+  .strip{{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}}
   .cell{{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}}
   .cell:last-child{{border-right:0;padding-right:0}}
   .cl{{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;min-height:30px}}
@@ -681,6 +775,8 @@ const INSIGHTS=INSIGHTS_JSON;
   <div class="sbleft">
     <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
     <a class="backlink" href="/">&#8592; All of DataLabs</a>
+    <a class="nav" href="/#directory">Catalog</a>
+    <a class="nav" href="/#about">About</a>
   </div>
   <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; {esc(title)}</span>
 </div>
@@ -697,11 +793,12 @@ const INSIGHTS=INSIGHTS_JSON;
 <!-- DATA:END {slug}-dateline -->
   </div>
 </header>
-<div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt">{proto}</span></div>
-{toggle}
+<div class="proto"><span class="proto-tag">{proto_tag}</span><span class="proto-txt">{proto}</span></div>
+{jump}
 {latest_section}
 {trend_section}
 {table_section}
+{related_section}
 <section id="sources">
   <h2>Data Sources</h2>
   <div class="subhead">Every figure on this page traces to a source below. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
@@ -757,7 +854,7 @@ def main():
         ledger = json.loads(path.read_text(encoding="utf-8"))
         dest = ROOT / app["slug"] / "index.html"
         dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(page_html(app, ledger), encoding="utf-8")
+        dest.write_text(page_html(app, ledger, apps), encoding="utf-8")
         n += 1
         print(f"render {app['id']} -> {dest.relative_to(ROOT)}")
         if ledger.get("status") == "live" and not insight_figures(app, ledger):

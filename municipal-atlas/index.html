@@ -15,6 +15,7 @@
 <meta property="og:url" content="https://datalabsai.netlify.app/municipal-atlas/">
 <meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/assets/chart-labels.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
@@ -334,53 +335,7 @@ const INSIGHTS=[{"id": "boston-peers", "title": "Boston and the five nearest Cen
     var s=r.name||r.st||'';
     return s.length>28?s.slice(0,26)+'…':s;
   }
-  function rawVal(ds, i, horiz){
-    var raw=ds.data[i];
-    if(raw==null||raw==='') return null;
-    if(typeof raw==='object'){
-      var v=horiz?raw.x:raw.y;
-      return (v==null||v==='')?null:v;
-    }
-    return raw;
-  }
-  function dataLabels(fmt, mode){
-    return {id:'dlbl',afterDatasetsDraw:function(chart){
-      var ctx=chart.ctx;
-      var horiz=chart.options.indexAxis==='y';
-      var isLine=chart.config.type==='line';
-      ctx.save();
-      ctx.font='600 10px Roboto,sans-serif';
-      chart.data.datasets.forEach(function(ds, di){
-        var meta=chart.getDatasetMeta(di);
-        if(!meta||meta.hidden) return;
-        var n=meta.data.length, idxs=[];
-        if(mode==='end'||(mode!=='all'&&isLine&&n>8)){
-          for(var i=n-1;i>=0;i--){ if(rawVal(ds,i,horiz)!=null){ idxs.push(i); break; } }
-        } else {
-          for(var j=0;j<n;j++) idxs.push(j);
-        }
-        idxs.forEach(function(i){
-          var el=meta.data[i]; if(!el) return;
-          var v=rawVal(ds,i,horiz); if(v==null) return;
-          var text=fmt(v); if(!text) return;
-          ctx.fillStyle=isLine?(ds.borderColor||INK):INK;
-          if(horiz){
-            ctx.textBaseline='middle';
-            if(Number(v)<0){ ctx.textAlign='right'; ctx.fillText(text, el.x-5, el.y); }
-            else { ctx.textAlign='left'; ctx.fillText(text, el.x+5, el.y); }
-          } else if(isLine){
-            ctx.textAlign='left';
-            ctx.textBaseline=(mode==='end'||n>8)&&(di%2)?'top':'bottom';
-            ctx.fillText(text, el.x+6, el.y+((mode==='end'||n>8)&&(di%2)?5:-4));
-          } else {
-            ctx.textAlign='center'; ctx.textBaseline='bottom';
-            ctx.fillText(text, el.x, el.y-4);
-          }
-        });
-      });
-      ctx.restore();
-    }};
-  }
+  function dataLabels(fmt, mode){ return window.dlChartLabels(fmt, mode); }
   var rows=(DL&&DL.rows)||[];
   var nChart=CHART.n_chart||12;
   var chartRows=rows.slice(0,nChart);
@@ -395,7 +350,7 @@ const INSIGHTS=[{"id": "boston-peers", "title": "Boston and the five nearest Cen
     new Chart(chRank,{type:'bar',
       data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        layout:{padding:{right:56,top:4}},
+        layout:{padding:{right:64,top:6}},
         plugins:{legend:{display:false},
           tooltip:{callbacks:{
             title:function(items){var i=items[0]&&items[0].dataIndex; return (chartRows[i]&&chartRows[i].name)||'';},
@@ -403,7 +358,7 @@ const INSIGHTS=[{"id": "boston-peers", "title": "Boston and the five nearest Cen
           }}},
         scales:{
           x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
-            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'},grace:'14%'},
           y:{ticks:{color:INK,font:{size:11,family:'Roboto,sans-serif'},autoSkip:false,
             callback:function(v){return String(this.getLabelForValue(v));}},
             grid:{display:false},border:{display:false}}
@@ -424,7 +379,7 @@ const INSIGHTS=[{"id": "boston-peers", "title": "Boston and the five nearest Cen
     });
     new Chart(chTrend,{type:'line',data:{datasets:datasets},
       options:{responsive:true,maintainAspectRatio:false,
-        layout:{padding:{top:8,right:64}},
+        layout:{padding:{top:12,right:72}},
         plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
           tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
         scales:{
@@ -474,17 +429,17 @@ const INSIGHTS=[{"id": "boston-peers", "title": "Boston and the five nearest Cen
     var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
     var horiz=fig.type==='bar';
     var scales=horiz?{
-      x:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'}},
+      x:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'},grace:'14%'},
       y:{ticks:catTick(32),grid:{display:false},border:{display:false}}
     }:{
       x:{ticks:Object.assign({},catTick(16),{color:GREY,autoSkip:fig.labels.length>12,maxTicksLimit:12}),
         grid:{display:false}},
-      y:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'},border:{display:false}}
+      y:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'},border:{display:false},grace:'12%'}
     };
     var nLab=(fig.labels||[]).length;
     var opts={
       responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:fig.type==='grouped'?16:6,right:horiz||fig.type==='line'?56:12}},
+      layout:{padding:{top:fig.type==='grouped'||fig.type==='line'?14:8,right:horiz||fig.type==='line'?64:16}},
       plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
         position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
         tooltip:{callbacks:{

@@ -1052,13 +1052,12 @@
    {
     "t": "340B Program Growth",
     "s": "US",
-    "u": "https://pioneerinstitute.org/340b-abuse/",
+    "u": "https://pioneerinstitute.org/340b-abuse/340b-growth/",
     "days": 547,
     "views": 6964,
     "pub": "Jan 21, 2025",
     "vint": "Apr 2026",
     "flags": [
-     "shared URL",
      "no backup"
     ],
     "vage": ""
@@ -1066,13 +1065,12 @@
    {
     "t": "Hospital Charity Care",
     "s": "US",
-    "u": "https://pioneerinstitute.org/340b-abuse/",
+    "u": "https://pioneerinstitute.org/340b-abuse/hospital-charity-care/",
     "days": 549,
     "views": 4481,
     "pub": "Jan 19, 2025",
     "vint": "2024",
     "flags": [
-     "shared URL",
      "no backup"
     ],
     "vage": "amb"
@@ -1091,13 +1089,12 @@
    {
     "t": "Legislative Mapping",
     "s": "US",
-    "u": "https://pioneerinstitute.org/340b-abuse/",
+    "u": "https://pioneerinstitute.org/340b-abuse/state-legislative-mapping/",
     "days": 812,
     "views": 3876,
     "pub": "May 1, 2024",
     "vint": "2024",
     "flags": [
-     "shared URL",
      "no backup"
     ],
     "vage": "amb"
@@ -1118,7 +1115,7 @@
    {
     "t": "Relative Price Tracker",
     "s": "MA",
-    "u": "https://madatalabs.org/healthcare/relative-price-tracker",
+    "u": "https://public.tableau.com/app/profile/michael.walker/viz/MA_Hospital_Relative_Price/top15",
     "days": 387,
     "views": 2163,
     "pub": "Jun 30, 2025",

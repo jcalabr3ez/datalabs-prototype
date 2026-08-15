@@ -1025,8 +1025,8 @@
   ]
  },
  {
-  "id": "healthcare-340b",
-  "t": "Healthcare & 340B",
+  "id": "340b",
+  "t": "340B",
   "legacy": [
    {
     "t": "340B Program Growth",
@@ -1055,17 +1055,6 @@
     "vage": "amb"
    },
    {
-    "t": "Hospital Tracker",
-    "s": "MA",
-    "u": "https://madatalabs.org/healthcare/hospital-tracker",
-    "days": 387,
-    "views": 792,
-    "pub": "Jun 30, 2025",
-    "flags": [
-     "no backup"
-    ]
-   },
-   {
     "t": "Legislative Mapping",
     "s": "US",
     "u": "https://pioneerinstitute.org/340b-abuse/state-legislative-mapping/",
@@ -1077,6 +1066,23 @@
      "no backup"
     ],
     "vage": "amb"
+   }
+  ]
+ },
+ {
+  "id": "healthcare",
+  "t": "Healthcare",
+  "legacy": [
+   {
+    "t": "Hospital Tracker",
+    "s": "MA",
+    "u": "https://madatalabs.org/healthcare/hospital-tracker",
+    "days": 387,
+    "views": 792,
+    "pub": "Jun 30, 2025",
+    "flags": [
+     "no backup"
+    ]
    },
    {
     "t": "Medicaid Fraud",

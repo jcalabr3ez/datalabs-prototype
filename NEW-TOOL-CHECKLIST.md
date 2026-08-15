@@ -1,7 +1,7 @@
 # Adding an AI-enabled tool (DL-XX): the checklist
 
 This is the repeatable path from "we should cover X" to a live, answerable,
-automated flagship. It is distilled from DL-01, DL-02, and DL-03. The engine
+automated flagship. It is distilled from DL-01 through DL-04. The engine
 work is the easy part (an afternoon); the data verification is the real work
 (days to weeks). Budget accordingly.
 
@@ -113,7 +113,7 @@ Conventions every ledger follows:
       worth leading with; desk stats must be generated from the ledger
       (see DL01D), never typed into copy.
 
-## Scaling the overlay from 3 tools to 20
+## Scaling the overlay from 4 tools to 20
 
 Do not stand up a second model call that routes from scopes alone. That
 architecture was tried (Haiku, then Sonnet 5 at low effort) and every

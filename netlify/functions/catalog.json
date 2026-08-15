@@ -76,8 +76,7 @@
   ],
   "st": "live",
   "url": "/mbta/",
-  "ai": true,
-  "heritage": "Formerly MBTAAnalysis"
+  "ai": true
  },
  {
   "id": "DL-04",
@@ -89,7 +88,6 @@
   "st": "live",
   "url": "/electricity/",
   "ai": true,
-  "heritage": "Formerly Retail-Price Electricity",
   "group": "Energy"
  },
  {
@@ -102,7 +100,6 @@
   "st": "live",
   "url": "/pensions/",
   "ai": true,
-  "heritage": "Formerly Performance and State & Teacher Retirees",
   "group": "Public Pensions"
  },
  {
@@ -115,7 +112,6 @@
   "st": "live",
   "url": "/ma-k12/",
   "ai": true,
-  "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
   "group": "Education",
   "vint": "Fiscal year 2024 (school year 2023-24)"
  },
@@ -129,7 +125,6 @@
   "st": "live",
   "url": "/national-k12/",
   "ai": true,
-  "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "group": "Education",
   "vint": "Fall 2024"
  },
@@ -144,7 +139,6 @@
   "st": "live",
   "url": "/higher-education/",
   "ai": true,
-  "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
   "group": "Education",
   "vint": "Fall 2022"
  },
@@ -159,7 +153,6 @@
   "st": "live",
   "url": "/charters-staff/",
   "ai": true,
-  "heritage": "Formerly School Districts Charter Schools and Education Staff",
   "group": "Education",
   "vint": "School year 2022-23"
  },
@@ -173,7 +166,6 @@
   "st": "live",
   "url": "/ma-hospitals/",
   "ai": true,
-  "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
   "group": "Healthcare",
   "vint": "CMS Hospital General Information, retrieved Aug 2026"
  },
@@ -187,7 +179,6 @@
   "st": "build",
   "url": "/340b/",
   "ai": false,
-  "heritage": "Formerly 340B Program Growth, Hospital Charity Care, and Legislative Mapping",
   "group": "340B",
   "vint": "in build"
  },
@@ -201,7 +192,6 @@
   "st": "live",
   "url": "/medicaid-health/",
   "ai": true,
-  "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
   "group": "Healthcare",
   "vint": "Fiscal year 2024"
  },
@@ -216,7 +206,6 @@
   "st": "live",
   "url": "/business-formation/",
   "ai": true,
-  "heritage": "Formerly Business Births and Deaths and Business Dynamics",
   "group": "Economy & Jobs",
   "vint": "Jul 2026"
  },
@@ -231,7 +220,6 @@
   "st": "live",
   "url": "/labor-market/",
   "ai": true,
-  "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
   "group": "Economy & Jobs",
   "vint": "Jun 2026"
  },
@@ -246,7 +234,6 @@
   "st": "live",
   "url": "/gdp-profiles/",
   "ai": true,
-  "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
   "group": "Economy & Jobs",
   "vint": "Calendar year 2025"
  },
@@ -261,7 +248,6 @@
   "st": "live",
   "url": "/housing-market/",
   "ai": true,
-  "heritage": "Formerly Housing Production and Housing Prices",
   "group": "Housing",
   "vint": "Jun 2026 year-to-date"
  },
@@ -276,7 +262,6 @@
   "st": "live",
   "url": "/population-migration/",
   "ai": true,
-  "heritage": "Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban",
   "group": "Economy & Jobs",
   "vint": "July 1, 2025"
  },
@@ -291,7 +276,6 @@
   "st": "build",
   "url": "/patents-innovation/",
   "ai": false,
-  "heritage": "Formerly Patents by State and Sector",
   "group": "Economy & Jobs",
   "vint": "in build"
  },
@@ -306,7 +290,6 @@
   "st": "live",
   "url": "/cost-of-living/",
   "ai": true,
-  "heritage": "Formerly Cost of Living, State Dependency, Tariff Impacts, and Defense Impact",
   "group": "Economy & Jobs",
   "vint": "Calendar year 2024"
  },
@@ -321,7 +304,6 @@
   "st": "live",
   "url": "/taxpayer-migration/",
   "ai": true,
-  "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
   "group": "Taxation",
   "vint": "Tax years 2022-23"
  },
@@ -336,7 +318,6 @@
   "st": "live",
   "url": "/tax-statistics/",
   "ai": true,
-  "heritage": "Formerly Individual Statistics, Tax Statistics County and Municipalities, and Tracking Wealth",
   "group": "Taxation",
   "vint": "Tax year 2022"
  },
@@ -351,7 +332,6 @@
   "st": "live",
   "url": "/transit-systems/",
   "ai": true,
-  "heritage": "Formerly Compare Systems and MassTransit Comparing Systems",
   "group": "Transportation & Infrastructure",
   "vint": "June 2026"
  },
@@ -365,7 +345,6 @@
   "st": "live",
   "url": "/roads-risk/",
   "ai": true,
-  "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
   "group": "Transportation & Infrastructure",
   "vint": "Calendar year 2024"
  },
@@ -380,7 +359,6 @@
   "st": "live",
   "url": "/energy-supply/",
   "ai": true,
-  "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
   "group": "Energy",
   "vint": "Calendar year 2024"
  },
@@ -394,7 +372,6 @@
   "st": "live",
   "url": "/municipal-atlas/",
   "ai": true,
-  "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
   "group": "Your City & Town",
   "vint": "July 1, 2025"
  },
@@ -408,7 +385,6 @@
   "st": "live",
   "url": "/municipal-rankings/",
   "ai": true,
-  "heritage": "Formerly the Cities and Towns Rankings suite",
   "group": "Your City & Town",
   "vint": "2020 to 2025"
  },
@@ -422,7 +398,6 @@
   "st": "live",
   "url": "/boston/",
   "ai": true,
-  "heritage": "Formerly Boston Data Labs",
   "group": "Your City & Town",
   "vint": "Calendar year 2025"
  },
@@ -436,7 +411,6 @@
   "st": "live",
   "url": "/ma-state-finances/",
   "ai": true,
-  "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
   "group": "State Government & Spending",
   "vint": "2026 Q1"
  },
@@ -450,7 +424,6 @@
   "st": "live",
   "url": "/us-state-finances/",
   "ai": true,
-  "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
   "group": "State Government & Spending",
   "vint": "2026 Q1"
  },
@@ -464,7 +437,6 @@
   "st": "live",
   "url": "/payroll-vendors/",
   "ai": true,
-  "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
   "group": "State Government & Spending",
   "vint": "Calendar year 2025"
  },
@@ -478,7 +450,6 @@
   "st": "live",
   "url": "/crime-justice/",
   "ai": true,
-  "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
   "group": "Crime & Justice",
   "vint": "Year-end 2023"
  }

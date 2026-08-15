@@ -163,7 +163,6 @@ def page_html(app, ledger):
         "register below. Corrections: "
         "<a href=\"mailto:datalabs@pioneerinstitute.org\">datalabs@pioneerinstitute.org</a>."
     )
-    heritage = esc(app.get("heritage") or "")
     replaces = esc(replaces_list(app, ledger))
     nsrc = len(ledger.get("source_id_map") or {})
     src_word = "source" if nsrc == 1 else "sources"
@@ -497,7 +496,7 @@ const CHART=CHART_JSON;
 </div>
 <header>
   <div class="dots" aria-hidden="true"></div>
-  <div class="org">{esc(vertical)} <span class="sub">/ {esc(topic)}{(' &middot; ' + heritage) if heritage else ''}</span></div>
+  <div class="org">{esc(vertical)} <span class="sub">/ {esc(topic)}</span></div>
   <h1>{esc(title)}</h1>
   <div class="standfirst">{esc(standfirst)}</div>
   <div class="dateline">
@@ -544,7 +543,7 @@ const CHART=CHART_JSON;
     <div>{nsrc} {src_word} in the register</div>
   </div>
   <div class="disclaimer">
-    <div><b>About this tool.</b> {esc(title)} is a Pioneer Institute DataLabs research tool. {heritage + '.' if heritage else ''} Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> {esc(title)} is a Pioneer Institute DataLabs research tool. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
     <div><b>Verified figures.</b> {"Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists." if live else "No figures are published on this page yet. The register is the work plan."}</div>
   </div>

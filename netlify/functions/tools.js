@@ -406,7 +406,7 @@ module.exports = [
       'fall 2024 enrollment',
       'elementary and secondary enrollment', 'naep', 'nations report card'
     ],
-    extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP 2024 state reading and math scores sit in derived.secondary.naep_2024.series (read4, read8, math4, math8).'
+    extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP 2024 state reading and math scores sit in derived.secondary.naep_2024.series (read4, read8, math4, math8). NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.'
   }),
   suiteTool(DL08, {
     id: 'DL-08',
@@ -416,7 +416,7 @@ module.exports = [
       'college', 'college enrollment', 'higher education', 'postsecondary',
       'fall enrollment', 'degree-granting', 'university enrollment'
     ],
-    extra: 'SAT mean scores sit in derived.secondary.sat_2023; the national faculty count sits in derived.secondary.faculty_fall_2023_us; the national IPEDS 6-year graduation rate sits in derived.secondary.ipeds_6yr_grad_2017. State faculty counts are not in the current Digest xlsx set: decline those. Digest 326.10 has no state column.'
+    extra: 'SAT mean scores sit in derived.secondary.sat_2023; the national faculty count sits in derived.secondary.faculty_fall_2023_us; the national IPEDS 6-year graduation rate sits in derived.secondary.ipeds_6yr_grad_2017; full-time faculty composition (rank and sex, national) sits in derived.secondary.faculty_composition_fall_2023. State faculty counts are not in the current Digest xlsx set: decline those. Digest 315.20 and 326.10 have no state column.'
   }),
   suiteTool(DL09, {
     id: 'DL-09',
@@ -435,9 +435,10 @@ module.exports = [
     hl: 'the exact hospital name as written in entities if the question focuses on one facility, else null',
     triggers: [
       'massachusetts hospitals', 'massachusetts hospital', 'hospital rating',
-      'cms hospital', 'hospital star', 'how many hospitals'
+      'cms hospital', 'hospital star', 'how many hospitals',
+      'relative price', 'chia relative', 'chia hospital'
     ],
-    extra: 'CHIA relative prices are pending because that databook is not a stable public download: decline those. This is the CMS facility file, not a care-advice tool. Decline where-to-seek-care questions.'
+    extra: 'CHIA CY 2023 statewide commercial relative prices sit in derived.secondary.chia_srp_2023. CMS city, emergency, and star-mix detail sits in derived.secondary.cms_hospital_depth. This is not a care-advice tool. Decline where-to-seek-care questions.'
   }),
   suiteTool(DL12, {
     id: 'DL-12',
@@ -469,9 +470,10 @@ module.exports = [
     triggers: [
       'unemployment', 'unemployment rate', 'jobless', 'laus',
       'labor force', 'seasonally adjusted unemployment',
-      'ui claims', 'initial claims', 'unemployment insurance claims'
+      'ui claims', 'initial claims', 'unemployment insurance claims',
+      'labor force participation', 'employment-population', 'epop'
     ],
-    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the U.S. wage there is derived from state sums. UI initial claims sit in derived.secondary.ui_initial_claims. CPS labor demographics are not posted as a machine file: decline those.'
+    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the U.S. wage there is derived from state sums. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. CPS age-sex-race detail is not posted: decline those.'
   }),
   suiteTool(DL15, {
     id: 'DL-15',
@@ -511,9 +513,9 @@ module.exports = [
     src: 'SRC-619-01',
     triggers: [
       'cost of living', 'regional price', 'price parity', 'rpp',
-      'how expensive is'
+      'how expensive is', 'housing prices parity', 'rpp housing'
     ],
-    extra: 'Tariff, defense, and fiscal-dependency measures are Pioneer products and are pending: decline those. Do not invent a Census substitute. United States is 100 by construction.'
+    extra: 'Component RPPs (goods, housing, utilities, other services) sit in derived.secondary.rpp_components_2024.components. Tariff, defense, and fiscal-dependency measures are Pioneer products and are pending: decline those. Do not invent a Census substitute. United States is 100 by construction.'
   }),
   suiteTool(DL20, {
     id: 'DL-20',
@@ -532,9 +534,9 @@ module.exports = [
     triggers: [
       'adjusted gross income', 'agi', 'tax year 2022', 'soi historic',
       'number of returns', 'income statistics', 'county agi',
-      'county adjusted gross'
+      'county adjusted gross', 'million-plus', 'size of agi', 'tracking wealth'
     ],
-    extra: 'This is AGI and return counts, not statutory tax rates (those sit on DL-01) and not quarterly state tax collections (DL-28 and DL-29). Massachusetts county AGI sits in derived.secondary.ma_county_agi_2022. A dedicated AGI-percentile-by-state file is not posted: decline those.'
+    extra: 'This is AGI and return counts, not statutory tax rates (those sit on DL-01) and not quarterly state tax collections (DL-28 and DL-29). Massachusetts county AGI sits in derived.secondary.ma_county_agi_2022. Size-of-AGI stubs, including the million-plus AGI share, sit in derived.secondary.agi_stubs_2022. A dedicated AGI-percentile-by-state file is not posted: decline those.'
   }),
   suiteTool(DL22, {
     id: 'DL-22',
@@ -580,9 +582,10 @@ module.exports = [
     triggers: [
       'massachusetts towns', 'massachusetts cities', 'municipal population',
       'city or town', 'boston population', 'population of boston',
-      'population peers', 'peer towns'
+      'population peers', 'peer towns', 'median household income',
+      'town income', 'home value'
     ],
-    extra: 'Population peers sit in derived.secondary.population_peers_2025 (five nearest Census 2025 counts, not the old Pioneer socioeconomic workbook). A DLS levy file is not a stable public CSV: decline those. Statewide population sits on DL-17. Boston payroll sits on DL-27.'
+    extra: 'Population peers sit in derived.secondary.population_peers_2025 (five nearest Census 2025 counts). ACS 2020-2024 income, home value, poverty, education, age, and socioeconomic peers sit in derived.secondary.acs_towns_2024. ACS peers are z-scored income, home value, and bachelor\'s share, not the old Pioneer workbook. A DLS levy file is not a stable public CSV: decline those. Statewide population sits on DL-17. Boston payroll sits on DL-27.'
   }),
   suiteTool(DL26, {
     id: 'DL-26',
@@ -592,9 +595,10 @@ module.exports = [
     hl: 'the exact municipality name as written in entities if the question focuses on one city or town, else null',
     triggers: [
       'town grew', 'towns growing', 'municipal rankings', 'population change',
-      'which town grew', 'fastest growing town'
+      'which town grew', 'fastest growing town', 'poverty rate',
+      'highest income town'
     ],
-    extra: 'DESE district per-pupil education rankings sit in derived.secondary.district_ppe_fy2025. DLS debt, levy, revenue, tax, and municipal crime files are not stable public CSVs: decline those. The headline ranking is 2025 minus 2020 population.'
+    extra: 'DESE district per-pupil education rankings sit in derived.secondary.district_ppe_fy2025. ACS 2020-2024 income, poverty, home-value, and bachelor\'s rankings sit in derived.secondary.acs_rankings_2024. DLS debt, levy, revenue, tax, and municipal crime files are not stable public CSVs: decline those. The headline ranking is 2025 minus 2020 population.'
   }),
   suiteTool(DL27, {
     id: 'DL-27',
@@ -618,7 +622,7 @@ module.exports = [
       'massachusetts tax collections', 'commonwealth tax', 'qtax massachusetts',
       'massachusetts collected', 'massachusetts collect', 'ma state taxes'
     ],
-    extra: 'The 51-state ranking sits on DL-29. DOR monthly reports and tax credits are pending. Statutory rates sit on DL-01.'
+    extra: 'The 51-state ranking sits on DL-29. QTAX type shares sit in derived.secondary.qtax_type_shares_2026q1. Census STC FY 2023 annual collections sit in derived.secondary.stc_ma_2023. DOR monthly reports and tax credits are pending. Statutory rates sit on DL-01.'
   }),
   suiteTool(DL29, {
     id: 'DL-29',
@@ -626,9 +630,10 @@ module.exports = [
     src: 'SRC-629-01',
     triggers: [
       'state tax collections', 'which state collected', 'qtax',
-      'quarterly tax revenue', 'state government taxes'
+      'quarterly tax revenue', 'state government taxes',
+      'state employees', 'public employment', 'aspep'
     ],
-    extra: 'The Massachusetts type-of-tax split sits on DL-28. Rainy-day funds and public-employee counts are pending. Excludes D.C.'
+    extra: 'The Massachusetts type-of-tax split sits on DL-28. ASPEP 2023 state FTE employment sits in derived.secondary.aspep_fte_2023. Census STC FY 2023 totals and income-tax shares sit in derived.secondary.stc_2023. NASBO rainy-day funds are pending. Excludes D.C.'
   }),
   suiteTool(DL30, {
     id: 'DL-30',
@@ -649,8 +654,9 @@ module.exports = [
     src: 'SRC-631-02',
     triggers: [
       'prisoners', 'incarceration', 'prison population', 'how many prisoners',
-      'correctional authorities', 'bjs prisoners'
+      'correctional authorities', 'bjs prisoners', 'imprisonment rate',
+      'prison admissions', 'juveniles in prison'
     ],
-    extra: 'FBI crime rates, juvenile incarceration, and internet-crime reports are pending: decline those. Municipal crime rankings are pending. This ledger is jurisdiction prisoner counts, not a Boston crime rate.'
+    extra: 'Imprisonment rates, admissions, releases, and youth in adult prisons sit in derived.secondary.bjs_depth_2023. FBI crime rates and IC3 internet-crime reports are pending: decline those. Youth counts are prisoners age 17 or younger in adult prisons, not OJJDP juvenile-justice custody. Municipal crime rankings are pending. This ledger is not a Boston crime rate.'
   })
 ];

@@ -17,6 +17,7 @@ from collections import defaultdict
 
 from openpyxl import load_workbook
 
+from suite_hollow import hollow_lead, hollow_secondary
 from suite_common import (
     RANKED,
     STATE_NAMES,
@@ -1110,15 +1111,17 @@ MORE_SECONDARY = {
         "dropouts_2025": sec_dropouts(),
         "district_finance_fy2025": sec_district_finance(),
     },
-    "DL-07": lambda: {"naep_2024": sec_naep()},
-    "DL-08": lambda: {"ipeds_6yr_grad_2017": sec_ipeds_outcomes()},
+    "DL-07": lambda: {"naep_2024": sec_naep(), **hollow_secondary("DL-07")},
+    "DL-08": lambda: {"ipeds_6yr_grad_2017": sec_ipeds_outcomes(), **hollow_secondary("DL-08")},
+    "DL-10": lambda: hollow_secondary("DL-10"),
     "DL-12": lambda: {"mfcu_recoveries_fy2025": sec_mfcu()},
     "DL-13": lambda: {"bed_births_deaths": sec_bed_births_deaths()},
-    "DL-14": lambda: {"ui_initial_claims": sec_ui_claims()},
+    "DL-14": lambda: {"ui_initial_claims": sec_ui_claims(), **hollow_secondary("DL-14")},
+    "DL-19": lambda: hollow_secondary("DL-19"),
     "DL-15": lambda: {"sagdp2_naics_2025": sec_sagdp2()},
     "DL-16": lambda: {"case_shiller_boston": sec_case_shiller()},
     "DL-17": lambda: {"rucc_2023": sec_rucc()},
-    "DL-21": lambda: {"ma_county_agi_2022": sec_irs_county()},
+    "DL-21": lambda: {"ma_county_agi_2022": sec_irs_county(), **hollow_secondary("DL-21")},
     "DL-22": lambda: {"ntd_annual_2024": sec_ntd_annual()},
     "DL-23": lambda: {
         k: v for k, v in {
@@ -1128,8 +1131,11 @@ MORE_SECONDARY = {
         }.items() if v
     },
     "DL-24": lambda: {"seds_production_2024": sec_seds_production()},
-    "DL-25": lambda: {"population_peers_2025": sec_pop_peers()},
-    "DL-26": lambda: {"district_ppe_fy2025": sec_district_finance()},
+    "DL-25": lambda: {"population_peers_2025": sec_pop_peers(), **hollow_secondary("DL-25")},
+    "DL-26": lambda: {"district_ppe_fy2025": sec_district_finance(), **hollow_secondary("DL-26")},
+    "DL-28": lambda: hollow_secondary("DL-28"),
+    "DL-29": lambda: hollow_secondary("DL-29"),
+    "DL-31": lambda: hollow_secondary("DL-31"),
     "DL-30": lambda: {
         "quasi_payroll_2025": sec_quasi_payroll(),
         "vendor_extract_fy2025": sec_vendor_extract(),
@@ -1217,7 +1223,7 @@ def more_lead(tool_id, sec):
             f"(derived, SRC-614-03). Massachusetts filed "
             f"<b>{commify((u.get('ma') or {}).get('v') or 0)}</b> initial claims "
             f"and <b>{commify(u.get('ma_continued') or 0)}</b> continued weeks "
-            f"(SRC-614-03). A CPS demographic extract is not in this ledger."
+            f"(SRC-614-03)."
         )
     if tool_id == "DL-15":
         s = ((sec.get("sagdp2_naics_2025") or {}).get("industries") or {})
@@ -1335,6 +1341,9 @@ def more_lead(tool_id, sec):
             f"<b>{usd_prose(v.get('highest', {}).get('v') or 0)}</b> "
             f"(SRC-630-04)."
         )
+    extra = hollow_lead(tool_id, sec)
+    if extra:
+        parts.append(extra)
     return " ".join(parts)
 
 
@@ -1353,6 +1362,11 @@ MORE_STRIP = {
         "Admissions-test and faculty files are pending.",
         "Admissions tests, faculty, and IPEDS outcomes remain pending.",
     ],
+    "DL-10": [
+        "CHIA relative prices remain pending on this page.",
+        "CHIA relative prices remain pending.",
+        "CHIA relative-price files remain pending.",
+    ],
     "DL-12": [
         "Broader state health spending and fraud recoveries are pending on this page.",
         "NASBO health-chapter and fraud-recovery files remain pending.",
@@ -1360,6 +1374,12 @@ MORE_STRIP = {
     ],
     "DL-14": [
         "UI claims remain pending.",
+        "A CPS demographic extract is not in this ledger.",
+        "CPS labor demographics are not posted as a machine file: decline those.",
+    ],
+    "DL-19": [
+        "Tariff, defense, and fiscal-dependency measures are pending.",
+        "Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo.",
     ],
     "DL-15": [
         "NAICS industry detail remains pending.",
@@ -1408,6 +1428,21 @@ MORE_STRIP = {
         "Crime, debt, education, expenditure, revenue, and tax rankings remain pending.",
         "Crime, debt, education, spending, and tax rankings are pending: decline those.",
         "DLS, DESE, and crime rankings are pending.",
+    ],
+    "DL-28": [
+        "DOR monthly collections and tax-credit files are pending.",
+        "DOR monthly reports and tax credits are pending.",
+        "DOR monthly and tax-credit files remain pending.",
+    ],
+    "DL-29": [
+        "Annual Survey of State Government Finances, NASBO rainy-day funds, and employee counts remain pending.",
+        "NASBO rainy-day figures remain pending.",
+        "Rainy-day funds and public-employee counts are pending.",
+    ],
+    "DL-31": [
+        "FBI crime rates, juvenile incarceration, and IC3 are pending.",
+        "FBI crime rates, juvenile incarceration, and internet-crime reports are pending on this page.",
+        "FBI UCR/NIBRS, juvenile, and IC3 files remain pending.",
     ],
     "DL-30": [
         "Quasi-public payroll detail and a vendor-only extract remain later views.",

@@ -306,6 +306,12 @@ def figs_dl07(ledger):
         fig = from_snap(sec.get(key), fid, title=title)
         if fig:
             out.append(fig)
+    fig = from_snap(
+        sec.get("npefs_ppe_fy2024"), "npefs-ppe",
+        title="Current expenditures per pupil, FY 2024",
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -334,6 +340,24 @@ def figs_dl08(ledger):
     )
     if latest:
         out.append(latest)
+    fac = sec.get("faculty_composition_fall_2023") or {}
+    if fac.get("us") and fac.get("professors") and fac.get("female") is not None:
+        labels = ["All full-time faculty", "Professors", "Women"]
+        values = [fac["us"], fac["professors"], fac["female"]]
+        out.append(_fig(
+            "faculty-ft",
+            "Full-time faculty, Fall 2023 (national)",
+            (
+                f"{fac['us']:,} full-time faculty. Professors were "
+                f"{fac.get('professor_share_pct')} percent; women were "
+                f"{fac.get('female_share_pct')} percent."
+            ),
+            fac.get("src") or "SRC-608-05",
+            "bar", "number", "faculty",
+            labels, _bars(labels, values),
+            fac.get("note") or "Digest 315.20 is national and has no state column.",
+            span=2,
+        ))
     return out
 
 
@@ -361,6 +385,7 @@ def figs_dl09(ledger):
 def figs_dl10(ledger):
     latest = ledger.get("latest") or {}
     derived = ledger.get("derived") or {}
+    sec = _sec(ledger)
     out = []
     by_type = latest.get("by_type") or {}
     if by_type:
@@ -374,7 +399,7 @@ def figs_dl10(ledger):
             "SRC-610-02",
             "bar", "number", "hospitals",
             labels, _bars(labels, values),
-            "CMS Hospital General Information, Massachusetts facilities. CHIA relative prices remain pending.",
+            "CMS Hospital General Information, Massachusetts facilities.",
             span=2,
         ))
     stars = {}
@@ -412,6 +437,37 @@ def figs_dl10(ledger):
             labels, _bars(labels, values),
             "CMS ownership labels, shortened for the axis.",
         ))
+    chia = sec.get("chia_srp_2023") or {}
+    fig = named_list(
+        chia.get("top_eight"), "chia-srp",
+        "Highest CHIA statewide commercial relative prices, CY 2023",
+        (
+            f"{chia.get('highest', {}).get('name')} was highest at "
+            f"{chia.get('highest', {}).get('v')}. Boston Children's Hospital "
+            f"was {chia.get('childrens', {}).get('v')}."
+        ) if chia.get("highest") else "CHIA statewide commercial relative price.",
+        chia.get("src") or "SRC-610-03",
+        "number", "relative price (statewide = 1.00)",
+        chia.get("note") or "CHIA Appendix A, commercial self- and fully-insured.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
+    cms = sec.get("cms_hospital_depth") or {}
+    fig = named_list(
+        cms.get("top_cities"), "hosp-cities",
+        "Massachusetts hospitals by city",
+        (
+            f"{cms.get('highest_city', {}).get('name')} has the most CMS-listed "
+            f"facilities. {cms.get('emergency_pct')} percent report emergency services."
+        ) if cms.get("highest_city") else "CMS facilities by city.",
+        cms.get("src") or "SRC-610-02",
+        "number", "hospitals",
+        "CMS Hospital General Information, Massachusetts facilities.",
+        n=8,
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -505,6 +561,27 @@ def figs_dl14(ledger):
             f"{ui.get('ma_continued'):,} continued weeks claimed. "
             "The U.S. total is omitted so state bars remain readable."
         ) if ui.get("ma_continued") else ui.get("note"),
+    )
+    if fig:
+        out.append(fig)
+    labor = sec.get("laus_labor_2026") or {}
+    fig = from_snap(
+        labor.get("lfpr"), "lfpr",
+        title="Labor-force participation rate",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        labor.get("epop"), "epop",
+        title="Employment-population ratio",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        labor.get("employment"), "employment",
+        title="Employment level",
+        skip_us=True,
+        note="BLS LAUS statewide seasonally adjusted employment. The U.S. total is not in this file.",
     )
     if fig:
         out.append(fig)
@@ -607,6 +684,8 @@ def figs_dl17(ledger):
 
 
 def figs_dl19(ledger):
+    sec = _sec(ledger)
+    out = []
     fig = from_latest(
         ledger, "rpp",
         title="Regional price parities, all items, 2024",
@@ -614,7 +693,40 @@ def figs_dl19(ledger):
         note="BEA SARPP. United States equals 100.",
         skip_us=False,
     )
-    return [fig] if fig else []
+    if fig:
+        out.append(fig)
+    comps = ((sec.get("rpp_components_2024") or {}).get("components")) or {}
+    order = [
+        ("goods", "Goods"),
+        ("housing", "Housing"),
+        ("utilities", "Utilities"),
+        ("other_services", "Other services"),
+    ]
+    us, ma = [], []
+    labels = []
+    for key, lab in order:
+        rec = comps.get(key) or {}
+        if rec.get("us") is None or _snap_val(rec.get("ma")) is None:
+            continue
+        labels.append(lab)
+        us.append(rec["us"])
+        ma.append(_snap_val(rec["ma"]))
+    if labels:
+        out.append(_fig(
+            "rpp-components",
+            "Regional price parities by component, 2024",
+            "Housing is the Massachusetts component furthest above the national index of 100.",
+            "SRC-619-02",
+            "grouped", "number", "index (US = 100)",
+            labels,
+            _grouped([
+                {"label": "United States", "data": us, "color": INK},
+                {"label": "Massachusetts", "data": ma, "color": GOLD},
+            ]),
+            "BEA SARPP component RPPs. United States equals 100 on each line.",
+            span=2,
+        ))
+    return out
 
 
 def figs_dl20(ledger):
@@ -660,6 +772,31 @@ def figs_dl21(ledger):
     )
     if latest:
         out.append(latest)
+    stubs = ((sec.get("agi_stubs_2022") or {}).get("ma") or {}).get("stubs") or []
+    if stubs:
+        labels = [s["name"].replace("adjusted gross income", "AGI") for s in stubs]
+        values = [s["agi_share_pct"] for s in stubs]
+        mp = (sec.get("agi_stubs_2022") or {}).get("ma", {}).get("million_plus") or {}
+        out.append(_fig(
+            "agi-stubs",
+            "Massachusetts AGI by size-of-AGI stub, tax year 2022",
+            (
+                f"Returns with $1 million or more held {mp.get('agi_share_pct')} "
+                "percent of Massachusetts AGI."
+            ),
+            "SRC-621-03",
+            "bar", "percent", "percent of AGI",
+            labels, _bars(labels, values),
+            "IRS SOI Historic Table 2 size-of-AGI stubs. This is not a dedicated percentile file.",
+            span=2,
+        ))
+    fig = from_snap(
+        (sec.get("agi_stubs_2022") or {}).get("million_plus_agi_share"),
+        "agi-million",
+        title="Share of AGI on returns with $1 million or more, tax year 2022",
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -762,7 +899,48 @@ def figs_dl25(ledger):
         "Census vintage 2025 subcounty estimates, SUMLEV 061. Five nearest counts for Boston city.",
         n=6, highlight="Boston city", span=2,
     )
-    return [fig] if fig else []
+    out = [fig] if fig else []
+    acs = sec.get("acs_towns_2024") or {}
+    fig = named_list(
+        (acs.get("income") or {}).get("top_eight"), "town-income",
+        "Highest median household income, ACS 2020-2024",
+        (
+            f"{(acs.get('income') or {}).get('highest', {}).get('name')} is highest. "
+            f"Boston is ${(acs.get('boston') or {}).get('median_hh_income'):,}."
+        ) if (acs.get("boston") or {}).get("median_hh_income") else "ACS median household income.",
+        acs.get("src") or "SRC-625-03",
+        "usd", "dollars",
+        "Census ACS 5-year 2020-2024, county subdivisions. Some small towns are suppressed.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
+    fig = named_list(
+        (acs.get("home_value") or {}).get("top_eight"), "town-home",
+        "Highest median home value, ACS 2020-2024",
+        "Owner-occupied median value among towns with a published ACS estimate.",
+        acs.get("src") or "SRC-625-03",
+        "usd", "dollars",
+        "Census ACS 5-year 2020-2024 table B25077.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
+    peers = (acs.get("socioeconomic_peers") or {}).get("Boston city") or []
+    rows = [{"name": "Boston city", "v": (acs.get("boston") or {}).get("median_hh_income")}]
+    rows.extend({"name": r["name"], "v": r.get("median_hh_income")} for r in peers)
+    fig = named_list(
+        rows, "acs-peers",
+        "Boston and five nearest ACS socioeconomic peers",
+        "Nearest on z-scored income, home value, and bachelor's share. Not the old Pioneer workbook.",
+        acs.get("src") or "SRC-625-03",
+        "usd", "dollars",
+        acs.get("peer_method") or "ACS 5-year socioeconomic distance.",
+        n=6, highlight="Boston city", span=2,
+    )
+    if fig:
+        out.append(fig)
+    return out
 
 
 def figs_dl26(ledger):
@@ -781,7 +959,48 @@ def figs_dl26(ledger):
         "DESE / E2C district finance. Small districts sit at the top of a per-pupil ranking.",
         n=5, span=2,
     )
-    return [fig] if fig else []
+    out = [fig] if fig else []
+    acs = sec.get("acs_rankings_2024") or {}
+    fig = named_list(
+        (acs.get("income") or {}).get("top_eight"), "rank-income",
+        "Highest median household income, ACS 2020-2024",
+        (
+            f"{(acs.get('income') or {}).get('highest', {}).get('name')} is highest at "
+            f"${(acs.get('income') or {}).get('highest', {}).get('v'):,}."
+        ) if (acs.get("income") or {}).get("highest") else "ACS median household income.",
+        acs.get("src") or "SRC-626-03",
+        "usd", "dollars",
+        "Census ACS 5-year 2020-2024. DLS levy and crime ranks are not a stable public CSV.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
+    fig = named_list(
+        (acs.get("poverty") or {}).get("top_eight"), "rank-poverty",
+        "Highest poverty rate, ACS 2020-2024",
+        (
+            f"{(acs.get('poverty') or {}).get('highest', {}).get('name')} is highest at "
+            f"{(acs.get('poverty') or {}).get('highest', {}).get('v')} percent."
+        ) if (acs.get("poverty") or {}).get("highest") else "ACS poverty rate.",
+        acs.get("src") or "SRC-626-03",
+        "percent", "percent",
+        "Census ACS 5-year 2020-2024 table B17001.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
+    fig = named_list(
+        (acs.get("home_value") or {}).get("top_eight"), "rank-home",
+        "Highest median home value, ACS 2020-2024",
+        "Owner-occupied median value among towns with a published ACS estimate.",
+        acs.get("src") or "SRC-626-03",
+        "usd", "dollars",
+        "Census ACS 5-year 2020-2024 table B25077.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
+    return out
 
 
 def figs_dl27(ledger):
@@ -829,7 +1048,42 @@ def figs_dl28(ledger):
         "Census QTAX 2026 Q1 table 3. Total Taxes is omitted so the type split is readable. DOR monthly reports remain pending.",
         n=8, span=2,
     )
-    return [fig] if fig else []
+    out = [fig] if fig else []
+    sec = _sec(ledger)
+    q = sec.get("qtax_type_shares_2026q1") or {}
+    types = [t for t in (q.get("types") or []) if t.get("ma_share_pct") and t["ma_share_pct"] >= 3]
+    types = sorted(types, key=lambda t: -t["ma_share_pct"])[:8]
+    if types:
+        labels = [t["name"] for t in types]
+        values = [t["ma_share_pct"] for t in types]
+        inc = q.get("individual_income") or {}
+        out.append(_fig(
+            "tax-shares",
+            "Massachusetts tax-type shares, 2026 Q1",
+            (
+                f"Individual income was {inc.get('ma_share_pct')} percent of "
+                "Commonwealth collections."
+            ),
+            q.get("src") or "SRC-628-01",
+            "bar", "percent", "percent of total taxes",
+            labels, _bars(labels, values),
+            "Census QTAX 2026 Q1. Types under 3 percent are omitted.",
+            span=2,
+        ))
+    stc = ((sec.get("stc_ma_2023") or {}).get("ma_types")) or []
+    fig = named_list(
+        [t for t in stc if t.get("name") and t["name"] != "Total Taxes"],
+        "stc-ma",
+        "Massachusetts annual state tax collections, FY 2023",
+        "Census Annual Survey of State Government Tax Collections.",
+        "SRC-628-02",
+        "usd", "dollars",
+        "Census STC FY 2023. Amounts are published in thousands of dollars.",
+        n=6, span=2,
+    )
+    if fig:
+        out.append(fig)
+    return out
 
 
 def figs_dl29(ledger):
@@ -839,7 +1093,32 @@ def figs_dl29(ledger):
         skip_us=True,
         note="Census QTAX 2026 Q1 table 3. The U.S. total is omitted so state bars remain readable. NASBO rainy-day figures remain pending.",
     )
-    return [fig] if fig else []
+    out = [fig] if fig else []
+    sec = _sec(ledger)
+    fig = from_snap(
+        sec.get("aspep_fte_2023"), "aspep",
+        title="State government FTE employment, 2023",
+        skip_us=True,
+        note="Census ASPEP 2023. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    stc = sec.get("stc_2023") or {}
+    fig = from_snap(
+        stc.get("total"), "stc-total",
+        title="State tax collections, FY 2023",
+        skip_us=True,
+        note="Census STC FY 2023. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        stc.get("income_share"), "stc-income-share",
+        title="Individual income tax share of state collections, FY 2023",
+    )
+    if fig:
+        out.append(fig)
+    return out
 
 
 def figs_dl30(ledger):
@@ -882,7 +1161,32 @@ def figs_dl31(ledger):
         skip_us=True,
         note="BJS Prisoners in 2023, table 2. The U.S. total is omitted so state bars remain readable. FBI crime rates are not a stable machine file on this page.",
     )
-    return [fig] if fig else []
+    out = [fig] if fig else []
+    sec = _sec(ledger)
+    b = sec.get("bjs_depth_2023") or {}
+    fig = from_snap(
+        b.get("imprisonment_rate"), "prison-rate",
+        title="Imprisonment rate per 100,000 residents, 2023",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        b.get("admissions"), "admissions",
+        title="Admissions of sentenced prisoners, 2023",
+        skip_us=True,
+        note="BJS Prisoners in 2023, table 8. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        b.get("juveniles_in_adult_prisons"), "youth-adult",
+        title="Prisoners age 17 or younger in adult prisons, 2023",
+        skip_us=True,
+        note="BJS table 15. This is youth in adult prisons, not OJJDP juvenile-justice custody.",
+    )
+    if fig:
+        out.append(fig)
+    return out
 
 
 DISPATCH = {

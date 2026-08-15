@@ -452,7 +452,7 @@ def sec_sagdp2():
             st = geo_to_st(name)
             if st and st != "US":
                 values[st] = v
-        if us_val is None or len(values) < 50:
+        if us_val is None or "MA" not in values or len(values) < 40:
             sys.exit(f"FATAL: SAGDP2 line {line} US={us_val} n={len(values)}")
         snap = _snap(values, us_val, round_to=1)
         snap.update({
@@ -688,15 +688,25 @@ def sec_openfema():
 
 
 def sec_nri():
-    url = URL_NRI + "?" + urllib.parse.urlencode({
-        "where": "1=1",
-        "outFields": "STATEABBRV,RISK_SCORE,RISK_RATNG",
-        "returnGeometry": "false",
-        "f": "json",
-        "resultRecordCount": "5000",
-    })
-    payload = json.loads(fetch(url, timeout=90))
-    feats = payload.get("features") or []
+    feats = []
+    offset = 0
+    while True:
+        url = URL_NRI + "?" + urllib.parse.urlencode({
+            "where": "1=1",
+            "outFields": "STATEABBRV,RISK_SCORE,RISK_RATNG",
+            "returnGeometry": "false",
+            "f": "json",
+            "resultRecordCount": "2000",
+            "resultOffset": str(offset),
+        })
+        payload = json.loads(fetch(url, timeout=90))
+        batch = payload.get("features") or []
+        feats.extend(batch)
+        if len(batch) < 2000:
+            break
+        offset += len(batch)
+        if offset > 10000:
+            break
     if len(feats) < 3000:
         sys.exit(f"FATAL: NRI county query returned {len(feats)} features")
     by_st = defaultdict(list)

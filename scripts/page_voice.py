@@ -142,6 +142,22 @@ def acs_ok(v):
     return v is not None and v > ACS_SUPPRESS
 
 
+def short_place(name):
+    """Drop Census 'city' / 'town' / 'CDP' suffixes for news-desk copy."""
+    text = str(name or "").strip()
+    text = re.sub(r"\s+Town\s+city$", "", text, flags=re.I)
+    text = re.sub(r"\s+(city|town|CDP)$", "", text, flags=re.I)
+    return text
+
+
+def signed(n):
+    if n is None:
+        return ""
+    if n < 0:
+        return "\u2212" + commify(abs(n))
+    return "+" + commify(n)
+
+
 # ---------------------------------------------------------------------------
 # Per-tool takeaways, finding KPIs, and catalog line
 # ---------------------------------------------------------------------------
@@ -391,10 +407,13 @@ def voice_dl15(ledger):
     sag = sec(ledger, "sagdp2_naics_2025")
     inds = sag.get("industries") or {}
     mfg = (inds.get("manufacturing") or {}).get("ma") or {}
+    fin = (inds.get("finance_insurance") or {}).get("ma") or {}
+    mfg_v = (mfg.get("v") or 0) * 1_000_000
+    fin_v = (fin.get("v") or 0) * 1_000_000
     take = [
         f"Massachusetts real GDP was <b>{money((ma.get('v') or 0) * 1_000_000)}</b> in 2025, chained 2017 dollars, {rank_txt(ma)} (derived, SRC-615-01).",
         f"Personal income was <b>{money((pma.get('v') or 0) * 1_000_000)}</b>, {rank_txt(pma)} (derived, SRC-615-02).",
-        f"Current-dollar manufacturing GDP was <b>$62.80 billion</b> and finance and insurance <b>$71.33 billion</b> (SRC-615-03).",
+        f"Current-dollar manufacturing GDP was <b>{money(mfg_v)}</b> and finance and insurance <b>{money(fin_v)}</b> (SRC-615-03).",
     ]
     kpis = [
         kpi("Massachusetts real GDP, 2025", money((ma.get("v") or 0) * 1_000_000),
@@ -405,8 +424,8 @@ def voice_dl15(ledger):
             f"{rank_txt(pma).capitalize()} (derived, SRC-615-02).",
             "Income received by Massachusetts residents.",
             src_name(ledger, "SRC-615-02")),
-        kpi("Finance and insurance GDP", "$71.33 billion",
-            "Current-dollar GDP, 2025 (SRC-615-03). Manufacturing was $62.80 billion.",
+        kpi("Finance and insurance GDP", money(fin_v),
+            f"Current-dollar GDP, 2025 (SRC-615-03). Manufacturing was {money(mfg_v)}.",
             "The industry mix behind the statewide total.",
             src_name(ledger, "SRC-615-03")),
     ]
@@ -661,7 +680,7 @@ def voice_dl25(ledger):
     take = [
         f"Boston's ACS 2020-2024 median household income was <b>{money(bos.get('median_hh_income'))}</b>, median home value <b>{money(bos.get('median_home_value'))}</b> (SRC-625-03).",
         f"Boston poverty was <b>{bos.get('poverty_pct')}%</b> and bachelor's-or-higher <b>{bos.get('bachelors_pct')}%</b> (SRC-625-03).",
-        f"The nearest ACS socioeconomic peer for Boston is <b>{peers.get('name')}</b> (derived, SRC-625-03).",
+        f"The nearest ACS socioeconomic peer for Boston is <b>{short_place(peers.get('name'))}</b> (derived, SRC-625-03).",
     ]
     kpis = [
         kpi("Boston median income", money(bos.get("median_hh_income")),
@@ -672,7 +691,7 @@ def voice_dl25(ledger):
             f"Median age {bos.get('median_age')} (SRC-625-03).",
             "The two rates that sit next to income.",
             src_name(ledger, "SRC-625-03")),
-        kpi("Boston ACS peer", peers.get("name") or "",
+        kpi("Boston ACS peer", short_place(peers.get("name")) or "",
             f"Income {money(peers.get('median_hh_income'))}; bachelor's {peers.get('bachelors_pct')}% (derived, SRC-625-03).",
             "Z-scored income, home value, and bachelor's share. Not the old Pioneer workbook.",
             src_name(ledger, "SRC-625-03")),
@@ -689,19 +708,19 @@ def voice_dl26(ledger):
     inc = (acs.get("income") or acs.get("median_hh_income") or {})
     top = (inc.get("highest") or {})
     take = [
-        f"From 2020 to 2025 the largest population gain was <b>{hi.get('name')}</b> at <b>{minus(hi.get('v'))}</b> (derived, SRC-626-01).",
-        f"The largest loss was <b>{lo.get('name')}</b> at <b>{minus(lo.get('v'))}</b> (derived, SRC-626-01).",
+        f"From 2020 to 2025 the largest population gain was <b>{short_place(hi.get('name'))}</b> at <b>{signed(hi.get('v'))}</b> (derived, SRC-626-01).",
+        f"The largest loss was <b>{short_place(lo.get('name'))}</b> at <b>{minus(lo.get('v'))}</b> (derived, SRC-626-01).",
         f"<b>{(ppe.get('highest') or {}).get('name') or 'Truro'}</b> had the highest DESE FY 2025 expenditures per pupil"
         + (f" at <b>{money((ppe.get('highest') or {}).get('v'))}</b>" if (ppe.get("highest") or {}).get("v") else "")
         + " (SRC-626-02).",
     ]
     kpis = [
-        kpi("Largest gain, 2020-25", minus(hi.get("v")),
-            f"{hi.get('name')} (derived, SRC-626-01).",
+        kpi("Largest gain, 2020-25", signed(hi.get("v")),
+            f"{short_place(hi.get('name'))} (derived, SRC-626-01).",
             "Who grew, not the 2025 stock.",
             src_name(ledger, "SRC-626-01")),
         kpi("Largest loss, 2020-25", minus(lo.get("v")),
-            f"{lo.get('name')} (derived, SRC-626-01).",
+            f"{short_place(lo.get('name'))} (derived, SRC-626-01).",
             "Who shrank on the same vintage file.",
             src_name(ledger, "SRC-626-01")),
         kpi("Highest district PPE, FY 2025", money((ppe.get("highest") or {}).get("v")) if (ppe.get("highest") or {}).get("v") else ((ppe.get("highest") or {}).get("name") or ""),
@@ -709,7 +728,7 @@ def voice_dl26(ledger):
             "School spending at the top of the district file.",
             src_name(ledger, "SRC-626-02")),
     ]
-    return take, kpis, f"{hi.get('name')} {minus(hi.get('v'))} residents", "SRC-626-01"
+    return take, kpis, f"{short_place(hi.get('name'))} {signed(hi.get('v'))} from 2020 to 2025", "SRC-626-01"
 
 
 def voice_dl27(ledger):
@@ -1133,7 +1152,7 @@ def flagship_voice(tid, ledger):
         ]
         kpis_html_data = [
             kpi(f"Massachusetts, {year}", f"{ma_p:.2f}\u00a2",
-                f"{rank_txt(ma).capitalize()} of {ma.get('n')} states and D.C. (derived, SRC-401)."
+                f"{rank_txt(ma).capitalize()} states and D.C. (derived, SRC-401)."
                 + (f" {ma.get('yoy_pct'):+.1f} percent from {year - 1}." if ma.get("yoy_pct") is not None else ""),
                 "The state's price rank, not the national average.",
                 "EIA Form EIA-861 (SRC-401)"),

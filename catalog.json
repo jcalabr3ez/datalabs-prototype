@@ -159,7 +159,7 @@
  {
   "id": "DL-10",
   "t": "Massachusetts Hospitals",
-  "q": "Hospital relative prices and the Massachusetts hospital tracker.",
+  "q": "CMS overall star ratings and facility counts for Massachusetts hospitals.",
   "g": [
    "MA"
   ],
@@ -282,7 +282,7 @@
  {
   "id": "DL-19",
   "t": "Cost of Living",
-  "q": "Regional price parities, state fiscal dependency, tariffs, and defense impact.",
+  "q": "Regional price parities by state from the Bureau of Economic Analysis.",
   "g": [
    "US",
    "MA"
@@ -365,7 +365,7 @@
  {
   "id": "DL-25",
   "t": "Municipal Atlas",
-  "q": "Choose a Massachusetts city or town, see its snapshot, and find peers.",
+  "q": "Population for every Massachusetts city and town, with a find box and Census peers for Boston.",
   "g": [
    "MA"
   ],
@@ -378,7 +378,7 @@
  {
   "id": "DL-26",
   "t": "Municipal Rankings",
-  "q": "Rank Massachusetts cities and towns on crime, debt, education, spending, revenues, and taxes.",
+  "q": "Population change and school spending for Massachusetts cities and towns.",
   "g": [
    "MA"
   ],
@@ -404,7 +404,7 @@
  {
   "id": "DL-28",
   "t": "Massachusetts State Finances",
-  "q": "Commonwealth tax collections, total revenue, spending, and tax credits.",
+  "q": "Commonwealth tax collections from the Census Quarterly Summary of State and Local Tax Revenue.",
   "g": [
    "MA"
   ],
@@ -417,7 +417,7 @@
  {
   "id": "DL-29",
   "t": "U.S. State Finances",
-  "q": "State and local revenues, expenses, rainy-day funds, and public-employee counts.",
+  "q": "State tax collections from the Census Quarterly Summary of State and Local Tax Revenue.",
   "g": [
    "US"
   ],
@@ -443,7 +443,7 @@
  {
   "id": "DL-31",
   "t": "Crime and Justice",
-  "q": "Crime rates, adult and juvenile incarceration, and internet crime.",
+  "q": "Adult imprisonment by state from the Bureau of Justice Statistics.",
   "g": [
    "US"
   ],

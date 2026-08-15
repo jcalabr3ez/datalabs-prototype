@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>State Tax Atlas: Surtaxes and Wealth Tax Proposals | Pioneer Institute</title>
-<meta name="robots" content="noindex, nofollow">
 <meta name="description" content="A 51-jurisdiction record of state income surtaxes, wealth tax proposals, ballot pathways, and a forward-looking enactment-risk model.">
 <link rel="canonical" href="https://datalabsai.netlify.app/tax-atlas/">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -42,6 +41,9 @@
            padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
   .sitebar img{height:24px;display:block}
   .sitebar .sbleft{display:flex;align-items:center;gap:16px}
+  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;
+    border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .backlink:hover{color:var(--goldlt)}
   .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
   .sitebar .tag b{color:var(--goldlt);font-weight:700}
   @media(max-width:520px){.sitebar .tag{display:none}}
@@ -237,6 +239,9 @@
 <div class="sitebar">
   <div class="sbleft">
     <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
+    <a class="backlink" href="/">&#8592; All of DataLabs</a>
+    <a class="backlink" href="/#directory">Catalog</a>
+    <a class="backlink" href="/#about">About</a>
   </div>
   <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; State Tax Atlas</span>
 </div>
@@ -249,12 +254,13 @@
     <div class="dateline"><span>Verified <b>Aug 14, 2026</b></span><span>Version <b>1.0</b></span><span>Jurisdictions <b>51</b></span><span>Sources <b>48</b></span><span>Events tracked <b>26</b></span></div>
   </header>
 
-  <div class="proto"><span class="proto-tag">Prototype</span><span class="proto-txt"><b>A living data tool, not a static report.</b> Figures trace to source in the register below, with vintage and next scheduled release. For all corrections please e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
+  <div class="proto"><span class="proto-tag">DataLabs</span><span class="proto-txt"><b>A living data tool.</b> Figures trace to the register below, with vintage and next scheduled release. For corrections e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
 
 
 
 
 
+  <p class="lede" style="margin-top:18px">Start with Current Policy for rates as enacted. Use Active Proposals and Near-Term Risk for vehicles still in play. Near-Term Risk is a Pioneer model last scored July 28, 2026, not a prediction of any bill.</p>
   <div class="toggle" role="tablist">
     <button id="b-current" class="on" onclick="setView('current')">Current Policy <span class="who">Rates and surtaxes as enacted</span></button>
     <button id="b-proposals" onclick="setView('proposals')">Active Proposals <span class="who">Wealth tax and surtax vehicles</span></button>

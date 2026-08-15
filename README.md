@@ -21,5 +21,5 @@ box is off by default (`?ai=1` still previews it). Production deploys from
 3. Open a pull request against `main`. Do not push `main` directly.
 
 First-time GitHub + Netlify setup: `SETUP.md`.
-Adding a fourth tool: `NEW-TOOL-CHECKLIST.md`.
+Adding a new tool: `NEW-TOOL-CHECKLIST.md`.
 Rules for cloud agents: `AGENTS.md`.

@@ -49,7 +49,7 @@
   "t": "Your City & Town",
   "legacy": [
    {
-    "t": "Boston Budget Dashboard",
+    "t": "Boston Data Labs",
     "s": "Boston",
     "u": "https://pioneerinstitute.org/boston-data-labs/",
     "days": 415,
@@ -57,21 +57,6 @@
     "pub": "Jun 2, 2025",
     "vint": "FY26 budget",
     "flags": [
-     "shared URL",
-     "no backup"
-    ],
-    "vage": ""
-   },
-   {
-    "t": "Boston Payroll Dashboard",
-    "s": "Boston",
-    "u": "https://pioneerinstitute.org/boston-data-labs/",
-    "days": 415,
-    "views": 1523,
-    "pub": "Jun 2, 2025",
-    "vint": "FY26 budget",
-    "flags": [
-     "shared URL",
      "no backup"
     ],
     "vage": ""
@@ -354,6 +339,19 @@
      "no backup"
     ],
     "vage": "red"
+   },
+   {
+    "t": "MA Demographics",
+    "s": "MA",
+    "u": "https://madatalabs.org/education/education-demographics",
+    "days": 350,
+    "views": 1161,
+    "pub": "Aug 6, 2025",
+    "vint": "2024",
+    "flags": [
+     "no backup"
+    ],
+    "vage": "amb"
    },
    {
     "t": "MCAS NEXTGEN",
@@ -743,21 +741,7 @@
     "vage": "red"
    },
    {
-    "t": "Demographics",
-    "s": "MA",
-    "u": "https://madatalabs.org/education/education-demographics",
-    "days": 350,
-    "views": 1161,
-    "pub": "Aug 6, 2025",
-    "vint": "2024",
-    "flags": [
-     "duplicate title",
-     "no backup"
-    ],
-    "vage": "amb"
-   },
-   {
-    "t": "Demographics",
+    "t": "US Demographics",
     "s": "US",
     "u": "https://usdatalabs.org/population/demographics",
     "days": 350,
@@ -765,7 +749,6 @@
     "pub": "Aug 6, 2025",
     "vint": "2024",
     "flags": [
-     "duplicate title",
      "no backup"
     ],
     "vage": "amb"
@@ -784,7 +767,7 @@
     "vage": "red"
    },
    {
-    "t": "Economic Profile",
+    "t": "MA Economic Profile",
     "s": "MA",
     "u": "https://madatalabs.org/economy/economic-profile",
     "days": 439,
@@ -792,13 +775,12 @@
     "pub": "May 9, 2025",
     "vint": "2023",
     "flags": [
-     "duplicate title",
      "no backup"
     ],
     "vage": "red"
    },
    {
-    "t": "Economic Profile",
+    "t": "US Economic Profile",
     "s": "US",
     "u": "https://usdatalabs.org/economy/economic-profile",
     "days": 439,
@@ -806,7 +788,6 @@
     "pub": "May 9, 2025",
     "vint": "2023",
     "flags": [
-     "duplicate title",
      "no backup"
     ],
     "vage": "red"
@@ -981,26 +962,24 @@
     "vage": "red"
    },
    {
-    "t": "Tariff Impacts",
+    "t": "US Tariff Impacts",
     "s": "US",
     "u": "https://usdatalabs.org/economy/tariff-impacts",
     "days": 295,
     "views": 537,
     "pub": "Sep 30, 2025",
     "flags": [
-     "duplicate title",
      "no backup"
     ]
    },
    {
-    "t": "Tariff Impacts",
+    "t": "MA Tariff Impacts",
     "s": "MA",
     "u": "https://madatalabs.org/cities-and-towns/tariff-impacts",
     "days": 295,
     "views": 537,
     "pub": "Sep 30, 2025",
     "flags": [
-     "duplicate title",
      "no backup"
     ]
    },
@@ -1210,7 +1189,7 @@
    {
     "t": "Tax Statistics-Municipalities",
     "s": "MA",
-    "u": "https://massopenbooks.org/payrolls/commonwealth-employees",
+    "u": "https://madatalabs.org/taxation/tax-statistics-municipalities",
     "days": 534,
     "views": 2774,
     "pub": "Feb 3, 2025",
@@ -1290,19 +1269,6 @@
      "no backup"
     ],
     "vage": "amb"
-   },
-   {
-    "t": "MBTA",
-    "s": "MA",
-    "u": "https://madatalabs.org/mbta/mbta",
-    "days": 58,
-    "views": 61,
-    "pub": "May 25, 2026",
-    "vint": "Mar 2026",
-    "flags": [
-     "no backup"
-    ],
-    "vage": ""
    },
    {
     "t": "MassTransit-Comparing Systems",
@@ -1507,28 +1473,6 @@
   "tgt": "",
   "legacy": [
    {
-    "t": "Taxation Rates",
-    "s": "US",
-    "u": "https://usdatalabs.org/taxation/taxation-rates",
-    "days": 505,
-    "views": 3412,
-    "pub": "Mar 4, 2025",
-    "flags": [
-     "no backup"
-    ]
-   },
-   {
-    "t": "Tracking COVID-19",
-    "s": "MA",
-    "u": "https://madatalabs.org/healthcare/tracking-covid-19",
-    "days": 1181,
-    "views": 5686,
-    "pub": "Apr 28, 2023",
-    "flags": [
-     "no backup"
-    ]
-   },
-   {
     "t": "Employment and Establishments",
     "s": "MA",
     "u": "https://madatalabs.org/economy/employment-and-establishments",
@@ -1577,6 +1521,19 @@
     "flags": [
      "no backup"
     ]
+   },
+   {
+    "t": "MBTA",
+    "s": "MA",
+    "u": "https://madatalabs.org/mbta/mbta",
+    "days": 58,
+    "views": 61,
+    "pub": "May 25, 2026",
+    "vint": "Mar 2026",
+    "flags": [
+     "no backup"
+    ],
+    "vage": ""
    },
    {
     "t": "MCAS Legacy",
@@ -1644,6 +1601,28 @@
     "days": 723,
     "views": 950,
     "pub": "Jul 29, 2024",
+    "flags": [
+     "no backup"
+    ]
+   },
+   {
+    "t": "Taxation Rates",
+    "s": "US",
+    "u": "https://usdatalabs.org/taxation/taxation-rates",
+    "days": 505,
+    "views": 3412,
+    "pub": "Mar 4, 2025",
+    "flags": [
+     "no backup"
+    ]
+   },
+   {
+    "t": "Tracking COVID-19",
+    "s": "MA",
+    "u": "https://madatalabs.org/healthcare/tracking-covid-19",
+    "days": 1181,
+    "views": 5686,
+    "pub": "Apr 28, 2023",
     "flags": [
      "no backup"
     ]

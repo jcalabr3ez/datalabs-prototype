@@ -40,8 +40,8 @@ E2C_FINANCE = "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json"
 URL_NAEP = "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx"
 DIGEST_326 = "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn326.10.xlsx"
 URL_OIG_MFCU = (
-    "https://oig.hhs.gov/documents/evaluation/10223/"
-    "FY2024%20Statistical%20Chart_Table_protected.xlsx"
+    "https://oig.hhs.gov/documents/evaluation/11556/"
+    "Statistical_Chart_-_2025.xlsx"
 )
 URL_UI = "https://oui.doleta.gov/unemploy/csv/ar539.csv"
 URL_SAGDP = "https://apps.bea.gov/regional/zip/SAGDP.zip"
@@ -71,18 +71,18 @@ URL_SUBEST = (
     "2020-2025/cities/totals/sub-est2025_25.csv"
 )
 
-VERIFY_OIG_US_RECOVERIES_FY2024 = 1368070676.21
-VERIFY_OIG_MA_RECOVERIES_FY2024 = 19795696.44
+VERIFY_OIG_US_RECOVERIES_FY2025 = 1966591061.26
+VERIFY_OIG_MA_RECOVERIES_FY2025 = 139892852.19
 VERIFY_MCAS_ELA_38_2025 = 0.42
 VERIFY_MCAS_MATH_38_2025 = 0.41
 VERIFY_DROPOUT_MA_2025 = 0.018
 VERIFY_IPEDS_6YR_2017 = 64.6  # Digest 326.10, all 4-year institutions
 VERIFY_NAEP_NP_READ4_2024_MIN = 180
 VERIFY_NAEP_NP_READ4_2024_MAX = 250
-# BLS CEWBD 2025 Q3 news release (reissued June 30, 2026): 323,000 births;
-# 306,000 deaths in 2024 Q4. The national level series is in thousands.
-VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q3 = 323
-VERIFY_US_BED_DEATHS_THOUSANDS_2024Q4 = 306
+# BLS CEWBD 2025 Q4 news release (July 29, 2026): 338,000 births;
+# 284,000 deaths in 2025 Q1. The national level series is in thousands.
+VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q4 = 338
+VERIFY_US_BED_DEATHS_THOUSANDS_2025Q1 = 284
 BLS_API = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 # BD + S + msa 00000 + FIPS + county 000 + industry 000000 (total private)
 # + unit 1 + element 2 (establishments) + size 00 + class 07/08 + L/R + Q + 5
@@ -390,16 +390,18 @@ def sec_mfcu():
             continue
         if st and st != "US":
             values[st] = v
-    if us_val is None or abs(us_val - VERIFY_OIG_US_RECOVERIES_FY2024) > 1:
+    if us_val is None or abs(us_val - VERIFY_OIG_US_RECOVERIES_FY2025) > 1:
         sys.exit(f"FATAL: OIG MFCU US recoveries are {us_val}")
-    if abs(values.get("MA", 0) - VERIFY_OIG_MA_RECOVERIES_FY2024) > 1:
+    if abs(values.get("MA", 0) - VERIFY_OIG_MA_RECOVERIES_FY2025) > 1:
         sys.exit(f"FATAL: OIG MFCU MA recoveries are {values.get('MA')}")
+    if len(values) < 51:
+        sys.exit(f"FATAL: OIG MFCU FY 2025 parsed {len(values)} states")
     snap = _snap(values, us_val, round_to=0)
     snap.update({
-        "label": "Medicaid Fraud Control Unit total recoveries, FY 2024",
+        "label": "Medicaid Fraud Control Unit total recoveries, FY 2025",
         "src": "SRC-612-03",
         "unit": "dollars",
-        "as_of_label": "Fiscal year 2024",
+        "as_of_label": "Fiscal year 2025",
     })
     return snap
 
@@ -1019,19 +1021,19 @@ def sec_bed_births_deaths():
         BD_US_BIRTHS_R, BD_US_DEATHS_R, BD_MA_BIRTHS_R, BD_MA_DEATHS_R,
     )
     series = _bls_bd_series(ids)
-    us_b3 = _bd_lookup(series[BD_US_BIRTHS_L], 2025, 3)
-    us_d4 = _bd_lookup(series[BD_US_DEATHS_L], 2024, 4)
-    if us_b3 != VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q3:
+    us_b4 = _bd_lookup(series[BD_US_BIRTHS_L], 2025, 4)
+    us_d1 = _bd_lookup(series[BD_US_DEATHS_L], 2025, 1)
+    if us_b4 != VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q4:
         sys.exit(
-            f"FATAL: BLS US 2025 Q3 establishment births are {us_b3}, "
-            f"expected {VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q3} thousand "
-            "(CEWBD 2025 Q3 news release)"
+            f"FATAL: BLS US 2025 Q4 establishment births are {us_b4}, "
+            f"expected {VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q4} thousand "
+            "(CEWBD 2025 Q4 news release)"
         )
-    if us_d4 != VERIFY_US_BED_DEATHS_THOUSANDS_2024Q4:
+    if us_d1 != VERIFY_US_BED_DEATHS_THOUSANDS_2025Q1:
         sys.exit(
-            f"FATAL: BLS US 2024 Q4 establishment deaths are {us_d4}, "
-            f"expected {VERIFY_US_BED_DEATHS_THOUSANDS_2024Q4} thousand "
-            "(CEWBD 2025 Q3 news release)"
+            f"FATAL: BLS US 2025 Q1 establishment deaths are {us_d1}, "
+            f"expected {VERIFY_US_BED_DEATHS_THOUSANDS_2025Q1} thousand "
+            "(CEWBD 2025 Q4 news release)"
         )
     by_q = {}
     fields = (
@@ -1110,7 +1112,7 @@ MORE_SECONDARY = {
     },
     "DL-07": lambda: {"naep_2024": sec_naep()},
     "DL-08": lambda: {"ipeds_6yr_grad_2017": sec_ipeds_outcomes()},
-    "DL-12": lambda: {"mfcu_recoveries_fy2024": sec_mfcu()},
+    "DL-12": lambda: {"mfcu_recoveries_fy2025": sec_mfcu()},
     "DL-13": lambda: {"bed_births_deaths": sec_bed_births_deaths()},
     "DL-14": lambda: {"ui_initial_claims": sec_ui_claims()},
     "DL-15": lambda: {"sagdp2_naics_2025": sec_sagdp2()},
@@ -1182,10 +1184,10 @@ def more_lead(tool_id, sec):
             f"A state-level faculty table is not in the current Digest xlsx set."
         )
     if tool_id == "DL-12":
-        m = sec.get("mfcu_recoveries_fy2024") or {}
+        m = sec.get("mfcu_recoveries_fy2025") or {}
         parts.append(
             f"Medicaid Fraud Control Units recovered "
-            f"<b>{usd_prose(m.get('us') or 0)}</b> in fiscal year 2024 "
+            f"<b>{usd_prose(m.get('us') or 0)}</b> in fiscal year 2025 "
             f"(SRC-612-03). Massachusetts recovered "
             f"<b>{usd_prose((m.get('ma') or {}).get('v') or 0)}</b>, rank "
             f"{(m.get('ma') or {}).get('rank')} of {(m.get('ma') or {}).get('n')} "

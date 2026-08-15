@@ -130,13 +130,13 @@
       "g": ["US"],
       "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
       "replaces": ["Medicaid Fraud", "State Health Expenses", "State Medicaid Expenses"],
-      "scope": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2024. NASBO health-chapter totals remain PDF-only.",
+      "scope": "This ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures, and also reports HHS OIG Medicaid Fraud Control Unit total recoveries for FY 2025. NASBO health-chapter totals remain PDF-only.",
       "exclusions": "Does not cover individual eligibility, Massachusetts hospital prices, or 340B. NASBO health-chapter tables are PDF-only: decline those.",
       "wave": "live",
       "sources": [
         {"id": "SRC-612-01", "name": "CMS Medicaid Financial Management Report FY 2024 net expenditures", "cadence": "Annual", "url": "https://www.medicaid.gov/medicaid/financial-management/downloads/financial-management-report-fy2024.zip"},
         {"id": "SRC-612-02", "name": "NASBO State Expenditure Report, health chapter", "cadence": "Annual", "url": "https://www.nasbo.org/"},
-        {"id": "SRC-612-03", "name": "HHS OIG Medicaid Fraud Control Unit statistical chart, FY 2024", "cadence": "Annual", "url": "https://oig.hhs.gov/documents/evaluation/10223/FY2024%20Statistical%20Chart_Table_protected.xlsx"}
+        {"id": "SRC-612-03", "name": "HHS OIG Medicaid Fraud Control Unit statistical chart, FY 2025", "cadence": "Annual", "url": "https://oig.hhs.gov/documents/evaluation/11556/Statistical_Chart_-_2025.xlsx"}
       ]
     },
     {

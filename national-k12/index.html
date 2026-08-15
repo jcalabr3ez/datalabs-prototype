@@ -439,7 +439,7 @@ const INSIGHTS=[{"id": "naep-2024", "title": "NAEP 2024: Massachusetts versus na
       new Chart(el,{type:'line',
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
           return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
-            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2};
+            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2,spanGaps:true};
         })},
         options:Object.assign({},opts,{indexAxis:'x'})});
       return;

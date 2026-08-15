@@ -455,8 +455,12 @@ module.exports = [
     src: 'SRC-613-01',
     triggers: [
       'business applications', 'business formation', 'new businesses',
-      'bfs', 'startup applications', 'applications to start'
-    ]
+      'bfs', 'startup applications', 'applications to start',
+      'business births', 'business deaths', 'establishment birth',
+      'establishment death', 'births and deaths', 'birth rate',
+      'death rate', 'formation rate'
+    ],
+    extra: 'Establishment births and deaths sit in derived.secondary.bed_births_deaths. U.S. counts there are thousands of establishments; Massachusetts counts are establishments. Deaths lag three quarters. Census BDS firm births are not in this ledger.'
   }),
   suiteTool(DL14, {
     id: 'DL-14',

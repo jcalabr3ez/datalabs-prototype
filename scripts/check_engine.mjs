@@ -38,6 +38,7 @@ const GOLDEN_HITS = [
   ["How many hospitals are in Massachusetts?", "DL-10"],
   ["How much does Massachusetts spend on Medicaid?", "DL-12"],
   ["How many new business applications were filed in the United States?", "DL-13"],
+  ["What is the Massachusetts establishment birth rate?", "DL-13"],
   ["What is the unemployment rate in Massachusetts?", "DL-14"],
   ["What is Massachusetts real GDP?", "DL-15"],
   ["How many housing units were authorized in Massachusetts?", "DL-16"],

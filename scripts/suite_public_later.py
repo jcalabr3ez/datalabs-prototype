@@ -79,6 +79,21 @@ VERIFY_DROPOUT_MA_2025 = 0.018
 VERIFY_IPEDS_6YR_2017 = 64.6  # Digest 326.10, all 4-year institutions
 VERIFY_NAEP_NP_READ4_2024_MIN = 180
 VERIFY_NAEP_NP_READ4_2024_MAX = 250
+# BLS CEWBD 2025 Q3 news release (reissued June 30, 2026): 323,000 births;
+# 306,000 deaths in 2024 Q4. The national level series is in thousands.
+VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q3 = 323
+VERIFY_US_BED_DEATHS_THOUSANDS_2024Q4 = 306
+BLS_API = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
+# BD + S + msa 00000 + FIPS + county 000 + industry 000000 (total private)
+# + unit 1 + element 2 (establishments) + size 00 + class 07/08 + L/R + Q + 5
+BD_US_BIRTHS_L = "BDS0000000000000000120007LQ5"
+BD_US_DEATHS_L = "BDS0000000000000000120008LQ5"
+BD_MA_BIRTHS_L = "BDS0000025000000000120007LQ5"
+BD_MA_DEATHS_L = "BDS0000025000000000120008LQ5"
+BD_US_BIRTHS_R = "BDS0000000000000000120007RQ5"
+BD_US_DEATHS_R = "BDS0000000000000000120008RQ5"
+BD_MA_BIRTHS_R = "BDS0000025000000000120007RQ5"
+BD_MA_DEATHS_R = "BDS0000025000000000120008RQ5"
 
 
 def _soda(url, params):
@@ -953,6 +968,139 @@ def sec_vendor_extract():
     }
 
 
+def _bls_bd_series(ids, start="2018", end="2026"):
+    body = json.dumps({"seriesid": list(ids), "startyear": start, "endyear": end}).encode()
+    req = urllib.request.Request(
+        BLS_API,
+        data=body,
+        headers={"User-Agent": UA, "Content-Type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=90) as resp:
+        payload = json.loads(resp.read())
+    if payload.get("status") != "REQUEST_SUCCEEDED":
+        sys.exit(f"FATAL: BLS BED API {payload.get('status')} {payload.get('message')}")
+    out = {}
+    for s in payload.get("Results", {}).get("series", []):
+        pts = []
+        for r in s.get("data") or []:
+            raw = (r.get("value") or "").strip()
+            v = None if raw in ("", "-") else parse_num(raw)
+            pts.append((int(r["year"]), int(r["period"][1:]), v))
+        pts.sort()
+        out[s["seriesID"]] = pts
+    missing = [i for i in ids if i not in out or not out[i]]
+    if missing:
+        sys.exit(f"FATAL: BLS BED missing series {missing}")
+    return out
+
+
+def _bd_lookup(points, year, quarter):
+    for y, q, v in points:
+        if y == year and q == quarter:
+            return v
+    return None
+
+
+def _bd_last(points):
+    for y, q, v in reversed(points):
+        if v is not None:
+            return y, q, v
+    return None
+
+
+def _q_label(year, quarter):
+    return f"{year} Q{quarter}"
+
+
+def sec_bed_births_deaths():
+    ids = (
+        BD_US_BIRTHS_L, BD_US_DEATHS_L, BD_MA_BIRTHS_L, BD_MA_DEATHS_L,
+        BD_US_BIRTHS_R, BD_US_DEATHS_R, BD_MA_BIRTHS_R, BD_MA_DEATHS_R,
+    )
+    series = _bls_bd_series(ids)
+    us_b3 = _bd_lookup(series[BD_US_BIRTHS_L], 2025, 3)
+    us_d4 = _bd_lookup(series[BD_US_DEATHS_L], 2024, 4)
+    if us_b3 != VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q3:
+        sys.exit(
+            f"FATAL: BLS US 2025 Q3 establishment births are {us_b3}, "
+            f"expected {VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q3} thousand "
+            "(CEWBD 2025 Q3 news release)"
+        )
+    if us_d4 != VERIFY_US_BED_DEATHS_THOUSANDS_2024Q4:
+        sys.exit(
+            f"FATAL: BLS US 2024 Q4 establishment deaths are {us_d4}, "
+            f"expected {VERIFY_US_BED_DEATHS_THOUSANDS_2024Q4} thousand "
+            "(CEWBD 2025 Q3 news release)"
+        )
+    by_q = {}
+    fields = (
+        (BD_US_BIRTHS_L, "us_births_thousands"),
+        (BD_US_DEATHS_L, "us_deaths_thousands"),
+        (BD_MA_BIRTHS_L, "ma_births"),
+        (BD_MA_DEATHS_L, "ma_deaths"),
+        (BD_US_BIRTHS_R, "us_birth_rate_pct"),
+        (BD_US_DEATHS_R, "us_death_rate_pct"),
+        (BD_MA_BIRTHS_R, "ma_birth_rate_pct"),
+        (BD_MA_DEATHS_R, "ma_death_rate_pct"),
+    )
+    for sid, key in fields:
+        for y, q, v in series[sid]:
+            rec = by_q.setdefault((y, q), {"q": _q_label(y, q)})
+            rec[key] = int(v) if v is not None and key.endswith(("thousands", "births", "deaths")) and "rate" not in key else v
+            if v is not None and key.endswith("rate_pct"):
+                rec[key] = round(v, 1)
+    trend = [by_q[k] for k in sorted(by_q)]
+    by, bq, bv = _bd_last(series[BD_MA_BIRTHS_R])
+    dy, dq, dv = _bd_last(series[BD_MA_DEATHS_R])
+    us_by, us_bq, us_bv = _bd_last(series[BD_US_BIRTHS_R])
+    us_dy, us_dq, us_dv = _bd_last(series[BD_US_DEATHS_R])
+    ma_b_n = _bd_lookup(series[BD_MA_BIRTHS_L], by, bq)
+    ma_d_n = _bd_lookup(series[BD_MA_DEATHS_L], dy, dq)
+    overlap = next(
+        (
+            rec for rec in reversed(trend)
+            if rec.get("ma_birth_rate_pct") is not None
+            and rec.get("ma_death_rate_pct") is not None
+        ),
+        None,
+    )
+    return {
+        "label": "Private-sector establishment birth and death rates",
+        "src": "SRC-613-02",
+        "unit": "percent of establishments",
+        "count_unit_us": "thousands of establishments",
+        "count_unit_ma": "establishments",
+        "as_of_label": _q_label(by, bq),
+        "deaths_as_of_label": _q_label(dy, dq),
+        "us": {
+            "birth_rate_pct": us_bv,
+            "births_thousands": int(_bd_lookup(series[BD_US_BIRTHS_L], us_by, us_bq) or 0),
+            "births_as_of": _q_label(us_by, us_bq),
+            "death_rate_pct": us_dv,
+            "deaths_thousands": int(_bd_lookup(series[BD_US_DEATHS_L], us_dy, us_dq) or 0),
+            "deaths_as_of": _q_label(us_dy, us_dq),
+        },
+        "ma": {
+            "birth_rate_pct": bv,
+            "births": int(ma_b_n) if ma_b_n is not None else None,
+            "births_as_of": _q_label(by, bq),
+            "death_rate_pct": dv,
+            "deaths": int(ma_d_n) if ma_d_n is not None else None,
+            "deaths_as_of": _q_label(dy, dq),
+        },
+        "overlap": overlap,
+        "trend": trend,
+        "note": (
+            "BLS Business Employment Dynamics, total private, seasonally adjusted. "
+            "Births are a subset of openings; deaths are a subset of closings and "
+            "lag three quarters. Rates are the component as a percent of the "
+            "average of current and prior-quarter establishment counts. U.S. "
+            "counts are thousands of establishments, matching the BLS news release."
+        ),
+    }
+
+
 MORE_SECONDARY = {
     "DL-06": lambda: {
         "mcas_2025": sec_mcas(),
@@ -963,6 +1111,7 @@ MORE_SECONDARY = {
     "DL-07": lambda: {"naep_2024": sec_naep()},
     "DL-08": lambda: {"ipeds_6yr_grad_2017": sec_ipeds_outcomes()},
     "DL-12": lambda: {"mfcu_recoveries_fy2024": sec_mfcu()},
+    "DL-13": lambda: {"bed_births_deaths": sec_bed_births_deaths()},
     "DL-14": lambda: {"ui_initial_claims": sec_ui_claims()},
     "DL-15": lambda: {"sagdp2_naics_2025": sec_sagdp2()},
     "DL-16": lambda: {"case_shiller_boston": sec_case_shiller()},
@@ -1041,6 +1190,22 @@ def more_lead(tool_id, sec):
             f"<b>{usd_prose((m.get('ma') or {}).get('v') or 0)}</b>, rank "
             f"{(m.get('ma') or {}).get('rank')} of {(m.get('ma') or {}).get('n')} "
             f"(derived, SRC-612-03). NASBO health-chapter tables remain PDF-only."
+        )
+    if tool_id == "DL-13":
+        b = sec.get("bed_births_deaths") or {}
+        ma = b.get("ma") or {}
+        ov = b.get("overlap") or {}
+        parts.append(
+            f"BLS Business Employment Dynamics put the Massachusetts "
+            f"private-sector establishment birth rate at "
+            f"<b>{ma.get('birth_rate_pct')}%</b> in {ma.get('births_as_of')} "
+            f"({commify(ma.get('births') or 0)} establishments, SRC-613-02). "
+            f"Deaths are published through {ma.get('deaths_as_of')}, when the "
+            f"death rate was <b>{ma.get('death_rate_pct')}%</b> "
+            f"({commify(ma.get('deaths') or 0)} establishments, SRC-613-02). "
+            f"In the last overlapping quarter, {ov.get('q')}, the birth rate "
+            f"was <b>{ov.get('ma_birth_rate_pct')}%</b> and the death rate was "
+            f"<b>{ov.get('ma_death_rate_pct')}%</b> (SRC-613-02)."
         )
     if tool_id == "DL-14":
         u = sec.get("ui_initial_claims") or {}

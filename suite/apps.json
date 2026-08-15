@@ -6,17 +6,18 @@
       "id": "DL-06",
       "slug": "ma-k12",
       "title": "Massachusetts K-12",
-      "q": "Enrollment, MCAS, attendance, dropouts, and school finances for Massachusetts districts.",
+      "q": "Enrollment, MCAS, attendance, dropouts, school finances, and Chapter 74 vocational-technical programs for Massachusetts districts.",
       "vertical": "Education",
       "group": "Education",
       "g": ["MA"],
       "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
       "replaces": ["Dropouts & Graduates", "Education Fast Facts", "Enrollment by Grade", "MA Demographics", "MCAS NEXTGEN", "School Attendance", "School Finances"],
-      "scope": "This first ledger ranks states on NCES Digest current expenditures per pupil (2020-21, unadjusted) and reports Massachusetts Fall 2023 public K-12 enrollment. District MCAS, attendance, dropouts, and DESE finance files are listed as later views.",
-      "exclusions": "Does not cover national NAEP, higher education, charter-only national files, or advice about a school choice. MCAS and district files are pending.",
+      "scope": "This ledger ranks states on NCES Digest current expenditures per pupil (2020-21, unadjusted), reports Massachusetts Fall 2023 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views.",
+      "exclusions": "Does not cover national NAEP, higher education, charter-only national files, waitlists, lottery outcomes, or advice about a school choice. MCAS, district finance, and CTE waitlist files are pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-606-01", "name": "NCES Digest tables 236.65 (per-pupil) and 203.20 (enrollment)", "cadence": "Annual school year", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn236.65.xlsx"}
+        {"id": "SRC-606-01", "name": "NCES Digest tables 236.65 (per-pupil) and 203.20 (enrollment)", "cadence": "Annual school year", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn236.65.xlsx"},
+        {"id": "SRC-606-03", "name": "DESE / E2C pathways enrollment, Chapter 74 career technical education", "cadence": "Annual school year", "url": "https://educationtocareer.data.mass.gov/resource/9p45-t37j.json"}
       ]
     },
     {

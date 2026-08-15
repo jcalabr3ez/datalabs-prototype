@@ -92,6 +92,19 @@ def attach_entities(obj: dict) -> dict:
             "v": r.get("v"),
             "rank": r.get("rank"),
         }
+    sec = (obj.get("derived") or {}).get("secondary") or {}
+    for snap in sec.values():
+        if not isinstance(snap, dict):
+            continue
+        for r in snap.get("district_rows") or []:
+            name = r.get("name")
+            if name and name not in ent:
+                ent[name] = {
+                    "st": r.get("st") or name,
+                    "name": name,
+                    "v": r.get("v"),
+                    "rank": r.get("rank"),
+                }
     obj["entities"] = ent
     return obj
 

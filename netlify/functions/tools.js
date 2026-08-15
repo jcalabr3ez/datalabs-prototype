@@ -385,12 +385,15 @@ module.exports = [
   },
   suiteTool(DL06, {
     id: 'DL-06',
-    label: 'Massachusetts K-12: current expenditures per pupil by state, plus Massachusetts public enrollment',
+    label: 'Massachusetts K-12: current expenditures per pupil by state, Massachusetts public enrollment, and Chapter 74 vocational-technical enrollment',
     src: 'SRC-606-01',
     triggers: [
       'per-pupil', 'per pupil', 'school spending', 'massachusetts k-12',
-      'k-12 spending', 'k12 spending', 'current expenditures per pupil'
-    ]
+      'k-12 spending', 'k12 spending', 'current expenditures per pupil',
+      'vocational', 'voc-tech', 'voc tech', 'chapter 74', 'career technical',
+      'cte enrollment', 'vocational technical'
+    ],
+    extra: 'Chapter 74 CTE sits in derived.secondary.ma_chapter74_cte, including district_rows, school_rows, program totals, After Dark, and the 2021-22 to 2025-26 trend. Waitlists, lottery outcomes, and a 30,000-seat target are pending: decline those. MCAS remains pending.'
   }),
   suiteTool(DL07, {
     id: 'DL-07',

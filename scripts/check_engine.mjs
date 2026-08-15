@@ -31,6 +31,7 @@ const GOLDEN_HITS = [
   ["How funded is the Mass Teachers retirement system?", "DL-05"],
   ["How much do State and Teacher retirees get paid in Massachusetts?", "DL-05"],
   ["What does Massachusetts spend per pupil?", "DL-06"],
+  ["How many students are in vocational technical programs in Massachusetts?", "DL-06"],
   ["How many students are enrolled in public K-12 in the United States?", "DL-07"],
   ["How many students are enrolled in college in Massachusetts?", "DL-08"],
   ["How many students are in charter schools in the United States?", "DL-09"],

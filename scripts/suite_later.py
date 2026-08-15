@@ -53,6 +53,8 @@ URL_BOS_BUDGET = (
     "https://data.boston.gov/datastore/dump/8f2971f0-7a0d-401d-8376-0289e3b810ba"
 )
 CMS_QUERY = "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/0"
+URL_E2C_PATHWAYS = "https://educationtocareer.data.mass.gov/resource/9p45-t37j.json"
+CH74_PATHWAY = "Career Technical Education (Chapter 74 Programs)"
 
 # Two-path checks against publisher-printed or previously verified cells.
 VERIFY_US_ACGR_2021_22 = 86.6
@@ -63,6 +65,7 @@ VERIFY_US_OSS_2020_21 = 1.3248361838221818
 VERIFY_US_PI_2025 = 26109831.2  # millions of dollars
 VERIFY_NTD_US_JUN_2026 = 690656393
 VERIFY_CMS_MA_HOSPITALS = 84
+VERIFY_MA_CH74_SY2026 = 59962
 
 
 def _wb(url, timeout=120):
@@ -240,6 +243,211 @@ def sec_faculty_us():
         "us": int(round(us_val)),
         "ma": None,
         "note": "This Digest table is national only; it has no state column.",
+    }
+
+
+def _ch74_rollup_where(sy, org_type):
+    return (
+        f"sy='{sy}' AND org_type='{org_type}' AND pathway='{CH74_PATHWAY}' AND "
+        f"(program='{CH74_PATHWAY}' OR program='Career Technical Education Programs')"
+    )
+
+
+def sec_ma_voctech():
+    """Massachusetts Chapter 74 CTE from the E2C pathways enrollment file."""
+    trend = []
+    state_by_year = {}
+    for sy in ("2022", "2023", "2024", "2025", "2026"):
+        rows = _soda(URL_E2C_PATHWAYS, {
+            "$where": _ch74_rollup_where(sy, "State"),
+            "$limit": "2",
+        })
+        if len(rows) != 1:
+            sys.exit(f"FATAL: E2C Chapter 74 state rollup for SY {sy} has {len(rows)} rows")
+        r = rows[0]
+        n = parse_num(r.get("program_cnt"))
+        hs = parse_num(r.get("totalstu"))
+        if n is None or hs is None:
+            sys.exit(f"FATAL: E2C Chapter 74 state rollup for SY {sy} is missing counts")
+        rec = {
+            "sy": int(sy),
+            "label": f"School year {int(sy) - 1}-{str(sy)[2:]}",
+            "v": int(n),
+            "hs_enrollment": int(hs),
+            "share": round(n / hs, 4),
+        }
+        state_by_year[sy] = {**rec, "raw": r}
+        trend.append({"y": rec["label"], "v": rec["v"]})
+    latest = state_by_year["2026"]
+    if latest["v"] != VERIFY_MA_CH74_SY2026:
+        sys.exit(
+            f"FATAL: E2C Chapter 74 SY 2026 is {latest['v']}, "
+            f"expected {VERIFY_MA_CH74_SY2026}"
+        )
+    districts = _soda(URL_E2C_PATHWAYS, {
+        "$where": _ch74_rollup_where("2026", "District"),
+        "$select": "dist_name,program_cnt,program_pct,totalstu",
+        "$order": "program_cnt DESC",
+        "$limit": "200",
+    })
+    schools = _soda(URL_E2C_PATHWAYS, {
+        "$where": _ch74_rollup_where("2026", "School"),
+        "$select": "dist_name,org_name,program_cnt,program_pct,totalstu",
+        "$order": "program_cnt DESC",
+        "$limit": "300",
+    })
+    d_sum = sum(int(parse_num(r.get("program_cnt")) or 0) for r in districts)
+    s_sum = sum(int(parse_num(r.get("program_cnt")) or 0) for r in schools)
+    if d_sum != latest["v"] or s_sum != latest["v"]:
+        sys.exit(
+            f"FATAL: E2C Chapter 74 SY 2026 state {latest['v']} "
+            f"!= districts {d_sum} or schools {s_sum}"
+        )
+    if len(districts) < 80 or len(schools) < 90:
+        sys.exit(
+            f"FATAL: E2C Chapter 74 SY 2026 parsed {len(districts)} districts "
+            f"and {len(schools)} schools"
+        )
+
+    def _named(rows, name_key):
+        values = {}
+        extra = {}
+        for r in rows:
+            name = (r.get(name_key) or "").strip()
+            v = parse_num(r.get("program_cnt"))
+            if not name or v is None:
+                continue
+            key = name if name not in values else f"{name} ({r.get('dist_name')})"
+            values[key] = int(v)
+            extra[key] = {
+                "share_of_org": parse_num(r.get("program_pct")),
+                "org_enrollment": int(parse_num(r.get("totalstu")) or 0) or None,
+                "district": (r.get("dist_name") or "").strip() or None,
+            }
+        ranked = rank_named(values, higher_is_better=True, st_key=lambda n: n)
+        for rec in ranked:
+            rec.update(extra.get(rec["name"]) or {})
+        return ranked
+
+    district_ranked = _named(districts, "dist_name")
+    school_ranked = _named(schools, "org_name")
+    regional = [
+        r for r in district_ranked
+        if (r.get("share_of_org") or 0) >= 0.99
+        and (
+            "vocational" in r["name"].lower()
+            or "agricultural" in r["name"].lower()
+        )
+    ]
+    programs = _soda(URL_E2C_PATHWAYS, {
+        "$where": (
+            "sy='2026' AND org_type='State' AND "
+            f"pathway='{CH74_PATHWAY}' AND "
+            f"program!='{CH74_PATHWAY}' AND "
+            "program!='Career Technical Education Programs'"
+        ),
+        "$select": "program,program_cnt,g9_cnt,g10_cnt,g11_cnt,g12_cnt",
+        "$order": "program_cnt DESC",
+        "$limit": "80",
+    })
+    program_rows = []
+    for r in programs:
+        v = parse_num(r.get("program_cnt"))
+        if v is None:
+            continue
+        program_rows.append({
+            "name": r["program"],
+            "v": int(v),
+            "g9": int(parse_num(r.get("g9_cnt")) or 0),
+            "g10": int(parse_num(r.get("g10_cnt")) or 0),
+            "g11": int(parse_num(r.get("g11_cnt")) or 0),
+            "g12": int(parse_num(r.get("g12_cnt")) or 0),
+        })
+    exploratory = next((p for p in program_rows if p["name"] == "Exploratory"), None)
+    occupational = [p for p in program_rows if p["name"] != "Exploratory"]
+
+    def _state_program(pathway, program):
+        rows = _soda(URL_E2C_PATHWAYS, {
+            "$where": (
+                f"sy='2026' AND org_type='State' AND pathway='{pathway}' "
+                f"AND program='{program}'"
+            ),
+            "$select": "program_cnt,program_pct,totalstu",
+            "$limit": "1",
+        })
+        if not rows:
+            sys.exit(f"FATAL: E2C missing {pathway} / {program} for SY 2026")
+        return {
+            "v": int(parse_num(rows[0]["program_cnt"])),
+            "share": parse_num(rows[0].get("program_pct")),
+            "hs_enrollment": int(parse_num(rows[0].get("totalstu"))),
+        }
+
+    after_dark = _state_program(
+        "After Dark", "Career Technical Education Partnership Programs"
+    )
+    connections = _state_program(
+        "Career Connections (Non-Chapter 74 Programs)",
+        "Career Connections Programs",
+    )
+    early_college = _state_program("Early College", "Early College Programs")
+    innovation = _state_program(
+        "Innovation Career Pathways", "Innovation Career Pathway Programs"
+    )
+    all_pathways = _state_program(
+        "All (Pathways/Programs)", "All (Pathways & Programs)"
+    )
+    raw = latest["raw"]
+    yoy = yoy_pct(latest["v"], state_by_year["2025"]["v"])
+    since_2022 = yoy_pct(latest["v"], state_by_year["2022"]["v"])
+    hi = district_ranked[0]
+    return {
+        "label": "Massachusetts Chapter 74 career technical education enrollment, 2025-26",
+        "src": "SRC-606-03",
+        "unit": "students",
+        "as_of_label": "School year 2025-26",
+        "v": latest["v"],
+        "hs_enrollment": latest["hs_enrollment"],
+        "share": latest["share"],
+        "yoy_pct": yoy,
+        "change_since_2021_22_pct": since_2022,
+        "change_since_2021_22": latest["v"] - state_by_year["2022"]["v"],
+        "districts": len(district_ranked),
+        "schools": len(school_ranked),
+        "regional_vocational_districts": len(regional),
+        "highest": {"name": hi["name"], "v": hi["v"]},
+        "female_share": parse_num(raw.get("fe_pct")),
+        "male_share": parse_num(raw.get("ma_pct")),
+        "low_income": int(parse_num(raw.get("li_cnt")) or 0),
+        "low_income_share": parse_num(raw.get("li_pct")),
+        "swd": int(parse_num(raw.get("swd_cnt")) or 0),
+        "swd_share": parse_num(raw.get("swd_pct")),
+        "english_learners": int(parse_num(raw.get("el_cnt")) or 0),
+        "english_learner_share": parse_num(raw.get("el_pct")),
+        "after_dark": after_dark,
+        "career_connections": connections,
+        "early_college": early_college,
+        "innovation_pathways": innovation,
+        "all_pathways": all_pathways,
+        "exploratory": exploratory,
+        "top_occupational_programs": occupational[:8],
+        "trend": trend,
+        "district_rows": [
+            {"name": r["name"], "v": r["v"], "rank": r["rank"], "n": r["n"],
+             "share_of_org": r.get("share_of_org")}
+            for r in district_ranked
+        ],
+        "school_rows": [
+            {"name": r["name"], "district": r.get("district"), "v": r["v"],
+             "rank": r["rank"], "n": r["n"]}
+            for r in school_ranked[:40]
+        ],
+        "note": (
+            "After Dark enrollment is a published subset of Chapter 74. "
+            "Students may appear in more than one college-and-career pathway, "
+            "so pathway totals do not add to the all-pathways count. "
+            "Waitlists and lottery outcomes are not in this file."
+        ),
     }
 
 
@@ -517,6 +725,7 @@ def sec_boston_budget():
 
 
 SECONDARY = {
+    "DL-06": lambda: {"ma_chapter74_cte": sec_ma_voctech()},
     "DL-07": lambda: {"acgr_2021_22": sec_acgr(), "oss_suspension_2020_21": sec_discipline()},
     "DL-08": lambda: {"sat_2023": sec_sat(), "faculty_fall_2023_us": sec_faculty_us()},
     "DL-09": lambda: {"teachers_fte_fall_2022": sec_teachers()},
@@ -534,6 +743,31 @@ def _fmt_pct_points(v):
 
 
 def lead_appendix(tool_id, sec):
+    if tool_id == "DL-06":
+        v = sec["ma_chapter74_cte"]
+        share_pct = f"{v['share'] * 100:.1f}"
+        expl = v.get("exploratory") or {}
+        top = (v.get("top_occupational_programs") or [{}])[0]
+        return (
+            f"Chapter 74 career technical education enrolled "
+            f"<b>{commify(v['v'])}</b> Massachusetts high-school students in "
+            f"2025-26, {share_pct} percent of high-school enrollment "
+            f"(SRC-606-03). That is <b>{commify(v['change_since_2021_22'])}</b> "
+            f"more students than in 2021-22 (derived, SRC-606-03). "
+            f"<b>{v['districts']}</b> districts and <b>{v['schools']}</b> schools "
+            f"reported a Chapter 74 program; <b>{v['regional_vocational_districts']}</b> "
+            f"were regional vocational or agricultural districts (derived, "
+            f"SRC-606-03). <b>{v['highest']['name']}</b> was the largest district "
+            f"at <b>{commify(v['highest']['v'])}</b> (SRC-606-03). "
+            f"Grade-9 exploratory enrolled <b>{commify(expl.get('v') or 0)}</b>; "
+            f"the largest occupational program was <b>{top.get('name')}</b> at "
+            f"<b>{commify(top.get('v') or 0)}</b> (SRC-606-03). After Dark "
+            f"partnership enrollment was <b>{commify(v['after_dark']['v'])}</b>, "
+            f"a published subset of Chapter 74 (SRC-606-03). All college-and-career "
+            f"pathways together enrolled <b>{commify(v['all_pathways']['v'])}</b> "
+            f"(SRC-606-03). Waitlists and lottery outcomes are pending because "
+            f"those DESE reports are dashboards, not a downloadable table."
+        )
     if tool_id == "DL-07":
         a = sec["acgr_2021_22"]
         d = sec["oss_suspension_2020_21"]
@@ -624,6 +858,7 @@ def lead_appendix(tool_id, sec):
 
 
 STRIP_PHRASES = {
+    "DL-06": [],
     "DL-07": [
         "NAEP scores and discipline files are pending on this page.",
         "NAEP, completion, and discipline remain pending.",
@@ -683,6 +918,21 @@ def enrich(app, ledger):
     if appendix:
         lead = " ".join((ledger.get("lead") or "").split())
         ledger["lead"] = (lead + " " + appendix).strip()
+    if tid == "DL-06" and "ma_chapter74_cte" in sec:
+        v = sec["ma_chapter74_cte"]
+        kpis = list(ledger.get("kpis") or [])
+        kpis.append(_kpi(
+            "MA Chapter 74 CTE, 2025-26",
+            commify(v["v"]),
+            (
+                f"{v['share'] * 100:.1f} percent of high-school enrollment. "
+                f"{v['districts']} districts, {v['schools']} schools "
+                f"(SRC-606-03)."
+            ),
+            "The vocational-technical stock the research portfolio asked for.",
+            "DESE / E2C pathways enrollment (SRC-606-03)",
+        ))
+        ledger["kpis"] = kpis[:2] + [kpis[-1]]
     extra_note = (
         f" Later views compiled {REVISED} are stored under derived.secondary."
     )

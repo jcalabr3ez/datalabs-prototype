@@ -1,0 +1,50 @@
+# Monthly DL-05 refresh: State and Teacher retiree payroll and the
+# last-name search index from the live CTHRU Socrata API (pni4-392n).
+# Opens a pull request; never pushes to main (a push deploys the site).
+# Board funded status and returns stay on the research pass.
+name: DL-05 monthly CTHRU refresh
+
+on:
+  schedule:
+    - cron: "41 10 8 * *" # 8th of each month, 10:41 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh CTHRU retiree ledger and search shards, re-inject pages
+        run: python3 scripts/refresh_dl05.py
+      - name: Freshness report
+        run: python3 scripts/check_freshness.py || true
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/dl05-refresh
+          title: "DL-05: monthly refresh of CTHRU retiree payroll and name search"
+          commit-message: "DL-05: monthly refresh of CTHRU retiree payroll and name search"
+          body: |
+            Automated monthly refresh of the pensions retiree half:
+
+            - Yearly MSERS and MTRS totals from CTHRU Socrata dataset
+              pni4-392n via scripts/refresh_dl05.py.
+            - Named rows for the latest CTHRU year, written as last-name
+              shards under pensions/search/.
+            - Headline payroll stays on the last complete calendar year;
+              name search, top pensions, and departments use the latest
+              CTHRU year (year-to-date when that year is still open).
+
+            Board funded ratios and returns are not in this job. Those
+            still move on the research pass (scripts/dl05-research-pass.md)
+            when PERAC posts an Investment Report. Review the ledger diff
+            before merging: a 2024 count that moves more than 20 rows or
+            $5 million fails the script. Merging to main deploys the site.
+          delete-branch: true

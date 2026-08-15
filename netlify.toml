@@ -10,3 +10,12 @@
   for = "/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+
+# Serve search shards as raw gzip so the page can decompress once.
+# If the CDN already decoded them, the page checks the magic bytes.
+[[headers]]
+  for = "/pensions/search/*"
+  [headers.values]
+    Content-Type = "application/octet-stream"
+    Cache-Control = "public, max-age=86400"
+    X-Robots-Tag = "noindex, nofollow"

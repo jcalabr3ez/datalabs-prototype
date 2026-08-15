@@ -35,10 +35,14 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
 - **DL-04 (yearly, October):** `.github/workflows/dl04-refresh.yml` already
   opens a PR from EIA Form EIA-861, EIA-923, EIA-860, and Census
   population. Do not invent a second refresh.
-- **DL-05 (when PERAC or CTHRU posts):** follow
+- **DL-05 retirees (monthly):** `.github/workflows/dl05-refresh.yml`
+  already opens a PR from `scripts/refresh_dl05.py` (live CTHRU API plus
+  last-name shards under `pensions/search/`). Do not invent a second
+  retiree fetch.
+- **DL-05 boards (when PERAC posts):** follow
   `scripts/dl05-research-pass.md`. Update an existing PR only if it is a
-  draft whose title starts with `DL-05`. Do not invent a fetch workflow;
-  the sources are a PDF investment report, a portal table, and CTHRU.
+  draft whose title starts with `DL-05`. Do not invent a fetch for the
+  Investment Report; that source is a PDF.
 
 ## House style
 

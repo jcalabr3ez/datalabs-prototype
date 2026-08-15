@@ -39,9 +39,15 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    FTA NTD API; run by the monthly workflow
     scripts/refresh_dl04.py        Recomputes the DL-04 ledger from EIA and
                                    Census files; run by the yearly workflow
-    scripts/dl05-research-pass.md  Runbook for the next PERAC / CTHRU update
+    scripts/refresh_dl05.py        Rebuilds DL-05 retiree totals and the
+                                   last-name search shards from CTHRU;
+                                   run by the monthly workflow
+    scripts/dl05-research-pass.md  Runbook for the next PERAC board update
     scripts/build_dl05.py          One-time compiler from the partner Hyper
-                                   extracts; not a publisher refresh
+                                   extracts (boards still come from this);
+                                   not a publisher refresh
+    pensions/search/               Last-name shards (A.json.gz–Z.json.gz)
+                                   plus manifest.json; rebuilt by refresh_dl05.py
     scripts/check_freshness.py     Fails when a ledger ages past its cadence
     scripts/check_style.py         House-style lint (no em dashes) plus the
                                    Florida page's ledger-sentinel checks
@@ -205,9 +211,15 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
                        capacity, and Census population, then opens a
                        PULL REQUEST. First run: Actions tab > DL-04
                        yearly refresh > Run workflow.
-    DL-05 has no fetch workflow. PERAC's Investment Report is a PDF and
-    CTHRU is a portal. Follow scripts/dl05-research-pass.md when either
-    posts a new year.
+    dl05-refresh.yml   Monthly. Refetches State and Teacher retiree
+                       payroll and the last-name search index from the
+                       CTHRU Socrata API (dataset pni4-392n), then opens
+                       a PULL REQUEST. Board funded ratios and returns
+                       are not in this job. First run: Actions tab >
+                       DL-05 monthly CTHRU refresh > Run workflow.
+    DL-05 board side still has no fetch. PERAC's Investment Report is a
+    PDF. Follow scripts/dl05-research-pass.md when PERAC posts a new
+    year. Do not invent a second retiree fetch.
     checks.yml         Weekly and on every PR. Fails when a ledger ages past
                        its publisher cadence, when a generated page block is
                        out of sync with its canonical ledger, or when the

@@ -320,6 +320,7 @@ def inject_pensions(dl05, text, path):
         "board_valuation_through": dl05["board_valuation_through"],
         "returns_year": dl05["returns_year"],
         "retiree_year": dl05["retiree_year"],
+        "search_year": dl05.get("search_year") or dl05["retirees"].get("search_year"),
         "revised": page.get("revised", ""),
         "version": page.get("version", "1.0"),
         "entities": dl05["entities"],
@@ -345,14 +346,19 @@ def inject_pensions(dl05, text, path):
         "retirees": {
             "yearly": dl05["retirees"]["yearly"],
             "latest": dl05["retirees"]["latest"],
+            "search": dl05["retirees"].get("search"),
             "top_pensions": dl05["retirees"]["top_pensions"],
             "departments": dl05["retirees"]["departments"],
+            "manifest": dl05["retirees"].get("manifest"),
         },
     }
     text = replace_block(text, "pensions-data", "const DL05=" + jdump(payload) + ";", path)
+    search_year = dl05.get("search_year") or dl05["retirees"].get("search_year")
+    search = (dl05["retirees"] or {}).get("search") or {}
     dateline = (
         f'    <span>Board valuations through <b>Jan 1, {dl05["board_valuation_through"]}</b></span>\n'
         f'    <span>Retiree payroll through <b>{dl05["retiree_year"]}</b></span>\n'
+        f'    <span>Name search through <b>{search_year}</b></span>\n'
         f'    <span>Revised <b>{page.get("revised", "")}</b></span>\n'
         f'    <span>Version <b>{page.get("version", "1.0")}</b></span>'
     )
@@ -409,10 +415,31 @@ def inject_pensions(dl05, text, path):
     footer = (
         f"    <div>Massachusetts Public Pensions &middot; Version {page.get('version', '1.0')} "
         f"&middot; Board valuations through January 1, {dl05['board_valuation_through']} "
-        f"&middot; Retiree payroll through {dl05['retiree_year']} &middot; "
+        f"&middot; Retiree payroll through {dl05['retiree_year']} "
+        f"&middot; Name search through {search_year} &middot; "
         f"Revised {revised_long}</div>"
     )
     text = replace_block(text, "pensions-footer-meta", footer, path, style="html")
+    lat = dl05["retirees"]["latest"]
+    fig4 = (
+        f'In {lat["year"]} the file has {lat["msers"]["count"]:,} MSERS retirees paid '
+        f'{usd_prose(lat["msers"]["annual_amount"])} and {lat["mtrs"]["count"]:,} MTRS '
+        f'retirees paid {usd_prose(lat["mtrs"]["annual_amount"])} (SRC-503). Combined '
+        f'annual pensions rose {derived["retiree_amount_change_from_2011_pct"]} percent '
+        f'from 2011. Name search uses the {search_year} CTHRU file'
+        + (" (year-to-date)" if search and not search.get("complete") else "")
+        + f', {search.get("count", 0):,} named retirees (SRC-503).'
+    )
+    text = replace_block(text, "pensions-fig4-note", fig4, path, style="html")
+    search_lede = (
+        f'Type a last name to search {search.get("count", 0):,} MSERS and MTRS '
+        f'retirees in the {search_year} CTHRU file'
+        + (" (year-to-date, through June)" if search_year == 2026 else "")
+        + ". Names and amounts are public record. Local-board retirees are not in this file."
+    )
+    text = replace_block(text, "pensions-search-lede", search_lede, path, style="html")
+    top_head = f'The largest State and Teacher pensions, {search_year}'
+    text = replace_block(text, "pensions-top-head", top_head, path, style="html")
     return text
 
 
@@ -463,6 +490,7 @@ def main():
         "mtrs_funded_pct": dl05["latest"]["mtrs"]["funded_pct"],
         "weighted_funded_pct": dl05["derived"]["weighted_funded_pct"],
         "retiree_year": dl05["retiree_year"],
+        "search_year": dl05.get("search_year") or dl05["retirees"].get("search_year"),
         "retiree_amount": dl05["latest"]["retirees"]["annual_amount"],
         "retiree_amount_fmt": usd_prose(dl05["latest"]["retirees"]["annual_amount"]),
         "retiree_count": dl05["latest"]["retirees"]["count"],

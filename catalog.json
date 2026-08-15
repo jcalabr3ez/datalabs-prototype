@@ -1445,7 +1445,7 @@
  {
   "id": "DL-05",
   "t": "Massachusetts Public Pensions",
-  "q": "Every MA retirement board's funded status and returns, plus the State and Teacher retiree payroll.",
+  "q": "Every MA retirement board's funded status and returns, plus the State and Teacher retiree payroll and a last-name search.",
   "g": [
    "MA"
   ],

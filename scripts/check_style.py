@@ -92,8 +92,20 @@ st_fmt = f"{pn['latest']['state']['funded_pct']}"
 pn_sentinels = [
     (st_fmt, f"State funded ratio ({st_fmt} percent, valuation {pn['latest']['state']['valuation_year']})"),
     (str(pn["retiree_year"]), f"ledger retiree year ({pn['retiree_year']})"),
+    (str(pn.get("search_year") or ""), f"ledger search year ({pn.get('search_year')})"),
     (pn["page"]["revised"], f"page.revised ({pn['page']['revised']})"),
 ]
+search_dir = ROOT / "pensions/search"
+if not (search_dir / "manifest.json").exists():
+    failures.append("pensions/search/manifest.json is missing; run scripts/refresh_dl05.py")
+    print("pensions search: MISS manifest")
+else:
+    print("pensions search: ok   manifest present")
+if not (search_dir / "M.json.gz").exists():
+    failures.append("pensions/search/M.json.gz is missing; run scripts/refresh_dl05.py")
+    print("pensions search: MISS M shard")
+else:
+    print("pensions search: ok   M shard present")
 if "DATA:BEGIN pensions-data" not in ppage:
     failures.append("pensions/index.html is missing the generated pensions-data block")
     print("pensions charts: MISS generated block")

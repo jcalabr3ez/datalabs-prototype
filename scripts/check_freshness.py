@@ -27,7 +27,7 @@ RULES = {
         "YYYY-MM", 700, "EIA Electric Power Annual / Form EIA-861 publishes the prior calendar year each October"
     ),
     "netlify/functions/dl05-answers.json": (
-        "YYYY-MM", 700, "PERAC valuations and the CTHRU retiree file are annual; the 700-day gate is the backstop for the research pass"
+        "YYYY-MM", 160, "CTHRU updates monthly and as_of is that file month; the 160-day gate is the backstop. Board valuations still move on the research pass."
     ),
 }
 

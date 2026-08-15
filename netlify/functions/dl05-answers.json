@@ -1,14 +1,14 @@
 {
  "tool_id": "DL-05",
- "as_of": "2024-12",
+ "as_of": "2026-06",
  "board_valuation_through": 2023,
  "returns_year": 2023,
- "retiree_year": 2024,
- "scope": "Covers every Massachusetts public retirement board's latest PERAC actuarial valuation (funded ratio, unfunded liability, actuarial accrued liability, membership, average salary and benefit, assumed rate of return) and compiled investment returns (one-year, five-year, ten-year, and since-inception), plus the compiled State (MSERS) and Teachers (MTRS) retiree payroll for calendar years 2011 through the dataset retiree_year: yearly headcount and annual pension totals, department and title rankings, and the largest individual pensions. Does NOT cover: looking up a named retiree other than the published top pensions; municipal or local-board retiree names; retirement advice, benefit estimates, or what a member will receive; forecasts of funded status; other states' pension systems; or Commonwealth payroll and vendor payments.",
- "vintage_note": "Board funded status and membership are the latest PERAC actuarial valuation on file for each board in the compiled Performance extract (valuation dates January 1, 2021 through January 1, 2023; most boards are 2022 or 2023). Investment returns are the compiled PERAC returns file shipped with that extract; the one-year column is calendar 2023 (the extract still labels the column 2022; the +11 percent statewide print is the 2023 year). State and Teacher retiree figures are the CTHRU named-retiree file, calendar years 2011 through 2024, the same extract as the partner State & Teacher Retirees app. PERAC issued a 2024 Investment Report (printed May 30, 2025) and has since updated the live funded-ratios table (through July 2, 2026); those newer prints are not yet in this ledger and are the next research-pass job. A stale 2012 'Boston' row that duplicated Boston City was dropped.",
+ "retiree_year": 2025,
+ "scope": "Covers every Massachusetts public retirement board's latest PERAC actuarial valuation (funded ratio, unfunded liability, actuarial accrued liability, membership, average salary and benefit, assumed rate of return) and compiled investment returns (one-year, five-year, ten-year, and since-inception), plus the compiled State (MSERS) and Teachers (MTRS) retiree payroll for calendar years 2011 through the dataset retiree_year: yearly headcount and annual pension totals, department and title rankings, the largest individual pensions, and a page-side name search of the latest CTHRU year (search_year). Does NOT cover: answering a named-retiree lookup in the ask box (use the Retirees search on the page); municipal or local-board retiree names; retirement advice, benefit estimates, or what a member will receive; forecasts of funded status; other states' pension systems; or Commonwealth payroll and vendor payments.",
+ "vintage_note": "Board funded status and membership are the latest PERAC actuarial valuation on file for each board in the compiled Performance extract (valuation dates January 1, 2021 through January 1, 2023; most boards are 2022 or 2023). Investment returns are the compiled PERAC returns file shipped with that extract; the one-year column is calendar 2023. State and Teacher retiree figures are rebuilt from the live CTHRU Socrata file (dataset pni4-392n). Yearly payroll totals and the headline run through calendar 2025, the last complete year. Name search, the largest pensions, and department rankings use calendar 2026 (year-to-date), CTHRU as_of 2026-06. The 2024 CTHRU year matches the partner extract within 20 rows and $5 million. PERAC's 2024 Investment Report and the July 2026 funded-ratios table are still the next board-side research-pass job.",
  "page": {
   "revised": "Aug 15, 2026",
-  "version": "1.0"
+  "version": "1.1"
  },
  "source_id_map": {
   "SRC-501": {
@@ -29,9 +29,11 @@
    "name": "CTHRU State and Teachers Retirement Benefits",
    "url": "https://cthrupensions.mass.gov/",
    "publisher": "Office of the Comptroller",
-   "cadence": "Annual named-retiree file for MSERS and MTRS",
-   "supports": "Yearly retiree counts and annual pension totals, department and title rankings, largest pensions",
-   "note": "Each row is a named retiree in one calendar year. Totals are the sum of annual amounts in that year, not a PERAC actuarial headcount (which also counts survivors and uses a January 1 census)."
+   "cadence": "Monthly named-retiree file for MSERS and MTRS",
+   "supports": "Yearly retiree counts and annual pension totals, department and title rankings, largest pensions, and the page-side name search",
+   "note": "Each row is a named retiree in one calendar year. Totals are the sum of annual amounts in that year, not a PERAC actuarial headcount. Name search uses 2026; the payroll chart uses complete years through 2025.",
+   "api": "https://cthru.data.socrata.com/resource/pni4-392n.json",
+   "dataset": "pni4-392n"
   }
  },
  "entities": {
@@ -7299,25 +7301,28 @@
   ]
  },
  "retirees": {
-  "row_count": 1694037,
+  "row_count": 1965666,
   "first_year": 2011,
-  "latest_year": 2024,
+  "latest_year": 2025,
+  "search_year": 2026,
+  "search_complete": false,
+  "as_of": "2026-06",
   "yearly": [
    {
     "year": 2011,
     "count": 101956,
-    "annual_amount": 3596418120.0,
+    "annual_amount": 3596418014.4,
     "msers": {
      "system": "MSERS",
      "count": 47993,
-     "annual_amount": 1401525085.0,
+     "annual_amount": 1401525033.12,
      "avg_amount": 29202.7,
-     "max_amount": 242801.0
+     "max_amount": 242800.56
     },
     "mtrs": {
      "system": "MTRS",
      "count": 53963,
-     "annual_amount": 2194893035.0,
+     "annual_amount": 2194892981.28,
      "avg_amount": 40674.04,
      "max_amount": 209700.0
     },
@@ -7326,220 +7331,220 @@
    {
     "year": 2012,
     "count": 104497,
-    "annual_amount": 3796319310.0,
+    "annual_amount": 3796319185.92,
     "msers": {
      "system": "MSERS",
      "count": 48974,
-     "annual_amount": 1480748801.0,
+     "annual_amount": 1480748781.96,
      "avg_amount": 30235.41,
-     "max_amount": 344576.0
+     "max_amount": 344575.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 55523,
-     "annual_amount": 2315570509.0,
+     "annual_amount": 2315570403.96,
      "avg_amount": 41704.71,
-     "max_amount": 236336.0
+     "max_amount": 236335.8
     },
     "avg_amount": 36329.46
    },
    {
     "year": 2013,
     "count": 108619,
-    "annual_amount": 4033577421.0,
+    "annual_amount": 4033577372.64,
     "msers": {
      "system": "MSERS",
      "count": 51368,
-     "annual_amount": 1596729392.0,
+     "annual_amount": 1596729443.52,
      "avg_amount": 31084.13,
-     "max_amount": 344966.0
+     "max_amount": 344965.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 57251,
-     "annual_amount": 2436848029.0,
+     "annual_amount": 2436847929.12,
      "avg_amount": 42564.29,
-     "max_amount": 154151.0
+     "max_amount": 154151.16
     },
     "avg_amount": 37135.1
    },
    {
     "year": 2014,
     "count": 112915,
-    "annual_amount": 4296298502.0,
+    "annual_amount": 4296298372.08,
     "msers": {
      "system": "MSERS",
      "count": 54034,
-     "annual_amount": 1738937341.0,
+     "annual_amount": 1738937325.84,
      "avg_amount": 32182.28,
-     "max_amount": 345356.0
+     "max_amount": 345355.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 58881,
-     "annual_amount": 2557361161.0,
-     "avg_amount": 43432.71,
-     "max_amount": 154541.0
+     "annual_amount": 2557361046.24,
+     "avg_amount": 43432.7,
+     "max_amount": 154541.16
     },
     "avg_amount": 38048.96
    },
    {
     "year": 2015,
     "count": 118259,
-    "annual_amount": 4644131246.0,
+    "annual_amount": 4644131198.4,
     "msers": {
      "system": "MSERS",
      "count": 56512,
-     "annual_amount": 1930341504.0,
+     "annual_amount": 1930341574.08,
      "avg_amount": 34158.08,
-     "max_amount": 345746.0
+     "max_amount": 345745.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 61747,
-     "annual_amount": 2713789742.0,
+     "annual_amount": 2713789624.32,
      "avg_amount": 43950.15,
-     "max_amount": 191056.0
+     "max_amount": 191055.96
     },
     "avg_amount": 39270.85
    },
    {
     "year": 2016,
     "count": 119039,
-    "annual_amount": 4790104154.0,
+    "annual_amount": 4790104119.84,
     "msers": {
      "system": "MSERS",
      "count": 57619,
-     "annual_amount": 2029790721.0,
+     "annual_amount": 2029790764.8,
      "avg_amount": 35227.8,
-     "max_amount": 346136.0
+     "max_amount": 346135.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 61420,
-     "annual_amount": 2760313433.0,
-     "avg_amount": 44941.61,
-     "max_amount": 191446.0
+     "annual_amount": 2760313355.04,
+     "avg_amount": 44941.6,
+     "max_amount": 191445.96
     },
     "avg_amount": 40239.79
    },
    {
     "year": 2017,
-    "count": 122113,
-    "annual_amount": 5008575593.0,
+    "count": 122119,
+    "annual_amount": 5008575500.76,
     "msers": {
      "system": "MSERS",
-     "count": 58625,
-     "annual_amount": 2119205730.0,
-     "avg_amount": 36148.5,
-     "max_amount": 346526.0
+     "count": 58631,
+     "annual_amount": 2119205743.56,
+     "avg_amount": 36144.8,
+     "max_amount": 346525.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 63488,
-     "annual_amount": 2889369863.0,
+     "annual_amount": 2889369757.2,
      "avg_amount": 45510.49,
-     "max_amount": 191836.0
+     "max_amount": 191835.96
     },
-    "avg_amount": 41015.91
+    "avg_amount": 41013.89
    },
    {
     "year": 2018,
-    "count": 124226,
-    "annual_amount": 5205031151.0,
+    "count": 124231,
+    "annual_amount": 5205031083.6,
     "msers": {
      "system": "MSERS",
-     "count": 59492,
-     "annual_amount": 2217065296.0,
-     "avg_amount": 37266.61,
-     "max_amount": 346916.0
+     "count": 59497,
+     "annual_amount": 2217065330.76,
+     "avg_amount": 37263.48,
+     "max_amount": 346915.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 64734,
-     "annual_amount": 2987965855.0,
-     "avg_amount": 46157.6,
-     "max_amount": 209149.0
+     "annual_amount": 2987965752.84,
+     "avg_amount": 46157.59,
+     "max_amount": 209149.08
     },
-    "avg_amount": 41899.69
+    "avg_amount": 41898.01
    },
    {
     "year": 2019,
-    "count": 126350,
-    "annual_amount": 5412859223.0,
+    "count": 126355,
+    "annual_amount": 5412859128.0,
     "msers": {
      "system": "MSERS",
-     "count": 60604,
-     "annual_amount": 2327080041.0,
-     "avg_amount": 38398.13,
-     "max_amount": 347306.0
+     "count": 60609,
+     "annual_amount": 2327080049.52,
+     "avg_amount": 38394.96,
+     "max_amount": 347305.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 65746,
-     "annual_amount": 3085779182.0,
+     "annual_amount": 3085779078.48,
      "avg_amount": 46934.86,
-     "max_amount": 209539.0
+     "max_amount": 209539.08
     },
-    "avg_amount": 42840.2
+    "avg_amount": 42838.5
    },
    {
     "year": 2020,
-    "count": 126289,
-    "annual_amount": 5473671675.0,
+    "count": 128422,
+    "annual_amount": 5625032207.76,
     "msers": {
      "system": "MSERS",
-     "count": 60516,
-     "annual_amount": 2362898010.0,
-     "avg_amount": 39045.84,
-     "max_amount": 347306.0
+     "count": 61859,
+     "annual_amount": 2449754398.44,
+     "avg_amount": 39602.23,
+     "max_amount": 347695.68
     },
     "mtrs": {
      "system": "MTRS",
-     "count": 65773,
-     "annual_amount": 3110773665.0,
-     "avg_amount": 47295.6,
-     "max_amount": 209539.0
+     "count": 66563,
+     "annual_amount": 3175277809.32,
+     "avg_amount": 47703.35,
+     "max_amount": 209929.08
     },
-    "avg_amount": 43342.43
+    "avg_amount": 43801.16
    },
    {
     "year": 2021,
     "count": 130175,
-    "annual_amount": 5826589831.0,
+    "annual_amount": 5826589778.4,
     "msers": {
      "system": "MSERS",
      "count": 62852,
-     "annual_amount": 2565244643.0,
+     "annual_amount": 2565244648.56,
      "avg_amount": 40814.05,
-     "max_amount": 348086.0
+     "max_amount": 348085.68
     },
     "mtrs": {
      "system": "MTRS",
      "count": 67323,
-     "annual_amount": 3261345188.0,
+     "annual_amount": 3261345129.84,
      "avg_amount": 48443.25,
-     "max_amount": 210319.0
+     "max_amount": 210319.08
     },
     "avg_amount": 44759.67
    },
    {
     "year": 2022,
     "count": 132237,
-    "annual_amount": 6072508080.0,
+    "annual_amount": 6072508161.6,
     "msers": {
      "system": "MSERS",
      "count": 63907,
-     "annual_amount": 2695170255.0,
+     "annual_amount": 2695170311.64,
      "avg_amount": 42173.32,
-     "max_amount": 348736.0
+     "max_amount": 348735.72
     },
     "mtrs": {
      "system": "MTRS",
      "count": 68330,
-     "annual_amount": 3377337825.0,
+     "annual_amount": 3377337849.96,
      "avg_amount": 49426.87,
-     "max_amount": 210969.0
+     "max_amount": 210969.12
     },
     "avg_amount": 45921.4
    },
@@ -7565,13 +7570,13 @@
    },
    {
     "year": 2024,
-    "count": 134205,
+    "count": 134208,
     "annual_amount": 6407446500.96,
     "msers": {
      "system": "MSERS",
-     "count": 65015,
+     "count": 65018,
      "annual_amount": 2882478581.88,
-     "avg_amount": 44335.59,
+     "avg_amount": 44333.55,
      "max_amount": 349515.72
     },
     "mtrs": {
@@ -7581,41 +7586,409 @@
      "avg_amount": 50946.2,
      "max_amount": 239279.76
     },
-    "avg_amount": 47743.72
+    "avg_amount": 47742.66
+   },
+   {
+    "year": 2025,
+    "count": 135914,
+    "annual_amount": 6625798855.08,
+    "msers": {
+     "system": "MSERS",
+     "count": 66071,
+     "annual_amount": 3010402212.48,
+     "avg_amount": 45563.14,
+     "max_amount": 349905.72
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 69843,
+     "annual_amount": 3615396642.6,
+     "avg_amount": 51764.62,
+     "max_amount": 239669.76
+    },
+    "avg_amount": 48749.94
+   }
+  ],
+  "yearly_including_search": [
+   {
+    "year": 2011,
+    "count": 101956,
+    "annual_amount": 3596418014.4,
+    "msers": {
+     "system": "MSERS",
+     "count": 47993,
+     "annual_amount": 1401525033.12,
+     "avg_amount": 29202.7,
+     "max_amount": 242800.56
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 53963,
+     "annual_amount": 2194892981.28,
+     "avg_amount": 40674.04,
+     "max_amount": 209700.0
+    },
+    "avg_amount": 35274.22
+   },
+   {
+    "year": 2012,
+    "count": 104497,
+    "annual_amount": 3796319185.92,
+    "msers": {
+     "system": "MSERS",
+     "count": 48974,
+     "annual_amount": 1480748781.96,
+     "avg_amount": 30235.41,
+     "max_amount": 344575.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 55523,
+     "annual_amount": 2315570403.96,
+     "avg_amount": 41704.71,
+     "max_amount": 236335.8
+    },
+    "avg_amount": 36329.46
+   },
+   {
+    "year": 2013,
+    "count": 108619,
+    "annual_amount": 4033577372.64,
+    "msers": {
+     "system": "MSERS",
+     "count": 51368,
+     "annual_amount": 1596729443.52,
+     "avg_amount": 31084.13,
+     "max_amount": 344965.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 57251,
+     "annual_amount": 2436847929.12,
+     "avg_amount": 42564.29,
+     "max_amount": 154151.16
+    },
+    "avg_amount": 37135.1
+   },
+   {
+    "year": 2014,
+    "count": 112915,
+    "annual_amount": 4296298372.08,
+    "msers": {
+     "system": "MSERS",
+     "count": 54034,
+     "annual_amount": 1738937325.84,
+     "avg_amount": 32182.28,
+     "max_amount": 345355.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 58881,
+     "annual_amount": 2557361046.24,
+     "avg_amount": 43432.7,
+     "max_amount": 154541.16
+    },
+    "avg_amount": 38048.96
+   },
+   {
+    "year": 2015,
+    "count": 118259,
+    "annual_amount": 4644131198.4,
+    "msers": {
+     "system": "MSERS",
+     "count": 56512,
+     "annual_amount": 1930341574.08,
+     "avg_amount": 34158.08,
+     "max_amount": 345745.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 61747,
+     "annual_amount": 2713789624.32,
+     "avg_amount": 43950.15,
+     "max_amount": 191055.96
+    },
+    "avg_amount": 39270.85
+   },
+   {
+    "year": 2016,
+    "count": 119039,
+    "annual_amount": 4790104119.84,
+    "msers": {
+     "system": "MSERS",
+     "count": 57619,
+     "annual_amount": 2029790764.8,
+     "avg_amount": 35227.8,
+     "max_amount": 346135.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 61420,
+     "annual_amount": 2760313355.04,
+     "avg_amount": 44941.6,
+     "max_amount": 191445.96
+    },
+    "avg_amount": 40239.79
+   },
+   {
+    "year": 2017,
+    "count": 122119,
+    "annual_amount": 5008575500.76,
+    "msers": {
+     "system": "MSERS",
+     "count": 58631,
+     "annual_amount": 2119205743.56,
+     "avg_amount": 36144.8,
+     "max_amount": 346525.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 63488,
+     "annual_amount": 2889369757.2,
+     "avg_amount": 45510.49,
+     "max_amount": 191835.96
+    },
+    "avg_amount": 41013.89
+   },
+   {
+    "year": 2018,
+    "count": 124231,
+    "annual_amount": 5205031083.6,
+    "msers": {
+     "system": "MSERS",
+     "count": 59497,
+     "annual_amount": 2217065330.76,
+     "avg_amount": 37263.48,
+     "max_amount": 346915.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 64734,
+     "annual_amount": 2987965752.84,
+     "avg_amount": 46157.59,
+     "max_amount": 209149.08
+    },
+    "avg_amount": 41898.01
+   },
+   {
+    "year": 2019,
+    "count": 126355,
+    "annual_amount": 5412859128.0,
+    "msers": {
+     "system": "MSERS",
+     "count": 60609,
+     "annual_amount": 2327080049.52,
+     "avg_amount": 38394.96,
+     "max_amount": 347305.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 65746,
+     "annual_amount": 3085779078.48,
+     "avg_amount": 46934.86,
+     "max_amount": 209539.08
+    },
+    "avg_amount": 42838.5
+   },
+   {
+    "year": 2020,
+    "count": 128422,
+    "annual_amount": 5625032207.76,
+    "msers": {
+     "system": "MSERS",
+     "count": 61859,
+     "annual_amount": 2449754398.44,
+     "avg_amount": 39602.23,
+     "max_amount": 347695.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 66563,
+     "annual_amount": 3175277809.32,
+     "avg_amount": 47703.35,
+     "max_amount": 209929.08
+    },
+    "avg_amount": 43801.16
+   },
+   {
+    "year": 2021,
+    "count": 130175,
+    "annual_amount": 5826589778.4,
+    "msers": {
+     "system": "MSERS",
+     "count": 62852,
+     "annual_amount": 2565244648.56,
+     "avg_amount": 40814.05,
+     "max_amount": 348085.68
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 67323,
+     "annual_amount": 3261345129.84,
+     "avg_amount": 48443.25,
+     "max_amount": 210319.08
+    },
+    "avg_amount": 44759.67
+   },
+   {
+    "year": 2022,
+    "count": 132237,
+    "annual_amount": 6072508161.6,
+    "msers": {
+     "system": "MSERS",
+     "count": 63907,
+     "annual_amount": 2695170311.64,
+     "avg_amount": 42173.32,
+     "max_amount": 348735.72
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 68330,
+     "annual_amount": 3377337849.96,
+     "avg_amount": 49426.87,
+     "max_amount": 210969.12
+    },
+    "avg_amount": 45921.4
+   },
+   {
+    "year": 2023,
+    "count": 133157,
+    "annual_amount": 6234988397.04,
+    "msers": {
+     "system": "MSERS",
+     "count": 64384,
+     "annual_amount": 2784193514.88,
+     "avg_amount": 43243.56,
+     "max_amount": 349125.72
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 68773,
+     "annual_amount": 3450794882.16,
+     "avg_amount": 50176.59,
+     "max_amount": 211359.12
+    },
+    "avg_amount": 46824.34
+   },
+   {
+    "year": 2024,
+    "count": 134208,
+    "annual_amount": 6407446500.96,
+    "msers": {
+     "system": "MSERS",
+     "count": 65018,
+     "annual_amount": 2882478581.88,
+     "avg_amount": 44333.55,
+     "max_amount": 349515.72
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 69190,
+     "annual_amount": 3524967919.08,
+     "avg_amount": 50946.2,
+     "max_amount": 239279.76
+    },
+    "avg_amount": 47742.66
+   },
+   {
+    "year": 2025,
+    "count": 135914,
+    "annual_amount": 6625798855.08,
+    "msers": {
+     "system": "MSERS",
+     "count": 66071,
+     "annual_amount": 3010402212.48,
+     "avg_amount": 45563.14,
+     "max_amount": 349905.72
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 69843,
+     "annual_amount": 3615396642.6,
+     "avg_amount": 51764.62,
+     "max_amount": 239669.76
+    },
+    "avg_amount": 48749.94
+   },
+   {
+    "year": 2026,
+    "count": 133563,
+    "annual_amount": 6553679094.84,
+    "msers": {
+     "system": "MSERS",
+     "count": 65225,
+     "annual_amount": 3003071578.8,
+     "avg_amount": 46041.73,
+     "max_amount": 349905.72
+    },
+    "mtrs": {
+     "system": "MTRS",
+     "count": 68338,
+     "annual_amount": 3550607516.04,
+     "avg_amount": 51956.56,
+     "max_amount": 239669.76
+    },
+    "avg_amount": 49068.07
    }
   ],
   "latest": {
-   "year": 2024,
-   "count": 134205,
-   "annual_amount": 6407446500.96,
-   "avg_amount": 47743.72,
+   "year": 2025,
+   "count": 135914,
+   "annual_amount": 6625798855.08,
+   "avg_amount": 48749.94,
    "msers": {
     "system": "MSERS",
-    "count": 65015,
-    "annual_amount": 2882478581.88,
-    "avg_amount": 44335.59,
-    "max_amount": 349515.72
+    "count": 66071,
+    "annual_amount": 3010402212.48,
+    "avg_amount": 45563.14,
+    "max_amount": 349905.72
    },
    "mtrs": {
     "system": "MTRS",
-    "count": 69190,
-    "annual_amount": 3524967919.08,
-    "avg_amount": 50946.2,
-    "max_amount": 239279.76
+    "count": 69843,
+    "annual_amount": 3615396642.6,
+    "avg_amount": 51764.62,
+    "max_amount": 239669.76
    },
    "new_retirees": {
-    "count": 3883,
-    "annual_amount": 216009039.24,
+    "count": null,
+    "note": "new-retiree count is computed on the search year (2026)"
+   }
+  },
+  "search": {
+   "year": 2026,
+   "count": 133563,
+   "annual_amount": 6553679094.84,
+   "avg_amount": 49068.07,
+   "msers": {
+    "system": "MSERS",
+    "count": 65225,
+    "annual_amount": 3003071578.8,
+    "avg_amount": 46041.73,
+    "max_amount": 349905.72
+   },
+   "mtrs": {
+    "system": "MTRS",
+    "count": 68338,
+    "annual_amount": 3550607516.04,
+    "avg_amount": 51956.56,
+    "max_amount": 239669.76
+   },
+   "complete": false,
+   "as_of": "2026-06",
+   "new_retirees": {
+    "count": 914,
+    "annual_amount": 51921732.84,
     "by_system": {
      "MSERS": {
-      "count": 1871,
-      "annual_amount": 101297786.4,
-      "avg_amount": 54140.99
+      "count": 730,
+      "annual_amount": 41542413.0,
+      "avg_amount": 56907.42
      },
      "MTRS": {
-      "count": 2012,
-      "annual_amount": 114711252.84,
-      "avg_amount": 57013.55
+      "count": 184,
+      "annual_amount": 10379319.84,
+      "avg_amount": 56409.35
      }
     }
    }
@@ -7627,7 +8000,7 @@
     "department": "Univ. Of Mass Medical School",
     "title": null,
     "retired": "2012-06-30",
-    "annual_amount": 349515.72
+    "annual_amount": 349905.72
    },
    {
     "name": "Budnik, Vivian",
@@ -7635,7 +8008,7 @@
     "department": "Univ. Of Mass Medical School",
     "title": "Chairman Of Department",
     "retired": "2024-01-01",
-    "annual_amount": 341414.64
+    "annual_amount": 341804.64
    },
    {
     "name": "Murphy, Joyce",
@@ -7643,7 +8016,7 @@
     "department": "Univ. Of Mass Medical School",
     "title": null,
     "retired": "2018-08-04",
-    "annual_amount": 340671.24
+    "annual_amount": 341061.24
    },
    {
     "name": "Moloney, Jacqueline",
@@ -7651,7 +8024,7 @@
     "department": "Univ. Of Mass/lowell Campus",
     "title": "Fullprofessor&chancelloremerit",
     "retired": "2022-12-31",
-    "annual_amount": 339991.68
+    "annual_amount": 340381.68
    },
    {
     "name": "Lovley, Derek",
@@ -7659,7 +8032,7 @@
     "department": "University Of Mass/amherst",
     "title": null,
     "retired": "2020-05-29",
-    "annual_amount": 312696.96
+    "annual_amount": 313086.96
    },
    {
     "name": "Mccarthy, John",
@@ -7667,7 +8040,7 @@
     "department": "University Of Mass/amherst",
     "title": "Staff Administrator",
     "retired": "2023-06-30",
-    "annual_amount": 292775.16
+    "annual_amount": 293165.16
    },
    {
     "name": "Bulger, William",
@@ -7675,7 +8048,7 @@
     "department": "Umass President's Office",
     "title": null,
     "retired": "2003-09-02",
-    "annual_amount": 274148.64
+    "annual_amount": 274538.64
    },
    {
     "name": "Czech, Michael",
@@ -7683,7 +8056,7 @@
     "department": "Univ. Of Mass Medical School",
     "title": "Professor",
     "retired": "2018-11-01",
-    "annual_amount": 254976.12
+    "annual_amount": 255366.12
    },
    {
     "name": "Kurose, James",
@@ -7691,7 +8064,7 @@
     "department": "University Of Mass/amherst",
     "title": "Associate Chancellor",
     "retired": "2023-06-30",
-    "annual_amount": 251288.4
+    "annual_amount": 251678.4
    },
    {
     "name": "Pugnaire, Michele",
@@ -7699,7 +8072,7 @@
     "department": "Univ. Of Mass Medical School",
     "title": "Sr Assoc,dean Of Education",
     "retired": "2017-07-28",
-    "annual_amount": 250862.04
+    "annual_amount": 251252.04
    },
    {
     "name": "Warwick, Daniel J",
@@ -7707,7 +8080,7 @@
     "department": "Springfield Public Schools",
     "title": "Superintendent",
     "retired": "2024-06-07",
-    "annual_amount": 239279.76
+    "annual_amount": 239669.76
    },
    {
     "name": "Mac Cormack, Jean",
@@ -7715,7 +8088,7 @@
     "department": "Univ. Of Mass/dartmouth Campus",
     "title": null,
     "retired": "2012-06-30",
-    "annual_amount": 238035.48
+    "annual_amount": 238425.48
    },
    {
     "name": "Langley, Winston",
@@ -7723,7 +8096,15 @@
     "department": "Univ. Of Mass/boston Campus",
     "title": "Professor A",
     "retired": "2018-05-25",
-    "annual_amount": 237705.84
+    "annual_amount": 238095.84
+   },
+   {
+    "name": "Benjamin, Sheldon",
+    "system": "MSERS",
+    "department": "Univ. Of Mass Medical School",
+    "title": "Professor",
+    "retired": "2024-10-01",
+    "annual_amount": 234041.4
    },
    {
     "name": "Carter, Kathryn",
@@ -7731,231 +8112,258 @@
     "department": "Univ. Of Mass/lowell Campus",
     "title": "Sp AppointmnT-Interim DeaN-Umd",
     "retired": "2020-06-30",
-    "annual_amount": 231828.12
-   },
-   {
-    "name": "Croft, William",
-    "system": "MSERS",
-    "department": "University Of Mass/amherst",
-    "title": null,
-    "retired": "2018-05-22",
-    "annual_amount": 230716.56
+    "annual_amount": 232218.12
    }
   ],
   "departments": [
    {
     "system": "MSERS",
     "department": "Department Corrections",
-    "count": 4301,
-    "annual_amount": 212944127.04,
-    "avg_amount": 49510.38
+    "count": 4397,
+    "annual_amount": 222188936.76,
+    "avg_amount": 50531.94
    },
    {
     "system": "MSERS",
     "department": "State Police",
-    "count": 2311,
-    "annual_amount": 186841422.84,
-    "avg_amount": 80848.73
+    "count": 2444,
+    "annual_amount": 207076728.84,
+    "avg_amount": 84728.61
    },
    {
     "system": "MSERS",
     "department": "University Of Mass/amherst",
-    "count": 3771,
-    "annual_amount": 172035758.64,
-    "avg_amount": 45620.73
+    "count": 3731,
+    "annual_amount": 175191231.96,
+    "avg_amount": 46955.57
    },
    {
     "system": "MTRS",
     "department": "Worcester Public Schools",
-    "count": 1976,
-    "annual_amount": 102236955.72,
-    "avg_amount": 51739.35
+    "count": 1928,
+    "annual_amount": 102320066.64,
+    "avg_amount": 53070.57
    },
    {
     "system": "MSERS",
     "department": "Univ. Of Mass Medical School",
-    "count": 2857,
-    "annual_amount": 95119515.6,
-    "avg_amount": 33293.5
-   },
-   {
-    "system": "MTRS",
-    "department": "Springfield Public Schools",
-    "count": 2021,
-    "annual_amount": 91590250.92,
-    "avg_amount": 45319.27
+    "count": 2867,
+    "annual_amount": 98506786.08,
+    "avg_amount": 34358.84
    },
    {
     "system": "MSERS",
     "department": "Mass Dept Of Transportation",
-    "count": 1870,
-    "annual_amount": 83688017.52,
-    "avg_amount": 44752.95
+    "count": 2026,
+    "annual_amount": 94557869.28,
+    "avg_amount": 46672.2
+   },
+   {
+    "system": "MTRS",
+    "department": "Springfield Public Schools",
+    "count": 1967,
+    "annual_amount": 90718358.88,
+    "avg_amount": 46120.16
    },
    {
     "system": "MSERS",
     "department": "Dept. Of Children & Families",
-    "count": 1737,
-    "annual_amount": 79896934.32,
-    "avg_amount": 45997.08
+    "count": 1746,
+    "annual_amount": 83521664.64,
+    "avg_amount": 47836.0
    },
    {
     "system": "MSERS",
     "department": "Dept. Of Trans. Assistance",
-    "count": 1735,
-    "annual_amount": 73719840.36,
-    "avg_amount": 42489.82
-   },
-   {
-    "system": "MTRS",
-    "department": "Brockton Public Schools",
-    "count": 1111,
-    "annual_amount": 63623859.0,
-    "avg_amount": 57267.2
+    "count": 1659,
+    "annual_amount": 72760642.44,
+    "avg_amount": 43858.13
    },
    {
     "system": "MSERS",
     "department": "Probation",
-    "count": 1122,
-    "annual_amount": 63020454.0,
-    "avg_amount": 56167.96
+    "count": 1201,
+    "annual_amount": 70213064.64,
+    "avg_amount": 58462.17
+   },
+   {
+    "system": "MTRS",
+    "department": "Brockton Public Schools",
+    "count": 1107,
+    "annual_amount": 64995634.92,
+    "avg_amount": 58713.31
    },
    {
     "system": "MTRS",
     "department": "Lowell Public Schools",
-    "count": 1144,
-    "annual_amount": 61153150.68,
-    "avg_amount": 53455.55
+    "count": 1110,
+    "annual_amount": 60634137.12,
+    "avg_amount": 54625.35
    },
    {
     "system": "MTRS",
     "department": "New Bedford Public Schools",
-    "count": 1166,
-    "annual_amount": 57768302.88,
-    "avg_amount": 49544.0
-   },
-   {
-    "system": "MTRS",
-    "department": "Newton Public Schools",
-    "count": 941,
-    "annual_amount": 53944248.12,
-    "avg_amount": 57326.51
+    "count": 1129,
+    "annual_amount": 56782318.32,
+    "avg_amount": 50294.35
    },
    {
     "system": "MSERS",
     "department": "Dept. Of Revenue/hrb",
-    "count": 1039,
-    "annual_amount": 53924073.12,
-    "avg_amount": 51899.97
+    "count": 1028,
+    "annual_amount": 56098059.48,
+    "avg_amount": 54570.1
+   },
+   {
+    "system": "MTRS",
+    "department": "Newton Public Schools",
+    "count": 929,
+    "annual_amount": 54744962.64,
+    "avg_amount": 58928.92
    }
   ],
   "titles": [
    {
     "system": "MSERS",
     "title": "Major",
-    "count": 74,
-    "annual_amount": 9798000.0,
-    "avg_amount": 132405.41
+    "count": 85,
+    "annual_amount": 11738933.16,
+    "avg_amount": 138105.1
    },
    {
     "system": "MTRS",
     "title": "Superintendent",
-    "count": 268,
-    "annual_amount": 30568208.28,
-    "avg_amount": 114060.48
+    "count": 292,
+    "annual_amount": 33625278.24,
+    "avg_amount": 115155.06
    },
    {
     "system": "MSERS",
     "title": "Detective Lieutenant",
-    "count": 147,
-    "annual_amount": 16338786.36,
-    "avg_amount": 111148.21
+    "count": 171,
+    "annual_amount": 19457215.92,
+    "avg_amount": 113784.89
    },
    {
     "system": "MSERS",
     "title": "Professor U Of M",
-    "count": 78,
-    "annual_amount": 8231956.2,
-    "avg_amount": 105537.9
-   },
-   {
-    "system": "MTRS",
-    "title": "Assistant Superinten",
-    "count": 67,
-    "annual_amount": 6674105.52,
-    "avg_amount": 99613.52
+    "count": 96,
+    "annual_amount": 10318465.44,
+    "avg_amount": 107484.02
    },
    {
     "system": "MSERS",
     "title": "First Justice",
-    "count": 142,
-    "annual_amount": 13699072.2,
-    "avg_amount": 96472.34
+    "count": 152,
+    "annual_amount": 15216992.4,
+    "avg_amount": 100111.79
+   },
+   {
+    "system": "MTRS",
+    "title": "Assistant Superinten",
+    "count": 83,
+    "annual_amount": 8241351.24,
+    "avg_amount": 99293.39
    },
    {
     "system": "MSERS",
     "title": "Justice",
-    "count": 268,
-    "annual_amount": 25553618.28,
-    "avg_amount": 95349.32
+    "count": 286,
+    "annual_amount": 28066437.0,
+    "avg_amount": 98134.4
    },
    {
     "system": "MSERS",
     "title": "Lieutenant",
-    "count": 421,
-    "annual_amount": 38239881.96,
-    "avg_amount": 90831.07
+    "count": 470,
+    "annual_amount": 44340477.12,
+    "avg_amount": 94341.44
    },
    {
     "system": "MSERS",
     "title": "Clerk Magistrate",
-    "count": 56,
-    "annual_amount": 5054833.8,
-    "avg_amount": 90264.89
+    "count": 60,
+    "annual_amount": 5534839.68,
+    "avg_amount": 92247.33
    },
    {
     "system": "MSERS",
     "title": "Captain",
-    "count": 183,
-    "annual_amount": 16192244.4,
-    "avg_amount": 88482.21
+    "count": 198,
+    "annual_amount": 18173094.96,
+    "avg_amount": 91783.31
    },
    {
     "system": "MSERS",
     "title": "State Police Sergeant",
-    "count": 339,
-    "annual_amount": 28938389.04,
-    "avg_amount": 85363.98
-   },
-   {
-    "system": "MSERS",
-    "title": "Vice President",
-    "count": 104,
-    "annual_amount": 8600707.68,
-    "avg_amount": 82699.11
+    "count": 358,
+    "annual_amount": 31327892.76,
+    "avg_amount": 87508.08
    },
    {
     "system": "MSERS",
     "title": "First Asst Clerk Magistrate",
-    "count": 51,
-    "annual_amount": 4208538.72,
-    "avg_amount": 82520.37
+    "count": 56,
+    "annual_amount": 4854649.68,
+    "avg_amount": 86690.17
    },
    {
     "system": "MSERS",
     "title": "Chief Probation Officer",
-    "count": 152,
-    "annual_amount": 12372790.8,
-    "avg_amount": 81399.94
+    "count": 156,
+    "annual_amount": 13275984.0,
+    "avg_amount": 85102.46
    },
    {
-    "system": "MTRS",
-    "title": "Principal",
-    "count": 990,
-    "annual_amount": 76493366.64,
-    "avg_amount": 77266.03
+    "system": "MSERS",
+    "title": "Vice President",
+    "count": 105,
+    "annual_amount": 8812901.16,
+    "avg_amount": 83932.39
+   },
+   {
+    "system": "MSERS",
+    "title": "Administrator xi",
+    "count": 50,
+    "annual_amount": 3982069.32,
+    "avg_amount": 79641.39
    }
-  ]
+  ],
+  "manifest": {
+   "year": 2026,
+   "as_of": "2026-06",
+   "count": 133563,
+   "complete": false,
+   "letters": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y",
+    "Z"
+   ],
+   "source_id": "SRC-503"
+  }
  },
  "latest": {
   "n_boards": 105,
@@ -8017,14 +8425,16 @@
   "n_below_60": 13,
   "median_return_1y_pct": 11.56,
   "retirees": {
-   "year": 2024,
-   "count": 134205,
-   "annual_amount": 6407446500.96,
-   "avg_amount": 47743.72,
-   "msers_count": 65015,
-   "msers_annual_amount": 2882478581.88,
-   "mtrs_count": 69190,
-   "mtrs_annual_amount": 3524967919.08
+   "year": 2025,
+   "count": 135914,
+   "annual_amount": 6625798855.08,
+   "avg_amount": 48749.94,
+   "msers_count": 66071,
+   "msers_annual_amount": 3010402212.48,
+   "mtrs_count": 69843,
+   "mtrs_annual_amount": 3615396642.6,
+   "search_year": 2026,
+   "search_count": 133563
   }
  },
  "derived": {
@@ -8188,17 +8598,19 @@
   "median_return_1y_pct": 11.56,
   "state_return_1y_pct": 11.66,
   "mtrs_return_1y_pct": 11.66,
-  "retiree_year": 2024,
-  "retiree_count": 134205,
-  "retiree_annual_amount": 6407446500.96,
-  "retiree_avg_amount": 47743.72,
-  "retiree_amount_change_from_2011_pct": 78.2,
+  "retiree_year": 2025,
+  "retiree_count": 135914,
+  "retiree_annual_amount": 6625798855.08,
+  "retiree_avg_amount": 48749.94,
+  "retiree_amount_change_from_2011_pct": 84.2,
   "largest_pension": {
    "name": "Manning, Thomas",
    "system": "MSERS",
-   "annual_amount": 349515.72
+   "annual_amount": 349905.72,
+   "year": 2026
   },
-  "new_retirees_2024": 3883
+  "search_year": 2026,
+  "new_retirees_search_year": 914
  },
  "pending": [
   {
@@ -8214,7 +8626,8 @@
  ],
  "verification": {
   "funded_ratio": "For every board, funded_pct equals 1 minus unfunded liability divided by actuarial accrued liability, within 0.6 percentage points (UAL and AAL in the extract are rounded, so a 0.1 to 0.5 point gap is expected on small boards). build_dl05.py fails if any board exceeds that band.",
-  "retiree_yearly": "Yearly MSERS and MTRS counts and annual-amount sums are recomputed from the 1,694,037-row CTHRU extract. Combined 2024: 134,205 named retirees and $6.407 billion in annual pensions.",
-  "twbx": "Board cells match the MA_Pensions_Annual extract; retiree aggregates match the MA_Pensions_Retirees extract. The TWBX files are verification inputs and are not committed."
- }
+  "retiree_yearly": "Yearly MSERS and MTRS counts and annual-amount sums are rebuilt from CTHRU dataset pni4-392n. 2024 matched the partner extract within 20 rows and $5,000,000. Complete year 2025: 135,914 named retirees and $6,625,798,855.08. Search year 2026: 133,563 rows.",
+  "twbx": "Board cells still match the MA_Pensions_Annual extract. Retiree aggregates now come from the live CTHRU API, checked against the 2024 extract year."
+ },
+ "search_year": 2026
 }

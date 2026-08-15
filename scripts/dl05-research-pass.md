@@ -1,15 +1,18 @@
-# DL-05 research pass (when PERAC or CTHRU posts)
+# DL-05 research pass (when PERAC posts)
 
-This is the canonical prompt for updating Massachusetts Public Pensions
-(DL-05). PERAC's Investment Report is a PDF, the funded-ratios table is a
-Mass.gov portal, and CTHRU is a named-retiree search site. There is no
-machine-readable refresh script that can replace a transcription. Run this
-pass when any of those sources posts a new year, or when the freshness
-gate on `dl05-answers.json` is close to its 700-day limit.
+This is the canonical prompt for updating the **board** half of
+Massachusetts Public Pensions (DL-05): funded ratios and investment
+returns. PERAC's Investment Report is a PDF and the funded-ratios table
+is a Mass.gov portal. There is no machine-readable refresh that can
+replace a transcription of those sources.
+
+The **retiree** half (CTHRU payroll, top pensions, departments, and the
+last-name search shards) is already fetched by `scripts/refresh_dl05.py`
+and `.github/workflows/dl05-refresh.yml`. Do not invent a second retiree
+fetch. Do not commit TWBX files or a named-retiree extract.
 
 Read `AGENTS.md` first. Edit `netlify/functions/dl05-answers.json` as the
-source of truth. Do not commit TWBX files or the 1.69 million-row CTHRU
-extract.
+source of truth for board cells. Then run `python3 scripts/inject_data.py`.
 
 ## Paste this into a Cursor Automation or Cloud Agent
 
@@ -20,11 +23,13 @@ extract.
 **Prompt to paste:**
 
     Follow scripts/dl05-research-pass.md exactly. This is the research
-    pass for Pioneer DataLabs Massachusetts Public Pensions (DL-05).
+    pass for Pioneer DataLabs Massachusetts Public Pensions (DL-05),
+    board half only.
 
     Edit netlify/functions/dl05-answers.json as the source of truth.
-    Run python3 scripts/inject_data.py. Then run
-    python3 scripts/check_style.py, python3 scripts/check_freshness.py,
+    Do not rebuild retiree totals or pensions/search/ by hand; those
+    come from scripts/refresh_dl05.py. Run python3 scripts/inject_data.py.
+    Then run python3 scripts/check_style.py, python3 scripts/check_freshness.py,
     and node --check scripts/check_engine.mjs (or node scripts/check_engine.mjs).
 
     Update an existing PR only if it is a draft whose title starts with
@@ -51,13 +56,11 @@ extract.
    its one-year column 2022; do not repeat that. The printed year on
    the report is the vintage.
 
-3. **State and Teacher retirees (SRC-503).** If CTHRU
-   (https://cthrupensions.mass.gov/) has posted a year after
-   `retiree_year`, add that year to `retirees.yearly`, refresh
-   `top_pensions`, `departments`, and `titles`, and move
-   `retiree_year` / `as_of`. Do not commit the named-retiree file.
-   Do not add a full name-search index. Keep CTHRU counts separate
-   from PERAC actuarial recipient counts (pending
+3. **State and Teacher retirees (SRC-503).** Leave this block to
+   `scripts/refresh_dl05.py`. If the monthly workflow has not run and
+   CTHRU is obviously stale, run that script once. Do not invent a
+   second retiree fetch. Do not commit the named-retiree file. Keep
+   CTHRU counts separate from PERAC actuarial recipient counts (pending
    CTHRU-VS-PERAC-HEADCOUNT).
 
 4. **Clear or keep pending flags.** PERAC-2024-IR clears when the 2024
@@ -65,13 +68,15 @@ extract.
    ledger. Add a new pending row if a later report exists but could
    not be fully transcribed.
 
-5. **as_of** is the newest month in the ledger, usually the retiree
-   calendar year as `YYYY-12`.
+5. **as_of** is the newest month in the ledger, usually the CTHRU
+   fetch month (`YYYY-MM`). Do not roll it backward to a valuation year.
 
 ## What not to do
 
-- Do not invent a `refresh_dl05.py` that pretends Mass.gov PDFs are an
-  API. A future compiler is fine only if PERAC posts a real CSV.
-- Do not look up named retirees beyond the published top pensions.
+- Do not invent a fetch that pretends Mass.gov PDFs are an API. A
+  future compiler is fine only if PERAC posts a real CSV.
+- Do not look up named retirees in the ask box. The page search is
+  the lookup. The ask box still answers "who is paid the most" from
+  `top_pensions`.
 - Do not fold this into a DL-01, DL-02, DL-03, or DL-04 PR.
 - Do not ship Tableau.

@@ -529,19 +529,6 @@ def main():
                                for e in dl02["takeout_net_inflow"]]) + ";",
     ])
     new = replace_block(new, "front-fl-data", fl_consts, p)
-    sys.path.insert(0, str(ROOT / "scripts"))
-    from insight_figures import portfolio_insights  # noqa: E402
-    from suite_common import load_apps, ledger_path  # noqa: E402
-    ledgers = {}
-    for app in load_apps():
-        lp = ledger_path(app["id"])
-        if lp.exists():
-            ledgers[app["id"]] = json.loads(lp.read_text(encoding="utf-8"))
-    new = replace_block(
-        new, "front-portfolio",
-        "const PORTFOLIO=" + jdump(portfolio_insights(ledgers)) + ";",
-        p,
-    )
     fl_rev = (dl02.get("page") or {}).get("revised", "")
     revised_long = fl_rev
     for full, (short, _) in MONTH_END.items():

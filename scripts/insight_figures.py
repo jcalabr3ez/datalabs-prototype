@@ -437,13 +437,48 @@ def figs_dl12(ledger):
 
 
 def figs_dl13(ledger):
-    fig = from_latest(
+    sec = _sec(ledger)
+    out = []
+    bed = sec.get("bed_births_deaths") or {}
+    trend = bed.get("trend") or []
+    if trend:
+        labels = [r["q"] for r in trend]
+        births = [r.get("ma_birth_rate_pct") for r in trend]
+        deaths = [r.get("ma_death_rate_pct") for r in trend]
+        ma = bed.get("ma") or {}
+        ov = bed.get("overlap") or {}
+        out.append(_fig(
+            "bed-rates",
+            "Massachusetts establishment birth and death rates",
+            (
+                f"The birth rate was {ma.get('birth_rate_pct')} percent in "
+                f"{ma.get('births_as_of')}. Deaths are published through "
+                f"{ma.get('deaths_as_of')}. In {ov.get('q')}, the last "
+                f"overlapping quarter, births were {ov.get('ma_birth_rate_pct')} "
+                f"percent and deaths were {ov.get('ma_death_rate_pct')} percent."
+            ),
+            bed.get("src") or "SRC-613-02",
+            "line", "percent", "percent of establishments",
+            labels,
+            [
+                {"label": "Birth rate", "data": births, "color": GOLD},
+                {"label": "Death rate", "data": deaths, "color": INK},
+            ],
+            bed.get("note") or (
+                "BLS Business Employment Dynamics, total private, seasonally "
+                "adjusted. Deaths lag three quarters."
+            ),
+            span=2,
+        ))
+    latest = from_latest(
         ledger, "bfs",
         title="Business applications, latest month",
         skip_us=True,
         note="Census Business Formation Statistics. The U.S. total is omitted so state bars remain readable.",
     )
-    return [fig] if fig else []
+    if latest:
+        out.append(latest)
+    return out
 
 
 def figs_dl14(ledger):

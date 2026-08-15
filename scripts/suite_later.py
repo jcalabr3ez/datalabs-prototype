@@ -936,6 +936,23 @@ def enrich(app, ledger):
             "DESE / E2C pathways enrollment (SRC-606-03)",
         ))
         ledger["kpis"] = kpis[:2] + [kpis[-1]]
+    if tid == "DL-13" and "bed_births_deaths" in sec:
+        b = sec["bed_births_deaths"]
+        ma = b.get("ma") or {}
+        kpis = list(ledger.get("kpis") or [])
+        kpis.append(_kpi(
+            f"MA establishment birth rate, {ma.get('births_as_of')}",
+            f"{ma.get('birth_rate_pct')}%",
+            (
+                f"{commify(ma.get('births') or 0)} private-sector births "
+                f"(SRC-613-02). Deaths are published through "
+                f"{ma.get('deaths_as_of')} at {ma.get('death_rate_pct')} percent "
+                f"({commify(ma.get('deaths') or 0)} establishments)."
+            ),
+            "The birth-versus-death rate the formation page now charts.",
+            "BLS Business Employment Dynamics (SRC-613-02)",
+        ))
+        ledger["kpis"] = kpis
     if tid == "DL-06" and "mcas_2025" in sec:
         m = sec["mcas_2025"]
         kpis = list(ledger.get("kpis") or [])

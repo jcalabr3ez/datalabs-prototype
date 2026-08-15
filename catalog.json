@@ -198,7 +198,7 @@
  {
   "id": "DL-13",
   "t": "Business Formation",
-  "q": "New business applications and projected formations, state by state, from Census BFS.",
+  "q": "New business applications from Census BFS, and private-sector establishment births and deaths from BLS BED.",
   "g": [
    "US",
    "MA"

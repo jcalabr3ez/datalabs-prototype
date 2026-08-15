@@ -143,17 +143,18 @@
       "id": "DL-13",
       "slug": "business-formation",
       "title": "Business Formation",
-      "q": "New business applications and projected formations, state by state, from Census BFS.",
+      "q": "New business applications from Census BFS, and private-sector establishment births and deaths from BLS BED.",
       "vertical": "Economic Opportunity",
       "group": "Economy & Jobs",
       "g": ["US", "MA"],
       "heritage": "Formerly Business Births and Deaths and Business Dynamics",
       "replaces": ["Business Births and Deaths", "Business Dynamics"],
-      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications and projected formations within four quarters, for the United States and each state.",
-      "exclusions": "Does not cover establishment births and deaths from the Business Employment Dynamics file, industry clusters, or advice about starting a firm.",
+      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications and projected formations within four quarters, for the United States and each state. Also reports BLS Business Employment Dynamics private-sector establishment birth and death counts and rates for the United States and Massachusetts.",
+      "exclusions": "Does not cover industry clusters or advice about starting a firm. Establishment births and deaths are the BLS BED private-sector series, not Census BDS firm births.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-613-01", "name": "Census Bureau Business Formation Statistics monthly time series", "cadence": "Monthly", "url": "https://www.census.gov/econ/bfs/csv/bfs_monthly.csv"}
+        {"id": "SRC-613-01", "name": "Census Bureau Business Formation Statistics monthly time series", "cadence": "Monthly", "url": "https://www.census.gov/econ/bfs/csv/bfs_monthly.csv"},
+        {"id": "SRC-613-02", "name": "BLS Business Employment Dynamics, private-sector establishment births and deaths", "cadence": "Quarterly", "url": "https://www.bls.gov/bdm/"}
       ]
     },
     {

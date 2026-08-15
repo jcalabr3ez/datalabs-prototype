@@ -6,8 +6,8 @@
   "group": "Energy",
   "status": "live",
   "as_of": "2024-12",
-  "scope": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04.",
-  "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill. SEDS production is pending.",
+  "scope": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption (TETCB) and total energy production (TEPRB) for 2024. Retail electricity prices stay on DL-04.",
+  "exclusions": "Does not cover retail electricity prices (DL-04), energy storage, or advice about a utility bill.",
   "heritage": "Formerly Energy Consumption, Energy Production, and CO2 Emissions",
   "replaces": [
     "CO2 Emissions",
@@ -20,13 +20,19 @@
       "name": "EIA SEDS total energy CO2 emissions (TETCE), 2024",
       "cadence": "Annual",
       "url": "https://www.eia.gov/state/seds/sep_fuel/html/csv/fuel_te.csv",
-      "supports": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04."
+      "supports": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption (TETCB) and total energy production (TEPRB) for 2024. Retail electricity prices stay on DL-04."
     },
     "SRC-624-02": {
       "name": "EIA SEDS total energy consumption (TETCB)",
       "cadence": "Annual",
       "url": "https://www.eia.gov/state/seds/sep_use/total/csv/use_all_btu.csv",
-      "supports": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption for 2024. SEDS production remains a later view. Retail electricity prices stay on DL-04."
+      "supports": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption (TETCB) and total energy production (TEPRB) for 2024. Retail electricity prices stay on DL-04."
+    },
+    "SRC-624-03": {
+      "name": "EIA SEDS total energy production (TEPRB)",
+      "cadence": "Annual",
+      "url": "https://www.eia.gov/state/seds/sep_prod/xls/Prod_dataset.xlsx",
+      "supports": "This ledger ranks states on EIA SEDS energy-related carbon dioxide emissions for 2024 (series TETCE), and also reports EIA SEDS total energy consumption (TETCB) and total energy production (TEPRB) for 2024. Retail electricity prices stay on DL-04."
     }
   },
   "page": {
@@ -44,7 +50,7 @@
   "unit": "million metric tons",
   "data_month": "2024-12",
   "data_month_label": "Calendar year 2024",
-  "lead": "Energy-related carbon dioxide emissions were <b>4,780.7 million metric tons</b> in 2024 (SRC-624-01). Massachusetts emitted <b>58.1 million metric tons</b>, rank 30 of 51 (derived, SRC-624-01). Total energy consumption was <b>94,543,438</b> billion Btu in the United States in 2024 (SRC-624-02). Massachusetts consumed <b>1,289,504</b> billion Btu, rank 27 of 51 (derived, SRC-624-02). SEDS production remains pending because that file was not in the consumption extract.",
+  "lead": "Energy-related carbon dioxide emissions were <b>4,780.7 million metric tons</b> in 2024 (SRC-624-01). Massachusetts emitted <b>58.1 million metric tons</b>, rank 30 of 51 (derived, SRC-624-01). Total energy consumption was <b>94,543,438</b> billion Btu in the United States in 2024 (SRC-624-02). Massachusetts consumed <b>1,289,504</b> billion Btu, rank 27 of 51 (derived, SRC-624-02). SEDS total energy production was <b>103,447,522</b> billion Btu in the United States in 2024 (SRC-624-03). Massachusetts produced <b>58,773</b> billion Btu, rank 46 of 51 (derived, SRC-624-03).",
   "kpis": [
     {
       "label": "U.S. energy CO2, 2024",
@@ -64,7 +70,7 @@
       "label": "Highest / lowest",
       "value": "TX 679.9",
       "detail": "Texas emitted the most; District of Columbia the least at 2.5 million metric tons (SRC-624-01).",
-      "why": "SEDS production remains pending.",
+      "why": "The range of energy-related CO2 across the 50 states and D.C.",
       "src": "EIA SEDS TETCE 2024 (SRC-624-01)"
     }
   ],
@@ -755,6 +761,29 @@
         "unit": "billion Btu",
         "as_of_label": "Calendar year 2024",
         "note": "SEDS series TETCB. Production (TEPRB) was not in this consumption file."
+      },
+      "seds_production_2024": {
+        "us": 103447522.0,
+        "ma": {
+          "v": 58773.0,
+          "rank": 46,
+          "n": 51
+        },
+        "highest": {
+          "st": "TX",
+          "name": "Texas",
+          "v": 28288241.0
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 1907.0
+        },
+        "n_ranked": 51,
+        "label": "SEDS total energy production, 2024 (billion Btu)",
+        "src": "SRC-624-03",
+        "unit": "billion Btu",
+        "as_of_label": "Calendar year 2024"
       }
     }
   },

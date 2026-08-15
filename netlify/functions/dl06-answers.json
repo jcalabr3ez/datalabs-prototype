@@ -6,8 +6,8 @@
   "group": "Education",
   "status": "live",
   "as_of": "2024-06",
-  "scope": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views.",
-  "exclusions": "Does not cover national NAEP, higher education, charter-only national files, waitlists, lottery outcomes, or advice about a school choice. MCAS, district finance, and CTE waitlist files are pending.",
+  "scope": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025.",
+  "exclusions": "Does not cover national NAEP, higher education, charter-only national files, waitlists, lottery outcomes, or advice about a school choice. Waitlists and lottery outcomes are not a published statewide table.",
   "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
   "replaces": [
     "Dropouts & Graduates",
@@ -18,25 +18,49 @@
     "School Attendance",
     "School Finances"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES NPEFS FY 2024 (stfis24_1a; current expenditures TE5 over membership MEMBR23). U.S. $17,644 and Massachusetts $27,008 match First Look 2026-008 Table 4. Fall 2024 enrollment is Digest 2025 table 203.20 (U.S. 49,387,403). MCAS, attendance, and district finance remain pending. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES NPEFS FY 2024 (stfis24_1a; current expenditures TE5 over membership MEMBR23). U.S. $17,644 and Massachusetts $27,008 match First Look 2026-008 Table 4. Fall 2024 enrollment is Digest 2025 table 203.20 (U.S. 49,387,403). Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-606-01": {
       "name": "NCES NPEFS FY 2024 current expenditures per pupil (First Look 2026-008)",
       "cadence": "Annual fiscal year",
       "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt",
-      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views."
+      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025."
     },
     "SRC-606-02": {
       "name": "NCES Digest table 203.20, public K-12 enrollment",
       "cadence": "Annual school year",
       "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx",
-      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views."
+      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025."
     },
     "SRC-606-03": {
       "name": "DESE / E2C pathways enrollment, Chapter 74 career technical education",
       "cadence": "Annual school year",
       "url": "https://educationtocareer.data.mass.gov/resource/9p45-t37j.json",
-      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, and reports DESE Chapter 74 career technical education enrollment for 2025-26, including district and program totals. District MCAS, attendance, dropouts, and DESE finance files remain later views."
+      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025."
+    },
+    "SRC-606-04": {
+      "name": "DESE / E2C Next Generation MCAS, meeting or exceeding",
+      "cadence": "Annual school year",
+      "url": "https://educationtocareer.data.mass.gov/resource/i9w6-niyt.json",
+      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025."
+    },
+    "SRC-606-05": {
+      "name": "DESE / E2C attendance, end of year",
+      "cadence": "Annual school year",
+      "url": "https://educationtocareer.data.mass.gov/resource/ak6h-9k7x.json",
+      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025."
+    },
+    "SRC-606-06": {
+      "name": "DESE / E2C high-school dropouts",
+      "cadence": "Annual school year",
+      "url": "https://educationtocareer.data.mass.gov/resource/cmm7-ttbg.json",
+      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025."
+    },
+    "SRC-606-07": {
+      "name": "DESE / E2C district finance, total expenditures per pupil",
+      "cadence": "Annual fiscal year",
+      "url": "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json",
+      "supports": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025."
     }
   },
   "page": {
@@ -53,7 +77,7 @@
   "unit": "dollars per pupil",
   "data_month": "2024-06",
   "data_month_label": "Fiscal year 2024 (school year 2023-24)",
-  "lead": "Current expenditures per public-school pupil were <b>$17,644</b> in the United States in fiscal year 2024 (SRC-606-01). Massachusetts spent <b>$27,008</b>, rank 5 of 51 (derived, SRC-606-01). Fall 2024 enrollment in Massachusetts was <b>915,932</b> (SRC-606-02). District MCAS files are pending on this page. Chapter 74 career technical education enrolled <b>59,962</b> Massachusetts high-school students in 2025-26, 21.2 percent of high-school enrollment (SRC-606-03). That is <b>5,676</b> more students than in 2021-22 (derived, SRC-606-03). <b>95</b> districts and <b>111</b> schools reported a Chapter 74 program; <b>29</b> were regional vocational or agricultural districts (derived, SRC-606-03). <b>Greater Lowell Regional Vocational Technical</b> was the largest district at <b>2,312</b> (SRC-606-03). Grade-9 exploratory enrolled <b>17,147</b>; the largest occupational program was <b>Health Assisting</b> at <b>3,617</b> (SRC-606-03). After Dark partnership enrollment was <b>406</b>, a published subset of Chapter 74 (SRC-606-03). All college-and-career pathways together enrolled <b>82,903</b> (SRC-606-03). Waitlists and lottery outcomes are pending because those DESE reports are dashboards, not a downloadable table.",
+  "lead": "Current expenditures per public-school pupil were <b>$17,644</b> in the United States in fiscal year 2024 (SRC-606-01). Massachusetts spent <b>$27,008</b>, rank 5 of 51 (derived, SRC-606-01). Fall 2024 enrollment in Massachusetts was <b>915,932</b> (SRC-606-02). Chapter 74 career technical education enrolled <b>59,962</b> Massachusetts high-school students in 2025-26, 21.2 percent of high-school enrollment (SRC-606-03). That is <b>5,676</b> more students than in 2021-22 (derived, SRC-606-03). <b>95</b> districts and <b>111</b> schools reported a Chapter 74 program; <b>29</b> were regional vocational or agricultural districts (derived, SRC-606-03). <b>Greater Lowell Regional Vocational Technical</b> was the largest district at <b>2,312</b> (SRC-606-03). Grade-9 exploratory enrolled <b>17,147</b>; the largest occupational program was <b>Health Assisting</b> at <b>3,617</b> (SRC-606-03). After Dark partnership enrollment was <b>406</b>, a published subset of Chapter 74 (SRC-606-03). All college-and-career pathways together enrolled <b>82,903</b> (SRC-606-03). On the 2025 Next Generation MCAS, <b>42.0%</b> of grades 3-8 students met or exceeded expectations in English language arts and <b>41.0%</b> in mathematics (SRC-606-04). Grade 10 was <b>51.0%</b> ELA and <b>45.0%</b> math (SRC-606-04). The attendance rate was <b>93.2%</b> in 2024-25; <b>18.8%</b> of students were chronically absent (SRC-606-05). The high-school dropout rate was <b>1.8%</b>, <b>5,143</b> students (SRC-606-06). Among districts, <b>Truro</b> had the highest total expenditures per pupil at <b>$59,111</b> (SRC-606-07). Waitlists and lottery outcomes are not a published statewide table.",
   "kpis": [
     {
       "label": "U.S. per-pupil, FY 2024",
@@ -75,6 +99,13 @@
       "detail": "21.2 percent of high-school enrollment. 95 districts, 111 schools (SRC-606-03).",
       "why": "The vocational-technical stock the research portfolio asked for.",
       "src": "DESE / E2C pathways enrollment (SRC-606-03)"
+    },
+    {
+      "label": "MCAS grades 3-8 ELA, 2025",
+      "value": "42.0%",
+      "detail": "Met or exceeded expectations. Math was 41.0% (SRC-606-04).",
+      "why": "The statewide Next Generation MCAS stock.",
+      "src": "DESE / E2C Next Generation MCAS (SRC-606-04)"
     }
   ],
   "latest": {
@@ -1656,6 +1687,81 @@
           }
         ],
         "note": "After Dark enrollment is a published subset of Chapter 74. Students may appear in more than one college-and-career pathway, so pathway totals do not add to the all-pathways count. Waitlists and lottery outcomes are not in this file."
+      },
+      "mcas_2025": {
+        "label": "Next Generation MCAS, share meeting or exceeding, 2025",
+        "src": "SRC-606-04",
+        "unit": "percent",
+        "as_of_label": "Spring 2025",
+        "ela_3_8_pct": 42.0,
+        "math_3_8_pct": 41.0,
+        "ela_10_pct": 51.0,
+        "math_10_pct": 45.0,
+        "highest_district_ela_3_8": {
+          "name": "Carlisle",
+          "v": 78.0
+        },
+        "lowest_district_ela_3_8": {
+          "name": "Holyoke",
+          "v": 11.0
+        },
+        "district_n": 259,
+        "note": "Statewide All Students. District ranking is ELA grades 3-8, districts with at least 100 tested students."
+      },
+      "attendance_2025": {
+        "label": "Massachusetts attendance rate, school year 2024-25",
+        "src": "SRC-606-05",
+        "unit": "percent",
+        "as_of_label": "School year 2024-25, end of year",
+        "attend_rate_pct": 93.2,
+        "chronic_absent_10_pct": 18.8
+      },
+      "dropouts_2025": {
+        "label": "Massachusetts high-school dropout rate, 2024-25",
+        "src": "SRC-606-06",
+        "unit": "percent",
+        "as_of_label": "School year 2024-25",
+        "dropout_pct": 1.8,
+        "dropout_count": 5143,
+        "enroll_count": 287781
+      },
+      "district_finance_fy2025": {
+        "label": "Massachusetts district total expenditures per pupil, FY 2025",
+        "src": "SRC-606-07",
+        "unit": "dollars per pupil",
+        "as_of_label": "Fiscal year 2025",
+        "districts": 389,
+        "highest": {
+          "name": "Truro",
+          "v": 59111
+        },
+        "lowest": {
+          "name": "TEC Connections Academy Commonwealth Virtual School District",
+          "v": 11230
+        },
+        "state_row": null,
+        "top_five": [
+          {
+            "name": "Truro",
+            "v": 59111
+          },
+          {
+            "name": "Provincetown",
+            "v": 55181
+          },
+          {
+            "name": "Warwick",
+            "v": 48802
+          },
+          {
+            "name": "Erving",
+            "v": 46927
+          },
+          {
+            "name": "Rowe",
+            "v": 45431
+          }
+        ]
       }
     }
   },

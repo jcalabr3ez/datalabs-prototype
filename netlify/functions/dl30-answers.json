@@ -6,8 +6,8 @@
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2025-12",
-  "scope": "This first ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), and reports Comptroller-recorded spending for fiscal 2025. Quasi-public payroll detail and a vendor-only extract remain later views.",
-  "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), named-employee lookups, or advice about a contract bid. Quasi-public payroll detail is pending.",
+  "scope": "This ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), reports Comptroller-recorded spending for fiscal 2025, and also reports CTHRU quasi-public payroll for calendar 2025 and a vendor-only extract of non-payroll object classes for FY 2025.",
+  "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), named-employee lookups, or advice about a contract bid.",
   "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
   "replaces": [
     "Payroll State Agencies",
@@ -16,19 +16,31 @@
     "Vendor Payments Quasi-Public Agencies",
     "Vendor Payments-State"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from CTHRU Commonwealth Of Massachusetts Payroll v4 (Socrata 9ttk-7vz6), calendar 2025, summed by department_division. Named employees are not published here. Spending is the Comptroller file pegc-naaa, budget fiscal year 2025, all object classes. Calendar 2026 payroll is year-to-date and is not the headline.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from CTHRU Commonwealth Of Massachusetts Payroll v4 (Socrata 9ttk-7vz6), calendar 2025, summed by department_division. Named employees are not published here. Spending is the Comptroller file pegc-naaa, budget fiscal year 2025, all object classes. Calendar 2026 payroll is year-to-date and is not the headline. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-630-01": {
       "name": "CTHRU Commonwealth of Massachusetts payroll v4",
       "cadence": "Annual / monthly",
       "url": "https://cthru.data.socrata.com/resource/9ttk-7vz6.json",
-      "supports": "This first ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), and reports Comptroller-recorded spending for fiscal 2025. Quasi-public payroll detail and a vendor-only extract remain later views."
+      "supports": "This ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), reports Comptroller-recorded spending for fiscal 2025, and also reports CTHRU quasi-public payroll for calendar 2025 and a vendor-only extract of non-payroll object classes for FY 2025."
     },
     "SRC-630-02": {
       "name": "CTHRU Comptroller of the Commonwealth spending",
       "cadence": "Monthly / annual",
       "url": "https://cthru.data.socrata.com/resource/pegc-naaa.json",
-      "supports": "This first ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), and reports Comptroller-recorded spending for fiscal 2025. Quasi-public payroll detail and a vendor-only extract remain later views."
+      "supports": "This ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), reports Comptroller-recorded spending for fiscal 2025, and also reports CTHRU quasi-public payroll for calendar 2025 and a vendor-only extract of non-payroll object classes for FY 2025."
+    },
+    "SRC-630-03": {
+      "name": "CTHRU quasi-public agency payroll",
+      "cadence": "Annual / monthly",
+      "url": "https://cthru.data.socrata.com/resource/tc5d-8ckm.json",
+      "supports": "This ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), reports Comptroller-recorded spending for fiscal 2025, and also reports CTHRU quasi-public payroll for calendar 2025 and a vendor-only extract of non-payroll object classes for FY 2025."
+    },
+    "SRC-630-04": {
+      "name": "CTHRU Comptroller spending, non-payroll vendor extract",
+      "cadence": "Monthly / annual",
+      "url": "https://cthru.data.socrata.com/resource/pegc-naaa.json",
+      "supports": "This ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), reports Comptroller-recorded spending for fiscal 2025, and also reports CTHRU quasi-public payroll for calendar 2025 and a vendor-only extract of non-payroll object classes for FY 2025."
     }
   },
   "page": {
@@ -45,7 +57,7 @@
   "unit": "dollars",
   "data_month": "2025-12",
   "data_month_label": "Calendar year 2025",
-  "lead": "Commonwealth payroll totaled <b>$10.89 billion</b> in calendar 2025 across <b>162,473</b> employee rows (SRC-630-01). <b>UNIVERSITY OF MASSACHUSETTS SYSTEM (UMS)</b> was the largest department at <b>$1.82 billion</b> (SRC-630-01). Comptroller-recorded spending was <b>$98.33 billion</b> in fiscal 2025 (SRC-630-02).",
+  "lead": "Commonwealth payroll totaled <b>$10.89 billion</b> in calendar 2025 across <b>162,473</b> employee rows (SRC-630-01). <b>UNIVERSITY OF MASSACHUSETTS SYSTEM (UMS)</b> was the largest department at <b>$1.82 billion</b> (SRC-630-01). Comptroller-recorded spending was <b>$98.33 billion</b> in fiscal 2025 (SRC-630-02). Quasi-public payroll totaled <b>$352.80 million</b> in calendar 2025 across <b>3,238</b> rows (SRC-630-03). <b>MASSPORT</b> was the largest quasi-public employer (SRC-630-03). The largest non-payroll vendor in FY 2025 was <b>UMS - SUMMARY TRUST PAYMENT</b> at <b>$2.40 billion</b> (SRC-630-04).",
   "kpis": [
     {
       "label": "Commonwealth payroll, 2025",
@@ -1430,6 +1442,111 @@
       "v": 98332305109.63,
       "src": "SRC-630-02",
       "label": "CTHRU Comptroller spending, all object classes, FY2025"
+    },
+    "secondary": {
+      "quasi_payroll_2025": {
+        "label": "Massachusetts quasi-public payroll, calendar 2025",
+        "src": "SRC-630-03",
+        "unit": "dollars",
+        "as_of_label": "Calendar year 2025",
+        "total": 352797664.44,
+        "employees": 3238,
+        "agencies": 15,
+        "highest": {
+          "name": "MASSPORT",
+          "v": 184337224.2
+        },
+        "top_five": [
+          {
+            "name": "MASSPORT",
+            "v": 184337224.2
+          },
+          {
+            "name": "Massachusetts Housing Finance Agency",
+            "v": 50973970.11
+          },
+          {
+            "name": "Massachusetts Convention Center Authority",
+            "v": 28608275.16
+          },
+          {
+            "name": "Massachusetts Pension Reserves Investment Management Board",
+            "v": 20630756.7
+          },
+          {
+            "name": "Massachusetts Clean Energy Center",
+            "v": 14732343.92
+          }
+        ]
+      },
+      "vendor_extract_fy2025": {
+        "label": "CTHRU vendor payments, non-payroll object classes, FY 2025",
+        "src": "SRC-630-04",
+        "unit": "dollars",
+        "as_of_label": "Fiscal year 2025",
+        "object_classes": [
+          "(PP) STATE AID/POL SUB",
+          "(AA) REGULAR EMPLOYEE COMPENSATION",
+          "(MM) PURCHASED CLIENT/PROGRAM SVCS",
+          "(NN) INFRASTRUCTURE:",
+          "(SS) DEBT PAYMENT",
+          "(TT) LOANS AND SPECIAL PAYMENTS",
+          "(HH) CONSULTANT SVCS (TO DEPTS)",
+          "(EE) ADMINISTRATIVE EXPENSES",
+          "(CC) SPECIAL EMPLOYEES",
+          "(GG) ENERGY COSTS AND SPACE RENTAL",
+          "(FF) FACILITY OPERATIONAL EXPENSES",
+          "(JJ) OPERATIONAL SERVICES"
+        ],
+        "top_vendor_sum": 18196447000.670002,
+        "highest": {
+          "name": "UMS - SUMMARY TRUST PAYMENT",
+          "v": 2397234702.29
+        },
+        "top_ten": [
+          {
+            "name": "UMS - SUMMARY TRUST PAYMENT",
+            "v": 2397234702.29
+          },
+          {
+            "name": "MASS BAY TRANSPORTATION AUTHORITY",
+            "v": 1630430451.89
+          },
+          {
+            "name": "BOND REDEMPTION (PRINCIPAL)",
+            "v": 1515099591.56
+          },
+          {
+            "name": "MASSACHUSETTS SCHOOL BUILDING AUTHORITY",
+            "v": 1277359299.55
+          },
+          {
+            "name": "BOND REDEMPTION (INTEREST)",
+            "v": 1042501075.8
+          },
+          {
+            "name": "MBT - SUMMARY PAYROLL",
+            "v": 925782504.91
+          },
+          {
+            "name": "SUMMARY UMASS PAYROLL",
+            "v": 797295535.2
+          },
+          {
+            "name": "MASS STATE LOTTERY COMMISSION",
+            "v": 697972526.69
+          },
+          {
+            "name": "TRC - SUMMARY PAYROLL",
+            "v": 665404883.74
+          },
+          {
+            "name": "CITY OF SPRINGFIELD",
+            "v": 629458692.2
+          }
+        ],
+        "note": "Excludes object classes whose names include payroll, salary, wage, benefit, pension, or transfer."
+      }
     }
   },
   "entities": {

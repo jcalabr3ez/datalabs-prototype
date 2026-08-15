@@ -6,8 +6,8 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2025-12",
-  "scope": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income and per capita personal income. NAICS industry detail remains a later view.",
-  "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation. NAICS industry detail is pending.",
+  "scope": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income, per capita personal income, and BEA SAGDP2 current-dollar GDP by NAICS (all industry, manufacturing, finance and insurance, information, and construction).",
+  "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation.",
   "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
   "replaces": [
     "GDP by NAICS Code",
@@ -22,13 +22,19 @@
       "name": "BEA SAGDP1 real GDP by state, 1997-2025",
       "cadence": "Annual",
       "url": "https://apps.bea.gov/regional/zip/SAGDP.zip",
-      "supports": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income and per capita personal income. NAICS industry detail remains a later view."
+      "supports": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income, per capita personal income, and BEA SAGDP2 current-dollar GDP by NAICS (all industry, manufacturing, finance and insurance, information, and construction)."
     },
     "SRC-615-02": {
       "name": "BEA SAINC4 personal income and per capita personal income by state",
       "cadence": "Annual",
       "url": "https://apps.bea.gov/regional/zip/SAINC.zip",
-      "supports": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income and per capita personal income. NAICS industry detail remains a later view."
+      "supports": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income, per capita personal income, and BEA SAGDP2 current-dollar GDP by NAICS (all industry, manufacturing, finance and insurance, information, and construction)."
+    },
+    "SRC-615-03": {
+      "name": "BEA SAGDP2 current-dollar GDP by NAICS, 1997-2025",
+      "cadence": "Annual",
+      "url": "https://apps.bea.gov/regional/zip/SAGDP.zip",
+      "supports": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income, per capita personal income, and BEA SAGDP2 current-dollar GDP by NAICS (all industry, manufacturing, finance and insurance, information, and construction)."
     }
   },
   "page": {
@@ -46,7 +52,7 @@
   "unit": "millions of chained 2017 dollars",
   "data_month": "2025-12",
   "data_month_label": "Calendar year 2025",
-  "lead": "Real GDP was <b>$23.85 trillion</b> in the United States in 2025, chained 2017 dollars (SRC-615-01). Massachusetts was <b>$644.18 billion</b>, rank 12 of 51 (derived, SRC-615-01). Personal income was <b>$26.11 trillion</b> in 2025 (SRC-615-02). Massachusetts was <b>$697.21 billion</b>, rank 13 of 51 (derived, SRC-615-02). Per capita personal income was <b>$76,393</b> in the United States and <b>$97,456</b> in Massachusetts, rank 3 of 51 (derived, SRC-615-02). NAICS industry detail remains pending.",
+  "lead": "Real GDP was <b>$23.85 trillion</b> in the United States in 2025, chained 2017 dollars (SRC-615-01). Massachusetts was <b>$644.18 billion</b>, rank 12 of 51 (derived, SRC-615-01). Personal income was <b>$26.11 trillion</b> in 2025 (SRC-615-02). Massachusetts was <b>$697.21 billion</b>, rank 13 of 51 (derived, SRC-615-02). Per capita personal income was <b>$76,393</b> in the United States and <b>$97,456</b> in Massachusetts, rank 3 of 51 (derived, SRC-615-02). Current-dollar GDP was <b>$30.76 trillion</b> in 2025 (SRC-615-03). Massachusetts was <b>$820.10 billion</b> (SRC-615-03). Manufacturing was <b>$62.80 billion</b> and finance and insurance <b>$71.33 billion</b> (SRC-615-03).",
   "kpis": [
     {
       "label": "U.S. real GDP, 2025",
@@ -66,7 +72,7 @@
       "label": "Highest / lowest",
       "value": "CA $3.39 trillion",
       "detail": "California had the largest real GDP; Vermont the smallest at $36.91 billion (SRC-615-01).",
-      "why": "",
+      "why": "Large states lead on raw output.",
       "src": "BEA SAGDP1 (SRC-615-01)"
     }
   ],
@@ -809,6 +815,128 @@
             "v": 54531.0
           },
           "unit": "dollars"
+        }
+      },
+      "sagdp2_naics_2025": {
+        "label": "BEA SAGDP2 current-dollar GDP by NAICS, 2025",
+        "src": "SRC-615-03",
+        "as_of_label": "Calendar year 2025",
+        "industries": {
+          "all_industry": {
+            "us": 30762099.0,
+            "ma": {
+              "v": 820104.9,
+              "rank": 12,
+              "n": 51
+            },
+            "highest": {
+              "st": "CA",
+              "name": "California",
+              "v": 4250840.8
+            },
+            "lowest": {
+              "st": "VT",
+              "name": "Vermont",
+              "v": 48350.3
+            },
+            "n_ranked": 51,
+            "label": "Current-dollar GDP, all industry, 2025",
+            "src": "SRC-615-03",
+            "unit": "millions of current dollars",
+            "as_of_label": "Calendar year 2025"
+          },
+          "manufacturing": {
+            "us": 2896476.0,
+            "ma": {
+              "v": 62802.4,
+              "rank": 16,
+              "n": 49
+            },
+            "highest": {
+              "st": "CA",
+              "name": "California",
+              "v": 385140.8
+            },
+            "lowest": {
+              "st": "AK",
+              "name": "Alaska",
+              "v": 1672.8
+            },
+            "n_ranked": 49,
+            "label": "Current-dollar GDP, manufacturing, 2025",
+            "src": "SRC-615-03",
+            "unit": "millions of current dollars",
+            "as_of_label": "Calendar year 2025"
+          },
+          "finance_insurance": {
+            "us": 2441825.0,
+            "ma": {
+              "v": 71330.4,
+              "rank": 10,
+              "n": 51
+            },
+            "highest": {
+              "st": "NY",
+              "name": "New York",
+              "v": 538763.5
+            },
+            "lowest": {
+              "st": "AK",
+              "name": "Alaska",
+              "v": 1585.8
+            },
+            "n_ranked": 51,
+            "label": "Current-dollar GDP, finance insurance, 2025",
+            "src": "SRC-615-03",
+            "unit": "millions of current dollars",
+            "as_of_label": "Calendar year 2025"
+          },
+          "information": {
+            "us": 1695042.0,
+            "ma": {
+              "v": 52532.2,
+              "rank": 7,
+              "n": 46
+            },
+            "highest": {
+              "st": "CA",
+              "name": "California",
+              "v": 480614.6
+            },
+            "lowest": {
+              "st": "DE",
+              "name": "Delaware",
+              "v": 1437.6
+            },
+            "n_ranked": 46,
+            "label": "Current-dollar GDP, information, 2025",
+            "src": "SRC-615-03",
+            "unit": "millions of current dollars",
+            "as_of_label": "Calendar year 2025"
+          },
+          "construction": {
+            "us": 1341322.0,
+            "ma": {
+              "v": 31038.7,
+              "rank": 15,
+              "n": 51
+            },
+            "highest": {
+              "st": "CA",
+              "name": "California",
+              "v": 156100.2
+            },
+            "lowest": {
+              "st": "VT",
+              "name": "Vermont",
+              "v": 1747.4
+            },
+            "n_ranked": 51,
+            "label": "Current-dollar GDP, construction, 2025",
+            "src": "SRC-615-03",
+            "unit": "millions of current dollars",
+            "as_of_label": "Calendar year 2025"
+          }
         }
       }
     }

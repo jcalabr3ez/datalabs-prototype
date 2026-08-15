@@ -6,21 +6,27 @@
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-07",
-  "scope": "This first ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061). Tax levy and peer sets are listed as later views. Rankings of change sit on Municipal Rankings.",
-  "exclusions": "Does not cover Boston-only payroll (that is Boston), statewide multi-metric rankings (Municipal Rankings), or advice about moving. DLS levy files are pending.",
+  "scope": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), and also reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell. That peer set is Census population distance, not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings.",
+  "exclusions": "Does not cover Boston-only payroll (that is Boston), statewide multi-metric rankings (Municipal Rankings), or advice about moving. DLS levy files are not a stable public CSV: decline those.",
   "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
   "replaces": [
     "Choose a City or Town",
     "Economic Snapshot",
     "Find Peers"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census sub-est2025_25.csv, SUMLEV 061 (New England county subdivisions), 351 Massachusetts cities and towns. DLS levy and peer-set files remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census sub-est2025_25.csv, SUMLEV 061 (New England county subdivisions), 351 Massachusetts cities and towns. A DLS levy file is not posted as a stable public CSV. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-625-01": {
       "name": "Census vintage 2025 subcounty population estimates, Massachusetts",
       "cadence": "Annual",
       "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_25.csv",
-      "supports": "This first ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061). Tax levy and peer sets are listed as later views. Rankings of change sit on Municipal Rankings."
+      "supports": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), and also reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell. That peer set is Census population distance, not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings."
+    },
+    "SRC-625-02": {
+      "name": "Census 2025 municipal population peers (five nearest counts)",
+      "cadence": "Annual",
+      "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_25.csv",
+      "supports": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), and also reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell. That peer set is Census population distance, not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings."
     }
   },
   "page": {
@@ -37,7 +43,7 @@
   "unit": "people",
   "data_month": "2025-07",
   "data_month_label": "July 1, 2025",
-  "lead": "Massachusetts was <b>7,154,084</b> on July 1, 2025 (SRC-625-01). The largest of 351 cities and towns was <b>Boston city</b> at <b>672,973</b>; the smallest was Gosnold town at 62 (SRC-625-01). Tax levy and peer sets are pending on this page.",
+  "lead": "Massachusetts was <b>7,154,084</b> on July 1, 2025 (SRC-625-01). The largest of 351 cities and towns was <b>Boston city</b> at <b>672,973</b>; the smallest was Gosnold town at 62 (SRC-625-01). A DLS levy file is not posted as a stable public CSV. Population peers are the five Census 2025 municipalities closest in resident count (SRC-625-02). Boston's nearest peer is <b>Worcester city</b> at <b>213,862</b> (derived, SRC-625-02). This is not the old Pioneer socioeconomic peer workbook. A DLS levy file is not posted as a stable public CSV.",
   "kpis": [
     {
       "label": "Massachusetts, July 1, 2025",
@@ -2655,7 +2661,128 @@
       }
     ],
     "n_ranked": 351,
-    "massachusetts_rank": 1
+    "massachusetts_rank": 1,
+    "secondary": {
+      "population_peers_2025": {
+        "label": "Massachusetts municipal population peers, July 1, 2025",
+        "src": "SRC-625-02",
+        "as_of_label": "July 1, 2025",
+        "method": "Five nearest Census 2025 populations. This is not the old Pioneer socioeconomic peer workbook.",
+        "peers": {
+          "Boston city": [
+            {
+              "name": "Worcester city",
+              "pop": 213862
+            },
+            {
+              "name": "Springfield city",
+              "pop": 154702
+            },
+            {
+              "name": "Cambridge city",
+              "pop": 122588
+            },
+            {
+              "name": "Lowell city",
+              "pop": 119971
+            },
+            {
+              "name": "Brockton city",
+              "pop": 106134
+            }
+          ],
+          "Worcester city": [
+            {
+              "name": "Springfield city",
+              "pop": 154702
+            },
+            {
+              "name": "Cambridge city",
+              "pop": 122588
+            },
+            {
+              "name": "Lowell city",
+              "pop": 119971
+            },
+            {
+              "name": "Brockton city",
+              "pop": 106134
+            },
+            {
+              "name": "Lynn city",
+              "pop": 104236
+            }
+          ],
+          "Springfield city": [
+            {
+              "name": "Cambridge city",
+              "pop": 122588
+            },
+            {
+              "name": "Lowell city",
+              "pop": 119971
+            },
+            {
+              "name": "Brockton city",
+              "pop": 106134
+            },
+            {
+              "name": "Lynn city",
+              "pop": 104236
+            },
+            {
+              "name": "Quincy city",
+              "pop": 103173
+            }
+          ],
+          "Cambridge city": [
+            {
+              "name": "Lowell city",
+              "pop": 119971
+            },
+            {
+              "name": "Brockton city",
+              "pop": 106134
+            },
+            {
+              "name": "Lynn city",
+              "pop": 104236
+            },
+            {
+              "name": "Quincy city",
+              "pop": 103173
+            },
+            {
+              "name": "New Bedford city",
+              "pop": 101834
+            }
+          ],
+          "Lowell city": [
+            {
+              "name": "Cambridge city",
+              "pop": 122588
+            },
+            {
+              "name": "Brockton city",
+              "pop": 106134
+            },
+            {
+              "name": "Lynn city",
+              "pop": 104236
+            },
+            {
+              "name": "Quincy city",
+              "pop": 103173
+            },
+            {
+              "name": "New Bedford city",
+              "pop": 101834
+            }
+          ]
+        },
+        "n_towns": 351
+      }
+    }
   },
   "entities": {
     "MA": {

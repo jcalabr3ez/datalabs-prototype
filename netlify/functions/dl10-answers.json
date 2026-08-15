@@ -6,8 +6,8 @@
   "group": "Healthcare",
   "status": "live",
   "as_of": "2026-08",
-  "scope": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view.",
-  "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care. CHIA relative prices are pending.",
+  "scope": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment.",
+  "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care. CHIA relative prices are pending: decline those.",
   "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
   "replaces": [
     "Hospital Tracker",
@@ -19,13 +19,13 @@
       "name": "Massachusetts CHIA hospital relative prices and hospital profiles",
       "cadence": "Annual",
       "url": "https://www.chiamass.gov/",
-      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view."
+      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment."
     },
     "SRC-610-02": {
       "name": "CMS Hospital General Information, Massachusetts facilities",
       "cadence": "Periodic",
       "url": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
-      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative prices remain a later view."
+      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment."
     }
   },
   "page": {

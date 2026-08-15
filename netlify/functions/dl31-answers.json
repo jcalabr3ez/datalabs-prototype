@@ -6,8 +6,8 @@
   "group": "Crime & Justice",
   "status": "live",
   "as_of": "2023-12",
-  "scope": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, juvenile incarceration, and IC3 internet-crime reports are listed as later views.",
-  "exclusions": "Does not cover Massachusetts municipal crime rankings (Municipal Rankings) or advice about a case. FBI, juvenile, and IC3 files are pending.",
+  "scope": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, BJS juvenile incarceration, and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass.",
+  "exclusions": "Does not cover Massachusetts municipal crime rankings (Municipal Rankings) or advice about a case. FBI crime rates, juvenile incarceration, and internet-crime reports are pending: decline those.",
   "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
   "replaces": [
     "Adult Incarceration",
@@ -21,13 +21,13 @@
       "name": "FBI Crime Data Explorer / UCR and NIBRS",
       "cadence": "Annual",
       "url": "https://cde.ucr.cjis.gov/",
-      "supports": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, juvenile incarceration, and IC3 internet-crime reports are listed as later views."
+      "supports": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, BJS juvenile incarceration, and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass."
     },
     "SRC-631-02": {
       "name": "BJS Prisoners in 2023 statistical tables, table 2",
       "cadence": "Annual",
       "url": "https://bjs.ojp.gov/document/p23st.zip",
-      "supports": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, juvenile incarceration, and IC3 internet-crime reports are listed as later views."
+      "supports": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, BJS juvenile incarceration, and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass."
     }
   },
   "page": {

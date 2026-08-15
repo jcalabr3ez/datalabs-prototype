@@ -6,8 +6,8 @@
   "group": "Education",
   "status": "live",
   "as_of": "2024-10",
-  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view.",
-  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education. NAEP state scores are pending.",
+  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12.",
+  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education.",
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "replaces": [
     "Discipline & Security",
@@ -22,25 +22,31 @@
       "name": "NCES NAEP state results",
       "cadence": "Biennial",
       "url": "https://nces.ed.gov/nationsreportcard/",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
     },
     "SRC-607-02": {
       "name": "NCES Digest table 203.20, public K-12 enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
     },
     "SRC-607-03": {
       "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
     },
     "SRC-607-04": {
       "name": "NCES Digest table 233.40, out-of-school suspension share",
       "cadence": "Periodic",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate and the 2020-21 out-of-school suspension share. Per-pupil finance sits on Massachusetts K-12. NAEP state scores are listed as a later view."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
+    },
+    "SRC-607-05": {
+      "name": "NAEP 2024 state reading and math average scale scores",
+      "cadence": "Biennial",
+      "url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx",
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
     }
   },
   "page": {
@@ -57,7 +63,7 @@
   "unit": "students",
   "data_month": "2024-10",
   "data_month_label": "Fall 2024",
-  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). NAEP state scores remain pending.",
+  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). On the 2024 NAEP, grade-4 reading averaged <b>214.3</b> in the national public sample; Massachusetts scored <b>224.8</b>, rank 1 of 51 (SRC-607-05). Grade-4 math was <b>237.3</b> nationally and <b>246.5</b> in Massachusetts (SRC-607-05). Grade-8 reading was <b>256.7</b> / <b>268.0</b>; grade-8 math was <b>272.2</b> / <b>283.5</b> (SRC-607-05).",
   "kpis": [
     {
       "label": "U.S. public K-12, Fall 2024",
@@ -703,6 +709,105 @@
         "unit": "percent",
         "as_of_label": "School year 2020-21",
         "note": "Higher is more students suspended, not a performance ranking."
+      },
+      "naep_2024": {
+        "label": "NAEP state reading and math, 2024",
+        "src": "SRC-607-05",
+        "as_of_label": "2024",
+        "series": {
+          "read4": {
+            "us": 214.3,
+            "ma": {
+              "v": 224.8,
+              "rank": 1,
+              "n": 51
+            },
+            "highest": {
+              "st": "MA",
+              "name": "Massachusetts",
+              "v": 224.8
+            },
+            "lowest": {
+              "st": "NM",
+              "name": "New Mexico",
+              "v": 200.6
+            },
+            "n_ranked": 51,
+            "label": "NAEP reading grade 4 average scale score, 2024",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "as_of_label": "2024"
+          },
+          "read8": {
+            "us": 256.7,
+            "ma": {
+              "v": 268.0,
+              "rank": 1,
+              "n": 51
+            },
+            "highest": {
+              "st": "MA",
+              "name": "Massachusetts",
+              "v": 268.0
+            },
+            "lowest": {
+              "st": "NM",
+              "name": "New Mexico",
+              "v": 245.1
+            },
+            "n_ranked": 51,
+            "label": "NAEP reading grade 8 average scale score, 2024",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "as_of_label": "2024"
+          },
+          "math4": {
+            "us": 237.3,
+            "ma": {
+              "v": 246.5,
+              "rank": 1,
+              "n": 51
+            },
+            "highest": {
+              "st": "MA",
+              "name": "Massachusetts",
+              "v": 246.5
+            },
+            "lowest": {
+              "st": "NM",
+              "name": "New Mexico",
+              "v": 223.8
+            },
+            "n_ranked": 51,
+            "label": "NAEP mathematics grade 4 average scale score, 2024",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "as_of_label": "2024"
+          },
+          "math8": {
+            "us": 272.2,
+            "ma": {
+              "v": 283.5,
+              "rank": 1,
+              "n": 51
+            },
+            "highest": {
+              "st": "MA",
+              "name": "Massachusetts",
+              "v": 283.5
+            },
+            "lowest": {
+              "st": "NM",
+              "name": "New Mexico",
+              "v": 256.2
+            },
+            "n_ranked": 51,
+            "label": "NAEP mathematics grade 8 average scale score, 2024",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "as_of_label": "2024"
+          }
+        }
       }
     }
   },

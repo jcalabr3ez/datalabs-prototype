@@ -49,13 +49,13 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
       "replaces": ["Higher Education-College Admissions", "Higher Education-College Enrollment", "Higher Education-Faculty and Staff", "Higher Education-Student Data"],
-      "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state and the national Fall 2022 faculty count. IPEDS outcomes remain a later view.",
+      "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state and the national Fall 2023 faculty count. IPEDS outcomes remain a later view.",
       "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. State-level faculty counts and IPEDS outcomes are pending.",
       "wave": "live",
       "sources": [
         {"id": "SRC-608-01", "name": "NCES Digest table 304.10, fall postsecondary enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx"},
         {"id": "SRC-608-02", "name": "NCES Digest table 226.40, SAT mean scores by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx"},
-        {"id": "SRC-608-03", "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn315.10.xlsx"}
+        {"id": "SRC-608-03", "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.10.xlsx"}
       ]
     },
     {
@@ -122,11 +122,11 @@
       "g": ["US"],
       "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
       "replaces": ["Medicaid Fraud", "State Health Expenses", "State Medicaid Expenses"],
-      "scope": "This first ledger ranks states on CMS Medicaid Financial Management Report FY 2023 Medical Assistance Program total-computable net expenditures. Broader state health spending and fraud recoveries are listed as later views.",
+      "scope": "This first ledger ranks states on CMS Medicaid Financial Management Report FY 2024 Medical Assistance Program total-computable net expenditures. Broader state health spending and fraud recoveries are listed as later views.",
       "exclusions": "Does not cover individual eligibility, Massachusetts hospital prices, or 340B. NASBO health-chapter and fraud files are pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-612-01", "name": "CMS Medicaid Financial Management Report FY 2023 net expenditures", "cadence": "Annual", "url": "https://www.medicaid.gov/medicaid/financial-management/downloads/financial-management-report-fy2023.zip"},
+        {"id": "SRC-612-01", "name": "CMS Medicaid Financial Management Report FY 2024 net expenditures", "cadence": "Annual", "url": "https://www.medicaid.gov/medicaid/financial-management/downloads/financial-management-report-fy2024.zip"},
         {"id": "SRC-612-02", "name": "NASBO State Expenditure Report, health chapter", "cadence": "Annual", "url": "https://www.nasbo.org/"}
       ]
     },
@@ -157,12 +157,12 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
       "replaces": ["Employment and Wages", "Labor Demographics", "Labor Market", "Monthly Employment", "Total Labor Force", "Unemployment Insurance", "Weekly Wages"],
-      "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q1. UI claims and CPS demographics remain later views.",
+      "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4. UI claims and CPS demographics remain later views.",
       "exclusions": "Does not cover occupational wages, UI claims, or advice about a job search. UI claims and CPS demographics are pending on this page.",
       "wave": "live",
       "sources": [
         {"id": "SRC-614-01", "name": "BLS Local Area Unemployment Statistics, statewide seasonally adjusted", "cadence": "Monthly", "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS"},
-        {"id": "SRC-614-02", "name": "BLS QCEW average weekly wage, all industries, statewide", "cadence": "Quarterly", "url": "https://data.bls.gov/cew/data/api/2025/1/industry/10.csv"}
+        {"id": "SRC-614-02", "name": "BLS QCEW average weekly wage, all industries, statewide", "cadence": "Quarterly", "url": "https://data.bls.gov/cew/data/api/2025/4/industry/10.csv"}
       ]
     },
     {
@@ -314,11 +314,11 @@
       "g": ["US"],
       "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
       "replaces": ["FEMA Obligations", "Heat/Cool Days", "National Risk Index", "Roadway Transport"],
-      "scope": "This first ledger ranks states on FHWA Highway Statistics 2023 annual vehicle-miles of travel (table VM-2, all functional systems). FEMA obligations, the National Risk Index, and degree days are listed as later views.",
+      "scope": "This first ledger ranks states on FHWA Highway Statistics 2024 annual vehicle-miles of travel (table VM-2, all functional systems). FEMA obligations, the National Risk Index, and degree days are listed as later views.",
       "exclusions": "Does not cover transit agencies (those sit on Transit Systems or DL-03) or Florida insurance (DL-02). FEMA and NOAA files are pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-623-01", "name": "FHWA Highway Statistics 2023 table VM-2", "cadence": "Annual", "url": "https://www.fhwa.dot.gov/policyinformation/statistics/2023/xls/vm2.xlsx"},
+        {"id": "SRC-623-01", "name": "FHWA Highway Statistics 2024 table VM-2", "cadence": "Annual", "url": "https://www.fhwa.dot.gov/policyinformation/statistics/2024/xls/vm2.xlsx"},
         {"id": "SRC-623-02", "name": "FEMA OpenFEMA and National Risk Index", "cadence": "Periodic", "url": "https://www.fema.gov/"}
       ]
     },
@@ -350,11 +350,11 @@
       "g": ["MA"],
       "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
       "replaces": ["Choose a City or Town", "Economic Snapshot", "Find Peers"],
-      "scope": "This first ledger lists all 351 Massachusetts cities and towns by July 1, 2024 Census population (SUMLEV 061). Tax levy and peer sets are listed as later views. Rankings of change sit on Municipal Rankings.",
+      "scope": "This first ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061). Tax levy and peer sets are listed as later views. Rankings of change sit on Municipal Rankings.",
       "exclusions": "Does not cover Boston-only payroll (that is Boston), statewide multi-metric rankings (Municipal Rankings), or advice about moving. DLS levy files are pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-625-01", "name": "Census vintage 2024 subcounty population estimates, Massachusetts", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/cities/totals/sub-est2024_25.csv"}
+        {"id": "SRC-625-01", "name": "Census vintage 2025 subcounty population estimates, Massachusetts", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_25.csv"}
       ]
     },
     {
@@ -367,11 +367,11 @@
       "g": ["MA"],
       "heritage": "Formerly the Cities and Towns Rankings suite",
       "replaces": ["Rankings-Crime", "Rankings-Debt", "Rankings-Education", "Rankings-Expenditures", "Rankings-Financial Strength", "Rankings-Revenues", "Rankings-Taxes"],
-      "scope": "This first ledger ranks Massachusetts cities and towns on 2020-to-2024 Census population change. Crime, debt, education, spending, revenue, and tax rankings are listed as later views.",
+      "scope": "This first ledger ranks Massachusetts cities and towns on 2020-to-2025 Census population change. Crime, debt, education, spending, revenue, and tax rankings are listed as later views.",
       "exclusions": "Does not cover the per-town atlas stock (Municipal Atlas), Boston payroll, or advice about a town meeting warrant. DLS, DESE, and crime rankings are pending.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-626-01", "name": "Census vintage 2024 subcounty population estimates, Massachusetts", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2024/cities/totals/sub-est2024_25.csv"}
+        {"id": "SRC-626-01", "name": "Census vintage 2025 subcounty population estimates, Massachusetts", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_25.csv"}
       ]
     },
     {

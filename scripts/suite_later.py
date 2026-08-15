@@ -39,11 +39,11 @@ DIGEST_219 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx
 DIGEST_208 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx"
 DIGEST_226 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx"
 DIGEST_233 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx"
-DIGEST_315 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn315.10.xlsx"
+DIGEST_315 = "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.10.xlsx"
 URL_SAINC = "https://apps.bea.gov/regional/zip/SAINC.zip"
 URL_FHFA = "https://www.fhfa.gov/hpi/download/annual/hpi_at_state.csv"
 URL_SEDS = "https://www.eia.gov/state/seds/sep_use/total/csv/use_all_btu.csv"
-URL_QCEW = "https://data.bls.gov/cew/data/api/2025/1/industry/10.csv"
+URL_QCEW = "https://data.bls.gov/cew/data/api/2025/4/industry/10.csv"
 URL_CO_OUT = "https://www.irs.gov/pub/irs-soi/countyoutflow2223.csv"
 URL_CO_IN = "https://www.irs.gov/pub/irs-soi/countyinflow2223.csv"
 URL_NTD = "https://data.transportation.gov/resource/8bui-9xvu.json"
@@ -58,7 +58,7 @@ CMS_QUERY = "https://data.cms.gov/provider-data/api/1/datastore/query/xubh-q36u/
 VERIFY_US_ACGR_2021_22 = 86.6
 VERIFY_US_SAT_2023 = 1028
 VERIFY_US_TEACHERS_FALL_2022 = 3228894.87690338
-VERIFY_US_FACULTY_FALL_2022 = 1507641
+VERIFY_US_FACULTY_FALL_2023 = 1530513
 VERIFY_US_OSS_2020_21 = 1.3248361838221818
 VERIFY_US_PI_2025 = 26109831.2  # millions of dollars
 VERIFY_NTD_US_JUN_2026 = 690656393
@@ -227,16 +227,16 @@ def sec_faculty_us():
     us_val = None
     for row in ws.iter_rows(min_row=6, values_only=True):
         year = str(row[0] or "").replace("\\2\\", "").strip()
-        if year == "2022":
+        if year.replace("\\1\\", "").replace("\\2\\", "").strip() == "2023":
             us_val = parse_num(row[1])
             break
-    if us_val is None or abs(us_val - VERIFY_US_FACULTY_FALL_2022) > 1:
-        sys.exit(f"FATAL: Digest 315.10 Fall 2022 faculty is {us_val}")
+    if us_val is None or abs(us_val - VERIFY_US_FACULTY_FALL_2023) > 1:
+        sys.exit(f"FATAL: Digest 315.10 Fall 2023 faculty is {us_val}")
     return {
-        "label": "Faculty in degree-granting institutions, Fall 2022 (national)",
+        "label": "Faculty in degree-granting institutions, Fall 2023 (national)",
         "src": "SRC-608-03",
         "unit": "faculty",
-        "as_of_label": "Fall 2022",
+        "as_of_label": "Fall 2023",
         "us": int(round(us_val)),
         "ma": None,
         "note": "This Digest table is national only; it has no state column.",
@@ -290,17 +290,17 @@ def sec_qcew():
         if None not in (e1, e2, e3):
             emp[st] = (e1 + e2 + e3) / 3
     if "MA" not in values or len(values) < 50:
-        sys.exit(f"FATAL: QCEW 2025 Q1 parsed {len(values)} states")
+        sys.exit(f"FATAL: QCEW 2025 Q4 parsed {len(values)} states")
     # US average weekly wage is not a published row here; derive from sums.
     us_wages = sum(v for v in wages.values() if v is not None)
     us_emp = sum(emp.values())
     us_wage = round(us_wages / us_emp / 13) if us_emp else None
     snap = _state_snapshot(values, us_wage, round_to=0)
     snap.update({
-        "label": "Average weekly wage, all industries, 2025 Q1",
+        "label": "Average weekly wage, all industries, 2025 Q4",
         "src": "SRC-614-02",
         "unit": "dollars per week",
-        "as_of_label": "2025 Q1",
+        "as_of_label": "2025 Q4",
         "ma_employment": int(round(emp["MA"])) if "MA" in emp else None,
         "note": "The U.S. weekly wage is derived from the sum of published state wage and employment cells (derived, SRC-614-02). It is not a separate BLS U.S. line.",
     })
@@ -518,9 +518,9 @@ def sec_boston_budget():
 
 SECONDARY = {
     "DL-07": lambda: {"acgr_2021_22": sec_acgr(), "oss_suspension_2020_21": sec_discipline()},
-    "DL-08": lambda: {"sat_2023": sec_sat(), "faculty_fall_2022_us": sec_faculty_us()},
+    "DL-08": lambda: {"sat_2023": sec_sat(), "faculty_fall_2023_us": sec_faculty_us()},
     "DL-09": lambda: {"teachers_fte_fall_2022": sec_teachers()},
-    "DL-14": lambda: {"qcew_avg_weekly_wage_2025q1": sec_qcew()},
+    "DL-14": lambda: {"qcew_avg_weekly_wage_2025q4": sec_qcew()},
     "DL-15": lambda: {"personal_income_2025": sec_personal_income()},
     "DL-16": lambda: {"fhfa_hpi_annual_change_2025": sec_fhfa()},
     "DL-20": lambda: {"ma_county_taxpayer_migration_2022_23": sec_county_migration()},
@@ -548,14 +548,14 @@ def lead_appendix(tool_id, sec):
         )
     if tool_id == "DL-08":
         s = sec["sat_2023"]
-        f = sec["faculty_fall_2022_us"]
+        f = sec["faculty_fall_2023_us"]
         part = s["participation_pct"]
         return (
             f"The SAT mean total score for 2023 graduates was <b>{int(s['us'])}</b> "
             f"in the United States, with {part['us']}% of graduates taking the test "
             f"(SRC-608-02). Massachusetts scored <b>{int(s['ma']['v'])}</b> "
             f"({part['ma']}% taking the test) (SRC-608-02). Degree-granting "
-            f"institutions employed <b>{commify(f['us'])}</b> faculty in Fall 2022 "
+            f"institutions employed <b>{commify(f['us'])}</b> faculty in Fall 2023 "
             f"(SRC-608-03). State faculty counts are not in that national table."
         )
     if tool_id == "DL-09":
@@ -567,10 +567,10 @@ def lead_appendix(tool_id, sec):
             f"{t['ma']['n']} (derived, SRC-609-02)."
         )
     if tool_id == "DL-14":
-        q = sec["qcew_avg_weekly_wage_2025q1"]
+        q = sec["qcew_avg_weekly_wage_2025q4"]
         return (
             f"Average weekly wages were <b>${commify(q['us'])}</b> in the "
-            f"United States in 2025 Q1 (derived, SRC-614-02). Massachusetts "
+            f"United States in 2025 Q4 (derived, SRC-614-02). Massachusetts "
             f"was <b>${commify(q['ma']['v'])}</b>, rank {q['ma']['rank']} of "
             f"{q['ma']['n']} (derived, SRC-614-02). UI claims remain pending."
         )

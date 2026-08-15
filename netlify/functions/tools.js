@@ -84,7 +84,7 @@ function suiteModel(d) {
 }
 
 function suiteRules(id, src, extra) {
-  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. Answer the metric named in metric_label and any series stored under derived.secondary; cite the source id on each secondary figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. View and chart selection: latest = the current ranking; trend = change over time; table = every jurisdiction. When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
+  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. Answer the metric named in metric_label and any series stored under derived.secondary; cite the source id on each secondary figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. View and chart selection: latest = the current ranking; trend = change over time; table = every row. When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
 }
 
 function suiteLink(slug) {
@@ -411,7 +411,7 @@ module.exports = [
       'college', 'college enrollment', 'higher education', 'postsecondary',
       'fall enrollment', 'degree-granting', 'university enrollment'
     ],
-    extra: 'SAT mean scores sit in derived.secondary.sat_2023; the national faculty count sits in derived.secondary.faculty_fall_2022_us. State faculty counts and IPEDS outcomes are pending.'
+    extra: 'SAT mean scores sit in derived.secondary.sat_2023; the national faculty count sits in derived.secondary.faculty_fall_2023_us. State faculty counts and IPEDS outcomes are pending.'
   }),
   suiteTool(DL09, {
     id: 'DL-09',
@@ -436,7 +436,7 @@ module.exports = [
   }),
   suiteTool(DL12, {
     id: 'DL-12',
-    label: 'Medicaid Medical Assistance Program net expenditures by state, FY 2023',
+    label: 'Medicaid Medical Assistance Program net expenditures by state, FY 2024',
     src: 'SRC-612-01',
     triggers: [
       'medicaid', 'medicaid spending', 'medicaid expenditures', 'map net expenditures'
@@ -460,7 +460,7 @@ module.exports = [
       'unemployment', 'unemployment rate', 'jobless', 'laus',
       'labor force', 'seasonally adjusted unemployment'
     ],
-    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q1; the U.S. wage there is derived from state sums. UI claims are pending.'
+    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the U.S. wage there is derived from state sums. UI claims are pending.'
   }),
   suiteTool(DL15, {
     id: 'DL-15',
@@ -568,7 +568,7 @@ module.exports = [
   }),
   suiteTool(DL26, {
     id: 'DL-26',
-    label: 'Massachusetts municipal population change, 2020 to 2024',
+    label: 'Massachusetts municipal population change, 2020 to 2025',
     src: 'SRC-626-01',
     uppercase: false,
     hl: 'the exact municipality name as written in entities if the question focuses on one city or town, else null',
@@ -576,7 +576,7 @@ module.exports = [
       'town grew', 'towns growing', 'municipal rankings', 'population change',
       'which town grew', 'fastest growing town'
     ],
-    extra: 'Crime, debt, education, spending, and tax rankings are pending: decline those. This ranking is 2024 minus 2020 population only.'
+    extra: 'Crime, debt, education, spending, and tax rankings are pending: decline those. This ranking is 2025 minus 2020 population only.'
   }),
   suiteTool(DL27, {
     id: 'DL-27',

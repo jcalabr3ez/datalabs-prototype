@@ -42,10 +42,10 @@ DIGEST_236 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn236.65.xlsx
 URL_SAGDP = "https://apps.bea.gov/regional/zip/SAGDP.zip"
 URL_SARPP = "https://apps.bea.gov/regional/zip/SARPP.zip"
 URL_CO2 = "https://www.eia.gov/environment/emissions/state/excel/table1.xlsx"
-URL_VMT = "https://www.fhwa.dot.gov/policyinformation/statistics/2023/xls/vm2.xlsx"
+URL_VMT = "https://www.fhwa.dot.gov/policyinformation/statistics/2024/xls/vm2.xlsx"
 URL_SUBEST = (
     "https://www2.census.gov/programs-surveys/popest/datasets/"
-    "2020-2024/cities/totals/sub-est2024_25.csv"
+    "2020-2025/cities/totals/sub-est2025_25.csv"
 )
 URL_QTAX = "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx"
 URL_IRS_SOI = "https://www.irs.gov/pub/irs-soi/22in55cmcsv.csv"
@@ -53,7 +53,7 @@ URL_MIG_OUT = "https://www.irs.gov/pub/irs-soi/stateoutflow2223.csv"
 URL_MIG_IN = "https://www.irs.gov/pub/irs-soi/stateinflow2223.csv"
 URL_MEDICAID = (
     "https://www.medicaid.gov/medicaid/financial-management/downloads/"
-    "financial-management-report-fy2023.zip"
+    "financial-management-report-fy2024.zip"
 )
 URL_BJS = "https://bjs.ojp.gov/document/p23st.zip"
 URL_BOSTON = (
@@ -67,6 +67,7 @@ VERIFY_US_REAL_GDP_2025 = 23850442.0  # millions of chained 2017 dollars
 VERIFY_US_TAX_Q1_2026_THOUSANDS = 393072675
 VERIFY_US_RETURNS_2022 = 159651330
 VERIFY_US_PRISONERS_2023 = 1254224
+VERIFY_US_MEDICAID_FY2024 = 908839083557.1
 
 
 def _wb(url, timeout=120):
@@ -537,7 +538,7 @@ def build_charters(app):
 def build_medicaid(app):
     data = fetch(URL_MEDICAID, timeout=180)
     zf = zipfile.ZipFile(io.BytesIO(data))
-    name = "FY 2023 FMR NET EXPENDITURES.xlsx"
+    name = "FY 2024 FMR NET EXPENDITURES.xlsx"
     wb = load_workbook(io.BytesIO(zf.read(name)), data_only=True)
     values = {}
     us_val = None
@@ -563,29 +564,29 @@ def build_medicaid(app):
             us_val = total
         else:
             values[st] = total
-    if us_val is None or us_val < 1e11:
-        sys.exit(f"FATAL: Medicaid FY2023 US total computable is {us_val}")
+    if us_val is None or abs(us_val - VERIFY_US_MEDICAID_FY2024) > 1:
+        sys.exit(f"FATAL: Medicaid FY2024 US total computable is {us_val}")
     if len(values) < 51:
-        sys.exit(f"FATAL: Medicaid FY2023 parsed {len(values)} states")
+        sys.exit(f"FATAL: Medicaid FY2024 parsed {len(values)} states")
     ranked = rank_rows(values, higher_is_better=True)
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
-    as_of = "2023-09"
-    as_of_label = "Fiscal year 2023"
+    as_of = "2024-09"
+    as_of_label = "Fiscal year 2024"
     kpis = [
         _kpi(
-            "U.S. Medicaid, FY 2023",
+            "U.S. Medicaid, FY 2024",
             usd_prose(us_val),
             "Total computable Medical Assistance Program net expenditures (SRC-612-01).",
             "The national Medicaid spending stock.",
-            "CMS Medicaid Financial Management Report FY 2023 (SRC-612-01)",
+            "CMS Medicaid Financial Management Report FY 2024 (SRC-612-01)",
         ),
         _kpi(
             "Massachusetts",
             usd_prose(ma["v"]),
             f"Rank {ma['rank']} of {ma['n']} (derived, SRC-612-01).",
             "Massachusetts Medicaid spending against the other jurisdictions.",
-            "CMS Medicaid Financial Management Report FY 2023 (SRC-612-01)",
+            "CMS Medicaid Financial Management Report FY 2024 (SRC-612-01)",
         ),
         _kpi(
             "Highest / lowest",
@@ -595,12 +596,12 @@ def build_medicaid(app):
                 f"{lo['name']} the smallest at {usd_prose(lo['v'])} (SRC-612-01)."
             ),
             "Large states lead on raw dollars; fraud recoveries are pending.",
-            "CMS Medicaid Financial Management Report FY 2023 (SRC-612-01)",
+            "CMS Medicaid Financial Management Report FY 2024 (SRC-612-01)",
         ),
     ]
     lead = (
         f"Medicaid Medical Assistance Program net expenditures were "
-        f"<b>{usd_prose(us_val)}</b> in fiscal year 2023 (SRC-612-01). "
+        f"<b>{usd_prose(us_val)}</b> in fiscal year 2024 (SRC-612-01). "
         f"Massachusetts spent <b>{usd_prose(ma['v'])}</b>, rank {ma['rank']} "
         f"of {ma['n']} (derived, SRC-612-01). Broader state health spending "
         f"and fraud recoveries are pending on this page."
@@ -610,12 +611,13 @@ def build_medicaid(app):
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from the CMS FY 2023 FMR net-expenditures "
+            f"Rebuilt {REVISED} from the CMS FY 2024 FMR net-expenditures "
             f"workbook, MAP Total Net Expenditures, total-computable column. "
+            f"U.S. equals {VERIFY_US_MEDICAID_FY2024:,.1f}. "
             f"NASBO health-chapter and fraud-recovery files remain pending."
         ),
-        metric="medicaid_map_total_computable_fy2023",
-        metric_label="Medicaid MAP net expenditures, FY 2023 (total computable)",
+        metric="medicaid_map_total_computable_fy2024",
+        metric_label="Medicaid MAP net expenditures, FY 2024 (total computable)",
         unit="dollars",
         lead=lead,
         kpis=kpis,
@@ -1052,22 +1054,22 @@ def build_vmt(app):
         rec["v"] = round(rec["v"], 1)
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
-    as_of = "2023-12"
-    as_of_label = "Calendar year 2023"
+    as_of = "2024-12"
+    as_of_label = "Calendar year 2024"
     kpis = [
         _kpi(
-            "U.S. VMT, 2023",
+            "U.S. VMT, 2024",
             f"{commify(us_val)} million",
             "Annual vehicle-miles of travel, all functional systems (SRC-623-01). U.S. is the sum of published state rows when the file has no U.S. line.",
             "The national travel stock.",
-            "FHWA Highway Statistics 2023 table VM-2 (SRC-623-01)",
+            "FHWA Highway Statistics 2024 table VM-2 (SRC-623-01)",
         ),
         _kpi(
             "Massachusetts",
             f"{commify(ma['v'])} million",
             f"Rank {ma['rank']} of {ma['n']} (derived, SRC-623-01).",
             "Massachusetts roadway travel against the other jurisdictions.",
-            "FHWA Highway Statistics 2023 table VM-2 (SRC-623-01)",
+            "FHWA Highway Statistics 2024 table VM-2 (SRC-623-01)",
         ),
         _kpi(
             "Highest / lowest",
@@ -1077,12 +1079,12 @@ def build_vmt(app):
                 f"at {commify(lo['v'])} million (SRC-623-01)."
             ),
             "FEMA risk and degree-day files are pending.",
-            "FHWA Highway Statistics 2023 table VM-2 (SRC-623-01)",
+            "FHWA Highway Statistics 2024 table VM-2 (SRC-623-01)",
         ),
     ]
     lead = (
         f"Annual vehicle-miles of travel were <b>{commify(us_val)} million</b> "
-        f"in 2023 (SRC-623-01). Massachusetts recorded "
+        f"in 2024 (SRC-623-01). Massachusetts recorded "
         f"<b>{commify(ma['v'])} million</b>, rank {ma['rank']} of {ma['n']} "
         f"(derived, SRC-623-01). FEMA obligations and the National Risk Index "
         f"are pending on this page."
@@ -1092,13 +1094,13 @@ def build_vmt(app):
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from FHWA Highway Statistics 2023 table VM-2, "
+            f"Rebuilt {REVISED} from FHWA Highway Statistics 2024 table VM-2, "
             f"combined rural-plus-urban TOTAL column (million vehicle-miles). "
             f"The U.S. figure is the sum of published state rows when no U.S. "
             f"line is present. FEMA and NOAA files remain pending."
         ),
-        metric="vmt_2023_million_vehicle_miles",
-        metric_label="Annual vehicle-miles of travel, 2023 (millions)",
+        metric="vmt_2024_million_vehicle_miles",
+        metric_label="Annual vehicle-miles of travel, 2024 (millions)",
         unit="million vehicle-miles",
         lead=lead,
         kpis=kpis,
@@ -1234,22 +1236,23 @@ def _ma_towns():
         if r.get("SUMLEV") != "061":
             continue
         p0 = parse_num(r.get("POPESTIMATE2020"))
-        p4 = parse_num(r.get("POPESTIMATE2024"))
-        if p4 is None:
+        p5 = parse_num(r.get("POPESTIMATE2025"))
+        if p5 is None:
             continue
         towns.append({
             "name": r["NAME"],
             "pop2020": int(p0) if p0 is not None else None,
-            "pop2024": int(p4),
+            "pop2024": int(parse_num(r.get("POPESTIMATE2024")) or 0) or None,
+            "pop2025": int(p5),
         })
     if len(towns) != 351:
-        sys.exit(f"FATAL: sub-est2024_25 SUMLEV 061 has {len(towns)} rows, expected 351")
+        sys.exit(f"FATAL: sub-est2025_25 SUMLEV 061 has {len(towns)} rows, expected 351")
     return towns, ma_state
 
 
 def build_muni_atlas(app):
     towns, ma_state = _ma_towns()
-    values = {t["name"]: t["pop2024"] for t in towns}
+    values = {t["name"]: t["pop2025"] for t in towns}
     ranked = rank_named(
         values,
         higher_is_better=True,
@@ -1259,42 +1262,45 @@ def build_muni_atlas(app):
         rec["v"] = int(rec["v"])
     boston = next((r for r in ranked if r["name"].lower().startswith("boston")), ranked[0])
     hi, lo = ranked[0], ranked[-1]
-    ma_pop = parse_num(ma_state["POPESTIMATE2024"]) if ma_state else sum(values.values())
+    ma_pop = parse_num(ma_state["POPESTIMATE2025"]) if ma_state else sum(values.values())
     trend = {"MA": [], "Boston": []}
     if ma_state:
-        for y in range(2020, 2025):
+        for y in range(2020, 2026):
             v = parse_num(ma_state.get(f"POPESTIMATE{y}"))
             if v is not None:
                 trend["MA"].append({"y": y, "v": int(v)})
     b_row = next(t for t in towns if t["name"].lower().startswith("boston"))
-    # only have 2020 and 2024 on the slim dict; re-read not needed if we store more
-    as_of = "2024-07"
-    as_of_label = "July 1, 2024"
+    if b_row.get("pop2020"):
+        trend["Boston"].append({"y": 2020, "v": b_row["pop2020"]})
+    if b_row.get("pop2025"):
+        trend["Boston"].append({"y": 2025, "v": b_row["pop2025"]})
+    as_of = "2025-07"
+    as_of_label = "July 1, 2025"
     kpis = [
         _kpi(
-            "Massachusetts, July 1, 2024",
+            "Massachusetts, July 1, 2025",
             commify(ma_pop),
-            "Census vintage 2024 state estimate (SRC-625-01).",
+            "Census vintage 2025 state estimate (SRC-625-01).",
             "The statewide stock the town rows sit inside.",
-            "Census subcounty population estimates 2024 (SRC-625-01)",
+            "Census subcounty population estimates 2025 (SRC-625-01)",
         ),
         _kpi(
             "Largest municipality",
             f"{hi['name']} {commify(hi['v'])}",
             f"{len(ranked)} cities and towns. Smallest is {lo['name']} at {commify(lo['v'])} (SRC-625-01).",
             "The atlas opens on population, the one field every town has.",
-            "Census subcounty population estimates 2024 (SRC-625-01)",
+            "Census subcounty population estimates 2025 (SRC-625-01)",
         ),
         _kpi(
             "Boston",
             commify(boston["v"]),
             f"Rank {boston['rank']} of {boston['n']} (derived, SRC-625-01).",
             "Boston is the reference city for the rest of the municipal desk.",
-            "Census subcounty population estimates 2024 (SRC-625-01)",
+            "Census subcounty population estimates 2025 (SRC-625-01)",
         ),
     ]
     lead = (
-        f"Massachusetts was <b>{commify(ma_pop)}</b> on July 1, 2024 "
+        f"Massachusetts was <b>{commify(ma_pop)}</b> on July 1, 2025 "
         f"(SRC-625-01). The largest of {len(ranked)} cities and towns was "
         f"<b>{hi['name']}</b> at <b>{commify(hi['v'])}</b>; the smallest was "
         f"{lo['name']} at {commify(lo['v'])} (SRC-625-01). Tax levy and peer "
@@ -1305,12 +1311,12 @@ def build_muni_atlas(app):
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from Census sub-est2024_25.csv, SUMLEV 061 "
+            f"Rebuilt {REVISED} from Census sub-est2025_25.csv, SUMLEV 061 "
             f"(New England county subdivisions), 351 Massachusetts cities and "
             f"towns. DLS levy and peer-set files remain pending."
         ),
-        metric="ma_municipal_population_2024",
-        metric_label="Massachusetts city and town population, July 1, 2024",
+        metric="ma_municipal_population_2025",
+        metric_label="Massachusetts city and town population, July 1, 2025",
         unit="people",
         lead=lead,
         kpis=kpis,
@@ -1333,7 +1339,7 @@ def build_muni_rankings(app):
     for t in towns:
         if not t["pop2020"]:
             continue
-        change[t["name"]] = t["pop2024"] - t["pop2020"]
+        change[t["name"]] = t["pop2025"] - t["pop2020"]
     ranked = rank_named(
         change,
         higher_is_better=True,
@@ -1342,42 +1348,42 @@ def build_muni_rankings(app):
     for rec in ranked:
         rec["v"] = int(rec["v"])
         src = next(t for t in towns if t["name"] == rec["name"])
-        rec["pop2024"] = src["pop2024"]
+        rec["pop2025"] = src["pop2025"]
         rec["pop2020"] = src["pop2020"]
-        rec["yoy_pct"] = yoy_pct(src["pop2024"], src["pop2020"])
+        rec["yoy_pct"] = yoy_pct(src["pop2025"], src["pop2020"])
     boston = next((r for r in ranked if r["name"].lower().startswith("boston")), None)
     hi, lo = ranked[0], ranked[-1]
-    as_of = "2024-07"
-    as_of_label = "2020 to 2024"
+    as_of = "2025-07"
+    as_of_label = "2020 to 2025"
     kpis = [
         _kpi(
-            "Largest gain, 2020-24",
+            "Largest gain, 2020-25",
             f"{hi['name']} {commify(hi['v'])}",
             f"{pct(hi.get('yoy_pct'))} from the 2020 estimate (derived, SRC-626-01).",
             "The top of this first ranking is raw population change, not crime or debt.",
-            "Census subcounty population estimates 2024 (SRC-626-01)",
+            "Census subcounty population estimates 2025 (SRC-626-01)",
         ),
         _kpi(
-            "Largest loss, 2020-24",
+            "Largest loss, 2020-25",
             f"{lo['name']} {commify(lo['v'])}",
             f"{pct(lo.get('yoy_pct'))} from the 2020 estimate (derived, SRC-626-01).",
             "The bottom of the ranking is the largest population decline.",
-            "Census subcounty population estimates 2024 (SRC-626-01)",
+            "Census subcounty population estimates 2025 (SRC-626-01)",
         ),
         _kpi(
             "Boston",
             commify(boston["v"]) if boston else "n/a",
             (
-                f"Rank {boston['rank']} of {boston['n']} on 2020-24 change "
+                f"Rank {boston['rank']} of {boston['n']} on 2020-25 change "
                 f"(derived, SRC-626-01)."
                 if boston else "Boston row not found."
             ),
             "Crime, debt, education, and levy rankings are pending.",
-            "Census subcounty population estimates 2024 (SRC-626-01)",
+            "Census subcounty population estimates 2025 (SRC-626-01)",
         ),
     ]
     lead = (
-        f"From 2020 to 2024 the largest population gain among Massachusetts "
+        f"From 2020 to 2025 the largest population gain among Massachusetts "
         f"cities and towns was <b>{hi['name']}</b> at <b>{commify(hi['v'])}</b>; "
         f"the largest loss was <b>{lo['name']}</b> at <b>{commify(lo['v'])}</b> "
         f"(derived, SRC-626-01). Crime, debt, education, spending, and tax "
@@ -1389,13 +1395,13 @@ def build_muni_rankings(app):
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from Census sub-est2024_25.csv, SUMLEV 061. "
-            f"This first ranking is 2024 minus 2020 resident population. "
+            f"Rebuilt {REVISED} from Census sub-est2025_25.csv, SUMLEV 061. "
+            f"This first ranking is 2025 minus 2020 resident population. "
             f"Crime, debt, education, expenditure, revenue, and tax rankings "
             f"remain pending."
         ),
-        metric="ma_municipal_pop_change_2020_2024",
-        metric_label="Population change, 2020 to 2024",
+        metric="ma_municipal_pop_change_2020_2025",
+        metric_label="Population change, 2020 to 2025",
         unit="people",
         lead=lead,
         kpis=kpis,

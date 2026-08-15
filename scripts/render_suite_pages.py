@@ -50,6 +50,87 @@ def replaces_list(app, ledger):
     return ", ".join(items)
 
 
+def chart_spec(app, ledger):
+    """Titles, units, and highlight for the shared suite charts."""
+    tid = app["id"]
+    unit = ledger.get("unit") or ""
+    label = ledger.get("metric_label") or "Figure"
+    n_rows = len(ledger.get("rows") or [])
+    named = {
+        "DL-10": ("hospital", 25, None),
+        "DL-22": ("transit agency", 25, "Massachusetts Bay Transportation Authority"),
+        "DL-25": ("city or town", 25, "Boston city"),
+        "DL-26": ("city or town", 25, "Boston city"),
+        "DL-27": ("department", 25, "Boston Police Department"),
+        "DL-28": ("tax type", n_rows or 22, "Total Taxes"),
+        "DL-30": ("department", 25, None),
+    }
+    if tid in named:
+        geo, n_chart, highlight = named[tid]
+        n_chart = min(n_chart, n_rows) if n_rows else n_chart
+    else:
+        geo, n_chart, highlight = "state", min(51, n_rows) if n_rows else 51, "MA"
+    ulow = unit.lower()
+    if "percent" in ulow:
+        fmt = "percent"
+    elif "star" in ulow:
+        fmt = "stars"
+    elif "million" in ulow and "dollar" in ulow:
+        fmt = "usd_millions"
+    elif "dollar" in ulow:
+        fmt = "usd"
+    else:
+        fmt = "number"
+    axis_unit = unit
+    if fmt == "usd_millions":
+        axis_unit = "chained 2017 dollars" if "chained" in ulow else "dollars"
+    title = label + " by " + geo
+    if n_rows and n_chart < n_rows:
+        title += f" (largest {n_chart} of {n_rows})"
+    lede = label + (". " + unit + "." if unit else ".")
+    if highlight == "MA":
+        lede += " Massachusetts is marked in gold."
+    elif highlight:
+        lede += " The highlighted bar is " + highlight + "."
+    trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
+    has_trend = bool(trend_keys)
+    table_noun = {
+        "state": "Every state",
+        "hospital": "Every hospital",
+        "transit agency": "Every transit agency",
+        "city or town": "Every city or town",
+        "department": "Every department",
+        "tax type": "Every tax type",
+    }.get(geo, "Every row")
+    col_name = {
+        "state": "State",
+        "hospital": "Hospital",
+        "transit agency": "Agency",
+        "city or town": "City or town",
+        "department": "Department",
+        "tax type": "Tax type",
+    }.get(geo, "Name")
+    return {
+        "geo": geo,
+        "format": fmt,
+        "highlight": highlight,
+        "n_chart": n_chart,
+        "unit": unit,
+        "axis_unit": axis_unit,
+        "label": label,
+        "title": title,
+        "lede": lede,
+        "has_trend": has_trend,
+        "table_noun": table_noun,
+        "col_name": col_name,
+        "trend_title": (
+            label + ", United States and Massachusetts"
+            if set(trend_keys) >= {"US", "MA"}
+            else label + " over time"
+        ),
+    }
+
+
 def page_html(app, ledger):
     live = ledger.get("status") == "live"
     title = app["title"]
@@ -82,14 +163,15 @@ def page_html(app, ledger):
     nsrc = len(ledger.get("source_id_map") or {})
     src_word = "source" if nsrc == 1 else "sources"
     kpis = kpi_html(ledger.get("kpis") or [])
-    has_trend = bool(ledger.get("trend"))
+    spec = chart_spec(app, ledger) if live else {}
+    has_trend = bool(spec.get("has_trend"))
     toggle = ""
     if live:
         toggle = """
 <div class="toggle" role="tablist" aria-label="Choose a view">
   <button id="btn-latest" class="on" onclick="showView('latest')">Latest<span class="who">The current ranking</span></button>
   <button id="btn-trend" onclick="showView('trend')">Trend<span class="who">How the series has moved</span></button>
-  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every jurisdiction</span></button>
+  <button id="btn-table" onclick="showView('table')">Table<span class="who">Every row</span></button>
 </div>
 """
     latest_section = ""
@@ -111,13 +193,13 @@ def page_html(app, ledger):
   </section>
   <section id="view-rank">
     <h2>How do they compare?</h2>
-    <div class="lede">{esc(metric_label)}. Massachusetts is marked in gold.</div>
+    <div class="lede">{esc(spec.get("lede") or metric_label)}</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
-        <span class="ex-t">{esc(metric_label)} by state</span></div>
-      <div class="plot plot-ranks"><canvas id="chRank"></canvas></div>
-      <div class="note">Ranks are Pioneer calculations from the published source file (derived). The source line names the file.</div>
-      <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only).</div>
+        <span class="ex-t">{esc(spec.get("title") or metric_label)}</span></div>
+      <div class="plot {'plot-ranks' if spec.get('n_chart', 51) >= 40 else 'plot-mid'}"><canvas id="chRank"></canvas></div>
+      <div class="note">Hover a bar for the full name and figure. Ranks are Pioneer calculations from the published source file (derived).</div>
+      <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
     </div>
   </section>
 </div>
@@ -133,22 +215,27 @@ def page_html(app, ledger):
 """
     trend_section = ""
     if live:
-        trend_note = (
-            "Select a series the ledger carries. Empty months are omitted."
-            if has_trend else
-            "A multi-year trend is not in this first ledger. The ranking above is the current file."
-        )
-        trend_section = f"""
+        if has_trend:
+            trend_section = f"""
 <div id="view-trend" hidden>
   <section style="margin-top:30px">
     <h2>How has the series moved?</h2>
-    <div class="lede">{trend_note}</div>
+    <div class="lede">{esc(spec.get("trend_title"))}. Empty periods are omitted.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 2</span>
-        <span class="ex-t">Trend</span></div>
+        <span class="ex-t">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="srcline"><b>Source:</b> see the register. <b>Calculation:</b> Pioneer Institute.</div>
+      <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
+  </section>
+</div>
+"""
+        else:
+            trend_section = """
+<div id="view-trend" hidden>
+  <section style="margin-top:30px">
+    <h2>How has the series moved?</h2>
+    <div class="lede">A multi-year trend is not in this ledger. Use Latest for the current ranking and Table for every row.</div>
   </section>
 </div>
 """
@@ -157,11 +244,11 @@ def page_html(app, ledger):
         table_section = f"""
 <div id="view-table" hidden>
   <section style="margin-top:30px">
-    <h2>Every jurisdiction</h2>
+    <h2>{esc(spec.get("table_noun") or "Every row")}</h2>
     <div class="lede">{esc(metric_label)}{', ' + esc(unit) if unit else ''}.</div>
     <div class="scroll">
       <table id="tblStates">
-        <thead><tr><th>Jurisdiction</th><th class="n">Value</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
+        <thead><tr><th>{esc(spec.get("col_name") or "Name")}</th><th class="n">{esc(unit or "Value")}</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
@@ -176,6 +263,7 @@ def page_html(app, ledger):
 /* DATA:BEGIN SLUG-data */
 const DL=null;
 /* DATA:END SLUG-data */
+const CHART=CHART_JSON;
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -197,45 +285,91 @@ const DL=null;
   }
   window.addEventListener('hashchange', applyHash);
   applyHash();
+  var fmt=CHART.format||'number';
+  var unit=CHART.unit||'';
+  var axisUnit=CHART.axis_unit||unit;
+  function isHL(r){
+    if(r.st==='MA') return true;
+    if(CHART.highlight && (r.name===CHART.highlight || r.st===CHART.highlight)) return true;
+    return false;
+  }
+  function fmtVal(v, short){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'\u2212':'', a=Math.abs(n);
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e12) return sign+'$'+(d/1e12).toFixed(2)+(short?'T':' trillion');
+      if(d>=1e9) return sign+'$'+(d/1e9).toFixed(2)+(short?'B':' billion');
+      if(d>=1e6) return sign+'$'+(d/1e6).toFixed(2)+(short?'M':' million');
+      return sign+'$'+Math.round(d).toLocaleString();
+    }
+    if(fmt==='percent') return n.toFixed(1)+'%';
+    if(fmt==='stars') return n+' star'+(n===1?'':'s');
+    if(a>=1000) return sign+Math.round(a).toLocaleString();
+    if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
+    return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
+  }
+  function rowLabel(r){
+    if(CHART.geo==='state' && r.st && String(r.st).length===2) return r.st;
+    var s=r.name||r.st||'';
+    return s.length>28?s.slice(0,26)+'\u2026':s;
+  }
   var rows=(DL&&DL.rows)||[];
-  var chartRows=rows.slice(0,51);
+  var nChart=CHART.n_chart||51;
+  var chartRows=rows.slice(0,nChart);
   var chRank=document.getElementById('chRank');
   if(chRank && chartRows.length && window.Chart){
-    var labels=chartRows.map(function(r){return r.st;});
+    var labels=chartRows.map(rowLabel);
     var data=chartRows.map(function(r){return r.v;});
-    var colors=chartRows.map(function(r){return r.st==='MA'?GOLD:BLUE;});
-    new Chart(chRank,{type:'bar',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
-      options:{indexAxis:'y',plugins:{legend:{display:false}},
-        scales:{x:{ticks:{color:GREY},grid:{color:'#EEF1F4'}},y:{ticks:{color:INK,font:{size:10}},grid:{display:false}}}}});
+    var colors=chartRows.map(function(r){return isHL(r)?GOLD:BLUE;});
+    new Chart(chRank,{type:'bar',
+      data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{right:16,top:4}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{
+            title:function(items){var i=items[0]&&items[0].dataIndex; return (chartRows[i]&&chartRows[i].name)||'';},
+            label:function(c){var r=chartRows[c.dataIndex]||{}; var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' \u00b7 '+unit:''); return ' '+fmtVal(c.parsed.x)+' \u00b7 rank '+(r.rank||'')+extra;}
+          }}},
+        scales:{
+          x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}},
+          y:{ticks:{color:INK,font:{size:10,family:'Roboto,sans-serif'}},grid:{display:false},border:{display:false}}
+        }}});
   }
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
-  if(chTrend && window.Chart){
-    var keys=Object.keys(trend);
-    var datasets=keys.map(function(k,i){
+  var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
+  if(chTrend && window.Chart && keys.length){
+    var pretty={US:'United States',MA:'Massachusetts',Boston:'Boston'};
+    var datasets=keys.map(function(k){
       var series=trend[k]||[];
-      return {label:k,data:series.map(function(p){return {x:p.m||String(p.y),y:p.v};}),
-        borderColor:k==='MA'?GOLD:BLUE,backgroundColor:'transparent',tension:.15,pointRadius:0};
+      return {label:pretty[k]||k,
+        data:series.map(function(p){return {x:p.m||String(p.y),y:p.v};}),
+        borderColor:(k==='MA'||k==='Boston')?GOLD:(k==='US'?INK:BLUE),
+        backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:k==='MA'?2.4:2};
     });
-    if(datasets.length){
-      new Chart(chTrend,{type:'line',data:{datasets:datasets},
-        options:{plugins:{legend:{display:true}},
-          scales:{x:{type:'category',ticks:{color:GREY,maxTicksLimit:12}},
-                   y:{ticks:{color:GREY},grid:{color:'#EEF1F4'}}}}});
-    }
+    new Chart(chTrend,{type:'line',data:{datasets:datasets},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+          tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
+        scales:{
+          x:{type:'category',ticks:{color:GREY,maxTicksLimit:12}},
+          y:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
+        }}});
   }
   var tb=document.querySelector('#tblStates tbody');
   if(tb){
     tb.innerHTML=rows.map(function(r){
       var yoy=(r.yoy_pct==null?'':(r.yoy_pct>0?'+':'')+r.yoy_pct+'%');
-      var hl=r.st==='MA'?' class="hl-ma"':'';
-      var val=(typeof r.v==='number' && Math.abs(r.v)>=1000)?r.v.toLocaleString():r.v;
-      return '<tr'+hl+'><td class="m">'+r.name+'</td><td class="n">'+val+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
+      var hl=isHL(r)?' class="hl-ma"':'';
+      return '<tr'+hl+'><td class="m">'+r.name+'</td><td class="n">'+fmtVal(r.v)+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
     }).join('');
   }
 })();
 </script>
-""".replace("SLUG", slug)
+""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -313,6 +447,7 @@ const DL=null;
   .ex-n{{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}}
   .ex-t{{font:600 14.5px/1.4 var(--sans);flex:1}}
   .plot{{height:clamp(300px,34vh,460px)}}
+  .plot-mid{{height:clamp(480px,62vh,780px)}}
   .plot-ranks{{height:clamp(720px,92vh,1180px)}}
   .note{{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}}
   table{{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}}

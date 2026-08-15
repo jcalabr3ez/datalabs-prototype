@@ -1553,7 +1553,7 @@
   "ai": true,
   "heritage": "Formerly State Medicaid Expenses, State Health Expenses, and Medicaid Fraud",
   "group": "Healthcare",
-  "vint": "Fiscal year 2023"
+  "vint": "Fiscal year 2024"
  },
  {
   "id": "DL-13",
@@ -1717,7 +1717,7 @@
   "ai": true,
   "heritage": "Formerly Roadway Transport, FEMA Obligations, National Risk Index, and Heat/Cool Days",
   "group": "Transportation & Infrastructure",
-  "vint": "Calendar year 2023"
+  "vint": "Calendar year 2024"
  },
  {
   "id": "DL-24",
@@ -1746,7 +1746,7 @@
   "ai": true,
   "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
   "group": "Your City & Town",
-  "vint": "July 1, 2024"
+  "vint": "July 1, 2025"
  },
  {
   "id": "DL-26",
@@ -1760,7 +1760,7 @@
   "ai": true,
   "heritage": "Formerly the Cities and Towns Rankings suite",
   "group": "Your City & Town",
-  "vint": "2020 to 2024"
+  "vint": "2020 to 2025"
  },
  {
   "id": "DL-27",

@@ -84,10 +84,15 @@ def chart_spec(app, ledger):
     axis_unit = unit
     if fmt == "usd_millions":
         axis_unit = "chained 2017 dollars" if "chained" in ulow else "dollars"
-    title = label + " by " + geo
+    if geo == "state" or geo not in label.lower():
+        title = label + " by " + geo
+    else:
+        title = label
     if n_rows and n_chart < n_rows:
         title += f" (largest {n_chart} of {n_rows})"
-    lede = label + (". " + unit + "." if unit else ".")
+    lede = label + "."
+    if unit and unit.lower() not in label.lower():
+        lede += " Unit: " + unit + "."
     if highlight == "MA":
         lede += " Massachusetts is marked in gold."
     elif highlight:

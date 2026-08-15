@@ -351,7 +351,9 @@ const INSIGHTS=[{"id": "rpp", "title": "Regional price parities, all items, 2024
         scales:{
           x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}},
-          y:{ticks:{color:INK,font:{size:10,family:'Roboto,sans-serif'}},grid:{display:false},border:{display:false}}
+          y:{ticks:{color:INK,font:{size:11,family:'Roboto,sans-serif'},autoSkip:false,
+            callback:function(v){return String(this.getLabelForValue(v));}},
+            grid:{display:false},border:{display:false}}
         }}});
   }
   var chTrend=document.getElementById('chTrend');
@@ -371,7 +373,8 @@ const INSIGHTS=[{"id": "rpp", "title": "Regional price parities, all items, 2024
         plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
           tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
         scales:{
-          x:{type:'category',ticks:{color:GREY,maxTicksLimit:12}},
+          x:{type:'category',ticks:{color:GREY,maxTicksLimit:12,
+            callback:function(v){return String(this.getLabelForValue(v));}}},
           y:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
             ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
         }}});
@@ -391,29 +394,54 @@ const INSIGHTS=[{"id": "rpp", "title": "Regional price parities, all items, 2024
     if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
     return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
   }
+  function catTick(maxLen){
+    return {color:INK,font:{size:11,family:'Roboto,sans-serif'},autoSkip:false,
+      callback:function(v){
+        var lab=this.getLabelForValue(v);
+        if(lab==null||lab==='') return '';
+        lab=String(lab);
+        return lab.length>(maxLen||28)?lab.slice(0,(maxLen||28)-2)+'…':lab;
+      }};
+  }
+  function valTick(fmt){
+    return {color:GREY,font:{size:11,family:'Roboto,sans-serif'},
+      callback:function(v){return fmtInsight(fmt,v,true);}};
+  }
+  function valTitle(unit){
+    return unit?{display:true,text:unit,color:GREY,font:{size:11}}:{display:false};
+  }
   (INSIGHTS||[]).forEach(function(fig, i){
     var el=document.getElementById('chInsight'+i);
     if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
     var ifmt=fig.format||'number';
-    var iunit=fig.unit||'';
+    var iunit=fig.unit||(ifmt==='percent'?'percent':((ifmt==='usd'||ifmt==='usd_millions')?'dollars':''));
     var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
+    var horiz=fig.type==='bar';
+    var scales=horiz?{
+      x:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'}},
+      y:{ticks:catTick(32),grid:{display:false},border:{display:false}}
+    }:{
+      x:{ticks:Object.assign({},catTick(16),{color:GREY,autoSkip:fig.labels.length>12,maxTicksLimit:12}),
+        grid:{display:false}},
+      y:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'},border:{display:false}}
+    };
     var opts={
       responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:4,right:8}},
       plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
         position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
-        tooltip:{callbacks:{label:function(c){
-          var lab=c.dataset.label?c.dataset.label+': ':'';
-          var val=c.parsed.x!=null&&fig.index_axis==='y'?c.parsed.x:c.parsed.y;
-          return ' '+lab+fmtInsight(ifmt,val)+extra;
-        }}}},
-      scales:{
-        x:{ticks:{color:GREY,callback:function(v){
-          return fig.index_axis==='y'?fmtInsight(ifmt,v,true):v;
-        }},grid:{color:fig.index_axis==='y'?'#EEF1F4':'transparent'}},
-        y:{ticks:{color:fig.index_axis==='y'?INK:GREY,font:{size:10,family:'Roboto,sans-serif'},
-          callback:function(v){return fig.index_axis==='y'?v:fmtInsight(ifmt,v,true);}},
-          grid:{color:fig.index_axis==='y'?'transparent':'#EEF1F4'},border:{display:false}}
-      }
+        tooltip:{callbacks:{
+          title:function(items){
+            var idx=items[0]&&items[0].dataIndex;
+            return (fig.labels&&fig.labels[idx])||'';
+          },
+          label:function(c){
+            var lab=c.dataset.label?c.dataset.label+': ':'';
+            var val=horiz?c.parsed.x:c.parsed.y;
+            return ' '+lab+fmtInsight(ifmt,val)+extra;
+          }
+        }}},
+      scales:scales
     };
     if(fig.type==='line'){
       new Chart(el,{type:'line',

@@ -453,6 +453,8 @@ const DL04={"year":2024,"as_of":"2024-12","revised":"Aug 15, 2026","version":"1.
 const BLUE='#293C5C', GOLD='#CCB26D', INK='#222222', G3='#8DA0B5';
 const AY={grid:{color:'rgba(34,34,34,.08)'},ticks:{color:'#666',font:{size:11,family:'Roboto,sans-serif'}},border:{display:false}};
 const AX={grid:{display:false},ticks:{color:'#666',font:{size:11,family:'Roboto,sans-serif'}}};
+function axisTitle(text){return {display:true,text:text,color:'#5c6b7a',font:{size:11,family:'Roboto,sans-serif'}};}
+function catY(){return Object.assign({},AX,{border:{display:false},ticks:{autoSkip:false,font:{size:10,family:'Roboto,sans-serif'},color:'#666',callback:function(v){return String(this.getLabelForValue(v));}}});}
 
 function valueLabels(fmt){
   return {id:'vl',afterDatasetsDraw:function(chart){
@@ -498,9 +500,9 @@ function renderPrices(){
       layout:{padding:{top:8,right:48}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' cents per kWh';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,
+      scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Cents per kilowatt-hour'),
           ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
-        y:Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{font:{size:10,family:'Roboto,sans-serif'}})})}},
+        y:catY()}},
     plugins:[valueLabels(function(v){return v.toFixed(2);}),
       refLineX(DL04.latest.us.price_cents,INK,'U.S. '+DL04.latest.us.price_cents.toFixed(2)+'¢')]});
 }
@@ -528,7 +530,7 @@ function drawTrend(){
   var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
     plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(2)+' cents';}}}},
-    scales:{y:Object.assign({},AY,{ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
+    scales:{y:Object.assign({},AY,{title:axisTitle('Cents per kilowatt-hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
       x:Object.assign({},AX)}};
   if(trendChart){ trendChart.data=data; trendChart.update(); return; }
   trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts});
@@ -550,8 +552,8 @@ function renderSupply(){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:52}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
-        y:Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{font:{size:10,family:'Roboto,sans-serif'}})})}},
+      scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Million megawatt-hours'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
+        y:catY()}},
     plugins:[valueLabels(function(v){return v.toFixed(1);})]});
 
   var gen=DL04.states.filter(function(r){return r.gen_mwh!=null;})
@@ -564,8 +566,8 @@ function renderSupply(){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:52}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
-        y:Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{font:{size:10,family:'Roboto,sans-serif'}})})}},
+      scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Million megawatt-hours'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
+        y:catY()}},
     plugins:[valueLabels(function(v){return v.toFixed(1);})]});
 }
 

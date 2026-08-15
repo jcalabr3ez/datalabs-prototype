@@ -886,7 +886,7 @@ function chartSVG(kind, hot){
       const x0=pl+i*gap+(gap-bw)/2,tot=r[1]+r[2];
       g+='<rect x="'+x0+'" y="'+y(r[1])+'" width="'+bw+'" height="'+(y(0)-y(r[1]))+'" fill="#293C5C"/>';
       g+='<rect x="'+x0+'" y="'+y(tot)+'" width="'+bw+'" height="'+(y(r[1])-y(tot))+'" fill="#CCB26D"/>';
-      g+='<text x="'+(x0+bw/2)+'" y="'+(y(tot)-4)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#666666">'+tot.toFixed(1)+'</text>';
+      if(tot<max*0.86) g+='<text x="'+(x0+bw/2)+'" y="'+(y(tot)-4)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#666666">'+tot.toFixed(1)+'</text>';
       g+='<text x="'+(x0+bw/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#9AA2AA">'+r[0]+'</text>';
     });
     g+='<rect x="'+pl+'" y="4" width="9" height="9" fill="#293C5C"/><text x="'+(pl+14)+'" y="12" font-size="10" font-family="Roboto" fill="#666666">FL Hurricane Cat Fund</text>';

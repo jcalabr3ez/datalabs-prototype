@@ -21,6 +21,7 @@
 <meta name="twitter:description" content="What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings.">
 <meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <script src="/assets/chart.umd.min.js"></script>
+<script src="/assets/chart-labels.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
@@ -1116,36 +1117,8 @@ const AX={grid:{display:false},border:{color:G3},ticks:{padding:8,color:G2}};
 const AY={grid:{color:RULE,drawTicks:false},border:{display:false},ticks:{padding:10,color:G2}};
 function axisTitle(text){return {display:true,text:text,color:'#5c6b7a',font:{size:11}};}
 function catY(){return {...AX,ticks:{...AX.ticks,autoSkip:false,callback:function(v){return String(this.getLabelForValue(v));}}};}
-function pointLabels(fmt){
-  return {id:'pl',afterDatasetsDraw(c){
-    const {ctx}=c; ctx.save(); ctx.font='600 10px '+SANS;
-    c.data.datasets.forEach((ds,di)=>{
-      const meta=c.getDatasetMeta(di);
-      meta.data.forEach((pt,i)=>{
-        const v=ds.data[i]; if(v==null||Array.isArray(v)) return;
-        ctx.fillStyle=ds.borderColor||G2; ctx.textAlign='center'; ctx.textBaseline='bottom';
-        ctx.fillText(fmt(v,di,i), pt.x, pt.y-6);
-      });
-    });
-    ctx.restore();
-  }};
-}
-function barLabels(fmt){
-  return {id:'bl',afterDatasetsDraw(c){
-    const {ctx}=c; ctx.save(); ctx.font='600 10px '+SANS; ctx.fillStyle='#232B33';
-    c.data.datasets.forEach((ds,di)=>{
-      const meta=c.getDatasetMeta(di);
-      meta.data.forEach((bar,i)=>{
-        const v=ds.data[i]; if(v==null) return;
-        const text=fmt(v,di,i); if(!text) return;
-        const horiz=c.options.indexAxis==='y';
-        if(horiz){ ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(text, bar.x+6, bar.y); }
-        else { ctx.textAlign='center'; ctx.textBaseline='bottom'; ctx.fillText(text, bar.x, bar.y-4); }
-      });
-    });
-    ctx.restore();
-  }};
-}
+function pointLabels(fmt){ return window.dlChartLabels(fmt, 'auto'); }
+function barLabels(fmt){ return window.dlChartLabels(fmt, 'all'); }
 
 const band=()=>({id:'band',beforeDatasetsDraw(c){
   const{ctx,chartArea:{top,bottom},scales:{x}}=c;
@@ -1163,13 +1136,7 @@ function pifChart(id){
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y.toLocaleString()+' homes'}}},
       scales:{y:{...AY,beginAtZero:true,title:axisTitle('Policies in force, thousands'),ticks:{...AY.ticks,callback:v=>(v/1000).toLocaleString()+'k'}},
         x:{...AX,ticks:{...AX.ticks,maxTicksLimit:12,maxRotation:0,autoSkip:true}}}},
-    plugins:[band(),{id:'el',afterDatasetsDraw(c){
-      const ds=c.data.datasets[0], i=ds.data.length-1, pt=c.getDatasetMeta(0).data[i];
-      if(!pt) return;
-      const ctx=c.ctx; ctx.save(); ctx.font='700 11px '+SANS; ctx.fillStyle=BLUE;
-      ctx.textAlign='left'; ctx.textBaseline='bottom';
-      ctx.fillText(ds.data[i].toLocaleString()+' homes', pt.x+6, pt.y-4); ctx.restore();
-    }}]});
+    plugins:[band(),window.dlChartLabels(v=>Number(v).toLocaleString()+' homes','end')]});
 }
 
 const rendered={};
@@ -1182,16 +1149,9 @@ function renderHome(){
   const citMap = Object.fromEntries(qtr.map(r=>[qlab(r[0]), Math.round(r[2]/r[3]*100000)]));
   const cit = sw.labels.map(l=>citMap[l] ?? null);
   // direct end-of-line labels instead of a legend
-  const endLabels = tags => ({id:'el',afterDatasetsDraw(c){
-    const {ctx}=c;
-    c.data.datasets.forEach((ds,di)=>{
-      const t=tags[di]; if(!t) return;
-      let li=ds.data.length-1; while(li>=0 && (ds.data[li]===null||ds.data[li]===undefined)) li--;
-      const meta=c.getDatasetMeta(di), pt=meta.data[li]; if(!pt) return;
-      ctx.save(); ctx.font='700 11px '+SANS; ctx.fillStyle=ds.borderColor;
-      ctx.textAlign='left'; ctx.textBaseline='middle';
-      ctx.fillText(t(ds.data[li]), pt.x+7, pt.y+(t.dy||0)); ctx.restore();
-    });}});
+  const endLabels = tags => window.dlChartLabels((v,di)=>{
+    const t=tags[di]; return t?t(v):'';
+  },'end');
   new Chart(document.getElementById('hFig1a'),{type:'line',
     data:{labels:sw.labels,datasets:[{data:sw.avg,borderColor:BLUE,backgroundColor:'transparent',
       borderWidth:2.5,pointRadius:0,pointHoverRadius:4,tension:0}]},
@@ -1224,15 +1184,23 @@ function renderPolicy(){
     data:{labels:FLCR.labels,
       datasets:[{data:FLCR.data,borderColor:BLUE,backgroundColor:'transparent',
         borderWidth:2.5,pointRadius:4,pointBackgroundColor:BLUE,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:10}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,right:48}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y+'% '+(c.parsed.y>100?'(loss)':'(profit)')}}},
       scales:{y:{...AY,min:72,max:126,title:axisTitle('Combined ratio, percent'),ticks:{...AY.ticks,stepSize:10,callback:v=>v+'%'}},x:{...AX}}},
-    plugins:[pointLabels(v=>v+'%'),{id:'be',afterDatasetsDraw(c){
+    plugins:[{id:'be',
+      beforeDatasetsDraw(c){
+        const{ctx,scales:{y},chartArea:{left}}=c; const py=y.getPixelForValue(100);
+        ctx.save(); ctx.font='700 10px '+SANS;
+        const w=ctx.measureText('100%, break-even').width; ctx.restore();
+        if(window.dlMarkReserve) window.dlMarkReserve(c,'be',{x1:left,y1:py-16,x2:left+w+8,y2:py+2});
+      },
+      afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
       ctx.save(); ctx.strokeStyle='#8C2F1B'; ctx.setLineDash([4,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#8C2F1B'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
-      ctx.fillText('100%, break-even',right,py-4); ctx.restore();}}]});
+      ctx.fillStyle='#8C2F1B'; ctx.font='700 10px '+SANS; ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillText('100%, break-even',left+4,py-4); ctx.restore();}},
+      pointLabels(v=>v+'%')]});
   // Florida share of nationwide homeowners suits vs claims (NAIC MCAS, via OIR ISU July 2026; 2025 preliminary)
   const mc=FLMC;
   new Chart(document.getElementById('mChart'),{type:'line',
@@ -1241,7 +1209,7 @@ function renderPolicy(){
        backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8C2F1B',tension:0},
       {label:'Share of nationwide homeowners claims',data:mc.map(r=>r[1]),borderColor:BLUE,
        backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:3,pointBackgroundColor:BLUE,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:64}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)+'%'+(c.label==='2025'?' (preliminary)':'')}}},
       scales:{y:{...AY,min:0,max:90,title:axisTitle('Percent of nationwide homeowners'),ticks:{...AY.ticks,callback:v=>v+'%'}},x:{...AX}}},
@@ -1253,7 +1221,7 @@ function renderPolicy(){
        borderColor:'#CCB26D',backgroundColor:'#CCB26D',borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25},
       {label:'Net income',data:FLSTAT.ni,
        borderColor:BLUE,backgroundColor:BLUE,borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:72}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y<0?'-':'+')+'$'+Math.abs(c.parsed.y).toLocaleString(undefined,{maximumFractionDigits:0})+'M'}}},
       scales:{y:{...AY,title:axisTitle('Billion dollars'),grid:{color:ctx=>ctx.tick.value===0?'#9AA2AA':RULE,drawTicks:false},
@@ -1266,26 +1234,29 @@ function renderPolicy(){
     abs:{data:FLPML.abs,
          max:20,step:5,tick:v=>'$'+v+'B',title:'Billion dollars',
          fmt:v=>Array.isArray(v)?'$'+v[0].toFixed(1)+'B to $'+v[1].toFixed(1)+'B':'$'+v.toFixed(1)+'B',
+         lab:v=>Array.isArray(v)?'$'+v[0].toFixed(1)+'B to $'+v[1].toFixed(1)+'B':'$'+v.toFixed(1)+'B',
          read:'Reading this view: the dollar scale of a 1-in-100 season. Down 64 percent from the peak on the modeled 2026 book, and 72 to 78 percent on the scaling to the actual June 2026 book.'},
     tiv:{data:FLPML.tiv,
          max:7,step:1,tick:v=>'$'+v.toFixed(2),title:'Dollars per $100 of insured value',
          fmt:v=>Array.isArray(v)?'$'+v[0].toFixed(2)+' to $'+v[1].toFixed(2)+' per $100 insured':'$'+v.toFixed(2)+' per $100 insured',
+         lab:v=>Array.isArray(v)?'$'+v[0].toFixed(2)+' to $'+v[1].toFixed(2):'$'+v.toFixed(2),
          read:'Reading this view: catastrophe intensity per insured dollar. It has risen at every vintage, from $2.92 per $100 of insured value at the peak to roughly $5.00 to $6.40 today: the remaining book is about twice as catastrophe-intense as the book Citizens shed. December 2018 is omitted; see the view notes.'},
     pol:{data:FLPML.pol,
          max:20,step:5,tick:v=>'$'+v+'K',title:'Thousand dollars per policy',
          fmt:v=>Array.isArray(v)?'$'+v[0].toFixed(1)+'K to $'+v[1].toFixed(1)+'K per policy':'$'+v.toFixed(1)+'K per policy',
+         lab:v=>Array.isArray(v)?'$'+v[0].toFixed(1)+'K to $'+v[1].toFixed(1)+'K':'$'+v.toFixed(1)+'K',
          read:'Reading this view: the modeled 1-in-100 loss carried per remaining policy, up roughly 15 to 40 percent since the peak even as the total fell by three-quarters. December 2018 is omitted; see the view notes.'}};
   const pmChart=new Chart(document.getElementById('pmChart'),{type:'bar',
     data:{labels:pmv.map(r=>r[0]),datasets:[{data:pmViews.abs.data.slice(),
       backgroundColor:pmv.map((r,i)=>i===1?'#8C2F1B':(i===5?'#CCB26D':BLUE)),
       borderColor:pmv.map((r,i)=>i===5?'#CCB26D':'transparent'),
       borderWidth:pmv.map((r,i)=>i===5?2:0)}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:28}},
       plugins:{tooltip:{callbacks:{label:c=>{const view=pmViews[window.pmCur||'abs'];
         const v=view.data[c.dataIndex]; if(v===null) return '';
         return [view.fmt(v), pmv[c.dataIndex][1]];}}}},
       scales:{y:{...AY,min:0,max:20,title:axisTitle(pmViews.abs.title),ticks:{...AY.ticks,stepSize:5,callback:pmViews.abs.tick}},x:{...AX}}},
-    plugins:[barLabels((v,di,i)=>{const view=pmViews[window.pmCur||'abs']; const raw=view.data[i]; if(raw==null) return ''; return view.fmt(raw);})]});
+    plugins:[barLabels((v,di,i)=>{const view=pmViews[window.pmCur||'abs']; const raw=view.data[i]; if(raw==null) return ''; return (view.lab||view.fmt)(raw);})]});
   window.pmCur='abs';
   window.setPmView=function(v){
     window.pmCur=v; const view=pmViews[v];
@@ -1315,22 +1286,30 @@ function renderPolicy(){
     plugins:[{afterDatasetsDraw:c=>{const ctx=c.ctx,m=c.getDatasetMeta(0);
       ctx.save();ctx.fillStyle='#232B33';ctx.font='600 13px Georgia, serif';ctx.textBaseline='middle';
       ctx.fillText(FLCONC.share_of_residential_tiv_pct+'%',m.data[0].x+8,m.data[0].y);
-      ctx.fillText('about '+FLCONC.share_of_1in100_low_pct+' to '+FLCONC.share_of_1in100_high_pct+'%  (estimate)',m.data[1].x+8,m.data[1].y);ctx.restore();}}]});
+      ctx.fillText('about '+FLCONC.share_of_1in100_low_pct+' to '+FLCONC.share_of_1in100_high_pct+'%',m.data[1].x+8,m.data[1].y);ctx.restore();}}]});
   // implied inflow per 100 takeouts (identity from the takeout table)
   const inflow=FLINFLOW;
   new Chart(document.getElementById('iChart'),{type:'bar',
     data:{labels:inflow.map(r=>r[0]),datasets:[{data:inflow.map(r=>r[1]),
       backgroundColor:inflow.map(r=>r[1]>100?'#8C2F1B':(r[1]<0?'#177245':BLUE)),borderWidth:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:28}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y<0?'Net outflow: departures exceeded arrivals':c.parsed.y+' policies arrived per 100 taken out'}}},
       scales:{y:{...AY,min:-20,max:150,title:axisTitle('Policies arrived per 100 taken out'),grid:{color:ctx=>ctx.tick.value===0?'#9AA2AA':RULE,drawTicks:false},
           ticks:{...AY.ticks,stepSize:50}},x:{...AX}}},
-    plugins:[barLabels(v=>String(v)),{id:'thr',afterDatasetsDraw(c){
+    plugins:[{id:'thr',
+      beforeDatasetsDraw(c){
+        const{ctx,scales:{y},chartArea:{left}}=c; const py=y.getPixelForValue(100);
+        const t='above 100: book grows despite takeouts';
+        ctx.save(); ctx.font='700 10px '+SANS; const w=ctx.measureText(t).width; ctx.restore();
+        if(window.dlMarkReserve) window.dlMarkReserve(c,'thr',{x1:left,y1:py-16,x2:left+w+8,y2:py+2});
+      },
+      afterDatasetsDraw(c){
       const{ctx,scales:{y},chartArea:{left,right}}=c; const py=y.getPixelForValue(100);
       ctx.save(); ctx.strokeStyle='#8C2F1B'; ctx.setLineDash([4,3]); ctx.beginPath();
       ctx.moveTo(left,py); ctx.lineTo(right,py); ctx.stroke(); ctx.setLineDash([]);
-      ctx.fillStyle='#8C2F1B'; ctx.font='700 10px '+SANS; ctx.textAlign='right'; ctx.textBaseline='bottom';
-      ctx.fillText('above 100: book grows despite takeouts',right,py-4); ctx.restore();}}]});
+      ctx.fillStyle='#8C2F1B'; ctx.font='700 10px '+SANS; ctx.textAlign='left'; ctx.textBaseline='bottom';
+      ctx.fillText('above 100: book grows despite takeouts',left+4,py-4); ctx.restore();}},
+      barLabels(v=>String(v))]});
 
 }
 

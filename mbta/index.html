@@ -643,6 +643,8 @@ Chart.defaults.plugins.tooltip.cornerRadius=3;
 Chart.defaults.plugins.tooltip.displayColors=false;
 const AX={grid:{display:false},border:{color:G3},ticks:{padding:8,color:G2}};
 const AY={grid:{color:RULE,drawTicks:false},border:{display:false},ticks:{padding:10,color:G2}};
+function axisTitle(text){return {display:true,text:text,color:'#5c6b7a',font:{size:11}};}
+function catY(){return Object.assign({},AX,{border:{display:false},ticks:Object.assign({},AX.ticks,{autoSkip:false,callback:function(v){return String(this.getLabelForValue(v));}})});}
 
 const valueLabels=function(fmt){return {id:'vl',afterDatasetsDraw(c){
   const ctx=c.ctx, meta=c.getDatasetMeta(0);
@@ -685,7 +687,7 @@ function renderRidership(){
         borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:0}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:20,right:10}},
       plugins:{tooltip:{callbacks:{label:function(c){return ' '+(c.parsed.y/1e6).toFixed(1)+'M trips';}}}},
-      scales:{y:Object.assign({},AY,{beginAtZero:true,
+      scales:{y:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Million unlinked trips'),
           ticks:Object.assign({},AY.ticks,{callback:function(v){return (v/1e6)+'M';}})}),
         x:Object.assign({},AX,{ticks:Object.assign({},AX.ticks,{maxTicksLimit:13,maxRotation:0,autoSkip:true,
           callback:function(v,i){var m=this.getLabelForValue(v);return m.endsWith('-01')?m.slice(0,4):null;}})})}},
@@ -701,9 +703,9 @@ function renderRidership(){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
       layout:{padding:{top:18,right:56}},
       plugins:{tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x+'% of same month 2019';}}}},
-      scales:{x:Object.assign({},AY,{max:125,beginAtZero:true,
+      scales:{x:Object.assign({},AY,{max:125,beginAtZero:true,title:axisTitle('Percent of same month 2019'),
           ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-        y:Object.assign({},AX,{border:{display:false}})}},
+        y:catY()}},
     plugins:[valueLabels(function(v){return v+'%';}),refLineX(100,GOLD,'2019 level')]});
 }
 function renderCosts(){
@@ -715,9 +717,9 @@ function renderCosts(){
       datasets:[{data:rows.map(function(r){return r.cost_per_trip;}),backgroundColor:BLUE,barPercentage:.62}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:64}},
       plugins:{tooltip:{callbacks:{label:function(c){return ' $'+c.parsed.x.toFixed(2)+' per trip';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,
+      scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Dollars per trip'),
           ticks:Object.assign({},AY.ticks,{callback:function(v){return '$'+v;}})}),
-        y:Object.assign({},AX,{border:{display:false}})}},
+        y:catY()}},
     plugins:[valueLabels(function(v){return '$'+v.toFixed(2);})]});
 
   const fb=ANSWERS.annual_cost_and_farebox.filter(function(r){return !(r.mode==='Bus'&&r.tos==='PT');})
@@ -727,9 +729,9 @@ function renderCosts(){
       datasets:[{data:fb.map(function(r){return r.recovery_ratio;}),backgroundColor:BLUE,barPercentage:.62}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
       plugins:{tooltip:{callbacks:{label:function(c){return ' Fares cover '+c.parsed.x+'% of operating cost';}}}},
-      scales:{x:Object.assign({},AY,{max:40,beginAtZero:true,
+      scales:{x:Object.assign({},AY,{max:40,beginAtZero:true,title:axisTitle('Farebox recovery, percent'),
           ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-        y:Object.assign({},AX,{border:{display:false}})}},
+        y:catY()}},
     plugins:[valueLabels(function(v){return v+'%';})]});
 }
 
@@ -747,8 +749,8 @@ function renderService(){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{top:6,right:18}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.x.toFixed(1)+' trips per revenue hour';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
-        y:Object.assign({},AX,{border:{display:false}})}}});
+      scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Trips per revenue hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
+        y:catY()}}});
 
   // service supplied vs ridership, as a share of 2019
   const codes=Object.keys(S.by_mode).sort(function(a,b){return S.by_mode[b].vrh_pct_of_2019-S.by_mode[a].vrh_pct_of_2019;});
@@ -761,8 +763,8 @@ function renderService(){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,right:16}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.x+'% of 2019';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-        y:Object.assign({},AX,{border:{display:false}})}},
+      scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('Percent of 2019'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+        y:catY()}},
     plugins:[refLineX(100,INK,'2019 level')]});
 }
 function renderReliability(){
@@ -775,8 +777,8 @@ function renderReliability(){
         backgroundColor:rk.map(function(r){return r.pct>=90?POS:BLUE;}),barPercentage:.6}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:58}},
       plugins:{tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x+'% of trips met the standard';}}}},
-      scales:{x:Object.assign({},AY,{max:100,beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-        y:Object.assign({},AX,{border:{display:false}})}},
+      scales:{x:Object.assign({},AY,{max:100,beginAtZero:true,title:axisTitle('Percent of trips meeting the standard'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+        y:catY()}},
     plugins:[valueLabels(function(v){return v+'%';})]});
 
   const mb=R.modes.MB.annual, cr=R.modes.CR.annual;
@@ -791,7 +793,7 @@ function renderReliability(){
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y+'%';}}}},
-      scales:{y:Object.assign({},AY,{min:60,max:100,ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+      scales:{y:Object.assign({},AY,{min:60,max:100,title:axisTitle('Percent of trips meeting the standard'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
         x:Object.assign({},AX)}}});
 
   var crb=R.commuter_rail_by_line_ttm.map(function(r){return '<tr><td class="m">'+r.line+'</td><td class="n">'+r.pct.toFixed(1)+'%</td></tr>';}).join('');

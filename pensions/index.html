@@ -536,6 +536,8 @@ const DL05={"as_of":"2026-06","board_valuation_through":2023,"returns_year":2023
 const BLUE='#293C5C', GOLD='#CCB26D', INK='#222222', G3='#8DA0B5';
 const AY={grid:{color:'rgba(34,34,34,.08)'},ticks:{color:'#666',font:{size:11,family:'Roboto,sans-serif'}},border:{display:false}};
 const AX={grid:{display:false},ticks:{color:'#666',font:{size:10,family:'Roboto,sans-serif'}},border:{display:false}};
+function axisTitle(text){return {display:true,text:text,color:'#5c6b7a',font:{size:11,family:'Roboto,sans-serif'}};}
+function catY(){return Object.assign({},AX,{ticks:{autoSkip:false,font:{size:9,family:'Roboto,sans-serif'},color:'#666',callback:function(v){return String(this.getLabelForValue(v));}}});}
 
 function usdB(n){
   if(n==null) return '';
@@ -566,9 +568,9 @@ function renderBoards(){
         layout:{padding:{top:4,right:56}},
         plugins:{legend:{display:false},
           tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' percent funded';}}}},
-        scales:{x:Object.assign({},AY,{beginAtZero:true,max:110,
+        scales:{x:Object.assign({},AY,{beginAtZero:true,max:110,title:axisTitle('Funded ratio, percent'),
             ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-          y:Object.assign({},AX,{ticks:Object.assign({},AX.ticks,{font:{size:9,family:'Roboto,sans-serif'}})})}}});
+          y:catY()}}});
     rendered.b=true;
   }
   fillSelect();
@@ -609,7 +611,7 @@ function drawTrend(){
   var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
     plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+(c.parsed.y==null?'':c.parsed.y.toFixed(1)+' percent');}}}},
-    scales:{y:Object.assign({},AY,{ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+    scales:{y:Object.assign({},AY,{title:axisTitle('Funded ratio, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
       x:Object.assign({},AX)}};
   if(trendChart){ trendChart.data=data; trendChart.update(); return; }
   trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts});
@@ -626,8 +628,8 @@ function renderReturns(){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:52}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' percent';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-        y:Object.assign({},AX,{ticks:Object.assign({},AX.ticks,{font:{size:9,family:'Roboto,sans-serif'}})})}}});
+      scales:{x:Object.assign({},AY,{beginAtZero:true,title:axisTitle('One-year return, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+        y:catY()}}});
 }
 
 function renderRetirees(){
@@ -643,7 +645,7 @@ function renderRetirees(){
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:10,right:12}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': $'+c.parsed.y.toFixed(2)+' billion';}}}},
-      scales:{y:Object.assign({},AY,{ticks:Object.assign({},AY.ticks,{callback:function(v){return '$'+v+'b';}})}),
+      scales:{y:Object.assign({},AY,{title:axisTitle('Billion dollars'),ticks:Object.assign({},AY.ticks,{callback:function(v){return '$'+v+'b';}})}),
         x:Object.assign({},AX)}}});
 
   document.querySelector('#tblTop tbody').innerHTML=DL05.retirees.top_pensions.map(function(r){

@@ -10,9 +10,11 @@ pull requests**. They do not merge and they do not push `main`.
 - `netlify/functions/dl02-answers.json`
 - `netlify/functions/dl03-answers.json`
 - `netlify/functions/dl04-answers.json`
+- `netlify/functions/dl05-answers.json`
 - Hand-authored prose: hero / methodology / source register / footer on
-  `tax-atlas/index.html`, remaining Florida narrative (charts and keyed
-  headlines are generated), and front-door chrome in `index.html`
+  `tax-atlas/index.html`, remaining Florida, electricity, and pensions
+  narrative (charts and keyed headlines are generated), and front-door
+  chrome in `index.html`
 
 `python3 scripts/inject_data.py` rewrites every `DATA:BEGIN` / `DATA:END`
 block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
@@ -33,6 +35,10 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
 - **DL-04 (yearly, October):** `.github/workflows/dl04-refresh.yml` already
   opens a PR from EIA Form EIA-861, EIA-923, EIA-860, and Census
   population. Do not invent a second refresh.
+- **DL-05 (when PERAC or CTHRU posts):** follow
+  `scripts/dl05-research-pass.md`. Update an existing PR only if it is a
+  draft whose title starts with `DL-05`. Do not invent a fetch workflow;
+  the sources are a PDF investment report, a portal table, and CTHRU.
 
 ## House style
 

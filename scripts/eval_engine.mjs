@@ -55,6 +55,10 @@ const GOLDEN = [
   ["How much does electricity cost in Massachusetts?", ["answer"], "DL-04"],
   ["Which state has the highest electricity prices?", ["answer"], "DL-04"],
   ["What will electricity cost next year?", ["none", "route"], null],
+  ["What is the funded ratio of the Massachusetts State Retirement Board?", ["answer"], "DL-05"],
+  ["How funded is the Mass Teachers retirement system?", ["answer"], "DL-05"],
+  ["How much do State and Teacher retirees get paid in Massachusetts?", ["answer"], "DL-05"],
+  ["What will my Massachusetts teacher pension be if I retire next year?", ["none", "route"], null],
 ];
 
 let failures = 0;

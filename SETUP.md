@@ -9,11 +9,12 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     AGENTS.md                      Hard rules for cloud agents (draft PR, no main)
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic categories, legacy
-                                   dashboards, the four flagships, the archive
+                                   dashboards, the five flagships, the archive
     mbta/index.html                DL-03 Transportation & MBTA flagship page
     florida-insurance/index.html   DL-02 Florida Insurance Watch flagship page
     tax-atlas/index.html           DL-01 State Tax Atlas flagship page
     electricity/index.html         DL-04 Retail Electricity Prices flagship page
+    pensions/index.html            DL-05 Massachusetts Public Pensions flagship page
     netlify/functions/ask.js       The engine: one Sonnet 5 call reads the
                                    catalog, every tool's scope, and a
                                    selected payload of ledgers (full
@@ -30,6 +31,7 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     netlify/functions/dl02-answers.json  CANONICAL DL-02 (Florida) ledger
     netlify/functions/dl01-answers.json  CANONICAL DL-01 (Tax Atlas) ledger
     netlify/functions/dl04-answers.json  CANONICAL DL-04 (electricity) ledger
+    netlify/functions/dl05-answers.json  CANONICAL DL-05 (pensions) ledger
     scripts/inject_data.py         Build step: regenerates every embedded page
                                    copy from the canonical ledgers, including
                                    Florida charts and keyed headlines
@@ -37,6 +39,9 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    FTA NTD API; run by the monthly workflow
     scripts/refresh_dl04.py        Recomputes the DL-04 ledger from EIA and
                                    Census files; run by the yearly workflow
+    scripts/dl05-research-pass.md  Runbook for the next PERAC / CTHRU update
+    scripts/build_dl05.py          One-time compiler from the partner Hyper
+                                   extracts; not a publisher refresh
     scripts/check_freshness.py     Fails when a ledger ages past its cadence
     scripts/check_style.py         House-style lint (no em dashes) plus the
                                    Florida page's ledger-sentinel checks
@@ -200,6 +205,9 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
                        capacity, and Census population, then opens a
                        PULL REQUEST. First run: Actions tab > DL-04
                        yearly refresh > Run workflow.
+    DL-05 has no fetch workflow. PERAC's Investment Report is a PDF and
+    CTHRU is a portal. Follow scripts/dl05-research-pass.md when either
+    posts a new year.
     checks.yml         Weekly and on every PR. Fails when a ledger ages past
                        its publisher cadence, when a generated page block is
                        out of sync with its canonical ledger, or when the

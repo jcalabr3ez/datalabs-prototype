@@ -6,7 +6,7 @@
   "group": "Taxation",
   "status": "live",
   "as_of": "2022-12",
-  "scope": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), and also reports Massachusetts county AGI from the same-year SOI county file (sum of size-of-AGI stubs). A dedicated AGI-percentile-by-state file is not posted.",
+  "scope": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), reports Massachusetts county AGI from the same-year SOI county file, and also reports Historic Table 2 size-of-AGI stubs (including the share of AGI on returns with $1 million or more). A dedicated AGI-percentile-by-state file is not posted.",
   "exclusions": "Does not cover the wealth-tax and surtax atlas (that is DL-01) or advice about a filing. Municipal extracts and a dedicated AGI-percentile-by-state file are not posted.",
   "heritage": "Formerly Individual Statistics, Tax Statistics County and Municipalities, and Tracking Wealth",
   "replaces": [
@@ -21,13 +21,19 @@
       "name": "IRS SOI historic table 2, tax year 2022 (22in55cmcsv.csv)",
       "cadence": "Annual",
       "url": "https://www.irs.gov/pub/irs-soi/22in55cmcsv.csv",
-      "supports": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), and also reports Massachusetts county AGI from the same-year SOI county file (sum of size-of-AGI stubs). A dedicated AGI-percentile-by-state file is not posted."
+      "supports": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), reports Massachusetts county AGI from the same-year SOI county file, and also reports Historic Table 2 size-of-AGI stubs (including the share of AGI on returns with $1 million or more). A dedicated AGI-percentile-by-state file is not posted."
     },
     "SRC-621-02": {
       "name": "IRS SOI county AGI, tax year 2022 (22incyallagi.csv)",
       "cadence": "Annual",
       "url": "https://www.irs.gov/pub/irs-soi/22incyallagi.csv",
-      "supports": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), and also reports Massachusetts county AGI from the same-year SOI county file (sum of size-of-AGI stubs). A dedicated AGI-percentile-by-state file is not posted."
+      "supports": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), reports Massachusetts county AGI from the same-year SOI county file, and also reports Historic Table 2 size-of-AGI stubs (including the share of AGI on returns with $1 million or more). A dedicated AGI-percentile-by-state file is not posted."
+    },
+    "SRC-621-03": {
+      "name": "IRS SOI Historic Table 2 size-of-AGI stubs, tax year 2022",
+      "cadence": "Annual",
+      "url": "https://www.irs.gov/pub/irs-soi/22in55cmcsv.csv",
+      "supports": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), reports Massachusetts county AGI from the same-year SOI county file, and also reports Historic Table 2 size-of-AGI stubs (including the share of AGI on returns with $1 million or more). A dedicated AGI-percentile-by-state file is not posted."
     }
   },
   "page": {
@@ -45,7 +51,7 @@
   "unit": "dollars",
   "data_month": "2022-12",
   "data_month_label": "Tax year 2022",
-  "lead": "Adjusted gross income on individual returns was <b>$14.78 trillion</b> in tax year 2022, from <b>159,651,330</b> returns (SRC-621-01). Massachusetts AGI was <b>$422.21 billion</b> on 3,567,790 returns, rank 9 of 51 (derived, SRC-621-01). Among Massachusetts counties, <b>Middlesex County</b> had the most adjusted gross income in tax year 2022 at <b>$125.60 billion</b> (derived, SRC-621-02). A dedicated AGI-percentile-by-state file is not posted; size-of-AGI stubs are stored under derived.secondary.",
+  "lead": "Adjusted gross income on individual returns was <b>$14.78 trillion</b> in tax year 2022, from <b>159,651,330</b> returns (SRC-621-01). Massachusetts AGI was <b>$422.21 billion</b> on 3,567,790 returns, rank 9 of 51 (derived, SRC-621-01). Among Massachusetts counties, <b>Middlesex County</b> had the most adjusted gross income in tax year 2022 at <b>$125.60 billion</b> (derived, SRC-621-02). A dedicated AGI-percentile-by-state file is not posted; size-of-AGI stubs are stored under derived.secondary. Returns with $1 million or more of AGI held <b>21.87%</b> of Massachusetts AGI in tax year 2022, from <b>27,270</b> returns (SRC-621-03). Returns with $200,000 or more held <b>54.62%</b> of AGI (SRC-621-03). Massachusetts ranks 7 of 51 on the million-plus AGI share (derived, SRC-621-03). A dedicated percentile-by-state file is not posted.",
   "kpis": [
     {
       "label": "U.S. AGI, tax year 2022",
@@ -662,6 +668,232 @@
             "v": 38990169000
           }
         ]
+      },
+      "agi_stubs_2022": {
+        "label": "IRS SOI size-of-AGI stubs, tax year 2022",
+        "src": "SRC-621-03",
+        "unit": "percent of AGI",
+        "as_of_label": "Tax year 2022",
+        "us": {
+          "returns": 159651340,
+          "agi": 14782492151000.0,
+          "million_plus": {
+            "returns": 800900,
+            "agi": 2716781710000.0,
+            "return_share_pct": 0.5,
+            "agi_share_pct": 18.38
+          },
+          "over_200k": {
+            "returns": 12422220,
+            "agi": 6711129635000.0,
+            "return_share_pct": 7.78,
+            "agi_share_pct": 45.4
+          },
+          "stubs": [
+            {
+              "stub": "1",
+              "name": "No adjusted gross income",
+              "returns": 2654070,
+              "agi": -160983232000.0,
+              "return_share_pct": 1.66,
+              "agi_share_pct": -1.09
+            },
+            {
+              "stub": "2",
+              "name": "$1 under $10,000",
+              "returns": 16570990,
+              "agi": 83828886000.0,
+              "return_share_pct": 10.38,
+              "agi_share_pct": 0.57
+            },
+            {
+              "stub": "3",
+              "name": "$10,000 under $25,000",
+              "returns": 26667770,
+              "agi": 457838150000.0,
+              "return_share_pct": 16.7,
+              "agi_share_pct": 3.1
+            },
+            {
+              "stub": "4",
+              "name": "$25,000 under $50,000",
+              "returns": 36574680,
+              "agi": 1347272765000.0,
+              "return_share_pct": 22.91,
+              "agi_share_pct": 9.11
+            },
+            {
+              "stub": "5",
+              "name": "$50,000 under $75,000",
+              "returns": 23580310,
+              "agi": 1450741751000.0,
+              "return_share_pct": 14.77,
+              "agi_share_pct": 9.81
+            },
+            {
+              "stub": "6",
+              "name": "$75,000 under $100,000",
+              "returns": 15282030,
+              "agi": 1324629902000.0,
+              "return_share_pct": 9.57,
+              "agi_share_pct": 8.96
+            },
+            {
+              "stub": "7",
+              "name": "$100,000 under $200,000",
+              "returns": 25899270,
+              "agi": 3568034294000.0,
+              "return_share_pct": 16.22,
+              "agi_share_pct": 24.14
+            },
+            {
+              "stub": "8",
+              "name": "$200,000 under $500,000",
+              "returns": 9957520,
+              "agi": 2874717803000.0,
+              "return_share_pct": 6.24,
+              "agi_share_pct": 19.45
+            },
+            {
+              "stub": "9",
+              "name": "$500,000 under $1 million",
+              "returns": 1663800,
+              "agi": 1119630122000.0,
+              "return_share_pct": 1.04,
+              "agi_share_pct": 7.57
+            },
+            {
+              "stub": "10",
+              "name": "$1 million or more",
+              "returns": 800900,
+              "agi": 2716781710000.0,
+              "return_share_pct": 0.5,
+              "agi_share_pct": 18.38
+            }
+          ]
+        },
+        "ma": {
+          "returns": 3567800,
+          "agi": 422208182000.0,
+          "million_plus": {
+            "returns": 27270,
+            "agi": 92322927000.0,
+            "return_share_pct": 0.76,
+            "agi_share_pct": 21.87
+          },
+          "over_200k": {
+            "returns": 421820,
+            "agi": 230591086000.0,
+            "return_share_pct": 11.82,
+            "agi_share_pct": 54.62
+          },
+          "stubs": [
+            {
+              "stub": "1",
+              "name": "No adjusted gross income",
+              "returns": 43900,
+              "agi": -2050606000.0,
+              "return_share_pct": 1.23,
+              "agi_share_pct": -0.49
+            },
+            {
+              "stub": "2",
+              "name": "$1 under $10,000",
+              "returns": 386020,
+              "agi": 1884097000.0,
+              "return_share_pct": 10.82,
+              "agi_share_pct": 0.45
+            },
+            {
+              "stub": "3",
+              "name": "$10,000 under $25,000",
+              "returns": 461550,
+              "agi": 7884464000.0,
+              "return_share_pct": 12.94,
+              "agi_share_pct": 1.87
+            },
+            {
+              "stub": "4",
+              "name": "$25,000 under $50,000",
+              "returns": 685390,
+              "agi": 25647037000.0,
+              "return_share_pct": 19.21,
+              "agi_share_pct": 6.07
+            },
+            {
+              "stub": "5",
+              "name": "$50,000 under $75,000",
+              "returns": 535470,
+              "agi": 33068543000.0,
+              "return_share_pct": 15.01,
+              "agi_share_pct": 7.83
+            },
+            {
+              "stub": "6",
+              "name": "$75,000 under $100,000",
+              "returns": 366240,
+              "agi": 31727168000.0,
+              "return_share_pct": 10.27,
+              "agi_share_pct": 7.51
+            },
+            {
+              "stub": "7",
+              "name": "$100,000 under $200,000",
+              "returns": 667410,
+              "agi": 93456393000.0,
+              "return_share_pct": 18.71,
+              "agi_share_pct": 22.14
+            },
+            {
+              "stub": "8",
+              "name": "$200,000 under $500,000",
+              "returns": 334400,
+              "agi": 97922166000.0,
+              "return_share_pct": 9.37,
+              "agi_share_pct": 23.19
+            },
+            {
+              "stub": "9",
+              "name": "$500,000 under $1 million",
+              "returns": 60150,
+              "agi": 40345993000.0,
+              "return_share_pct": 1.69,
+              "agi_share_pct": 9.56
+            },
+            {
+              "stub": "10",
+              "name": "$1 million or more",
+              "returns": 27270,
+              "agi": 92322927000.0,
+              "return_share_pct": 0.76,
+              "agi_share_pct": 21.87
+            }
+          ]
+        },
+        "million_plus_agi_share": {
+          "us": 18.4,
+          "ma": {
+            "v": 21.9,
+            "rank": 7,
+            "n": 51
+          },
+          "highest": {
+            "st": "WY",
+            "name": "Wyoming",
+            "v": 32.6
+          },
+          "lowest": {
+            "st": "WV",
+            "name": "West Virginia",
+            "v": 6.5
+          },
+          "n_ranked": 51,
+          "label": "Share of AGI on returns with $1 million or more",
+          "src": "SRC-621-03",
+          "unit": "percent",
+          "as_of_label": "Tax year 2022"
+        },
+        "note": "Historic table 2 size-of-AGI stubs. This is not a dedicated percentile-by-state file. Stub 10 is $1 million or more of AGI."
       }
     }
   },

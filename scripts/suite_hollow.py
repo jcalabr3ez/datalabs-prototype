@@ -626,7 +626,9 @@ def sec_acs_towns():
     # ACS socioeconomic peers: z-score distance on income, home value, bachelor's.
     peer_rows = [
         r for r in rows
-        if r.get("median_hh_income") and r.get("median_home_value") and r.get("bachelors_pct") is not None
+        if r.get("median_hh_income") and r.get("median_home_value")
+        and r.get("bachelors_pct") is not None
+        and (r.get("pop") or 0) >= 20000
     ]
     keys = ("median_hh_income", "median_home_value", "bachelors_pct")
     means = {k: sum(r[k] for r in peer_rows) / len(peer_rows) for k in keys}
@@ -679,8 +681,8 @@ def sec_acs_towns():
             "median_age": bos["median_age"],
         },
         "socioeconomic_peers": peers,
-        "peer_method": "Five nearest towns on z-scored ACS median household income, median home value, and bachelor's-or-higher share. This is not the old Pioneer socioeconomic peer workbook.",
-        "note": "Census ACS 5-year 2020-2024 table-based summary file, county subdivisions (GEO_ID 0600000US25). Joined to Census 2025 subcounty names. Some small towns are suppressed.",
+        "peer_method": "Five nearest municipalities of at least 20,000 residents on z-scored ACS median household income, median home value, and bachelor's-or-higher share. This is not the old Pioneer socioeconomic peer workbook.",
+        "note": "Census ACS 5-year 2020-2024 table-based summary file, county subdivisions (GEO_ID 0600000US25). Joined to Census 2025 subcounty names. Some small towns are suppressed. ACS top-codes median household income at $250,001.",
     }
 
 
@@ -1083,10 +1085,12 @@ def hollow_lead(tool_id, sec):
         inc = a.get("income") or {}
         pov = a.get("poverty") or {}
         hv = a.get("home_value") or {}
+        top_inc = (inc.get("highest") or {}).get("v")
+        top_note = " (ACS top-code for $250,000 or more)" if top_inc == 250001 else ""
         parts.append(
             f"Among towns with an ACS 2020-2024 median household income, "
             f"<b>{(inc.get('highest') or {}).get('name')}</b> was highest at "
-            f"<b>${commify((inc.get('highest') or {}).get('v') or 0)}</b> "
+            f"<b>${commify(top_inc or 0)}</b>{top_note} "
             f"(SRC-626-03). <b>{(pov.get('highest') or {}).get('name')}</b> had "
             f"the highest poverty rate at <b>{(pov.get('highest') or {}).get('v')}%</b> "
             f"(SRC-626-03). <b>{(hv.get('highest') or {}).get('name')}</b> had "

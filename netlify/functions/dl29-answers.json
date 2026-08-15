@@ -6,8 +6,8 @@
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2026-03",
-  "scope": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Census Annual Survey of State Government Finances, NASBO rainy-day funds, and Census public-employment counts remain later views because those files are 404, PDF-only, or fixed-width without a verified layout on this pass.",
-  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts State Finances), or party-registration advice. Annual finance, rainy-day, and public-employee files are pending: decline those.",
+  "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views.",
+  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts State Finances), or party-registration advice. NASBO rainy-day figures are pending: decline those.",
   "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
   "replaces": [
     "Financial Transparency",
@@ -21,19 +21,31 @@
     "State Finance-State Only Revenues",
     "State Finance-State Rainy Day Funds"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Annual Survey of State Government Finances, NASBO rainy-day funds, and employee counts remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-629-01": {
       "name": "Census QTAX 2026 Q1 table 3, total state taxes",
       "cadence": "Quarterly",
       "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx",
-      "supports": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Census Annual Survey of State Government Finances, NASBO rainy-day funds, and Census public-employment counts remain later views because those files are 404, PDF-only, or fixed-width without a verified layout on this pass."
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
     },
     "SRC-629-02": {
       "name": "NASBO Fiscal Survey of the States, rainy-day funds",
       "cadence": "Twice yearly",
       "url": "https://www.nasbo.org/",
-      "supports": "This first ledger ranks states on Census QTAX 2026 Q1 total state tax collections. The Census Annual Survey of State Government Finances, NASBO rainy-day funds, and Census public-employment counts remain later views because those files are 404, PDF-only, or fixed-width without a verified layout on this pass."
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
+    },
+    "SRC-629-03": {
+      "name": "Census ASPEP 2023 state government full-time-equivalent employment",
+      "cadence": "Annual",
+      "url": "https://www2.census.gov/programs-surveys/apes/datasets/2023/2023_state.xlsx",
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
+    },
+    "SRC-629-04": {
+      "name": "Census Annual Survey of State Government Tax Collections, FY 2023",
+      "cadence": "Annual",
+      "url": "https://www2.census.gov/programs-surveys/stc/tables/2023/FY2023-STC-Detailed-Table-Transposed.xlsx",
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
     }
   },
   "page": {
@@ -43,14 +55,14 @@
   "geo": [
     "US"
   ],
-  "q": "State and local revenues, expenses, rainy-day funds, and public-employee counts.",
+  "q": "State tax collections, annual tax mix, and state government employment.",
   "pending": false,
   "metric": "state_tax_collections_2026q1",
   "metric_label": "State government tax collections, 2026 Q1",
   "unit": "dollars",
   "data_month": "2026-03",
   "data_month_label": "2026 Q1",
-  "lead": "State government tax collections were <b>$393.07 billion</b> in the first quarter of 2026, +5.7% from a year earlier, excluding D.C. (SRC-629-01). Massachusetts collected <b>$11.62 billion</b>, rank 8 of 50 (derived, SRC-629-01). Rainy-day funds and public-employee counts are pending.",
+  "lead": "State government tax collections were <b>$393.07 billion</b> in the first quarter of 2026, +5.7% from a year earlier, excluding D.C. (SRC-629-01). Massachusetts collected <b>$11.62 billion</b>, rank 8 of 50 (derived, SRC-629-01). State governments employed <b>4,441,091</b> full-time-equivalent workers in 2023; Massachusetts employed <b>105,348</b>, rank 14 of 50 (derived, SRC-629-03). Individual income taxes were <b>47.8%</b> of Massachusetts FY 2023 state tax collections, rank 5 of 44 (derived, SRC-629-04). NASBO rainy-day figures remain pending.",
   "kpis": [
     {
       "label": "U.S. state taxes, 2026 Q1",
@@ -586,7 +598,158 @@
       }
     ],
     "n_ranked": 50,
-    "massachusetts_rank": 8
+    "massachusetts_rank": 8,
+    "secondary": {
+      "aspep_fte_2023": {
+        "us": 4441091,
+        "ma": {
+          "v": 105348,
+          "rank": 14,
+          "n": 50
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 465564
+        },
+        "lowest": {
+          "st": "WY",
+          "name": "Wyoming",
+          "v": 12270
+        },
+        "n_ranked": 50,
+        "label": "State government full-time-equivalent employment, 2023",
+        "src": "SRC-629-03",
+        "unit": "full-time-equivalent employees",
+        "as_of_label": "March 2023 (Annual Survey of Public Employment and Payroll)",
+        "ma_functions": [
+          {
+            "name": "Education Total",
+            "v": 35572
+          },
+          {
+            "name": "Education - Higher Education Total",
+            "v": 32023
+          },
+          {
+            "name": "Education - Higher Education Other",
+            "v": 20847
+          },
+          {
+            "name": "Education - Higher Education Instructional",
+            "v": 11176
+          },
+          {
+            "name": "Corrections",
+            "v": 10779
+          },
+          {
+            "name": "Judicial and Legal",
+            "v": 9308
+          },
+          {
+            "name": "Health",
+            "v": 9269
+          },
+          {
+            "name": "Public Welfare",
+            "v": 8238
+          }
+        ],
+        "note": "Census ASPEP 2023 state government file, full-time-equivalent employment, all functions."
+      },
+      "stc_2023": {
+        "label": "Census Annual Survey of State Government Tax Collections, FY 2023",
+        "src": "SRC-629-04",
+        "unit": "dollars",
+        "as_of_label": "Fiscal year 2023",
+        "total": {
+          "us": 1423479536000.0,
+          "ma": {
+            "v": 41338531000.0,
+            "rank": 8,
+            "n": 50
+          },
+          "highest": {
+            "st": "CA",
+            "name": "California",
+            "v": 217707953000.0
+          },
+          "lowest": {
+            "st": "SD",
+            "name": "South Dakota",
+            "v": 2629090000.0
+          },
+          "n_ranked": 50,
+          "label": "State tax collections, FY 2023",
+          "src": "SRC-629-04",
+          "unit": "dollars",
+          "as_of_label": "Fiscal year 2023"
+        },
+        "income_share": {
+          "us": 32.4,
+          "ma": {
+            "v": 47.8,
+            "rank": 5,
+            "n": 44
+          },
+          "highest": {
+            "st": "OR",
+            "name": "Oregon",
+            "v": 63.5
+          },
+          "lowest": {
+            "st": "TN",
+            "name": "Tennessee",
+            "v": 0.0
+          },
+          "n_ranked": 44,
+          "label": "Individual income tax share of state tax collections, FY 2023",
+          "src": "SRC-629-04",
+          "unit": "percent",
+          "as_of_label": "Fiscal year 2023"
+        },
+        "ma_types": [
+          {
+            "code": "T00",
+            "name": "Total Taxes",
+            "v": 41338531000.0
+          },
+          {
+            "code": "TA1",
+            "name": "Sales and gross receipts taxes",
+            "v": 12165804000.0
+          },
+          {
+            "code": "T09",
+            "name": "General sales and gross receipts",
+            "v": 9353642000.0
+          },
+          {
+            "code": "TA4",
+            "name": "Income taxes",
+            "v": 26479758000.0
+          },
+          {
+            "code": "T40",
+            "name": "Individual income",
+            "v": 19753739000.0
+          },
+          {
+            "code": "T41",
+            "name": "Corporation net income",
+            "v": 6726019000.0
+          },
+          {
+            "code": "T01",
+            "name": "Property taxes",
+            "v": 14073000.0
+          }
+        ],
+        "us_sales": 459121588000.0,
+        "note": "Census STC detailed table, FY 2023. Amounts are published in thousands of dollars. Excludes D.C."
+      }
+    }
   },
   "entities": {
     "CA": {

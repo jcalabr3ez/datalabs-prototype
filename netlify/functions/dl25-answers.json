@@ -6,7 +6,7 @@
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-07",
-  "scope": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), and also reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell. That peer set is Census population distance, not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings.",
+  "scope": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell, and also reports ACS 2020-2024 5-year median household income, median home value, poverty rate, bachelor's-or-higher share, median age, and ACS socioeconomic peers (z-scored income, home value, and bachelor's share). Population peers are Census count distance. ACS peers are not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings.",
   "exclusions": "Does not cover Boston-only payroll (that is Boston), statewide multi-metric rankings (Municipal Rankings), or advice about moving. DLS levy files are not a stable public CSV: decline those.",
   "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
   "replaces": [
@@ -14,19 +14,25 @@
     "Economic Snapshot",
     "Find Peers"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census sub-est2025_25.csv, SUMLEV 061 (New England county subdivisions), 351 Massachusetts cities and towns. A DLS levy file is not posted as a stable public CSV. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census sub-est2025_25.csv, SUMLEV 061 (New England county subdivisions), 351 Massachusetts cities and towns. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-625-01": {
       "name": "Census vintage 2025 subcounty population estimates, Massachusetts",
       "cadence": "Annual",
       "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_25.csv",
-      "supports": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), and also reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell. That peer set is Census population distance, not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings."
+      "supports": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell, and also reports ACS 2020-2024 5-year median household income, median home value, poverty rate, bachelor's-or-higher share, median age, and ACS socioeconomic peers (z-scored income, home value, and bachelor's share). Population peers are Census count distance. ACS peers are not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings."
     },
     "SRC-625-02": {
       "name": "Census 2025 municipal population peers (five nearest counts)",
       "cadence": "Annual",
       "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/cities/totals/sub-est2025_25.csv",
-      "supports": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), and also reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell. That peer set is Census population distance, not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings."
+      "supports": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell, and also reports ACS 2020-2024 5-year median household income, median home value, poverty rate, bachelor's-or-higher share, median age, and ACS socioeconomic peers (z-scored income, home value, and bachelor's share). Population peers are Census count distance. ACS peers are not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings."
+    },
+    "SRC-625-03": {
+      "name": "Census ACS 5-year 2020-2024 town income, home value, poverty, education, and age",
+      "cadence": "Annual",
+      "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/",
+      "supports": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell, and also reports ACS 2020-2024 5-year median household income, median home value, poverty rate, bachelor's-or-higher share, median age, and ACS socioeconomic peers (z-scored income, home value, and bachelor's share). Population peers are Census count distance. ACS peers are not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings."
     }
   },
   "page": {
@@ -36,14 +42,14 @@
   "geo": [
     "MA"
   ],
-  "q": "Choose a Massachusetts city or town, see its snapshot, and find peers.",
+  "q": "Population, income, housing, and education for every Massachusetts city and town, with Census and ACS peers.",
   "pending": false,
   "metric": "ma_municipal_population_2025",
   "metric_label": "Massachusetts city and town population, July 1, 2025",
   "unit": "people",
   "data_month": "2025-07",
   "data_month_label": "July 1, 2025",
-  "lead": "Massachusetts was <b>7,154,084</b> on July 1, 2025 (SRC-625-01). The largest of 351 cities and towns was <b>Boston city</b> at <b>672,973</b>; the smallest was Gosnold town at 62 (SRC-625-01). A DLS levy file is not posted as a stable public CSV. Population peers are the five Census 2025 municipalities closest in resident count (SRC-625-02). Boston's nearest peer is <b>Worcester city</b> at <b>213,862</b> (derived, SRC-625-02). This is not the old Pioneer socioeconomic peer workbook. A DLS levy file is not posted as a stable public CSV.",
+  "lead": "Massachusetts was <b>7,154,084</b> on July 1, 2025 (SRC-625-01). The largest of 351 cities and towns was <b>Boston city</b> at <b>672,973</b>; the smallest was Gosnold town at 62 (SRC-625-01). Population peers are the five Census 2025 municipalities closest in resident count (SRC-625-02). Boston's nearest peer is <b>Worcester city</b> at <b>213,862</b> (derived, SRC-625-02). This is not the old Pioneer socioeconomic peer workbook. A DLS levy file is not posted as a stable public CSV. On the ACS 2020-2024 5-year file, Boston's median household income was <b>$97,344</b>, median home value <b>$731,700</b>, poverty rate <b>16.6%</b>, and bachelor's-or-higher share <b>54.9%</b> (SRC-625-03). The nearest ACS socioeconomic peer for Boston is <b>Beverly city</b> (derived, SRC-625-03). That peer set is z-scored ACS income, home value, and bachelor's share, not the old Pioneer workbook. A DLS levy file is not a stable public CSV.",
   "kpis": [
     {
       "label": "Massachusetts, July 1, 2025",
@@ -2781,6 +2787,440 @@
           ]
         },
         "n_towns": 351
+      },
+      "acs_towns_2024": {
+        "label": "ACS 2020-2024 5-year socioeconomic measures, Massachusetts cities and towns",
+        "src": "SRC-625-03",
+        "as_of_label": "ACS 5-year 2020-2024",
+        "n_towns": 351,
+        "ma_median_hh_income": 103960,
+        "income": {
+          "n": 351,
+          "highest": {
+            "name": "Carlisle town",
+            "v": 250001
+          },
+          "lowest": {
+            "name": "Monroe town",
+            "v": -666666666
+          },
+          "top_eight": [
+            {
+              "name": "Carlisle town",
+              "v": 250001
+            },
+            {
+              "name": "Sherborn town",
+              "v": 250001
+            },
+            {
+              "name": "Weston town",
+              "v": 250001
+            },
+            {
+              "name": "Dover town",
+              "v": 250001
+            },
+            {
+              "name": "Wellesley town",
+              "v": 250001
+            },
+            {
+              "name": "Lexington town",
+              "v": 238444
+            },
+            {
+              "name": "Sudbury town",
+              "v": 236250
+            },
+            {
+              "name": "Medfield town",
+              "v": 235800
+            }
+          ],
+          "boston": {
+            "name": "Boston city",
+            "v": 97344,
+            "rank": 237,
+            "n": 351
+          }
+        },
+        "home_value": {
+          "n": 351,
+          "highest": {
+            "name": "Chilmark town",
+            "v": 1895300
+          },
+          "lowest": {
+            "name": "Monroe town",
+            "v": 165000
+          },
+          "top_eight": [
+            {
+              "name": "Chilmark town",
+              "v": 1895300
+            },
+            {
+              "name": "Aquinnah town",
+              "v": 1878700
+            },
+            {
+              "name": "Weston town",
+              "v": 1694400
+            },
+            {
+              "name": "Nantucket town",
+              "v": 1593800
+            },
+            {
+              "name": "Wellesley town",
+              "v": 1582700
+            },
+            {
+              "name": "Dover town",
+              "v": 1340300
+            },
+            {
+              "name": "Cohasset town",
+              "v": 1318900
+            },
+            {
+              "name": "West Tisbury town",
+              "v": 1302100
+            }
+          ],
+          "boston": {
+            "name": "Boston city",
+            "v": 731700,
+            "rank": 75,
+            "n": 351
+          }
+        },
+        "poverty": {
+          "n": 351,
+          "highest": {
+            "name": "Monroe town",
+            "v": 38.5
+          },
+          "lowest": {
+            "name": "Gosnold town",
+            "v": 0.0
+          },
+          "top_eight": [
+            {
+              "name": "Monroe town",
+              "v": 38.5
+            },
+            {
+              "name": "Holyoke city",
+              "v": 27.0
+            },
+            {
+              "name": "Springfield city",
+              "v": 25.8
+            },
+            {
+              "name": "Amherst Town city",
+              "v": 23.7
+            },
+            {
+              "name": "Orange town",
+              "v": 22.4
+            },
+            {
+              "name": "Wendell town",
+              "v": 21.3
+            },
+            {
+              "name": "Chelsea city",
+              "v": 20.7
+            },
+            {
+              "name": "New Bedford city",
+              "v": 20.6
+            }
+          ],
+          "boston": {
+            "name": "Boston city",
+            "v": 16.6,
+            "rank": 17,
+            "n": 351
+          }
+        },
+        "bachelors": {
+          "n": 351,
+          "highest": {
+            "name": "Wellesley town",
+            "v": 89.0
+          },
+          "lowest": {
+            "name": "Orange town",
+            "v": 15.7
+          },
+          "top_eight": [
+            {
+              "name": "Wellesley town",
+              "v": 89.0
+            },
+            {
+              "name": "Carlisle town",
+              "v": 87.2
+            },
+            {
+              "name": "Brookline town",
+              "v": 85.4
+            },
+            {
+              "name": "Dover town",
+              "v": 84.8
+            },
+            {
+              "name": "Lexington town",
+              "v": 84.3
+            },
+            {
+              "name": "Weston town",
+              "v": 84.3
+            },
+            {
+              "name": "Sudbury town",
+              "v": 83.3
+            },
+            {
+              "name": "Sherborn town",
+              "v": 82.3
+            }
+          ],
+          "boston": {
+            "name": "Boston city",
+            "v": 54.9,
+            "rank": 120,
+            "n": 351
+          }
+        },
+        "age": {
+          "n": 351,
+          "highest": {
+            "name": "Orleans town",
+            "v": 64.7
+          },
+          "lowest": {
+            "name": "Amherst Town city",
+            "v": 21.4
+          },
+          "top_eight": [
+            {
+              "name": "Orleans town",
+              "v": 64.7
+            },
+            {
+              "name": "Truro town",
+              "v": 64.1
+            },
+            {
+              "name": "Stockbridge town",
+              "v": 63.7
+            },
+            {
+              "name": "Chatham town",
+              "v": 63.4
+            },
+            {
+              "name": "Alford town",
+              "v": 63.1
+            },
+            {
+              "name": "Monterey town",
+              "v": 62.3
+            },
+            {
+              "name": "Richmond town",
+              "v": 62.1
+            },
+            {
+              "name": "Worthington town",
+              "v": 61.6
+            }
+          ],
+          "boston": {
+            "name": "Boston city",
+            "v": 33.3,
+            "rank": 346,
+            "n": 351
+          }
+        },
+        "boston": {
+          "name": "Boston city",
+          "median_hh_income": 97344,
+          "median_home_value": 731700,
+          "poverty_pct": 16.6,
+          "bachelors_pct": 54.9,
+          "median_age": 33.3
+        },
+        "socioeconomic_peers": {
+          "Boston city": [
+            {
+              "name": "Beverly city",
+              "median_hh_income": 106044,
+              "median_home_value": 650300,
+              "bachelors_pct": 53.4
+            },
+            {
+              "name": "Norwood town",
+              "median_hh_income": 107030,
+              "median_home_value": 651700,
+              "bachelors_pct": 55.4
+            },
+            {
+              "name": "Falmouth town",
+              "median_hh_income": 93043,
+              "median_home_value": 629900,
+              "bachelors_pct": 51.8
+            },
+            {
+              "name": "Stoneham town",
+              "median_hh_income": 113964,
+              "median_home_value": 671900,
+              "bachelors_pct": 55.9
+            },
+            {
+              "name": "Quincy city",
+              "median_hh_income": 98882,
+              "median_home_value": 618500,
+              "bachelors_pct": 50.3
+            }
+          ],
+          "Worcester city": [
+            {
+              "name": "West Springfield Town city",
+              "median_hh_income": 69371,
+              "median_home_value": 321500,
+              "bachelors_pct": 34.0
+            },
+            {
+              "name": "Leominster city",
+              "median_hh_income": 83816,
+              "median_home_value": 380400,
+              "bachelors_pct": 33.5
+            },
+            {
+              "name": "Lowell city",
+              "median_hh_income": 78658,
+              "median_home_value": 429200,
+              "bachelors_pct": 30.0
+            },
+            {
+              "name": "Agawam Town city",
+              "median_hh_income": 85421,
+              "median_home_value": 311600,
+              "bachelors_pct": 34.0
+            },
+            {
+              "name": "Pittsfield city",
+              "median_hh_income": 70582,
+              "median_home_value": 256900,
+              "bachelors_pct": 34.2
+            }
+          ],
+          "Springfield city": [
+            {
+              "name": "Chicopee city",
+              "median_hh_income": 62615,
+              "median_home_value": 274500,
+              "bachelors_pct": 22.9
+            },
+            {
+              "name": "Holyoke city",
+              "median_hh_income": 53605,
+              "median_home_value": 274100,
+              "bachelors_pct": 25.9
+            },
+            {
+              "name": "Gardner city",
+              "median_hh_income": 67518,
+              "median_home_value": 301600,
+              "bachelors_pct": 23.8
+            },
+            {
+              "name": "New Bedford city",
+              "median_hh_income": 56981,
+              "median_home_value": 357300,
+              "bachelors_pct": 17.0
+            },
+            {
+              "name": "Fall River city",
+              "median_hh_income": 56673,
+              "median_home_value": 395500,
+              "bachelors_pct": 16.4
+            }
+          ],
+          "Cambridge city": [
+            {
+              "name": "Brookline town",
+              "median_hh_income": 142101,
+              "median_home_value": 1246800,
+              "bachelors_pct": 85.4
+            },
+            {
+              "name": "Arlington town",
+              "median_hh_income": 150701,
+              "median_home_value": 933800,
+              "bachelors_pct": 76.1
+            },
+            {
+              "name": "Somerville city",
+              "median_hh_income": 132572,
+              "median_home_value": 911300,
+              "bachelors_pct": 69.4
+            },
+            {
+              "name": "Hingham town",
+              "median_hh_income": 178390,
+              "median_home_value": 1134200,
+              "bachelors_pct": 76.2
+            },
+            {
+              "name": "Natick town",
+              "median_hh_income": 138538,
+              "median_home_value": 821000,
+              "bachelors_pct": 70.8
+            }
+          ],
+          "Lowell city": [
+            {
+              "name": "Haverhill city",
+              "median_hh_income": 88326,
+              "median_home_value": 453900,
+              "bachelors_pct": 32.6
+            },
+            {
+              "name": "Leominster city",
+              "median_hh_income": 83816,
+              "median_home_value": 380400,
+              "bachelors_pct": 33.5
+            },
+            {
+              "name": "Wareham town",
+              "median_hh_income": 90383,
+              "median_home_value": 424500,
+              "bachelors_pct": 27.1
+            },
+            {
+              "name": "Taunton city",
+              "median_hh_income": 79283,
+              "median_home_value": 422800,
+              "bachelors_pct": 23.9
+            },
+            {
+              "name": "Worcester city",
+              "median_hh_income": 70102,
+              "median_home_value": 374400,
+              "bachelors_pct": 35.2
+            }
+          ]
+        },
+        "peer_method": "Five nearest municipalities of at least 20,000 residents on z-scored ACS median household income, median home value, and bachelor's-or-higher share. This is not the old Pioneer socioeconomic peer workbook.",
+        "note": "Census ACS 5-year 2020-2024 table-based summary file, county subdivisions (GEO_ID 0600000US25). Joined to Census 2025 subcounty names. Some small towns are suppressed. ACS top-codes median household income at $250,001."
       }
     }
   },

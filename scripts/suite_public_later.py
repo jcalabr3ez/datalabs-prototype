@@ -1421,6 +1421,8 @@ MORE_STRIP = {
         "DLS levy and peer-set files remain pending.",
         "Tax levy and peer sets are listed as later views.",
         "Tax levy and peer sets are pending.",
+        "A DLS levy file is not posted as a stable public CSV.",
+        "This is not the old Pioneer socioeconomic peer workbook.",
     ],
     "DL-26": [
         "Crime, debt, education, spending, and tax rankings are pending because those DLS and DESE files were not reachable this pass.",

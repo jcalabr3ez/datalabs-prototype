@@ -159,7 +159,7 @@
  {
   "id": "DL-10",
   "t": "Massachusetts Hospitals",
-  "q": "CMS overall star ratings and facility counts for Massachusetts hospitals.",
+  "q": "CMS star ratings and CHIA commercial relative prices for Massachusetts hospitals.",
   "g": [
    "MA"
   ],
@@ -365,7 +365,7 @@
  {
   "id": "DL-25",
   "t": "Municipal Atlas",
-  "q": "Population for every Massachusetts city and town, with a find box and Census peers for Boston.",
+  "q": "Population, income, housing, and education for every Massachusetts city and town, with Census and ACS peers.",
   "g": [
    "MA"
   ],
@@ -378,7 +378,7 @@
  {
   "id": "DL-26",
   "t": "Municipal Rankings",
-  "q": "Population change and school spending for Massachusetts cities and towns.",
+  "q": "Population change, school spending, income, poverty, and home values for Massachusetts cities and towns.",
   "g": [
    "MA"
   ],
@@ -404,7 +404,7 @@
  {
   "id": "DL-28",
   "t": "Massachusetts State Finances",
-  "q": "Commonwealth tax collections from the Census Quarterly Summary of State and Local Tax Revenue.",
+  "q": "Commonwealth quarterly and annual tax collections by type from Census QTAX and STC.",
   "g": [
    "MA"
   ],
@@ -417,7 +417,7 @@
  {
   "id": "DL-29",
   "t": "U.S. State Finances",
-  "q": "State tax collections from the Census Quarterly Summary of State and Local Tax Revenue.",
+  "q": "State tax collections, annual tax mix, and state government employment.",
   "g": [
    "US"
   ],
@@ -443,7 +443,7 @@
  {
   "id": "DL-31",
   "t": "Crime and Justice",
-  "q": "Adult imprisonment by state from the Bureau of Justice Statistics.",
+  "q": "Imprisonment rates, admissions, releases, and youth in adult prisons by state from BJS.",
   "g": [
    "US"
   ],

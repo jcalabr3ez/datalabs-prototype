@@ -6,7 +6,7 @@
   "group": "Education",
   "status": "live",
   "as_of": "2024-10",
-  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12.",
+  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil.",
   "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education.",
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "replaces": [
@@ -22,31 +22,37 @@
       "name": "NCES NAEP state results",
       "cadence": "Biennial",
       "url": "https://nces.ed.gov/nationsreportcard/",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-02": {
       "name": "NCES Digest table 203.20, public K-12 enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-03": {
       "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-04": {
       "name": "NCES Digest table 233.40, out-of-school suspension share",
       "cadence": "Periodic",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-05": {
       "name": "NAEP 2024 state reading and math average scale scores",
       "cadence": "Biennial",
       "url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, and 2024 NAEP state reading and math average scale scores (grades 4 and 8). Per-pupil finance sits on Massachusetts K-12."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
+    },
+    "SRC-607-06": {
+      "name": "NCES NPEFS current expenditures per pupil, FY 2024",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt",
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
     }
   },
   "page": {
@@ -63,7 +69,7 @@
   "unit": "students",
   "data_month": "2024-10",
   "data_month_label": "Fall 2024",
-  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). On the 2024 NAEP, grade-4 reading averaged <b>214.3</b> in the national public sample; Massachusetts scored <b>224.8</b>, rank 1 of 51 (SRC-607-05). Grade-4 math was <b>237.3</b> nationally and <b>246.5</b> in Massachusetts (SRC-607-05). Grade-8 reading was <b>256.7</b> / <b>268.0</b>; grade-8 math was <b>272.2</b> / <b>283.5</b> (SRC-607-05).",
+  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). On the 2024 NAEP, grade-4 reading averaged <b>214.3</b> in the national public sample; Massachusetts scored <b>224.8</b>, rank 1 of 51 (SRC-607-05). Grade-4 math was <b>237.3</b> nationally and <b>246.5</b> in Massachusetts (SRC-607-05). Grade-8 reading was <b>256.7</b> / <b>268.0</b>; grade-8 math was <b>272.2</b> / <b>283.5</b> (SRC-607-05). NCES NPEFS current expenditures per pupil were <b>$17,644</b> in the United States in FY 2024 (SRC-607-06). Massachusetts was <b>$27,008</b>, rank 5 of 51 (derived, SRC-607-06).",
   "kpis": [
     {
       "label": "U.S. public K-12, Fall 2024",
@@ -808,6 +814,30 @@
             "as_of_label": "2024"
           }
         }
+      },
+      "npefs_ppe_fy2024": {
+        "us": 17644,
+        "ma": {
+          "v": 27008,
+          "rank": 5,
+          "n": 51
+        },
+        "highest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 31887
+        },
+        "lowest": {
+          "st": "ID",
+          "name": "Idaho",
+          "v": 11167
+        },
+        "n_ranked": 51,
+        "label": "Current expenditures per pupil, FY 2024",
+        "src": "SRC-607-06",
+        "unit": "dollars per pupil",
+        "as_of_label": "Fiscal year 2024 (school year 2023-24)",
+        "note": "NCES NPEFS TE5 divided by membership. The U.S. figure is the First Look 2026-008 Table 4 average."
       }
     }
   },

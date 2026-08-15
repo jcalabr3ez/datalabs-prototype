@@ -6,8 +6,8 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2026-06",
-  "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims. A CPS labor-demographics extract is not in this ledger.",
-  "exclusions": "Does not cover occupational wages or advice about a job search. CPS labor demographics are not a posted machine-readable extract: decline those.",
+  "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims.",
+  "exclusions": "Does not cover occupational wages, CPS age-sex-race detail, or advice about a job search.",
   "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
   "replaces": [
     "Employment and Wages",
@@ -24,19 +24,25 @@
       "name": "BLS Local Area Unemployment Statistics, statewide seasonally adjusted",
       "cadence": "Monthly",
       "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims. A CPS labor-demographics extract is not in this ledger."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
     },
     "SRC-614-02": {
       "name": "BLS QCEW average weekly wage, all industries, statewide",
       "cadence": "Quarterly",
       "url": "https://data.bls.gov/cew/data/api/2025/4/industry/10.csv",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims. A CPS labor-demographics extract is not in this ledger."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
     },
     "SRC-614-03": {
       "name": "DOL ETA 539 weekly UI claims by state",
       "cadence": "Weekly",
       "url": "https://oui.doleta.gov/unemploy/csv/ar539.csv",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, and labor force for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims. A CPS labor-demographics extract is not in this ledger."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
+    },
+    "SRC-614-04": {
+      "name": "BLS LAUS statewide employment, labor force, employment-population ratio, and labor-force participation rate",
+      "cadence": "Monthly",
+      "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS",
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
     }
   },
   "page": {
@@ -54,7 +60,7 @@
   "unit": "percent",
   "data_month": "2026-06",
   "data_month_label": "Jun 2026",
-  "lead": "Massachusetts seasonally adjusted unemployment was <b>4.4 percent</b> in Jun 2026, rank 18 of 51 when states are ordered from highest rate to lowest (derived, SRC-614-01). District of Columbia was highest at 6.0 percent; South Dakota was lowest at 2.0 percent (SRC-614-01). Average weekly wages were <b>$1,569</b> in the United States in 2025 Q4 (derived, SRC-614-02). Massachusetts was <b>$1,980</b>, rank 2 of 51 (derived, SRC-614-02). UI initial claims were <b>187,408</b> in the United States in the week ending 2026-08-08 (derived, SRC-614-03). Massachusetts filed <b>4,617</b> initial claims and <b>75,706</b> continued weeks (SRC-614-03). A CPS demographic extract is not in this ledger.",
+  "lead": "Massachusetts seasonally adjusted unemployment was <b>4.4 percent</b> in Jun 2026, rank 18 of 51 when states are ordered from highest rate to lowest (derived, SRC-614-01). District of Columbia was highest at 6.0 percent; South Dakota was lowest at 2.0 percent (SRC-614-01). Average weekly wages were <b>$1,569</b> in the United States in 2025 Q4 (derived, SRC-614-02). Massachusetts was <b>$1,980</b>, rank 2 of 51 (derived, SRC-614-02). UI initial claims were <b>187,408</b> in the United States in the week ending 2026-08-08 (derived, SRC-614-03). Massachusetts filed <b>4,617</b> initial claims and <b>75,706</b> continued weeks (SRC-614-03). The Massachusetts labor-force participation rate was <b>65.3%</b> in 2026-06, rank 11 of 51 (derived, SRC-614-04). The employment-population ratio was <b>62.4%</b> (SRC-614-04). Employment was <b>3,702,521</b> (SRC-614-04). A CPS age-sex-race extract is not in this ledger.",
   "kpis": [
     {
       "label": "Massachusetts, Jun 2026",
@@ -1053,6 +1059,105 @@
         "as_of_label": "2026-08-08",
         "ma_continued": 75706,
         "note": "ETA 539 cell C3 is initial claims; C8 is continued weeks claimed. U.S. is the sum of states and D.C."
+      },
+      "laus_labor_2026": {
+        "label": "LAUS labor force, employment, participation, and employment-population ratio",
+        "src": "SRC-614-04",
+        "as_of_label": "2026-06",
+        "lfpr": {
+          "us": null,
+          "ma": {
+            "v": 65.3,
+            "rank": 11,
+            "n": 51
+          },
+          "highest": {
+            "st": "DC",
+            "name": "District of Columbia",
+            "v": 70.3
+          },
+          "lowest": {
+            "st": "WV",
+            "name": "West Virginia",
+            "v": 53.9
+          },
+          "n_ranked": 51,
+          "label": "Labor-force participation rate",
+          "src": "SRC-614-04",
+          "unit": "percent",
+          "as_of_label": "2026-06"
+        },
+        "epop": {
+          "us": null,
+          "ma": {
+            "v": 62.4,
+            "rank": 12,
+            "n": 51
+          },
+          "highest": {
+            "st": "ND",
+            "name": "North Dakota",
+            "v": 67.9
+          },
+          "lowest": {
+            "st": "WV",
+            "name": "West Virginia",
+            "v": 51.6
+          },
+          "n_ranked": 51,
+          "label": "Employment-population ratio",
+          "src": "SRC-614-04",
+          "unit": "percent",
+          "as_of_label": "2026-06"
+        },
+        "employment": {
+          "us": null,
+          "ma": {
+            "v": 3702521,
+            "rank": 14,
+            "n": 51
+          },
+          "highest": {
+            "st": "CA",
+            "name": "California",
+            "v": 18595258
+          },
+          "lowest": {
+            "st": "WY",
+            "name": "Wyoming",
+            "v": 276932
+          },
+          "n_ranked": 51,
+          "label": "Employment level",
+          "src": "SRC-614-04",
+          "unit": "people",
+          "as_of_label": "2026-06"
+        },
+        "labor_force": {
+          "us": null,
+          "ma": {
+            "v": 3873506,
+            "rank": 14,
+            "n": 51
+          },
+          "highest": {
+            "st": "CA",
+            "name": "California",
+            "v": 19619343
+          },
+          "lowest": {
+            "st": "WY",
+            "name": "Wyoming",
+            "v": 285973
+          },
+          "n_ranked": 51,
+          "label": "Labor force",
+          "src": "SRC-614-04",
+          "unit": "people",
+          "as_of_label": "2026-06"
+        },
+        "ma_unemployment": 170985,
+        "note": "BLS LAUS statewide seasonally adjusted file. Measures 05 employment, 06 labor force, 07 employment-population ratio, 08 labor-force participation rate. The U.S. civilian series is not in this file."
       }
     }
   },

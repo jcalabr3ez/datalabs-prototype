@@ -6,8 +6,8 @@
   "group": "Crime & Justice",
   "status": "live",
   "as_of": "2023-12",
-  "scope": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, BJS juvenile incarceration, and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass.",
-  "exclusions": "Does not cover Massachusetts municipal crime rankings (Municipal Rankings) or advice about a case. FBI crime rates, juvenile incarceration, and internet-crime reports are pending: decline those.",
+  "scope": "This ledger ranks states on BJS prisoners under jurisdiction at year-end 2023, and also reports 2023 imprisonment rates per 100,000 residents, sentenced admissions, releases, and prisoners age 17 or younger held in adult prisons. FBI UCR/NIBRS crime rates and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass.",
+  "exclusions": "Does not cover Massachusetts municipal crime rankings (Municipal Rankings) or advice about a case. FBI crime rates and IC3 internet-crime reports are pending: decline those. Youth counts are prisoners age 17 or younger in adult prisons, not OJJDP juvenile-justice custody.",
   "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
   "replaces": [
     "Adult Incarceration",
@@ -15,19 +15,25 @@
     "Internet Crime",
     "Juvenile Incarceration"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BJS Prisoners in 2023 statistical tables, p23stt02.csv (jurisdiction counts, 2023). U.S. total equals 1,254,224. FBI UCR/NIBRS, juvenile, and IC3 files remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BJS Prisoners in 2023 statistical tables, p23stt02.csv (jurisdiction counts, 2023). U.S. total equals 1,254,224. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-631-01": {
       "name": "FBI Crime Data Explorer / UCR and NIBRS",
       "cadence": "Annual",
       "url": "https://cde.ucr.cjis.gov/",
-      "supports": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, BJS juvenile incarceration, and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass."
+      "supports": "This ledger ranks states on BJS prisoners under jurisdiction at year-end 2023, and also reports 2023 imprisonment rates per 100,000 residents, sentenced admissions, releases, and prisoners age 17 or younger held in adult prisons. FBI UCR/NIBRS crime rates and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass."
     },
     "SRC-631-02": {
       "name": "BJS Prisoners in 2023 statistical tables, table 2",
       "cadence": "Annual",
       "url": "https://bjs.ojp.gov/document/p23st.zip",
-      "supports": "This first ledger ranks states on BJS prisoners under jurisdiction at year-end 2023. FBI crime rates, BJS juvenile incarceration, and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass."
+      "supports": "This ledger ranks states on BJS prisoners under jurisdiction at year-end 2023, and also reports 2023 imprisonment rates per 100,000 residents, sentenced admissions, releases, and prisoners age 17 or younger held in adult prisons. FBI UCR/NIBRS crime rates and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass."
+    },
+    "SRC-631-03": {
+      "name": "BJS Prisoners in 2023 tables 7, 8, 9, and 15 (rates, admissions, releases, youth in adult prisons)",
+      "cadence": "Annual",
+      "url": "https://bjs.ojp.gov/document/p23st.zip",
+      "supports": "This ledger ranks states on BJS prisoners under jurisdiction at year-end 2023, and also reports 2023 imprisonment rates per 100,000 residents, sentenced admissions, releases, and prisoners age 17 or younger held in adult prisons. FBI UCR/NIBRS crime rates and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass."
     }
   },
   "page": {
@@ -37,14 +43,14 @@
   "geo": [
     "US"
   ],
-  "q": "Crime rates, adult and juvenile incarceration, and internet crime.",
+  "q": "Imprisonment rates, admissions, releases, and youth in adult prisons by state from BJS.",
   "pending": false,
   "metric": "prisoners_yearend_2023",
   "metric_label": "Prisoners under jurisdiction, year-end 2023",
   "unit": "prisoners",
   "data_month": "2023-12",
   "data_month_label": "Year-end 2023",
-  "lead": "State and federal correctional authorities held <b>1,254,224</b> prisoners at year-end 2023 (SRC-631-02). Massachusetts held <b>6,002</b>, rank 36 of 50 (derived, SRC-631-02). FBI crime rates, juvenile incarceration, and internet-crime reports are pending on this page.",
+  "lead": "State and federal correctional authorities held <b>1,254,224</b> prisoners at year-end 2023 (SRC-631-02). Massachusetts held <b>6,002</b>, rank 36 of 50 (derived, SRC-631-02). The imprisonment rate was <b>360.0</b> per 100,000 U.S. residents at year-end 2023; Massachusetts was <b>96.0</b>, rank 50 of 50 (derived, SRC-631-03). Sentenced admissions were <b>1,641</b> in Massachusetts (SRC-631-03). Prisoners age 17 or younger in adult prisons numbered <b>0</b> in Massachusetts (SRC-631-03). That is youth in adult prisons, not the juvenile-justice custody count. FBI crime rates and IC3 reports are not a stable machine-readable state file on this page.",
   "kpis": [
     {
       "label": "U.S. prisoners, 2023",
@@ -64,7 +70,7 @@
       "label": "Highest / lowest",
       "value": "TX 149,264",
       "detail": "Texas held the most; Vermont the fewest at 1,334 (SRC-631-02).",
-      "why": "FBI crime rates, juvenile incarceration, and IC3 are pending.",
+      "why": "",
       "src": "BJS Prisoners in 2023, table 2 (SRC-631-02)"
     }
   ],
@@ -580,7 +586,109 @@
       }
     ],
     "n_ranked": 50,
-    "massachusetts_rank": 36
+    "massachusetts_rank": 36,
+    "secondary": {
+      "bjs_depth_2023": {
+        "label": "BJS Prisoners in 2023: rates, admissions, releases, and juveniles in adult prisons",
+        "src": "SRC-631-03",
+        "as_of_label": "Year-end 2023",
+        "imprisonment_rate": {
+          "us": 360.0,
+          "ma": {
+            "v": 96.0,
+            "rank": 50,
+            "n": 50
+          },
+          "highest": {
+            "st": "MS",
+            "name": "Mississippi",
+            "v": 652.0
+          },
+          "lowest": {
+            "st": "MA",
+            "name": "Massachusetts",
+            "v": 96.0
+          },
+          "n_ranked": 50,
+          "label": "Imprisonment rate per 100,000 residents, 2023",
+          "src": "SRC-631-03",
+          "unit": "per 100,000 residents",
+          "as_of_label": "Year-end 2023",
+          "note": "BJS Prisoners in 2023, table 7, all ages."
+        },
+        "admissions": {
+          "us": 472278.0,
+          "ma": {
+            "v": 1641.0,
+            "rank": 41,
+            "n": 48
+          },
+          "highest": {
+            "st": "TX",
+            "name": "Texas",
+            "v": 67810.0
+          },
+          "lowest": {
+            "st": "WY",
+            "name": "Wyoming",
+            "v": 803.0
+          },
+          "n_ranked": 48,
+          "label": "Admissions of sentenced prisoners, 2023",
+          "src": "SRC-631-03",
+          "unit": "admissions",
+          "as_of_label": "2023"
+        },
+        "releases": {
+          "us": 453242.0,
+          "ma": {
+            "v": 1463.0,
+            "rank": 43,
+            "n": 50
+          },
+          "highest": {
+            "st": "TX",
+            "name": "Texas",
+            "v": 58034.0
+          },
+          "lowest": {
+            "st": "RI",
+            "name": "Rhode Island",
+            "v": 498.0
+          },
+          "n_ranked": 50,
+          "label": "Releases of sentenced prisoners, 2023",
+          "src": "SRC-631-03",
+          "unit": "releases",
+          "as_of_label": "2023"
+        },
+        "juveniles_in_adult_prisons": {
+          "us": 513,
+          "ma": {
+            "v": 0,
+            "rank": 32,
+            "n": 45
+          },
+          "highest": {
+            "st": "GA",
+            "name": "Georgia",
+            "v": 60
+          },
+          "lowest": {
+            "st": "WI",
+            "name": "Wisconsin",
+            "v": 0
+          },
+          "n_ranked": 45,
+          "label": "Prisoners age 17 or younger in adult prisons, 2023",
+          "src": "SRC-631-03",
+          "unit": "prisoners",
+          "as_of_label": "Year-end 2023",
+          "note": "BJS table 15. This is youth held in adult prisons, not the juvenile-justice custody count."
+        },
+        "note": "BJS Prisoners in 2023 statistical tables. FBI UCR/NIBRS crime rates and IC3 internet-crime reports are not a stable machine-readable state file on this pass."
+      }
+    }
   },
   "entities": {
     "TX": {

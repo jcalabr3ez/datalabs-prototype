@@ -6,7 +6,7 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2024-12",
-  "scope": "This first ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100). Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo.",
+  "scope": "This ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100), and also reports the 2024 component RPPs for goods, housing, utilities, and other services. Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo.",
   "exclusions": "Does not cover a household budget calculator or advice about moving. Tariff, defense, and fiscal-dependency measures are pending: decline those. Do not substitute a Census dump for Pioneer's method.",
   "heritage": "Formerly Cost of Living, State Dependency, Tariff Impacts, and Defense Impact",
   "replaces": [
@@ -16,13 +16,19 @@
     "MA Tariff Impacts",
     "Defense Impact"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SARPP_STATE_2008_2024, LineCode 1 (RPPs: All items). U.S. 2024 equals 100. Tariff, defense, and state-dependency indexes remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SARPP_STATE_2008_2024, LineCode 1 (RPPs: All items). U.S. 2024 equals 100. Tariff, defense, and state-dependency indexes remain pending. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-619-01": {
       "name": "BEA SARPP all-items regional price parities, 2008-2024",
       "cadence": "Annual",
       "url": "https://apps.bea.gov/regional/zip/SARPP.zip",
-      "supports": "This first ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100). Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo."
+      "supports": "This ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100), and also reports the 2024 component RPPs for goods, housing, utilities, and other services. Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo."
+    },
+    "SRC-619-02": {
+      "name": "BEA SARPP component regional price parities (goods, housing, utilities, other services), 2024",
+      "cadence": "Annual",
+      "url": "https://apps.bea.gov/regional/zip/SARPP.zip",
+      "supports": "This ledger ranks states on BEA all-items regional price parities for 2024 (United States = 100), and also reports the 2024 component RPPs for goods, housing, utilities, and other services. Tariff, defense-impact, and fiscal-dependency measures are Pioneer products and stay pending until those methods are in the repo."
     }
   },
   "page": {
@@ -33,14 +39,14 @@
     "US",
     "MA"
   ],
-  "q": "Regional price parities, state fiscal dependency, tariffs, and defense impact.",
+  "q": "Regional price parities by state from the Bureau of Economic Analysis.",
   "pending": false,
   "metric": "rpp_all_items_2024",
   "metric_label": "Regional price parity, all items, 2024 (US = 100)",
   "unit": "index (US = 100)",
   "data_month": "2024-12",
   "data_month_label": "Calendar year 2024",
-  "lead": "The BEA all-items regional price parity for the United States is <b>100</b> by construction in 2024 (SRC-619-01). Massachusetts was <b>105.8</b>, rank 7 of 51 when states are ordered from highest price level to lowest (derived, SRC-619-01).",
+  "lead": "The BEA all-items regional price parity for the United States is <b>100</b> by construction in 2024 (SRC-619-01). Massachusetts was <b>105.8</b>, rank 7 of 51 when states are ordered from highest price level to lowest (derived, SRC-619-01). On the 2024 component RPPs, Massachusetts housing was <b>128.1</b> versus 100 nationally, rank 4 of 51 (derived, SRC-619-02). Goods were <b>98.8</b> and utilities <b>152.1</b> (SRC-619-02). Tariff, defense, and fiscal-dependency measures remain Pioneer methods and are not in this ledger.",
   "kpis": [
     {
       "label": "U.S. all-items RPP, 2024",
@@ -60,7 +66,7 @@
       "label": "Highest / lowest",
       "value": "CA 110.7",
       "detail": "California had the highest all-items RPP; Arkansas the lowest at 86.9 (SRC-619-01).",
-      "why": "Tariff, defense, and fiscal-dependency measures are pending.",
+      "why": "",
       "src": "BEA SARPP (SRC-619-01)"
     }
   ],
@@ -662,7 +668,109 @@
       }
     ],
     "n_ranked": 51,
-    "massachusetts_rank": 7
+    "massachusetts_rank": 7,
+    "secondary": {
+      "rpp_components_2024": {
+        "label": "BEA regional price parities by component, 2024",
+        "src": "SRC-619-02",
+        "as_of_label": "Calendar year 2024",
+        "components": {
+          "goods": {
+            "us": 99.6,
+            "ma": {
+              "v": 98.8,
+              "rank": 15,
+              "n": 51
+            },
+            "highest": {
+              "st": "HI",
+              "name": "Hawaii",
+              "v": 111.6
+            },
+            "lowest": {
+              "st": "AR",
+              "name": "Arkansas",
+              "v": 93.6
+            },
+            "n_ranked": 51,
+            "label": "Regional price parity, goods, 2024",
+            "src": "SRC-619-02",
+            "unit": "index (US = 100)",
+            "as_of_label": "Calendar year 2024"
+          },
+          "housing": {
+            "us": 100.6,
+            "ma": {
+              "v": 128.1,
+              "rank": 4,
+              "n": 51
+            },
+            "highest": {
+              "st": "DC",
+              "name": "District of Columbia",
+              "v": 155.0
+            },
+            "lowest": {
+              "st": "WV",
+              "name": "West Virginia",
+              "v": 54.2
+            },
+            "n_ranked": 51,
+            "label": "Regional price parity, housing, 2024",
+            "src": "SRC-619-02",
+            "unit": "index (US = 100)",
+            "as_of_label": "Calendar year 2024"
+          },
+          "utilities": {
+            "us": 98.4,
+            "ma": {
+              "v": 152.1,
+              "rank": 3,
+              "n": 51
+            },
+            "highest": {
+              "st": "HI",
+              "name": "Hawaii",
+              "v": 190.2
+            },
+            "lowest": {
+              "st": "ID",
+              "name": "Idaho",
+              "v": 70.4
+            },
+            "n_ranked": 51,
+            "label": "Regional price parity, utilities, 2024",
+            "src": "SRC-619-02",
+            "unit": "index (US = 100)",
+            "as_of_label": "Calendar year 2024"
+          },
+          "other_services": {
+            "us": 100.1,
+            "ma": {
+              "v": 102.9,
+              "rank": 8,
+              "n": 51
+            },
+            "highest": {
+              "st": "NY",
+              "name": "New York",
+              "v": 104.1
+            },
+            "lowest": {
+              "st": "ND",
+              "name": "North Dakota",
+              "v": 91.2
+            },
+            "n_ranked": 51,
+            "label": "Regional price parity, other services, 2024",
+            "src": "SRC-619-02",
+            "unit": "index (US = 100)",
+            "as_of_label": "Calendar year 2024"
+          }
+        },
+        "note": "BEA SARPP_STATE_2008_2024. LineCode 2 goods, 3 housing, 4 utilities, 5 other services. United States equals 100 on each line. Tariff, defense, and fiscal-dependency indexes remain Pioneer methods and are not in this ledger."
+      }
+    }
   },
   "entities": {
     "CA": {

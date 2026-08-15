@@ -6,26 +6,32 @@
   "group": "Healthcare",
   "status": "live",
   "as_of": "2026-08",
-  "scope": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment.",
-  "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care. CHIA relative prices are pending: decline those.",
+  "scope": "This ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, ownership, emergency services, and city counts, and also reports CHIA calendar-2023 statewide commercial relative prices (August 2025 databook).",
+  "exclusions": "Does not cover 340B, Medicaid, other states, or advice about where to seek care.",
   "heritage": "Formerly Hospital Tracker and Relative Price Tracker",
   "replaces": [
     "Hospital Tracker",
     "Relative Price Tracker"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from the CMS provider-data Hospital General Information datastore (dataset xubh-q36u), filtered to state=MA. Count equals 84. The ranking is the CMS overall star rating (5 to 1) among rated facilities. CHIA relative-price files remain pending.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from the CMS provider-data Hospital General Information datastore (dataset xubh-q36u), filtered to state=MA. Count equals 84. The ranking is the CMS overall star rating (5 to 1) among rated facilities. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-610-01": {
       "name": "Massachusetts CHIA hospital relative prices and hospital profiles",
       "cadence": "Annual",
       "url": "https://www.chiamass.gov/",
-      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment."
+      "supports": "This ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, ownership, emergency services, and city counts, and also reports CHIA calendar-2023 statewide commercial relative prices (August 2025 databook)."
     },
     "SRC-610-02": {
       "name": "CMS Hospital General Information, Massachusetts facilities",
       "cadence": "Periodic",
       "url": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
-      "supports": "This first ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, and ownership. CHIA relative-price tables remain a later view because the CY 2023 databook is not a stable public download from this environment."
+      "supports": "This ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, ownership, emergency services, and city counts, and also reports CHIA calendar-2023 statewide commercial relative prices (August 2025 databook)."
+    },
+    "SRC-610-03": {
+      "name": "CHIA statewide commercial relative prices, CY 2023 (August 2025 databook)",
+      "cadence": "Annual",
+      "url": "https://www.chiamass.gov/wp-content/uploads/docs/r/pubs/2025/Relative-Price-Databook-2023.xlsx",
+      "supports": "This ledger lists Massachusetts hospitals from CMS Hospital General Information, including overall star ratings, type, ownership, emergency services, and city counts, and also reports CHIA calendar-2023 statewide commercial relative prices (August 2025 databook)."
     }
   },
   "page": {
@@ -35,14 +41,14 @@
   "geo": [
     "MA"
   ],
-  "q": "Hospital relative prices and the Massachusetts hospital tracker.",
+  "q": "CMS star ratings and CHIA commercial relative prices for Massachusetts hospitals.",
   "pending": false,
   "metric": "cms_ma_hospital_overall_rating",
   "metric_label": "CMS overall hospital star rating, Massachusetts facilities",
   "unit": "star rating (1-5)",
   "data_month": "2026-08",
   "data_month_label": "CMS Hospital General Information, retrieved Aug 2026",
-  "lead": "CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a five-star overall rating; 54 have any star rating (SRC-610-02). CHIA relative prices remain pending on this page.",
+  "lead": "CMS lists <b>84</b> hospitals in Massachusetts (SRC-610-02). <b>9</b> have a five-star overall rating; 54 have any star rating (SRC-610-02). CHIA statewide commercial relative prices for calendar 2023 cover <b>59</b> acute hospitals (SRC-610-03). <b>Nantucket Cottage Hospital</b> was highest at <b>1.79</b>; Boston Children's Hospital was <b>1.48</b> (SRC-610-03). CMS lists emergency services at <b>71.4%</b> of Massachusetts facilities, across <b>58</b> cities (SRC-610-02).",
   "kpis": [
     {
       "label": "Massachusetts hospitals",
@@ -61,7 +67,7 @@
     {
       "label": "Most common type",
       "value": "Acute Care Hospitals",
-      "detail": "55 of 84 facilities (SRC-610-02). CHIA relative prices remain pending.",
+      "detail": "55 of 84 facilities (SRC-610-02).",
       "why": "Type mix is the first cut of the hospital file.",
       "src": "CMS Hospital General Information (SRC-610-02)"
     }
@@ -744,6 +750,147 @@
       "Veterans Health Administration": 3,
       "Government - Federal": 3,
       "Government - State": 5
+    },
+    "secondary": {
+      "chia_srp_2023": {
+        "label": "CHIA statewide commercial relative price, CY 2023",
+        "src": "SRC-610-03",
+        "unit": "relative price (statewide = 1.00)",
+        "as_of_label": "Calendar year 2023 (published August 2025)",
+        "n_hospitals": 59,
+        "highest": {
+          "name": "Nantucket Cottage Hospital",
+          "v": 1.79
+        },
+        "lowest": {
+          "name": "Baystate Noble Hospital",
+          "v": 0.74
+        },
+        "childrens": {
+          "name": "Boston Children's Hospital",
+          "v": 1.48
+        },
+        "top_eight": [
+          {
+            "name": "Nantucket Cottage Hospital",
+            "v": 1.79
+          },
+          {
+            "name": "Dana-Farber Cancer Institute",
+            "v": 1.64
+          },
+          {
+            "name": "Martha's Vineyard Hospital",
+            "v": 1.51
+          },
+          {
+            "name": "Boston Children's Hospital",
+            "v": 1.48
+          },
+          {
+            "name": "Falmouth Hospital",
+            "v": 1.38
+          },
+          {
+            "name": "Cape Cod Hospital",
+            "v": 1.35
+          },
+          {
+            "name": "Brigham and Women's Hospital",
+            "v": 1.34
+          },
+          {
+            "name": "Massachusetts General Hospital",
+            "v": 1.29
+          }
+        ],
+        "systems": {
+          "Beth Israel Lahey Health": 10,
+          "Mass General Brigham": 9,
+          "Boston Children's Hospital and Subsid.": 1,
+          "Tenet Healthcare": 2,
+          "Steward Health Care System": 2,
+          "Heywood Healthcare": 2,
+          "UMass Memorial Health Care": 3,
+          "Harrington Healthcare System, Inc.": 1,
+          "Cambridge Health Alliance": 1,
+          "Lifespan Corporation": 2,
+          "Baystate Health": 4,
+          "Cape Cod Healthcare": 2,
+          "Wellforce": 3,
+          "Lawrence General Hospital and Affiliates": 2,
+          "Valley Health System": 1,
+          "Berkshire Health Systems": 2,
+          "Sturdy Memorial Foundation": 1,
+          "Signature Healthcare Corporation": 1,
+          "Trinity Health": 1,
+          "Boston Medical Center Health System": 3,
+          "South Shore Health System": 1,
+          "Milford Regional Medical Ctr, Inc. & Affil.": 1,
+          "Southcoast Health System": 1,
+          "Dana-Farber Cancer Institute and Subsid.": 1,
+          "Emerson Health System Inc. and Subsid.": 1,
+          "Shriners Hospital for Children": 1
+        },
+        "cohorts": {
+          "Community Hospital": 11,
+          "Specialty Hospital": 5,
+          "Community-High Public Payer Hospital": 30,
+          "Teaching Hospital": 7,
+          "Academic Medical Center": 6
+        },
+        "note": "Appendix A, commercial self- and fully-insured statewide (cross-payer) relative price. 1.00 is the statewide commercial average."
+      },
+      "cms_hospital_depth": {
+        "label": "CMS Massachusetts hospital mix",
+        "src": "SRC-610-02",
+        "as_of_label": "CMS Hospital General Information, retrieved Aug 2026",
+        "n_hospitals": 84,
+        "emergency": 60,
+        "emergency_pct": 71.4,
+        "n_rated": 54,
+        "five_star": 9,
+        "mean_star": 3.2,
+        "cities": 58,
+        "highest_city": {
+          "name": "BOSTON",
+          "v": 12
+        },
+        "top_cities": [
+          {
+            "name": "BOSTON",
+            "v": 12
+          },
+          {
+            "name": "WORCESTER",
+            "v": 5
+          },
+          {
+            "name": "FALL RIVER",
+            "v": 3
+          },
+          {
+            "name": "HOLYOKE",
+            "v": 3
+          },
+          {
+            "name": "CAMBRIDGE",
+            "v": 2
+          },
+          {
+            "name": "BRIGHTON",
+            "v": 2
+          },
+          {
+            "name": "BROCKTON",
+            "v": 2
+          },
+          {
+            "name": "SPRINGFIELD",
+            "v": 2
+          }
+        ]
+      }
     }
   },
   "entities": {

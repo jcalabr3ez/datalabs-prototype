@@ -491,7 +491,8 @@
       <div>48 sources across 8 categories; see the register above</div>
     </div>
     <div class="disc">
-    <div><b>About this tool.</b> The State Tax Atlas is a Pioneer Institute DataLabs research tool, published and versioned. The version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> The State Tax Atlas is a Pioneer Institute DataLabs research tool, published and versioned. Corrections and data refreshes are logged in the <a href="/changelog/">public changelog</a>. It is a living data tool, not a static report.</div>
+    <div style="margin-top:12px"><b>How to cite.</b> Pioneer Institute DataLabs, State Tax Atlas, data verified August 14, 2026. Name the source id next to the figure.</div>
 
     <div style="margin-top:12px"><b>Research and educational use only.</b> This tool is provided strictly for research
     and educational purposes. It does not constitute legal, tax, accounting, financial, or investment advice, it
@@ -798,6 +799,10 @@ function applyHash() {
     if (part.indexOf("view-") === 0) v = part.slice(5);
     else if (part.indexOf("state=") === 0) st = part.slice(6).toUpperCase();
   });
+  if (!st) {
+    var qs = new URLSearchParams(location.search);
+    st = (qs.get("state") || qs.get("st") || "").toUpperCase() || null;
+  }
   if (["current", "proposals", "ballot", "future", "events"].indexOf(v) < 0) v = "current";
   if (st && STATES[st]) selected = st;
   setView(v);

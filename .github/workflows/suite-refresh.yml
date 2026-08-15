@@ -1,0 +1,50 @@
+# Monthly suite refresh: rebuilds every suite ledger that has a live
+# builder (first wave plus later public files), restubs 340B and Patents,
+# re-renders pages, and opens a pull request. Never pushes to main.
+# Stubs stay honest. The five flagships are not in this job.
+name: Suite monthly refresh
+
+on:
+  schedule:
+    - cron: "27 11 12 * *" # 12th of each month, 11:27 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh suite ledgers from public files, re-render pages
+        run: python3 scripts/refresh_suite.py
+      - name: Freshness report
+        run: python3 scripts/check_freshness.py || true
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/suite-refresh
+          title: "Suite: monthly refresh of public-file ledgers"
+          commit-message: "Suite: monthly refresh of public-file ledgers"
+          body: |
+            Automated monthly refresh of the 26-app suite:
+
+            - First-wave live builders (Business Formation, Labor Market,
+              Housing Market, Population and Migration) via
+              scripts/refresh_suite.py.
+            - Later public-file builders in suite_builders.py and
+              suite_later.py.
+            - 340B and Patents stay honest stubs. No invented figures.
+            - Pages re-rendered and injected. Catalog vintages updated.
+
+            The five flagships are not in this job. Review the ledger
+            diffs before merging: a new month extends a series; a change
+            to a historical cell is a publisher revision and worth a
+            note. If a source file moved, the job fails and no PR opens.
+            Merging to main deploys the site.
+          delete-branch: true

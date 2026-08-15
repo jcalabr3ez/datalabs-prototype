@@ -1,4 +1,4 @@
-# DataLabs Prototype: Setup (GitHub + Netlify + Anthropic API)
+# DataLabs: Setup (GitHub + Netlify + Anthropic API)
 
 Time: about 30 minutes. No local tools required; every step can be done in
 a web browser. If you prefer the git command line, Step 2 has that path too.
@@ -10,7 +10,8 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic headings plus the
                                    five flagships and the 26-app suite
-                                   (DL-01 through DL-31 only)
+                                   (DL-01 through DL-31 only). Public
+                                   production site.
     suite/apps.json                CANONICAL registry of the 26 new applications
     mbta/index.html                DL-03 Transportation & MBTA flagship page
     florida-insurance/index.html   DL-02 Florida Insurance Watch flagship page
@@ -41,15 +42,21 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    FTA NTD API; run by the monthly workflow
     scripts/refresh_dl04.py        Recomputes the DL-04 ledger from EIA and
                                    Census files; run by the yearly workflow
-    scripts/refresh_suite.py       First-wave suite fetch (BFS, LAUS, BPS, PEP)
-                                   plus stubs and page render for DL-06 to DL-31
+    scripts/refresh_suite.py       Suite fetch (BFS, LAUS, BPS, PEP, plus later
+                                   public-file builders) and page render for
+                                   DL-06 to DL-31; run by the monthly workflow
     scripts/refresh_dl05.py        Rebuilds DL-05 retiree totals and the
                                    last-name search shards from CTHRU;
                                    run by the monthly workflow
     scripts/dl05-research-pass.md  Runbook for the next PERAC board update
     scripts/build_dl05.py          One-time compiler from the partner Hyper
-                                   extracts (boards still come from this);
-                                   not a publisher refresh
+                                   extracts (boards still come from this).
+                                   Not a publisher refresh. The monthly path
+                                   is refresh_dl05.py.
+    scripts/render_ops.py          Status page, changelog chrome, and sitemap
+    status/                        Public freshness and refresh table
+    changelog/                     Public record of production changes
+    robots.txt / sitemap.xml       Search indexing
     pensions/search/               Last-name shards (A.json.gz–Z.json.gz)
                                    plus manifest.json; rebuilt by refresh_dl05.py
     scripts/check_freshness.py     Fails when a ledger ages past its cadence
@@ -63,7 +70,8 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     scripts/dl02-research-pass.md  Runbook: monthly DL-02 full research pass
                                    (Cursor Automation, 17th at 10:00 AM ET)
     NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool
-    .github/workflows/             GitHub Actions (DL-03, checks, eval; Step 7)
+    .github/workflows/             GitHub Actions (DL-03, DL-04, DL-05, suite,
+                                   checks, eval; Step 7)
     netlify.toml                   Site, functions, and the build command
     SETUP.md                       This file
 
@@ -78,9 +86,9 @@ run the script (or just push; the build runs it), and every copy follows.
 
 1. Go to console.anthropic.com and sign in or create an account.
 2. Billing: add a payment method, then set a MONTHLY SPEND LIMIT
-   (Settings > Limits). Recommended: 10 to 25 dollars for the prototype.
+   (Settings > Limits). Recommended: 10 to 25 dollars to start.
    This is the hard cost ceiling; usage stops at the cap.
-3. API Keys > Create Key. Name it datalabs-prototype. Copy the key
+3. API Keys > Create Key. Name it datalabs. Copy the key
    somewhere safe (a password manager). You will paste it into Netlify in
    Step 3. NEVER put it in this repository.
 
@@ -112,7 +120,7 @@ Command line path:
    variable).
 5. Your site is live at https://SOMETHING.netlify.app (rename under
    Site configuration > Site details > Change site name, e.g.
-   datalabs-prototype.netlify.app).
+   datalabsai.netlify.app).
 
 ## Step 4: Test the three behaviors (5 minutes)
 
@@ -135,22 +143,26 @@ set and a redeploy happened after setting it.
 
 - Anthropic console > Usage: each question is roughly a cent; the spend
   limit from Step 1 is the ceiling.
-- Netlify > Usage: the free plan is credit-capped; the prototype's traffic
-  is negligible, but know that exceeding the cap pauses the site until the
-  next month rather than billing you.
-- Coverage gaps: every question lands in the Excel workbook from Step 6,
-  and the ones the engine could not answer get their own Unanswered tab.
-  That tab is the research agenda input. Questions also appear in the
-  ask function log (Netlify > Logs > Functions > ask) either way.
+- Netlify > Usage: the free plan is credit-capped; know that exceeding
+  the cap pauses the site until the next month rather than billing you.
+- Coverage gaps: every question is written to the built-in log-question
+  function (and to a spreadsheet if you complete Step 6). Declines are
+  the research agenda input. Questions also appear in the ask function
+  log (Netlify > Logs > Functions > ask).
 
-## Step 6: Capture questions in an Excel workbook (10 minutes)
+## Step 6: Question log (built-in, spreadsheet optional)
 
-Every question visitors ask is filed into an Excel workbook in your
-OneDrive or SharePoint, with unanswered questions on their own tab.
-This uses Power Automate to receive the site's webhook; the flow's
-HTTP trigger requires a Power Automate premium license on work
-accounts. If you do not have one, say so and the engine can write to
-Microsoft Graph directly instead.
+Every question is already written to `/.netlify/functions/log-question`
+and to the ask function log. GET that function for counts. To read the
+recent rows (the demand evidence for NEW-TOOL-CHECKLIST.md), set a
+Netlify environment variable QUESTION_LOG_KEY and call the function
+with `?key=` or `Authorization: Bearer ...`. Individual questions are
+not published on the status page.
+
+A spreadsheet copy is optional. Power Automate can receive the site's
+webhook; the flow's HTTP trigger requires a Power Automate premium
+license on work accounts. If you do not have one, the built-in log is
+enough.
 
 Part A, the workbook:
 1. In OneDrive (or a SharePoint library), create a workbook named
@@ -198,10 +210,9 @@ variable.
 ## Step 7: The automation (5 minutes, no secrets on GitHub)
 
 The Anthropic API key lives in exactly one place: Netlify. GitHub holds no
-secrets. The only configuration is one PUBLIC repository variable so the
-eval can find the site: GitHub repo > Settings > Secrets and variables >
-Actions > Variables tab > New repository variable, name SITE_URL, value
-https://YOUR-SITE.netlify.app (the site URL is public anyway).
+secrets. The Monday eval defaults to https://datalabsai.netlify.app. To
+point it at another host, add a PUBLIC repository variable SITE_URL
+(Settings > Secrets and variables > Actions > Variables).
 
     dl03-refresh.yml   Monthly. Refetches MBTA ridership from the FTA NTD
                        API, recomputes the ledger, and opens a PULL REQUEST.
@@ -221,6 +232,11 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
                        a PULL REQUEST. Board funded ratios and returns
                        are not in this job. First run: Actions tab >
                        DL-05 monthly CTHRU refresh > Run workflow.
+    suite-refresh.yml  Monthly, 12th. Rebuilds every suite ledger that
+                       has a live public-file builder, restubs 340B and
+                       Patents, re-renders pages, and opens a PULL
+                       REQUEST. First run: Actions tab > Suite monthly
+                       refresh > Run workflow.
     DL-05 board side still has no fetch. PERAC's Investment Report is a
     PDF. Follow scripts/dl05-research-pass.md when PERAC posts a new
     year. Do not invent a second retiree fetch.
@@ -231,9 +247,8 @@ https://YOUR-SITE.netlify.app (the site URL is public anyway).
     eval.yml           Weekly. POSTs golden questions to the LIVE site's ask
                        endpoint and asserts each routes to the right tool
                        with a cited, linked answer. The key stays in
-                       Netlify; the workflow only needs SITE_URL, and skips
-                       politely until that variable exists. This is the
-                       regression net for prompt edits.
+                       Netlify. Defaults to https://datalabsai.netlify.app.
+                       This is the regression net for prompt edits.
 
     The DL-01 research pass is editorial (hearings, ballots, dockets,
     citations). It is deliberately NOT a GitHub Actions scraper. Schedule

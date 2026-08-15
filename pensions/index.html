@@ -20,7 +20,7 @@
 <meta name="twitter:title" content="Massachusetts Public Pensions | Pioneer Institute">
 <meta name="twitter:description" content="Every MA retirement board's funded status and returns, plus the State and Teacher retiree payroll, rebuilt from PERAC and CTHRU.">
 <meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/assets/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
@@ -509,7 +509,8 @@ The largest State and Teacher pensions, 2026
   </div>
 
   <div class="disclaimer">
-    <div><b>About this tool.</b> Massachusetts Public Pensions is a Pioneer Institute DataLabs research tool, published and versioned. It is the successor to the Performance and State &amp; Teacher Retirees dashboards previously hosted on MA DataLabs. Corrections and data refreshes are logged, and the version and data vintage should be cited alongside any figure taken from this page. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> Massachusetts Public Pensions is a Pioneer Institute DataLabs research tool, published and versioned. It is the successor to the Performance and State &amp; Teacher Retirees dashboards previously hosted on MA DataLabs. Corrections and data refreshes are logged in the <a href="/changelog/">public changelog</a>. It is a living data tool, not a static report.</div>
+    <div><b>How to cite.</b> Pioneer Institute DataLabs, Massachusetts Public Pensions, data through the vintage in the masthead. Name the source id next to the figure (for example SRC-501).</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead; agencies revise their filings and figures here are point-in-time. This tool and its contents are provided as is, without warranty of any kind, express or implied, including accuracy, completeness, or fitness for a particular purpose. Nothing here is advice about a retirement decision, a benefit estimate, or the funding of a retirement board.</div>
     <div><b>Verified figures.</b> Board funded ratios are PERAC's published ratios, checked by recomputing 1 minus unfunded liability over actuarial accrued liability (SRC-501). Investment returns cite the compiled PERAC returns file for calendar 2023 (SRC-502). State and Teacher retiree totals are summed from the CTHRU named-retiree file (SRC-503). CTHRU headcounts are not the same cell as a PERAC actuarial recipient count, which also includes survivors.</div>
     <div><b>Asking questions.</b> The DataLabs front door answers questions about this data in your own words when the ask box is on. Answers draw only from the figures published here, cite a source id on every figure, label derived numbers, and decline what the data cannot support; the underlying figures, not the prose, are the citable record.</div>
@@ -792,10 +793,16 @@ function runRetireeSearch(){
 function bindRetireeSearch(){
   var input=document.getElementById('retSearch');
   if(!input||input.dataset.ready) return;
+  function writeName(){
+    var q=(input.value||'').replace(/^\s+|\s+$/g,'');
+    history.replaceState(null,'',location.pathname+(q?('?name='+encodeURIComponent(q)):'')+location.hash);
+  }
   input.addEventListener('input', function(){
     clearTimeout(searchTimer);
-    searchTimer=setTimeout(runRetireeSearch, 180);
+    searchTimer=setTimeout(function(){ runRetireeSearch(); writeName(); }, 180);
   });
+  var start=new URLSearchParams(location.search).get('name')||new URLSearchParams(location.search).get('q');
+  if(start && !input.value){ input.value=start; runRetireeSearch(); }
   input.dataset.ready='1';
 }
 

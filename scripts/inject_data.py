@@ -12,7 +12,7 @@ Canonical data lives in:
     netlify/functions/dlXX-answers.json   (suite ledgers, DL-06 onward)
 
 This script regenerates every embedded copy from the canonical files:
-    index.html            const DATA (catalog + answers; audit preserved)
+    index.html            const DATA (catalog + answers; leftover Tableau audit dropped)
     mbta/index.html       const ANSWERS
     tax-atlas/index.html  STATES, *_META, DEFAULT_SOURCES, STATE_SOURCES, CAPTIONS
     florida-insurance/index.html  chart series, dateline, footer, keyed headlines
@@ -474,6 +474,7 @@ def main():
     data = extract_json_after(text, "const DATA = ", p)
     data["catalog"] = catalog
     data["answers"] = dl03
+    data.pop("audit", None)
     # Desk-card stats derived from the atlas ledger, so front-door copy
     # cannot drift from the data (the count was once hardcoded).
     dl01d = {
@@ -677,6 +678,25 @@ def main():
     if not p.exists() or p.read_text(encoding="utf-8") != src:
         p.write_text(src, encoding="utf-8")
         changed.append("netlify/functions/catalog.json")
+
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from render_ops import main as render_ops
+    before = {
+        (ROOT / "status" / "index.html").read_text(encoding="utf-8")
+        if (ROOT / "status" / "index.html").exists() else "",
+        (ROOT / "changelog" / "index.html").read_text(encoding="utf-8")
+        if (ROOT / "changelog" / "index.html").exists() else "",
+        (ROOT / "sitemap.xml").read_text(encoding="utf-8")
+        if (ROOT / "sitemap.xml").exists() else "",
+    }
+    render_ops()
+    after = {
+        (ROOT / "status" / "index.html").read_text(encoding="utf-8"),
+        (ROOT / "changelog" / "index.html").read_text(encoding="utf-8"),
+        (ROOT / "sitemap.xml").read_text(encoding="utf-8"),
+    }
+    if before != after:
+        changed.append("status/index.html, changelog/index.html, sitemap.xml")
 
     print("inject_data:", ("updated " + ", ".join(changed)) if changed else "everything in sync")
 

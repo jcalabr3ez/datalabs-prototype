@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /pensions/search/
+
+Sitemap: https://datalabsai.netlify.app/sitemap.xml

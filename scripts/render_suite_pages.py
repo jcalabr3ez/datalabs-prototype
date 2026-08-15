@@ -639,7 +639,15 @@ const INSIGHTS=INSIGHTS_JSON;
       if(countEl) countEl.textContent = q ? (shown+' of '+n) : (n+' '+(n===1?'row':'rows'));
       if(q && shown===1 && first) first.scrollIntoView({block:'nearest'});
     }
-    if(find) find.addEventListener('input', applyFind);
+    var params=new URLSearchParams(location.search);
+    var startQ=params.get('q')||params.get('st')||'';
+    if(find && startQ && !find.value) find.value=startQ;
+    function writeQuery(){
+      var q=(find&&find.value||'').replace(/^\\s+|\\s+$/g,'');
+      var next=location.pathname+(q?('?q='+encodeURIComponent(q)):'')+location.hash;
+      history.replaceState(null,'',next);
+    }
+    if(find) find.addEventListener('input', function(){ applyFind(); writeQuery(); });
     applyFind();
   }
 })();
@@ -661,113 +669,12 @@ const INSIGHTS=INSIGHTS_JSON;
 <meta property="og:description" content="{esc(standfirst)}">
 <meta property="og:url" content="https://datalabsai.netlify.app/{esc(slug)}/">
 <meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="/assets/chart.umd.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
-<style>
-  :root{{ --bleed:clamp(18px,2.6vw,48px); }}
-  *{{box-sizing:border-box;margin:0;padding:0}}
-  html,body{{width:100%}}
-  body{{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}}
-  a{{color:var(--navy)}}
-  a:hover{{color:var(--gold)}}
-  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{{outline:2px solid var(--gold);outline-offset:3px}}
-  .wrap{{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}}
-  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){{max-width:1120px;margin-left:auto;margin-right:auto}}
-  .sitebar{{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}}
-  .sitebar img{{height:24px;width:auto;display:block}}
-  .sitebar .sbleft{{display:flex;align-items:center;gap:16px}}
-  .sitebar .backlink{{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}}
-  .sitebar .backlink:hover{{color:var(--goldlt)}}
-  .sitebar .tag{{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}}
-  .sitebar .tag b{{color:var(--goldlt);font-weight:700}}
-  @media(max-width:520px){{.sitebar .tag{{display:none}}}}
-  header{{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}}
-  .dots{{position:absolute;inset:0;opacity:.35;pointer-events:none;background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px}}
-  header>*:not(.dots){{position:relative}}
-  .org{{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}}
-  .org .sub{{color:#8DA0B5}}
-  h1{{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}}
-  .standfirst{{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}}
-  .dateline{{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}}
-  .dateline span{{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}}
-  .dateline span:first-child{{padding-left:0;border-left:none}}
-  .dateline b{{color:var(--goldlt);font-weight:500}}
-  .proto{{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}}
-  .proto-tag{{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}}
-  .proto-txt{{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}}
-  .proto-txt b{{color:#fff;font-weight:600}}
-  .proto-txt a{{color:inherit;text-decoration:underline}}
-  .jump{{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}}
-  .jump a{{font:600 13px/1.3 var(--sans);color:var(--navy);text-decoration:none}}
-  .jump a:hover{{color:var(--gold)}}
-  .findrow{{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 16px}}
-  .sel-lab{{font:600 12px/1 var(--sans);color:var(--grey)}}
-  .findrow input{{border:1px solid var(--rule);border-radius:2px;padding:9px 12px;font:15px/1.3 var(--sans);min-width:220px}}
-  .findcount{{font:12px/1.3 var(--sans);color:var(--faint)}}
-  .related{{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:8px}}
-  .related a{{font:600 14.5px/1.4 var(--sans);color:var(--navy)}}
-  .related a:hover{{color:var(--gold)}}
-  .sitebar .sbleft a.nav{{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none}}
-  .sitebar .sbleft a.nav:hover{{color:var(--goldlt)}}
-  section{{margin-top:56px}}
-  h2{{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);margin-bottom:6px}}
-  .lede{{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}}
-  .body-p{{font-size:15px;margin-bottom:14px;max-width:72em}}
-  .strip{{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}}
-  .cell{{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}}
-  .cell:last-child{{border-right:0;padding-right:0}}
-  .cl{{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:10px;min-height:30px}}
-  .cv{{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}}
-  .cd{{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}}
-  .csrc{{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}}
-  @media(max-width:900px){{.strip{{grid-template-columns:1fr}}.cell{{border-right:0;border-bottom:1px solid var(--rule-lt)}}}}
-  .metrics .cell{{text-align:center;padding:20px 16px}}
-  .exhibit{{margin-top:30px}}
-  .ex-head{{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}}
-  .ex-n{{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}}
-  .ex-t{{font:600 14.5px/1.4 var(--sans);flex:1}}
-  .plot{{height:clamp(300px,34vh,460px)}}
-  .plot-sm{{height:clamp(240px,28vh,360px)}}
-  .plot-mid{{height:clamp(480px,62vh,780px)}}
-  .plot-ranks{{height:clamp(720px,92vh,1180px)}}
-  .insight-grid{{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}}
-  .insight-grid .exhibit.span2{{grid-column:1/-1}}
-  .insight-grid .lede{{margin:8px 0 12px;font-size:13.5px}}
-  @media(max-width:900px){{.insight-grid{{grid-template-columns:1fr}}}}
-  .note{{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;border-top:1px solid var(--rule-lt)}}
-  table{{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}}
-  th{{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}}
-  td{{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}}
-  th.n,td.n{{text-align:right;padding-right:0;white-space:nowrap}}
-  td.m{{font-weight:600}}
-  tr.hl-ma td{{background:var(--wash)}}
-  .srcline{{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}}
-  .srcline a{{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}}
-  .subhead{{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}}
-  details.srcfold,details.simplify{{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}}
-  details.srcfold>summary,details.simplify summary{{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;font:600 14.5px/1.4 var(--sans);color:var(--ink)}}
-  details.srcfold>summary::-webkit-details-marker,details.simplify summary::-webkit-details-marker{{display:none}}
-  details.srcfold>summary:after,details.simplify summary:after{{content:none}}
-  details.srcfold .fold-body,details.simplify .dt-body{{padding:14px 18px 16px}}
-  .car{{color:var(--gold);font-size:11px}}
-  table.reg{{font-size:11.5px;line-height:1.55}}
-  table.reg td{{padding:9px 14px 9px 0;color:var(--g1)}}
-  table.reg td.src{{color:var(--ink);font-weight:600}}
-  table.reg td.src a{{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}}
-  .scroll{{overflow-x:auto;max-width:100%}}
-  [hidden]{{display:none !important}}
-  footer{{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}}
-  footer b{{color:#fff}}
-  footer a{{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}}
-  .disclaimer{{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}}
-  .fbrand{{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}}
-  .fbrand .pi{{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}}
-  .frow{{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}}
-  body.embed .sitebar,body.embed footer .fbrand{{display:none}}
-</style>
+<link rel="stylesheet" href="/assets/suite.css">
 </head>
 <body>
 <div class="wrap">
@@ -777,6 +684,7 @@ const INSIGHTS=INSIGHTS_JSON;
     <a class="backlink" href="/">&#8592; All of DataLabs</a>
     <a class="nav" href="/#directory">Catalog</a>
     <a class="nav" href="/#about">About</a>
+    <a class="nav" href="/status/">Status</a>
   </div>
   <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; {esc(title)}</span>
 </div>
@@ -830,7 +738,8 @@ const INSIGHTS=INSIGHTS_JSON;
     <div>{nsrc} {src_word} in the register</div>
   </div>
   <div class="disclaimer">
-    <div><b>About this tool.</b> {esc(title)} is a Pioneer Institute DataLabs research tool. Corrections and data refreshes are logged. It is a living data tool, not a static report.</div>
+    <div><b>About this tool.</b> {esc(title)} is a Pioneer Institute DataLabs research tool. Corrections and data refreshes are logged in the <a href="/changelog/">public changelog</a>. It is a living data tool, not a static report.</div>
+    <div><b>How to cite.</b> Pioneer Institute DataLabs, {esc(title)}, data through {esc(as_of_label)}. Name the source id next to the figure (for example SRC-13-01). The version and vintage in the masthead belong in the citation.</div>
     <div><b>Research and educational use only.</b> This tool is provided strictly for research and educational purposes. Figures are compiled in good faith from the public sources named in the register and are accurate to the verification date shown in the masthead. Nothing here is advice.</div>
     <div><b>Verified figures.</b> {"Live figures on this page were rebuilt from the files in the register and checked against a publisher total where one exists." if live else "No figures are published on this page yet. The register is the work plan."}</div>
   </div>

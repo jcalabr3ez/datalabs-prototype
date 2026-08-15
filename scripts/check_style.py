@@ -30,6 +30,8 @@ for p in sorted(ROOT.rglob("*")):
         continue
     if SKIP_PARTS & set(p.parts):
         continue
+    if p.name.endswith(".min.js"):
+        continue
     text = p.read_text(encoding="utf-8", errors="replace")
     for needle, label in (("\u2014", "em dash"), ("&" + "mdash;", "em dash entity")):
         if needle in text:

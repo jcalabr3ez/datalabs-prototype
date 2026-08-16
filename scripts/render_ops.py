@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Two-line trends on a shared scale",
+        "body": (
+            "When a trend chart overlays series of very different size, "
+            "such as Massachusetts and Boston population, the lines are now "
+            "percent change from the first year. Hover a point for the raw "
+            "count. Each series has its own color."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Figures numbered in one sequence",
         "body": (
             "Every suite page now numbers its charts 1, 2, 3 in the order "

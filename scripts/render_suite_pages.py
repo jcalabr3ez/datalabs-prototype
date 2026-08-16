@@ -199,6 +199,26 @@ def related_html(app, apps):
     )
 
 
+TREND_NAMES = {"US": "United States", "MA": "Massachusetts", "Boston": "Boston"}
+TREND_LEDE_NAMES = {"US": "the United States", "MA": "Massachusetts", "Boston": "Boston"}
+TREND_INDEX_RATIO = 2.5
+
+
+def trend_compare_mode(ledger):
+    """Use percent-from-start when two series cannot share one level axis."""
+    series = [(k, v) for k, v in (ledger.get("trend") or {}).items() if v]
+    if len(series) < 2:
+        return "level"
+    maxs = []
+    for _k, pts in series:
+        vs = [abs(p["v"]) for p in pts if isinstance(p, dict) and p.get("v") is not None]
+        if vs:
+            maxs.append(max(vs))
+    if len(maxs) < 2 or min(maxs) == 0:
+        return "level"
+    return "pct_from_start" if max(maxs) / min(maxs) >= TREND_INDEX_RATIO else "level"
+
+
 def chart_spec(app, ledger):
     """Titles, units, and highlight for the shared suite charts."""
     tid = app["id"]
@@ -249,6 +269,34 @@ def chart_spec(app, ledger):
         lede += " The highlighted bar is " + highlight + "."
     trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
     has_trend = bool(trend_keys)
+    trend_mode = trend_compare_mode(ledger)
+    trend_names = [TREND_NAMES.get(k, k) for k in trend_keys]
+    lede_names = [TREND_LEDE_NAMES.get(k, k) for k in trend_keys]
+    if len(trend_names) == 2:
+        trend_named = trend_names[0] + " and " + trend_names[1]
+        trend_lede_named = lede_names[0] + " and " + lede_names[1]
+    elif trend_names:
+        trend_named = ", ".join(trend_names[:-1]) + ", and " + trend_names[-1]
+        trend_lede_named = ", ".join(lede_names[:-1]) + ", and " + lede_names[-1]
+    else:
+        trend_named = ""
+        trend_lede_named = ""
+    if trend_mode == "pct_from_start":
+        trend_title = "Change since the first year" + (", " + trend_named if trend_named else "")
+        trend_lede = (
+            "Each line is the percent change from its first year so "
+            + (trend_lede_named or "the series")
+            + " can be compared. Hover a point for the raw count. Empty periods are omitted."
+        )
+        trend_unit = "percent change from first year"
+    elif set(trend_keys) >= {"US", "MA"}:
+        trend_title = label + ", United States and Massachusetts"
+        trend_lede = trend_title + ". Empty periods are omitted."
+        trend_unit = unit
+    else:
+        trend_title = label + " over time"
+        trend_lede = trend_title + ". Empty periods are omitted."
+        trend_unit = unit
     table_noun = {
         "state": "Every state",
         "hospital": "Every hospital",
@@ -280,11 +328,10 @@ def chart_spec(app, ledger):
         "has_trend": has_trend,
         "table_noun": table_noun,
         "col_name": col_name,
-        "trend_title": (
-            label + ", United States and Massachusetts"
-            if set(trend_keys) >= {"US", "MA"}
-            else label + " over time"
-        ),
+        "trend_mode": trend_mode,
+        "trend_title": trend_title,
+        "trend_lede": trend_lede,
+        "trend_unit": trend_unit,
     }
 
 
@@ -394,12 +441,12 @@ def page_html(app, ledger, apps=None):
         trend_section = f"""
 <section id="view-trend">
     <h2>How has the series moved?</h2>
-    <div class="lede">{esc(spec.get("trend_title"))}. Empty periods are omitted.</div>
+    <div class="lede">{esc(spec.get("trend_lede") or spec.get("trend_title"))}</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 2}</span>
         <span class="ex-t">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
+      <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
 """
@@ -512,25 +559,53 @@ const FIND=FIND_JSON;
   var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
   if(chTrend && window.Chart && keys.length){
     var pretty={US:'United States',MA:'Massachusetts',Boston:'Boston'};
+    var trendMode=CHART.trend_mode||'level';
+    function trendColor(k){
+      if(k==='MA') return GOLD;
+      if(k==='Boston') return BLUE;
+      if(k==='US') return INK;
+      return BLUE;
+    }
+    function fmtPct(v){
+      if(v==null||v==='') return '';
+      var n=Number(v), sign=n<0?'\u2212':(n>0?'+':'');
+      return sign+Math.abs(n).toFixed(1)+'%';
+    }
     var datasets=keys.map(function(k){
       var series=trend[k]||[];
-      return {label:pretty[k]||k,
-        data:series.map(function(p){return {x:p.m||String(p.y),y:p.v};}),
-        borderColor:(k==='MA'||k==='Boston')?GOLD:(k==='US'?INK:BLUE),
-        backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:k==='MA'?2.4:2};
+      var first=null;
+      series.forEach(function(p){ if(first==null && p && p.v!=null) first=p.v; });
+      return {label:pretty[k]||k, key:k,
+        data:series.map(function(p){
+          var y=p.v;
+          if(trendMode==='pct_from_start' && first) y=((p.v/first)-1)*100;
+          return {x:p.m||String(p.y), y:y, raw:p.v};
+        }),
+        borderColor:trendColor(k),
+        backgroundColor:'transparent',tension:.15,pointRadius:2.5,pointHoverRadius:5,
+        borderWidth:k==='MA'?2.4:2};
     });
+    var yTitle=trendMode==='pct_from_start'?(CHART.trend_unit||'percent change from first year'):axisUnit;
+    var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
     new Chart(chTrend,{type:'line',data:{datasets:datasets},
       options:{responsive:true,maintainAspectRatio:false,
         layout:{padding:{top:12,right:72}},
         plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
-          tooltip:{callbacks:{label:function(c){var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:''); return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;}}}},
+          tooltip:{callbacks:{label:function(c){
+            if(trendMode==='pct_from_start'){
+              var raw=c.raw&&c.raw.raw;
+              return ' '+c.dataset.label+': '+fmtPct(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
+            }
+            var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
+            return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;
+          }}}},
         scales:{
           x:{type:'category',ticks:{color:GREY,maxTicksLimit:12,
             callback:function(v){return String(this.getLabelForValue(v));}}},
-          y:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
-            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'}}
+          y:{title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'#EEF1F4'}}
         }},
-      plugins:[dataLabels(function(v){return fmtVal(v,true);})]});
+      plugins:[dataLabels(yFmt)]});
   }
   function fmtInsight(fmt, v, short){
     if(v==null||v==='') return '';

@@ -62,13 +62,14 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
-        "title": "Every heading topic has a figure",
+        "title": "Catalog names match what the page can show",
         "body": (
-            "Each live tool heading now names only topics the page can show. "
-            "Where the ledger already had the cells, the page gained the "
-            "matching graphic: Massachusetts attendance and dropouts, the "
-            "national IPEDS graduation rate, town bachelor's shares, "
-            "prisoner releases, and public campus payroll."
+            "Catalog names now match the page. Charters and Teachers replaces "
+            "Charters and School Staff. Medicaid Spending and Fraud replaces "
+            "Medicaid and State Health Spending. Headings name only topics "
+            "the page can show. New figures cover attendance, dropouts, "
+            "district PPE, the national six-year rate, bachelor's-or-higher "
+            "shares, public-campus payroll, and prisoner releases."
         ),
     },
     {

@@ -71,7 +71,7 @@
     {
       "id": "DL-09",
       "slug": "charters-staff",
-      "title": "Charters and School Staff",
+      "title": "Charters and Teachers",
       "q": "Charter school enrollment and public-school teachers by state.",
       "vertical": "Education",
       "group": "Education",
@@ -132,7 +132,7 @@
     {
       "id": "DL-12",
       "slug": "medicaid-health",
-      "title": "Medicaid and State Health Spending",
+      "title": "Medicaid Spending and Fraud",
       "q": "State Medicaid spending and Medicaid fraud recoveries.",
       "vertical": "Healthcare",
       "group": "Healthcare",

@@ -150,7 +150,7 @@
  },
  {
   "id": "DL-09",
-  "t": "Charters and School Staff",
+  "t": "Charters and Teachers",
   "q": "Charter school enrollment and public-school teachers by state.",
   "g": [
    "US",
@@ -218,7 +218,7 @@
  },
  {
   "id": "DL-12",
-  "t": "Medicaid and State Health Spending",
+  "t": "Medicaid Spending and Fraud",
   "q": "State Medicaid spending and Medicaid fraud recoveries.",
   "g": [
    "US"

@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Catalog in A-Z order",
+        "body": (
+            "Applications inside each Pioneer vertical are now listed "
+            "alphabetically by name, so Education, Healthcare, Economic "
+            "Opportunity, and American Citizenship each read as a register."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "A quieter front door",
         "body": (
             "Catalog rows now show the application name, place, and vintage. "

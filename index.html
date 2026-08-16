@@ -413,6 +413,9 @@ if (AI_ENABLED) {
   function hostOf(u){
     try { return new URL(u, location.origin).hostname.replace(/^www\./,''); } catch(e){ return ''; }
   }
+  function byName(a,b){
+    return String(a.n||'').localeCompare(String(b.n||''), 'en', {sensitivity:'base'});
+  }
   function featuredRowsFor(topicId){
     var rows = CATALOG.filter(function(t){
       if(!t.url || t.url.charAt(0)!=='/') return false;
@@ -438,6 +441,7 @@ if (AI_ENABLED) {
         });
       });
     });
+    rows.sort(byName);
     return rows;
   }
   var sections = [];
@@ -484,11 +488,14 @@ if (AI_ENABLED) {
   }
   function areaHtml(a){
     var ids = a.topics.filter(function(id){ return byId[id]; });
-    var solo = ids.length===1;
-    var topics = ids.map(function(id){ return topicHtml(byId[id], solo); }).join('');
+    var rows = [];
+    ids.forEach(function(id){ rows = rows.concat(byId[id].rows); });
+    rows.sort(byName);
+    var anchors = ids.map(function(id){ return '<span id="dir-'+esc(id)+'"></span>'; }).join('');
     return '<section class="area" id="area-'+esc(a.id)+'">' +
+      anchors +
       '<div class="areahead"><h3 class="anm">'+esc(a.name)+'</h3><span class="asum" data-asum></span></div>' +
-      topics + '</section>';
+      topicHtml({ id:a.id+'-apps', name:a.name, rows:rows }, true) + '</section>';
   }
   document.getElementById('dirList').innerHTML = AREAS.map(areaHtml).join('');
 

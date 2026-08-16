@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Tool sitebars match the landing masthead",
+        "body": (
+            "Every tool page now uses the same dark field as the front door: "
+            "white Pioneer wordmark and links, no gold rule. The page title "
+            "and figures below the bar are unchanged."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Landing masthead matches the footer",
         "body": (
             "The front-door header now uses the same dark field as the footer: "

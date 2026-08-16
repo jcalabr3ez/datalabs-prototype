@@ -80,7 +80,8 @@
   td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
   th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
   td.m{font-weight:600}
-  tr.hl-ma td,tr.hl-fl td{background:var(--hover)}
+  tr.hl-ma td{background:var(--hover);box-shadow:inset 3px 0 0 var(--gold)}
+  tr.hl-fl td{background:var(--hover);box-shadow:inset 3px 0 0 var(--fl)}
   .srcline{font-size:12px;color:var(--faint);margin-top:12px;line-height:1.55}
   .srcline a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
   .srcline a:hover{color:var(--ink);border-bottom-color:var(--ink)}

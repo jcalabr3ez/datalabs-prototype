@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Florida in rust, with a matching KPI",
+        "body": (
+            "Florida is now rust, a higher-contrast mark next to Massachusetts "
+            "in gold. Every fifty-state tool carries a Florida KPI on the same "
+            "metric. Ranking charts and compare figures already keep both states "
+            "in view. The landing masthead has a light wash and a gold rule."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Florida marked on the fifty-state tools",
         "body": (
             "State ranking charts and tables now mark Florida in steel next to "

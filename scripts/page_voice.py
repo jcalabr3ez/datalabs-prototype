@@ -50,6 +50,72 @@ def ma_of(obj):
     return m if isinstance(m, dict) else {}
 
 
+def fl_cell(ledger):
+    """Florida row from latest.fl or the ranking table. Never invents a value."""
+    latest = ledger.get("latest") or {}
+    fl = latest.get("fl")
+    if isinstance(fl, dict) and fl.get("v") is not None:
+        return fl
+    for r in ledger.get("rows") or []:
+        if r.get("st") == "FL" and r.get("v") is not None:
+            return r
+    return None
+
+
+def format_metric_value(v, unit):
+    u = (unit or "").lower()
+    if v is None:
+        return ""
+    if "percent" in u:
+        if isinstance(v, (int, float)):
+            return f"{v:g}%"
+        return str(v)
+    if "dollar" in u:
+        return money(v)
+    if isinstance(v, float) and not float(v).is_integer():
+        return num(v)
+    return commify(v)
+
+
+def florida_kpi(ledger):
+    fl = fl_cell(ledger)
+    if not fl:
+        return None
+    unit = ledger.get("unit") or ""
+    as_of = ledger.get("data_month_label") or ""
+    label = "Florida" + (f", {as_of}" if as_of else "")
+    bits = []
+    if rank_txt(fl):
+        bits.append(rank_txt(fl).capitalize())
+    yoy = fl.get("yoy_pct")
+    if isinstance(yoy, (int, float)):
+        sign = "+" if yoy > 0 else ("\u2212" if yoy < 0 else "")
+        bits.append(f"{sign}{abs(yoy):.1f}% from a year earlier")
+    if not bits:
+        bits.append("Florida on this file")
+    detail = ", ".join(bits) + " (derived)."
+    return kpi(
+        label,
+        format_metric_value(fl.get("v"), unit),
+        detail,
+        "The Florida finding on the same ranking as Massachusetts.",
+        src_name(ledger, first_src(ledger)),
+    )
+
+
+def with_florida_kpi(kpis, ledger):
+    """Keep Massachusetts first, then Florida, then the other findings."""
+    kpis = [k for k in (kpis or []) if k and k.get("value") not in (None, "", "see register")]
+    if any("Florida" in (k.get("label") or "") for k in kpis):
+        return kpis[:4]
+    flk = florida_kpi(ledger)
+    if not flk:
+        return kpis[:4]
+    if kpis:
+        return ([kpis[0], flk] + kpis[1:])[:4]
+    return [flk]
+
+
 def kpi(label, value, detail, why, src):
     return {
         "label": label,
@@ -1261,7 +1327,7 @@ def voice_for(app, ledger):
     fn = VOICES.get(tid) or fallback_voice
     take, kpis, ma_line, src_id = fn(ledger)
     take = [t for t in take if t][:3]
-    kpis = [k for k in kpis if k.get("value") not in (None, "", "see register")][:3]
+    kpis = with_florida_kpi(kpis, ledger)
     return {
         "takeaways": take,
         "kpis": kpis,
@@ -1282,15 +1348,23 @@ def flagship_voice(tid, ledger):
         us = latest.get("us") or {}
         hi = latest.get("highest") or {}
         lo = latest.get("lowest") or {}
+        fl = next((r for r in (latest.get("states") or ledger.get("latest_states") or []) if r.get("st") == "FL"), None)
+        if fl and fl.get("rank") and not fl.get("n"):
+            fl = {**fl, "n": 51}
         ma_p = ma.get("price_cents")
         us_p = us.get("price_cents")
+        fl_p = (fl or {}).get("price_cents")
         prem = None
         if ma_p and us_p:
             prem = round((ma_p / us_p - 1) * 100, 0)
         take = [
             f"Massachusetts paid <b>{ma_p:.2f} cents</b> per kilowatthour in {year}, {rank_txt(ma)} (derived, SRC-401).",
-            f"That is <b>{int(prem)} percent</b> above the U.S. all-sector average of {us_p:.2f} cents (derived, SRC-401)." if prem is not None else
-            f"The U.S. all-sector average was <b>{us_p:.2f} cents</b> (SRC-401).",
+            (
+                f"Florida paid <b>{fl_p:.2f} cents</b>, {rank_txt(fl)} (derived, SRC-401)."
+                if fl_p is not None else
+                (f"That is <b>{int(prem)} percent</b> above the U.S. all-sector average of {us_p:.2f} cents (derived, SRC-401)." if prem is not None else
+                 f"The U.S. all-sector average was <b>{us_p:.2f} cents</b> (SRC-401).")
+            ),
             f"The Massachusetts price rose <b>{ma.get('yoy_pct'):.1f} percent</b> from {year - 1} (SRC-401)." if ma.get("yoy_pct") is not None else
             f"{hi.get('name')} was highest at {hi.get('price_cents'):.2f} cents (SRC-401).",
         ]
@@ -1300,15 +1374,27 @@ def flagship_voice(tid, ledger):
                 + (f" {ma.get('yoy_pct'):+.1f} percent from {year - 1}." if ma.get("yoy_pct") is not None else ""),
                 "The state's price rank, not the national average.",
                 "EIA Form EIA-861 (SRC-401)"),
-            kpi("Above the U.S. average", f"{int(prem)}%" if prem is not None else "",
+        ]
+        if fl_p is not None:
+            kpis_html_data.append(kpi(
+                f"Florida, {year}", f"{fl_p:.2f}\u00a2",
+                f"{rank_txt(fl).capitalize()} states and D.C. (derived, SRC-401)."
+                + (f" {fl.get('yoy_pct'):+.1f} percent from {year - 1}." if fl.get("yoy_pct") is not None else ""),
+                "Florida on the same all-sector ranking as Massachusetts.",
+                "EIA Form EIA-861 (SRC-401)",
+            ))
+        kpis_html_data.append(kpi("Above the U.S. average", f"{int(prem)}%" if prem is not None else "",
                 f"U.S. all-sector average {us_p:.2f} cents, EIA U.S. Total row (derived, SRC-401).",
                 "How far Massachusetts sits above the national price.",
-                "EIA Form EIA-861 (SRC-401)"),
-            kpi("Highest / lowest", f"{hi.get('st')} {hi.get('price_cents'):.2f}",
+                "EIA Form EIA-861 (SRC-401)"))
+        kpis_html_data.append(kpi("Highest / lowest", f"{hi.get('st')} {hi.get('price_cents'):.2f}",
                 f"{hi.get('name')} is highest; {lo.get('name')} is lowest at {lo.get('price_cents'):.2f} cents (SRC-401).",
                 "The spread across the 51 jurisdictions.",
-                "EIA Form EIA-861 (SRC-401)"),
-        ]
+                "EIA Form EIA-861 (SRC-401)"))
+        fl_lead = (
+            f" Florida paid <b>{fl_p:.2f} cents</b>, {rank_txt(fl)} (derived, SRC-401)."
+            if fl_p is not None else ""
+        )
         return {
             "takeaways": take,
             "kpis": kpis_html_data,
@@ -1319,7 +1405,7 @@ def flagship_voice(tid, ledger):
                 f"The United States all-sector average was <b>{us_p:.2f} cents</b> per kilowatthour "
                 f"in {year}, {'up' if (us.get('yoy_pct') or 0) > 0 else 'down'} {abs(us.get('yoy_pct') or 0):.1f} percent "
                 f"from {year - 1} (SRC-401). Massachusetts paid <b>{ma_p:.2f} cents</b>, "
-                f"{rank_txt(ma)} (derived, SRC-401). {hi.get('name')} was highest at "
+                f"{rank_txt(ma)} (derived, SRC-401).{fl_lead} {hi.get('name')} was highest at "
                 f"{hi.get('price_cents'):.2f} cents and {lo.get('name')} lowest at "
                 f"{lo.get('price_cents'):.2f} cents (SRC-401)."
             ),

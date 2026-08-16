@@ -20,6 +20,7 @@ if (typeof scale !== 'function') {
 const cases = [
   { name: 'NAEP scores', values: [208, 220, 237], zero: false },
   { name: 'cost of living index', values: [86, 100, 148], zero: false },
+  { name: 'headline index 100', values: [100, 151, 187], zero: false },
   { name: 'unemployment rate', values: [2.5, 4.1, 5.5], zero: false },
   { name: 'electricity cents', values: [10.4, 16.5, 33.0], zero: false },
   { name: 'funded ratio', values: [58, 82, 96], zero: false },

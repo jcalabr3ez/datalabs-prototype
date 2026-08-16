@@ -701,11 +701,6 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
     if(k==='US') return INK;
     return BLUE;
   }
-  function fmtPct(v){
-    if(v==null||v==='') return '';
-    var n=Number(v), sign=n<0?'−':(n>0?'+':'');
-    return sign+Math.abs(n).toFixed(1)+'%';
-  }
   function trendKey(p){
     if(!p) return '';
     if(p.m) return String(p.m);
@@ -738,7 +733,14 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
       if(vs.length) maxs.push(Math.max.apply(null, vs));
     });
     if(!allPos || maxs.length<2 || Math.min.apply(null,maxs)===0) return 'level';
-    return (Math.max.apply(null,maxs)/Math.min.apply(null,maxs)>=2.5)?'pct_from_start':'level';
+    return (Math.max.apply(null,maxs)/Math.min.apply(null,maxs)>=2.5)?'index_100':'level';
+  }
+  function fmtIndex(v){
+    if(v==null||v==='') return '';
+    var n=Number(v);
+    if(!isFinite(n)) return '';
+    if(Math.abs(n-Math.round(n))<0.05) return String(Math.round(n));
+    return n.toFixed(1);
   }
   function drawHeadline(){
     if(!chTrend || !window.Chart || !allTrendKeys.length) return;
@@ -766,7 +768,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
         if(!p || p.v==null || !isFinite(Number(p.v))){ raws.push(null); nums.push(null); return; }
         var raw=Number(p.v);
         raws.push(raw);
-        if(trendMode==='pct_from_start' && first) nums.push(((raw/first)-1)*100);
+        if(trendMode==='index_100' && first) nums.push((raw/first)*100);
         else nums.push(raw);
       });
       rawByKey[k]=raws;
@@ -780,8 +782,8 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
         pointHoverRadius:4,
         borderWidth:(k==='MA'||k==='FL'||k===pickedSt)?2:1.75};
     });
-    var yTitle=trendMode==='pct_from_start'?'percent change from first year':axisUnit;
-    var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
+    var yTitle=trendMode==='index_100'?'index, first year = 100':axisUnit;
+    var yFmt=trendMode==='index_100'?fmtIndex:function(v){return fmtVal(v,true);};
     var yNums=[];
     datasets.forEach(function(d){ (d.data||[]).forEach(function(v){ if(v!=null&&v!=='') yNums.push(v); }); });
     function tickLab(v){
@@ -803,8 +805,8 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
           },
           label:function(c){
           var di=c.dataIndex, key=c.dataset.key, raw=rawByKey[key]?rawByKey[key][di]:null;
-          if(trendMode==='pct_from_start'){
-            return ' '+c.dataset.label+': '+fmtPct(c.parsed.y)+(raw==null?'':' · '+fmtVal(raw));
+          if(trendMode==='index_100'){
+            return ' '+c.dataset.label+': '+fmtIndex(c.parsed.y)+(raw==null?'':' · '+fmtVal(raw));
           }
           var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
           return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;

@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Masthead and footer use Pioneer blue",
+        "body": (
+            "The front-door heading and footer, and the heading on every "
+            "data tool, now use Pioneer Institute's header and footer "
+            "blue (#293C5C). The near-black chrome is gone. Ledgers and "
+            "figures are unchanged."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Suite refresh unblocked, and close-of-day hygiene",
         "body": (
             "The monthly suite rebuild now expects all 27 suite apps, "

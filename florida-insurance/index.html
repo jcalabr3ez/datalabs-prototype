@@ -1109,15 +1109,19 @@ const band=()=>({id:'band',beforeDatasetsDraw(c){
   const{ctx,chartArea:{top,bottom},scales:{x}}=c;
   const a=x.getPixelForValue(c.data.labels.indexOf('2022-05'));
   const b=x.getPixelForValue(c.data.labels.indexOf('2023-03'));
-  ctx.save(); ctx.fillStyle='rgba(31,58,95,.10)'; ctx.fillRect(a,top,b-a,bottom-top);
-  ctx.fillStyle=BLUE; ctx.font='700 10px '+SANS; ctx.textAlign='center';
-  ctx.fillText('Reforms passed',(a+b)/2,top-6); ctx.restore();}});
+  ctx.save(); ctx.font='700 10px '+SANS;
+  const tw=ctx.measureText('Reforms passed').width;
+  ctx.fillStyle='rgba(31,58,95,.10)'; ctx.fillRect(a,top,b-a,bottom-top);
+  ctx.fillStyle=BLUE; ctx.textAlign='center';
+  ctx.fillText('Reforms passed',(a+b)/2,top-6); ctx.restore();
+  if(window.dlMarkReserve) window.dlMarkReserve(c,'band',{x1:(a+b)/2-tw/2-4,y1:top-16,x2:(a+b)/2+tw/2+4,y2:top+2});
+}});
 
 function pifChart(id){
   return new Chart(document.getElementById(id),{type:'line',
     data:{labels:pif.map(r=>r[0]),datasets:[{data:pif.map(r=>r[1]),borderColor:BLUE,
       backgroundColor:'transparent',borderWidth:2,pointRadius:0,pointHoverRadius:4,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22,right:56}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22,right:110}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y.toLocaleString()+' homes'}}},
       scales:{y:{...AY,beginAtZero:true,title:axisTitle('Policies in force, thousands'),ticks:{...AY.ticks,callback:v=>(v/1000).toLocaleString()+'k'}},
         x:{...AX,ticks:{...AX.ticks,maxTicksLimit:12,maxRotation:0,autoSkip:true}}}},
@@ -1140,7 +1144,7 @@ function renderHome(){
   new Chart(document.getElementById('hFig1a'),{type:'line',
     data:{labels:sw.labels,datasets:[{data:sw.avg,borderColor:BLUE,backgroundColor:'transparent',
       borderWidth:2.5,pointRadius:0,pointHoverRadius:4,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:64,top:8}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{right:80,top:8}},
       plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' Average premium: $'+c.parsed.y.toLocaleString()+' a year'}}},
       scales:{x:{grid:{display:false},ticks:{font:{family:SANS,size:10},color:G2,maxRotation:0,autoSkip:true}},
         y:{grid:{color:RULE,drawTicks:false},suggestedMin:2500,suggestedMax:4000,title:axisTitle('Average annual premium, dollars'),
@@ -1169,7 +1173,7 @@ function renderPolicy(){
     data:{labels:FLCR.labels,
       datasets:[{data:FLCR.data,borderColor:BLUE,backgroundColor:'transparent',
         borderWidth:2.5,pointRadius:4,pointBackgroundColor:BLUE,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,right:48}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:18,right:72}},
       plugins:{tooltip:{callbacks:{label:c=>c.parsed.y+'% '+(c.parsed.y>100?'(loss)':'(profit)')}}},
       scales:{y:{...AY,min:72,max:126,title:axisTitle('Combined ratio, percent'),ticks:{...AY.ticks,stepSize:10,callback:v=>v+'%'}},x:{...AX}}},
     plugins:[{id:'be',
@@ -1194,7 +1198,7 @@ function renderPolicy(){
        backgroundColor:'transparent',borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#8C2F1B',tension:0},
       {label:'Share of nationwide homeowners claims',data:mc.map(r=>r[1]),borderColor:BLUE,
        backgroundColor:'transparent',borderWidth:2.5,borderDash:[5,3],pointRadius:3,pointBackgroundColor:BLUE,tension:0}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:64}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:96}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+c.parsed.y.toFixed(1)+'%'+(c.label==='2025'?' (preliminary)':'')}}},
       scales:{y:{...AY,min:0,max:90,title:axisTitle('Percent of nationwide homeowners'),ticks:{...AY.ticks,callback:v=>v+'%'}},x:{...AX}}},
@@ -1206,7 +1210,7 @@ function renderPolicy(){
        borderColor:'#CCB26D',backgroundColor:'transparent'},
       {label:'Net income',data:FLSTAT.ni,
        borderColor:BLUE,backgroundColor:'transparent'}]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:72}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:96}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y<0?'-':'+')+'$'+Math.abs(c.parsed.y).toLocaleString(undefined,{maximumFractionDigits:0})+'M'}}},
       scales:{y:{...AY,title:axisTitle('Billion dollars'),grid:{color:ctx=>ctx.tick.value===0?'#9AA2AA':RULE,drawTicks:false},
@@ -1268,10 +1272,10 @@ function renderPolicy(){
         ? FLCONC.share_of_residential_tiv_pct+'% of statewide residential insured value'
         : 'About '+FLCONC.share_of_1in100_low_pct+'% to '+FLCONC.share_of_1in100_high_pct+'% of the modeled 1-in-100 loss (estimate)'}}},
       scales:{x:{...AY,min:0,max:8,title:axisTitle('Percent'),ticks:{...AY.ticks,stepSize:2,callback:v=>v+'%'}},y:catY()}},
-    plugins:[{afterDatasetsDraw:c=>{const ctx=c.ctx,m=c.getDatasetMeta(0);
-      ctx.save();ctx.fillStyle='#232B33';ctx.font='600 13px Georgia, serif';ctx.textBaseline='middle';
-      ctx.fillText(FLCONC.share_of_residential_tiv_pct+'%',m.data[0].x+8,m.data[0].y);
-      ctx.fillText('about '+FLCONC.share_of_1in100_low_pct+' to '+FLCONC.share_of_1in100_high_pct+'%',m.data[1].x+8,m.data[1].y);ctx.restore();}}]});
+    plugins:[barLabels((v,di,i)=>{
+      if(i===0) return FLCONC.share_of_residential_tiv_pct+'%';
+      return 'about '+FLCONC.share_of_1in100_low_pct+' to '+FLCONC.share_of_1in100_high_pct+'%';
+    })]});
   // implied inflow per 100 takeouts (identity from the takeout table)
   const inflow=FLINFLOW;
   new Chart(document.getElementById('iChart'),{type:'bar',

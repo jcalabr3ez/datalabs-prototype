@@ -558,7 +558,7 @@ function renderPrices(){
   priceChart=new Chart(document.getElementById('chRank'),{type:'bar',
     data:payload,
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:10,right:56}},
+      layout:{padding:{top:10,right:72}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{
           title:function(items){var i=items[0]&&items[0].dataIndex; return (priceRows[i]&&priceRows[i].name)||'';},
@@ -596,7 +596,7 @@ function drawTrend(){
     document.getElementById('fig2t').textContent='All-sector average retail price, United States, Massachusetts, Florida, and '+extraName+', 2012 to '+DL04.year;
   }
   var data={labels:us.map(function(e){return e.y;}),datasets:datasets};
-  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:64}},
+  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:96}},
     plugins:{legend:{display:true,position:'top',align:'end'},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(2)+' cents';}}}},
     scales:{y:Object.assign({},AY,{grace:'8%',title:axisTitle('Cents per kilowatt-hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
@@ -627,7 +627,7 @@ function renderSupply(){
   } else {
     salesChart=new Chart(document.getElementById('chSales'),{type:'bar',
       data:salesPayload,
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:72}},
         plugins:{legend:{display:false},
           tooltip:{callbacks:{
             title:function(items){var i=items[0]&&items[0].dataIndex; return (salesRows[i]&&salesRows[i].name)||'';},
@@ -652,7 +652,7 @@ function renderSupply(){
   } else {
     genChart=new Chart(document.getElementById('chGen'),{type:'bar',
       data:genPayload,
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:72}},
         plugins:{legend:{display:false},
           tooltip:{callbacks:{
             title:function(items){var i=items[0]&&items[0].dataIndex; return (genRows[i]&&genRows[i].name)||'';},

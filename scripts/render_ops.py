@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Chart labels stay off the lines",
+        "body": (
+            "Value labels now skip a placement when they would sit on a series "
+            "stroke or a neighboring bar. Multi-series line ends stack in a "
+            "right-hand column so the figures do not pile up on the last point. "
+            "A white halo keeps type readable when a label must sit near a line."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Landing masthead matches the footer",
         "body": (
             "The front-door header now uses the same dark field as the footer: "

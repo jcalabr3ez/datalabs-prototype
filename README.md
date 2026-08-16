@@ -25,6 +25,7 @@ Public ops pages: [`/status/`](https://datalabsai.netlify.app/status/) (vintage 
 2. Run `python3 scripts/inject_data.py`.
 3. Open a pull request against `main`. Do not push `main` directly.
 
+How the platform is built, with diagrams: `ARCHITECTURE.md`.
 First-time GitHub + Netlify setup: `SETUP.md`.
 Adding a new tool: `NEW-TOOL-CHECKLIST.md`.
 Rules for cloud agents: `AGENTS.md`.

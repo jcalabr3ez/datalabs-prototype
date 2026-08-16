@@ -1347,7 +1347,7 @@ def figs_dl32(ledger):
         ledger.get("rows"),
         "top-pay",
         "Highest legislator pay, calendar 2025",
-        "Speaker and Senate President sit at the top. Type a name in the table to open the component card.",
+        "Speaker and Senate President sit at the top. The table lists base salary, supplemental pay, and stipend for every person.",
         "SRC-632-01",
         "usd",
         "dollars",

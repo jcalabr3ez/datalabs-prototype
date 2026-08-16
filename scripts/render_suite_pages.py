@@ -315,6 +315,37 @@ def chart_spec(app, ledger):
         "tax type": "Tax type",
         "legislator": "Legislator",
     }.get(geo, "Name")
+    if tid == "DL-32":
+        table_columns = [
+            {"key": "name", "label": "Legislator", "cls": "m"},
+            {"key": "chamber", "label": "Chamber"},
+            {"key": "base", "label": "Base salary", "align": "n", "fmt": "usd_cents"},
+            {"key": "aa1", "label": "Supplemental", "align": "n", "fmt": "usd_cents"},
+            {"key": "a14", "label": "Stipend", "align": "n", "fmt": "usd_cents"},
+            {"key": "v", "label": "Total", "align": "n", "fmt": "usd_cents"},
+            {"key": "rank", "label": "Rank", "align": "n"},
+        ]
+        table_lede = (
+            "Base salary, Comptroller supplemental pay, and stipend for every "
+            "person paid as a Representative or Senator in calendar 2025. "
+            "Type a name to jump to a row. A unique match opens a card; share "
+            "it with ?q= on the URL."
+        )
+        table_note = (
+            "Amounts are the published CTHRU named-employee lines. Ranks are "
+            "Pioneer calculations (derived). Year-over-year change is not on this file."
+        )
+    else:
+        table_columns = [
+            {"key": "name", "label": col_name, "cls": "m"},
+            {"key": "v", "label": "Value", "align": "n", "fmt": "value"},
+            {"key": "rank", "label": "Rank", "align": "n"},
+            {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
+        ]
+        table_lede = ""
+        table_note = (
+            "Ranks and year-over-year changes are Pioneer calculations (derived)."
+        )
     return {
         "geo": geo,
         "format": fmt,
@@ -328,6 +359,9 @@ def chart_spec(app, ledger):
         "has_trend": has_trend,
         "table_noun": table_noun,
         "col_name": col_name,
+        "table_columns": table_columns,
+        "table_lede": table_lede,
+        "table_note": table_note,
         "trend_mode": trend_mode,
         "trend_title": trend_title,
         "trend_lede": trend_lede,
@@ -452,10 +486,30 @@ def page_html(app, ledger, apps=None):
 """
     table_section = ""
     if live:
+        table_cols = spec.get("table_columns") or [
+            {"key": "name", "label": spec.get("col_name") or "Name", "cls": "m"},
+            {"key": "v", "label": "Value", "align": "n"},
+            {"key": "rank", "label": "Rank", "align": "n"},
+            {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
+        ]
+        th_html = "".join(
+            f'<th{(" class=\"n\"" if c.get("align") == "n" else "")}>{esc(c.get("label") or "")}</th>'
+            for c in table_cols
+        )
+        table_lede = (
+            esc(spec["table_lede"]) if spec.get("table_lede")
+            else (
+                f"{esc(metric_label)}{', ' + esc(unit) if unit else ''}. "
+                "Type a name to jump to a row. A unique match opens a card; share it with ?q= on the URL."
+            )
+        )
+        table_note = spec.get("table_note") or (
+            "Ranks and year-over-year changes are Pioneer calculations (derived)."
+        )
         table_section = f"""
 <section id="view-table">
     <h2>{esc(spec.get("table_noun") or "Every row")}</h2>
-    <div class="lede">{esc(metric_label)}{', ' + esc(unit) if unit else ''}. Type a name to jump to a row. A unique match opens a card; share it with ?q= on the URL.</div>
+    <div class="lede">{table_lede}</div>
     <div class="findrow">
       <label class="sel-lab" for="tblFind">Find a {esc(find_noun)}</label>
       <input id="tblFind" type="search" placeholder="Type a name" autocomplete="off">
@@ -464,11 +518,11 @@ def page_html(app, ledger, apps=None):
     <div id="findCard" class="findcard" hidden></div>
     <div class="scroll">
       <table id="tblStates">
-        <thead><tr><th>{esc(spec.get("col_name") or "Name")}</th><th class="n">Value</th><th class="n">Rank</th><th class="n">YoY</th></tr></thead>
+        <thead><tr>{th_html}</tr></thead>
         <tbody></tbody>
       </table>
     </div>
-    <div class="srcline"><b>Source:</b> see the register. Ranks and year-over-year changes are Pioneer calculations (derived).</div>
+    <div class="srcline"><b>Source:</b> see the register. {esc(table_note)}</div>
   </section>
 """
     related_section = related_html(app, apps) if live else ""
@@ -700,11 +754,35 @@ const FIND=FIND_JSON;
   });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){
+    var cols=CHART.table_columns||[
+      {key:'name',label:'Name',cls:'m'},
+      {key:'v',label:'Value',align:'n',fmt:'value'},
+      {key:'rank',label:'Rank',align:'n'},
+      {key:'yoy_pct',label:'YoY',align:'n',kind:'yoy'}
+    ];
+    function fmtCell(col,row){
+      var v=row[col.key];
+      if(col.kind==='yoy'){
+        if(v==null||v==='') return '';
+        return (Number(v)>0?'+':'')+v+'%';
+      }
+      if(col.fmt==='usd_cents'){
+        if(v==null||v==='') return '';
+        var n=Number(v), sign=n<0?'\u2212':'';
+        return sign+'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+      }
+      if(col.key==='v' || col.fmt==='value') return fmtVal(v);
+      if(v==null||v==='') return '';
+      return String(v).replace(/</g,'');
+    }
     tb.innerHTML=rows.map(function(r){
-      var yoy=(r.yoy_pct==null?'':(r.yoy_pct>0?'+':'')+r.yoy_pct+'%');
       var hl=isHL(r)?' class="hl-ma"':'';
       var key=((r.name||'')+' '+(r.st||'')).toLowerCase();
-      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'"><td class="m">'+r.name+'</td><td class="n">'+fmtVal(r.v)+'</td><td class="n">'+(r.rank||'')+'</td><td class="n">'+yoy+'</td></tr>';
+      var cells=cols.map(function(c){
+        var cls=c.cls||(c.align==='n'?'n':'');
+        return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
+      }).join('');
+      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'">'+cells+'</tr>';
     }).join('');
     var find=document.getElementById('tblFind');
     var countEl=document.getElementById('tblCount');
@@ -899,10 +977,13 @@ const FIND=FIND_JSON;
 
 
 def main():
+    wanted = {a for a in sys.argv[1:] if not a.startswith("-")}
     apps = load_apps()
     n = 0
     missing = []
     for app in apps:
+        if wanted and app["id"] not in wanted and app.get("slug") not in wanted:
+            continue
         path = ledger_path(app["id"])
         if not path.exists():
             sys.exit(f"FATAL: missing ledger {path}")

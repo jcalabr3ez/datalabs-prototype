@@ -291,7 +291,6 @@
 
   <section class="sec frame" id="answers">
     <h2 id="ansH2">New Releases</h2>
-    <p class="sub" id="ansSub">Florida homeowners insurance and the fifty-state tax atlas.</p>
     <div id="deskList"></div>
   </section>
 
@@ -387,15 +386,9 @@ if (AI_ENABLED) {
 }
 (function(){
   /* Browse-mode copy that drops any promise of a question engine. */
-  var h2=document.getElementById('ansH2'), sub=document.getElementById('ansSub');
   if (!AI_ENABLED) {
-    if (h2)  h2.textContent  = 'New Releases';
-    if (sub) sub.textContent = 'Florida homeowners insurance and the fifty-state tax atlas.';
     var cr=document.getElementById('pfCredo');
     if (cr) cr.textContent = 'Every figure compiled here traces to a public record.';
-  } else {
-    if (h2)  h2.textContent  = 'New Releases';
-    if (sub) sub.textContent = 'Florida homeowners insurance and the fifty-state tax atlas.';
   }
 })();
 

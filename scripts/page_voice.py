@@ -82,10 +82,8 @@ def cite_line(title, slug, as_of, src_id, version, revised):
         head += f" ({src_id})"
     head += "."
     extra = []
-    if version:
-        extra.append(f"Version {version}")
     if revised:
-        extra.append(f"revised {revised}")
+        extra.append(f"Revised {revised}")
     if extra:
         head += " " + ", ".join(extra) + "."
     return head

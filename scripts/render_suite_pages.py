@@ -379,7 +379,6 @@ def page_html(app, ledger, apps=None):
     apps = apps or []
     as_of_label = ledger.get("data_month_label") or "pending"
     revised = ledger.get("page", {}).get("revised", "")
-    version = ledger.get("page", {}).get("version", "0.0")
     metric_label = ledger.get("metric_label") or "Figure"
     unit = ledger.get("unit") or ""
     lead = short_place_text(
@@ -399,7 +398,7 @@ def page_html(app, ledger, apps=None):
     takes = takeaways_html((voice or {}).get("takeaways") or [])
     cite = (voice or {}).get("cite") or (
         f"Pioneer Institute DataLabs, {title}, {as_of_label and ('data through ' + as_of_label + '. ') or ''}"
-        f"Name the source id next to the figure. The version and vintage in the masthead belong in the citation."
+        f"Name the source id next to the figure. The vintage in the masthead belongs in the citation."
     )
     find_spec = (voice or {}).get("find") or {"kind": None, "cards": {}, "metric": ""}
     spec = chart_spec(app, ledger) if live else {}
@@ -918,7 +917,6 @@ const FIND=FIND_JSON;
 <!-- DATA:BEGIN {slug}-dateline -->
     <span>Data through <b>{esc(as_of_label)}</b></span>
     <span>Revised <b>{esc(revised)}</b></span>
-    <span>Version <b>{esc(version)}</b></span>
 <!-- DATA:END {slug}-dateline -->
   </div>
 </header>
@@ -953,7 +951,7 @@ const FIND=FIND_JSON;
   <div class="fbrand"><span class="pi">Pioneer Institute</span> &nbsp;&middot;&nbsp; 185 Devonshire Street, Suite 1101, Boston, MA 02110 &nbsp;&middot;&nbsp; <a href="https://pioneerinstitute.org">pioneerinstitute.org</a></div>
   <div class="frow">
 <!-- DATA:BEGIN {slug}-footer-meta -->
-    <div>{esc(title)} &middot; Version {esc(version)} &middot; Data through {esc(as_of_label)} &middot; Revised {esc(revised)}</div>
+    <div>{esc(title)} &middot; Data through {esc(as_of_label)} &middot; Revised {esc(revised)}</div>
 <!-- DATA:END {slug}-footer-meta -->
     <div>{nsrc} {src_word} in the register</div>
   </div>

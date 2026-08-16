@@ -162,8 +162,7 @@ def inject_florida(dl02, text, path):
     text = replace_block(text, "florida-charts", charts, path)
     dateline = (
         f'    <span>Data through <b>{fl["data_through"]}</b></span>\n'
-        f'    <span>Revised <b>{fl["revised"]}</b></span>\n'
-        f'    <span>Version <b>{fl["version"]}</b></span>'
+        f'    <span>Revised <b>{fl["revised"]}</b></span>'
     )
     text = replace_block(text, "florida-dateline", dateline, path, style="html")
     text = replace_block(text, "florida-pif", fl["pif_fmt"], path, style="html")
@@ -184,7 +183,7 @@ def inject_florida(dl02, text, path):
     through_day = fl["data_through"].split()[1]
     through_long = dl02["as_of"].replace(" ", f" {through_day} ")
     footer = (
-        f"    <div>Florida Insurance Watch &middot; Version {fl['version']} "
+        f"    <div>Florida Insurance Watch "
         f"&middot; Data through {through_long} &middot; "
         f"Revised {revised_long}</div>"
     )
@@ -220,8 +219,7 @@ def inject_electricity(dl04, text, path):
     text = replace_block(text, "electricity-data", "const DL04=" + jdump(payload) + ";", path)
     dateline = (
         f'    <span>Data through <b>Dec 31, {year}</b></span>\n'
-        f'    <span>Revised <b>{page.get("revised", "")}</b></span>\n'
-        f'    <span>Version <b>{page.get("version", "1.0")}</b></span>'
+        f'    <span>Revised <b>{page.get("revised", "")}</b></span>'
     )
     text = replace_block(text, "electricity-dateline", dateline, path, style="html")
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -241,7 +239,7 @@ def inject_electricity(dl04, text, path):
             revised_long = full + revised_long[len(short):]
             break
     footer = (
-        f"    <div>Retail Electricity Prices &middot; Version {page.get('version', '1.0')} "
+        f"    <div>Retail Electricity Prices "
         f"&middot; Data through December 31, {year} &middot; "
         f"Revised {revised_long}</div>"
     )
@@ -329,8 +327,7 @@ def inject_pensions(dl05, text, path):
         f'    <span>Board valuations through <b>Jan 1, {dl05["board_valuation_through"]}</b></span>\n'
         f'    <span>Retiree payroll through <b>{dl05["retiree_year"]}</b></span>\n'
         f'    <span>Name search through <b>{search_year}</b></span>\n'
-        f'    <span>Revised <b>{page.get("revised", "")}</b></span>\n'
-        f'    <span>Version <b>{page.get("version", "1.0")}</b></span>'
+        f'    <span>Revised <b>{page.get("revised", "")}</b></span>'
     )
     text = replace_block(text, "pensions-dateline", dateline, path, style="html")
     st = latest["state"]
@@ -353,7 +350,7 @@ def inject_pensions(dl05, text, path):
             revised_long = full + revised_long[len(short):]
             break
     footer = (
-        f"    <div>Massachusetts Public Pensions &middot; Version {page.get('version', '1.0')} "
+        f"    <div>Massachusetts Public Pensions "
         f"&middot; Board valuations through January 1, {dl05['board_valuation_through']} "
         f"&middot; Retiree payroll through {dl05['retiree_year']} "
         f"&middot; Name search through {search_year} &middot; "
@@ -568,15 +565,13 @@ def main():
         new = text
         as_of_label = led.get("data_month_label") or "pending"
         revised = (led.get("page") or {}).get("revised", "")
-        version = (led.get("page") or {}).get("version", "0.0")
         voice = voice_for(app, led)
         if has_block(new, slug + "-dateline", style="html"):
             new = replace_block(
                 new,
                 slug + "-dateline",
                 f"    <span>Data through <b>{as_of_label}</b></span>\n"
-                f"    <span>Revised <b>{revised}</b></span>\n"
-                f"    <span>Version <b>{version}</b></span>",
+                f"    <span>Revised <b>{revised}</b></span>",
                 p,
                 style="html",
             )
@@ -584,7 +579,7 @@ def main():
             new = replace_block(
                 new,
                 slug + "-footer-meta",
-                f"    <div>{led['title']} &middot; Version {version} "
+                f"    <div>{led['title']} "
                 f"&middot; Data through {as_of_label} &middot; Revised {revised}</div>",
                 p,
                 style="html",

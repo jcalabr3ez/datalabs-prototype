@@ -62,6 +62,14 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Version labels off the tools",
+        "body": (
+            "Tool pages no longer show a version number in the masthead, "
+            "footer, or how-to-cite line. The data vintage and revised date remain."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Catalog in A-Z order",
         "body": (
             "Applications inside each Pioneer vertical are now listed "

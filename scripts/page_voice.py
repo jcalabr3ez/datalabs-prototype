@@ -347,7 +347,7 @@ def voice_dl13(ledger):
         f"Massachusetts filed <b>{commify(ma.get('v'))}</b> seasonally adjusted business applications in Jul 2026, {rank_txt(ma)}"
         + (f", {yoy:+.1f}% from a year earlier" if yoy is not None else "")
         + " (derived, SRC-613-01).",
-        f"The private-sector establishment birth rate was <b>{bma.get('birth_rate_pct')}%</b> in {bma.get('births_as_of')} ({commify(bma.get('births') or 0)} establishments, SRC-613-02).",
+        f"The private-sector establishment birth rate was <b>{bma.get('birth_rate_pct')}%</b> in {bma.get('births_as_of')} ({commify(bma.get('births') or 0)} establishments), against <b>{(bed.get('us') or {}).get('birth_rate_pct')}%</b> in the United States (SRC-613-02).",
         f"Deaths are published through {bma.get('deaths_as_of')}, when the death rate was <b>{bma.get('death_rate_pct')}%</b> (SRC-613-02).",
     ]
     kpis = [

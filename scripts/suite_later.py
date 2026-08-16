@@ -920,7 +920,8 @@ def enrich(app, ledger):
     ).strip()
     if appendix:
         lead = " ".join((ledger.get("lead") or "").split())
-        ledger["lead"] = (lead + " " + appendix).strip()
+        if appendix not in lead:
+            ledger["lead"] = (lead + " " + appendix).strip()
     if tid == "DL-06" and "ma_chapter74_cte" in sec:
         v = sec["ma_chapter74_cte"]
         kpis = list(ledger.get("kpis") or [])

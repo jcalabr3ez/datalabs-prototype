@@ -971,28 +971,42 @@ def sec_vendor_extract():
     }
 
 
-def _bls_bd_series(ids, start="2018", end="2026"):
-    body = json.dumps({"seriesid": list(ids), "startyear": start, "endyear": end}).encode()
-    req = urllib.request.Request(
-        BLS_API,
-        data=body,
-        headers={"User-Agent": UA, "Content-Type": "application/json"},
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=90) as resp:
-        payload = json.loads(resp.read())
-    if payload.get("status") != "REQUEST_SUCCEEDED":
-        sys.exit(f"FATAL: BLS BED API {payload.get('status')} {payload.get('message')}")
-    out = {}
-    for s in payload.get("Results", {}).get("series", []):
-        pts = []
-        for r in s.get("data") or []:
-            raw = (r.get("value") or "").strip()
-            v = None if raw in ("", "-") else parse_num(raw)
-            pts.append((int(r["year"]), int(r["period"][1:]), v))
-        pts.sort()
-        out[s["seriesID"]] = pts
-    missing = [i for i in ids if i not in out or not out[i]]
+def _bls_bd_series(ids, start="2016", end="2026"):
+    # The public BLS API returns at most ten calendar years per call.
+    out = {sid: [] for sid in ids}
+    year = int(start)
+    end_y = int(end)
+    while year <= end_y:
+        chunk_end = min(year + 9, end_y)
+        body = json.dumps({
+            "seriesid": list(ids),
+            "startyear": str(year),
+            "endyear": str(chunk_end),
+        }).encode()
+        req = urllib.request.Request(
+            BLS_API,
+            data=body,
+            headers={"User-Agent": UA, "Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=90) as resp:
+            payload = json.loads(resp.read())
+        if payload.get("status") != "REQUEST_SUCCEEDED":
+            sys.exit(f"FATAL: BLS BED API {payload.get('status')} {payload.get('message')}")
+        for s in payload.get("Results", {}).get("series", []):
+            sid = s["seriesID"]
+            seen = {(y, q) for y, q, _ in out[sid]}
+            for r in s.get("data") or []:
+                raw = (r.get("value") or "").strip()
+                v = None if raw in ("", "-") else parse_num(raw)
+                y, q = int(r["year"]), int(r["period"][1:])
+                if (y, q) not in seen:
+                    out[sid].append((y, q, v))
+                    seen.add((y, q))
+        year = chunk_end + 1
+    for sid in out:
+        out[sid].sort()
+    missing = [i for i in ids if not out[i]]
     if missing:
         sys.exit(f"FATAL: BLS BED missing series {missing}")
     return out

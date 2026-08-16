@@ -492,11 +492,72 @@ def figs_dl12(ledger):
     return out
 
 
+def _bed_annual_rates(trend, years=10):
+    """Annual mean of published quarterly birth rates, last `years` years."""
+    by_year = {}
+    for r in trend:
+        ma = r.get("ma_birth_rate_pct")
+        us = r.get("us_birth_rate_pct")
+        if ma is None or us is None:
+            continue
+        y = int(str(r.get("q") or "").split()[0])
+        rec = by_year.setdefault(y, {"ma": [], "us": []})
+        rec["ma"].append(ma)
+        rec["us"].append(us)
+    ordered = sorted(by_year)
+    if not ordered:
+        return []
+    out = []
+    for y in ordered[-years:]:
+        ma = by_year[y]["ma"]
+        us = by_year[y]["us"]
+        out.append({
+            "y": str(y),
+            "ma_birth_rate_pct": round(sum(ma) / len(ma), 1),
+            "us_birth_rate_pct": round(sum(us) / len(us), 1),
+        })
+    return out
+
+
 def figs_dl13(ledger):
     sec = _sec(ledger)
     out = []
     bed = sec.get("bed_births_deaths") or {}
     trend = bed.get("trend") or []
+    window = _bed_annual_rates(trend, 10)
+    if window:
+        ma = bed.get("ma") or {}
+        us = bed.get("us") or {}
+        first, last = window[0], window[-1]
+        out.append(_fig(
+            "bed-ma-us-rate",
+            "Establishment birth rate, Massachusetts and the United States",
+            (
+                f"Massachusetts averaged {last.get('ma_birth_rate_pct')} percent "
+                f"in {last.get('y')}; the United States averaged "
+                f"{last.get('us_birth_rate_pct')} percent. "
+                f"In {first.get('y')}, the first year on this chart, "
+                f"the annual averages were {first.get('ma_birth_rate_pct')} "
+                f"and {first.get('us_birth_rate_pct')} percent."
+            ),
+            bed.get("src") or "SRC-613-02",
+            "line", "percent", "percent of establishments",
+            [r["y"] for r in window],
+            [
+                {"label": "Massachusetts", "data": [r.get("ma_birth_rate_pct") for r in window], "color": GOLD},
+                {"label": "United States", "data": [r.get("us_birth_rate_pct") for r in window], "color": NAVY},
+            ],
+            (
+                "BLS Business Employment Dynamics, total private, seasonally "
+                "adjusted. Each year is the Pioneer average of that year's "
+                "published quarterly birth rates (derived, SRC-613-02). The "
+                "United States line is the national rate, the comparison for "
+                "Massachusetts. Latest quarterly Massachusetts print "
+                f"{ma.get('births_as_of')}; latest United States print "
+                f"{us.get('births_as_of')}."
+            ),
+            span=2,
+        ))
     if trend:
         labels = [r["q"] for r in trend]
         births = [r.get("ma_birth_rate_pct") for r in trend]

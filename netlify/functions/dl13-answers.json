@@ -13,7 +13,7 @@
     "Business Births and Deaths",
     "Business Dynamics"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from the Census BFS monthly CSV. Headline series is seasonally adjusted BA_BA, TOTAL NAICS. U.S. Jul 2026 equals 578,926, matching Census press release CB26-130 (August 12, 2026). Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from the Census BFS monthly CSV. Headline series is seasonally adjusted BA_BA, TOTAL NAICS. U.S. Jul 2026 equals 578,926, matching Census press release CB26-130 (August 12, 2026). Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-613-01": {
       "name": "Census Bureau Business Formation Statistics monthly time series",
@@ -29,7 +29,7 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
@@ -65,6 +65,13 @@
       "detail": "Florida filed the most applications; Vermont the fewest at 731 (SRC-613-01).",
       "why": "Large states lead on raw counts; the table also shows the rank.",
       "src": "Census BFS monthly time series (SRC-613-01)"
+    },
+    {
+      "label": "MA establishment birth rate, 2025 Q4",
+      "value": "3.9%",
+      "detail": "8,540 private-sector births (SRC-613-02). Deaths are published through 2025 Q1 at 2.6 percent (5,722 establishments).",
+      "why": "The birth-versus-death rate the formation page now charts.",
+      "src": "BLS Business Employment Dynamics (SRC-613-02)"
     },
     {
       "label": "MA establishment birth rate, 2025 Q4",
@@ -1461,6 +1468,94 @@
           "ma_death_rate_pct": 2.6
         },
         "trend": [
+          {
+            "q": "2016 Q1",
+            "us_births_thousands": 236,
+            "us_deaths_thousands": 204,
+            "ma_births": 5146,
+            "ma_deaths": 4826,
+            "us_birth_rate_pct": 3.0,
+            "us_death_rate_pct": 2.6,
+            "ma_birth_rate_pct": 2.6,
+            "ma_death_rate_pct": 2.4
+          },
+          {
+            "q": "2016 Q2",
+            "us_births_thousands": 241,
+            "us_deaths_thousands": 213,
+            "ma_births": 6881,
+            "ma_deaths": 4639,
+            "us_birth_rate_pct": 3.1,
+            "us_death_rate_pct": 2.7,
+            "ma_birth_rate_pct": 3.5,
+            "ma_death_rate_pct": 2.3
+          },
+          {
+            "q": "2016 Q3",
+            "us_births_thousands": 238,
+            "us_deaths_thousands": 214,
+            "ma_births": 5518,
+            "ma_deaths": 5089,
+            "us_birth_rate_pct": 3.0,
+            "us_death_rate_pct": 2.7,
+            "ma_birth_rate_pct": 2.8,
+            "ma_death_rate_pct": 2.6
+          },
+          {
+            "q": "2016 Q4",
+            "us_births_thousands": 238,
+            "us_deaths_thousands": 217,
+            "ma_births": 6333,
+            "ma_deaths": 4859,
+            "us_birth_rate_pct": 3.0,
+            "us_death_rate_pct": 2.8,
+            "ma_birth_rate_pct": 3.2,
+            "ma_death_rate_pct": 2.4
+          },
+          {
+            "q": "2017 Q1",
+            "us_births_thousands": 242,
+            "us_deaths_thousands": 203,
+            "ma_births": 6832,
+            "ma_deaths": 5029,
+            "us_birth_rate_pct": 3.0,
+            "us_death_rate_pct": 2.6,
+            "ma_birth_rate_pct": 3.4,
+            "ma_death_rate_pct": 2.5
+          },
+          {
+            "q": "2017 Q2",
+            "us_births_thousands": 240,
+            "us_deaths_thousands": 223,
+            "ma_births": 6422,
+            "ma_deaths": 5290,
+            "us_birth_rate_pct": 3.0,
+            "us_death_rate_pct": 2.8,
+            "ma_birth_rate_pct": 3.1,
+            "ma_death_rate_pct": 2.6
+          },
+          {
+            "q": "2017 Q3",
+            "us_births_thousands": 244,
+            "us_deaths_thousands": 225,
+            "ma_births": 6341,
+            "ma_deaths": 5537,
+            "us_birth_rate_pct": 3.1,
+            "us_death_rate_pct": 2.8,
+            "ma_birth_rate_pct": 3.1,
+            "ma_death_rate_pct": 2.7
+          },
+          {
+            "q": "2017 Q4",
+            "us_births_thousands": 246,
+            "us_deaths_thousands": 216,
+            "ma_births": 6137,
+            "ma_deaths": 5331,
+            "us_birth_rate_pct": 3.1,
+            "us_death_rate_pct": 2.7,
+            "ma_birth_rate_pct": 3.0,
+            "ma_death_rate_pct": 2.6
+          },
           {
             "q": "2018 Q1",
             "us_births_thousands": 248,

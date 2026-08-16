@@ -76,6 +76,7 @@
   .plot-sm{height:clamp(240px,28vh,360px)}
   .plot-mid{height:clamp(480px,62vh,780px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .plot.plot-map{height:auto;min-height:0}
   .insight-grid{display:grid;grid-template-columns:1fr 1fr;gap:28px 36px;margin-top:8px}
   .insight-grid .exhibit.span2{grid-column:1/-1}
   .insight-grid .lede{margin:8px 0 12px;font-size:14.5px;color:var(--grey)}

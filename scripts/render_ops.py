@@ -74,6 +74,16 @@ CHANGELOG = [
     },
     {
         "date": "August 16, 2026",
+        "title": "Fifty-state figures are maps",
+        "body": (
+            "Any ranking that covers the fifty states is now a United States "
+            "map instead of a tall bar chart. Darker navy is a higher value. "
+            "Massachusetts keeps a gold outline and Florida a rust outline. "
+            "Hover a state for the figure; the table still lists every row."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Massachusetts K-12 enrollment on the page",
         "body": (
             "Massachusetts K-12 now opens with public-school enrollment from "

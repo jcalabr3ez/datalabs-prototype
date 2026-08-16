@@ -62,6 +62,22 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Education pages follow one namesake",
+        "body": (
+            "Massachusetts Schools now opens on Fall 2024 public-school "
+            "enrollment, not U.S. per-pupil spending. The fifty-state "
+            "spending map is gone from that page; spending, MCAS, and "
+            "Chapter 74 stay as later views. State School Scores is locked "
+            "to 2024 NAEP grade 4 reading for the hero, map, table, and "
+            "vintage. College Enrollment no longer repeats the ranking as a "
+            "bar chart. Charter Enrollment treats a published zero as zero "
+            "and names the lowest count above zero. Staff charts on that "
+            "page are labeled as all public schools. State Wealth Taxes and "
+            "Florida Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Catalog tiles a step lighter",
         "body": (
             "Catalog rows now use Pioneer Institute's paler blue "

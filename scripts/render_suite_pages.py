@@ -434,6 +434,32 @@ def related_html(app, apps):
 TREND_NAMES = {"US": "United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
 TREND_LEDE_NAMES = {"US": "the United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
 TREND_INDEX_RATIO = 2.5
+JUMP_SHORT = {
+    "ch74-seats": "Chapter 74",
+    "ch74-programs": "CTE programs",
+    "mcas-2025": "MCAS",
+    "attendance-2025": "Attendance",
+    "dropouts-2025": "Dropouts",
+    "dist-ppe-ma": "District spending",
+    "ma-race": "Enrollment by race",
+    "ma-selected": "Selected populations",
+    "ma-grades": "Enrollment by grade",
+    "ppe-compare": "Per-pupil spending",
+    "naep-read4-slope": "NAEP change",
+    "npefs-ppe": "Per-pupil spending",
+    "sat-2023": "SAT",
+    "faculty-ft": "Faculty",
+    "he-faculty": "Public faculty",
+    "he-ratio": "Students per faculty",
+    "ipeds-6yr-state": "Graduation rate",
+    "he-tuition": "Tuition",
+    "he-approp": "Appropriations",
+    "he-exp": "Expenditures",
+    "he-ba": "Bachelor's degrees",
+    "teachers-fte": "Teachers",
+    "k12-staff": "Staff",
+    "k12-aides": "Aides",
+}
 
 # Opening line: the namesake question. Select-a-state copy is added in JS
 # when more than the core series exist.
@@ -580,6 +606,10 @@ def chart_spec(app, ledger):
         fmt = "usd"
     else:
         fmt = "number"
+    if tid == "DL-06":
+        # Namesake is Fall enrollment. Spending stays a later view.
+        fmt = "number"
+        unit = "students"
     axis_unit = unit
     if fmt == "usd_millions":
         axis_unit = "chained 2017 dollars" if "chained" in ulow else "dollars"
@@ -624,9 +654,31 @@ def chart_spec(app, ledger):
         lede = (
             where_lede
             + "Darker navy is higher. "
+            "Gold outline is Massachusetts. Light gray is not in this file. "
             "Hover a state to update the readout. Click a state to open the table. "
-            "Massachusetts has a gold outline. Pin a second state to compare."
+            "Pin a second state to compare."
         )
+        if tid == "DL-07":
+            lede = (
+                "NAEP grade 4 reading, 2024. Darker navy is a higher scale score. "
+                "Equal-size cells so a small state is as readable as a large one. "
+                "Gold outline is Massachusetts. Hover a state to update the readout. "
+                "Click a state to open the table. Pin a second state to compare."
+            )
+        elif tid == "DL-08":
+            lede = (
+                "Fall enrollment in degree-granting institutions, 2022. "
+                "Darker navy is more students. Gold outline is Massachusetts. "
+                "Hover a state to update the readout. Click a state to open the table. "
+                "Pin a second state to compare."
+            )
+        elif tid == "DL-09":
+            lede = (
+                "Charter school fall enrollment, 2022-23. Darker navy is more students. "
+                "Gold outline is Massachusetts. Light gray is not in this file. "
+                "Hover a state to update the readout. Click a state to open the table. "
+                "Pin a second state to compare."
+            )
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
     if headline.get("from") == "secondary.public_k12_enrollment":
@@ -653,7 +705,11 @@ def chart_spec(app, ledger):
     if headline.get("title"):
         trend_title = headline["title"]
         trend_lede = headline.get("lede") or ""
-        trend_unit = unit
+        trend_unit = (
+            "students"
+            if headline.get("from") == "secondary.public_k12_enrollment"
+            else unit
+        )
     elif geo == "state":
         trend_title = (label or "The figure") + " over time"
         trend_lede = (
@@ -745,6 +801,21 @@ def chart_spec(app, ledger):
             "Amounts are the published CTHRU named-employee lines. Ranks are "
             "Pioneer calculations (derived). Year-over-year change is not on this file."
         )
+    elif tid == "DL-07":
+        table_columns = [
+            {"key": "name", "label": "State", "cls": "m"},
+            {"key": "v", "label": "Scale score", "align": "n", "fmt": "value"},
+            {"key": "rank", "label": "Rank", "align": "n"},
+        ]
+        table_lede = (
+            "Filter by Census region or by the top or bottom ten. Click a "
+            "column head to sort. Type a name to jump to a row. Year-over-year "
+            "change is not on this NAEP file."
+        )
+        table_note = (
+            "Ranks are Pioneer calculations (derived, SRC-607-05). "
+            "The table is the 2024 grade 4 reading scale, not enrollment."
+        )
     else:
         table_columns = [
             {"key": "name", "label": col_name, "cls": "m"},
@@ -802,6 +873,7 @@ def chart_spec(app, ledger):
             else "dots"
         ),
         "hero_finder": tid in FINDER_TOOLS,
+        "show_map": tid != "DL-06",
     }
 
 
@@ -1015,7 +1087,7 @@ def page_html(app, ledger, apps=None):
     map_insights = [f for f in insights if f.get("type") == "map" and f.get("rows")]
     insights = [f for f in insights if f.get("type") != "map"]
     map_views = []
-    if live and spec.get("geo") == "state":
+    if live and spec.get("geo") == "state" and spec.get("show_map") is not False:
         src_ids = list((ledger.get("source_id_map") or {}))
         mode = spec.get("map_mode") or "geo"
         if app["id"] == "DL-07":
@@ -1062,19 +1134,23 @@ def page_html(app, ledger, apps=None):
             noun = "hospital" if app["id"] == "DL-10" else "city or town"
             jump_links.append('<a href="#view-proof">Look up a ' + esc(noun) + "</a>")
         has_compare = (
-            spec.get("geo") == "state"
-            or app["id"] in TOWN_TOOLS
-            or app["id"] in HIST_TOOLS
-            or (spec.get("compare") or "") in ("dots", "map", "town", "hist")
+            spec.get("show_map") is not False
+            and (
+                spec.get("geo") == "state"
+                or app["id"] in TOWN_TOOLS
+                or app["id"] in HIST_TOOLS
+                or (spec.get("compare") or "") in ("dots", "map", "town", "hist")
+            )
         )
         if has_compare:
             jump_links.append('<a href="#view-rank">' + esc(compare_h2) + "</a>")
         if has_trend:
             jump_links.append('<a href="#view-trend">The trend</a>')
-        if spec.get("geo") == "state":
-            jump_links.append('<a href="#view-table">Table</a>')
-        else:
-            jump_links.append('<a href="#view-table">' + esc(table_h2) + "</a>")
+        if spec.get("show_map") is not False:
+            if spec.get("geo") == "state":
+                jump_links.append('<a href="#view-table">Table</a>')
+            else:
+                jump_links.append('<a href="#view-table">' + esc(table_h2) + "</a>")
         if app["id"] == "DL-11":
             jump_links.append('<a href="#view-charity">Charity care</a>')
             jump_links.append('<a href="#view-districts">Legislative mapping</a>')
@@ -1082,7 +1158,7 @@ def page_html(app, ledger, apps=None):
             fid = fig.get("id")
             if not fid:
                 continue
-            label = (fig.get("title") or fid).strip()
+            label = JUMP_SHORT.get(fid) or (fig.get("title") or fid).strip()
             if len(label) > 36:
                 label = label[:34] + "\u2026"
             jump_links.append(
@@ -1092,7 +1168,7 @@ def page_html(app, ledger, apps=None):
             fid = fig.get("id")
             if not fid:
                 continue
-            label = (fig.get("title") or fid).strip()
+            label = JUMP_SHORT.get(fid) or (fig.get("title") or fid).strip()
             if len(label) > 36:
                 label = label[:34] + "\u2026"
             jump_links.append(
@@ -1110,6 +1186,7 @@ def page_html(app, ledger, apps=None):
     n_fig = len(insights) if live else 0
     trend_block = ""
     if live and has_trend:
+        trend_n = 1 if spec.get("show_map") is False else 2
         trend_block = f"""
 <section id="view-trend">
     <h2>{esc(spec.get("trend_title") or "The trend")}</h2>
@@ -1118,7 +1195,7 @@ def page_html(app, ledger, apps=None):
       <select id="trendSel"></select>
     </div>
     <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 2</span>
+      <div class="ex-head"><span class="ex-n">Figure {trend_n}</span>
         <span class="ex-t" id="trendTitle">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
       <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
@@ -1195,7 +1272,7 @@ def page_html(app, ledger, apps=None):
             "  </section>\n"
         )
     if live:
-        if spec.get("geo") == "state":
+        if spec.get("geo") == "state" and spec.get("show_map") is not False:
             mode = (map_views[0].get("mode") if map_views else spec.get("map_mode")) or "geo"
             fig1_title = (
                 (map_views[0].get("title") if map_views else None)
@@ -1299,16 +1376,17 @@ def page_html(app, ledger, apps=None):
             if rank_inner
             else ""
         )
-        insight_start = 3 if has_trend else 2
+        has_map = bool(rank_inner)
+        insight_start = (2 if has_map else 1) + (1 if has_trend else 0)
         later_start = insight_start + len(insights)
         latest_section = (
             answer_block
             + finder_block
             + rank_section
-            + chips
             + trend_block
             + insight_html(insights, start=insight_start)
             + later_view_html(later_insights, later_start, len(insights))
+            + chips
         )
     else:
         dash_block = dashboards_html(app)

@@ -567,6 +567,7 @@ def main():
     sys.path.insert(0, str(ROOT / "scripts"))
     from render_suite_pages import kpi_html  # noqa: E402
     from page_voice import (  # noqa: E402
+        display_as_of,
         display_lead,
         display_rows,
         takeaways_html,
@@ -582,7 +583,7 @@ def main():
         led = json.loads(ledger_path(app["id"]).read_text(encoding="utf-8"))
         text = p.read_text(encoding="utf-8")
         new = text
-        as_of_label = led.get("data_month_label") or "pending"
+        as_of_label = display_as_of(app["id"], led)
         revised = (led.get("page") or {}).get("revised", "")
         voice = voice_for(app, led)
         if has_block(new, slug + "-dateline", style="html"):

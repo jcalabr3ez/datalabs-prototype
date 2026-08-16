@@ -50,7 +50,7 @@ STARTERS = {
         "policymaker": "How has the State and Teacher retiree payroll changed since 2011?",
     },
     "DL-06": {
-        "public": "What does the United States spend per pupil?",
+        "public": "How many students are enrolled in Massachusetts public schools?",
         "journalist": "How many Massachusetts students are in Chapter 74 vocational programs?",
         "researcher": "Is the MCAS figure the 2025 meeting-or-exceeding share for All Students?",
         "policymaker": "What share of Massachusetts students met expectations on MCAS?",

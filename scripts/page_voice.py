@@ -797,26 +797,33 @@ def voice_dl19(ledger):
 def voice_dl20(ledger):
     latest = ledger.get("latest") or {}
     ma = latest.get("ma") or {}
+    fl_latest = next((r for r in (ledger.get("rows") or []) if r.get("st") == "FL"), None) or {}
     cty = sec(ledger, "ma_county_taxpayer_migration_2022_23")
+    fl_cty = sec(ledger, "fl_county_taxpayer_migration_2022_23")
+    us_cty = sec(ledger, "us_county_taxpayer_migration_2022_23")
     hi = cty.get("highest") or {}
     lo = cty.get("lowest") or {}
+    us_hi = us_cty.get("highest") or {}
+    us_lo = us_cty.get("lowest") or {}
     take = [
         f"Massachusetts had a net domestic taxpayer flow of <b>{minus(ma.get('v'))}</b> returns in tax years 2022-23, {rank_txt(ma)} (derived, SRC-620-01).",
+        f"Florida had a net flow of <b>{minus(fl_latest.get('v'))}</b> returns, {rank_txt(fl_latest)} (derived, SRC-620-01)." if fl_latest.get("v") is not None else
         f"<b>{commify(ma.get('in'))}</b> returns moved in and <b>{commify(ma.get('out'))}</b> moved out (SRC-620-01).",
-        f"<b>{hi.get('name')}</b> had the largest county inflow ({minus(hi.get('v'))} returns); <b>{lo.get('name')}</b> the largest outflow ({minus(lo.get('v'))}) (derived, SRC-620-02).",
+        f"Among {commify(us_cty.get('n_counties') or 0)} U.S. counties, <b>{us_hi.get('name')}</b> gained the most returns and <b>{us_lo.get('name')}</b> lost the most (derived, SRC-620-02)." if us_hi.get("name") else
+        f"<b>{hi.get('name')}</b> had the largest Massachusetts county inflow ({minus(hi.get('v'))} returns); <b>{lo.get('name')}</b> the largest outflow ({minus(lo.get('v'))}) (derived, SRC-620-02).",
     ]
     kpis = [
         kpi("Net taxpayer flow, 2022-23", minus(ma.get("v")),
             f"{rank_txt(ma).capitalize()} (derived, SRC-620-01). {commify(ma.get('in'))} in, {commify(ma.get('out'))} out.",
             "The state's IRS migration balance.",
             src_name(ledger, "SRC-620-01")),
-        kpi("Largest county inflow", minus(hi.get("v")),
-            f"{hi.get('name')} (derived, SRC-620-02).",
-            "The only Massachusetts county gaining returns on net.",
-            src_name(ledger, "SRC-620-02")),
-        kpi("Largest county outflow", minus(lo.get("v")),
-            f"{lo.get('name')} (derived, SRC-620-02).",
-            "Where the outbound returns concentrated.",
+        kpi("Florida net flow", minus(fl_latest.get("v")),
+            f"{rank_txt(fl_latest).capitalize()} (derived, SRC-620-01)." if fl_latest.get("rank") else "IRS SOI state-to-state migration (SRC-620-01).",
+            "Florida on the same net-returns ranking.",
+            src_name(ledger, "SRC-620-01")),
+        kpi("Largest U.S. county inflow", minus(us_hi.get("v")),
+            f"{us_hi.get('name')} (derived, SRC-620-02)." if us_hi.get("name") else f"{hi.get('name')} (derived, SRC-620-02).",
+            "The strongest county draw in the national file.",
             src_name(ledger, "SRC-620-02")),
     ]
     return take, kpis, f"net {minus(ma.get('v'))} taxpayer returns, {rank_txt(ma)}", "SRC-620-01"

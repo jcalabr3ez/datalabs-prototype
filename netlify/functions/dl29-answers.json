@@ -21,7 +21,7 @@
     "State Finance-State Only Revenues",
     "State Finance-State Rainy Day Funds"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-629-01": {
       "name": "Census QTAX 2026 Q1 table 3, total state taxes",
@@ -49,11 +49,12 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
-    "US"
+    "US",
+    "FL"
   ],
   "q": "State tax collections, annual tax mix, and state government employment.",
   "pending": false,
@@ -618,6 +619,11 @@
           "v": 12270
         },
         "n_ranked": 50,
+        "fl": {
+          "v": 177265.0,
+          "rank": 4,
+          "n": 50
+        },
         "label": "State government full-time-equivalent employment, 2023",
         "src": "SRC-629-03",
         "unit": "full-time-equivalent employees",
@@ -681,6 +687,11 @@
             "v": 2629090000.0
           },
           "n_ranked": 50,
+          "fl": {
+            "v": 61925155000.0,
+            "rank": 5,
+            "n": 50
+          },
           "label": "State tax collections, FY 2023",
           "src": "SRC-629-04",
           "unit": "dollars",

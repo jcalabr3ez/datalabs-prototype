@@ -14,7 +14,7 @@
     "Energy Consumption",
     "Energy Production"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from EIA SEDS complete 1960-2024 (released June 26, 2026), series TETCE, million metric tons. U.S. 4780.661 and Massachusetts 58.072 match both fuel_te.csv and Complete_SEDS.csv. The retired environment/emissions/state table 1 file still ends at 2022. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from EIA SEDS complete 1960-2024 (released June 26, 2026), series TETCE, million metric tons. U.S. 4780.661 and Massachusetts 58.072 match both fuel_te.csv and Complete_SEDS.csv. The retired environment/emissions/state table 1 file still ends at 2022. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-624-01": {
       "name": "EIA SEDS total energy CO2 emissions (TETCE), 2024",
@@ -36,12 +36,13 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
     "US",
-    "MA"
+    "MA",
+    "FL"
   ],
   "q": "Energy consumption, production, and CO2 emissions by state. Not the retail-price page.",
   "pending": false,
@@ -657,6 +658,108 @@
         "y": 2024,
         "v": 58.072
       }
+    ],
+    "FL": [
+      {
+        "y": 2000,
+        "v": 239.027
+      },
+      {
+        "y": 2001,
+        "v": 237.342
+      },
+      {
+        "y": 2002,
+        "v": 241.164
+      },
+      {
+        "y": 2003,
+        "v": 246.554
+      },
+      {
+        "y": 2004,
+        "v": 257.132
+      },
+      {
+        "y": 2005,
+        "v": 260.003
+      },
+      {
+        "y": 2006,
+        "v": 259.014
+      },
+      {
+        "y": 2007,
+        "v": 256.635
+      },
+      {
+        "y": 2008,
+        "v": 238.45
+      },
+      {
+        "y": 2009,
+        "v": 224.467
+      },
+      {
+        "y": 2010,
+        "v": 245.342
+      },
+      {
+        "y": 2011,
+        "v": 232.173
+      },
+      {
+        "y": 2012,
+        "v": 226.741
+      },
+      {
+        "y": 2013,
+        "v": 226.501
+      },
+      {
+        "y": 2014,
+        "v": 232.579
+      },
+      {
+        "y": 2015,
+        "v": 236.685
+      },
+      {
+        "y": 2016,
+        "v": 237.81
+      },
+      {
+        "y": 2017,
+        "v": 237.498
+      },
+      {
+        "y": 2018,
+        "v": 241.154
+      },
+      {
+        "y": 2019,
+        "v": 232.922
+      },
+      {
+        "y": 2020,
+        "v": 207.02
+      },
+      {
+        "y": 2021,
+        "v": 225.711
+      },
+      {
+        "y": 2022,
+        "v": 231.5
+      },
+      {
+        "y": 2023,
+        "v": 229.833
+      },
+      {
+        "y": 2024,
+        "v": 230.847
+      }
     ]
   },
   "derived": {
@@ -756,6 +859,11 @@
           "v": 114172.0
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 4357609.0,
+          "rank": 3,
+          "n": 51
+        },
         "label": "Total energy consumption, 2024 (billion Btu)",
         "src": "SRC-624-02",
         "unit": "billion Btu",
@@ -780,6 +888,11 @@
           "v": 1907.0
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 540812.0,
+          "rank": 27,
+          "n": 51
+        },
         "label": "SEDS total energy production, 2024 (billion Btu)",
         "src": "SRC-624-03",
         "unit": "billion Btu",

@@ -37,6 +37,7 @@ from suite_common import (
     commify,
     fetch,
     fetch_text,
+    fl_cell,
     geo_to_st,
     parse_num,
     rank_named,
@@ -128,13 +129,17 @@ def _snap(values, us_val, round_to=None, higher_is_better=True):
             us_val = round(us_val, round_to)
     ma = _ma(ranked)
     hi, lo = ranked[0], ranked[-1]
-    return {
+    out = {
         "us": us_val,
         "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
         "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
         "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
         "n_ranked": ma["n"],
     }
+    fl = fl_cell(ranked)
+    if fl:
+        out["fl"] = fl
+    return out
 
 
 def _wb(url, timeout=120):
@@ -516,6 +521,7 @@ def sec_agi_stubs():
 
     us = _pack("US")
     ma = _pack("MA")
+    fl = _pack("FL")
     million_share = {
         st: 100 * (by_st[st]["10"]["agi"] / sum(s["agi"] for s in by_st[st].values()))
         for st in RANKED
@@ -529,6 +535,7 @@ def sec_agi_stubs():
         "as_of_label": "Tax year 2022",
         "us": us,
         "ma": ma,
+        "fl": fl,
         "million_plus_agi_share": {
             **snap,
             "label": "Share of AGI on returns with $1 million or more",

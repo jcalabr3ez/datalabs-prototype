@@ -15,7 +15,7 @@
     "Population Change",
     "Rural to Urban"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census vintage 2025 NST-EST2025-ALLDATA. Population is POPESTIMATE2025 (July 1). The ranking is DOMESTICMIG2025, not total population. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census vintage 2025 NST-EST2025-ALLDATA. Population is POPESTIMATE2025 (July 1). The ranking is DOMESTICMIG2025, not total population. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-617-01": {
       "name": "Census Bureau vintage 2025 state population estimates",
@@ -31,12 +31,13 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
     "US",
-    "MA"
+    "MA",
+    "FL"
   ],
   "q": "State population, domestic migration, and the rural-urban continuum.",
   "pending": false,
@@ -605,6 +606,32 @@
         "y": 2025,
         "v": 7154084
       }
+    ],
+    "FL": [
+      {
+        "y": 2020,
+        "v": 21591325
+      },
+      {
+        "y": 2021,
+        "v": 21836698
+      },
+      {
+        "y": 2022,
+        "v": 22413989
+      },
+      {
+        "y": 2023,
+        "v": 22929248
+      },
+      {
+        "y": 2024,
+        "v": 23265838
+      },
+      {
+        "y": 2025,
+        "v": 23462518
+      }
     ]
   },
   "derived": {
@@ -724,6 +751,11 @@
           "v": 31.3
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 96.9,
+          "rank": 6,
+          "n": 51
+        },
         "label": "Share of 2020 population in metro RUCC 1-3 counties, 2023 codes",
         "src": "SRC-617-02",
         "unit": "percent",

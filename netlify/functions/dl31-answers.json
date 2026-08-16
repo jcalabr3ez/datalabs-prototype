@@ -15,7 +15,7 @@
     "Internet Crime",
     "Juvenile Incarceration"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BJS Prisoners in 2023 statistical tables, p23stt02.csv (jurisdiction counts, 2023). U.S. total equals 1,254,224. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BJS Prisoners in 2023 statistical tables, p23stt02.csv (jurisdiction counts, 2023). U.S. total equals 1,254,224. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-631-01": {
       "name": "FBI Crime Data Explorer / UCR and NIBRS",
@@ -37,11 +37,12 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
-    "US"
+    "US",
+    "FL"
   ],
   "q": "Imprisonment rates, admissions, releases, and youth in adult prisons by state from BJS.",
   "pending": false,
@@ -610,6 +611,11 @@
             "v": 96.0
           },
           "n_ranked": 50,
+          "fl": {
+            "v": 382.0,
+            "rank": 15,
+            "n": 50
+          },
           "label": "Imprisonment rate per 100,000 residents, 2023",
           "src": "SRC-631-03",
           "unit": "per 100,000 residents",
@@ -634,6 +640,11 @@
             "v": 803.0
           },
           "n_ranked": 48,
+          "fl": {
+            "v": 27097.0,
+            "rank": 3,
+            "n": 48
+          },
           "label": "Admissions of sentenced prisoners, 2023",
           "src": "SRC-631-03",
           "unit": "admissions",
@@ -657,6 +668,11 @@
             "v": 498.0
           },
           "n_ranked": 50,
+          "fl": {
+            "v": 25288.0,
+            "rank": 3,
+            "n": 50
+          },
           "label": "Releases of sentenced prisoners, 2023",
           "src": "SRC-631-03",
           "unit": "releases",
@@ -680,6 +696,11 @@
             "v": 0
           },
           "n_ranked": 45,
+          "fl": {
+            "v": 52,
+            "rank": 2,
+            "n": 45
+          },
           "label": "Prisoners age 17 or younger in adult prisons, 2023",
           "src": "SRC-631-03",
           "unit": "prisoners",

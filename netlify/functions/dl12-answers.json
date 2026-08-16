@@ -14,7 +14,7 @@
     "State Health Expenses",
     "State Medicaid Expenses"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from the CMS FY 2024 FMR net-expenditures workbook, MAP Total Net Expenditures, total-computable column. U.S. equals 908,839,083,557.1. NASBO health-chapter tables remain PDF-only. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from the CMS FY 2024 FMR net-expenditures workbook, MAP Total Net Expenditures, total-computable column. U.S. equals 908,839,083,557.1. NASBO health-chapter tables remain PDF-only. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-612-01": {
       "name": "CMS Medicaid Financial Management Report FY 2024 net expenditures",
@@ -36,11 +36,12 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
-    "US"
+    "US",
+    "FL"
   ],
   "q": "State Medicaid spending and Medicaid fraud recoveries.",
   "pending": false,
@@ -550,6 +551,11 @@
           "v": 225578.0
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 107607792.0,
+          "rank": 6,
+          "n": 51
+        },
         "label": "Medicaid Fraud Control Unit total recoveries, FY 2025",
         "src": "SRC-612-03",
         "unit": "dollars",

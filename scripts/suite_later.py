@@ -26,6 +26,7 @@ from suite_common import (
     fetch,
     fetch_text,
     finish_live,
+    fl_cell,
     geo_to_st,
     parse_num,
     pct,
@@ -135,13 +136,17 @@ def _state_snapshot(values, us_val, round_to=None):
             us_val = round(us_val, round_to)
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
-    return {
+    out = {
         "us": us_val,
         "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
         "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
         "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
         "n_ranked": ma["n"],
     }
+    fl = fl_cell(ranked)
+    if fl:
+        out["fl"] = fl
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -628,60 +633,157 @@ def sec_seds():
     return snap
 
 
-def sec_county_migration():
-    def load(url):
-        text = fetch_text(url, timeout=120)
-        out = {}
-        for r in csv.DictReader(io.StringIO(text)):
-            # Both files use 97/000 for Total Migration-US.
-            if url.endswith("countyoutflow2223.csv"):
-                if r.get("y1_statefips") != "25":
-                    continue
-                if r.get("y2_statefips") != "97" or r.get("y2_countyfips") != "000":
-                    continue
-                name = (r.get("y2_countyname") or "").replace(
-                    " Total Migration-US", ""
-                ).strip()
-                fips = r.get("y1_countyfips")
-            else:
-                if r.get("y2_statefips") != "25":
-                    continue
-                if r.get("y1_statefips") != "97" or r.get("y1_countyfips") != "000":
-                    continue
-                name = (r.get("y1_countyname") or "").replace(
-                    " Total Migration-US", ""
-                ).strip()
-                fips = r.get("y2_countyfips")
-            n1 = parse_num(r.get("n1"))
-            if n1 is None or not fips or fips == "000":
-                continue
-            out[fips] = {"name": name, "n1": int(n1)}
-        return out
+def _county_mig_name(raw):
+    return (raw or "").replace(" Total Migration-US", "").strip()
 
-    outflow = load(URL_CO_OUT)
-    inflow = load(URL_CO_IN)
-    nets = {}
-    for fips, o in outflow.items():
-        inn = inflow.get(fips)
+
+def _load_county_migration(url, state_fips=None):
+    """Total Migration-US inflow or outflow by county.
+
+    Outflow file: origin county -> 97/000. Inflow file: 97/000 -> destination
+    county. When state_fips is set, only that state's counties are kept.
+    """
+    text = fetch_text(url, timeout=180)
+    outflow = url.endswith("countyoutflow2223.csv")
+    out = {}
+    for r in csv.DictReader(io.StringIO(text)):
+        if outflow:
+            st, cty = r.get("y1_statefips"), r.get("y1_countyfips")
+            if r.get("y2_statefips") != "97" or r.get("y2_countyfips") != "000":
+                continue
+            name = _county_mig_name(r.get("y1_countyname") or r.get("y2_countyname"))
+        else:
+            st, cty = r.get("y2_statefips"), r.get("y2_countyfips")
+            if r.get("y1_statefips") != "97" or r.get("y1_countyfips") != "000":
+                continue
+            name = _county_mig_name(r.get("y2_countyname") or r.get("y1_countyname"))
+        if state_fips and st != state_fips:
+            continue
+        n1 = parse_num(r.get("n1"))
+        if n1 is None or not cty or cty == "000" or not st or st == "00":
+            continue
+        if st not in FIPS_TO_ST or FIPS_TO_ST[st] == "US":
+            continue
+        key = st + cty
+        out[key] = {
+            "name": name,
+            "st": FIPS_TO_ST[st],
+            "fips": key,
+            "n1": int(n1),
+        }
+    return out
+
+
+def _county_migration_nets(state_fips=None):
+    outflow = _load_county_migration(URL_CO_OUT, state_fips)
+    inflow = _load_county_migration(URL_CO_IN, state_fips)
+    rows = []
+    for key, o in outflow.items():
+        inn = inflow.get(key)
         if not inn:
             continue
-        nets[o["name"]] = inn["n1"] - o["n1"]
-    if len(nets) < 10:
-        sys.exit(f"FATAL: IRS county migration parsed {len(nets)} MA counties")
-    ranked = rank_named(nets, higher_is_better=True, st_key=lambda n: n[:8])
+        st = o["st"]
+        name = o["name"] or inn["name"]
+        label = name if state_fips else f"{name}, {st}"
+        rows.append({
+            "name": label,
+            "county": name,
+            "st": st,
+            "fips": key,
+            "v": inn["n1"] - o["n1"],
+            "in": inn["n1"],
+            "out": o["n1"],
+        })
+    rows.sort(key=lambda r: r["v"], reverse=True)
+    for i, rec in enumerate(rows, 1):
+        rec["rank"] = i
+        rec["n"] = len(rows)
+    return rows
+
+
+def _rerank_county_migration(rows, name_key="name"):
+    ranked = sorted(rows, key=lambda r: r["v"], reverse=True)
+    out = []
+    for i, rec in enumerate(ranked, 1):
+        item = dict(rec)
+        item["name"] = rec[name_key]
+        item["rank"] = i
+        item["n"] = len(ranked)
+        out.append(item)
+    return out
+
+
+def _pack_county_rows(ranked, state_name, min_counties):
+    if len(ranked) < min_counties:
+        sys.exit(
+            f"FATAL: IRS county migration parsed {len(ranked)} {state_name} counties"
+        )
     hi, lo = ranked[0], ranked[-1]
     return {
-        "label": "Massachusetts county net domestic taxpayer migration, 2022-23",
+        "label": f"{state_name} county net domestic taxpayer migration, 2022-23",
         "src": "SRC-620-02",
         "unit": "returns",
         "as_of_label": "Tax years 2022-23",
         "n_counties": len(ranked),
-        "highest": {"name": hi["name"], "v": hi["v"]},
-        "lowest": {"name": lo["name"], "v": lo["v"]},
+        "highest": {"name": hi["name"], "v": hi["v"], "st": hi["st"]},
+        "lowest": {"name": lo["name"], "v": lo["v"], "st": lo["st"]},
         "counties": [
-            {"name": r["name"], "v": r["v"], "rank": r["rank"]} for r in ranked
+            {"name": r["name"], "v": r["v"], "rank": r["rank"], "st": r["st"]}
+            for r in ranked
         ],
-        "note": "Net equals Total Migration-US inflow n1 minus outflow n1. Same-state and foreign rows are excluded.",
+        "note": (
+            "Net equals Total Migration-US inflow n1 minus outflow n1. "
+            "Same-state and foreign rows are excluded."
+        ),
+    }
+
+
+def sec_county_migration_bundle():
+    """Parse the two IRS county files once; return MA, FL, and U.S. packs."""
+    ranked = _county_migration_nets()
+    if len(ranked) < 2000:
+        sys.exit(f"FATAL: IRS county migration parsed {len(ranked)} U.S. counties")
+    ma = _rerank_county_migration(
+        [r for r in ranked if r["st"] == "MA"], name_key="county"
+    )
+    fl = _rerank_county_migration(
+        [r for r in ranked if r["st"] == "FL"], name_key="county"
+    )
+    hi, lo = ranked[0], ranked[-1]
+    gains = ranked[:15]
+    losses = list(reversed(ranked[-15:]))
+    return {
+        "ma_county_taxpayer_migration_2022_23": _pack_county_rows(
+            ma, "Massachusetts", 10
+        ),
+        "fl_county_taxpayer_migration_2022_23": _pack_county_rows(
+            fl, "Florida", 50
+        ),
+        "us_county_taxpayer_migration_2022_23": {
+            "label": "U.S. county net domestic taxpayer migration, 2022-23",
+            "src": "SRC-620-02",
+            "unit": "returns",
+            "as_of_label": "Tax years 2022-23",
+            "n_counties": len(ranked),
+            "highest": {"name": hi["name"], "v": hi["v"], "st": hi["st"]},
+            "lowest": {"name": lo["name"], "v": lo["v"], "st": lo["st"]},
+            "top_gains": [
+                {"name": r["name"], "v": r["v"], "st": r["st"]} for r in gains
+            ],
+            "top_losses": [
+                {"name": r["name"], "v": r["v"], "st": r["st"]} for r in losses
+            ],
+            "chart": [
+                {"name": r["name"], "v": r["v"], "st": r["st"]}
+                for r in gains + losses
+            ],
+            "note": (
+                "Every U.S. county with a published Total Migration-US inflow "
+                "and outflow. The figure shows the 15 largest net gains and "
+                "the 15 largest net losses. Net equals inflow n1 minus "
+                "outflow n1. Same-state and foreign rows are excluded."
+            ),
+        },
     }
 
 
@@ -733,7 +835,7 @@ SECONDARY = {
     "DL-14": lambda: {"qcew_avg_weekly_wage_2025q4": sec_qcew()},
     "DL-15": lambda: {"personal_income_2025": sec_personal_income()},
     "DL-16": lambda: {"fhfa_hpi_annual_change_2025": sec_fhfa()},
-    "DL-20": lambda: {"ma_county_taxpayer_migration_2022_23": sec_county_migration()},
+    "DL-20": sec_county_migration_bundle,
     "DL-24": lambda: {"seds_consumption_2024": sec_seds()},
     "DL-27": lambda: {"boston_operating_budget_fy26": sec_boston_budget()},
 }
@@ -824,17 +926,41 @@ def lead_appendix(tool_id, sec):
             f"The FHFA all-transactions house-price index rose "
             f"<b>{h['ma']['v']}%</b> in Massachusetts in 2025, rank "
             f"{h['ma']['rank']} of {h['ma']['n']} on annual change "
-            f"(derived, SRC-616-02). {h['highest']['name']} had the largest "
+            f"(derived, SRC-616-02)."
+            + (
+                f" Florida changed <b>{h['fl']['v']}%</b>, rank "
+                f"{h['fl']['rank']} of {h['fl']['n']} (derived, SRC-616-02)."
+                if h.get("fl") else ""
+            )
+            + f" {h['highest']['name']} had the largest "
             f"increase at {h['highest']['v']}% (SRC-616-02)."
         )
     if tool_id == "DL-20":
         c = sec["ma_county_taxpayer_migration_2022_23"]
-        return (
+        fl = sec.get("fl_county_taxpayer_migration_2022_23") or {}
+        us = sec.get("us_county_taxpayer_migration_2022_23") or {}
+        bits = [
             f"Among Massachusetts counties, <b>{c['highest']['name']}</b> had "
             f"the largest net domestic taxpayer inflow ({commify(c['highest']['v'])} "
             f"returns) and <b>{c['lowest']['name']}</b> the largest net outflow "
             f"({commify(c['lowest']['v'])}) in 2022-23 (derived, SRC-620-02)."
-        )
+        ]
+        if fl.get("highest") and fl.get("lowest"):
+            bits.append(
+                f"Among Florida counties, <b>{fl['highest']['name']}</b> had "
+                f"the largest net inflow ({commify(fl['highest']['v'])} returns) "
+                f"and <b>{fl['lowest']['name']}</b> the largest net outflow "
+                f"({commify(fl['lowest']['v'])}) (derived, SRC-620-02)."
+            )
+        if us.get("highest") and us.get("lowest"):
+            bits.append(
+                f"Among {commify(us.get('n_counties') or 0)} U.S. counties, "
+                f"<b>{us['highest']['name']}</b> had the largest net inflow "
+                f"({commify(us['highest']['v'])} returns) and "
+                f"<b>{us['lowest']['name']}</b> the largest net outflow "
+                f"({commify(us['lowest']['v'])}) (derived, SRC-620-02)."
+            )
+        return " ".join(bits)
     if tool_id == "DL-24":
         s = sec["seds_consumption_2024"]
         return (
@@ -920,6 +1046,9 @@ def enrich(app, ledger):
     ).strip()
     if appendix:
         lead = " ".join((ledger.get("lead") or "").split())
+        marker = appendix[:56]
+        if marker and marker in lead:
+            lead = lead[:lead.index(marker)].strip()
         if appendix not in lead:
             ledger["lead"] = (lead + " " + appendix).strip()
     if tid == "DL-06" and "ma_chapter74_cte" in sec:
@@ -940,9 +1069,13 @@ def enrich(app, ledger):
     if tid == "DL-13" and "bed_births_deaths" in sec:
         b = sec["bed_births_deaths"]
         ma = b.get("ma") or {}
+        fl = b.get("fl") or {}
         kpis = list(ledger.get("kpis") or [])
+        ma_label = f"MA establishment birth rate, {ma.get('births_as_of')}"
+        fl_label = f"FL establishment birth rate, {fl.get('births_as_of')}"
+        kpis = [k for k in kpis if k.get("label") not in (ma_label, fl_label)]
         kpis.append(_kpi(
-            f"MA establishment birth rate, {ma.get('births_as_of')}",
+            ma_label,
             f"{ma.get('birth_rate_pct')}%",
             (
                 f"{commify(ma.get('births') or 0)} private-sector births "
@@ -953,6 +1086,19 @@ def enrich(app, ledger):
             "The birth-versus-death rate the formation page now charts.",
             "BLS Business Employment Dynamics (SRC-613-02)",
         ))
+        if fl.get("birth_rate_pct") is not None:
+            kpis.append(_kpi(
+                fl_label,
+                f"{fl.get('birth_rate_pct')}%",
+                (
+                    f"{commify(fl.get('births') or 0)} private-sector births "
+                    f"(SRC-613-02). Deaths are published through "
+                    f"{fl.get('deaths_as_of')} at {fl.get('death_rate_pct')} percent "
+                    f"({commify(fl.get('deaths') or 0)} establishments)."
+                ),
+                "Florida on the same BLS establishment birth-rate series.",
+                "BLS Business Employment Dynamics (SRC-613-02)",
+            ))
         ledger["kpis"] = kpis
     if tid == "DL-06" and "mcas_2025" in sec:
         m = sec["mcas_2025"]

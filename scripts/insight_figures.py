@@ -537,6 +537,14 @@ def figs_dl07(ledger):
 def figs_dl08(ledger):
     sec = _sec(ledger)
     out = []
+    latest = from_latest(
+        ledger, "enroll-compare",
+        title="Fall 2022 postsecondary enrollment",
+        note="NCES Digest table 304.10. The U.S. bar is omitted when it dwarfs the states.",
+        skip_us=True,
+    )
+    if latest:
+        out.append(latest)
     sat = sec.get("sat_2023") or {}
     fig = from_snap(
         sat, "sat-2023",
@@ -551,14 +559,6 @@ def figs_dl08(ledger):
     )
     if fig:
         out.append(fig)
-    latest = from_latest(
-        ledger, "enroll-compare",
-        title="Fall 2022 postsecondary enrollment",
-        note="NCES Digest table 304.10. The U.S. bar is omitted when it dwarfs the states.",
-        skip_us=True,
-    )
-    if latest:
-        out.append(latest)
     fac = sec.get("faculty_composition_fall_2023") or {}
     if fac.get("us") and fac.get("professors") and fac.get("female") is not None:
         labels = ["All full-time faculty", "Professors", "Women"]
@@ -600,13 +600,6 @@ def figs_dl08(ledger):
 def figs_dl09(ledger):
     sec = _sec(ledger)
     out = []
-    fig = from_snap(
-        sec.get("teachers_fte_fall_2022"), "teachers-fte",
-        title="Public-school teachers (FTE), Fall 2022",
-        skip_us=True,
-    )
-    if fig:
-        out.append(fig)
     latest = from_latest(
         ledger, "charter-enroll",
         title="Public charter fall enrollment, 2022-23",
@@ -615,6 +608,13 @@ def figs_dl09(ledger):
     )
     if latest:
         out.append(latest)
+    fig = from_snap(
+        sec.get("teachers_fte_fall_2022"), "teachers-fte",
+        title="Public-school teachers (FTE), Fall 2022",
+        skip_us=True,
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -1073,6 +1073,14 @@ def figs_dl16(ledger):
 def figs_dl17(ledger):
     sec = _sec(ledger)
     out = []
+    latest = from_latest(
+        ledger, "mig-2025",
+        title="Domestic migration, 2025",
+        skip_us=True,
+        note="Census vintage 2025 DOMESTICMIG. The U.S. total is omitted because domestic flows sum to zero.",
+    )
+    if latest:
+        out.append(latest)
     fig = from_snap(
         sec.get("rucc_2023"), "rucc",
         title="Share of 2020 population in metro RUCC 1-3 counties",
@@ -1080,13 +1088,6 @@ def figs_dl17(ledger):
     )
     if fig:
         out.append(fig)
-    latest = from_latest(
-        ledger, "pop-2025",
-        title="Resident population, July 1, 2025",
-        skip_us=True,
-    )
-    if latest:
-        out.append(latest)
     return out
 
 

@@ -241,8 +241,8 @@ Calendar year 2024 · Revised 15 August 2026
 
 
 <nav class="jump" aria-label="On this page">
-  <a href="#view-prices">Prices</a>
   <a href="#view-price_trend">Trend</a>
+  <a href="#view-prices">Prices</a>
   <a href="#view-sales_rank">Sales</a>
   <a href="#view-gen_rank">Generation</a>
   <a href="#view-table">Table</a>
@@ -285,6 +285,22 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
     </div>
   </section>
 
+  <section style="margin-top:30px" id="view-price_trend">
+    <h2>How have prices moved since 2012?</h2>
+    <div class="lede">The United States line shows whether the all-sector average has risen or fallen. Massachusetts and Florida stay on the chart. Select another state to add it.</div>
+    <div class="findrow">
+      <label class="sel-lab" for="stSel">Add a state</label>
+      <select id="stSel"></select>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t" id="fig2t">All-sector average retail price, United States and selected state</span></div>
+      <div class="plot"><canvas id="chTrend"></canvas></div>
+      <div class="note">Massachusetts rose from 13.79 cents in 2012 to more than 23 cents in the latest years, a steeper climb than the national line (derived, SRC-401). The U.S. Total stayed in the low-to-mid teens across the same window. Florida is the rust line. Select another state to add it.</div>
+      <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total Electric Industry (SRC-401), 2012 through the latest annual year. <b>Calculation:</b> Pioneer Institute.</div>
+    </div>
+  </section>
+
   <section id="view-price_rank">
     <h2>Prices across the fifty states</h2>
     <div class="lede">Every state and the District of Columbia. Color is a fifth of the ranking: the darkest navy is the highest fifth. The list at right is highest to lowest, so a state's place is visible without a click. The strip under the map is the same ranking as a line. Hover a state, a row, or a dot. Click to open the table. Massachusetts has a gold outline; Florida a rust outline.</div>
@@ -309,7 +325,7 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
       </div>
     </div>
     <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 1</span>
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t" id="fig1t">All-sector average retail electricity price by state</span></div>
       <div class="plot plot-map" id="chRank"></div>
       <div class="note">Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">All-sector average (EIA, not Pioneer)</div><code>price = total retail revenue / total retail sales
@@ -325,23 +341,6 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
 </div><!-- /view-prices -->
 
 <div id="view-trends">
-
-  <section style="margin-top:30px" id="view-price_trend">
-    <h2>How have prices moved since 2012?</h2>
-    <div class="lede">The EIA U.S. Total with Massachusetts and Florida. Select another state to add a fourth line. The series is the same all-sector average as Figure 1, year by year.</div>
-    <div class="findrow">
-      <label class="sel-lab" for="stSel">State</label>
-      <select id="stSel"></select>
-    </div>
-    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 2</span>
-        <span class="ex-t" id="fig2t">All-sector average retail price, United States and selected state</span></div>
-      <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="note">Massachusetts rose from 13.79 cents in 2012 to more than 23 cents in the latest years, a steeper climb than the national line (derived, SRC-401). The U.S. Total stayed in the low-to-mid teens across the same window. Florida is the rust line. Select another state to add it.</div>
-      <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total Electric Industry (SRC-401), 2012 through the latest annual year. <b>Calculation:</b> Pioneer Institute.</div>
-    </div>
-  </section>
-
 </div><!-- /view-trends -->
 
 <div id="view-supply">

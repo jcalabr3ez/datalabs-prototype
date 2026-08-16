@@ -2,10 +2,11 @@
 
 Live site: [datalabsai.netlify.app](https://datalabsai.netlify.app)
 
-Internal beta for Pioneer staff. Five flagships plus a 27-application
-suite, all on one Netlify site. The ask box is on at the front door
-(`?ai=0` hides it). Production deploys from `main`. Merging a pull
-request is what publishes. Staff tester brief: `BETA.md`.
+One-month internal beta for Pioneer staff, August 16 through
+September 16, 2026. Five flagships plus a 27-application suite, all
+on one Netlify site. The ask box is on at the front door (`?ai=0`
+hides it). Production deploys from `main`. Merging a pull request is
+what publishes. Staff tester brief: `BETA.md`.
 
 | Tool | Page | Canonical ledger | How it refreshes |
 | --- | --- | --- | --- |

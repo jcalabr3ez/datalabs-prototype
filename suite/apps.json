@@ -115,18 +115,14 @@
       "g": ["US"],
       "heritage": "Formerly 340B Program Growth, Hospital Charity Care, and Legislative Mapping",
       "replaces": ["340B Program Growth", "Hospital Charity Care", "Legislative Mapping"],
-      "scope": "Covers 340B covered-entity growth, hospital charity-care shares, and a map of state 340B legislation.",
-      "exclusions": "Does not cover advice to a hospital or manufacturer, or predictions of federal rulemaking.",
-      "wave": "build",
-      "dashboards": [
-        {"title": "340B Program Growth", "url": "https://340babuse.com/340b-program-growth", "g": "US", "note": "Hospitals, health centers, clinics, and contract pharmacies eligible for 340B discounts."},
-        {"title": "Legislative Mapping", "url": "https://340babuse.com/legislative-mapping", "g": "US", "note": "State legislative districts where 340B-participating pharmacies are located."},
-        {"title": "Hospital Charity Care", "url": "https://340babuse.com/charity-care", "g": "US", "note": "Hospital charity-care shares since the start of the ACA."},
-        {"title": "State One Page Fact Sheets", "url": "https://pioneerinstitute.org/340b-abuse/340b-state-one-page-fact-sheets/", "g": "US", "note": "How the 340B program is deployed in each state."}
-      ],
+      "scope": "Covers participating 340B covered-entity sites and unique contract pharmacies from the HRSA OPAIS daily export; hospital charity-care cost as a share of total costs from the CMS Hospital Provider Cost Report PUF (Worksheet S-10), the public file behind RAND TL-303; and unique contract pharmacies assigned to 2024 state house districts by Census ZCTA land-area majority.",
+      "exclusions": "Does not reconstruct a historical stock of entities that later left the program. Does not geocode street addresses. A ZIP can cross district lines; assignment uses the ZCTA's majority land-area district. Does not cover advice to a hospital or manufacturer, or predictions of federal rulemaking.",
+      "wave": "live",
       "sources": [
-        {"id": "SRC-611-01", "name": "HRSA Office of Pharmacy Affairs 340B covered-entity data", "cadence": "Quarterly", "url": "https://www.hrsa.gov/opa"},
-        {"id": "SRC-611-02", "name": "CMS Hospital Cost Report charity-care worksheets", "cadence": "Annual", "url": "https://www.cms.gov/"}
+        {"id": "SRC-611-01", "name": "HRSA OPAIS Covered Entity Daily Export (JSON)", "cadence": "Daily file", "url": "https://340bopais.hrsa.gov/reports"},
+        {"id": "SRC-611-02", "name": "CMS Hospital Provider Cost Report PUF, Worksheet S-10 charity care", "cadence": "Annual", "url": "https://data.cms.gov/provider-compliance/cost-report/hospital-provider-cost-report"},
+        {"id": "SRC-611-03", "name": "Census 2024 state house (SLDL) to 2020 ZCTA relationship file", "cadence": "After redistricting", "url": "https://www2.census.gov/geo/docs/maps-data/data/rel2020/cd-sld/tab20_sldl202420_zcta520_natl.txt"},
+        {"id": "SRC-611-04", "name": "RAND Hospital Charity Care Tool (TL-303), method citation", "cadence": "As published", "url": "https://www.rand.org/pubs/tools/TL303.html"}
       ]
     },
     {

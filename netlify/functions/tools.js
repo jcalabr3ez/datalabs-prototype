@@ -35,6 +35,7 @@ const DL07 = require('./dl07-answers.json');
 const DL08 = require('./dl08-answers.json');
 const DL09 = require('./dl09-answers.json');
 const DL10 = require('./dl10-answers.json');
+const DL11 = require('./dl11-answers.json');
 const DL12 = require('./dl12-answers.json');
 const DL13 = require('./dl13-answers.json');
 const DL14 = require('./dl14-answers.json');
@@ -441,6 +442,44 @@ module.exports = [
     ],
     extra: 'CHIA CY 2023 statewide commercial relative prices sit in derived.secondary.chia_srp_2023. CMS city, emergency, and star-mix detail sits in derived.secondary.cms_hospital_depth. This is not a care-advice tool. Decline where-to-seek-care questions.'
   }),
+  (function () {
+    var t = suiteTool(DL11, {
+      id: 'DL-11',
+      label: '340B participating covered-entity sites, hospital charity-care shares, and contract pharmacies by 2024 state house district',
+      src: 'SRC-611-01',
+      triggers: [
+        '340b', '340 b', 'covered entity', 'covered entities', 'opais',
+        'contract pharmacy', 'contract pharmacies', 'charity care',
+        'legislative mapping', 'state house district', 'hrsa opa'
+      ],
+      extra: 'Program growth is participating 340B IDs on the OPAIS daily export (SRC-611-01). The start-year trend is the current participating roster, not a reconstructed historical stock. Charity-care shares sit in derived.secondary.charity_care from the CMS Hospital Provider Cost Report PUF (SRC-611-02); RAND TL-303 is the method citation (SRC-611-04). Unique pharmacies by 2024 state house district sit in derived.secondary.legislative (SRC-611-03). A ZIP can cross district lines. Decline hospital or manufacturer advice and federal-rule forecasts.'
+    });
+    t.views = ['latest', 'trend', 'table', 'charity', 'districts'];
+    t.coreSlice = function (d) {
+      var c = suiteCore(d);
+      if (c.derived && c.derived.secondary && c.derived.secondary.legislative) {
+        var sec = {};
+        Object.keys(c.derived.secondary).forEach(function (k) { sec[k] = c.derived.secondary[k]; });
+        var drop = { rows: 1, ma_districts: 1, fl_districts: 1, district_rows: 1 };
+        var leg = {};
+        Object.keys(sec.legislative).forEach(function (k) {
+          if (!drop[k]) leg[k] = sec.legislative[k];
+        });
+        sec.legislative = leg;
+        c.derived = Object.assign({}, c.derived, { secondary: sec });
+      }
+      return c;
+    };
+    t.link = function (p) {
+      var allowed = ['latest', 'trend', 'table', 'charity', 'districts'];
+      var view = (p.view && allowed.indexOf(p.view) >= 0) ? p.view : 'latest';
+      var hash = { latest: 'view-rank', trend: 'view-trend', table: 'view-table', charity: 'view-charity', districts: 'view-districts' }[view];
+      var url = '/340b/#' + hash;
+      if (p.highlight) url += '&st=' + encodeURIComponent(p.highlight);
+      return url;
+    };
+    return t;
+  }()),
   suiteTool(DL12, {
     id: 'DL-12',
     label: 'Medicaid Medical Assistance Program net expenditures by state, FY 2024',

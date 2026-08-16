@@ -579,6 +579,44 @@ def figs_dl10(ledger):
     return out
 
 
+def figs_dl11(ledger):
+    sec = _sec(ledger)
+    out = []
+    types = (sec.get("type_mix") or {}).get("rows") or []
+    fig = named_list(
+        types,
+        "type-mix",
+        "Participating 340B sites by entity type",
+        "Disproportionate share hospitals and community health centers are the two largest groups on the current OPAIS file.",
+        "SRC-611-01",
+        "number",
+        "sites",
+        "Currently participating 340B IDs. A parent hospital and its child sites each count.",
+        n=8,
+        span=1,
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("charity_care"),
+        "charity-share",
+        title="Hospital charity-care share of total costs, 2023",
+        note="CMS Hospital Provider Cost Report PUF, Worksheet S-10. RAND TL-303 is the method citation for this series.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("pharmacies_by_state"),
+        "pharmacies",
+        title="Unique active 340B contract pharmacies",
+        skip_us=True,
+        note="Unique pharmacyId values on an active contract. One pharmacy can contract with many covered entities.",
+    )
+    if fig:
+        out.append(fig)
+    return out
+
+
 def figs_dl12(ledger):
     sec = _sec(ledger)
     out = []
@@ -1413,6 +1451,7 @@ DISPATCH = {
     "DL-08": figs_dl08,
     "DL-09": figs_dl09,
     "DL-10": figs_dl10,
+    "DL-11": figs_dl11,
     "DL-12": figs_dl12,
     "DL-13": figs_dl13,
     "DL-14": figs_dl14,

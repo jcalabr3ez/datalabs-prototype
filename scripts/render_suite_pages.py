@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from insight_figures import insight_figures
 from page_voice import census_place_names, display_lead, short_place_text, voice_for
-from suite_common import ROOT, catalog_dashboards, load_apps, ledger_path, paper_dateline
+from suite_common import ROOT, catalog_dashboards, commify, load_apps, ledger_path, paper_dateline
 
 def esc(s):
     return html.escape("" if s is None else str(s), quote=True)
@@ -162,8 +162,9 @@ RELATED_PAIRS = {
     "DL-07": ["DL-06", "DL-08", "DL-09"],
     "DL-08": ["DL-07", "DL-06"],
     "DL-09": ["DL-06", "DL-07"],
-    "DL-10": ["DL-12"],
-    "DL-12": ["DL-10"],
+    "DL-10": ["DL-11", "DL-12"],
+    "DL-11": ["DL-10", "DL-12"],
+    "DL-12": ["DL-10", "DL-11"],
     "DL-13": ["DL-14", "DL-15"],
     "DL-14": ["DL-13", "DL-15"],
     "DL-15": ["DL-14", "DL-19"],
@@ -365,7 +366,32 @@ def chart_spec(app, ledger):
         "tax type": "Tax type",
         "legislator": "Legislator",
     }.get(geo, "Name")
-    if tid == "DL-32":
+    if tid == "DL-11":
+        table_columns = [
+            {"key": "name", "label": "State", "cls": "m"},
+            {"key": "v", "label": "Sites", "align": "n", "fmt": "value"},
+            {"key": "pharmacies", "label": "Pharmacies", "align": "n", "fmt": "value"},
+            {"key": "rank", "label": "Rank", "align": "n"},
+        ]
+        table_lede = (
+            "Filter by Census region or type a name. Sites are currently "
+            "participating 340B IDs. Pharmacies are unique active contract "
+            "pharmacy IDs in that state. Massachusetts is marked in gold; Florida in rust."
+        )
+        table_note = (
+            "Ranks are Pioneer calculations (derived, SRC-611-01). Year-over-year "
+            "change is not on this file. The start-year trend is the current "
+            "participating roster, not a reconstructed historical stock."
+        )
+        trend_title = "Currently participating sites by start year"
+        trend_lede = (
+            "Each line is the number of sites that are participating on the "
+            "August 15, 2026 OPAIS file and that had a participating start date "
+            "on or before that year. Sites that later left the program are not "
+            "in this series."
+        )
+        trend_unit = "currently participating sites"
+    elif tid == "DL-32":
         table_columns = [
             {"key": "name", "label": "Legislator", "cls": "m"},
             {"key": "chamber", "label": "Chamber"},
@@ -395,6 +421,9 @@ def chart_spec(app, ledger):
         table_note = (
             "Ranks and year-over-year changes are Pioneer calculations (derived)."
         )
+    if tid == "DL-11":
+        compare_title = "Program growth"
+        table_noun = "Every state"
     return {
         "geo": geo,
         "format": fmt,
@@ -418,6 +447,204 @@ def chart_spec(app, ledger):
         "trend_lede": trend_lede,
         "trend_unit": trend_unit,
     }
+
+
+def extra_tool_sections(app, ledger, n_fig, has_trend):
+    """Stacked later tools that do not fit the single ranking table."""
+    if app["id"] != "DL-11":
+        return ""
+    sec = ((ledger.get("derived") or {}).get("secondary") or {})
+    charity = sec.get("charity_care") or {}
+    legis = sec.get("legislative") or {}
+    if not charity and not legis:
+        return ""
+    fig_c = n_fig + (2 if has_trend else 1) + 1
+    fig_t = fig_c + 1
+    us = charity.get("us") or {}
+    split = charity.get("hospital_split_2023") or {}
+    b340 = split.get("340b") or {}
+    both = split.get("other") or {}
+    split_txt = ""
+    if b340.get("share_pct") is not None and both.get("share_pct") is not None:
+        split_txt = (
+            f" Participating 340B hospitals (matched on CCN) filed at "
+            f"{b340['share_pct']} percent of total costs; other hospitals "
+            f"filed at {both['share_pct']} percent."
+        )
+    charity_lede = (
+        f"Charity-care cost was {us.get('v')} percent of hospital total costs "
+        f"on the 2023 CMS Provider Cost Report PUF, the public Worksheet S-10 "
+        f"file behind RAND TL-303.{split_txt} The ranking is the state share, "
+        f"not dollars."
+    )
+    mapped = legis.get("mapped_contracts")
+    unmapped = legis.get("unmapped_contracts")
+    ndist = legis.get("districts_with_pharmacies")
+    npharm = legis.get("unique_pharmacies")
+    legis_lede = (
+        f"{commify(npharm) if npharm is not None else ''} unique active "
+        f"contract pharmacies are assigned to {commify(ndist) if ndist is not None else ''} "
+        f"state house districts (2024 boundaries) by Census ZCTA land-area majority. "
+        f"{commify(unmapped) if unmapped is not None else ''} contract rows "
+        f"had a ZIP with no 2020 ZCTA in that file. A ZIP can cross district "
+        f"lines. Filter the table by state."
+    ).strip()
+    return f"""
+<section id="view-charity">
+    <h2>Hospital charity care</h2>
+    <div class="lede">{esc(charity_lede)}</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure {fig_c}</span>
+        <span class="ex-t" id="charityTitle">Hospital charity-care share of total costs, 2023</span></div>
+      <div class="plot plot-ranks"><canvas id="chCharity"></canvas></div>
+      <div class="srcline"><b>Source:</b> CMS Hospital Provider Cost Report PUF (SRC-611-02). Method citation: RAND TL-303 (SRC-611-04). <b>Unit:</b> percent of total costs.</div>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure {fig_t}</span>
+        <span class="ex-t">Charity-care share since 2011</span></div>
+      <div class="plot"><canvas id="chCharityTrend"></canvas></div>
+      <div class="srcline"><b>Source:</b> CMS Hospital Provider Cost Report PUF (SRC-611-02). <b>Unit:</b> percent of total costs.</div>
+    </div>
+    <div class="findrow">
+      <label class="sel-lab" for="charityFind">Find a state</label>
+      <input id="charityFind" type="search" placeholder="Type a name" autocomplete="off">
+      <span id="charityCount" class="findcount"></span>
+    </div>
+    <div class="scroll">
+      <table id="tblCharity">
+        <thead><tr><th>State</th><th class="n">Share</th><th class="n">Charity-care cost</th><th class="n">Total costs</th><th class="n">Rank</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> SRC-611-02. Ranks are Pioneer calculations (derived).</div>
+  </section>
+<section id="view-districts">
+    <h2>Legislative mapping</h2>
+    <div class="lede">{esc(legis_lede)}</div>
+    <div class="findrow">
+      <label class="sel-lab" for="distState">State</label>
+      <select id="distState"></select>
+      <label class="sel-lab" for="distFind">Find a district</label>
+      <input id="distFind" type="search" placeholder="Type a district" autocomplete="off">
+      <span id="distCount" class="findcount"></span>
+    </div>
+    <div class="scroll">
+      <table id="tblDistricts">
+        <thead><tr><th>District</th><th>State</th><th class="n">Pharmacies</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> OPAIS daily export (SRC-611-01) and Census 2024 SLDL-to-ZCTA (SRC-611-03). Pioneer Institute one-page fact sheets remain on <a href="https://pioneerinstitute.org/340b-abuse/340b-state-one-page-fact-sheets/" target="_blank" rel="noopener">pioneerinstitute.org</a>.</div>
+  </section>
+"""
+
+
+def extra_tool_js(app, ledger):
+    if app["id"] != "DL-11":
+        return ""
+    return r"""
+  (function(){
+    var sec=(DL&&DL.derived&&DL.derived.secondary)||{};
+    var charity=sec.charity_care||{};
+    var legis=sec.legislative||{};
+    function money(v){
+      if(v==null||v==='') return '';
+      var n=Number(v), sign=n<0?'\u2212':'', a=Math.abs(n);
+      if(a>=1e12) return sign+'$'+(a/1e12).toFixed(2)+' trillion';
+      if(a>=1e9) return sign+'$'+(a/1e9).toFixed(2)+' billion';
+      if(a>=1e6) return sign+'$'+(a/1e6).toFixed(2)+' million';
+      return sign+'$'+Math.round(a).toLocaleString();
+    }
+    var crows=charity.rows||[];
+    var cel=document.getElementById('chCharity');
+    if(cel&&window.Chart&&crows.length){
+      var plot=cel.parentNode;
+      if(plot) plot.style.height=Math.max(280, Math.min(1200, crows.length*20+48))+'px';
+      new Chart(cel,{type:'bar',
+        data:{labels:crows.map(function(r){return r.st;}),
+          datasets:[{data:crows.map(function(r){return r.v;}),
+            backgroundColor:crows.map(function(r){
+              if(r.st==='MA') return GOLD;
+              if(r.st==='FL') return RUST;
+              return BLUE;
+            })}]},
+        options:{indexAxis:'y',plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(c){return ' '+Number(c.parsed.x).toFixed(2)+'%';}}}},
+          scales:{x:{ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'percent of total costs'}},y:{}}},
+        plugins:[dataLabels(function(v){return Number(v).toFixed(1)+'%';},'all')]
+      });
+    }
+    var ctr=charity.trend||{};
+    var tel=document.getElementById('chCharityTrend');
+    if(tel&&window.Chart&&(ctr.US||ctr.MA||ctr.FL)){
+      var series=[{key:'US',label:'United States',color:INK},{key:'MA',label:'Massachusetts',color:GOLD},{key:'FL',label:'Florida',color:RUST}];
+      var years={};
+      series.forEach(function(s){ (ctr[s.key]||[]).forEach(function(p){ years[p.y]=1; }); });
+      var labels=Object.keys(years).map(Number).sort(function(a,b){return a-b;});
+      new Chart(tel,{type:'line',
+        data:{labels:labels,datasets:series.map(function(s){
+          var by={}; (ctr[s.key]||[]).forEach(function(p){ by[p.y]=p.v; });
+          return {label:s.label,data:labels.map(function(y){return by[y];}),borderColor:s.color,backgroundColor:'transparent',spanGaps:true};
+        })},
+        options:{plugins:{legend:{display:true},
+          tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+Number(c.parsed.y).toFixed(2)+'%';}}}},
+          scales:{y:{ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'percent of total costs'}}}},
+        plugins:[dataLabels(function(v){return Number(v).toFixed(1)+'%';},'end')]
+      });
+    }
+    var ctb=document.querySelector('#tblCharity tbody');
+    if(ctb){
+      ctb.innerHTML=crows.map(function(r){
+        var cls=r.st==='MA'?' class="hl-ma"':(r.st==='FL'?' class="hl-fl"':'');
+        return '<tr'+cls+' data-q="'+((r.name||'')+' '+(r.st||'')).toLowerCase()+'"><td class="m">'+(r.name||'')+'</td><td class="n">'+(r.v==null?'':Number(r.v).toFixed(2)+'%')+'</td><td class="n">'+money(r.charity)+'</td><td class="n">'+money(r.costs)+'</td><td class="n">'+(r.rank||'')+'</td></tr>';
+      }).join('');
+      var cf=document.getElementById('charityFind');
+      var cc=document.getElementById('charityCount');
+      function applyC(){
+        var q=(cf&&cf.value||'').toLowerCase();
+        var shown=0, n=0;
+        [].slice.call(ctb.querySelectorAll('tr')).forEach(function(tr){
+          var ok=!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0;
+          tr.hidden=!ok; n++; if(ok) shown++;
+        });
+        if(cc) cc.textContent=q? (shown+' of '+n) : (n+' rows');
+      }
+      if(cf) cf.addEventListener('input', applyC);
+      applyC();
+    }
+    var drows=legis.rows||[];
+    var dtb=document.querySelector('#tblDistricts tbody');
+    var sel=document.getElementById('distState');
+    if(dtb&&sel){
+      var names={};
+      ((DL&&DL.rows)||[]).forEach(function(r){ if(r.st) names[r.st]=r.name||r.st; });
+      var keys=Object.keys(drows.reduce(function(acc,r){ if(r.st) acc[r.st]=1; return acc; },{})).sort(function(a,b){
+        return String(names[a]||a).localeCompare(names[b]||b);
+      });
+      sel.innerHTML=keys.map(function(s){
+        return '<option value="'+s+'"'+(s==='MA'?' selected':'')+'>'+(names[s]||s)+'</option>';
+      }).join('');
+      function applyD(){
+        var st=sel.value||'MA';
+        var q=(document.getElementById('distFind')&&document.getElementById('distFind').value||'').toLowerCase();
+        var shown=0, n=0;
+        dtb.innerHTML=drows.filter(function(r){ return r.st===st; }).map(function(r){
+          n++;
+          var key=((r.name||'')+' '+(r.st||'')).toLowerCase();
+          var hide=q && key.indexOf(q)<0;
+          if(!hide) shown++;
+          return '<tr'+(hide?' hidden':'')+' data-q="'+key+'"><td class="m">'+(r.name||r.id||'')+'</td><td>'+(r.st||'')+'</td><td class="n">'+(r.v==null?'':Number(r.v).toLocaleString())+'</td></tr>';
+        }).join('');
+        var dc=document.getElementById('distCount');
+        if(dc) dc.textContent=q? (shown+' of '+n) : (n+' districts');
+      }
+      sel.addEventListener('change', applyD);
+      var df=document.getElementById('distFind');
+      if(df) df.addEventListener('input', applyD);
+      applyD();
+    }
+  })();
+"""
 
 
 def page_html(app, ledger, apps=None):
@@ -463,6 +690,9 @@ def page_html(app, ledger, apps=None):
         if has_trend:
             jump_links.append('<a href="#view-trend">The trend</a>')
         jump_links.append('<a href="#view-table">' + esc(table_h2) + "</a>")
+        if app["id"] == "DL-11":
+            jump_links.append('<a href="#view-charity">Charity care</a>')
+            jump_links.append('<a href="#view-districts">Legislative mapping</a>')
         jump = (
             '<nav class="jump" aria-label="On this page">'
             '<span class="onlab">On this page</span>'
@@ -561,6 +791,7 @@ def page_html(app, ledger, apps=None):
     <div class="srcline"><b>Source:</b> see the register. {esc(table_note)}</div>
   </section>
 """
+    extra_section = extra_tool_sections(app, ledger, n_fig, has_trend) if live else ""
     related_section = related_html(app, apps) if live else ""
     js = ""
     if live:
@@ -1012,9 +1243,9 @@ const FIND=FIND_JSON;
     if(find) find.addEventListener('input', function(){ applyFind(); writeQuery(); });
     applyFind();
   }
-})();
+EXTRA_TOOL_JS})();
 </script>
-""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True)).replace("FIND_JSON", json.dumps(find_spec, ensure_ascii=True))
+""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True)).replace("FIND_JSON", json.dumps(find_spec, ensure_ascii=True)).replace("EXTRA_TOOL_JS", extra_tool_js(app, ledger))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1063,7 +1294,7 @@ const FIND=FIND_JSON;
 {jump}
 {latest_section}
 {trend_section}
-{table_section}
+{table_section}{extra_section}
 {related_section}
 <section id="sources">
   <h2>Data Sources</h2>

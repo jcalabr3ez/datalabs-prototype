@@ -1823,11 +1823,18 @@ def build_crime(app):
     )
 
 
+def build_340b(app):
+    """DL-11: OPAIS daily export plus CMS HCRIS and Census SLDL-ZCTA."""
+    from build_dl11 import build as build_dl11
+    return build_dl11(app)
+
+
 BUILDERS = {
     "DL-06": build_ma_k12,
     "DL-07": build_national_k12,
     "DL-08": build_higher_ed,
     "DL-09": build_charters,
+    "DL-11": build_340b,
     "DL-12": build_medicaid,
     "DL-15": build_gdp,
     "DL-19": build_rpp,

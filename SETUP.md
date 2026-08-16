@@ -233,8 +233,9 @@ point it at another host, add a PUBLIC repository variable SITE_URL
                        are not in this job. First run: Actions tab >
                        DL-05 monthly CTHRU refresh > Run workflow.
     suite-refresh.yml  Monthly, 12th. Rebuilds every suite ledger that
-                       has a live public-file builder, restubs 340B and
-                       Patents, re-renders pages, and opens a PULL
+                       has a live public-file builder, keeps 340B if the
+                       local OPAIS extract is missing, restubs Patents,
+                       re-renders pages, and opens a PULL
                        REQUEST. First run: Actions tab > Suite monthly
                        refresh > Run workflow.
     DL-05 board side still has no fetch. PERAC's Investment Report is a

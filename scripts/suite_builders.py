@@ -332,7 +332,7 @@ def build_national_k12(app):
                 f"{hi['name']} enrolled the most students; {lo['name']} the fewest "
                 f"at {commify(lo['v'])} (SRC-607-02)."
             ),
-            "Large states lead on raw counts; per-pupil finance sits on Massachusetts K-12.",
+            "Large states lead on raw counts; per-pupil finance sits on Massachusetts Schools.",
             "NCES Digest table 203.20 (SRC-607-02)",
         ),
     ]

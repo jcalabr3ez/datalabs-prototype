@@ -5,7 +5,7 @@ Canonical data lives in:
     catalog.json                          (site root)
     suite/apps.json                       (suite registry)
     netlify/functions/dl03-answers.json   (MBTA ledger)
-    netlify/functions/dl01-answers.json   (State Tax Atlas ledger)
+    netlify/functions/dl01-answers.json   (State Wealth Taxes ledger)
     netlify/functions/dl02-answers.json   (Florida ledger)
     netlify/functions/dl04-answers.json   (electricity ledger)
     netlify/functions/dl05-answers.json   (pensions ledger)
@@ -185,7 +185,7 @@ def inject_florida(dl02, text, path):
     through_day = fl["data_through"].split()[1]
     through_long = dl02["as_of"].replace(" ", f" {through_day} ")
     footer = (
-        f"    <div>Florida Insurance Watch "
+        f"    <div>Florida Homeowners Insurance "
         f"&middot; Data through {through_long} &middot; "
         f"Revised {revised_long}</div>"
     )

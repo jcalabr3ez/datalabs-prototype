@@ -24,21 +24,21 @@ TODAY_LABEL = "August 16, 2026"
 FLAGSHIPS = [
     {
         "id": "DL-01",
-        "title": "State Tax Atlas",
+        "title": "State Wealth Taxes",
         "url": "/tax-atlas/",
         "refresh": "Weekly Cursor Automation, Monday 9:00 AM ET",
         "ledger": "netlify/functions/dl01-answers.json",
     },
     {
         "id": "DL-02",
-        "title": "Florida Insurance Watch",
+        "title": "Florida Homeowners Insurance",
         "url": "/florida-insurance/",
         "refresh": "Monthly Cursor Automation, 17th at 10:00 AM ET",
         "ledger": "netlify/functions/dl02-answers.json",
     },
     {
         "id": "DL-03",
-        "title": "Transportation & MBTA",
+        "title": "MBTA Performance",
         "url": "/mbta/",
         "refresh": "Monthly GitHub Action, 5th of the month",
         "ledger": "netlify/functions/dl03-answers.json",
@@ -60,6 +60,18 @@ FLAGSHIPS = [
 ]
 
 CHANGELOG = [
+    {
+        "date": "August 16, 2026",
+        "title": "Catalog names say what the page is",
+        "body": (
+            "Tool names now name the live figure, not the sector or a "
+            "metaphor. State Tax Atlas is State Wealth Taxes. Florida "
+            "Insurance Watch is Florida Homeowners Insurance. Transportation "
+            "and MBTA is MBTA Performance. Suite titles follow the same "
+            "rule, from Charter Enrollment to State Imprisonment. URLs "
+            "are unchanged."
+        ),
+    },
     {
         "date": "August 16, 2026",
         "title": "Catalog names match what the page can show",

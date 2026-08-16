@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-29",
-  "title": "U.S. State Finances",
+  "title": "State Tax Collections",
   "slug": "us-state-finances",
   "vertical": "American Citizenship",
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2026-03",
   "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views.",
-  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts State Finances), or party-registration advice. NASBO rainy-day figures are pending: decline those.",
+  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts Tax Collections), or party-registration advice. NASBO rainy-day figures are pending: decline those.",
   "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
   "replaces": [
     "Financial Transparency",

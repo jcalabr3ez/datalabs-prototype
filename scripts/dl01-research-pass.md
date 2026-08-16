@@ -28,7 +28,7 @@ Confirm the first fire time in the UI. Scheduled runs may be late; they should n
 **Prompt to paste:**
 
     Follow scripts/dl01-research-pass.md exactly. This is the weekly deep
-    research pass for the Pioneer DataLabs State Tax Atlas (DL-01).
+    research pass for Pioneer DataLabs State Wealth Taxes (DL-01).
 
     Launch five parallel research agents and recheck every source in the
     atlas register, not only sources due under the 45-day freshness gate.

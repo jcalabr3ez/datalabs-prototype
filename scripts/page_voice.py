@@ -2,7 +2,7 @@
 """Presentation voice for live pages: takeaways, finding KPIs, cite, catalog line.
 
 Reads existing ledgers. Does not invent figures. Skips Florida (DL-02) and the
-State Tax Atlas (DL-01). Patents stays an in-build stub.
+State Wealth Taxes (DL-01). Patents stays an in-build stub.
 """
 from __future__ import annotations
 

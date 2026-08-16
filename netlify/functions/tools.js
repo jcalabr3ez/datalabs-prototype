@@ -128,7 +128,7 @@ function suiteTool(d, spec) {
 module.exports = [
   {
     id: 'DL-03',
-    label: 'Transportation and MBTA: ridership by mode and month, recovery vs 2019, cost per trip, farebox recovery',
+    label: 'MBTA Performance: ridership by mode and month, recovery vs 2019, cost per trip, farebox recovery',
     scope: 'Covers MBTA ridership (unlinked passenger trips) by mode and month through the dataset as_of month and recovery vs 2019; service supplied and productivity (vehicle revenue hours and miles, and unlinked trips per vehicle revenue hour, by mode, latest full year vs 2019); reliability (share of trips meeting the headway or schedule-adherence standard) for bus, commuter rail, ferry, and The RIDE, by mode and by line, with a trend back to 2016; and operating cost per trip and farebox recovery, the share of operating cost that fares cover, INCLUDING their trend across report years 2022 to 2024. Questions about the cost of a ride or trip, whether a ride costs more or less than before, and what share of the cost fares cover all answer here (cost is answered as cost to provide, farebox recovery as the covered share). Questions about how reliable, on time, or punctual bus, commuter rail, ferry, or The RIDE are route here. Does NOT cover: subway or Green Line reliability (the MBTA measures rapid transit with Excess Trip Time, a different method adopted December 2024), safety, the capital budget, debt, the ticket and pass PRICES a rider pays (only these prices are excluded, NOT farebox recovery or cost per trip, which are covered above and DO answer here), or other transit agencies.',
     triggers: [
       'mbta', 'the t', 'transit', 'subway', 'commuter rail', 'commuter', 'green line',
@@ -185,7 +185,7 @@ module.exports = [
   },
   {
     id: 'DL-02',
-    label: 'Florida Insurance Watch: homeowners premiums by county, Citizens series, litigation, takeouts, risk transfer',
+    label: 'Florida Homeowners Insurance: homeowners premiums by county, Citizens series, litigation, takeouts, risk transfer',
     scope: 'Covers Florida homeowners insurance: county average premiums, Citizens Property Insurance policy counts and finances, litigation shares, the takeout program, and risk transfer. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or hurricanes; individual premium quotes; claims or legal guidance; insurer solvency opinions; other insurance lines; other states.',
     triggers: [
       'florida', 'homeowners', 'homeowner', 'insurance', 'premium', 'citizens',
@@ -213,11 +213,11 @@ module.exports = [
     highlight: { key: 'county_premiums', uppercase: false, describe: 'the exact county name as written in county_premiums if the question focuses on one county, else null' },
     rules: 'DL-02 rules. Every figure in text AND detail cites its source id in parentheses, e.g. (SRC-FL-01) for county premiums, (SRC-FL-02) for Citizens figures, (SRC-FL-03) for litigation shares, (SRC-FL-04) for risk transfer. Values you compute say derived, e.g. (derived, SRC-FL-02). Prefer the precomputed values in citizens_key_facts and county_rankings over your own arithmetic. Dollar figures are annual average premiums for the county, not quotes. Chart selection: citizens_trend = Citizens policy counts over time, growth, decline, depopulation; county_compare = what a county pays or comparing counties; premium_change = whether premiums are rising or falling; litigation = lawsuits, litigation share, why reform happened; risk_transfer = reinsurance, cat fund, private capital; takeouts = the takeout program and flows; none = no view fits. When the question names a county, prefer county_compare (or premium_change if it is about change) with that county as highlight. View selection: home for what households pay, counties, Citizens size, flood; policy for market health, litigation, takeouts, risk transfer; report for reform grades.',
     link: function (p) { return '/florida-insurance/#view-' + p.view; },
-    src: function (d) { return 'Florida Insurance Watch ledger, through ' + d.as_of + ': FL OIR county tables (SRC-FL-01), Citizens filings (SRC-FL-02), NAIC MCAS via OIR (SRC-FL-03), Citizens audited notes (SRC-FL-04).'; }
+    src: function (d) { return 'Florida Homeowners Insurance ledger, through ' + d.as_of + ': FL OIR county tables (SRC-FL-01), Citizens filings (SRC-FL-02), NAIC MCAS via OIR (SRC-FL-03), Citizens audited notes (SRC-FL-04).'; }
   },
   {
     id: 'DL-01',
-    label: 'State Tax Atlas: every jurisdiction’s income tax rate, surtaxes, wealth-tax proposals, ballot pathways, and risk tier',
+    label: 'State Wealth Taxes: every jurisdiction’s wealth-tax, surtax, and intangibles provisions, ballot pathways, and risk tier',
     scope: 'Covers all 51 US jurisdictions: enacted top income tax rates and surtaxes (a single state’s current top income tax rate answers here, for example what is California’s top income tax rate), slated changes already in law, active wealth-tax and high-income surtax proposals, citizen-initiative ballot pathways, Pioneer’s Short-Term Risk tier, and a dated watch list of upcoming events (hearings, rulings, deadlines, elections) through 2028, so what-to-watch and upcoming-dates questions route here. Does NOT cover: personal tax or legal advice; whether to move or relocate; predicting how a ballot measure, election, or court case will turn out; calculating an individual’s tax; sales, property, corporate, or estate taxes except where a record already notes them; other countries or years outside the dataset.',
     triggers: [
       'tax', 'surtax', 'wealth', 'income tax', 'top rate', 'ballot', 'proposition',
@@ -270,7 +270,7 @@ module.exports = [
       if (p.highlight && d.state_sources[p.highlight]) {
         d.state_sources[p.highlight].forEach(function (x) { srcs.push(x.label); });
       }
-      return 'State Tax Atlas, law and measures as of ' + d.as_of + '. Sources: ' + srcs.join('; ') + '.';
+      return 'State Wealth Taxes, law and measures as of ' + d.as_of + '. Sources: ' + srcs.join('; ') + '.';
     }
   },
   {
@@ -387,7 +387,7 @@ module.exports = [
   },
   suiteTool(DL06, {
     id: 'DL-06',
-    label: 'Massachusetts K-12: current expenditures per pupil by state, Massachusetts public enrollment, and Chapter 74 vocational-technical enrollment',
+    label: 'Massachusetts Schools: current expenditures per pupil by state, Massachusetts public enrollment, and Chapter 74 vocational-technical enrollment',
     src: 'SRC-606-01',
     triggers: [
       'per-pupil', 'per pupil', 'school spending', 'massachusetts k-12',
@@ -400,7 +400,7 @@ module.exports = [
   }),
   suiteTool(DL07, {
     id: 'DL-07',
-    label: 'National K-12: public elementary and secondary enrollment by state',
+    label: 'State School Scores: public elementary and secondary enrollment by state',
     src: 'SRC-607-02',
     triggers: [
       'k-12 enrollment', 'k12 enrollment', 'public school enrollment',
@@ -412,7 +412,7 @@ module.exports = [
   }),
   suiteTool(DL08, {
     id: 'DL-08',
-    label: 'Higher education: fall enrollment in degree-granting institutions by state',
+    label: 'College Enrollment: fall enrollment in degree-granting institutions by state',
     src: 'SRC-608-01',
     triggers: [
       'college', 'college enrollment', 'higher education', 'postsecondary',
@@ -505,7 +505,7 @@ module.exports = [
   }),
   suiteTool(DL14, {
     id: 'DL-14',
-    label: 'Labor market: seasonally adjusted unemployment rate by state',
+    label: 'State Unemployment: seasonally adjusted unemployment rate by state',
     src: 'SRC-614-01',
     triggers: [
       'unemployment', 'unemployment rate', 'jobless', 'laus',

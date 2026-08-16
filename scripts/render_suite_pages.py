@@ -193,8 +193,8 @@ RELATED_PAIRS = {
 }
 
 FLAGSHIP_LINKS = {
-    "DL-01": {"title": "State Tax Atlas", "slug": "tax-atlas"},
-    "DL-03": {"title": "Transportation & MBTA", "slug": "mbta"},
+    "DL-01": {"title": "State Wealth Taxes", "slug": "tax-atlas"},
+    "DL-03": {"title": "MBTA Performance", "slug": "mbta"},
     "DL-04": {"title": "Retail Electricity Prices", "slug": "electricity"},
     "DL-05": {"title": "Massachusetts Public Pensions", "slug": "pensions"},
 }

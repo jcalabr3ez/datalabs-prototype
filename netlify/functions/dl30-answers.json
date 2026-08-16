@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-30",
-  "title": "Payroll and Vendors",
+  "title": "Massachusetts State Payroll",
   "slug": "payroll-vendors",
   "vertical": "American Citizenship",
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2025-12",
   "scope": "This ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), reports Comptroller-recorded spending for fiscal 2025, and also reports CTHRU quasi-public payroll for calendar 2025 and a vendor-only extract of non-payroll object classes for FY 2025.",
-  "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), named-employee lookups, or advice about a contract bid.",
+  "exclusions": "Does not cover municipal payroll (Boston City Payroll or Massachusetts Town Profiles), retiree pensions (DL-05), named-employee lookups, or advice about a contract bid.",
   "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
   "replaces": [
     "Payroll State Agencies",

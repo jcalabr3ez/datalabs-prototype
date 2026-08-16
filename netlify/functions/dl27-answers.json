@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-27",
-  "title": "Boston",
+  "title": "Boston City Payroll",
   "slug": "boston",
   "vertical": "American Citizenship",
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-12",
   "scope": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department.",
-  "exclusions": "Does not cover other municipalities (Municipal Atlas) or statewide payroll (Payroll and Vendors).",
+  "exclusions": "Does not cover other municipalities (Massachusetts Town Profiles) or statewide payroll (Massachusetts State Payroll).",
   "heritage": "Formerly Boston Data Labs",
   "replaces": [
     "Boston Data Labs"

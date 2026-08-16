@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-26",
-  "title": "Municipal Rankings",
+  "title": "Massachusetts Town Rankings",
   "slug": "municipal-rankings",
   "vertical": "American Citizenship",
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-07",
   "scope": "This ledger ranks Massachusetts cities and towns on 2020-to-2025 Census population change, DESE FY 2025 district total expenditures per pupil, and ACS 2020-2024 5-year median household income, poverty rate, median home value, and bachelor's-or-higher share. DLS debt, levy, revenue, tax, and municipal crime files are not posted as stable public CSVs.",
-  "exclusions": "Does not cover the per-town atlas stock (Municipal Atlas), Boston payroll, or advice about a town meeting warrant. DLS debt, levy, revenue, tax, and municipal crime rankings are not a stable public CSV: decline those.",
+  "exclusions": "Does not cover the per-town profile stock (Massachusetts Town Profiles), Boston payroll, or advice about a town meeting warrant. DLS debt, levy, revenue, tax, and municipal crime rankings are not a stable public CSV: decline those.",
   "heritage": "Formerly the Cities and Towns Rankings suite",
   "replaces": [
     "Rankings-Crime",

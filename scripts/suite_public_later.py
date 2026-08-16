@@ -152,7 +152,7 @@ def _as_pct(v):
 # ---------------------------------------------------------------------------
 
 def sec_public_k12_enrollment():
-    """Fall enrollment from Digest 203.20, already verified on National K-12."""
+    """Fall enrollment from Digest 203.20, already verified on State School Scores."""
     path = LEDGER_DIR / "dl07-answers.json"
     dl07 = json.loads(path.read_text())
     latest = dl07.get("latest") or {}
@@ -182,7 +182,7 @@ def sec_public_k12_enrollment():
         "trend": trend,
         "note": (
             "NCES Digest table 203.20, public elementary and secondary "
-            "enrollment. Same published cells as the National K-12 ranking."
+            "enrollment. Same published cells as the State School Scores ranking."
         ),
     }
 

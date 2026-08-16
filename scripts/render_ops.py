@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "New Releases as two briefing tiles",
+        "body": (
+            "The two New Releases entries on the front door are now equal "
+            "institutional tiles: gold hairline, serif title, finding, and "
+            "vintage. Florida Insurance Watch and the State Tax Atlas are "
+            "unchanged as the only releases."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Landing masthead matches the footer",
         "body": (
             "The front-door header now uses the same dark field as the footer: "

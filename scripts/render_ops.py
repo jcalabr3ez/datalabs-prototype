@@ -62,6 +62,19 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "State maps show the ranking without a click",
+        "body": (
+            "The fifty-state map now uses five color classes so neighboring "
+            "states are distinguishable. A ranked list sits beside the "
+            "country so every state's place is visible without a click. A "
+            "strip under the map is the same ranking as a line. The "
+            "Northeast inset is gone so the country silhouette stays sharp. "
+            "The every-state table sorts by column and can show states "
+            "above or below the U.S., or the top or bottom ten."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Catalog names say what the page is",
         "body": (
             "Tool names now name the live figure, not the sector or a "

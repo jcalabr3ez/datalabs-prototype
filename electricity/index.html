@@ -99,11 +99,17 @@
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
-  .region-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 16px}
+  .region-bar,.explore-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 16px}
+  .explore-bar{margin-top:-6px}
   .region-chips{display:flex;flex-wrap:wrap;gap:6px}
   .region-chips button{border:1px solid var(--rule);background:#fff;color:var(--ink);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer}
   .region-chips button:hover{border-color:var(--navy)}
   .region-chips button.on{border-color:var(--navy);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
+  th[data-key]{cursor:pointer;user-select:none}
+  th .th-sort{all:unset;cursor:pointer;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit}
+  th[aria-sort="ascending"] .th-sort:after{content:" \2191";color:var(--navy)}
+  th[aria-sort="descending"] .th-sort:after{content:" \2193";color:var(--navy)}
+  .findcount{font:12px/1.3 var(--sans);color:var(--faint)}
   .plot-mid{height:clamp(420px,52vh,640px)}
   .plot-sm{height:clamp(240px,28vh,360px)}
 
@@ -281,7 +287,7 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
 
   <section id="view-price_rank">
     <h2>Prices across the fifty states</h2>
-    <div class="lede">Every state and the District of Columbia on one map. Darker navy is a higher all-sector price. Use the region chips to fade the other states and to filter the table. Massachusetts has a gold outline; Florida a rust outline. The U.S. Total sits under the map.</div>
+    <div class="lede">Every state and the District of Columbia. Color is a fifth of the ranking: the darkest navy is the highest fifth. The list at right is highest to lowest, so a state's place is visible without a click. The strip under the map is the same ranking as a line. Hover a state, a row, or a dot. Click to open the table. Massachusetts has a gold outline; Florida a rust outline.</div>
     <div class="region-bar">
       <span class="sel-lab">Census region</span>
       <div class="region-chips" role="group" aria-label="Filter by Census region">
@@ -290,6 +296,16 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
         <button type="button" data-region="midwest">Midwest</button>
         <button type="button" data-region="south">South</button>
         <button type="button" data-region="west">West</button>
+      </div>
+    </div>
+    <div class="explore-bar">
+      <span class="sel-lab">Show</span>
+      <div class="region-chips" role="group" aria-label="Filter the ranking">
+        <button type="button" data-band="all" class="on">All</button>
+        <button type="button" data-band="above">Above U.S.</button>
+        <button type="button" data-band="below">Below U.S.</button>
+        <button type="button" data-band="top10">Top 10</button>
+        <button type="button" data-band="bottom10">Bottom 10</button>
       </div>
     </div>
     <div class="exhibit">
@@ -360,7 +376,7 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
 
   <section style="margin-top:30px">
     <h2>The latest year, state by state</h2>
-    <div class="lede">All-sector price, rank, year-over-year change, retail sales, net generation, net summer capacity, and sales per resident. The United States row is EIA&rsquo;s U.S. Total, not a rank. Filter by Census region or type a state. Click a state on the map to open its row.</div>
+    <div class="lede">All-sector price, rank, year-over-year change, retail sales, net generation, net summer capacity, and sales per resident. The United States row is EIA&rsquo;s U.S. Total, not a rank. Filter by region, by place against the U.S., or by the top or bottom ten. Click a column head to sort.</div>
     <div class="region-bar">
       <span class="sel-lab">Census region</span>
       <div class="region-chips" role="group" aria-label="Filter by Census region">
@@ -371,22 +387,33 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
         <button type="button" data-region="west">West</button>
       </div>
     </div>
+    <div class="explore-bar">
+      <span class="sel-lab">Show</span>
+      <div class="region-chips" role="group" aria-label="Filter the ranking">
+        <button type="button" data-band="all" class="on">All</button>
+        <button type="button" data-band="above">Above U.S.</button>
+        <button type="button" data-band="below">Below U.S.</button>
+        <button type="button" data-band="top10">Top 10</button>
+        <button type="button" data-band="bottom10">Bottom 10</button>
+      </div>
+    </div>
     <div class="findrow">
       <label class="sel-lab" for="tblFind">Find a state</label>
       <input id="tblFind" type="search" placeholder="Massachusetts" autocomplete="off">
+      <span id="tblCount" class="findcount"></span>
     </div>
     <div class="scroll">
       <table id="tblStates">
         <thead>
           <tr>
-            <th>Jurisdiction</th>
-            <th class="n">Price (cents/kWh)</th>
-            <th class="n">Rank</th>
-            <th class="n">YoY</th>
-            <th class="n">Sales (million MWh)</th>
-            <th class="n">Generation (million MWh)</th>
-            <th class="n">Summer capacity (MW)</th>
-            <th class="n">Sales per capita (MWh)</th>
+            <th data-key="name" scope="col"><button type="button" class="th-sort">Jurisdiction</button></th>
+            <th class="n" data-key="price_cents" scope="col"><button type="button" class="th-sort">Price (cents/kWh)</button></th>
+            <th class="n" data-key="rank" scope="col"><button type="button" class="th-sort">Rank</button></th>
+            <th class="n" data-key="yoy_pct" scope="col"><button type="button" class="th-sort">YoY</button></th>
+            <th class="n" data-key="sales_mwh" scope="col"><button type="button" class="th-sort">Sales (million MWh)</button></th>
+            <th class="n" data-key="gen_mwh" scope="col"><button type="button" class="th-sort">Generation (million MWh)</button></th>
+            <th class="n" data-key="cap_mw" scope="col"><button type="button" class="th-sort">Summer capacity (MW)</button></th>
+            <th class="n" data-key="sales_mwh_per_capita" scope="col"><button type="button" class="th-sort">Sales per capita (MWh)</button></th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -513,12 +540,15 @@ var REGIONS={
 };
 var REGION_NAMES={all:'all states',northeast:'the Northeast',midwest:'the Midwest',south:'the South',west:'the West'};
 var region='all';
+var band='all';
 (function(){
   var qs=new URLSearchParams(location.search);
   var st=(qs.get('st')||'').toUpperCase();
   if(st && DL04.entities[st]) selected=st;
   var rg=(qs.get('region')||'').toLowerCase();
   if(rg && REGIONS.hasOwnProperty(rg)) region=rg;
+  var bd=(qs.get('band')||'').toLowerCase();
+  if(bd && {all:1,above:1,below:1,top10:1,bottom10:1}[bd]) band=bd;
 })();
 
 function fmtM(v){ return (v/1e6).toFixed(1); }
@@ -526,8 +556,30 @@ function yoyCls(v){ return v==null?'':(v>0?'neg':(v<0?'pos':'')); }
 function yoyTxt(v){ return v==null?'':((v>0?'+':'')+v.toFixed(1)+'%'); }
 
 function regionList(){ return REGIONS[region]||null; }
+function usPrice(){ return DL04.latest && DL04.latest.us ? DL04.latest.us.price_cents : null; }
+function bandStates(){
+  if(band==='all') return null;
+  var usable=DL04.states.slice();
+  var us=usPrice();
+  if(band==='above' && us!=null) return usable.filter(function(r){ return r.price_cents>us; }).map(function(r){ return r.st; });
+  if(band==='below' && us!=null) return usable.filter(function(r){ return r.price_cents<us; }).map(function(r){ return r.st; });
+  var ranked=usable.slice().sort(function(a,b){ return a.rank-b.rank; });
+  if(band==='top10') return ranked.slice(0,10).map(function(r){ return r.st; });
+  if(band==='bottom10') return ranked.slice(-10).map(function(r){ return r.st; });
+  return null;
+}
+function activeStates(){
+  var reg=regionList();
+  var bd=bandStates();
+  if(!reg && !bd) return null;
+  return DL04.states.filter(function(r){
+    if(reg && reg.indexOf(r.st)<0) return false;
+    if(bd && bd.indexOf(r.st)<0) return false;
+    return true;
+  }).map(function(r){ return r.st; });
+}
 function regionRows(rows, key){
-  var list=regionList();
+  var list=activeStates();
   var src=list?rows.filter(function(r){ return list.indexOf(r.st)>=0; }):rows.slice();
   return src.slice().sort(function(a,b){return b[key]-a[key];});
 }
@@ -543,7 +595,7 @@ function paintStateMap(id, rows, fmt, extra, ref){
     rows:rows,
     format:fmt,
     extra:extra||function(){return '';},
-    active:regionList(),
+    active:activeStates(),
     selected:selected,
     ref:ref||null,
     onSelect:function(r){
@@ -578,7 +630,7 @@ function renderPrices(){
   paintStateMap('chRank',
     DL04.states.map(function(r){return {st:r.st,name:r.name,v:r.price_cents,rank:r.rank};}),
     function(v){return Number(v).toFixed(2)+'\u00a2';},
-    function(r){return r.rank?('rank '+r.rank):'';},
+    function(){return 'cents per kWh';},
     {label:'U.S. Total',value:DL04.latest.us.price_cents});
 }
 
@@ -632,7 +684,8 @@ function renderSupply(){
   paintStateMap('chSales',
     DL04.states.map(function(r){return {st:r.st,name:r.name,v:r.sales_mwh/1e6};}),
     function(v){return Number(v).toFixed(1);},
-    function(){return 'million MWh';});
+    function(){return 'million MWh';},
+    DL04.latest.us.sales_mwh!=null?{label:'U.S. Total',value:DL04.latest.us.sales_mwh/1e6,compare:false}:null);
 
   var gen=regionRows(DL04.states.filter(function(r){return r.gen_mwh!=null;}),'gen_mwh');
   genRows=gen;
@@ -642,19 +695,55 @@ function renderSupply(){
   paintStateMap('chGen',
     DL04.states.filter(function(r){return r.gen_mwh!=null;}).map(function(r){return {st:r.st,name:r.name,v:r.gen_mwh/1e6};}),
     function(v){return Number(v).toFixed(1);},
-    function(){return 'million MWh';});
+    function(){return 'million MWh';},
+    DL04.latest.us.gen_mwh!=null?{label:'U.S. Total',value:DL04.latest.us.gen_mwh/1e6,compare:false}:null);
 }
 
 function renderTable(){
   var us=DL04.latest.us;
   var body=document.querySelector('#tblStates tbody');
+  var countEl=document.getElementById('tblCount');
   if(!rendered.tbl){
-    var usRow='<tr class="hl" data-st="US"><td class="m">United States</td><td class="n">'+us.price_cents.toFixed(2)+'</td><td class="n">n.a.</td><td class="n '+yoyCls(us.yoy_pct)+'">'+yoyTxt(us.yoy_pct)+'</td><td class="n">'+fmtM(us.sales_mwh)+'</td><td class="n">'+(us.gen_mwh!=null?fmtM(us.gen_mwh):'')+'</td><td class="n">'+(us.cap_mw!=null?Math.round(us.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n"></td></tr>';
+    var usRow='<tr class="hl" data-st="US" data-sort-name="United States" data-sort-price_cents="'+us.price_cents+'" data-sort-rank="" data-sort-yoy_pct="'+(us.yoy_pct==null?'':us.yoy_pct)+'" data-sort-sales_mwh="'+us.sales_mwh+'" data-sort-gen_mwh="'+(us.gen_mwh==null?'':us.gen_mwh)+'" data-sort-cap_mw="'+(us.cap_mw==null?'':us.cap_mw)+'" data-sort-sales_mwh_per_capita=""><td class="m">United States</td><td class="n">'+us.price_cents.toFixed(2)+'</td><td class="n">n.a.</td><td class="n '+yoyCls(us.yoy_pct)+'">'+yoyTxt(us.yoy_pct)+'</td><td class="n">'+fmtM(us.sales_mwh)+'</td><td class="n">'+(us.gen_mwh!=null?fmtM(us.gen_mwh):'')+'</td><td class="n">'+(us.cap_mw!=null?Math.round(us.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n"></td></tr>';
     var rows=DL04.states.slice().sort(function(a,b){return a.rank-b.rank;}).map(function(r){
-      var hl='';
-      return '<tr'+hl+' id="row-'+r.st+'" data-st="'+r.st+'"><td class="m">'+r.name+'</td><td class="n">'+r.price_cents.toFixed(2)+'</td><td class="n">'+r.rank+'</td><td class="n '+yoyCls(r.yoy_pct)+'">'+yoyTxt(r.yoy_pct)+'</td><td class="n">'+fmtM(r.sales_mwh)+'</td><td class="n">'+(r.gen_mwh!=null?fmtM(r.gen_mwh):'')+'</td><td class="n">'+(r.cap_mw!=null?Math.round(r.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n">'+(r.sales_mwh_per_capita!=null?r.sales_mwh_per_capita.toFixed(2):'')+'</td></tr>';
+      return '<tr id="row-'+r.st+'" data-st="'+r.st+'" data-sort-name="'+r.name+'" data-sort-price_cents="'+r.price_cents+'" data-sort-rank="'+r.rank+'" data-sort-yoy_pct="'+(r.yoy_pct==null?'':r.yoy_pct)+'" data-sort-sales_mwh="'+r.sales_mwh+'" data-sort-gen_mwh="'+(r.gen_mwh==null?'':r.gen_mwh)+'" data-sort-cap_mw="'+(r.cap_mw==null?'':r.cap_mw)+'" data-sort-sales_mwh_per_capita="'+(r.sales_mwh_per_capita==null?'':r.sales_mwh_per_capita)+'"><td class="m">'+r.name+'</td><td class="n">'+r.price_cents.toFixed(2)+'</td><td class="n">'+r.rank+'</td><td class="n '+yoyCls(r.yoy_pct)+'">'+yoyTxt(r.yoy_pct)+'</td><td class="n">'+fmtM(r.sales_mwh)+'</td><td class="n">'+(r.gen_mwh!=null?fmtM(r.gen_mwh):'')+'</td><td class="n">'+(r.cap_mw!=null?Math.round(r.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n">'+(r.sales_mwh_per_capita!=null?r.sales_mwh_per_capita.toFixed(2):'')+'</td></tr>';
     }).join('');
     body.innerHTML=usRow+rows;
+    var sortKey='rank';
+    var sortDir=1;
+    function sortRows(){
+      var trs=[].slice.call(body.querySelectorAll('tr'));
+      trs.sort(function(a,b){
+        var av=a.getAttribute('data-sort-'+sortKey);
+        var bv=b.getAttribute('data-sort-'+sortKey);
+        var aEmpty=av==null||av==='';
+        var bEmpty=bv==null||bv==='';
+        if(aEmpty&&bEmpty) return 0;
+        if(aEmpty) return 1;
+        if(bEmpty) return -1;
+        var an=Number(av), bn=Number(bv);
+        var cmp;
+        if(isFinite(an)&&isFinite(bn)) cmp=an-bn;
+        else cmp=String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:'base'});
+        return cmp*sortDir;
+      });
+      trs.forEach(function(tr){ body.appendChild(tr); });
+      [].slice.call(document.querySelectorAll('#tblStates thead th[data-key]')).forEach(function(th){
+        var k=th.getAttribute('data-key');
+        if(k===sortKey) th.setAttribute('aria-sort', sortDir>0?'ascending':'descending');
+        else th.removeAttribute('aria-sort');
+      });
+    }
+    [].slice.call(document.querySelectorAll('#tblStates thead th[data-key]')).forEach(function(th){
+      th.addEventListener('click', function(){
+        var k=th.getAttribute('data-key');
+        if(!k) return;
+        if(sortKey===k) sortDir=-sortDir;
+        else { sortKey=k; sortDir=k==='name'||k==='rank'?1:-1; }
+        sortRows();
+      });
+    });
+    sortRows();
     rendered.tbl=true;
   }
   var find=document.getElementById('tblFind');
@@ -667,18 +756,27 @@ function renderTable(){
   }
   function applyFind(){
     var q=(find&&find.value||'').toLowerCase();
-    var list=regionList();
+    var list=activeStates();
+    var shown=0, n=0;
     [].slice.call(body.querySelectorAll('tr')).forEach(function(tr){
       var name=(tr.querySelector('.m')||{}).textContent||'';
       var st=tr.getAttribute('data-st')||'';
-      var inRegion=st==='US' || !list || list.indexOf(st)>=0;
-      tr.hidden=(!inRegion) || (!!q && name.toLowerCase().indexOf(q)<0);
+      var inSet=st==='US' || !list || list.indexOf(st)>=0;
+      var ok=inSet && (!q || name.toLowerCase().indexOf(q)>=0);
+      tr.hidden=!ok;
+      n++;
+      if(ok) shown++;
     });
+    if(countEl){
+      var extra=(region!=='all'?' in '+REGION_NAMES[region]:'')+(band!=='all'?' '+({above:'above the U.S.',below:'below the U.S.',top10:'in the top 10',bottom10:'in the bottom 10'}[band]||''):'');
+      countEl.textContent=shown+' of '+n+extra;
+    }
   }
   function writeQuery(){
     var q=(find&&find.value||'').replace(/^\s+|\s+$/g,'');
     var params=new URLSearchParams();
     if(region && region!=='all') params.set('region', region);
+    if(band && band!=='all') params.set('band', band);
     if(q) params.set('q', q);
     var qs=params.toString();
     history.replaceState(null,'',location.pathname+(qs?('?'+qs):'')+location.hash);
@@ -693,8 +791,13 @@ var STANDFIRSTS={
   prices:'What households, businesses, and industry together pay for a kilowatthour, state by state. Rebuilt from EIA Form EIA-861 and verified against Electric Power Annual table 2.10.',
   trends:'The all-sector average since 2012: the EIA U.S. Total with Massachusetts and Florida. Select another state to add a line.',
   supply:'Retail sales and in-state net generation for the latest year, with capacity and per-capita figures in the table.',
-  table:'Every state and the District of Columbia for the latest year: price, rank, sales, generation, capacity, and sales per resident. Filter by Census region or type a name.'
+  table:'Every state and the District of Columbia for the latest year: price, rank, sales, generation, capacity, and sales per resident. Filter by region, by place against the U.S., or by the top or bottom ten.'
 };
+function syncBandButtons(){
+  [].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
+    btn.classList.toggle('on', btn.getAttribute('data-band')===band);
+  });
+}
 function setRegion(next){
   region=(next && REGIONS.hasOwnProperty(next))?next:'all';
   syncRegionButtons();
@@ -703,10 +806,23 @@ function setRegion(next){
   if(window.dl04ApplyFind) window.dl04ApplyFind();
   if(window.dl04WriteQuery) window.dl04WriteQuery();
 }
+function setBand(next){
+  var allowed={all:1,above:1,below:1,top10:1,bottom10:1};
+  band=(next && allowed[next])?next:'all';
+  syncBandButtons();
+  renderPrices();
+  renderSupply();
+  if(window.dl04ApplyFind) window.dl04ApplyFind();
+  if(window.dl04WriteQuery) window.dl04WriteQuery();
+}
 [].slice.call(document.querySelectorAll('[data-region]')).forEach(function(btn){
   btn.addEventListener('click', function(){ setRegion(btn.getAttribute('data-region')); });
 });
+[].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
+  btn.addEventListener('click', function(){ setBand(btn.getAttribute('data-band')); });
+});
 syncRegionButtons();
+syncBandButtons();
 var RENDER={prices:renderPrices,trends:renderTrends,supply:renderSupply,table:renderTable};
 var VIEWS=['prices','trends','supply','table'];
 function showView(v){

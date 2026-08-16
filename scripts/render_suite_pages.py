@@ -42,6 +42,18 @@ REGION_BAR = """    <div class="region-bar" hidden>
     </div>
 """
 
+EXPLORE_BAR = """    <div class="explore-bar" hidden>
+      <span class="sel-lab">Show</span>
+      <div class="region-chips" role="group" aria-label="Filter the ranking">
+        <button type="button" data-band="all" class="on">All</button>
+        <button type="button" data-band="above" hidden>Above U.S.</button>
+        <button type="button" data-band="below" hidden>Below U.S.</button>
+        <button type="button" data-band="top10">Top 10</button>
+        <button type="button" data-band="bottom10">Bottom 10</button>
+      </div>
+    </div>
+"""
+
 
 def kpi_html(kpis):
     blocks = []
@@ -304,14 +316,33 @@ def chart_spec(app, ledger):
         title = label
     if n_rows and n_chart < n_rows and geo != "state":
         title += f" (largest {n_chart} of {n_rows})"
+    latest = ledger.get("latest") or {}
+    us_raw = latest.get("us")
+    if isinstance(us_raw, dict) and us_raw.get("v") is not None:
+        us_val = us_raw.get("v")
+    elif isinstance(us_raw, (int, float)):
+        us_val = us_raw
+    else:
+        us_val = None
+    state_vals = [
+        r.get("v")
+        for r in (ledger.get("rows") or [])
+        if isinstance(r, dict) and r.get("v") is not None
+    ]
+    us_compare = (
+        us_val is not None
+        and state_vals
+        and min(state_vals) <= us_val <= max(state_vals)
+    )
     lede = ""
     if geo == "state":
         lede = (
-            "Every state and the District of Columbia on one map. "
-            "Darker navy is a higher value. Click a state to open its row. "
-            "Small Northeast states are enlarged at right. Use the region "
-            "chips to fade the other states and to filter the table. "
-            "Massachusetts has a gold outline; Florida a rust outline."
+            "Every state and the District of Columbia. Color is a fifth of "
+            "the ranking: the darkest navy is the highest fifth. The list "
+            "at right is highest to lowest, so a state's place is visible "
+            "without a click. The strip under the map is the same ranking "
+            "as a line. Hover a state, a row, or a dot. Click to open the "
+            "table. Massachusetts has a gold outline; Florida a rust outline."
         )
     trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
     has_trend = bool(trend_keys)
@@ -382,7 +413,8 @@ def chart_spec(app, ledger):
             {"key": "rank", "label": "Rank", "align": "n"},
         ]
         table_lede = (
-            "Filter by Census region or type a name. Sites are currently "
+            "Filter by Census region or by the top or bottom ten. Click a "
+            "column head to sort. Type a name. Sites are currently "
             "participating 340B IDs. Pharmacies are unique active contract "
             "pharmacy IDs in that state."
         )
@@ -409,7 +441,7 @@ def chart_spec(app, ledger):
             {"key": "v", "label": "Total", "align": "n", "fmt": "usd_cents"},
             {"key": "rank", "label": "Rank", "align": "n"},
         ]
-        table_lede = "Type a name to jump to a row."
+        table_lede = "Type a name to jump to a row. Click a column head to sort."
         table_note = (
             "Amounts are the published CTHRU named-employee lines. Ranks are "
             "Pioneer calculations (derived). Year-over-year change is not on this file."
@@ -422,9 +454,14 @@ def chart_spec(app, ledger):
             {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
         ]
         table_lede = (
-            "Filter by Census region or type a name. Click a state on the map to open its row."
+            (
+                "Filter by Census region"
+                + (", by place against the U.S.," if us_compare else ",")
+                + " or by the top or bottom ten. Click a column head to sort. "
+                "Type a name to jump to a row."
+            )
             if geo == "state"
-            else "Type a name to jump to a row."
+            else "Type a name to jump to a row. Click a column head to sort."
         )
         table_note = (
             "Ranks and year-over-year changes are Pioneer calculations (derived)."
@@ -454,6 +491,8 @@ def chart_spec(app, ledger):
         "trend_title": trend_title,
         "trend_lede": trend_lede,
         "trend_unit": trend_unit,
+        "us": us_val,
+        "us_compare": us_compare,
     }
 
 
@@ -725,7 +764,7 @@ def page_html(app, ledger, apps=None):
 {insight_html(insights)}
   <section id="view-rank">
     <h2>{esc(compare_h2)}</h2>
-{('    <div class="lede">' + esc(spec["lede"]) + "</div>\n") if spec.get("lede") else ""}{REGION_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
+{('    <div class="lede">' + esc(spec["lede"]) + "</div>\n") if spec.get("lede") else ""}{REGION_BAR if spec.get("geo") == "state" else ""}{EXPLORE_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 1}</span>
         <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>
       <div class="plot {"plot-map" if spec.get("geo") == "state" else "plot-mid"}"{' id="chRank"' if spec.get("geo") == "state" else ""}>{"" if spec.get("geo") == "state" else '<canvas id="chRank"></canvas>'}</div>
@@ -772,7 +811,15 @@ def page_html(app, ledger, apps=None):
             {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
         ]
         th_html = "".join(
-            f'<th{(" class=\"n\"" if c.get("align") == "n" else "")}>{esc(c.get("label") or "")}</th>'
+            (
+                '<th'
+                + (' class="n"' if c.get("align") == "n" else "")
+                + ' data-key="'
+                + esc(c.get("key") or "")
+                + '" scope="col"><button type="button" class="th-sort">'
+                + esc(c.get("label") or "")
+                + "</button></th>"
+            )
             for c in table_cols
         )
         table_lede = esc(spec.get("table_lede") or "Type a name to jump to a row.")
@@ -783,7 +830,7 @@ def page_html(app, ledger, apps=None):
 <section id="view-table">
     <h2>{esc(spec.get("table_noun") or "Every row")}</h2>
     <div class="lede">{table_lede}</div>
-{REGION_BAR if spec.get("geo") == "state" else ""}    <div class="findrow">
+{REGION_BAR if spec.get("geo") == "state" else ""}{EXPLORE_BAR if spec.get("geo") == "state" else ""}    <div class="findrow">
       <label class="sel-lab" for="tblFind">Find a {esc(find_noun)}</label>
       <input id="tblFind" type="search" placeholder="Type a name" autocomplete="off">
       <span id="tblCount" class="findcount"></span>
@@ -881,16 +928,55 @@ const FIND=FIND_JSON;
   };
   var REGION_NAMES={all:'all states',northeast:'the Northeast',midwest:'the Midwest',south:'the South',west:'the West'};
   var region='all';
+  var band='all';
   var selectedSt='';
   var rankChart=null;
   var chartRows=[];
   var applyFind=function(){};
   var writeQuery=function(){};
+  function usFigure(){
+    if(CHART.us!=null && CHART.us!=='') return Number(CHART.us);
+    var u=DL && DL.latest && DL.latest.us;
+    if(u && typeof u==='object' && u.v!=null) return Number(u.v);
+    if(typeof u==='number') return u;
+    return null;
+  }
+  var usVal=usFigure();
+  var usCompare=!!CHART.us_compare;
+  if(usVal!=null && isFinite(usVal) && CHART.us_compare==null){
+    var _vals=rows.map(function(r){ return Number(r.v); }).filter(isFinite);
+    usCompare=!!(_vals.length && usVal>=Math.min.apply(null,_vals) && usVal<=Math.max.apply(null,_vals));
+  }
   function regionList(){
     return REGIONS[region]||null;
   }
+  function bandStates(){
+    if(CHART.geo!=='state' || band==='all') return null;
+    var usable=rows.filter(function(r){ return r && r.st && r.v!=null && r.v!==''; });
+    if(band==='above' && usCompare && usVal!=null) return usable.filter(function(r){ return Number(r.v)>usVal; }).map(function(r){ return r.st; });
+    if(band==='below' && usCompare && usVal!=null) return usable.filter(function(r){ return Number(r.v)<usVal; }).map(function(r){ return r.st; });
+    var ranked=usable.slice().sort(function(a,b){
+      var ra=a.rank!=null?Number(a.rank):999, rb=b.rank!=null?Number(b.rank):999;
+      if(ra!==rb) return ra-rb;
+      return Number(b.v)-Number(a.v);
+    });
+    if(band==='top10') return ranked.slice(0,10).map(function(r){ return r.st; });
+    if(band==='bottom10') return ranked.slice(-10).map(function(r){ return r.st; });
+    return null;
+  }
+  function activeStates(){
+    if(CHART.geo!=='state') return null;
+    var reg=regionList();
+    var bd=bandStates();
+    if(!reg && !bd) return null;
+    return rows.filter(function(r){
+      if(reg && reg.indexOf(r.st)<0) return false;
+      if(bd && bd.indexOf(r.st)<0) return false;
+      return true;
+    }).map(function(r){ return r.st; });
+  }
   function filteredRows(){
-    var list=regionList();
+    var list=activeStates();
     if(!list) return rows.slice();
     return rows.filter(function(r){ return list.indexOf(r.st)>=0; });
   }
@@ -928,9 +1014,10 @@ const FIND=FIND_JSON;
     window.dlStateMap(el,{
       rows:rows,
       format:function(v){return fmtVal(v,true);},
-      extra:function(r){return r.rank?('rank '+r.rank):'';},
-      active:regionList(),
+      extra:function(){ return unit && fmt!=='usd' && fmt!=='usd_millions' && fmt!=='percent' && fmt!=='stars' ? unit : ''; },
+      active:activeStates(),
       selected:selectedSt,
+      ref: usVal!=null && isFinite(usVal) ? {label:'United States',value:usVal,compare:usCompare} : null,
       onSelect:function(r){
         selectedSt=r.st||'';
         var find=document.getElementById('tblFind');
@@ -987,6 +1074,17 @@ const FIND=FIND_JSON;
     applyFind();
     writeQuery();
   }
+  function setBand(next){
+    var allowed={all:1,above:1,below:1,top10:1,bottom10:1};
+    if(next==='above' || next==='below'){ if(!usCompare) next='all'; }
+    band=(next && allowed[next])?next:'all';
+    [].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
+      btn.classList.toggle('on', btn.getAttribute('data-band')===band);
+    });
+    drawRank();
+    applyFind();
+    writeQuery();
+  }
   [].slice.call(document.querySelectorAll('.region-bar')).forEach(function(bar){
     if(CHART.geo!=='state') return;
     bar.hidden=false;
@@ -994,10 +1092,24 @@ const FIND=FIND_JSON;
       btn.addEventListener('click', function(){ setRegion(btn.getAttribute('data-region')); });
     });
   });
+  [].slice.call(document.querySelectorAll('.explore-bar')).forEach(function(bar){
+    if(CHART.geo!=='state') return;
+    bar.hidden=false;
+    [].slice.call(bar.querySelectorAll('[data-band]')).forEach(function(btn){
+      var kind=btn.getAttribute('data-band');
+      if((kind==='above' || kind==='below') && usCompare) btn.hidden=false;
+      btn.addEventListener('click', function(){ setBand(btn.getAttribute('data-band')); });
+    });
+  });
   var startRegion=(q.get('region')||'').toLowerCase();
   if(startRegion && REGIONS.hasOwnProperty(startRegion)) region=startRegion;
+  var startBand=(q.get('band')||'').toLowerCase();
+  if(startBand) setBand(startBand);
   [].slice.call(document.querySelectorAll('[data-region]')).forEach(function(btn){
     btn.classList.toggle('on', btn.getAttribute('data-region')===region);
+  });
+  [].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
+    btn.classList.toggle('on', btn.getAttribute('data-band')===band);
   });
   drawRank();
   var chTrend=document.getElementById('chTrend');
@@ -1229,27 +1341,69 @@ const FIND=FIND_JSON;
         var cls=c.cls||(c.align==='n'?'n':'');
         return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
       }).join('');
-      return '<tr'+hl+(r.st?' id="row-'+r.st+'"':'')+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'">'+cells+'</tr>';
+      var sorts=cols.map(function(c){
+        var sv=r[c.key];
+        return ' data-sort-'+c.key+'="'+(sv==null?'':String(sv).replace(/"/g,''))+'"';
+      }).join('');
+      return '<tr'+hl+(r.st?' id="row-'+r.st+'"':'')+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'"'+sorts+'>'+cells+'</tr>';
     }).join('');
     var find=document.getElementById('tblFind');
     var countEl=document.getElementById('tblCount');
+    var sortKey='rank';
+    var sortDir=1;
+    var BAND_NAMES={all:'',above:'above the U.S.',below:'below the U.S.',top10:'in the top 10',bottom10:'in the bottom 10'};
+    function sortRows(){
+      var trs=[].slice.call(tb.querySelectorAll('tr'));
+      var key=sortKey||'rank';
+      trs.sort(function(a,b){
+        var av=a.getAttribute('data-sort-'+key);
+        var bv=b.getAttribute('data-sort-'+key);
+        var aEmpty=av==null||av==='';
+        var bEmpty=bv==null||bv==='';
+        if(aEmpty&&bEmpty) return 0;
+        if(aEmpty) return 1;
+        if(bEmpty) return -1;
+        var an=Number(av), bn=Number(bv);
+        var cmp;
+        if(isFinite(an)&&isFinite(bn)&&String(av).trim()!==''&&String(bv).trim()!=='') cmp=an-bn;
+        else cmp=String(av).localeCompare(String(bv),undefined,{numeric:true,sensitivity:'base'});
+        return cmp*sortDir;
+      });
+      trs.forEach(function(tr){ tb.appendChild(tr); });
+      [].slice.call(document.querySelectorAll('#tblStates thead th[data-key]')).forEach(function(th){
+        var k=th.getAttribute('data-key');
+        if(k===key) th.setAttribute('aria-sort', sortDir>0?'ascending':'descending');
+        else th.removeAttribute('aria-sort');
+      });
+    }
+    [].slice.call(document.querySelectorAll('#tblStates thead th[data-key]')).forEach(function(th){
+      th.addEventListener('click', function(){
+        var k=th.getAttribute('data-key');
+        if(!k) return;
+        if(sortKey===k) sortDir=-sortDir;
+        else { sortKey=k; sortDir=k==='name'||k==='rank'?1:-1; }
+        sortRows();
+      });
+    });
+    sortRows();
     applyFind=function(){
       var q=(find&&find.value||'').toLowerCase().replace(/^\\s+|\\s+$/g,'');
-      var list=regionList();
+      var list=activeStates();
       var n=0, shown=0, first=null;
       [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){
         var st=tr.getAttribute('data-st')||'';
-        var inRegion=!list || list.indexOf(st)>=0;
-        var ok=inRegion && (!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0);
+        var inSet=!list || list.indexOf(st)>=0;
+        var ok=inSet && (!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0);
         tr.hidden=!ok;
         tr.classList.toggle('is-on', !!(ok && selectedSt && st===selectedSt));
         n++;
         if(ok){ shown++; if(!first) first=tr; }
       });
       var total=list?filteredRows().length:n;
+      var extra=(region!=='all'?' in '+REGION_NAMES[region]:'')+(band!=='all'?(region!=='all'?' ':' ')+BAND_NAMES[band]:'');
       if(countEl){
-        if(q) countEl.textContent=shown+' of '+total+(region!=='all'?' in '+REGION_NAMES[region]:'');
-        else if(region!=='all') countEl.textContent=shown+' '+REGION_NAMES[region];
+        if(q) countEl.textContent=shown+' of '+total+extra;
+        else if(extra) countEl.textContent=shown+extra;
         else countEl.textContent=n+' '+(n===1?'row':'rows');
       }
       if(q && shown===1 && first) first.scrollIntoView({block:'nearest'});
@@ -1261,6 +1415,7 @@ const FIND=FIND_JSON;
       var qv=(find&&find.value||'').replace(/^\\s+|\\s+$/g,'');
       var params=new URLSearchParams();
       if(region && region!=='all') params.set('region', region);
+      if(band && band!=='all') params.set('band', band);
       if(qv) params.set('q', qv);
       var qs=params.toString();
       history.replaceState(null,'',location.pathname+(qs?('?'+qs):'')+location.hash);

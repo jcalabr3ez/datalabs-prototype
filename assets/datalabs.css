@@ -30,6 +30,7 @@
   --serif:'Libre Bodoni',Georgia,serif;
   --sans:'Roboto',system-ui,sans-serif;
   --mono:'Roboto',system-ui,sans-serif;
+  --bleed:clamp(16px,2.4vw,48px);
 }
 .takeaways{margin:8px 0 16px;padding-left:22px;max-width:72em}
 .takeaways li{margin:0 0 10px;font-size:16.5px;line-height:1.45;color:var(--ink)}

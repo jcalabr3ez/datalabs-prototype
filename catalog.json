@@ -90,7 +90,7 @@
   "url": "/electricity/",
   "ai": true,
   "group": "Energy",
-  "ma": "23.94\u00a2 / kWh, rank 5 of 51"
+  "ma": "29.35\u00a2 / kWh residential, rank 3 of 51"
  },
  {
   "id": "DL-05",
@@ -131,7 +131,7 @@
   "ai": true,
   "group": "Education",
   "vint": "Fall 2024",
-  "ma": "915,932 enrolled, rank 17 of 51"
+  "ma": "224.8 NAEP grade-4 reading, rank 1 of 51"
  },
  {
   "id": "DL-08",
@@ -175,7 +175,7 @@
   "ai": true,
   "group": "Healthcare",
   "vint": "CMS Hospital General Information, retrieved Aug 2026",
-  "ma": "84 CMS-listed hospitals, 9 five-star"
+  "ma": "5 stars at MGH, rank 2 of 54"
  },
  {
   "id": "DL-11",
@@ -431,7 +431,7 @@
   "ai": true,
   "group": "Your City & Town",
   "vint": "Calendar year 2025",
-  "ma": "Boston Police Department $534.48 million"
+  "ma": "$2.46 billion, 25,397 employees"
  },
  {
   "id": "DL-28",

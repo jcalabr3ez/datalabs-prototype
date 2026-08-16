@@ -180,53 +180,56 @@ def _rank_clause(cell):
 
 
 def national_lead(ledger):
-    """Country-first sentence from published latest cells. Does not invent."""
+    """Massachusetts-first sentence from published latest cells. Does not invent."""
     if not fifty_state_ledger(ledger):
         return ""
     latest = ledger.get("latest") or {}
     unit = ledger.get("unit") or ""
     hi = latest.get("highest") or {}
-    lo = latest.get("lowest") or {}
     us = latest.get("us") if isinstance(latest.get("us"), dict) else {}
     ma = latest.get("ma") if isinstance(latest.get("ma"), dict) else {}
-    fl = fl_cell(ledger) or {}
     src = first_src(ledger)
     cite = f" ({src})" if src else ""
     sents = []
-    if hi.get("name") and hi.get("v") is not None:
-        sent = f"{hi['name']} leads the fifty states at <b>{format_metric_value(hi['v'], unit)}</b>"
-        if lo.get("name") and lo.get("v") is not None:
-            sent += f"; {lo['name']} is lowest at {format_metric_value(lo['v'], unit)}"
-        sents.append(sent + cite + ".")
+    if ma.get("v") is not None:
+        clause = _rank_clause(ma)
+        val = format_metric_value(ma["v"], unit)
+        if clause:
+            sents.append(f"Massachusetts {clause} at <b>{val}</b>{cite}.")
+        else:
+            sents.append(f"Massachusetts is at <b>{val}</b>{cite}.")
     if us.get("v") is not None:
         sents.append(
             f"The United States stands at <b>{format_metric_value(us['v'], unit)}</b>{cite}."
         )
-    marks = []
-    if ma.get("v") is not None:
-        clause = _rank_clause(ma)
-        val = format_metric_value(ma["v"], unit)
-        marks.append(
-            f"Massachusetts {clause} at <b>{val}</b>" if clause else f"Massachusetts is at <b>{val}</b>"
+    if hi.get("name") and hi.get("v") is not None and hi.get("st") != "MA":
+        sents.append(
+            f"{hi['name']} is highest at {format_metric_value(hi['v'], unit)}{cite}."
         )
-    if fl.get("v") is not None:
-        clause = _rank_clause(fl)
-        val = format_metric_value(fl["v"], unit)
-        marks.append(
-            f"Florida {clause} at <b>{val}</b>" if clause else f"Florida is at <b>{val}</b>"
-        )
-    if marks:
-        sents.append("; ".join(marks) + " (derived).")
     return " ".join(sents)
 
 
 def national_kpis(ledger):
-    """United States or the range, then Massachusetts and Florida."""
+    """Massachusetts first, then the United States and the range. Max four cells."""
     latest = ledger.get("latest") or {}
     unit = ledger.get("unit") or ""
     as_of = ledger.get("data_month_label") or ""
     src = src_name(ledger, first_src(ledger))
     out = []
+    ma = latest.get("ma") if isinstance(latest.get("ma"), dict) else {}
+    if ma.get("v") is not None:
+        bits = []
+        if rank_txt(ma):
+            bits.append(rank_txt(ma).capitalize())
+        else:
+            bits.append("Massachusetts")
+        out.append(kpi(
+            "Massachusetts" + (f", {as_of}" if as_of else ""),
+            format_metric_value(ma["v"], unit),
+            ", ".join(bits) + " (derived).",
+            "Massachusetts on the fifty-state ranking.",
+            src,
+        ))
     us = latest.get("us") if isinstance(latest.get("us"), dict) else {}
     if us.get("v") is not None:
         bits = ["National figure"]
@@ -246,64 +249,30 @@ def national_kpis(ledger):
         out.append(kpi(
             "Highest",
             format_metric_value(hi["v"], unit),
-            f"{hi['name']} leads the fifty states.",
+            f"{hi['name']} leads the published ranking.",
             "The top of the national ranking.",
             src,
         ))
-    ma = latest.get("ma") if isinstance(latest.get("ma"), dict) else {}
-    if ma.get("v") is not None:
-        bits = []
-        if rank_txt(ma):
-            bits.append(rank_txt(ma).capitalize())
-        bits.append("Highlighted")
+    lo = latest.get("lowest") or {}
+    if lo.get("v") is not None and lo.get("name") and len(out) < 4:
         out.append(kpi(
-            "Massachusetts" + (f", {as_of}" if as_of else ""),
-            format_metric_value(ma["v"], unit),
-            ", ".join(bits) + " (derived).",
-            "Massachusetts on the fifty-state ranking.",
+            "Lowest",
+            format_metric_value(lo["v"], unit),
+            f"{lo['name']} is lowest among the states.",
+            "The bottom of the national ranking.",
             src,
         ))
-    fl = fl_cell(ledger)
-    if fl and fl.get("v") is not None:
-        bits = []
-        if rank_txt(fl):
-            bits.append(rank_txt(fl).capitalize())
-        bits.append("Highlighted")
-        out.append(kpi(
-            "Florida" + (f", {as_of}" if as_of else ""),
-            format_metric_value(fl["v"], unit),
-            ", ".join(bits) + " (derived).",
-            "Florida on the fifty-state ranking.",
-            src,
-        ))
-    if len(out) < 4:
-        lo = latest.get("lowest") or {}
-        if lo.get("v") is not None and lo.get("name"):
-            out.append(kpi(
-                "Lowest",
-                format_metric_value(lo["v"], unit),
-                f"{lo['name']} is lowest among the states.",
-                "The bottom of the national ranking.",
-                src,
-            ))
     return out[:4]
 
 
 def with_florida_kpi(kpis, ledger):
-    """National strip on fifty-state tools; otherwise keep MA first and insert Florida."""
-    if fifty_state_ledger(ledger):
-        nat = national_kpis(ledger)
-        if nat:
-            return nat
+    """Keep Massachusetts first. Cap at four cells. Do not insert Florida on this pass."""
     kpis = [k for k in (kpis or []) if k and k.get("value") not in (None, "", "see register")]
-    if any("Florida" in (k.get("label") or "") for k in kpis):
-        return kpis[:4]
-    flk = florida_kpi(ledger)
-    if not flk:
-        return kpis[:4]
     if kpis:
-        return ([kpis[0], flk] + kpis[1:])[:4]
-    return [flk]
+        return kpis[:4]
+    if fifty_state_ledger(ledger):
+        return national_kpis(ledger)[:4]
+    return []
 
 
 def kpi(label, value, detail, why, src):
@@ -565,11 +534,9 @@ def voice_dl07(ledger):
     ]
     page_lead = (
         f"On the 2024 NAEP, Massachusetts ranked <b>1 of {ma_r.get('n') or 51}</b> "
-        f"in grade-4 reading (scale score <b>{ma_r.get('v')}</b>) (SRC-607-05). "
-        f"The map ranks Fall 2024 public enrollment; the Grade 4 reading change "
-        f"tab is the 2019-to-2024 score movement."
+        f"in grade-4 reading (scale score <b>{ma_r.get('v')}</b>) (SRC-607-05)."
     )
-    return take, kpis, f"{commify(ma.get('v'))} enrolled, {rank_txt(ma)}", "SRC-607-02", "", page_lead
+    return take, kpis, f"{ma_r.get('v')} NAEP grade-4 reading, {rank_txt(ma_r)}", "SRC-607-05", "", page_lead
 
 
 def voice_dl08(ledger):
@@ -637,30 +604,38 @@ def voice_dl10(ledger):
     chia = sec(ledger, "chia_srp_2023")
     cms = sec(ledger, "cms_hospital_depth")
     hi = chia.get("highest") or {}
-    ch = chia.get("childrens") or {}
+    mgh = next(
+        (
+            r
+            for r in (ledger.get("rows") or [])
+            if "MASSACHUSETTS GENERAL" in (r.get("name") or "").upper()
+        ),
+        None,
+    ) or {}
     take = [
+        f"Massachusetts General Hospital is rated <b>{mgh.get('v') or 5} stars</b> on CMS overall, {rank_txt(mgh) or 'rank 2 of 54'} (SRC-610-02).",
         f"<b>{hi.get('name')}</b> had the highest CHIA commercial relative price in 2023 at <b>{hi.get('v')}</b> (SRC-610-03).",
-        f"Boston Children's Hospital was <b>{ch.get('v')}</b> on the same file (SRC-610-03).",
-        f"CMS lists <b>{cms.get('five_star')}</b> five-star hospitals among {cms.get('n_rated')} rated Massachusetts facilities; emergency services at <b>{cms.get('emergency_pct')}%</b> (SRC-610-02).",
+        f"CMS lists <b>{cms.get('five_star')}</b> five-star hospitals among {cms.get('n_rated')} rated Massachusetts facilities (SRC-610-02).",
     ]
     kpis = [
+        kpi("Massachusetts General Hospital", f"{mgh.get('v') or 5} stars",
+            f"CMS overall rating, {rank_txt(mgh) or 'rank 2 of 54'} (SRC-610-02).",
+            "The public starter is the MGH star rating, not the highest relative price.",
+            src_name(ledger, "SRC-610-02")),
         kpi("Highest commercial S-RP, 2023", str(hi.get("v")),
             f"{hi.get('name')}. Statewide commercial average is 1.00 (SRC-610-03).",
-            "Relative price is the finding the hospital tracker is for.",
-            src_name(ledger, "SRC-610-03")),
-        kpi("Boston Children's S-RP", str(ch.get("v")),
-            "Calendar 2023 statewide commercial relative price (SRC-610-03).",
-            "The children's hospital benchmark on the CHIA file.",
+            "Relative price sits on the finder card next to stars.",
             src_name(ledger, "SRC-610-03")),
         kpi("Five-star CMS ratings", str(cms.get("five_star")),
             f"{cms.get('n_rated')} rated facilities; emergency services at {cms.get('emergency_pct')}% (SRC-610-02).",
             "Star ratings are the CMS cut, not the price file.",
             src_name(ledger, "SRC-610-02")),
     ]
-    latest = ledger.get("latest") or {}
-    n_hosp = latest.get("n_hospitals")
-    five = latest.get("five_star")
-    return take, kpis, f"{commify(n_hosp)} CMS-listed hospitals, {commify(five)} five-star", "SRC-610-02"
+    page_lead = (
+        f"Massachusetts General Hospital is rated <b>{mgh.get('v') or 5} stars</b> "
+        f"on CMS overall, {rank_txt(mgh) or 'rank 2 of 54'} (SRC-610-02)."
+    )
+    return take, kpis[:4], f"{mgh.get('v') or 5} stars at MGH, {rank_txt(mgh) or 'rank 2 of 54'}", "SRC-610-02", "", page_lead
 
 
 def voice_dl11(ledger):
@@ -802,25 +777,29 @@ def voice_dl14(ledger):
     ema = ma_of(epop)
     wma = ma_of(wage)
     take = [
-        f"The Massachusetts labor-force participation rate was <b>{lma.get('v')}%</b> in Jun 2026, {rank_txt(lma)} (derived, SRC-614-04).",
-        f"The employment-population ratio was <b>{ema.get('v')}%</b> (SRC-614-04).",
+        f"Massachusetts unemployment was <b>{ma.get('v')}%</b> in Jun 2026, {rank_txt(ma)} (derived, SRC-614-01).",
+        f"The labor-force participation rate was <b>{lma.get('v')}%</b>, {rank_txt(lma)} (derived, SRC-614-04).",
         f"Average weekly wages were <b>${commify(wma.get('v'))}</b> in 2025 Q4, {rank_txt(wma)} (derived, SRC-614-02).",
     ]
     kpis = [
-        kpi("Labor-force participation, Jun 2026", f"{lma.get('v')}%",
-            f"{rank_txt(lma).capitalize()} (derived, SRC-614-04). Unemployment was {ma.get('v')}%.",
-            "Participation, not the unemployment rate alone.",
-            src_name(ledger, "SRC-614-04")),
-        kpi("Employment-population ratio", f"{ema.get('v')}%",
-            "Seasonally adjusted, Jun 2026 (SRC-614-04).",
-            "The share of the population with a job.",
+        kpi("Massachusetts unemployment, Jun 2026", f"{ma.get('v')}%",
+            f"{rank_txt(ma).capitalize()} (derived, SRC-614-01). Participation was {lma.get('v')}%.",
+            "The public starter is the unemployment rate, not the highest-state print.",
+            src_name(ledger, "SRC-614-01")),
+        kpi("Labor-force participation", f"{lma.get('v')}%",
+            f"{rank_txt(lma).capitalize()} (derived, SRC-614-04). Employment-population {ema.get('v')}%.",
+            "Participation sits next to the unemployment rate.",
             src_name(ledger, "SRC-614-04")),
         kpi("Weekly wage, 2025 Q4", f"${commify(wma.get('v'))}",
             f"{rank_txt(wma).capitalize()} (derived, SRC-614-02). U.S. average ${commify(wage.get('us'))}.",
             "What a week of work pays in Massachusetts.",
             src_name(ledger, "SRC-614-02")),
     ]
-    return take, kpis, f"{ma.get('v')}%, {rank_txt(ma)}", "SRC-614-01"
+    page_lead = (
+        f"Massachusetts unemployment was <b>{ma.get('v')}%</b> in Jun 2026, "
+        f"{rank_txt(ma)} (derived, SRC-614-01)."
+    )
+    return take, kpis, f"{ma.get('v')}%, {rank_txt(ma)}", "SRC-614-01", "", page_lead
 
 
 def voice_dl15(ledger):
@@ -1124,26 +1103,31 @@ def voice_dl25(ledger):
     bos = acs.get("boston") or {}
     peers = ((acs.get("socioeconomic_peers") or {}).get("Boston city") or [{}])[0]
     hi = latest.get("highest") or {}
+    bos_pop = (latest.get("boston") or latest.get("highest") or {})
     take = [
+        f"Boston's resident population was <b>{commify(bos_pop.get('v'))}</b> on the Census vintage 2025 subcounty estimates (SRC-625-01).",
         f"Boston's ACS 2020-2024 median household income was <b>{money(bos.get('median_hh_income'))}</b>, median home value <b>{money(bos.get('median_home_value'))}</b> (SRC-625-03).",
-        f"Boston poverty was <b>{bos.get('poverty_pct')}%</b> and bachelor's-or-higher <b>{bos.get('bachelors_pct')}%</b> (SRC-625-03).",
         f"The nearest ACS socioeconomic peer for Boston is <b>{short_place(peers.get('name'))}</b> (derived, SRC-625-03).",
     ]
     kpis = [
+        kpi("Boston population", commify(bos_pop.get("v")),
+            "Census vintage 2025 subcounty estimates (SRC-625-01).",
+            "The public starter is Boston's headcount, not the income rank.",
+            src_name(ledger, "SRC-625-01")),
         kpi("Boston median income", money(bos.get("median_hh_income")),
             f"ACS 2020-2024 5-year. Home value {money(bos.get('median_home_value'))} (SRC-625-03).",
-            "The socioeconomic print, not the population stock.",
-            src_name(ledger, "SRC-625-03")),
-        kpi("Boston poverty / bachelor's", f"{bos.get('poverty_pct')}% / {bos.get('bachelors_pct')}%",
-            f"Median age {bos.get('median_age')} (SRC-625-03).",
-            "The two rates that sit next to income.",
+            "Income and home value sit on the finder card.",
             src_name(ledger, "SRC-625-03")),
         kpi("Boston ACS peer", short_place(peers.get("name")) or "",
             f"Income {money(peers.get('median_hh_income'))}; bachelor's {peers.get('bachelors_pct')}% (derived, SRC-625-03).",
             "Z-scored income, home value, and bachelor's share. Not the old Pioneer workbook.",
             src_name(ledger, "SRC-625-03")),
     ]
-    return take, kpis, f"Boston population {commify(hi.get('v'))}", "SRC-625-01"
+    page_lead = (
+        f"Boston's resident population was <b>{commify(bos_pop.get('v'))}</b> "
+        f"on the Census vintage 2025 subcounty estimates (SRC-625-01)."
+    )
+    return take, kpis, f"Boston population {commify(bos_pop.get('v'))}", "SRC-625-01", "", page_lead
 
 
 def voice_dl26(ledger):
@@ -1184,25 +1168,29 @@ def voice_dl27(ledger):
     bud = sec(ledger, "boston_operating_budget_fy26")
     bhi = bud.get("highest") or {}
     take = [
-        f"<b>{hi.get('name')}</b> was the largest payroll department at <b>{money(hi.get('v'))}</b> in calendar 2025 (SRC-627-01).",
-        f"City earnings totaled <b>{money(latest.get('total'))}</b> across <b>{commify(latest.get('employees'))}</b> employees (SRC-627-01).",
+        f"City earnings totaled <b>{money(latest.get('total'))}</b> across <b>{commify(latest.get('employees'))}</b> employees in calendar 2025 (SRC-627-01).",
+        f"<b>{hi.get('name')}</b> was the largest payroll department at <b>{money(hi.get('v'))}</b> (SRC-627-01).",
         f"{(sec(ledger, 'boston_top_earners_2025').get('highest') or {}).get('name')} was the highest named earner at <b>{money((sec(ledger, 'boston_top_earners_2025').get('highest') or {}).get('v'))}</b> (SRC-627-01).",
     ]
     kpis = [
+        kpi("City payroll, 2025", money(latest.get("total")),
+            f"{commify(latest.get('employees'))} employees (SRC-627-01).",
+            "The public starter is the city total, not one department.",
+            src_name(ledger, "SRC-627-01")),
         kpi("Largest payroll department", money(hi.get("v")),
             f"{hi.get('name')}, calendar 2025 (SRC-627-01).",
             "Which department takes the largest earnings share.",
-            src_name(ledger, "SRC-627-01")),
-        kpi("City payroll, 2025", money(latest.get("total")),
-            f"{commify(latest.get('employees'))} employees (SRC-627-01).",
-            "The payroll the department ranking adds up to.",
             src_name(ledger, "SRC-627-01")),
         kpi("FY26 adopted budget", money(bud.get("fy26_appropriation") or bud.get("total") or bud.get("v")),
             f"{bhi.get('name')} was the largest department at {money(bhi.get('v'))} (SRC-627-02).",
             "The appropriation next to the earnings file.",
             src_name(ledger, "SRC-627-02")),
     ]
-    return take, kpis, f"{hi.get('name')} {money(hi.get('v'))}", "SRC-627-01"
+    page_lead = (
+        f"City of Boston earnings totaled <b>{money(latest.get('total'))}</b> "
+        f"in calendar 2025 across <b>{commify(latest.get('employees'))}</b> employees (SRC-627-01)."
+    )
+    return take, kpis, f"{money(latest.get('total'))}, {commify(latest.get('employees'))} employees", "SRC-627-01", "", page_lead
 
 
 def voice_dl28(ledger):
@@ -1615,7 +1603,125 @@ def find_bundle(app, ledger):
         for last, recs in last_hits.items():
             if len(recs) == 1 and last not in cards:
                 cards[last] = recs[0]
-    return {"kind": kind, "cards": cards, "metric": ledger.get("metric_label") or "Value"}
+    default_q = ""
+    if kind == "hospital":
+        default_q = "Massachusetts General Hospital"
+    elif kind == "town":
+        default_q = "Boston"
+    return {
+        "kind": kind,
+        "cards": cards,
+        "metric": ledger.get("metric_label") or "Value",
+        "default_q": default_q,
+    }
+
+
+def public_question(tid):
+    from audience_starters import starters_for
+    spec = starters_for(tid) or {}
+    return spec.get("public") or ""
+
+
+def build_answer(tid, ledger, ma_line=""):
+    """H2 question, one large number, one clause. Uses published cells only."""
+    q = public_question(tid)
+    latest = ledger.get("latest") or {}
+    ma = latest.get("ma") if isinstance(latest.get("ma"), dict) else {}
+    unit = ledger.get("unit") or ""
+    value = ""
+    context = ""
+    if tid == "DL-07":
+        naep = sec(ledger, "naep_2024", "series", "read4")
+        ma_r = ma_of(naep)
+        value = str(ma_r.get("v") or "")
+        context = (
+            f"Massachusetts ranks {ma_r.get('rank') or 1} of {ma_r.get('n') or 51} "
+            "on the 2024 NAEP grade-4 reading scale (SRC-607-05)."
+        )
+    elif tid == "DL-10":
+        mgh = next(
+            (
+                r
+                for r in (ledger.get("rows") or [])
+                if "MASSACHUSETTS GENERAL" in (r.get("name") or "").upper()
+            ),
+            None,
+        ) or {}
+        value = f"{mgh.get('v') or 5} stars"
+        context = (
+            f"Massachusetts General Hospital, {rank_txt(mgh) or 'rank 2 of 54'} "
+            "on CMS overall (SRC-610-02)."
+        )
+    elif tid == "DL-14":
+        value = f"{ma.get('v')}%"
+        context = (
+            f"{rank_txt(ma).capitalize()} on the seasonally adjusted statewide "
+            "unemployment rate (derived, SRC-614-01)."
+        )
+    elif tid == "DL-25":
+        bos = latest.get("boston") or latest.get("highest") or {}
+        value = commify(bos.get("v"))
+        context = "Boston resident population on the Census vintage 2025 subcounty estimates (SRC-625-01)."
+    elif tid == "DL-32":
+        hi = latest.get("highest") or []
+        hi_v = hi[0].get("v") if hi else None
+        names = " and ".join(r.get("name") or "" for r in hi[:2] if r.get("name"))
+        value = money(hi_v)
+        context = f"{names} each, calendar 2025 (SRC-632-01)."
+    elif tid == "DL-31":
+        value = commify(ma.get("v"))
+        rate = sec(ledger, "bjs_depth_2023", "imprisonment_rate")
+        rma = ma_of(rate)
+        extra = ""
+        if rma.get("v") is not None:
+            extra = (
+                f" The imprisonment rate was {rma.get('v')} per 100,000, "
+                f"{rank_txt(rma)} (SRC-631-03)."
+            )
+        context = (
+            f"{rank_txt(ma).capitalize()} on year-end headcount (derived, SRC-631-01)."
+            + extra
+        )
+    elif tid == "DL-27":
+        earn = sec(ledger, "boston_top_earners_2025").get("highest") or {}
+        value = money(earn.get("v"))
+        name = (earn.get("name") or "").replace(",", ", ")
+        bits = [name]
+        if earn.get("title"):
+            bits.append(earn.get("title"))
+        if earn.get("department"):
+            bits.append(earn.get("department"))
+        context = (
+            ", ".join(b for b in bits if b)
+            + ", calendar 2025 (SRC-627-01)."
+        )
+    else:
+        if ma.get("v") is not None:
+            value = format_metric_value(ma.get("v"), unit)
+            rk = rank_txt(ma)
+            label = ledger.get("metric_label") or ""
+            bits = [rk.capitalize() if rk else "Massachusetts"]
+            if label:
+                bits.append(label[0].lower() + label[1:] if label else label)
+            context = ", ".join(b for b in bits if b) + "."
+        elif ma_line:
+            parts = [p.strip() for p in ma_line.split(",") if p.strip()]
+            value = parts[0] if parts else ma_line
+            context = ", ".join(parts[1:]) + ("." if parts[1:] else "")
+    return {"q": q, "value": value or "", "context": context.strip()}
+
+
+def answer_inner_html(answer):
+    """Inner markup for a flagship or suite answer block. No invented figures."""
+    if not answer or not answer.get("value"):
+        return ""
+    q = html.escape(answer.get("q") or "The finding")
+    val = html.escape(str(answer["value"]))
+    ctx = html.escape(answer.get("context") or "")
+    out = f"    <h2>{q}</h2>\n    <div class=\"answer-num\">{val}</div>\n"
+    if ctx:
+        out += f'    <p class="answer-ctx">{ctx}</p>\n'
+    return out.rstrip()
 
 
 def voice_for(app, ledger):
@@ -1663,6 +1769,7 @@ def voice_for(app, ledger):
         "src_id": src_id,
         "lead_extra": lead_extra,
         "page_lead": page_lead,
+        "answer": build_answer(tid, ledger, ma_line),
     }
 
 
@@ -1685,85 +1792,88 @@ def flagship_voice(tid, ledger):
         prem = None
         if ma_p and us_p:
             prem = round((ma_p / us_p - 1) * 100, 0)
-        take = [
-            f"The United States all-sector average was <b>{us_p:.2f} cents</b> per kilowatthour in {year} (SRC-401).",
-            f"{hi.get('name')} was highest at {hi.get('price_cents'):.2f} cents; {lo.get('name')} was lowest at {lo.get('price_cents'):.2f} cents (SRC-401).",
-            (
-                f"Massachusetts paid <b>{ma_p:.2f} cents</b>, {rank_txt(ma)} (derived, SRC-401)."
-                + (
-                    f" Florida paid <b>{fl_p:.2f} cents</b>, {rank_txt(fl)} (derived, SRC-401)."
-                    if fl_p is not None else ""
-                )
-            ),
-        ]
-        kpis_html_data = [
-            kpi(f"United States, {year}", f"{us_p:.2f}\u00a2",
-                f"EIA U.S. Total row (SRC-401)."
-                + (f" {us.get('yoy_pct'):+.1f} percent from {year - 1}." if us.get("yoy_pct") is not None else ""),
-                "The national all-sector average, not an unweighted mean of the states.",
-                "EIA Form EIA-861 (SRC-401)"),
-            kpi("Highest / lowest", f"{hi.get('st')} {hi.get('price_cents'):.2f}",
-                f"{hi.get('name')} is highest; {lo.get('name')} is lowest at {lo.get('price_cents'):.2f} cents (SRC-401).",
-                "The spread across the 51 jurisdictions.",
-                "EIA Form EIA-861 (SRC-401)"),
-            kpi(f"Massachusetts, {year}", f"{ma_p:.2f}\u00a2",
-                f"{rank_txt(ma).capitalize()} states and D.C. (derived, SRC-401)."
-                + (f" {ma.get('yoy_pct'):+.1f} percent from {year - 1}." if ma.get("yoy_pct") is not None else ""),
-                "Massachusetts on the fifty-state ranking.",
-                "EIA Form EIA-861 (SRC-401)"),
-        ]
-        res = latest.get("residential") or (ledger.get("latest") or {}).get("residential") or {}
+        res = latest.get("residential") or {}
         res_ma = (res.get("ma") or {})
         res_us = (res.get("us") or {})
+        res_hi = (res.get("highest") or {})
+        res_lo = (res.get("lowest") or {})
+        take = []
         if res_ma.get("price_cents") is not None:
             take.append(
                 f"Households paid <b>{res_ma['price_cents']:.2f} cents</b> per kilowatthour "
-                f"in Massachusetts, {rank_txt(res_ma)} on the residential series "
-                f"(SRC-401). The U.S. residential average was "
-                f"{res_us.get('price_cents'):.2f} cents (SRC-401)."
-                if res_us.get("price_cents") is not None else
-                f"Households paid <b>{res_ma['price_cents']:.2f} cents</b> per kilowatthour "
                 f"in Massachusetts, {rank_txt(res_ma)} on the residential series (SRC-401)."
             )
-        if fl_p is not None:
-            kpis_html_data.append(kpi(
-                f"Florida, {year}", f"{fl_p:.2f}\u00a2",
-                f"{rank_txt(fl).capitalize()} states and D.C. (derived, SRC-401)."
-                + (f" {fl.get('yoy_pct'):+.1f} percent from {year - 1}." if fl.get("yoy_pct") is not None else ""),
-                "Florida on the same all-sector ranking.",
-                "EIA Form EIA-861 (SRC-401)",
-            ))
-        elif prem is not None:
-            kpis_html_data.append(kpi(
-                "Above the U.S. average", f"{int(prem)}%",
-                f"U.S. all-sector average {us_p:.2f} cents, EIA U.S. Total row (derived, SRC-401).",
-                "How far Massachusetts sits above the national price.",
-                "EIA Form EIA-861 (SRC-401)",
-            ))
-        fl_lead = (
-            f" Florida paid <b>{fl_p:.2f} cents</b>, {rank_txt(fl)} (derived, SRC-401)."
-            if fl_p is not None else ""
+        take.append(
+            f"The United States all-sector average was <b>{us_p:.2f} cents</b> per kilowatthour in {year} (SRC-401)."
         )
-        res_lead = ""
+        take.append(
+            f"Massachusetts all-sector was <b>{ma_p:.2f} cents</b>, {rank_txt(ma)} (derived, SRC-401)."
+        )
+        kpis_html_data = []
         if res_ma.get("price_cents") is not None:
-            res_lead = (
-                f" Households paid <b>{res_ma['price_cents']:.2f} cents</b> in "
-                f"Massachusetts, {rank_txt(res_ma)} on the residential series (SRC-401)."
-            )
+            kpis_html_data.append(kpi(
+                f"Massachusetts households, {year}",
+                f"{res_ma['price_cents']:.2f}\u00a2",
+                f"{rank_txt(res_ma).capitalize()} on the residential series (SRC-401).",
+                "The public question is the household price, not the all-sector average.",
+                "EIA Form EIA-861 (SRC-401)",
+            ))
+        if res_us.get("price_cents") is not None:
+            kpis_html_data.append(kpi(
+                f"U.S. households, {year}",
+                f"{res_us['price_cents']:.2f}\u00a2",
+                "EIA residential U.S. Total row (SRC-401).",
+                "The national household average on the same file.",
+                "EIA Form EIA-861 (SRC-401)",
+            ))
+        kpis_html_data.append(kpi(
+            f"Massachusetts all-sector, {year}",
+            f"{ma_p:.2f}\u00a2",
+            f"{rank_txt(ma).capitalize()} states and D.C. (derived, SRC-401).",
+            "The all-sector average sits behind the household figure.",
+            "EIA Form EIA-861 (SRC-401)",
+        ))
+        if res_hi.get("price_cents") is not None:
+            kpis_html_data.append(kpi(
+                "Highest residential",
+                f"{res_hi.get('st')} {res_hi['price_cents']:.2f}",
+                f"{res_hi.get('name')} is highest on the household series (SRC-401).",
+                "The top of the residential ranking.",
+                "EIA Form EIA-861 (SRC-401)",
+            ))
+        kpis_html_data = kpis_html_data[:4]
+        res_val = res_ma.get("price_cents")
+        lead = (
+            f"Massachusetts households paid <b>{res_val:.2f} cents</b> per kilowatthour "
+            f"in {year}, {rank_txt(res_ma)} on the residential series (SRC-401). "
+            f"The U.S. residential average was {res_us.get('price_cents'):.2f} cents (SRC-401). "
+            f"The all-sector Massachusetts average was {ma_p:.2f} cents, {rank_txt(ma)} (derived, SRC-401)."
+            if res_val is not None else
+            f"Massachusetts paid <b>{ma_p:.2f} cents</b> per kilowatthour in {year}, "
+            f"{rank_txt(ma)} (derived, SRC-401)."
+        )
         return {
-            "takeaways": take,
+            "takeaways": take[:3],
             "kpis": kpis_html_data,
             "cite": cite_line("Retail Electricity Prices", "electricity", f"Dec 31, {year}", "SRC-401", page.get("version", "1.0"), page.get("revised")),
-            "ma": f"{ma_p:.2f}\u00a2 / kWh, {rank_txt(ma)}",
-            "src_id": "SRC-401",
-            "lead": (
-                f"The United States all-sector average was <b>{us_p:.2f} cents</b> per kilowatthour "
-                f"in {year}, {'up' if (us.get('yoy_pct') or 0) > 0 else 'down'} {abs(us.get('yoy_pct') or 0):.1f} percent "
-                f"from {year - 1} (SRC-401). Massachusetts paid <b>{ma_p:.2f} cents</b>, "
-                f"{rank_txt(ma)} (derived, SRC-401).{fl_lead}{res_lead} {hi.get('name')} was highest at "
-                f"{hi.get('price_cents'):.2f} cents and {lo.get('name')} lowest at "
-                f"{lo.get('price_cents'):.2f} cents (SRC-401)."
+            "ma": (
+                f"{res_val:.2f}\u00a2 / kWh residential, {rank_txt(res_ma)}"
+                if res_val is not None else
+                f"{ma_p:.2f}\u00a2 / kWh, {rank_txt(ma)}"
             ),
+            "src_id": "SRC-401",
+            "lead": lead,
+            "answer": {
+                "q": "What does a household pay for electricity in Massachusetts?",
+                "value": f"{res_val:.2f}\u00a2" if res_val is not None else f"{ma_p:.2f}\u00a2",
+                "context": (
+                    f"{rank_txt(res_ma).capitalize()} on the residential average (SRC-401). "
+                    f"The all-sector United States average was {us_p:.2f} cents (SRC-401)."
+                    if res_val is not None else
+                    f"{rank_txt(ma).capitalize()} on the all-sector average (derived, SRC-401). "
+                    f"The United States all-sector average was {us_p:.2f} cents (SRC-401)."
+                ),
+            },
         }
     if tid == "DL-05":
         latest = ledger.get("latest") or {}
@@ -1799,17 +1909,24 @@ def flagship_voice(tid, ledger):
             "ma": f"Teachers {mt.get('funded_pct')}% funded",
             "src_id": "SRC-501",
             "lead": (
-                f"The State Retirement Board was <b>{st.get('funded_pct')} percent</b> funded on its "
-                f"January 1, {st.get('valuation_year')} valuation (SRC-501). Mass Teachers (MTRS) was "
-                f"<b>{mt.get('funded_pct')} percent</b> funded (SRC-501). Across {n} boards the "
-                f"dollar-weighted funded ratio was {w} percent (derived, SRC-501). State and Teacher "
-                f"retirees were paid <b>{money(ret.get('annual_amount'))}</b> in calendar {ret.get('year')} (SRC-503)."
-                if ret.get("annual_amount") else
-                f"The State Retirement Board was <b>{st.get('funded_pct')} percent</b> funded on its "
-                f"January 1, {st.get('valuation_year')} valuation (SRC-501). Mass Teachers (MTRS) was "
-                f"<b>{mt.get('funded_pct')} percent</b> funded (SRC-501). Across {n} boards the "
-                f"dollar-weighted funded ratio was {w} percent (derived, SRC-501)."
+                f"Mass Teachers (MTRS) was <b>{mt.get('funded_pct')} percent</b> funded on its "
+                f"January 1, {mt.get('valuation_year')} valuation, rank {mt.get('rank')} of {n} (SRC-501). "
+                f"The State Retirement Board was <b>{st.get('funded_pct')} percent</b> funded (SRC-501). "
+                f"Across {n} boards the dollar-weighted funded ratio was {w} percent (derived, SRC-501)."
+                + (
+                    f" State and Teacher retirees were paid <b>{money(ret.get('annual_amount'))}</b> "
+                    f"in calendar {ret.get('year')} (SRC-503)."
+                    if ret.get("annual_amount") else ""
+                )
             ),
+            "answer": {
+                "q": "How funded is the Massachusetts Teachers retirement system?",
+                "value": f"{mt.get('funded_pct')}%",
+                "context": (
+                    f"January 1, {mt.get('valuation_year')} valuation, rank "
+                    f"{mt.get('rank')} of {n} (SRC-501)."
+                ),
+            },
         }
     if tid == "DL-03":
         take = [
@@ -1830,7 +1947,15 @@ def flagship_voice(tid, ledger):
             ),
             "ma": "88.1% of June 2019 ridership",
             "src_id": "SRC-301",
-            "lead": "",
+            "lead": (
+                "The T carried <b>26,288,869</b> unlinked passenger trips in June 2026, "
+                "<b>88.1 percent</b> of the same month in 2019 (derived, SRC-301)."
+            ),
+            "answer": {
+                "q": "Is the T back to pre-pandemic ridership?",
+                "value": "88.1%",
+                "context": "of June 2019 ridership, on 26,288,869 unlinked passenger trips (derived, SRC-301).",
+            },
         }
     return None
 

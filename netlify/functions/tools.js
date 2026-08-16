@@ -94,8 +94,9 @@ function suiteHasTrend(d) {
   });
 }
 
-function suiteViewId(view) {
-  if (view === 'latest') return 'view-rank';
+function suiteViewId(view, opts) {
+  opts = opts || {};
+  if (view === 'latest') return opts.latestId || 'view-rank';
   return 'view-' + view;
 }
 
@@ -113,7 +114,7 @@ function suiteLink(slug, opts) {
   return function (p) {
     var allowed = ['latest', 'table'].concat(hasTrend ? ['trend'] : []).concat(extra);
     var view = (p.view && allowed.indexOf(p.view) >= 0) ? p.view : 'latest';
-    var url = '/' + slug + '/#' + suiteViewId(view);
+    var url = '/' + slug + '/#' + suiteViewId(view, opts);
     if (p.highlight) url += '&st=' + encodeURIComponent(p.highlight);
     return url;
   };
@@ -148,7 +149,11 @@ function suiteTool(d, spec) {
       describe: spec.hl || 'the exact two-letter jurisdiction code (for example MA, CA, TX) if the question focuses on one state, else null'
     },
     rules: suiteRules(spec.id, spec.src, spec.extra, hasTrend),
-    link: suiteLink(d.slug, { hasTrend: hasTrend, extraViews: extraViews }),
+    link: suiteLink(d.slug, {
+      hasTrend: hasTrend,
+      extraViews: extraViews,
+      latestId: spec.latestId
+    }),
     src: suiteSrc
   };
 }
@@ -445,7 +450,8 @@ module.exports = [
       'expulsion', 'expelled', 'out-of-school suspension',
       'suspension by race', 'improved on naep', 'naep grade'
     ],
-    extra: 'Graduation rates, out-of-school suspension shares, and expulsion shares sit in derived.secondary. Suspension and expulsion shares by race sit in derived.secondary.discipline_race_2020_21. In-school suspension is not a column on Digest 233.40: decline those. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.'
+    extra: 'Graduation rates, out-of-school suspension shares, and expulsion shares sit in derived.secondary. Suspension and expulsion shares by race sit in derived.secondary.discipline_race_2020_21. In-school suspension is not a column on Digest 233.40: decline those. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.',
+    hasTrend: false
   }),
   suiteTool(DL08, {
     id: 'DL-08',
@@ -479,7 +485,8 @@ module.exports = [
       'cms hospital', 'hospital star', 'how many hospitals',
       'relative price', 'chia relative', 'chia hospital'
     ],
-    extra: 'CHIA CY 2023 statewide commercial relative prices sit in derived.secondary.chia_srp_2023. CMS city, emergency, and star-mix detail sits in derived.secondary.cms_hospital_depth. This is not a care-advice tool. Decline where-to-seek-care questions.'
+    extra: 'CHIA CY 2023 statewide commercial relative prices sit in derived.secondary.chia_srp_2023. CMS city, emergency, and star-mix detail sits in derived.secondary.cms_hospital_depth. This is not a care-advice tool. Decline where-to-seek-care questions.',
+    latestId: 'view-proof'
   }),
   (function () {
     var t = suiteTool(DL11, {

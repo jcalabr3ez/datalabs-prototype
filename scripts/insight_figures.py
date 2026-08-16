@@ -63,8 +63,6 @@ def _bar_color(lab, names):
     text = str(lab)
     if lab in names or lab in ("Massachusetts", "Boston") or text.endswith(", MA"):
         return GOLD
-    if lab == "Florida" or text.endswith(", FL"):
-        return RUST
     return NAVY
 
 
@@ -135,8 +133,6 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
         pairs.append((hi["name"], hi["v"]))
     if ma_v is not None:
         pairs.append(("Massachusetts", ma_v))
-    if fl_v is not None:
-        pairs.append(("Florida", fl_v))
     lo_st = lo.get("st")
     hi_st = hi.get("st")
     if lo.get("name") and lo.get("v") is not None and lo_st not in ("MA", "FL", hi_st):
@@ -153,8 +149,6 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
             bits.append(f"{hi['name']} is highest")
         if ma and ma.get("rank") and ma.get("n"):
             bits.append(f"Massachusetts ranks {ma['rank']} of {ma['n']}")
-        if fl and fl.get("rank") and fl.get("n"):
-            bits.append(f"Florida ranks {fl['rank']} of {fl['n']}")
         if bits:
             lede += ". " + "; ".join(bits) + " (derived)."
     note = note or snap.get("note") or "Published cells only. Ranks are Pioneer calculations (derived)."
@@ -226,6 +220,63 @@ def named_list(rows, fid, title, lede, src, fmt, unit, note, name_key="name", va
         _bars(labels, values, highlight=short_place(highlight) if highlight else None, highlight_names=hl_names),
         short_place_text(note, names), span=span, height="mid" if len(items) >= 8 else None,
     )
+
+
+def _slope(pairs, fid, title, lede, src, fmt, unit, note, left="2019", right="2024"):
+    if not pairs:
+        return None
+    series = []
+    for p in pairs:
+        if p.get("from") is None or p.get("to") is None:
+            continue
+        series.append({
+            "label": p["label"],
+            "data": [p["from"], p["to"]],
+            "color": p.get("color") or NAVY,
+        })
+    if len(series) < 2:
+        return None
+    return _fig(
+        fid, title, lede, src, "slope", fmt, unit,
+        [left, right], series, note, span=2,
+    )
+
+
+def _histogram(values, fid, title, lede, src, fmt, unit, note, bins=10, span=2):
+    nums = [float(v) for v in (values or []) if v is not None]
+    if len(nums) < 8:
+        return None
+    lo, hi = min(nums), max(nums)
+    nbin = max(4, min(bins, 12))
+    width = (hi - lo) / nbin if hi != lo else 1
+    counts = [0] * nbin
+    for v in nums:
+        i = 0 if width == 0 else min(int((v - lo) / width), nbin - 1)
+        counts[i] += 1
+
+    def edge(x):
+        if fmt == "percent":
+            return f"{x:.0f}%"
+        if fmt == "usd":
+            if abs(x) >= 1e6:
+                return f"${x/1e6:.1f} million"
+            return f"${x:,.0f}"
+        if abs(x) >= 1000:
+            return f"{x:,.0f}"
+        return f"{x:.1f}" if x != int(x) else str(int(x))
+
+    labels = []
+    for i in range(nbin):
+        a = lo + i * width
+        b = lo + (i + 1) * width if i < nbin - 1 else hi
+        labels.append(f"{edge(a)} to {edge(b)}")
+    fig = _fig(
+        fid, title, lede, src, "hist", fmt, unit,
+        labels, [{"label": "", "data": counts, "colors": [NAVY] * nbin}],
+        note, span=span,
+    )
+    fig["index_axis"] = "x"
+    return fig
 
 
 def _trend_xy(points, y_key="y"):
@@ -469,143 +520,40 @@ def figs_dl06(ledger):
 def figs_dl07(ledger):
     sec = _sec(ledger)
     out = []
-    naep = (sec.get("naep_2024") or {}).get("series") or {}
-    order = [
-        ("read4", "Grade 4 reading"),
-        ("read8", "Grade 8 reading"),
-        ("math4", "Grade 4 math"),
-        ("math8", "Grade 8 math"),
-    ]
-    us, ma, fl = [], [], []
-    ok = True
     hist = (sec.get("naep_2024") or {}).get("history") or {}
-    for key, _lab in order:
-        rec = naep.get(key) or {}
-        if rec.get("us") is None or _snap_val(rec.get("ma")) is None:
-            ok = False
-            break
-        us.append(rec["us"])
-        ma.append(_snap_val(rec["ma"]))
-        ch_rows = ((hist.get(key) or {}).get("change_2019_2024") or {}).get("rows") or []
-        fl_rec = next((r for r in ch_rows if r.get("st") == "FL"), None)
-        fl.append(fl_rec.get("to") if fl_rec else None)
-    if ok and us:
-        series = [
-            {"label": "National public", "data": us, "color": INK},
-            {"label": "Massachusetts", "data": ma, "color": GOLD},
-        ]
-        if any(v is not None for v in fl):
-            series.append({"label": "Florida", "data": fl, "color": RUST})
-        out.append(_fig(
-            "naep-2024",
-            "NAEP 2024: Massachusetts, Florida, and national public",
-            "Massachusetts ranks 1 of 51 on all four reading and math series. Florida is the rust series.",
-            "SRC-607-05",
-            "grouped", "number", "scale score",
-            [lab for _k, lab in order],
-            _grouped(series),
-            "NAEP average scale scores, 2024. National public is the published NP line. Florida 2024 scores are the published end year of the 2019-to-2024 change table.",
-            span=2,
-        ))
-    for key, fid, title in (
-        ("read4", "naep-read4-trend", "NAEP grade 4 reading, 1992 to 2024"),
-        ("math8", "naep-math8-trend", "NAEP grade 8 math, 1990 to 2024"),
-    ):
-        rec = hist.get(key) or {}
-        us = {p["y"]: p["v"] for p in rec.get("us") or [] if p.get("v") is not None}
-        ma = {p["y"]: p["v"] for p in rec.get("ma") or [] if p.get("v") is not None}
-        fl = {}
-        ch = rec.get("change_2019_2024") or {}
-        fl_row = next((r for r in (ch.get("rows") or []) if r.get("st") == "FL"), None)
-        if fl_row:
-            if fl_row.get("from") is not None:
-                fl[2019] = fl_row["from"]
-            if fl_row.get("to") is not None:
-                fl[2024] = fl_row["to"]
-        years = [y for y in (rec.get("years") or []) if y in us or y in ma or y in fl]
-        if len(years) < 4:
-            continue
-        ma0 = next((y for y in years if y in ma), None)
-        series = [
-            {"label": "National public", "data": [us.get(y) for y in years], "color": INK},
-            {"label": "Massachusetts", "data": [ma.get(y) for y in years], "color": GOLD},
-        ]
-        if fl:
-            series.append({"label": "Florida", "data": [fl.get(y) for y in years], "color": RUST})
-        fl_lede = ""
-        if fl.get(2019) is not None and fl.get(2024) is not None:
-            fl_lede = f" Florida went from {fl[2019]} in 2019 to {fl[2024]} in 2024."
-        out.append(_fig(
-            fid, title,
-            (
-                f"National public went from {us.get(years[0])} in {years[0]} to "
-                f"{us.get(years[-1])} in {years[-1]}. Massachusetts went from "
-                f"{ma.get(ma0)} in {ma0} to {ma.get(years[-1])} in {years[-1]}."
-                + fl_lede
-            ),
-            rec.get("src") or "SRC-607-05",
-            "line", "number", "scale score",
-            [str(y) for y in years],
-            _grouped(series),
-            "Average scale scores. Gaps are years a jurisdiction was not reported. National public is the published NP line. Florida points are the published 2019 and 2024 cells from the change table.",
-            span=2,
-        ))
-    for key, fid, title in (
-        ("read4", "naep-read4-change", "Grade 4 reading change, 2019 to 2024"),
-        ("math8", "naep-math8-change", "Grade 8 math change, 2019 to 2024"),
-    ):
-        rec = ((hist.get(key) or {}).get("change_2019_2024") or {})
-        rows = rec.get("rows") or []
-        if len(rows) < 10:
-            continue
-        n_up, n_down = rec.get("n_up"), rec.get("n_down")
-        hi = rec.get("highest") or {}
-        lo = rec.get("lowest") or {}
-        fig = state_map(
-            rows, fid, title,
-            (
-                f"{n_up} states rose and {n_down} fell. "
-                f"{hi.get('name')} {hi.get('v'):+.1f}; "
-                f"{lo.get('name')} {lo.get('v'):+.1f}. "
-                "Massachusetts has a gold outline; Florida a rust outline."
-            ),
-            rec.get("src") or "SRC-607-05",
-            "number", "scale-score points",
-            "2024 minus 2019 average scale score. National public is omitted so the state map stays readable.",
-        )
-        if fig:
-            out.append(fig)
-    for key, fid, title in (
-        ("acgr_2021_22", "acgr", "Four-year adjusted cohort graduation rate, 2021-22"),
-        ("oss_suspension_2020_21", "oss", "Out-of-school suspension share, 2020-21"),
-        ("expulsion_2020_21", "expel", "Expulsion share, 2020-21"),
-    ):
-        fig = from_snap(sec.get(key), fid, title=title)
-        if fig:
-            out.append(fig)
-    race = sec.get("discipline_race_2020_21") or {}
-    oss_us = (race.get("oss") or {}).get("us") or []
-    oss_ma = (race.get("oss") or {}).get("ma") or []
-    if len(oss_us) >= 4 and len(oss_ma) >= 4:
-        names = [r["name"] for r in oss_us]
-        ma_map = {r["name"]: r["v"] for r in oss_ma}
-        out.append(_fig(
-            "oss-race",
-            "Out-of-school suspension share by race, 2020-21",
-            (
-                f"Black students: United States {next((r['v'] for r in oss_us if r['name']=='Black'), None)} "
-                f"percent; Massachusetts {ma_map.get('Black')} percent."
-            ),
-            race.get("src") or "SRC-607-04",
-            "grouped", "percent", "percent",
-            names,
-            _grouped([
-                {"label": "United States", "data": [r["v"] for r in oss_us], "color": INK},
-                {"label": "Massachusetts", "data": [ma_map.get(n) for n in names], "color": GOLD},
-            ]),
-            race.get("note") or "NCES Digest table 233.40. Shares are of students in that group.",
-            span=2,
-        ))
+    rec = (hist.get("read4") or {}).get("change_2019_2024") or {}
+    rows = rec.get("rows") or []
+    ma_row = next((r for r in rows if r.get("st") == "MA"), None) or {}
+    ma_from, ma_to = ma_row.get("from"), ma_row.get("to")
+    pairs = []
+    us_hist = {p["y"]: p["v"] for p in (hist.get("read4") or {}).get("us") or [] if p.get("v") is not None}
+    if 2019 in us_hist and 2024 in us_hist:
+        pairs.append({"label": "National public", "from": us_hist[2019], "to": us_hist[2024], "color": INK})
+    if ma_from is not None and ma_to is not None:
+        pairs.append({"label": "Massachusetts", "from": ma_from, "to": ma_to, "color": GOLD})
+    gain = sorted(
+        [r for r in rows if r.get("st") != "MA" and r.get("from") is not None and r.get("to") is not None],
+        key=lambda r: (r["to"] - r["from"]),
+        reverse=True,
+    )
+    if gain:
+        top, bot = gain[0], gain[-1]
+        pairs.append({"label": top.get("name") or top.get("st"), "from": top["from"], "to": top["to"], "color": NAVY})
+        if bot.get("st") != top.get("st"):
+            pairs.append({"label": bot.get("name") or bot.get("st"), "from": bot["from"], "to": bot["to"], "color": GREY})
+    fig = _slope(
+        pairs, "naep-read4-slope",
+        "NAEP grade 4 reading, 2019 to 2024",
+        (
+            f"{rec.get('n_up')} states rose and {rec.get('n_down')} fell. "
+            f"Massachusetts went from {ma_from} to {ma_to}."
+        ) if ma_from is not None else "2019 to 2024 scale-score change.",
+        rec.get("src") or "SRC-607-05",
+        "number", "scale score",
+        "Average scale scores. National public is the published NP line when the year exists.",
+    )
+    if fig:
+        out.append(fig)
     fig = from_snap(
         sec.get("npefs_ppe_fy2024"), "npefs-ppe",
         title="Current expenditures per pupil, FY 2024",
@@ -757,9 +705,30 @@ def figs_dl09(ledger):
 
 def figs_dl10(ledger):
     latest = ledger.get("latest") or {}
-    derived = ledger.get("derived") or {}
-    sec = _sec(ledger)
     out = []
+    stars = {}
+    for r in ledger.get("rows") or []:
+        v = r.get("v")
+        if v is None:
+            continue
+        stars[int(v)] = stars.get(int(v), 0) + 1
+    if stars:
+        labels = [f"{s} star" + ("" if s == 1 else "s") for s in range(5, 0, -1)]
+        values = [stars.get(s, 0) for s in range(5, 0, -1)]
+        fig = _fig(
+            "hospital-stars",
+            "Rated Massachusetts hospitals by overall star rating",
+            (
+                f"{latest.get('n_rated')} rated, {latest.get('n_unrated')} unrated. "
+                "Unrated facilities are omitted from this figure."
+            ),
+            "SRC-610-02",
+            "hist", "number", "hospitals",
+            labels, _bars(labels, values),
+            "CMS overall star rating among rated facilities only.",
+        )
+        fig["index_axis"] = "x"
+        out.append(fig)
     by_type = latest.get("by_type") or {}
     if by_type:
         items = sorted(by_type.items(), key=lambda kv: -kv[1])
@@ -773,75 +742,8 @@ def figs_dl10(ledger):
             "bar", "number", "hospitals",
             labels, _bars(labels, values),
             "CMS Hospital General Information, Massachusetts facilities.",
-            span=2,
         ))
-    stars = {}
-    for r in ledger.get("rows") or []:
-        v = r.get("v")
-        if v is None:
-            continue
-        stars[int(v)] = stars.get(int(v), 0) + 1
-    if stars:
-        labels = [f"{s} star" + ("" if s == 1 else "s") for s in range(5, 0, -1)]
-        values = [stars.get(s, 0) for s in range(5, 0, -1)]
-        out.append(_fig(
-            "hospital-stars",
-            "Rated Massachusetts hospitals by overall star rating",
-            (
-                f"{latest.get('n_rated')} rated, {latest.get('n_unrated')} unrated. "
-                "Unrated facilities are omitted from this figure."
-            ),
-            "SRC-610-02",
-            "bar", "number", "hospitals",
-            labels, _bars(labels, values),
-            "CMS overall star rating among rated facilities only.",
-        ))
-    own = derived.get("by_ownership") or {}
-    if own:
-        items = sorted(own.items(), key=lambda kv: -kv[1])
-        labels = [k.replace("Voluntary non-profit - ", "Nonprofit, ") for k, _ in items]
-        values = [v for _, v in items]
-        out.append(_fig(
-            "hospital-own",
-            "Massachusetts hospitals by ownership",
-            "Nonprofit private is the largest ownership group.",
-            "SRC-610-02",
-            "bar", "number", "hospitals",
-            labels, _bars(labels, values),
-            "CMS ownership labels, shortened for the axis.",
-        ))
-    chia = sec.get("chia_srp_2023") or {}
-    fig = named_list(
-        chia.get("top_eight"), "chia-srp",
-        "Highest CHIA statewide commercial relative prices, CY 2023",
-        (
-            f"{chia.get('highest', {}).get('name')} was highest at "
-            f"{chia.get('highest', {}).get('v')}. Boston Children's Hospital "
-            f"was {chia.get('childrens', {}).get('v')}."
-        ) if chia.get("highest") else "CHIA statewide commercial relative price.",
-        chia.get("src") or "SRC-610-03",
-        "number", "relative price (statewide = 1.00)",
-        chia.get("note") or "CHIA Appendix A, commercial self- and fully-insured.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    cms = sec.get("cms_hospital_depth") or {}
-    fig = named_list(
-        cms.get("top_cities"), "hosp-cities",
-        "Massachusetts hospitals by city",
-        (
-            f"{cms.get('highest_city', {}).get('name')} has the most CMS-listed "
-            f"facilities. {cms.get('emergency_pct')} percent report emergency services."
-        ) if cms.get("highest_city") else "CMS facilities by city.",
-        cms.get("src") or "SRC-610-02",
-        "number", "hospitals",
-        "CMS Hospital General Information, Massachusetts facilities.",
-        n=8,
-    )
-    if fig:
-        out.append(fig)
-    return out
+    return out[:2]
 
 
 def figs_dl11(ledger):
@@ -1073,19 +975,6 @@ def figs_dl14(ledger):
     )
     if fig:
         out.append(fig)
-    ui = sec.get("ui_initial_claims") or {}
-    fig = from_snap(
-        ui, "ui-claims",
-        title="UI initial claims, week ending 2026-08-08",
-        skip_us=True,
-        note=(
-            "ETA 539 cell C3. Massachusetts also reported "
-            f"{ui.get('ma_continued'):,} continued weeks claimed. "
-            "The U.S. total is omitted so state bars remain readable."
-        ) if ui.get("ma_continued") else ui.get("note"),
-    )
-    if fig:
-        out.append(fig)
     labor = sec.get("laus_labor_2026") or {}
     fig = from_snap(
         labor.get("lfpr"), "lfpr",
@@ -1093,29 +982,7 @@ def figs_dl14(ledger):
     )
     if fig:
         out.append(fig)
-    fig = from_snap(
-        labor.get("epop"), "epop",
-        title="Employment-population ratio",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        labor.get("employment"), "employment",
-        title="Employment level",
-        skip_us=True,
-        note="BLS LAUS statewide seasonally adjusted employment. The U.S. total is not in this file.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("qcew_employment_2025q4"), "qcew-emp",
-        title="Average monthly employment, all industries, 2025 Q4",
-        skip_us=True,
-        note="BLS QCEW statewide all-ownership. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    return out
+    return out[:2]
 
 
 def figs_dl15(ledger):
@@ -1616,170 +1483,29 @@ def figs_dl24(ledger):
 
 
 def figs_dl25(ledger):
-    sec = _sec(ledger)
-    peers = ((sec.get("population_peers_2025") or {}).get("peers") or {}).get("Boston city") or []
-    latest = ledger.get("latest") or {}
-    boston = (latest.get("highest") or {}).get("v")
-    rows = []
-    if boston is not None:
-        rows.append({"name": "Boston", "v": boston})
-    rows.extend({"name": r["name"], "v": r["pop"]} for r in peers if r.get("pop") is not None)
-    fig = named_list(
-        rows, "boston-peers",
-        "Boston and the five nearest Census 2025 populations",
-        "Nearest means closest resident count, not the old Pioneer socioeconomic peer workbook.",
-        "SRC-625-02",
-        "number", "people",
-        "Census vintage 2025 subcounty estimates, SUMLEV 061. Five nearest counts for Boston.",
-        n=6, highlight="Boston", span=2,
-    )
-    out = [fig] if fig else []
-    acs = sec.get("acs_towns_2024") or {}
-    fig = named_list(
-        (acs.get("income") or {}).get("top_eight"), "town-income",
-        "Highest median household income, ACS 2020-2024",
-        (
-            f"{(acs.get('income') or {}).get('highest', {}).get('name')} is highest. "
-            f"Boston is ${(acs.get('boston') or {}).get('median_hh_income'):,}."
-        ) if (acs.get("boston") or {}).get("median_hh_income") else "ACS median household income.",
-        acs.get("src") or "SRC-625-03",
-        "usd", "dollars",
-        "Census ACS 5-year 2020-2024, county subdivisions. Some small towns are suppressed.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    fig = named_list(
-        (acs.get("home_value") or {}).get("top_eight"), "town-home",
-        "Highest median home value, ACS 2020-2024",
-        "Owner-occupied median value among towns with a published ACS estimate.",
-        acs.get("src") or "SRC-625-03",
-        "usd", "dollars",
-        "Census ACS 5-year 2020-2024 table B25077.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    peers = (acs.get("socioeconomic_peers") or {}).get("Boston city") or []
-    rows = [{"name": "Boston", "v": (acs.get("boston") or {}).get("median_hh_income")}]
-    rows.extend({"name": r["name"], "v": r.get("median_hh_income")} for r in peers)
-    fig = named_list(
-        rows, "acs-peers",
-        "Boston and five nearest ACS socioeconomic peers",
-        "Nearest on z-scored income, home value, and bachelor's share. Not the old Pioneer workbook.",
-        acs.get("src") or "SRC-625-03",
-        "usd", "dollars",
-        acs.get("peer_method") or "ACS 5-year socioeconomic distance.",
-        n=6, highlight="Boston", span=2,
-    )
-    if fig:
-        out.append(fig)
-    fig = named_list(
-        (acs.get("bachelors") or {}).get("top_eight"), "town-bachelors",
-        "Highest bachelor's-or-higher share, ACS 2020-2024",
-        (
-            f"{(acs.get('bachelors') or {}).get('highest', {}).get('name')} is highest at "
-            f"{(acs.get('bachelors') or {}).get('highest', {}).get('v')} percent."
-        ) if (acs.get("bachelors") or {}).get("highest") else "ACS bachelor's-or-higher share.",
-        acs.get("src") or "SRC-625-03",
-        "percent", "percent",
-        "Census ACS 5-year 2020-2024, population 25 and over.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    return out
+    # Finder card and town map carry the page. No largest-12 bars.
+    return []
 
 
 def figs_dl26(ledger):
-    sec = _sec(ledger)
-    ppe = sec.get("district_ppe_fy2025") or {}
-    fig = named_list(
-        ppe.get("top_five"), "dist-ppe",
-        "Highest district total expenditures per pupil, FY 2025",
-        (
-            f"Truro is highest at ${ppe.get('highest', {}).get('v'):,}. "
-            f"Lowest is {ppe.get('lowest', {}).get('name')} at "
-            f"${ppe.get('lowest', {}).get('v'):,}."
-        ) if ppe.get("highest") and ppe.get("lowest") else "DESE district total expenditures per pupil.",
-        ppe.get("src") or "SRC-606-07",
-        "usd", "dollars per pupil",
-        "DESE / E2C district finance. Small districts sit at the top of a per-pupil ranking.",
-        n=5, span=2,
+    # Town map is the hero. Supporting figure is a histogram of the 351-town change, not a largest-12 bar.
+    vals = [r.get("v") for r in (ledger.get("rows") or []) if r.get("v") is not None]
+    fig = _histogram(
+        vals, "town-change-hist",
+        "Distribution of city and town population change, 2020 to 2025",
+        "Every Census subcounty row. The map is the geography; the table lists every place.",
+        "SRC-626-01",
+        "number", "people",
+        "Census vintage 2025 subcounty estimates minus 2020. Ranks are Pioneer calculations (derived).",
+        bins=10,
     )
-    out = [fig] if fig else []
-    acs = sec.get("acs_rankings_2024") or {}
-    fig = named_list(
-        (acs.get("income") or {}).get("top_eight"), "rank-income",
-        "Highest median household income, ACS 2020-2024",
-        (
-            f"{(acs.get('income') or {}).get('highest', {}).get('name')} is highest at "
-            f"${(acs.get('income') or {}).get('highest', {}).get('v'):,}."
-        ) if (acs.get("income") or {}).get("highest") else "ACS median household income.",
-        acs.get("src") or "SRC-626-03",
-        "usd", "dollars",
-        "Census ACS 5-year 2020-2024. DLS levy and crime ranks are not a stable public CSV.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    fig = named_list(
-        (acs.get("poverty") or {}).get("top_eight"), "rank-poverty",
-        "Highest poverty rate, ACS 2020-2024",
-        (
-            f"{(acs.get('poverty') or {}).get('highest', {}).get('name')} is highest at "
-            f"{(acs.get('poverty') or {}).get('highest', {}).get('v')} percent."
-        ) if (acs.get("poverty") or {}).get("highest") else "ACS poverty rate.",
-        acs.get("src") or "SRC-626-03",
-        "percent", "percent",
-        "Census ACS 5-year 2020-2024 table B17001.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    fig = named_list(
-        (acs.get("home_value") or {}).get("top_eight"), "rank-home",
-        "Highest median home value, ACS 2020-2024",
-        "Owner-occupied median value among towns with a published ACS estimate.",
-        acs.get("src") or "SRC-626-03",
-        "usd", "dollars",
-        "Census ACS 5-year 2020-2024 table B25077.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    fig = named_list(
-        (acs.get("bachelors") or {}).get("top_eight"), "rank-bachelors",
-        "Highest bachelor's-or-higher share, ACS 2020-2024",
-        (
-            f"{(acs.get('bachelors') or {}).get('highest', {}).get('name')} is highest at "
-            f"{(acs.get('bachelors') or {}).get('highest', {}).get('v')} percent."
-        ) if (acs.get("bachelors") or {}).get("highest") else "ACS bachelor's-or-higher share.",
-        acs.get("src") or "SRC-626-03",
-        "percent", "percent",
-        "Census ACS 5-year 2020-2024, population 25 and over.",
-        n=8, span=2,
-    )
-    if fig:
-        out.append(fig)
-    return out
+    return [fig] if fig else []
 
 
 def figs_dl27(ledger):
     sec = _sec(ledger)
     bud = sec.get("boston_operating_budget_fy26") or {}
     out = []
-    fig = named_list(
-        bud.get("top_five"), "bos-budget",
-        "Largest Boston operating-budget departments, FY26 appropriation",
-        "Boston Public Schools is the largest line.",
-        bud.get("src") or "SRC-627-02",
-        "usd", "dollars",
-        "City of Boston adopted operating budget, FY26 appropriation.",
-        n=5, span=2,
-    )
-    if fig:
-        out.append(fig)
     if bud.get("fy25_actual") is not None:
         labels = ["FY25 actual", "FY26 appropriation", "FY27 budget"]
         values = [bud["fy25_actual"], bud["fy26_appropriation"], bud.get("fy27_budget")]
@@ -2060,39 +1786,11 @@ def figs_dl32(ledger):
         "dollars",
         "CTHRU named payroll for Representative and Senator titles, calendar 2025.",
         n=3,
-        span=2,
-    )
-    if fig:
-        out.append(fig)
-    fig = named_list(
-        derived.get("chamber_medians"),
-        "chamber-median",
-        "House and Senate median pay, calendar 2025",
-        "Medians are from the published Representative and Senator rows, including partial-year replacements.",
-        "SRC-632-01",
-        "usd",
-        "dollars",
-        "CTHRU named House and Senate payroll, calendar 2025.",
-        n=2,
         span=1,
     )
     if fig:
         out.append(fig)
-    fig = named_list(
-        ledger.get("rows"),
-        "top-pay",
-        "Highest legislator pay, calendar 2025",
-        "Speaker and Senate President sit at the top. The table lists base salary, supplemental pay, and stipend for every person.",
-        "SRC-632-01",
-        "usd",
-        "dollars",
-        "CTHRU named House and Senate payroll, calendar 2025.",
-        n=8,
-        span=1,
-    )
-    if fig:
-        out.append(fig)
-    return out
+    return out[:2]
 
 
 DISPATCH = {
@@ -2134,8 +1832,9 @@ def insight_figures(app, ledger):
     fn = DISPATCH.get(tid)
     figs = fn(ledger) if fn else []
     figs = [f for f in figs if f]
-    if not figs:
+    figs = [f for f in figs if f.get("type") != "map"]
+    if not figs and tid not in ("DL-07", "DL-10", "DL-14", "DL-25", "DL-26", "DL-32"):
         fallback = from_latest(ledger)
         if fallback:
             figs = [fallback]
-    return figs
+    return figs[:2]

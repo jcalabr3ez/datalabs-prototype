@@ -1,15 +1,27 @@
-/* DataLabs fifty-state choropleth. Paints assets/us-states.svg from a row list.
-   Color is five ranked classes on the states themselves. Massachusetts keeps
-   a gold outline and Florida a rust outline. */
+/* DataLabs fifty-state map. Option A: Census Albers USA SVG.
+   Option B: 51-cell tile grid with the value in the cell.
+   Gold outline is Massachusetts only. Florida outline is off unless asked.
+   Hover updates the side readout. There is no floating tooltip. */
 (function (root) {
   'use strict';
 
-  var NAVY = '#293C5C';
   var EMPTY = '#EEF1F4';
-  var BINS = ['#E4EAF1', '#B7C4D4', '#7D90A8', '#4A6180', '#293C5C'];
-  var DIVERGE = ['#8C2F1B', '#C47A5A', '#F3E7CB', '#7A8FA8', '#293C5C'];
+  var NAVY7 = ['#F1F4F7', '#D2DCE6', '#A9B8C8', '#7D90A8', '#546B86', '#3A516C', '#293C5C'];
+  var DIVERGE7 = ['#8C2F1B', '#C45C26', '#E2B08A', '#F3E7CB', '#9AADC0', '#4A6180', '#293C5C'];
   var TPL = null;
+  var TOWN_TPL = null;
   var WAIT = [];
+  var TOWN_WAIT = [];
+
+  var TILE = {
+    AK:[6,0], AL:[5,6], AR:[4,5], AZ:[5,1], CA:[4,0], CO:[4,2], CT:[3,10], DC:[5,9],
+    DE:[4,9], FL:[6,8], GA:[5,7], HI:[7,0], IA:[3,4], ID:[2,1], IL:[2,5], IN:[2,6],
+    KS:[4,4], KY:[3,6], LA:[5,4], MA:[2,10], MD:[4,8], ME:[0,11], MI:[1,7], MN:[2,4],
+    MO:[3,5], MS:[5,5], MT:[2,2], NC:[4,7], ND:[2,3], NE:[4,3], NH:[1,11], NJ:[3,9],
+    NM:[5,2], NV:[3,1], NY:[2,9], OH:[2,7], OK:[5,3], OR:[3,0], PA:[2,8], RI:[2,11],
+    SC:[5,8], SD:[3,3], TN:[4,6], TX:[6,3], UT:[4,1], VA:[3,8], VT:[1,10], WA:[2,0],
+    WI:[1,6], WV:[3,7], WY:[3,2]
+  };
 
   function loadTpl(cb) {
     if (TPL) { cb(TPL); return; }
@@ -22,6 +34,20 @@
     }).catch(function () {
       WAIT.forEach(function (fn) { fn(''); });
       WAIT = [];
+    });
+  }
+
+  function loadTowns(cb) {
+    if (TOWN_TPL) { cb(TOWN_TPL); return; }
+    TOWN_WAIT.push(cb);
+    if (TOWN_WAIT.length > 1) return;
+    fetch('/assets/ma-towns.svg').then(function (r) { return r.text(); }).then(function (t) {
+      TOWN_TPL = t;
+      TOWN_WAIT.forEach(function (fn) { fn(TOWN_TPL); });
+      TOWN_WAIT = [];
+    }).catch(function () {
+      TOWN_WAIT.forEach(function (fn) { fn(''); });
+      TOWN_WAIT = [];
     });
   }
 
@@ -70,24 +96,26 @@
       return {
         fill: function () { return EMPTY; },
         bin: function () { return -1; },
-        lo: 0, hi: 0, diverging: false, colors: BINS
+        lo: 0, hi: 0, diverging: false, colors: NAVY7, breaks: []
       };
     }
     var lo = vals[0], hi = vals[vals.length - 1];
     var diverging = lo < 0 && hi > 0;
-    var colors = diverging ? DIVERGE : BINS;
+    var colors = diverging ? DIVERGE7 : NAVY7;
+    var n = colors.length;
     function q(p) {
       var i = (vals.length - 1) * p;
       var a = Math.floor(i), b = Math.ceil(i);
       if (a === b) return vals[a];
       return vals[a] + (vals[b] - vals[a]) * (i - a);
     }
-    var br = [q(0.2), q(0.4), q(0.6), q(0.8)];
+    var br = [];
+    for (var i = 1; i < n; i++) br.push(q(i / n));
     function bin(v) {
-      var n = num(v);
-      if (n == null) return -1;
-      for (var i = 0; i < br.length; i++) if (n <= br[i]) return i;
-      return 4;
+      var x = num(v);
+      if (x == null) return -1;
+      for (var j = 0; j < br.length; j++) if (x <= br[j]) return j;
+      return n - 1;
     }
     return {
       lo: lo, hi: hi, diverging: diverging, colors: colors, breaks: br,
@@ -137,17 +165,15 @@
     return !!(el.closest && el.closest('.insight-grid'));
   }
 
-  function mount(el, svg) {
+  function shell(el, inner) {
     el.classList.add('usmap');
     el.innerHTML =
       '<div class="usmap-frame">' +
-        '<div class="usmap-box">' + svg + '<div class="usmap-tip" hidden></div></div>' +
+        '<div class="usmap-box">' + inner + '</div>' +
       '</div>' +
-      '<div class="usmap-now" hidden></div>' +
       '<div class="usmap-legend">' +
         '<div class="usmap-bins"></div>' +
-        '<div class="usmap-key"><i></i>Massachusetts<i class="fl"></i>Florida</div>' +
-        '<div class="usmap-hint">Hover a state to see its rank. Click to open the table.</div>' +
+        '<div class="usmap-key"><i></i>Massachusetts</div>' +
       '</div>' +
       '<div class="usmap-read"></div>';
   }
@@ -162,23 +188,55 @@
   }
 
   function setHot(el, st) {
-    [].forEach.call(el.querySelectorAll('.st'), function (n) {
+    [].forEach.call(el.querySelectorAll('.st, .tile, .town'), function (n) {
       n.classList.toggle('is-hot', !!(st && n.getAttribute('data-st') === st));
     });
   }
 
-  function showNow(el, row) {
-    var now = el.querySelector('.usmap-now');
-    if (!now) return;
-    if (!row) { now.hidden = true; now.innerHTML = ''; return; }
-    var fmt = el._dlFmt || String;
-    var more = el._dlCompare ? el._dlCompare(row) : '';
-    var extra = el._dlExtra ? el._dlExtra(row) : '';
-    var bits = [fmt(row.v)];
-    if (more) bits.push(more);
-    if (extra && extra !== more) bits.push(extra);
-    now.hidden = false;
-    now.innerHTML = '<b>' + htmlEsc(row.name || row.st) + '</b> ' + htmlEsc(bits.join(' \u00b7 '));
+  function legendHtml(sc, fmt) {
+    var colors = sc.colors || [];
+    var br = sc.breaks || [];
+    var labs = [];
+    labs.push(fmt(sc.lo));
+    for (var i = 0; i < br.length; i++) labs.push(fmt(br[i]));
+    labs.push(fmt(sc.hi));
+    var html = '';
+    for (var j = 0; j < colors.length; j++) {
+      var a = labs[j], b = labs[j + 1];
+      html += '<span class="usmap-bin"><i style="background:' + colors[j] + '"></i>' +
+        htmlEsc(a) + (b && b !== a ? ' to ' + htmlEsc(b) : '') + '</span>';
+    }
+    return html;
+  }
+
+  function writeRead(el, opts, lookup, ranked, fmt) {
+    var rows = opts.rows || [];
+    var active = opts.active || null;
+    var view = rows.filter(function (r) { return num(r.v) != null; });
+    if (active) view = view.filter(function (r) { return active.indexOf(r.st) >= 0; });
+    var hi = pick(view, function (r, b) { return !b || num(r.v) > num(b.v); });
+    var lo = pick(view, function (r, b) { return !b || num(r.v) < num(b.v); });
+    var ma = lookup.MA;
+    function cell(cls, k, r) {
+      if (!r) return '';
+      var bits = [fmt(r.v)];
+      var more = compareLine(r, ranked, opts.ref);
+      if (more) bits.push(more);
+      return '<div class="' + cls + '"><div class="k">' + htmlEsc(k) + '</div><div class="v">' +
+        htmlEsc(r.name || r.st) + ' \u00b7 ' + htmlEsc(bits.join(' \u00b7 ')) + '</div></div>';
+    }
+    var read = el.querySelector('.usmap-read');
+    if (!read) return;
+    var htmlRead = cell('', 'Highest', hi) + cell('', 'Lowest', lo);
+    if (ma && !el.classList.contains('townmap')) htmlRead += cell('ma', 'Massachusetts', ma);
+    if (opts.highlightFlorida) htmlRead += cell('fl', 'Florida', lookup.FL);
+    if (opts.ref && refValue(opts.ref) != null) {
+      htmlRead += '<div><div class="k">' + htmlEsc(opts.ref.label || 'United States') +
+        '</div><div class="v">' + htmlEsc(fmt(refValue(opts.ref))) + '</div></div>';
+    }
+    var hoverWord = el.classList.contains('townmap') ? 'A town' : 'A state';
+    htmlRead += '<div class="hover"><div class="k">Hover</div><div class="v" data-hover>' + hoverWord + '</div></div>';
+    read.innerHTML = htmlRead;
   }
 
   function bind(el) {
@@ -186,56 +244,42 @@
     el._dlMapBound = true;
 
     function targetOf(ev) {
-      return ev.target.closest && ev.target.closest('.st');
+      return ev.target.closest && ev.target.closest('.st, .tile, .town');
     }
 
     function rowOf(node) {
       if (!node || node.classList.contains('is-dim') || node.classList.contains('is-empty')) return null;
-      return (el._dlLookup || {})[node.getAttribute('data-st')] || null;
+      var st = node.getAttribute('data-st');
+      if (st) return (el._dlLookup || {})[st] || null;
+      var name = node.getAttribute('data-name') || '';
+      return (el._dlByName || {})[normName(name)] || null;
+    }
+
+    function setHover(row) {
+      var slot = el.querySelector('[data-hover]');
+      if (!slot) return;
+      if (!row) {
+        slot.textContent = el.classList.contains('townmap') ? 'A town' : 'A state';
+        return;
+      }
+      var fmt = el._dlFmt || String;
+      var more = el._dlCompare ? el._dlCompare(row) : '';
+      slot.textContent = (row.name || row.st) + ' \u00b7 ' + fmt(row.v) + (more ? ' \u00b7 ' + more : '');
     }
 
     el.addEventListener('mouseover', function (ev) {
       var node = targetOf(ev);
       var row = rowOf(node);
-      var tipEl = el.querySelector('.usmap-tip');
-      var boxEl = el.querySelector('.usmap-box');
       if (!row) return;
-      setHot(el, row.st);
-      showNow(el, row);
-      if (!tipEl || !boxEl || !node.classList.contains('st')) {
-        if (tipEl) tipEl.hidden = true;
-        return;
-      }
-      var more = el._dlCompare ? el._dlCompare(row) : '';
-      var extra = el._dlExtra ? el._dlExtra(row) : '';
-      tipEl.hidden = false;
-      tipEl.innerHTML = '<b>' + htmlEsc(row.name || row.st) + '</b>' +
-        htmlEsc((el._dlFmt || String)(row.v)) +
-        (more ? '<small>' + htmlEsc(more) + '</small>' : '') +
-        (extra && extra !== more ? '<small>' + htmlEsc(extra) + '</small>' : '');
-      var b = boxEl.getBoundingClientRect();
-      tipEl.style.left = Math.min(Math.max(8, ev.clientX - b.left + 12), b.width - 160) + 'px';
-      tipEl.style.top = Math.min(Math.max(8, ev.clientY - b.top + 12), b.height - 8) + 'px';
-    });
-
-    el.addEventListener('mousemove', function (ev) {
-      var node = targetOf(ev);
-      var tipEl = el.querySelector('.usmap-tip');
-      var boxEl = el.querySelector('.usmap-box');
-      if (!tipEl || !boxEl || !node || !node.classList.contains('st')) return;
-      if (tipEl.hidden) return;
-      var b = boxEl.getBoundingClientRect();
-      tipEl.style.left = Math.min(Math.max(8, ev.clientX - b.left + 12), b.width - 160) + 'px';
-      tipEl.style.top = Math.min(Math.max(8, ev.clientY - b.top + 12), b.height - 8) + 'px';
+      setHot(el, row.st || node.getAttribute('data-st') || '');
+      setHover(row);
     });
 
     el.addEventListener('mouseout', function (ev) {
       var next = ev.relatedTarget;
-      if (next && el.contains(next) && next.closest && next.closest('.st')) return;
+      if (next && el.contains(next) && next.closest && next.closest('.st, .tile, .town')) return;
       setHot(el, el._dlSelected || '');
-      showNow(el, null);
-      var tipEl = el.querySelector('.usmap-tip');
-      if (tipEl) tipEl.hidden = true;
+      setHover(null);
     });
 
     function select(node) {
@@ -255,8 +299,7 @@
     });
   }
 
-  function paint(el, opts) {
-    opts = opts || {};
+  function paintGeo(el, opts) {
     var rows = opts.rows || [];
     var lookup = bySt(rows);
     var ranked = rankedRows(rows);
@@ -266,89 +309,201 @@
     var active = opts.active || null;
     var selected = opts.selected ? String(opts.selected).toUpperCase() : '';
     var compact = isCompact(el, opts);
-    var nodes = el.querySelectorAll('.st');
+    var flOn = !!opts.highlightFlorida;
     el.classList.toggle('is-compact', compact);
+    el.classList.toggle('fl-on', flOn);
 
     var bins = el.querySelector('.usmap-bins');
-    if (bins) {
-      var names = sc.diverging
-        ? ['Lowest', '', 'Near zero', '', 'Highest']
-        : ['Lowest fifth', '', 'Middle', '', 'Highest fifth'];
-      bins.innerHTML = sc.colors.map(function (c, i) {
-        var lab = names[i] || '';
-        return '<span class="usmap-bin"><i style="background:' + c + '"></i>' +
-          (lab ? htmlEsc(lab) : '') + '</span>';
-      }).join('');
-    }
+    if (bins) bins.innerHTML = legendHtml(sc, fmt);
 
-    [].forEach.call(nodes, function (p) {
+    [].forEach.call(el.querySelectorAll('.st'), function (p) {
       var st = p.getAttribute('data-st');
       var row = lookup[st];
       var v = row ? num(row.v) : null;
       p.style.fill = (!row || v == null) ? '' : sc.fill(v);
       p.classList.toggle('is-empty', !row || v == null);
       p.classList.toggle('is-ma', st === 'MA');
-      p.classList.toggle('is-fl', st === 'FL');
+      p.classList.toggle('is-fl', flOn && st === 'FL');
       p.classList.toggle('is-on', st === selected);
       p.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
       p.setAttribute('tabindex', (!row || v == null || (active && active.indexOf(st) < 0)) ? '-1' : '0');
     });
 
-    var view = rows.filter(function (r) { return num(r.v) != null; });
-    if (active) view = view.filter(function (r) { return active.indexOf(r.st) >= 0; });
-    var hi = pick(view, function (r, b) { return !b || num(r.v) > num(b.v); });
-    var lo = pick(view, function (r, b) { return !b || num(r.v) < num(b.v); });
-    var ma = lookup.MA;
-    var fl = lookup.FL;
-    function cell(cls, k, r) {
-      if (!r) return '';
-      var bits = [fmt(r.v)];
-      var more = compareLine(r, ranked, opts.ref);
-      if (more) bits.push(more);
-      return '<div class="' + cls + '"><div class="k">' + htmlEsc(k) + '</div><div class="v">' +
-        htmlEsc(r.name || r.st) + ' \u00b7 ' + htmlEsc(bits.join(' \u00b7 ')) + '</div></div>';
-    }
-    var read = el.querySelector('.usmap-read');
-    if (read) {
-      var htmlRead = cell('', 'Highest', hi) + cell('', 'Lowest', lo) +
-        cell('ma', 'Massachusetts', ma) + cell('fl', 'Florida', fl);
-      if (opts.ref && refValue(opts.ref) != null) {
-        htmlRead += '<div><div class="k">' + htmlEsc(opts.ref.label || 'United States') +
-          '</div><div class="v">' + htmlEsc(fmt(refValue(opts.ref))) + '</div></div>';
-      }
-      read.innerHTML = htmlRead;
-    }
-
+    writeRead(el, opts, lookup, ranked, fmt);
     el._dlFmt = fmt;
     el._dlExtra = extra;
     el._dlCompare = function (r) { return compareLine(r, ranked, opts.ref); };
     el._dlLookup = lookup;
     el._dlOnSelect = opts.onSelect || null;
     el._dlSelected = selected;
-    var hint = el.querySelector('.usmap-hint');
-    if (hint) {
-      hint.textContent = el._dlOnSelect
-        ? 'Hover a state to see its rank. Click to open the table.'
-        : 'Hover a state to see its rank against the rest.';
+    setHot(el, selected);
+    bind(el);
+  }
+
+  function tileGridHtml() {
+    var maxR = 0, maxC = 0;
+    Object.keys(TILE).forEach(function (st) {
+      if (TILE[st][0] > maxR) maxR = TILE[st][0];
+      if (TILE[st][1] > maxC) maxC = TILE[st][1];
+    });
+    var cells = [];
+    for (var r = 0; r <= maxR; r++) {
+      for (var c = 0; c <= maxC; c++) cells.push({ r: r, c: c, st: '' });
     }
+    Object.keys(TILE).forEach(function (st) {
+      var pos = TILE[st];
+      cells[pos[0] * (maxC + 1) + pos[1]].st = st;
+    });
+    var html = '<div class="tilegrid" style="grid-template-columns:repeat(' + (maxC + 1) + ',minmax(0,1fr))">';
+    cells.forEach(function (cell) {
+      if (!cell.st) {
+        html += '<div class="tile tile-empty" aria-hidden="true"></div>';
+        return;
+      }
+      html += '<button type="button" class="tile st" data-st="' + cell.st + '">' +
+        '<b>' + cell.st + '</b><span class="r"></span></button>';
+    });
+    html += '</div>';
+    return html;
+  }
+
+  function paintTile(el, opts) {
+    var rows = opts.rows || [];
+    var lookup = bySt(rows);
+    var ranked = rankedRows(rows);
+    var sc = scaleOf(rows);
+    var fmt = opts.format || function (v) { return v == null ? '' : String(v); };
+    var extra = opts.extra || function () { return ''; };
+    var active = opts.active || null;
+    var selected = opts.selected ? String(opts.selected).toUpperCase() : '';
+    var flOn = !!opts.highlightFlorida;
+    el.classList.add('is-tile');
+    el.classList.toggle('fl-on', flOn);
+
+    var bins = el.querySelector('.usmap-bins');
+    if (bins) bins.innerHTML = legendHtml(sc, fmt);
+
+    [].forEach.call(el.querySelectorAll('.tile.st'), function (p) {
+      var st = p.getAttribute('data-st');
+      var row = lookup[st];
+      var v = row ? num(row.v) : null;
+      p.style.background = (!row || v == null) ? EMPTY : sc.fill(v);
+      p.classList.toggle('is-empty', !row || v == null);
+      p.classList.toggle('is-ma', st === 'MA');
+      p.classList.toggle('is-fl', flOn && st === 'FL');
+      p.classList.toggle('is-on', st === selected);
+      p.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
+      var span = p.querySelector('.r');
+      if (span) span.textContent = (!row || v == null) ? '' : fmt(v);
+      p.setAttribute('tabindex', (!row || v == null || (active && active.indexOf(st) < 0)) ? '-1' : '0');
+    });
+
+    writeRead(el, opts, lookup, ranked, fmt);
+    el._dlFmt = fmt;
+    el._dlExtra = extra;
+    el._dlCompare = function (r) { return compareLine(r, ranked, opts.ref); };
+    el._dlLookup = lookup;
+    el._dlOnSelect = opts.onSelect || null;
+    el._dlSelected = selected;
     setHot(el, selected);
     bind(el);
   }
 
   function dlStateMap(el, opts) {
     if (!el) return;
+    opts = opts || {};
+    var mode = opts.mode || el.getAttribute('data-mode') || 'geo';
+    if (mode === 'tile') {
+      if (!el._dlTileReady) {
+        shell(el, tileGridHtml());
+        el._dlTileReady = true;
+        el._dlMapBound = false;
+      }
+      paintTile(el, opts);
+      return;
+    }
     if (el._dlMapReady && !el.querySelector('.usmap-svg')) {
       el._dlMapReady = false;
       el._dlMapBound = false;
     }
-    if (el._dlMapReady) { paint(el, opts); return; }
+    if (el._dlMapReady) { paintGeo(el, opts); return; }
     loadTpl(function (svg) {
       if (!svg) { el.textContent = 'Map unavailable.'; return; }
-      mount(el, svg);
+      shell(el, svg);
       el._dlMapReady = true;
-      paint(el, opts);
+      paintGeo(el, opts);
+    });
+  }
+
+  function normName(s) {
+    return String(s || '').toLowerCase()
+      .replace(/[^a-z0-9]+/g, ' ')
+      .replace(/\b(city|town|the|cdp)\b/g, ' ')
+      .replace(/^\s+|\s+$/g, '')
+      .replace(/\s+/g, ' ');
+  }
+
+  function byName(rows) {
+    var m = {};
+    (rows || []).forEach(function (r) {
+      var k = normName(r.name || r.st || '');
+      if (k) m[k] = r;
+    });
+    return m;
+  }
+
+  function paintTowns(el, opts) {
+    var rows = opts.rows || [];
+    var lookup = byName(rows);
+    var sc = scaleOf(rows.map(function (r) {
+      return { st: r.st || r.name, name: r.name, v: r.v, rank: r.rank };
+    }));
+    var fmt = opts.format || function (v) { return v == null ? '' : String(v); };
+    var selected = opts.selected ? normName(opts.selected) : '';
+    el.classList.add('townmap');
+    var bins = el.querySelector('.usmap-bins');
+    if (bins) bins.innerHTML = legendHtml(sc, fmt);
+    [].forEach.call(el.querySelectorAll('.town'), function (p) {
+      var k = normName(p.getAttribute('data-name') || '');
+      var row = lookup[k];
+      var v = row ? num(row.v) : null;
+      p.style.fill = (!row || v == null) ? '' : sc.fill(v);
+      p.classList.toggle('is-empty', !row || v == null);
+      p.classList.toggle('is-on', k === selected);
+      p.setAttribute('data-st', row && row.st ? row.st : k);
+      p.setAttribute('tabindex', (!row || v == null) ? '-1' : '0');
+    });
+    var ranked = rankedRows(rows.map(function (r) {
+      return { st: r.st || r.name, name: r.name, v: r.v, rank: r.rank };
+    }));
+    el._dlFmt = fmt;
+    el._dlCompare = function (r) { return compareLine(r, ranked, opts.ref); };
+    el._dlLookup = bySt(ranked);
+    el._dlByName = lookup;
+    el._dlOnSelect = opts.onSelect || null;
+    el._dlSelected = selected;
+    writeRead(el, {
+      rows: ranked,
+      ref: opts.ref,
+      highlightFlorida: false
+    }, el._dlLookup, ranked, fmt);
+    bind(el);
+  }
+
+  function dlTownMap(el, opts) {
+    if (!el) return;
+    opts = opts || {};
+    if (el._dlTownReady) { paintTowns(el, opts); return; }
+    loadTowns(function (svg) {
+      if (!svg) { el.textContent = 'Town map unavailable.'; return; }
+      shell(el, svg);
+      var key = el.querySelector('.usmap-key');
+      if (key) key.innerHTML = '';
+      el._dlTownReady = true;
+      paintTowns(el, opts);
     });
   }
 
   root.dlStateMap = dlStateMap;
+  root.dlTownMap = dlTownMap;
 })(typeof window !== 'undefined' ? window : globalThis);

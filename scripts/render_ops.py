@@ -62,6 +62,22 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "One page spine, Census Albers maps, and a quieter catalog",
+        "body": (
+            "Live tools other than State Wealth Taxes and Florida Homeowners "
+            "Insurance now open on the public starter question, one large "
+            "number, and a matching first figure. Ask chips sit below that "
+            "figure. Fifty-state maps use a Census Albers USA drawing, or a "
+            "tile grid for ranks such as unemployment and NAEP, with a numeric "
+            "legend and no Florida outline on this pass. Suite insight charts "
+            "are capped at two. The front-door catalog leads with the "
+            "Massachusetts number already on each tool, and Patents by State "
+            "stays in build, quieter than the live rows. No flagship ledger "
+            "cells were rewritten."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Ask chips on State Wealth Taxes and Florida Homeowners Insurance",
         "body": (
             "State Wealth Taxes and Florida Homeowners Insurance now open "

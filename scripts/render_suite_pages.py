@@ -307,6 +307,10 @@ def chart_spec(app, ledger):
             + " can be compared. Hover a point for the raw count."
         )
         trend_unit = "percent change from first year"
+    elif set(trend_keys) >= {"US", "MA", "FL"}:
+        trend_title = label + ", United States, Massachusetts, and Florida"
+        trend_lede = ""
+        trend_unit = unit
     elif set(trend_keys) >= {"US", "MA"}:
         trend_title = label + ", United States and Massachusetts"
         trend_lede = ""
@@ -549,7 +553,7 @@ const FIND=FIND_JSON;
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', STEEL='#5C7A99', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
+  var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
   function applyHash(){
     var h=(location.hash||'').replace(/^#/,'');
     if(!h) return;
@@ -576,7 +580,7 @@ const FIND=FIND_JSON;
   }
   function hlColor(r){
     if(isMA(r) || r.name==='Boston') return GOLD;
-    if(isFL(r) && CHART.geo==='state') return STEEL;
+    if(isFL(r) && CHART.geo==='state') return RUST;
     return isHL(r)?GOLD:BLUE;
   }
   function hlClass(r){
@@ -646,7 +650,7 @@ const FIND=FIND_JSON;
     var trendMode=CHART.trend_mode||'level';
     function trendColor(k){
       if(k==='MA') return GOLD;
-      if(k==='FL') return STEEL;
+      if(k==='FL') return RUST;
       if(k==='Boston') return BLUE;
       if(k==='US') return INK;
       return BLUE;
@@ -668,7 +672,7 @@ const FIND=FIND_JSON;
         }),
         borderColor:trendColor(k),
         backgroundColor:'transparent',
-        borderWidth:k==='MA'?2:1.75};
+        borderWidth:(k==='MA'||k==='FL')?2:1.75};
     });
     var yTitle=trendMode==='pct_from_start'?(CHART.trend_unit||'percent change from first year'):axisUnit;
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};

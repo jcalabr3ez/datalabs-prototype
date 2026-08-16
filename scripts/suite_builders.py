@@ -195,13 +195,18 @@ def build_ma_k12(app):
         DIGEST_203, 2, "Fall 2024", us_check=VERIFY_US_ENROLL_FALL_2024
     )
     prior, prior_us = _npefs_ppe(URL_NPEFS_FY23)
-    trend = {"US": [], "MA": []}
+    trend = {"US": [], "MA": [], "FL": []}
     if prior_us is not None:
         trend["US"].append({"y": "2022-23", "v": prior_us})
     if "MA" in prior:
         trend["MA"].append({"y": "2022-23", "v": prior["MA"]})
+    if "FL" in prior:
+        trend["FL"].append({"y": "2022-23", "v": prior["FL"]})
     trend["US"].append({"y": "2023-24", "v": us_val})
     trend["MA"].append({"y": "2023-24", "v": ma["v"]})
+    fl = next((r for r in ranked if r["st"] == "FL"), None)
+    if fl:
+        trend["FL"].append({"y": "2023-24", "v": fl["v"]})
     as_of = "2024-06"
     as_of_label = "Fiscal year 2024 (school year 2023-24)"
     kpis = [
@@ -285,7 +290,7 @@ def build_national_k12(app):
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
     headers = [c.value for c in ws[2]]
-    trend = {"US": [], "MA": []}
+    trend = {"US": [], "MA": [], "FL": []}
     by_st = {st: row for st, row in raw}
     for i, h in enumerate(headers):
         if h is None:
@@ -296,7 +301,7 @@ def build_national_k12(app):
         year = parse_num(s.replace("Fall ", "")[:4])
         if year is None:
             continue
-        for st in ("US", "MA"):
+        for st in ("US", "MA", "FL"):
             row = by_st.get(st)
             if not row:
                 continue
@@ -665,7 +670,7 @@ def build_gdp(app):
     rows = _bea_csv_from_zip(URL_SAGDP, "SAGDP1__ALL_AREAS_1997_2025.csv")
     values = {}
     us_val = None
-    trend = {"US": [], "MA": []}
+    trend = {"US": [], "MA": [], "FL": []}
     for r in rows:
         if str(r.get("LineCode", "")).strip() != "1":
             continue
@@ -679,7 +684,7 @@ def build_gdp(app):
             us_val = v
         else:
             values[st] = v
-        if st in ("US", "MA"):
+        if st in ("US", "MA", "FL"):
             for y in range(1997, 2026):
                 yv = parse_num(r.get(str(y)))
                 if yv is not None:
@@ -754,7 +759,7 @@ def build_rpp(app):
     rows = _bea_csv_from_zip(URL_SARPP, "SARPP_STATE_2008_2024.csv")
     values = {}
     us_val = None
-    trend = {"US": [], "MA": []}
+    trend = {"US": [], "MA": [], "FL": []}
     for r in rows:
         if str(r.get("LineCode", "")).strip() != "1":
             continue
@@ -768,7 +773,7 @@ def build_rpp(app):
             us_val = v
         else:
             values[st] = v
-        if st in ("US", "MA"):
+        if st in ("US", "MA", "FL"):
             for y in range(2008, 2025):
                 yv = parse_num(r.get(str(y)))
                 if yv is not None:
@@ -1161,12 +1166,12 @@ def _seds_tetce_2024():
 def _seds_tetce_trend():
     """US and MA TETCE from 2000 through 2024 from the SEDS complete file."""
     text = fetch_text(URL_SEDS_COMPLETE, timeout=180)
-    trend = {"US": [], "MA": []}
+    trend = {"US": [], "MA": [], "FL": []}
     for row in csv.DictReader(io.StringIO(text)):
         if row.get("MSN") != "TETCE":
             continue
         st = row.get("StateCode")
-        if st not in ("US", "MA"):
+        if st not in ("US", "MA", "FL"):
             continue
         year = parse_num(row.get("Year"))
         v = parse_num(row.get("Data"))

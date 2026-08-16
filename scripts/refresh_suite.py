@@ -120,8 +120,8 @@ def build_bfs(app):
     ma = next(r for r in ranked if r["st"] == "MA")
     us_yoy = yoy_pct(values["US"], prev_values.get("US"))
     # monthly US trend, seasonally adjusted, last 8 years
-    trend = {"US": [], "MA": []}
-    for st in ("US", "MA"):
+    trend = {"US": [], "MA": [], "FL": []}
+    for st in ("US", "MA", "FL"):
         for y in sorted(by_geo.get(st, {})):
             if y < 2018:
                 continue
@@ -262,10 +262,10 @@ def build_laus(app):
     ma = next(r for r in ranked if r["st"] == "MA")
     us_rate = None
     # US is not in LAUS statewide file; leave it out of the rank and note it.
-    trend = {"MA": []}
+    trend = {"MA": [], "FL": []}
     for (st, y, m), v in sorted(series.items()):
-        if st == "MA" and y >= 2018:
-            trend["MA"].append({"m": f"{y}-{m:02d}", "v": v})
+        if st in ("MA", "FL") and y >= 2018:
+            trend[st].append({"m": f"{y}-{m:02d}", "v": v})
     as_of = f"{year}-{month:02d}"
     as_of_label = f"{MONTH_ABBR[month]} {year}"
     kpis = [
@@ -534,12 +534,14 @@ def build_pep(app):
         f"(derived, SRC-617-01)."
     )
     # population trend 2020-2025
-    trend = {"US": [], "MA": []}
+    trend = {"US": [], "MA": [], "FL": []}
     us_row = next(r for r in rows if r["NAME"] == "United States")
     ma_row = next(r for r in rows if r["NAME"] == "Massachusetts")
+    fl_row = next(r for r in rows if r["NAME"] == "Florida")
     for y in range(2020, 2026):
         trend["US"].append({"y": y, "v": int(us_row[f"POPESTIMATE{y}"])})
         trend["MA"].append({"y": y, "v": int(ma_row[f"POPESTIMATE{y}"])})
+        trend["FL"].append({"y": y, "v": int(fl_row[f"POPESTIMATE{y}"])})
     return base_ledger(
         app,
         "live",

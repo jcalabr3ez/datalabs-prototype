@@ -60,6 +60,11 @@ The Massachusetts labor-force participation rate was <b>65.3%</b> in Jun 2026, r
         <div class="cd">Rank 11 of 51 (derived, SRC-614-04). Unemployment was 4.4%.</div>
       </div>
       <div class="cell">
+        <div class="cl">Florida, Jun 2026</div>
+        <div class="cv">4.7%</div>
+        <div class="cd">Rank 12 of 51, +23.7% from a year earlier (derived).</div>
+      </div>
+      <div class="cell">
         <div class="cl">Employment-population ratio</div>
         <div class="cv">62.4%</div>
         <div class="cd">Seasonally adjusted, Jun 2026 (SRC-614-04).</div>
@@ -70,7 +75,7 @@ The Massachusetts labor-force participation rate was <b>65.3%</b> in Jun 2026, r
         <div class="cd">Rank 2 of 51 (derived, SRC-614-02). U.S. average $1,569.</div>
       </div>
       <div class="cell kpi-src">
-        <div class="csrc">Source: BLS LAUS statewide employment, labor force, employment-population ratio, and labor-force participation rate (SRC-614-04); BLS QCEW average weekly wage, all industries, statewide (SRC-614-02)</div>
+        <div class="csrc">Source: BLS LAUS statewide employment, labor force, employment-population ratio, and labor-force participation rate (SRC-614-04); BLS Local Area Unemployment Statistics, statewide seasonally adjusted (SRC-614-01); BLS QCEW average weekly wage, all industries, statewide (SRC-614-02)</div>
       </div>
 <!-- DATA:END labor-market-kpis -->
     </div>
@@ -215,7 +220,7 @@ const FIND={"kind": "row", "cards": {"district of columbia": {"name": "District 
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', STEEL='#5C7A99', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
+  var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
   function applyHash(){
     var h=(location.hash||'').replace(/^#/,'');
     if(!h) return;
@@ -242,7 +247,7 @@ const FIND={"kind": "row", "cards": {"district of columbia": {"name": "District 
   }
   function hlColor(r){
     if(isMA(r) || r.name==='Boston') return GOLD;
-    if(isFL(r) && CHART.geo==='state') return STEEL;
+    if(isFL(r) && CHART.geo==='state') return RUST;
     return isHL(r)?GOLD:BLUE;
   }
   function hlClass(r){
@@ -312,7 +317,7 @@ const FIND={"kind": "row", "cards": {"district of columbia": {"name": "District 
     var trendMode=CHART.trend_mode||'level';
     function trendColor(k){
       if(k==='MA') return GOLD;
-      if(k==='FL') return STEEL;
+      if(k==='FL') return RUST;
       if(k==='Boston') return BLUE;
       if(k==='US') return INK;
       return BLUE;
@@ -334,7 +339,7 @@ const FIND={"kind": "row", "cards": {"district of columbia": {"name": "District 
         }),
         borderColor:trendColor(k),
         backgroundColor:'transparent',
-        borderWidth:k==='MA'?2:1.75};
+        borderWidth:(k==='MA'||k==='FL')?2:1.75};
     });
     var yTitle=trendMode==='pct_from_start'?(CHART.trend_unit||'percent change from first year'):axisUnit;
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};

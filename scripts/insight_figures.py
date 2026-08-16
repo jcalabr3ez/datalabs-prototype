@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from page_voice import short_place, short_place_text
 
 GOLD = "#CCB26D"
-STEEL = "#5C7A99"
+RUST = "#C45C26"
 NAVY = "#293C5C"
 INK = "#222222"
 GREY = "#8DA0B5"
@@ -63,7 +63,7 @@ def _bar_color(lab, names):
     if lab in names or lab in ("Massachusetts", "Boston"):
         return GOLD
     if lab == "Florida":
-        return STEEL
+        return RUST
     return NAVY
 
 
@@ -178,16 +178,17 @@ def from_latest(ledger, fid="latest-compare", title=None, lede=None, note=None, 
     return from_snap(snap, fid, title=title, lede=lede, note=note, skip_us=skip_us)
 
 
-def named_list(rows, fid, title, lede, src, fmt, unit, note, name_key="name", val_key="v", n=8, highlight=None, span=1):
+def named_list(rows, fid, title, lede, src, fmt, unit, note, name_key="name", val_key="v", n=8, highlight=None, highlight_names=None, span=1):
     items = [r for r in (rows or []) if r.get(val_key) is not None][:n]
     if len(items) < 2:
         return None
     labels = [short_place(r.get(name_key) or "") for r in items]
     values = [r[val_key] for r in items]
     names = [r.get(name_key) for r in items if r.get(name_key)]
+    hl_names = [short_place(n) for n in (highlight_names or [])]
     return _fig(
         fid, title, short_place_text(lede, names), src, "bar", fmt, unit, labels,
-        _bars(labels, values, highlight=short_place(highlight) if highlight else None),
+        _bars(labels, values, highlight=short_place(highlight) if highlight else None, highlight_names=hl_names),
         short_place_text(note, names), span=span, height="mid" if len(items) >= 8 else None,
     )
 
@@ -299,8 +300,9 @@ def figs_dl07(ledger):
         ("math4", "Grade 4 math"),
         ("math8", "Grade 8 math"),
     ]
-    us, ma = [], []
+    us, ma, fl = [], [], []
     ok = True
+    hist = (sec.get("naep_2024") or {}).get("history") or {}
     for key, _lab in order:
         rec = naep.get(key) or {}
         if rec.get("us") is None or _snap_val(rec.get("ma")) is None:
@@ -308,22 +310,27 @@ def figs_dl07(ledger):
             break
         us.append(rec["us"])
         ma.append(_snap_val(rec["ma"]))
+        ch_rows = ((hist.get(key) or {}).get("change_2019_2024") or {}).get("rows") or []
+        fl_rec = next((r for r in ch_rows if r.get("st") == "FL"), None)
+        fl.append(fl_rec.get("to") if fl_rec else None)
     if ok and us:
+        series = [
+            {"label": "National public", "data": us, "color": INK},
+            {"label": "Massachusetts", "data": ma, "color": GOLD},
+        ]
+        if any(v is not None for v in fl):
+            series.append({"label": "Florida", "data": fl, "color": RUST})
         out.append(_fig(
             "naep-2024",
-            "NAEP 2024: Massachusetts versus national public",
-            "Massachusetts ranks 1 of 51 on all four reading and math series.",
+            "NAEP 2024: Massachusetts, Florida, and national public",
+            "Massachusetts ranks 1 of 51 on all four reading and math series. Florida is the rust series.",
             "SRC-607-05",
             "grouped", "number", "scale score",
             [lab for _k, lab in order],
-            _grouped([
-                {"label": "National public", "data": us, "color": INK},
-                {"label": "Massachusetts", "data": ma, "color": GOLD},
-            ]),
-            "NAEP average scale scores, 2024. National public is the published NP line.",
+            _grouped(series),
+            "NAEP average scale scores, 2024. National public is the published NP line. Florida 2024 scores are the published end year of the 2019-to-2024 change table.",
             span=2,
         ))
-    hist = (sec.get("naep_2024") or {}).get("history") or {}
     for key, fid, title in (
         ("read4", "naep-read4-trend", "NAEP grade 4 reading, 1992 to 2024"),
         ("math8", "naep-math8-trend", "NAEP grade 8 math, 1990 to 2024"),
@@ -331,25 +338,40 @@ def figs_dl07(ledger):
         rec = hist.get(key) or {}
         us = {p["y"]: p["v"] for p in rec.get("us") or [] if p.get("v") is not None}
         ma = {p["y"]: p["v"] for p in rec.get("ma") or [] if p.get("v") is not None}
-        years = [y for y in (rec.get("years") or []) if y in us or y in ma]
+        fl = {}
+        ch = rec.get("change_2019_2024") or {}
+        fl_row = next((r for r in (ch.get("rows") or []) if r.get("st") == "FL"), None)
+        if fl_row:
+            if fl_row.get("from") is not None:
+                fl[2019] = fl_row["from"]
+            if fl_row.get("to") is not None:
+                fl[2024] = fl_row["to"]
+        years = [y for y in (rec.get("years") or []) if y in us or y in ma or y in fl]
         if len(years) < 4:
             continue
         ma0 = next((y for y in years if y in ma), None)
+        series = [
+            {"label": "National public", "data": [us.get(y) for y in years], "color": INK},
+            {"label": "Massachusetts", "data": [ma.get(y) for y in years], "color": GOLD},
+        ]
+        if fl:
+            series.append({"label": "Florida", "data": [fl.get(y) for y in years], "color": RUST})
+        fl_lede = ""
+        if fl.get(2019) is not None and fl.get(2024) is not None:
+            fl_lede = f" Florida went from {fl[2019]} in 2019 to {fl[2024]} in 2024."
         out.append(_fig(
             fid, title,
             (
                 f"National public went from {us.get(years[0])} in {years[0]} to "
                 f"{us.get(years[-1])} in {years[-1]}. Massachusetts went from "
                 f"{ma.get(ma0)} in {ma0} to {ma.get(years[-1])} in {years[-1]}."
+                + fl_lede
             ),
             rec.get("src") or "SRC-607-05",
             "line", "number", "scale score",
             [str(y) for y in years],
-            _grouped([
-                {"label": "National public", "data": [us.get(y) for y in years], "color": INK},
-                {"label": "Massachusetts", "data": [ma.get(y) for y in years], "color": GOLD},
-            ]),
-            "Average scale scores. Gaps are years a jurisdiction was not reported. National public is the published NP line.",
+            _grouped(series),
+            "Average scale scores. Gaps are years a jurisdiction was not reported. National public is the published NP line. Florida points are the published 2019 and 2024 cells from the change table.",
             span=2,
         ))
     for key, fid, title in (
@@ -369,12 +391,13 @@ def figs_dl07(ledger):
                 f"{n_up} states rose and {n_down} fell. "
                 f"{hi.get('name')} {hi.get('v'):+.1f}; "
                 f"{lo.get('name')} {lo.get('v'):+.1f}. "
-                "Massachusetts is marked in gold; Florida in steel."
+                "Massachusetts is marked in gold; Florida in rust."
             ),
             rec.get("src") or "SRC-607-05",
             "number", "scale-score points",
             "2024 minus 2019 average scale score. National public is omitted so state bars stay readable.",
             n=len(rows), span=2, highlight="Massachusetts",
+            highlight_names=["Massachusetts", "Florida"],
         )
         if fig:
             fig["height"] = "ranks"

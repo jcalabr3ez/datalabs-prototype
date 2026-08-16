@@ -60,6 +60,11 @@ Massachusetts filed <b>7,497</b> seasonally adjusted business applications in Ju
         <div class="cd">Rank 25 of 51. +14.0% from Jul 2025 (derived, SRC-613-01).</div>
       </div>
       <div class="cell">
+        <div class="cl">Florida, Jul 2026</div>
+        <div class="cv">65,332</div>
+        <div class="cd">Rank 1 of 51, +22.3% from a year earlier (derived).</div>
+      </div>
+      <div class="cell">
         <div class="cl">MA birth rate, 2025 Q4</div>
         <div class="cv">3.9%</div>
         <div class="cd">8,540 private-sector births (SRC-613-02).</div>
@@ -201,7 +206,7 @@ const FIND={"kind": "row", "cards": {"florida": {"name": "Florida", "value": "65
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', STEEL='#5C7A99', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
+  var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
   function applyHash(){
     var h=(location.hash||'').replace(/^#/,'');
     if(!h) return;
@@ -228,7 +233,7 @@ const FIND={"kind": "row", "cards": {"florida": {"name": "Florida", "value": "65
   }
   function hlColor(r){
     if(isMA(r) || r.name==='Boston') return GOLD;
-    if(isFL(r) && CHART.geo==='state') return STEEL;
+    if(isFL(r) && CHART.geo==='state') return RUST;
     return isHL(r)?GOLD:BLUE;
   }
   function hlClass(r){
@@ -298,7 +303,7 @@ const FIND={"kind": "row", "cards": {"florida": {"name": "Florida", "value": "65
     var trendMode=CHART.trend_mode||'level';
     function trendColor(k){
       if(k==='MA') return GOLD;
-      if(k==='FL') return STEEL;
+      if(k==='FL') return RUST;
       if(k==='Boston') return BLUE;
       if(k==='US') return INK;
       return BLUE;
@@ -320,7 +325,7 @@ const FIND={"kind": "row", "cards": {"florida": {"name": "Florida", "value": "65
         }),
         borderColor:trendColor(k),
         backgroundColor:'transparent',
-        borderWidth:k==='MA'?2:1.75};
+        borderWidth:(k==='MA'||k==='FL')?2:1.75};
     });
     var yTitle=trendMode==='pct_from_start'?(CHART.trend_unit||'percent change from first year'):axisUnit;
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};

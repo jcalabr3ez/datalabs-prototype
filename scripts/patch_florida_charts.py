@@ -17,7 +17,15 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from refresh_suite import URL_BFS, URL_LAUS, URL_PEP, MONTHS, parse_laus
-from suite_builders import URL_SAGDP, URL_SARPP, URL_SEDS_COMPLETE, _bea_csv_from_zip
+from suite_builders import (
+    DIGEST_203,
+    URL_SAGDP,
+    URL_SARPP,
+    URL_SEDS_COMPLETE,
+    VERIFY_US_ENROLL_FALL_2024,
+    _bea_csv_from_zip,
+    _digest_state_table,
+)
 from suite_common import (
     fetch_text,
     geo_to_st,
@@ -34,7 +42,7 @@ ENRICH_IDS = (
     "DL-16", "DL-17", "DL-19", "DL-20", "DL-21", "DL-23", "DL-24",
     "DL-29", "DL-31",
 )
-TREND_IDS = ("DL-13", "DL-14", "DL-15", "DL-17", "DL-19", "DL-24")
+TREND_IDS = ("DL-07", "DL-13", "DL-14", "DL-15", "DL-17", "DL-19", "DL-24")
 
 
 def _load(app):
@@ -49,6 +57,31 @@ def _touch_page(ledger):
         ledger["geo"] = geo + ["FL"]
     elif geo == ["US"]:
         ledger["geo"] = ["US", "FL"]
+
+
+def _enroll_fl():
+    values, us_val, col, label, raw, ws, header_row = _digest_state_table(
+        DIGEST_203, 2, "Fall 2024", us_check=VERIFY_US_ENROLL_FALL_2024
+    )
+    headers = [c.value for c in ws[2]]
+    by_st = {st: row for st, row in raw}
+    out = []
+    for i, h in enumerate(headers):
+        if h is None:
+            continue
+        s = str(h).replace("\xa0", " ")
+        if not s.startswith("Fall "):
+            continue
+        year = parse_num(s.replace("Fall ", "")[:4])
+        row = by_st.get("FL")
+        if year is None or not row:
+            continue
+        v = parse_num(row[i])
+        if v is not None:
+            out.append({"y": int(year), "v": int(round(v))})
+    if len(out) < 8:
+        sys.exit(f"FATAL: Digest enrollment Florida trend parsed {len(out)} years")
+    return out
 
 
 def _bfs_fl():
@@ -156,6 +189,7 @@ def _seds_fl():
 
 
 TREND_FETCH = {
+    "DL-07": _enroll_fl,
     "DL-13": _bfs_fl,
     "DL-14": _laus_fl,
     "DL-15": _sagdp_fl,
@@ -166,21 +200,27 @@ TREND_FETCH = {
 
 
 def _sync_apps_geo():
+    """Keep compact apps.json formatting; only append FL to existing g arrays."""
     path = Path("/workspace/suite/apps.json")
-    data = json.loads(path.read_text(encoding="utf-8"))
-    changed = False
+    text = path.read_text(encoding="utf-8")
+    data = json.loads(text)
     for app in data["apps"]:
         if app["id"] not in ENRICH_IDS:
             continue
         g = list(app.get("g") or [])
-        if "MA" in g and "FL" not in g:
-            app["g"] = g + ["FL"]
-            changed = True
-        elif g == ["US"] and "FL" not in g:
-            app["g"] = ["US", "FL"]
-            changed = True
-    if changed:
-        path.write_text(json.dumps(data, ensure_ascii=True, indent=2) + "\n", encoding="utf-8")
+        if "FL" in g:
+            continue
+        if "MA" not in g and g != ["US"]:
+            continue
+        old_lit = "[" + ", ".join(f'"{x}"' for x in g) + "]"
+        new_lit = "[" + ", ".join(f'"{x}"' for x in g + ["FL"]) + "]"
+        i = text.find(f'"id": "{app["id"]}"')
+        gpos = text.find('"g":', i)
+        next_id = text.find('"id":', i + 5)
+        if i < 0 or gpos < 0 or (next_id > 0 and gpos > next_id):
+            continue
+        text = text[:gpos] + text[gpos:].replace(f'"g": {old_lit}', f'"g": {new_lit}', 1)
+    path.write_text(text, encoding="utf-8")
 
 
 def main():

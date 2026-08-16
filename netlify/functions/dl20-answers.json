@@ -6,7 +6,7 @@
   "group": "Taxation",
   "status": "live",
   "as_of": "2023-12",
-  "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties.",
+  "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties, Florida counties, and the largest U.S. county gains and losses.",
   "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons.",
   "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
   "replaces": [
@@ -14,7 +14,7 @@
     "State to State Tax Migration",
     "Taxpayer Migration"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from IRS SOI stateinflow2223.csv and stateoutflow2223.csv. Net equals Total Migration-US inflow n1 minus Total Migration-US outflow n1. Same-state and foreign rows are excluded. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from IRS SOI stateinflow2223.csv and stateoutflow2223.csv. Net equals Total Migration-US inflow n1 minus Total Migration-US outflow n1. Same-state and foreign rows are excluded. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-620-01": {
       "name": "IRS SOI state-to-state migration, tax years 2022-23",
@@ -23,19 +23,20 @@
       "supports": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties."
     },
     "SRC-620-02": {
-      "name": "IRS SOI county-to-county migration, tax years 2022-23, Massachusetts",
+      "name": "IRS SOI county-to-county migration, tax years 2022-23",
       "cadence": "Annual, with a multi-year lag",
       "url": "https://www.irs.gov/pub/irs-soi/countyoutflow2223.csv",
-      "supports": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties."
+      "supports": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties, Florida counties, and the largest U.S. county gains and losses."
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
     "US",
-    "MA"
+    "MA",
+    "FL"
   ],
   "q": "IRS state-to-state and county-to-county taxpayer flows.",
   "pending": false,
@@ -44,7 +45,7 @@
   "unit": "returns",
   "data_month": "2023-12",
   "data_month_label": "Tax years 2022-23",
-  "lead": "Massachusetts had a net domestic taxpayer flow of <b>-15,378</b> returns in tax years 2022-23 (83,296 in, 98,674 out), rank 47 of 51 (derived, SRC-620-01). Texas had the largest net inflow; California the largest net outflow (SRC-620-01). Among Massachusetts counties, <b>Bristol County</b> had the largest net domestic taxpayer inflow (168 returns) and <b>Middlesex County</b> the largest net outflow (-4,549) in 2022-23 (derived, SRC-620-02).",
+  "lead": "Massachusetts had a net domestic taxpayer flow of <b>-15,378</b> returns in tax years 2022-23 (83,296 in, 98,674 out), rank 47 of 51 (derived, SRC-620-01). Texas had the largest net inflow; California the largest net outflow (SRC-620-01). Among Massachusetts counties, <b>Bristol County</b> had the largest net domestic taxpayer inflow (168 returns) and <b>Middlesex County</b> the largest net outflow (-4,549) in 2022-23 (derived, SRC-620-02). Among Florida counties, <b>Polk County</b> had the largest net inflow (9,148 returns) and <b>Miami-Dade County</b> the largest net outflow (-21,179) (derived, SRC-620-02). Among 3,087 U.S. counties, <b>Polk County, FL</b> had the largest net inflow (9,148 returns) and <b>Los Angeles County, CA</b> the largest net outflow (-39,112) (derived, SRC-620-02).",
   "kpis": [
     {
       "label": "Massachusetts net inflow",
@@ -657,85 +658,847 @@
         "n_counties": 14,
         "highest": {
           "name": "Bristol County",
-          "v": 168
+          "v": 168,
+          "st": "MA"
         },
         "lowest": {
           "name": "Middlesex County",
-          "v": -4549
+          "v": -4549,
+          "st": "MA"
         },
         "counties": [
           {
             "name": "Bristol County",
             "v": 168,
-            "rank": 1
+            "rank": 1,
+            "st": "MA"
           },
           {
             "name": "Nantucket County",
             "v": -32,
-            "rank": 2
+            "rank": 2,
+            "st": "MA"
           },
           {
             "name": "Franklin County",
             "v": -54,
-            "rank": 3
+            "rank": 3,
+            "st": "MA"
           },
           {
             "name": "Dukes County",
             "v": -120,
-            "rank": 4
+            "rank": 4,
+            "st": "MA"
           },
           {
             "name": "Berkshire County",
             "v": -172,
-            "rank": 5
+            "rank": 5,
+            "st": "MA"
           },
           {
             "name": "Plymouth County",
             "v": -272,
-            "rank": 6
+            "rank": 6,
+            "st": "MA"
           },
           {
             "name": "Barnstable County",
             "v": -301,
-            "rank": 7
+            "rank": 7,
+            "st": "MA"
           },
           {
             "name": "Hampshire County",
             "v": -435,
-            "rank": 8
+            "rank": 8,
+            "st": "MA"
           },
           {
             "name": "Hampden County",
             "v": -1000,
-            "rank": 9
+            "rank": 9,
+            "st": "MA"
           },
           {
             "name": "Worcester County",
             "v": -1359,
-            "rank": 10
+            "rank": 10,
+            "st": "MA"
           },
           {
             "name": "Norfolk County",
             "v": -1670,
-            "rank": 11
+            "rank": 11,
+            "st": "MA"
           },
           {
             "name": "Essex County",
             "v": -1820,
-            "rank": 12
+            "rank": 12,
+            "st": "MA"
           },
           {
             "name": "Suffolk County",
             "v": -3762,
-            "rank": 13
+            "rank": 13,
+            "st": "MA"
           },
           {
             "name": "Middlesex County",
             "v": -4549,
-            "rank": 14
+            "rank": 14,
+            "st": "MA"
           }
         ],
         "note": "Net equals Total Migration-US inflow n1 minus outflow n1. Same-state and foreign rows are excluded."
+      },
+      "fl_county_taxpayer_migration_2022_23": {
+        "label": "Florida county net domestic taxpayer migration, 2022-23",
+        "src": "SRC-620-02",
+        "unit": "returns",
+        "as_of_label": "Tax years 2022-23",
+        "n_counties": 67,
+        "highest": {
+          "name": "Polk County",
+          "v": 9148,
+          "st": "FL"
+        },
+        "lowest": {
+          "name": "Miami-Dade County",
+          "v": -21179,
+          "st": "FL"
+        },
+        "counties": [
+          {
+            "name": "Polk County",
+            "v": 9148,
+            "rank": 1,
+            "st": "FL"
+          },
+          {
+            "name": "Pasco County",
+            "v": 8986,
+            "rank": 2,
+            "st": "FL"
+          },
+          {
+            "name": "Lake County",
+            "v": 6173,
+            "rank": 3,
+            "st": "FL"
+          },
+          {
+            "name": "Marion County",
+            "v": 5929,
+            "rank": 4,
+            "st": "FL"
+          },
+          {
+            "name": "Brevard County",
+            "v": 4980,
+            "rank": 5,
+            "st": "FL"
+          },
+          {
+            "name": "St. Lucie County",
+            "v": 4960,
+            "rank": 6,
+            "st": "FL"
+          },
+          {
+            "name": "Manatee County",
+            "v": 4485,
+            "rank": 7,
+            "st": "FL"
+          },
+          {
+            "name": "Volusia County",
+            "v": 4136,
+            "rank": 8,
+            "st": "FL"
+          },
+          {
+            "name": "St. Johns County",
+            "v": 4074,
+            "rank": 9,
+            "st": "FL"
+          },
+          {
+            "name": "Sumter County",
+            "v": 3011,
+            "rank": 10,
+            "st": "FL"
+          },
+          {
+            "name": "Osceola County",
+            "v": 2522,
+            "rank": 11,
+            "st": "FL"
+          },
+          {
+            "name": "Citrus County",
+            "v": 2307,
+            "rank": 12,
+            "st": "FL"
+          },
+          {
+            "name": "Hernando County",
+            "v": 2292,
+            "rank": 13,
+            "st": "FL"
+          },
+          {
+            "name": "Lee County",
+            "v": 2217,
+            "rank": 14,
+            "st": "FL"
+          },
+          {
+            "name": "Bay County",
+            "v": 2129,
+            "rank": 15,
+            "st": "FL"
+          },
+          {
+            "name": "Duval County",
+            "v": 2106,
+            "rank": 16,
+            "st": "FL"
+          },
+          {
+            "name": "Flagler County",
+            "v": 2092,
+            "rank": 17,
+            "st": "FL"
+          },
+          {
+            "name": "Sarasota County",
+            "v": 1881,
+            "rank": 18,
+            "st": "FL"
+          },
+          {
+            "name": "Charlotte County",
+            "v": 1879,
+            "rank": 19,
+            "st": "FL"
+          },
+          {
+            "name": "Santa Rosa County",
+            "v": 1389,
+            "rank": 20,
+            "st": "FL"
+          },
+          {
+            "name": "Clay County",
+            "v": 1343,
+            "rank": 21,
+            "st": "FL"
+          },
+          {
+            "name": "Nassau County",
+            "v": 1283,
+            "rank": 22,
+            "st": "FL"
+          },
+          {
+            "name": "Walton County",
+            "v": 1101,
+            "rank": 23,
+            "st": "FL"
+          },
+          {
+            "name": "Indian River County",
+            "v": 951,
+            "rank": 24,
+            "st": "FL"
+          },
+          {
+            "name": "Escambia County",
+            "v": 866,
+            "rank": 25,
+            "st": "FL"
+          },
+          {
+            "name": "Pinellas County",
+            "v": 806,
+            "rank": 26,
+            "st": "FL"
+          },
+          {
+            "name": "Collier County",
+            "v": 742,
+            "rank": 27,
+            "st": "FL"
+          },
+          {
+            "name": "Highlands County",
+            "v": 732,
+            "rank": 28,
+            "st": "FL"
+          },
+          {
+            "name": "Martin County",
+            "v": 587,
+            "rank": 29,
+            "st": "FL"
+          },
+          {
+            "name": "Putnam County",
+            "v": 586,
+            "rank": 30,
+            "st": "FL"
+          },
+          {
+            "name": "Levy County",
+            "v": 499,
+            "rank": 31,
+            "st": "FL"
+          },
+          {
+            "name": "Wakulla County",
+            "v": 421,
+            "rank": 32,
+            "st": "FL"
+          },
+          {
+            "name": "Hillsborough County",
+            "v": 387,
+            "rank": 33,
+            "st": "FL"
+          },
+          {
+            "name": "Hendry County",
+            "v": 375,
+            "rank": 34,
+            "st": "FL"
+          },
+          {
+            "name": "Suwannee County",
+            "v": 323,
+            "rank": 35,
+            "st": "FL"
+          },
+          {
+            "name": "Columbia County",
+            "v": 288,
+            "rank": 36,
+            "st": "FL"
+          },
+          {
+            "name": "Okeechobee County",
+            "v": 243,
+            "rank": 37,
+            "st": "FL"
+          },
+          {
+            "name": "Dixie County",
+            "v": 200,
+            "rank": 38,
+            "st": "FL"
+          },
+          {
+            "name": "DeSoto County",
+            "v": 191,
+            "rank": 39,
+            "st": "FL"
+          },
+          {
+            "name": "Jackson County",
+            "v": 189,
+            "rank": 40,
+            "st": "FL"
+          },
+          {
+            "name": "Gulf County",
+            "v": 176,
+            "rank": 41,
+            "st": "FL"
+          },
+          {
+            "name": "Bradford County",
+            "v": 175,
+            "rank": 42,
+            "st": "FL"
+          },
+          {
+            "name": "Baker County",
+            "v": 164,
+            "rank": 43,
+            "st": "FL"
+          },
+          {
+            "name": "Gilchrist County",
+            "v": 164,
+            "rank": 44,
+            "st": "FL"
+          },
+          {
+            "name": "Madison County",
+            "v": 149,
+            "rank": 45,
+            "st": "FL"
+          },
+          {
+            "name": "Washington County",
+            "v": 117,
+            "rank": 46,
+            "st": "FL"
+          },
+          {
+            "name": "Holmes County",
+            "v": 113,
+            "rank": 47,
+            "st": "FL"
+          },
+          {
+            "name": "Taylor County",
+            "v": 111,
+            "rank": 48,
+            "st": "FL"
+          },
+          {
+            "name": "Glades County",
+            "v": 102,
+            "rank": 49,
+            "st": "FL"
+          },
+          {
+            "name": "Jefferson County",
+            "v": 90,
+            "rank": 50,
+            "st": "FL"
+          },
+          {
+            "name": "Lafayette County",
+            "v": 84,
+            "rank": 51,
+            "st": "FL"
+          },
+          {
+            "name": "Union County",
+            "v": 62,
+            "rank": 52,
+            "st": "FL"
+          },
+          {
+            "name": "Franklin County",
+            "v": 55,
+            "rank": 53,
+            "st": "FL"
+          },
+          {
+            "name": "Hamilton County",
+            "v": 47,
+            "rank": 54,
+            "st": "FL"
+          },
+          {
+            "name": "Gadsden County",
+            "v": 45,
+            "rank": 55,
+            "st": "FL"
+          },
+          {
+            "name": "Liberty County",
+            "v": 27,
+            "rank": 56,
+            "st": "FL"
+          },
+          {
+            "name": "Hardee County",
+            "v": 17,
+            "rank": 57,
+            "st": "FL"
+          },
+          {
+            "name": "Calhoun County",
+            "v": -22,
+            "rank": 58,
+            "st": "FL"
+          },
+          {
+            "name": "Seminole County",
+            "v": -144,
+            "rank": 59,
+            "st": "FL"
+          },
+          {
+            "name": "Okaloosa County",
+            "v": -153,
+            "rank": 60,
+            "st": "FL"
+          },
+          {
+            "name": "Monroe County",
+            "v": -411,
+            "rank": 61,
+            "st": "FL"
+          },
+          {
+            "name": "Alachua County",
+            "v": -454,
+            "rank": 62,
+            "st": "FL"
+          },
+          {
+            "name": "Palm Beach County",
+            "v": -1218,
+            "rank": 63,
+            "st": "FL"
+          },
+          {
+            "name": "Leon County",
+            "v": -1310,
+            "rank": 64,
+            "st": "FL"
+          },
+          {
+            "name": "Orange County",
+            "v": -3916,
+            "rank": 65,
+            "st": "FL"
+          },
+          {
+            "name": "Broward County",
+            "v": -6182,
+            "rank": 66,
+            "st": "FL"
+          },
+          {
+            "name": "Miami-Dade County",
+            "v": -21179,
+            "rank": 67,
+            "st": "FL"
+          }
+        ],
+        "note": "Net equals Total Migration-US inflow n1 minus outflow n1. Same-state and foreign rows are excluded."
+      },
+      "us_county_taxpayer_migration_2022_23": {
+        "label": "U.S. county net domestic taxpayer migration, 2022-23",
+        "src": "SRC-620-02",
+        "unit": "returns",
+        "as_of_label": "Tax years 2022-23",
+        "n_counties": 3087,
+        "highest": {
+          "name": "Polk County, FL",
+          "v": 9148,
+          "st": "FL"
+        },
+        "lowest": {
+          "name": "Los Angeles County, CA",
+          "v": -39112,
+          "st": "CA"
+        },
+        "top_gains": [
+          {
+            "name": "Polk County, FL",
+            "v": 9148,
+            "st": "FL"
+          },
+          {
+            "name": "Pasco County, FL",
+            "v": 8986,
+            "st": "FL"
+          },
+          {
+            "name": "Montgomery County, TX",
+            "v": 8404,
+            "st": "TX"
+          },
+          {
+            "name": "Williamson County, TX",
+            "v": 7519,
+            "st": "TX"
+          },
+          {
+            "name": "Collin County, TX",
+            "v": 7057,
+            "st": "TX"
+          },
+          {
+            "name": "Clark County, NV",
+            "v": 7016,
+            "st": "NV"
+          },
+          {
+            "name": "Pinal County, AZ",
+            "v": 6770,
+            "st": "AZ"
+          },
+          {
+            "name": "Denton County, TX",
+            "v": 6577,
+            "st": "TX"
+          },
+          {
+            "name": "Lake County, FL",
+            "v": 6173,
+            "st": "FL"
+          },
+          {
+            "name": "Horry County, SC",
+            "v": 5933,
+            "st": "SC"
+          },
+          {
+            "name": "Marion County, FL",
+            "v": 5929,
+            "st": "FL"
+          },
+          {
+            "name": "Maricopa County, AZ",
+            "v": 5607,
+            "st": "AZ"
+          },
+          {
+            "name": "Brevard County, FL",
+            "v": 4980,
+            "st": "FL"
+          },
+          {
+            "name": "St. Lucie County, FL",
+            "v": 4960,
+            "st": "FL"
+          },
+          {
+            "name": "Manatee County, FL",
+            "v": 4485,
+            "st": "FL"
+          }
+        ],
+        "top_losses": [
+          {
+            "name": "Los Angeles County, CA",
+            "v": -39112,
+            "st": "CA"
+          },
+          {
+            "name": "Miami-Dade County, FL",
+            "v": -21179,
+            "st": "FL"
+          },
+          {
+            "name": "Queens County, NY",
+            "v": -17109,
+            "st": "NY"
+          },
+          {
+            "name": "Bronx County, NY",
+            "v": -16319,
+            "st": "NY"
+          },
+          {
+            "name": "Cook County, IL",
+            "v": -13448,
+            "st": "IL"
+          },
+          {
+            "name": "Orange County, CA",
+            "v": -11618,
+            "st": "CA"
+          },
+          {
+            "name": "Kings County, NY",
+            "v": -10785,
+            "st": "NY"
+          },
+          {
+            "name": "Dallas County, TX",
+            "v": -8933,
+            "st": "TX"
+          },
+          {
+            "name": "Santa Clara County, CA",
+            "v": -8663,
+            "st": "CA"
+          },
+          {
+            "name": "Alameda County, CA",
+            "v": -7659,
+            "st": "CA"
+          },
+          {
+            "name": "Harris County, TX",
+            "v": -6492,
+            "st": "TX"
+          },
+          {
+            "name": "Nassau County, NY",
+            "v": -6384,
+            "st": "NY"
+          },
+          {
+            "name": "Broward County, FL",
+            "v": -6182,
+            "st": "FL"
+          },
+          {
+            "name": "Suffolk County, NY",
+            "v": -5768,
+            "st": "NY"
+          },
+          {
+            "name": "Montgomery County, MD",
+            "v": -5761,
+            "st": "MD"
+          }
+        ],
+        "chart": [
+          {
+            "name": "Polk County, FL",
+            "v": 9148,
+            "st": "FL"
+          },
+          {
+            "name": "Pasco County, FL",
+            "v": 8986,
+            "st": "FL"
+          },
+          {
+            "name": "Montgomery County, TX",
+            "v": 8404,
+            "st": "TX"
+          },
+          {
+            "name": "Williamson County, TX",
+            "v": 7519,
+            "st": "TX"
+          },
+          {
+            "name": "Collin County, TX",
+            "v": 7057,
+            "st": "TX"
+          },
+          {
+            "name": "Clark County, NV",
+            "v": 7016,
+            "st": "NV"
+          },
+          {
+            "name": "Pinal County, AZ",
+            "v": 6770,
+            "st": "AZ"
+          },
+          {
+            "name": "Denton County, TX",
+            "v": 6577,
+            "st": "TX"
+          },
+          {
+            "name": "Lake County, FL",
+            "v": 6173,
+            "st": "FL"
+          },
+          {
+            "name": "Horry County, SC",
+            "v": 5933,
+            "st": "SC"
+          },
+          {
+            "name": "Marion County, FL",
+            "v": 5929,
+            "st": "FL"
+          },
+          {
+            "name": "Maricopa County, AZ",
+            "v": 5607,
+            "st": "AZ"
+          },
+          {
+            "name": "Brevard County, FL",
+            "v": 4980,
+            "st": "FL"
+          },
+          {
+            "name": "St. Lucie County, FL",
+            "v": 4960,
+            "st": "FL"
+          },
+          {
+            "name": "Manatee County, FL",
+            "v": 4485,
+            "st": "FL"
+          },
+          {
+            "name": "Los Angeles County, CA",
+            "v": -39112,
+            "st": "CA"
+          },
+          {
+            "name": "Miami-Dade County, FL",
+            "v": -21179,
+            "st": "FL"
+          },
+          {
+            "name": "Queens County, NY",
+            "v": -17109,
+            "st": "NY"
+          },
+          {
+            "name": "Bronx County, NY",
+            "v": -16319,
+            "st": "NY"
+          },
+          {
+            "name": "Cook County, IL",
+            "v": -13448,
+            "st": "IL"
+          },
+          {
+            "name": "Orange County, CA",
+            "v": -11618,
+            "st": "CA"
+          },
+          {
+            "name": "Kings County, NY",
+            "v": -10785,
+            "st": "NY"
+          },
+          {
+            "name": "Dallas County, TX",
+            "v": -8933,
+            "st": "TX"
+          },
+          {
+            "name": "Santa Clara County, CA",
+            "v": -8663,
+            "st": "CA"
+          },
+          {
+            "name": "Alameda County, CA",
+            "v": -7659,
+            "st": "CA"
+          },
+          {
+            "name": "Harris County, TX",
+            "v": -6492,
+            "st": "TX"
+          },
+          {
+            "name": "Nassau County, NY",
+            "v": -6384,
+            "st": "NY"
+          },
+          {
+            "name": "Broward County, FL",
+            "v": -6182,
+            "st": "FL"
+          },
+          {
+            "name": "Suffolk County, NY",
+            "v": -5768,
+            "st": "NY"
+          },
+          {
+            "name": "Montgomery County, MD",
+            "v": -5761,
+            "st": "MD"
+          }
+        ],
+        "note": "Every U.S. county with a published Total Migration-US inflow and outflow. The figure shows the 15 largest net gains and the 15 largest net losses. Net equals inflow n1 minus outflow n1. Same-state and foreign rows are excluded."
       }
     }
   },

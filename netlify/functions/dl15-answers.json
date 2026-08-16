@@ -16,7 +16,7 @@
     "US Economic Profile",
     "Personal Income"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SAGDP1__ALL_AREAS_1997_2025, LineCode 1 (real GDP, millions of chained 2017 dollars). U.S. 2025 equals 23,850,442. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SAGDP1__ALL_AREAS_1997_2025, LineCode 1 (real GDP, millions of chained 2017 dollars). U.S. 2025 equals 23,850,442. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-615-01": {
       "name": "BEA SAGDP1 real GDP by state, 1997-2025",
@@ -38,12 +38,13 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
     "US",
-    "MA"
+    "MA",
+    "FL"
   ],
   "q": "State GDP, personal income, and the Massachusetts and U.S. economic profiles.",
   "pending": false,
@@ -692,6 +693,124 @@
         "y": 2025,
         "v": 644178.8
       }
+    ],
+    "FL": [
+      {
+        "y": 1997,
+        "v": 603988.6
+      },
+      {
+        "y": 1998,
+        "v": 634032.3
+      },
+      {
+        "y": 1999,
+        "v": 664152.0
+      },
+      {
+        "y": 2000,
+        "v": 693837.3
+      },
+      {
+        "y": 2001,
+        "v": 714638.0
+      },
+      {
+        "y": 2002,
+        "v": 746252.8
+      },
+      {
+        "y": 2003,
+        "v": 781834.2
+      },
+      {
+        "y": 2004,
+        "v": 833946.8
+      },
+      {
+        "y": 2005,
+        "v": 883164.5
+      },
+      {
+        "y": 2006,
+        "v": 909298.9
+      },
+      {
+        "y": 2007,
+        "v": 922288.3
+      },
+      {
+        "y": 2008,
+        "v": 891766.9
+      },
+      {
+        "y": 2009,
+        "v": 840480.6
+      },
+      {
+        "y": 2010,
+        "v": 851956.4
+      },
+      {
+        "y": 2011,
+        "v": 849395.3
+      },
+      {
+        "y": 2012,
+        "v": 857861.3
+      },
+      {
+        "y": 2013,
+        "v": 880183.5
+      },
+      {
+        "y": 2014,
+        "v": 905648.5
+      },
+      {
+        "y": 2015,
+        "v": 945929.0
+      },
+      {
+        "y": 2016,
+        "v": 978989.7
+      },
+      {
+        "y": 2017,
+        "v": 1014866.9
+      },
+      {
+        "y": 2018,
+        "v": 1050433.8
+      },
+      {
+        "y": 2019,
+        "v": 1084913.9
+      },
+      {
+        "y": 2020,
+        "v": 1072481.6
+      },
+      {
+        "y": 2021,
+        "v": 1172655.3
+      },
+      {
+        "y": 2022,
+        "v": 1245927.6
+      },
+      {
+        "y": 2023,
+        "v": 1309392.2
+      },
+      {
+        "y": 2024,
+        "v": 1352275.1
+      },
+      {
+        "y": 2025,
+        "v": 1393837.1
+      }
     ]
   },
   "derived": {
@@ -840,6 +959,11 @@
               "v": 48350.3
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 1834641.4,
+              "rank": 4,
+              "n": 51
+            },
             "label": "Current-dollar GDP, all industry, 2025",
             "src": "SRC-615-03",
             "unit": "millions of current dollars",
@@ -863,6 +987,11 @@
               "v": 1672.8
             },
             "n_ranked": 49,
+            "fl": {
+              "v": 85303.6,
+              "rank": 11,
+              "n": 49
+            },
             "label": "Current-dollar GDP, manufacturing, 2025",
             "src": "SRC-615-03",
             "unit": "millions of current dollars",
@@ -886,6 +1015,11 @@
               "v": 1585.8
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 113008.9,
+              "rank": 4,
+              "n": 51
+            },
             "label": "Current-dollar GDP, finance insurance, 2025",
             "src": "SRC-615-03",
             "unit": "millions of current dollars",
@@ -909,6 +1043,11 @@
               "v": 1437.6
             },
             "n_ranked": 46,
+            "fl": {
+              "v": 63419.7,
+              "rank": 5,
+              "n": 46
+            },
             "label": "Current-dollar GDP, information, 2025",
             "src": "SRC-615-03",
             "unit": "millions of current dollars",
@@ -932,6 +1071,11 @@
               "v": 1747.4
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 98744.7,
+              "rank": 3,
+              "n": 51
+            },
             "label": "Current-dollar GDP, construction, 2025",
             "src": "SRC-615-03",
             "unit": "millions of current dollars",

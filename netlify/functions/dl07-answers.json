@@ -16,7 +16,7 @@
     "K-12 School Finance",
     "Reading/Math Achievement"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2025 table 203.20. U.S. Fall 2024 enrollment equals 49,387,403. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2025 table 203.20. U.S. Fall 2024 enrollment equals 49,387,403. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-607-01": {
       "name": "NCES NAEP state results",
@@ -60,7 +60,8 @@
     "version": "0.1"
   },
   "geo": [
-    "US"
+    "US",
+    "FL"
   ],
   "q": "NAEP reading and math, enrollment, finance, completion, and discipline across the 50 states.",
   "pending": false,
@@ -588,6 +589,64 @@
         "y": 2024,
         "v": 915932
       }
+    ],
+    "FL": [
+      {
+        "y": 1990,
+        "v": 1861592
+      },
+      {
+        "y": 2000,
+        "v": 2434821
+      },
+      {
+        "y": 2010,
+        "v": 2643347
+      },
+      {
+        "y": 2014,
+        "v": 2756944
+      },
+      {
+        "y": 2015,
+        "v": 2792234
+      },
+      {
+        "y": 2016,
+        "v": 2816791
+      },
+      {
+        "y": 2017,
+        "v": 2832424
+      },
+      {
+        "y": 2018,
+        "v": 2846444
+      },
+      {
+        "y": 2019,
+        "v": 2858461
+      },
+      {
+        "y": 2020,
+        "v": 2791707
+      },
+      {
+        "y": 2021,
+        "v": 2833186
+      },
+      {
+        "y": 2022,
+        "v": 2870527
+      },
+      {
+        "y": 2023,
+        "v": 2872335
+      },
+      {
+        "y": 2024,
+        "v": 2859600
+      }
     ]
   },
   "derived": {
@@ -687,6 +746,11 @@
           "v": 76.4
         },
         "n_ranked": 48,
+        "fl": {
+          "v": 87.3,
+          "rank": 18,
+          "n": 48
+        },
         "label": "Public high school 4-year adjusted cohort graduation rate, 2021-22",
         "src": "SRC-607-03",
         "unit": "percent",
@@ -710,6 +774,11 @@
           "v": 0.03
         },
         "n_ranked": 50,
+        "fl": {
+          "v": 2.03,
+          "rank": 19,
+          "n": 50
+        },
         "label": "Share of public-school students with an out-of-school suspension, 2020-21",
         "src": "SRC-607-04",
         "unit": "percent",
@@ -740,6 +809,11 @@
               "v": 200.6
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 218.2,
+              "rank": 10,
+              "n": 51
+            },
             "label": "NAEP reading grade 4 average scale score, 2024",
             "src": "SRC-607-05",
             "unit": "scale score",
@@ -763,6 +837,11 @@
               "v": 245.1
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 252.9,
+              "rank": 43,
+              "n": 51
+            },
             "label": "NAEP reading grade 8 average scale score, 2024",
             "src": "SRC-607-05",
             "unit": "scale score",
@@ -786,6 +865,11 @@
               "v": 223.8
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 243.4,
+              "rank": 2,
+              "n": 51
+            },
             "label": "NAEP math grade 4 average scale score, 2024",
             "src": "SRC-607-05",
             "unit": "scale score",
@@ -809,6 +893,11 @@
               "v": 256.2
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 267.2,
+              "rank": 41,
+              "n": 51
+            },
             "label": "NAEP math grade 8 average scale score, 2024",
             "src": "SRC-607-05",
             "unit": "scale score",
@@ -984,6 +1073,11 @@
                 "v": -11.6
               },
               "n_ranked": 51,
+              "fl": {
+                "v": -6.5,
+                "rank": 35,
+                "n": 51
+              },
               "from_year": 2019,
               "to_year": 2024,
               "n_up": 2,
@@ -1629,6 +1723,11 @@
                 "v": -11.2
               },
               "n_ranked": 51,
+              "fl": {
+                "v": -10.5,
+                "rank": 50,
+                "n": 51
+              },
               "from_year": 2019,
               "to_year": 2024,
               "n_up": 1,
@@ -2278,6 +2377,11 @@
                 "v": -9.0
               },
               "n_ranked": 51,
+              "fl": {
+                "v": -2.6,
+                "rank": 25,
+                "n": 51
+              },
               "from_year": 2019,
               "to_year": 2024,
               "n_up": 4,
@@ -2927,6 +3031,11 @@
                 "v": -13.6
               },
               "n_ranked": 51,
+              "fl": {
+                "v": -11.3,
+                "rank": 43,
+                "n": 51
+              },
               "from_year": 2019,
               "to_year": 2024,
               "n_up": 0,
@@ -3437,6 +3546,11 @@
           "v": 11167
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 13721,
+          "rank": 40,
+          "n": 51
+        },
         "label": "Current expenditures per pupil, FY 2024",
         "src": "SRC-607-06",
         "unit": "dollars per pupil",

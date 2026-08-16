@@ -13,7 +13,7 @@
     "School Districts-Charter Schools",
     "School Districts-Education Staff"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-609-01": {
       "name": "NCES Digest table 216.90, charter schools and enrollment",
@@ -29,12 +29,13 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
     "US",
-    "MA"
+    "MA",
+    "FL"
   ],
   "q": "Charter school counts and education staff by state and district.",
   "pending": false,
@@ -509,6 +510,11 @@
           "v": 7160
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 156787,
+          "rank": 4,
+          "n": 51
+        },
         "label": "Public elementary and secondary teachers (FTE), Fall 2022",
         "src": "SRC-609-02",
         "unit": "full-time-equivalent teachers",

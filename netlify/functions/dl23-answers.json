@@ -15,7 +15,7 @@
     "National Risk Index",
     "Roadway Transport"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from FHWA Highway Statistics 2024 table VM-2, combined rural-plus-urban TOTAL column (million vehicle-miles). The U.S. figure is the sum of published state rows when no U.S. line is present. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from FHWA Highway Statistics 2024 table VM-2, combined rural-plus-urban TOTAL column (million vehicle-miles). The U.S. figure is the sum of published state rows when no U.S. line is present. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-623-01": {
       "name": "FHWA Highway Statistics 2024 table VM-2",
@@ -49,11 +49,12 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
-    "US"
+    "US",
+    "FL"
   ],
   "q": "Roadway travel, FEMA obligations, the National Risk Index, and heating and cooling days.",
   "pending": false,
@@ -556,6 +557,11 @@
           "v": 109096039.0
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 21794815806.0,
+          "rank": 5,
+          "n": 51
+        },
         "label": "FEMA Public Assistance federal share obligated, all disasters on file",
         "src": "SRC-623-03",
         "unit": "dollars",
@@ -580,6 +586,11 @@
           "v": 22.2
         },
         "n_ranked": 51,
+        "fl": {
+          "v": 75.7,
+          "rank": 8,
+          "n": 51
+        },
         "label": "FEMA National Risk Index, mean county risk score",
         "src": "SRC-623-04",
         "unit": "index score",

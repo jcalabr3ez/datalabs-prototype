@@ -16,7 +16,7 @@
     "MA Tariff Impacts",
     "Defense Impact"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SARPP_STATE_2008_2024, LineCode 1 (RPPs: All items). U.S. 2024 equals 100. Tariff, defense, and state-dependency indexes remain pending. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SARPP_STATE_2008_2024, LineCode 1 (RPPs: All items). U.S. 2024 equals 100. Tariff, defense, and state-dependency indexes remain pending. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-619-01": {
       "name": "BEA SARPP all-items regional price parities, 2008-2024",
@@ -32,12 +32,13 @@
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
     "US",
-    "MA"
+    "MA",
+    "FL"
   ],
   "q": "Regional price parities by state from the Bureau of Economic Analysis.",
   "pending": false,
@@ -589,6 +590,76 @@
         "y": 2024,
         "v": 105.757
       }
+    ],
+    "FL": [
+      {
+        "y": 2008,
+        "v": 101.668
+      },
+      {
+        "y": 2009,
+        "v": 100.491
+      },
+      {
+        "y": 2010,
+        "v": 100.392
+      },
+      {
+        "y": 2011,
+        "v": 100.846
+      },
+      {
+        "y": 2012,
+        "v": 101.072
+      },
+      {
+        "y": 2013,
+        "v": 100.742
+      },
+      {
+        "y": 2014,
+        "v": 100.894
+      },
+      {
+        "y": 2015,
+        "v": 101.29
+      },
+      {
+        "y": 2016,
+        "v": 101.087
+      },
+      {
+        "y": 2017,
+        "v": 100.871
+      },
+      {
+        "y": 2018,
+        "v": 100.318
+      },
+      {
+        "y": 2019,
+        "v": 99.645
+      },
+      {
+        "y": 2020,
+        "v": 100.604
+      },
+      {
+        "y": 2021,
+        "v": 101.389
+      },
+      {
+        "y": 2022,
+        "v": 102.284
+      },
+      {
+        "y": 2023,
+        "v": 103.636
+      },
+      {
+        "y": 2024,
+        "v": 103.414
+      }
     ]
   },
   "derived": {
@@ -693,6 +764,11 @@
               "v": 93.6
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 98.1,
+              "rank": 19,
+              "n": 51
+            },
             "label": "Regional price parity, goods, 2024",
             "src": "SRC-619-02",
             "unit": "index (US = 100)",
@@ -716,6 +792,11 @@
               "v": 54.2
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 122.1,
+              "rank": 9,
+              "n": 51
+            },
             "label": "Regional price parity, housing, 2024",
             "src": "SRC-619-02",
             "unit": "index (US = 100)",
@@ -739,6 +820,11 @@
               "v": 70.4
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 90.1,
+              "rank": 26,
+              "n": 51
+            },
             "label": "Regional price parity, utilities, 2024",
             "src": "SRC-619-02",
             "unit": "index (US = 100)",
@@ -762,6 +848,11 @@
               "v": 91.2
             },
             "n_ranked": 51,
+            "fl": {
+              "v": 101.3,
+              "rank": 16,
+              "n": 51
+            },
             "label": "Regional price parity, other services, 2024",
             "src": "SRC-619-02",
             "unit": "index (US = 100)",

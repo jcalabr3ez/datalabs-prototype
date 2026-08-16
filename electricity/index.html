@@ -67,6 +67,10 @@
   .jump{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}
   .jump a{font:400 13px/1.5 var(--sans);color:var(--navy);text-decoration:none}
   .jump a:hover{color:var(--ink);text-decoration:underline}
+  .map-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
+  .map-tab{border:1px solid var(--rule);background:#fff;color:var(--ink);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer}
+  .map-tab:hover{border-color:var(--navy)}
+  .map-tab.is-on{border-color:var(--navy);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
 
   section{margin-top:56px}
   h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
@@ -242,9 +246,7 @@ Calendar year 2024 · Revised 15 August 2026
 
 <nav class="jump" aria-label="On this page">
   <a href="#view-price_trend">Trend</a>
-  <a href="#view-prices">Prices</a>
-  <a href="#view-sales_rank">Sales</a>
-  <a href="#view-gen_rank">Generation</a>
+  <a href="#view-price_rank">Across the fifty states</a>
   <a href="#view-table">Table</a>
 </nav>
 
@@ -302,8 +304,14 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
   </section>
 
   <section id="view-price_rank">
-    <h2>Prices across the fifty states</h2>
-    <div class="lede">Every state and the District of Columbia. Color is a fifth of the ranking: the darkest navy is the highest fifth. The list at right is highest to lowest, so a state's place is visible without a click. The strip under the map is the same ranking as a line. Hover a state, a row, or a dot. Click to open the table. Massachusetts has a gold outline; Florida a rust outline.</div>
+    <h2>Across the fifty states</h2>
+    <div class="map-tabs" id="mapTabs" role="tablist" aria-label="Map view">
+      <button type="button" class="map-tab is-on" data-view="price">Price</button>
+      <button type="button" class="map-tab" data-view="sales">Sales</button>
+      <button type="button" class="map-tab" data-view="gen">Generation</button>
+      <button type="button" class="map-tab" data-pane="table">Table</button>
+    </div>
+    <div class="lede" id="mapLede">Every state and the District of Columbia. Color is a fifth of the ranking: the darkest navy is the highest fifth. Hover a state for its figure and rank. Click a state to open the table tab. Massachusetts has a gold outline; Florida a rust outline.</div>
     <div class="region-bar">
       <span class="sel-lab">Census region</span>
       <div class="region-chips" role="group" aria-label="Filter by Census region">
@@ -324,78 +332,22 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
         <button type="button" data-band="bottom10">Bottom 10</button>
       </div>
     </div>
+    <div id="mapPane">
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t" id="fig1t">All-sector average retail electricity price by state</span></div>
       <div class="plot plot-map" id="chRank"></div>
-      <div class="note">Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">All-sector average (EIA, not Pioneer)</div><code>price = total retail revenue / total retail sales
+      <div class="note" id="mapNote">Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">All-sector average (EIA, not Pioneer)</div><code>price = total retail revenue / total retail sales
 
 The U.S. figure is EIA's published U.S. Total row:
 U.S. price = U.S. revenue / U.S. sales
 
 It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class="out">Result: the cents-per-kWh figures published on this page are EIA's, rounded to two decimals as in Electric Power Annual table 2.10.</div></div><div class="mathsrc">Inputs: EIA Form EIA-861 historical state file, Total Electric Industry, Total price column, checked against Electric Power Annual table 2.10. Calculation of ranks: Pioneer Institute.</div></details></div>
-      <div class="srcline"><b>Source:</b> <a href="https://www.eia.gov/electricity/annual/html/epa_02_10.html" target="_blank" rel="noopener">EIA Electric Power Annual table 2.10</a> and <a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">Form EIA-861 historical state file</a> (SRC-401). <b>Calculation:</b> Pioneer Institute (ranks only).</div>
+      <div class="srcline" id="mapSrc"><b>Source:</b> <a href="https://www.eia.gov/electricity/annual/html/epa_02_10.html" target="_blank" rel="noopener">EIA Electric Power Annual table 2.10</a> and <a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">Form EIA-861 historical state file</a> (SRC-401). <b>Calculation:</b> Pioneer Institute (ranks only).</div>
     </div>
-  </section>
-
-</div><!-- /view-prices -->
-
-<div id="view-trends">
-</div><!-- /view-trends -->
-
-<div id="view-supply">
-
-  <section style="margin-top:30px" id="view-sales_rank">
-    <h2>How much electricity did each state sell?</h2>
-    <div class="lede">Retail sales to ultimate customers, in million megawatthours, for the latest year. This is the volume behind the price: what was sold, not what a household paid on a bill. The region chips also apply to this map.</div>
-    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 3</span>
-        <span class="ex-t" id="fig3t">Total retail electricity sales by state</span></div>
-      <div class="plot plot-map" id="chSales"></div>
-      <div class="note">Sales are megawatthours delivered to residential, commercial, industrial, and transportation customers combined (SRC-401). Large states lead because they have more customers, not because prices are higher. Per-capita sales, in the table, divide this volume by the Census July 1 resident population (derived, SRC-401, SRC-402).</div>
-      <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total sales (SRC-401). Population: Census Bureau vintage estimates (SRC-402). <b>Calculation:</b> Pioneer Institute (per capita only).</div>
     </div>
-  </section>
-
-  <section id="view-gen_rank">
-    <h2>How much did each state generate?</h2>
-    <div class="lede">Net generation at utility-scale plants located in the state, all energy sources. Generation is not the same as sales: power crosses state lines, and this figure is where it was produced. The region chips apply to this map too.</div>
-    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 4</span>
-        <span class="ex-t" id="fig4t">Net electricity generation by state</span></div>
-      <div class="plot plot-map" id="chGen"></div>
-      <div class="note">Net generation, Total Electric Power Industry, all energy sources (SRC-403). A state can sell more than it generates, or the reverse. Net summer capacity, in the table, is the EIA-860 all-sources total (SRC-404).</div>
-      <div class="srcline"><b>Source:</b> EIA-923 annual generation by state (SRC-403); EIA-860 existing capacity (SRC-404). <b>Calculation:</b> Pioneer Institute (per capita only).</div>
-    </div>
-  </section>
-
-</div><!-- /view-supply -->
-
-<div id="view-table">
-
-  <section style="margin-top:30px">
-    <h2>The latest year, state by state</h2>
+    <div id="view-table" hidden>
     <div class="lede">All-sector price, rank, year-over-year change, retail sales, net generation, net summer capacity, and sales per resident. The United States row is EIA&rsquo;s U.S. Total, not a rank. Filter by region, by place against the U.S., or by the top or bottom ten. Click a column head to sort.</div>
-    <div class="region-bar">
-      <span class="sel-lab">Census region</span>
-      <div class="region-chips" role="group" aria-label="Filter by Census region">
-        <button type="button" data-region="all" class="on">All states</button>
-        <button type="button" data-region="northeast">Northeast</button>
-        <button type="button" data-region="midwest">Midwest</button>
-        <button type="button" data-region="south">South</button>
-        <button type="button" data-region="west">West</button>
-      </div>
-    </div>
-    <div class="explore-bar">
-      <span class="sel-lab">Show</span>
-      <div class="region-chips" role="group" aria-label="Filter the ranking">
-        <button type="button" data-band="all" class="on">All</button>
-        <button type="button" data-band="above">Above U.S.</button>
-        <button type="button" data-band="below">Below U.S.</button>
-        <button type="button" data-band="top10">Top 10</button>
-        <button type="button" data-band="bottom10">Bottom 10</button>
-      </div>
-    </div>
     <div class="findrow">
       <label class="sel-lab" for="tblFind">Find a state</label>
       <input id="tblFind" type="search" placeholder="Massachusetts" autocomplete="off">
@@ -419,9 +371,14 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
       </table>
     </div>
     <div class="srcline"><b>Source:</b> price and sales, EIA Form EIA-861 (SRC-401); generation, EIA-923 (SRC-403); capacity, EIA-860 (SRC-404); population, Census Bureau (SRC-402). Ranks and per-capita figures are Pioneer calculations (derived).</div>
+    </div>
   </section>
 
-</div><!-- /view-table -->
+</div><!-- /view-prices -->
+<div id="view-trends"></div>
+<div id="view-supply"></div>
+<div id="view-sales_rank" hidden></div>
+<div id="view-gen_rank" hidden></div>
 
 <section id="sources">
   <h2>Data Sources</h2>
@@ -609,6 +566,7 @@ function paintStateMap(id, rows, fmt, extra, ref){
         tr.classList.toggle('is-on', on);
         tr.classList.remove('hl-ma','hl-fl');
       });
+      setMapPane('table');
       var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
       if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
     }
@@ -620,17 +578,91 @@ function syncRegionButtons(){
   });
 }
 var priceRows=[], salesRows=[], genRows=[];
-function renderPrices(){
+var mapView='price';
+var MAP_NOTES={
+  price:'Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).',
+  sales:'Sales are megawatthours delivered to residential, commercial, industrial, and transportation customers combined (SRC-401). Large states lead because they have more customers, not because prices are higher. Per-capita sales, in the table, divide this volume by the Census July 1 resident population (derived, SRC-401, SRC-402).',
+  gen:'Net generation, Total Electric Power Industry, all energy sources (SRC-403). A state can sell more than it generates, or the reverse. Net summer capacity, in the table, is the EIA-860 all-sources total (SRC-404).'
+};
+var MAP_SRC={
+  price:'<b>Source:</b> <a href="https://www.eia.gov/electricity/annual/html/epa_02_10.html" target="_blank" rel="noopener">EIA Electric Power Annual table 2.10</a> and <a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">Form EIA-861 historical state file</a> (SRC-401). <b>Calculation:</b> Pioneer Institute (ranks only).',
+  sales:'<b>Source:</b> EIA Form EIA-861 historical state file, Total sales (SRC-401). Population: Census Bureau vintage estimates (SRC-402). <b>Calculation:</b> Pioneer Institute (per capita only).',
+  gen:'<b>Source:</b> EIA-923 annual generation by state (SRC-403); EIA-860 existing capacity (SRC-404). <b>Calculation:</b> Pioneer Institute (per capita only).'
+};
+function paintCurrentMap(){
+  var title=document.getElementById('fig1t');
+  var note=document.getElementById('mapNote');
+  var src=document.getElementById('mapSrc');
+  if(mapView==='sales'){
+    var sales=regionRows(DL04.states,'sales_mwh');
+    salesRows=sales;
+    if(title) title.textContent=(region==='all'
+      ? 'Total retail electricity sales by state, '
+      : 'Total retail electricity sales in '+REGION_NAMES[region]+', ')+DL04.year;
+    if(note) note.textContent=MAP_NOTES.sales;
+    if(src) src.innerHTML=MAP_SRC.sales;
+    paintStateMap('chRank',
+      DL04.states.map(function(r){return {st:r.st,name:r.name,v:r.sales_mwh/1e6};}),
+      function(v){return Number(v).toFixed(1);},
+      function(){return 'million MWh';},
+      DL04.latest.us.sales_mwh!=null?{label:'U.S. Total',value:DL04.latest.us.sales_mwh/1e6,compare:false}:null);
+    return;
+  }
+  if(mapView==='gen'){
+    var gen=regionRows(DL04.states.filter(function(r){return r.gen_mwh!=null;}),'gen_mwh');
+    genRows=gen;
+    if(title) title.textContent=(region==='all'
+      ? 'Net electricity generation by state, '
+      : 'Net electricity generation in '+REGION_NAMES[region]+', ')+DL04.year;
+    if(note) note.textContent=MAP_NOTES.gen;
+    if(src) src.innerHTML=MAP_SRC.gen;
+    paintStateMap('chRank',
+      DL04.states.filter(function(r){return r.gen_mwh!=null;}).map(function(r){return {st:r.st,name:r.name,v:r.gen_mwh/1e6};}),
+      function(v){return Number(v).toFixed(1);},
+      function(){return 'million MWh';},
+      DL04.latest.us.gen_mwh!=null?{label:'U.S. Total',value:DL04.latest.us.gen_mwh/1e6,compare:false}:null);
+    return;
+  }
   var rows=regionRows(DL04.states,'price_cents');
   priceRows=rows;
-  document.getElementById('fig1t').textContent=(region==='all'
+  if(title) title.textContent=(region==='all'
     ? 'All-sector average retail prices, '
     : 'All-sector average retail prices in '+REGION_NAMES[region]+', ')+DL04.year;
+  if(note){
+    note.innerHTML=MAP_NOTES.price+'<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">All-sector average (EIA, not Pioneer)</div><code>price = total retail revenue / total retail sales\n\nThe U.S. figure is EIA\'s published U.S. Total row:\nU.S. price = U.S. revenue / U.S. sales\n\nIt is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class="out">Result: the cents-per-kWh figures published on this page are EIA\'s, rounded to two decimals as in Electric Power Annual table 2.10.</div></div><div class="mathsrc">Inputs: EIA Form EIA-861 historical state file, Total Electric Industry, Total price column, checked against Electric Power Annual table 2.10. Calculation of ranks: Pioneer Institute.</div></details>';
+  }
+  if(src) src.innerHTML=MAP_SRC.price;
   paintStateMap('chRank',
     DL04.states.map(function(r){return {st:r.st,name:r.name,v:r.price_cents,rank:r.rank};}),
     function(v){return Number(v).toFixed(2)+'\u00a2';},
     function(){return 'cents per kWh';},
     {label:'U.S. Total',value:DL04.latest.us.price_cents});
+}
+function setMapPane(pane){
+  var mapPane=document.getElementById('mapPane');
+  var tablePane=document.getElementById('view-table');
+  var lede=document.getElementById('mapLede');
+  var showTable=pane==='table';
+  if(mapPane) mapPane.hidden=showTable;
+  if(tablePane) tablePane.hidden=!showTable;
+  if(lede) lede.hidden=showTable;
+  var tabs=document.getElementById('mapTabs');
+  if(tabs){
+    [].slice.call(tabs.querySelectorAll('.map-tab')).forEach(function(b){
+      var on=showTable
+        ? b.getAttribute('data-pane')==='table'
+        : (b.getAttribute('data-pane')!=='table' && b.getAttribute('data-view')===mapView);
+      b.classList.toggle('is-on', !!on);
+    });
+  }
+  if(showTable){
+    if(window.dl04ApplyFind) window.dl04ApplyFind();
+  } else {
+    paintCurrentMap();
+  }
+}
+function renderPrices(){
+  paintCurrentMap();
 }
 
 function fillSelect(){
@@ -675,27 +707,7 @@ function renderTrends(){
 }
 
 function renderSupply(){
-  var sales=regionRows(DL04.states,'sales_mwh');
-  salesRows=sales;
-  document.getElementById('fig3t').textContent=(region==='all'
-    ? 'Total retail electricity sales by state, '
-    : 'Total retail electricity sales in '+REGION_NAMES[region]+', ')+DL04.year;
-  paintStateMap('chSales',
-    DL04.states.map(function(r){return {st:r.st,name:r.name,v:r.sales_mwh/1e6};}),
-    function(v){return Number(v).toFixed(1);},
-    function(){return 'million MWh';},
-    DL04.latest.us.sales_mwh!=null?{label:'U.S. Total',value:DL04.latest.us.sales_mwh/1e6,compare:false}:null);
-
-  var gen=regionRows(DL04.states.filter(function(r){return r.gen_mwh!=null;}),'gen_mwh');
-  genRows=gen;
-  document.getElementById('fig4t').textContent=(region==='all'
-    ? 'Net electricity generation by state, '
-    : 'Net electricity generation in '+REGION_NAMES[region]+', ')+DL04.year;
-  paintStateMap('chGen',
-    DL04.states.filter(function(r){return r.gen_mwh!=null;}).map(function(r){return {st:r.st,name:r.name,v:r.gen_mwh/1e6};}),
-    function(v){return Number(v).toFixed(1);},
-    function(){return 'million MWh';},
-    DL04.latest.us.gen_mwh!=null?{label:'U.S. Total',value:DL04.latest.us.gen_mwh/1e6,compare:false}:null);
+  if(mapView==='sales' || mapView==='gen') paintCurrentMap();
 }
 
 function renderTable(){
@@ -822,7 +834,20 @@ function setBand(next){
 });
 syncRegionButtons();
 syncBandButtons();
-var RENDER={prices:renderPrices,trends:renderTrends,supply:renderSupply,table:renderTable};
+var tabs=document.getElementById('mapTabs');
+if(tabs){
+  tabs.addEventListener('click', function(ev){
+    var btn=ev.target.closest('.map-tab');
+    if(!btn) return;
+    if(btn.getAttribute('data-pane')==='table'){
+      setMapPane('table');
+      return;
+    }
+    mapView=btn.getAttribute('data-view')||'price';
+    setMapPane('map');
+  });
+}
+var RENDER={prices:renderPrices,trends:renderTrends,supply:renderSupply,table:function(){ renderTable(); setMapPane('table'); }};
 var VIEWS=['prices','trends','supply','table'];
 function showView(v){
   var el=document.getElementById('view-'+v)||document.getElementById(v);
@@ -830,9 +855,12 @@ function showView(v){
 }
 renderPrices(); renderTrends(); renderSupply(); renderTable();
 
-var KIND_VIEW={price_rank:'prices',price_trend:'trends',sales_rank:'supply',gen_rank:'supply'};
+var KIND_VIEW={price_rank:'prices',price_trend:'trends',sales_rank:'supply',gen_rank:'supply',table:'table'};
 function revealKind(kind,flash,st){
   if(st && DL04.entities[st]) selected=st;
+  if(kind==='sales_rank' || kind==='sales'){ mapView='sales'; setMapPane('map'); }
+  else if(kind==='gen_rank' || kind==='gen'){ mapView='gen'; setMapPane('map'); }
+  else if(kind==='table' || kind==='view-table'){ setMapPane('table'); }
   var view=KIND_VIEW[kind]||(VIEWS.indexOf(kind)>=0?kind:null);
   if(!view) return false;
   (RENDER[view]||renderPrices)();

@@ -36,6 +36,7 @@ const GOLDEN_HITS = [
   ["How many students are enrolled in college in Massachusetts?", "DL-08"],
   ["How many students are in charter schools in the United States?", "DL-09"],
   ["How many hospitals are in Massachusetts?", "DL-10"],
+  ["Where can I find 340B covered-entity counts?", "DL-11"],
   ["How much does Massachusetts spend on Medicaid?", "DL-12"],
   ["How many new business applications were filed in the United States?", "DL-13"],
   ["What is the Massachusetts establishment birth rate?", "DL-13"],
@@ -88,7 +89,7 @@ function check(ok, msg) {
   }
 }
 
-check(tools.length >= 30, "five flagships plus the live suite tools are registered (" + tools.length + ")");
+check(tools.length >= 31, "five flagships plus the live suite tools are registered (" + tools.length + ")");
 
 for (const t of tools) {
   for (const f of REQUIRED) {

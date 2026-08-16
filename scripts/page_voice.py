@@ -2,7 +2,7 @@
 """Presentation voice for live pages: takeaways, finding KPIs, cite, catalog line.
 
 Reads existing ledgers. Does not invent figures. Skips Florida (DL-02) and the
-State Tax Atlas (DL-01). 340B and Patents stay in-build stubs.
+State Tax Atlas (DL-01). Patents stays an in-build stub.
 """
 from __future__ import annotations
 
@@ -308,7 +308,8 @@ def display_lead(voice, ledger):
     """One-sentence finding for the page. KPIs and charts carry the rest."""
     nat = national_lead(ledger)
     if nat:
-        return short_place_text(nat, census_place_names(ledger))
+        extra = (voice or {}).get("lead_extra") or ""
+        return short_place_text((nat + " " + extra).strip(), census_place_names(ledger))
     takes = (voice or {}).get("takeaways") or []
     if takes:
         return short_place_text(takes[0], census_place_names(ledger))
@@ -583,6 +584,78 @@ def voice_dl10(ledger):
             src_name(ledger, "SRC-610-02")),
     ]
     return take, kpis, f"{hi.get('name')} S-RP {hi.get('v')}", "SRC-610-03"
+
+
+def voice_dl11(ledger):
+    latest = ledger.get("latest") or {}
+    ma = latest.get("ma") or {}
+    fl = fl_cell(ledger) or {}
+    us = latest.get("us") if isinstance(latest.get("us"), dict) else {}
+    pharm = sec(ledger, "pharmacies_by_state")
+    charity = sec(ledger, "charity_care")
+    legis = sec(ledger, "legislative")
+    cma = ma_of(charity) or charity.get("ma") or {}
+    cfl = charity.get("fl") or {}
+    cus = charity.get("us") if isinstance(charity.get("us"), dict) else {}
+    pma = ma_of(pharm)
+    pfl = pharm.get("fl") or {}
+    pus = pharm.get("us") if isinstance(pharm.get("us"), dict) else {}
+    split = charity.get("hospital_split_2023") or {}
+    b340 = split.get("340b") or {}
+    both = split.get("other") or {}
+    take = [
+        (
+            f"The OPAIS daily export dated August 15, 2026 lists "
+            f"<b>{commify(us.get('v'))}</b> participating 340B covered-entity "
+            f"sites (SRC-611-01). Massachusetts has {commify(ma.get('v'))}, "
+            f"{rank_txt(ma)}; Florida has {commify(fl.get('v'))}, "
+            f"{rank_txt(fl)} (derived, SRC-611-01)."
+        ),
+        (
+            f"Hospital charity-care cost was <b>{cus.get('v')} percent</b> of "
+            f"total costs on the 2023 CMS cost-report file, "
+            f"{money(cus.get('charity'))} (SRC-611-02). Massachusetts was "
+            f"{cma.get('v')} percent, {rank_txt(cma)}; Florida was "
+            f"{cfl.get('v')} percent, {rank_txt(cfl)} (derived, SRC-611-02)."
+        ),
+        (
+            f"<b>{commify(pus.get('v'))}</b> unique contract pharmacies are "
+            f"active on that OPAIS file (SRC-611-01). They sit in "
+            f"{commify(legis.get('districts_with_pharmacies'))} 2024 state "
+            f"house districts after a Census ZCTA land-area majority "
+            f"(SRC-611-03)."
+        ),
+    ]
+    kpis = [
+        kpi("Participating 340B sites", commify(us.get("v")),
+            "Currently participating covered-entity IDs on the OPAIS daily export (SRC-611-01).",
+            "The national stock the program-growth ranking uses.",
+            src_name(ledger, "SRC-611-01")),
+        kpi("U.S. charity-care share, 2023", f"{cus.get('v')}%",
+            f"{money(cus.get('charity'))} of hospital total costs (SRC-611-02).",
+            "Worksheet S-10 charity-care cost over total costs.",
+            src_name(ledger, "SRC-611-02")),
+        kpi("Unique contract pharmacies", commify(pus.get("v")),
+            (
+                f"Massachusetts {commify(pma.get('v'))}; Florida "
+                f"{commify(pfl.get('v'))} (SRC-611-01)."
+            ),
+            "Distinct pharmacyId values on an active contract.",
+            src_name(ledger, "SRC-611-01")),
+    ]
+    if b340.get("share_pct") is not None and both.get("share_pct") is not None:
+        take[1] += (
+            f" Participating 340B hospitals filed at {b340['share_pct']} "
+            f"percent; other hospitals filed at {both['share_pct']} percent "
+            f"(derived, SRC-611-02)."
+        )
+    lead_extra = (
+        f"Hospital charity-care cost was <b>{cus.get('v')} percent</b> of "
+        f"total costs in 2023 (SRC-611-02). Unique active contract pharmacies "
+        f"are assigned to 2024 state house districts by Census ZCTA land-area "
+        f"majority (SRC-611-03)."
+    )
+    return take, kpis, f"{commify(ma.get('v'))} 340B sites, {rank_txt(ma)}", "SRC-611-01", lead_extra
 
 
 def voice_dl12(ledger):
@@ -1206,6 +1279,7 @@ VOICES = {
     "DL-08": voice_dl08,
     "DL-09": voice_dl09,
     "DL-10": voice_dl10,
+    "DL-11": voice_dl11,
     "DL-12": voice_dl12,
     "DL-13": voice_dl13,
     "DL-14": voice_dl14,
@@ -1477,7 +1551,12 @@ def voice_for(app, ledger):
             "src_id": "",
         }
     fn = VOICES.get(tid) or fallback_voice
-    take, kpis, ma_line, src_id = fn(ledger)
+    packed = fn(ledger)
+    lead_extra = ""
+    if len(packed) == 5:
+        take, kpis, ma_line, src_id, lead_extra = packed
+    else:
+        take, kpis, ma_line, src_id = packed
     take = [t for t in take if t][:3]
     kpis = with_florida_kpi(kpis, ledger)
     return {
@@ -1487,6 +1566,7 @@ def voice_for(app, ledger):
         "ma": ma_line,
         "find": find_bundle(app, ledger),
         "src_id": src_id,
+        "lead_extra": lead_extra,
     }
 
 

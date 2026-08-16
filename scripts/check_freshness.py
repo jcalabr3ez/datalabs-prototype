@@ -95,6 +95,9 @@ RULES = {
     "netlify/functions/dl10-answers.json": (
         "YYYY-MM", 400, "CMS Hospital General Information is refreshed periodically"
     ),
+    "netlify/functions/dl11-answers.json": (
+        "YYYY-MM-DD", 100, "HRSA OPAIS posts a dated daily export; this 100-day gate is the quarterly-ish backstop"
+    ),
     "netlify/functions/dl22-answers.json": (
         "YYYY-MM", 75, "FTA NTD monthly ridership publishes with about a two-month lag"
     ),

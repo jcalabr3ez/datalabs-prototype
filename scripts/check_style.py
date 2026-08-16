@@ -188,6 +188,18 @@ for app in load_apps():
             print(f"suite {slug}: MISS as_of {as_of}")
         else:
             print(f"suite {slug}: ok   as_of {as_of}")
+    if app["id"] == "DL-11":
+        for needle, label in (
+            ("Hospital charity care", "charity-care section"),
+            ("Legislative mapping", "legislative-mapping section"),
+            ("view-charity", "charity view id"),
+            ("view-districts", "districts view id"),
+        ):
+            if needle not in page:
+                failures.append(f"340b/index.html is missing the {label}")
+                print(f"suite {slug}: MISS {label}")
+            else:
+                print(f"suite {slug}: ok   {label}")
     if app["id"] == "DL-32":
         for needle, label in (
             ("Base salary", "base salary column"),

@@ -50,7 +50,7 @@ const GOLDEN = [
   ["Should I move to Texas to avoid taxes?", ["none"], null],
   ["Will Proposition 40 pass in November?", ["none"], null],
   ["How safe is the MBTA?", ["none", "route"], null],
-  ["Where can I find 340B covered-entity counts?", ["route", "none"], null],
+  ["Where can I find 340B covered-entity counts?", ["answer"], "DL-11"],
   ["What is the average retail electricity price in the United States?", ["answer"], "DL-04"],
   ["How much does electricity cost in Massachusetts?", ["answer"], "DL-04"],
   ["Which state has the highest electricity prices?", ["answer"], "DL-04"],

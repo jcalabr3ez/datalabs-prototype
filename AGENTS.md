@@ -46,9 +46,11 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   Investment Report; that source is a PDF.
 - **Suite (DL-06 to DL-32):** `.github/workflows/suite-refresh.yml`
   already opens a monthly PR from `scripts/refresh_suite.py` (first-wave
-  builders plus later public-file builders; 340B and Patents stay stubs).
+  builders plus later public-file builders; Patents stays a stub).
   Do not invent a second suite refresh. Do not mark a stub `live` or
-  invent figures. The five flagships stay frozen.
+  invent figures. The five flagships stay frozen. 340B (DL-11) rebuilds
+  from a local OPAIS Covered Entity Daily Export JSON plus CMS HCRIS and
+  the Census SLDL-ZCTA file; see `scripts/build_dl11.py`.
 
 ## House style
 

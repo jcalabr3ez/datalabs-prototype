@@ -18,8 +18,8 @@ from check_freshness import RULES, parse_as_of
 from suite_common import ROOT, load_apps
 
 SITE = "https://datalabsai.netlify.app"
-TODAY = date(2026, 8, 15)
-TODAY_LABEL = "August 15, 2026"
+TODAY = date(2026, 8, 16)
+TODAY_LABEL = "August 16, 2026"
 
 FLAGSHIPS = [
     {
@@ -128,6 +128,20 @@ CHANGELOG = [
             "matching Florida series from the same published files. County "
             "and state compare figures keep both states in view. The "
             "underlying cells are unchanged."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
+        "title": "340B rebuilt from OPAIS, CMS, and Census",
+        "body": (
+            "The three 340B tools are live on one page. Program growth is "
+            "participating covered-entity sites and unique contract pharmacies "
+            "from the HRSA OPAIS daily export. Hospital charity care is "
+            "Worksheet S-10 cost as a share of total costs on the CMS Hospital "
+            "Provider Cost Report PUF, the public file behind RAND TL-303. "
+            "Legislative mapping assigns each pharmacy ZIP to a 2024 state "
+            "house district by Census ZCTA land-area majority. Patents and "
+            "Innovation remains in build."
         ),
     },
     {

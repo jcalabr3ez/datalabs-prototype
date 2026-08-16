@@ -434,11 +434,9 @@ def chart_spec(app, ledger):
     if geo == "state":
         lede = (
             "Every state and the District of Columbia. Color is a fifth of "
-            "the ranking: the darkest navy is the highest fifth. The list "
-            "at right is highest to lowest, so a state's place is visible "
-            "without a click. The strip under the map is the same ranking "
-            "as a line. Hover a state, a row, or a dot. Click to open the "
-            "table. Massachusetts has a gold outline; Florida a rust outline."
+            "the ranking: the darkest navy is the highest fifth. Hover a "
+            "state for its figure and rank. Click to open the table. "
+            "Massachusetts has a gold outline; Florida a rust outline."
         )
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
@@ -833,6 +831,34 @@ def page_html(app, ledger, apps=None):
     insights = insight_figures(app, ledger) if live else []
     if spec.get("headline_from") == "secondary.public_k12_enrollment":
         insights = [f for f in insights if f.get("id") != "ma-enroll"]
+    map_insights = [f for f in insights if f.get("type") == "map" and f.get("rows")]
+    insights = [f for f in insights if f.get("type") != "map"]
+    map_views = []
+    if live and spec.get("geo") == "state":
+        src_ids = list((ledger.get("source_id_map") or {}))
+        map_views.append({
+            "id": "latest",
+            "tab": spec.get("label") or "Latest",
+            "title": spec.get("title") or spec.get("label") or "",
+            "lede": spec.get("lede") or "",
+            "src": src_ids[0] if src_ids else "",
+            "unit": spec.get("unit") or unit or "",
+            "format": spec.get("format") or "number",
+            "primary": True,
+        })
+        for fig in map_insights:
+            map_views.append({
+                "id": fig.get("id") or "",
+                "tab": fig.get("title") or fig.get("id") or "View",
+                "title": fig.get("title") or "",
+                "lede": fig.get("lede") or "",
+                "src": fig.get("src") or "",
+                "unit": fig.get("unit") or "",
+                "format": fig.get("format") or "number",
+                "note": figure_limit(fig),
+                "rows": fig.get("rows") or [],
+                "primary": False,
+            })
     has_trend = bool(spec.get("has_trend"))
     find_noun = (spec.get("geo") or "name").replace("_", " ")
     jump = ""
@@ -874,6 +900,21 @@ def page_html(app, ledger, apps=None):
     </div>
   </section>
 """
+    map_tabs = ""
+    if len(map_views) > 1:
+        buttons = []
+        for i, view in enumerate(map_views):
+            on = " is-on" if i == 0 else ""
+            buttons.append(
+                f'<button type="button" class="map-tab{on}" data-view="{i}">'
+                + esc(view.get("tab") or view.get("title") or "View")
+                + "</button>"
+            )
+        map_tabs = (
+            '    <div class="map-tabs" id="mapTabs" role="tablist" '
+            'aria-label="Map view">' + "".join(buttons) + "</div>\n"
+        )
+    map_lede = spec.get("lede") or ""
     if live:
         latest_section = f"""
 <section id="finding" style="margin-top:28px">
@@ -891,11 +932,12 @@ def page_html(app, ledger, apps=None):
 {trend_block}{insight_html(insights, start=insight_start)}
   <section id="view-rank">
     <h2>{esc(compare_h2)}</h2>
-{('    <div class="lede">' + esc(spec["lede"]) + "</div>\n") if spec.get("lede") else ""}{REGION_BAR if spec.get("geo") == "state" else ""}{EXPLORE_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
+{map_tabs}{('    <div class="lede" id="mapLede">' + esc(map_lede) + "</div>\n") if map_lede else '    <div class="lede" id="mapLede" hidden></div>\n'}{REGION_BAR if spec.get("geo") == "state" else ""}{EXPLORE_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {rank_n}</span>
         <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>
       <div class="plot {"plot-map" if spec.get("geo") == "state" else "plot-mid"}"{' id="chRank"' if spec.get("geo") == "state" else ""}>{"" if spec.get("geo") == "state" else '<canvas id="chRank"></canvas>'}</div>
-      <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
+      <div class="note" id="mapNote" hidden></div>
+      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
     </div>
   </section>
 """
@@ -970,6 +1012,7 @@ const DL=null;
 /* DATA:END SLUG-data */
 const CHART=CHART_JSON;
 const INSIGHTS=INSIGHTS_JSON;
+const MAP_VIEWS=MAP_VIEWS_JSON;
 const FIND=FIND_JSON;
 
 (function(){
@@ -1044,6 +1087,7 @@ const FIND=FIND_JSON;
   var region='all';
   var band='all';
   var selectedSt='';
+  var mapView=0;
   var rankChart=null;
   var chartRows=[];
   var applyFind=function(){};
@@ -1063,6 +1107,11 @@ const FIND=FIND_JSON;
   }
   function regionList(){
     return REGIONS[region]||null;
+  }
+  function currentMapView(){ return (MAP_VIEWS||[])[mapView]||{primary:true}; }
+  function mapBaseRows(){
+    var view=currentMapView();
+    return (view.rows && view.rows.length) ? view.rows : rows;
   }
   function bandStates(){
     if(CHART.geo!=='state' || band==='all') return null;
@@ -1086,6 +1135,28 @@ const FIND=FIND_JSON;
     return rows.filter(function(r){
       if(reg && reg.indexOf(r.st)<0) return false;
       if(bd && bd.indexOf(r.st)<0) return false;
+      return true;
+    }).map(function(r){ return r.st; });
+  }
+  function mapActiveStates(){
+    if(CHART.geo!=='state') return null;
+    var base=mapBaseRows();
+    var reg=regionList();
+    if(!reg && band==='all') return null;
+    var usable=base.filter(function(r){ return r && r.st && r.v!=null && r.v!==''; });
+    var keep=null;
+    if(band==='top10' || band==='bottom10'){
+      var ranked=usable.slice().sort(function(a,b){
+        var ra=a.rank!=null?Number(a.rank):999, rb=b.rank!=null?Number(b.rank):999;
+        if(ra!==rb) return ra-rb;
+        return Number(b.v)-Number(a.v);
+      });
+      keep=band==='top10'?ranked.slice(0,10):ranked.slice(-10);
+      keep=keep.map(function(r){ return r.st; });
+    }
+    return base.filter(function(r){
+      if(reg && reg.indexOf(r.st)<0) return false;
+      if(keep && keep.indexOf(r.st)<0) return false;
       return true;
     }).map(function(r){ return r.st; });
   }
@@ -1115,23 +1186,52 @@ const FIND=FIND_JSON;
     plot.style.height=Math.max(280, Math.min(1200, n*20+48))+'px';
   }
   function rankTitleText(){
+    var view=currentMapView();
+    if(view && !view.primary && view.title) return view.title;
     var base=CHART.title||CHART.label||'';
     if(CHART.geo!=='state' || region==='all') return base;
     return (CHART.label||base)+' in '+REGION_NAMES[region];
   }
+  function writeMapChrome(){
+    var view=currentMapView();
+    var ledeEl=document.getElementById('mapLede');
+    if(ledeEl){
+      var text=view.lede||(view.primary?(CHART.lede||''):'');
+      ledeEl.hidden=!text;
+      ledeEl.textContent=text;
+    }
+    var noteEl=document.getElementById('mapNote');
+    if(noteEl){
+      var note=view.note||'';
+      noteEl.hidden=!note;
+      noteEl.textContent=note;
+    }
+    var srcEl=document.getElementById('mapSrc');
+    if(srcEl){
+      var src=view.src||'see the register (the first source id)';
+      var u=view.unit||unit||'see the register';
+      srcEl.innerHTML='<b>Source:</b> '+src+'. <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '+u+'.';
+    }
+  }
   function drawRankMap(){
     var el=document.getElementById('chRank');
     if(!el||!window.dlStateMap) return;
-    chartRows=chartRowsFor();
+    var view=currentMapView();
+    var base=mapBaseRows();
+    chartRows=base;
     var titleEl=document.getElementById('rankTitle');
     if(titleEl) titleEl.textContent=rankTitleText();
+    writeMapChrome();
+    var viewFmt=view.format||fmt;
     window.dlStateMap(el,{
-      rows:rows,
-      format:function(v){return fmtVal(v,true);},
+      rows:base,
+      format:function(v){
+        return view.primary?fmtVal(v,true):fmtInsight(viewFmt,v,true);
+      },
       extra:function(){ return unit && fmt!=='usd' && fmt!=='usd_millions' && fmt!=='percent' && fmt!=='stars' ? unit : ''; },
-      active:activeStates(),
+      active:mapActiveStates(),
       selected:selectedSt,
-      ref: usVal!=null && isFinite(usVal) ? {label:'United States',value:usVal,compare:usCompare} : null,
+      ref: view.primary && usVal!=null && isFinite(usVal) ? {label:'United States',value:usVal,compare:usCompare} : null,
       onSelect:function(r){
         selectedSt=r.st||'';
         var find=document.getElementById('tblFind');
@@ -1225,6 +1325,18 @@ const FIND=FIND_JSON;
   [].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
     btn.classList.toggle('on', btn.getAttribute('data-band')===band);
   });
+  var tabs=document.getElementById('mapTabs');
+  if(tabs){
+    tabs.addEventListener('click', function(ev){
+      var btn=ev.target.closest('.map-tab');
+      if(!btn) return;
+      mapView=Number(btn.getAttribute('data-view'))||0;
+      [].slice.call(tabs.querySelectorAll('.map-tab')).forEach(function(b,i){
+        b.classList.toggle('is-on', i===mapView);
+      });
+      drawRank();
+    });
+  }
   drawRank();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
@@ -1667,7 +1779,7 @@ const FIND=FIND_JSON;
   }
 EXTRA_TOOL_JS})();
 </script>
-""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True)).replace("FIND_JSON", json.dumps(find_spec, ensure_ascii=True)).replace("EXTRA_TOOL_JS", extra_tool_js(app, ledger))
+""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True)).replace("MAP_VIEWS_JSON", json.dumps(map_views, ensure_ascii=True)).replace("FIND_JSON", json.dumps(find_spec, ensure_ascii=True)).replace("EXTRA_TOOL_JS", extra_tool_js(app, ledger))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>

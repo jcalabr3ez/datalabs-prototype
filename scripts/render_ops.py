@@ -91,15 +91,12 @@ CHANGELOG = [
     },
     {
         "date": "August 16, 2026",
-        "title": "State maps show the ranking without a click",
+        "title": "One country map, colored by the ranking",
         "body": (
-            "The fifty-state map now uses five color classes so neighboring "
-            "states are distinguishable. A ranked list sits beside the "
-            "country so every state's place is visible without a click. A "
-            "strip under the map is the same ranking as a line. The "
-            "Northeast inset is gone so the country silhouette stays sharp. "
-            "The every-state table sorts by column and can show states "
-            "above or below the U.S., or the top or bottom ten."
+            "Each state tool keeps a single United States map. The ranking "
+            "is the color on the states. The list of states and the strip "
+            "under the map are gone. Extra state views, such as NAEP "
+            "change, sit as tabs on that one map."
         ),
     },
     {

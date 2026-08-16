@@ -1,8 +1,6 @@
 /* DataLabs fifty-state choropleth. Paints assets/us-states.svg from a row list.
-   Color is five ranked classes so neighboring states stay distinguishable.
-   A ranked list and a distribution strip sit with the country so a state's
-   place is visible without a click. Massachusetts keeps a gold outline and
-   Florida a rust outline. */
+   Color is five ranked classes on the states themselves. Massachusetts keeps
+   a gold outline and Florida a rust outline. */
 (function (root) {
   'use strict';
 
@@ -144,21 +142,12 @@
     el.innerHTML =
       '<div class="usmap-frame">' +
         '<div class="usmap-box">' + svg + '<div class="usmap-tip" hidden></div></div>' +
-        '<div class="usmap-side">' +
-          '<div class="usmap-side-h">Highest to lowest</div>' +
-          '<ol class="usmap-ladder"></ol>' +
-        '</div>' +
-      '</div>' +
-      '<div class="usmap-strip-wrap">' +
-        '<div class="usmap-strip-h">Where each state sits</div>' +
-        '<div class="usmap-strip"></div>' +
-        '<div class="usmap-strip-lab"><span>Lowest</span><span>Highest</span></div>' +
       '</div>' +
       '<div class="usmap-now" hidden></div>' +
       '<div class="usmap-legend">' +
         '<div class="usmap-bins"></div>' +
         '<div class="usmap-key"><i></i>Massachusetts<i class="fl"></i>Florida</div>' +
-        '<div class="usmap-hint">Hover a state, a row, or a dot to see its rank. Click to open the table.</div>' +
+        '<div class="usmap-hint">Hover a state to see its rank. Click to open the table.</div>' +
       '</div>' +
       '<div class="usmap-read"></div>';
   }
@@ -173,7 +162,7 @@
   }
 
   function setHot(el, st) {
-    [].forEach.call(el.querySelectorAll('.st, .usmap-lad, .usmap-dot'), function (n) {
+    [].forEach.call(el.querySelectorAll('.st'), function (n) {
       n.classList.toggle('is-hot', !!(st && n.getAttribute('data-st') === st));
     });
   }
@@ -197,7 +186,7 @@
     el._dlMapBound = true;
 
     function targetOf(ev) {
-      return ev.target.closest && ev.target.closest('.st, .usmap-lad, .usmap-dot');
+      return ev.target.closest && ev.target.closest('.st');
     }
 
     function rowOf(node) {
@@ -242,7 +231,7 @@
 
     el.addEventListener('mouseout', function (ev) {
       var next = ev.relatedTarget;
-      if (next && el.contains(next) && next.closest && next.closest('.st, .usmap-lad, .usmap-dot')) return;
+      if (next && el.contains(next) && next.closest && next.closest('.st')) return;
       setHot(el, el._dlSelected || '');
       showNow(el, null);
       var tipEl = el.querySelector('.usmap-tip');
@@ -296,7 +285,7 @@
       var st = p.getAttribute('data-st');
       var row = lookup[st];
       var v = row ? num(row.v) : null;
-      p.setAttribute('fill', sc.fill(v));
+      p.style.fill = (!row || v == null) ? '' : sc.fill(v);
       p.classList.toggle('is-empty', !row || v == null);
       p.classList.toggle('is-ma', st === 'MA');
       p.classList.toggle('is-fl', st === 'FL');
@@ -304,53 +293,6 @@
       p.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
       p.setAttribute('tabindex', (!row || v == null || (active && active.indexOf(st) < 0)) ? '-1' : '0');
     });
-
-    var ladder = el.querySelector('.usmap-ladder');
-    if (ladder) {
-      ladder.innerHTML = ranked.map(function (r, i) {
-        var st = String(r.st).toUpperCase();
-        var rk = r.rank != null && r.rank !== '' ? r.rank : (i + 1);
-        var cls = ['usmap-lad'];
-        if (st === 'MA') cls.push('is-ma');
-        if (st === 'FL') cls.push('is-fl');
-        if (st === selected) cls.push('is-on');
-        if (active && active.indexOf(st) < 0) cls.push('is-dim');
-        return '<li class="' + cls.join(' ') + '" data-st="' + htmlEsc(st) + '" tabindex="' +
-          ((active && active.indexOf(st) < 0) ? '-1' : '0') + '">' +
-          '<i class="chip" style="background:' + sc.fill(r.v) + '"></i>' +
-          '<span class="rk">' + htmlEsc(rk) + '</span>' +
-          '<span class="ab">' + htmlEsc(st) + '</span>' +
-          '<span class="nm">' + htmlEsc(r.name || st) + '</span>' +
-          '<span class="vl">' + htmlEsc(fmt(r.v)) + '</span></li>';
-      }).join('');
-      var onLad = ladder.querySelector('.usmap-lad.is-on') || ladder.querySelector('.usmap-lad:not(.is-dim)');
-      if (onLad && onLad.scrollIntoView) onLad.scrollIntoView({ block: 'nearest' });
-    }
-
-    var strip = el.querySelector('.usmap-strip');
-    if (strip) {
-      var span = (sc.hi - sc.lo) || 1;
-      var us = refCompare(opts.ref);
-      var html = '';
-      if (us != null) {
-        var usX = ((us - sc.lo) / span) * 100;
-        html += '<div class="usmap-usmark" style="left:' + usX + '%"><i></i><span>U.S.</span></div>';
-      }
-      html += ranked.map(function (r, i) {
-        var st = String(r.st).toUpperCase();
-        var x = ((num(r.v) - sc.lo) / span) * 100;
-        var y = 50 + ((i % 5) - 2) * 14;
-        var cls = ['usmap-dot'];
-        if (st === 'MA') cls.push('is-ma');
-        if (st === 'FL') cls.push('is-fl');
-        if (st === selected) cls.push('is-on');
-        if (active && active.indexOf(st) < 0) cls.push('is-dim');
-        return '<button type="button" class="' + cls.join(' ') + '" data-st="' + htmlEsc(st) +
-          '" style="left:' + x + '%;top:' + y + '%;background:' + sc.fill(r.v) +
-          '" aria-label="' + htmlEsc((r.name || st) + ' ' + fmt(r.v)) + '"></button>';
-      }).join('');
-      strip.innerHTML = html;
-    }
 
     var view = rows.filter(function (r) { return num(r.v) != null; });
     if (active) view = view.filter(function (r) { return active.indexOf(r.st) >= 0; });
@@ -386,8 +328,8 @@
     var hint = el.querySelector('.usmap-hint');
     if (hint) {
       hint.textContent = el._dlOnSelect
-        ? 'Hover a state, a row, or a dot to see its rank. Click to open the table.'
-        : 'Hover a state, a row, or a dot to see its rank against the rest.';
+        ? 'Hover a state to see its rank. Click to open the table.'
+        : 'Hover a state to see its rank against the rest.';
     }
     setHot(el, selected);
     bind(el);
@@ -395,7 +337,7 @@
 
   function dlStateMap(el, opts) {
     if (!el) return;
-    if (el._dlMapReady && !el.querySelector('.usmap-ladder')) {
+    if (el._dlMapReady && !el.querySelector('.usmap-svg')) {
       el._dlMapReady = false;
       el._dlMapBound = false;
     }

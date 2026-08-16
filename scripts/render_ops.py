@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Florida marked on the fifty-state tools",
+        "body": (
+            "State ranking charts and tables now mark Florida in steel next to "
+            "Massachusetts in gold. Both states stay on the chart when they "
+            "are outside the top twelve. Figures are unchanged."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Charts read as a statistical brief",
         "body": (
             "Figures now use a shared paper theme: Roboto ticks, square bars, "

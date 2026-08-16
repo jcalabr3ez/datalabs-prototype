@@ -115,7 +115,7 @@
   th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
   td.m{font-weight:600}
   tr.hl td{background:var(--wash);font-weight:600}
-  tr.hl-ma td{background:var(--wash)}
+  tr.hl-ma td,tr.hl-fl td{background:var(--wash)}
   .neg{color:var(--neg)} .pos{color:var(--pos)}
 
   details{margin-top:18px;border-top:1px solid var(--rule-lt)}
@@ -266,7 +266,7 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
 
   <section id="view-price_rank">
     <h2>Which states pay the most?</h2>
-    <div class="lede">The twelve highest all-sector average retail prices, plus Massachusetts if it is not already in that set. Massachusetts is marked in gold. The dashed line is the EIA U.S. Total. Every state is in the table below.</div>
+    <div class="lede">The twelve highest all-sector average retail prices, plus Massachusetts and Florida if they are not already in that set. Massachusetts is marked in gold; Florida in steel. The dashed line is the EIA U.S. Total. Every state is in the table below.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
         <span class="ex-t" id="fig1t">All-sector average retail electricity price by state</span></div>
@@ -287,7 +287,7 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
 
   <section style="margin-top:30px" id="view-price_trend">
     <h2>How have prices moved since 2012?</h2>
-    <div class="lede">Two lines: the EIA U.S. Total and one selected state. The series is the same all-sector average as Figure 1, year by year.</div>
+    <div class="lede">The EIA U.S. Total with Massachusetts and Florida. Select another state to add a fourth line. The series is the same all-sector average as Figure 1, year by year.</div>
     <div class="findrow">
       <label class="sel-lab" for="stSel">State</label>
       <select id="stSel"></select>
@@ -296,7 +296,7 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
       <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t" id="fig2t">All-sector average retail price, United States and selected state</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="note">Massachusetts rose from 13.79 cents in 2012 to more than 23 cents in the latest years, a steeper climb than the national line (derived, SRC-401). The U.S. Total stayed in the low-to-mid teens across the same window. Select another state to compare it with the national series.</div>
+      <div class="note">Massachusetts rose from 13.79 cents in 2012 to more than 23 cents in the latest years, a steeper climb than the national line (derived, SRC-401). The U.S. Total stayed in the low-to-mid teens across the same window. Florida is the steel line. Select another state to add it.</div>
       <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total Electric Industry (SRC-401), 2012 through the latest annual year. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
@@ -437,7 +437,7 @@ const DL04={"year":2024,"as_of":"2024-12","revised":"Aug 15, 2026","version":"1.
   setInterval(postHeight,1500);
 })();
 
-const BLUE='#293C5C', GOLD='#CCB26D', INK='#222222', G3='#8DA0B5';
+const BLUE='#293C5C', GOLD='#CCB26D', STEEL='#5C7A99', INK='#222222', G3='#8DA0B5';
 const AY={grid:{color:'rgba(34,34,34,.08)'},ticks:{color:'#4A5560'},border:{display:false}};
 const AX={grid:{display:false},ticks:{color:'#4A5560'}};
 function axisTitle(text){return {display:true,text:text,color:'#4A5560',font:{size:11,family:'Roboto,sans-serif'}};}
@@ -479,14 +479,24 @@ function fmtM(v){ return (v/1e6).toFixed(1); }
 function yoyCls(v){ return v==null?'':(v>0?'neg':(v<0?'pos':'')); }
 function yoyTxt(v){ return v==null?'':((v>0?'+':'')+v.toFixed(1)+'%'); }
 
+function ensureSt(top, sorted, st){
+  if(!st || top.some(function(r){return r.st===st;})) return;
+  var extra=sorted.filter(function(r){return r.st===st;})[0];
+  if(extra) top.push(extra);
+}
 function rankSlice(rows, key, n){
   var sorted=rows.slice().sort(function(a,b){return b[key]-a[key];});
   var top=sorted.slice(0,n||12);
-  if(!top.some(function(r){return r.st===selected;})){
-    var extra=sorted.filter(function(r){return r.st===selected;})[0];
-    if(extra) top.push(extra);
-  }
+  ensureSt(top, sorted, 'MA');
+  ensureSt(top, sorted, 'FL');
+  if(selected && selected!=='MA' && selected!=='FL') ensureSt(top, sorted, selected);
   return top;
+}
+function barColor(r){
+  if(r.st==='MA') return GOLD;
+  if(r.st==='FL') return STEEL;
+  if(r.st===selected) return GOLD;
+  return BLUE;
 }
 function renderPrices(){
   if(rendered.p) return; rendered.p=true;
@@ -495,7 +505,7 @@ function renderPrices(){
   new Chart(document.getElementById('chRank'),{type:'bar',
     data:{labels:rows.map(function(r){return r.name;}),
       datasets:[{data:rows.map(function(r){return r.price_cents;}),
-        backgroundColor:rows.map(function(r){return r.st===selected?GOLD:BLUE;})}]},
+        backgroundColor:rows.map(barColor)}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
       layout:{padding:{top:10,right:56}},
       plugins:{legend:{display:false},
@@ -517,16 +527,22 @@ function fillSelect(){
 }
 
 function drawTrend(){
-  var us=DL04.price_trend.US, st=DL04.price_trend[selected]||[];
-  var name=DL04.entities[selected]||selected;
-  document.getElementById('fig2t').textContent='All-sector average retail price, United States and '+name+', 2012 to '+DL04.year;
-  var data={
-    labels:us.map(function(e){return e.y;}),
-    datasets:[
-      {label:'United States',data:us.map(function(e){return e.v;}),borderColor:INK,backgroundColor:'transparent'},
-      {label:name,data:st.map(function(e){return e.v;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2}
-    ]
-  };
+  var us=DL04.price_trend.US;
+  var ma=DL04.price_trend.MA||[];
+  var fl=DL04.price_trend.FL||[];
+  var extra=selected && selected!=='MA' && selected!=='FL' ? (DL04.price_trend[selected]||[]) : [];
+  var extraName=DL04.entities[selected]||selected;
+  document.getElementById('fig2t').textContent='All-sector average retail price, United States, Massachusetts, and Florida, 2012 to '+DL04.year;
+  var datasets=[
+    {label:'United States',data:us.map(function(e){return e.v;}),borderColor:INK,backgroundColor:'transparent'}
+  ];
+  if(ma.length) datasets.push({label:'Massachusetts',data:ma.map(function(e){return e.v;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2});
+  if(fl.length) datasets.push({label:'Florida',data:fl.map(function(e){return e.v;}),borderColor:STEEL,backgroundColor:'transparent',borderWidth:2});
+  if(extra.length){
+    datasets.push({label:extraName,data:extra.map(function(e){return e.v;}),borderColor:BLUE,backgroundColor:'transparent'});
+    document.getElementById('fig2t').textContent='All-sector average retail price, United States, Massachusetts, Florida, and '+extraName+', 2012 to '+DL04.year;
+  }
+  var data={labels:us.map(function(e){return e.y;}),datasets:datasets};
   var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:64}},
     plugins:{legend:{display:true,position:'top',align:'end'},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(2)+' cents';}}}},
@@ -549,7 +565,7 @@ function renderSupply(){
   new Chart(document.getElementById('chSales'),{type:'bar',
     data:{labels:sales.map(function(r){return r.name;}),
       datasets:[{data:sales.map(function(r){return r.sales_mwh/1e6;}),
-        backgroundColor:sales.map(function(r){return r.st===selected?GOLD:BLUE;})}]},
+        backgroundColor:sales.map(barColor)}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
@@ -562,7 +578,7 @@ function renderSupply(){
   new Chart(document.getElementById('chGen'),{type:'bar',
     data:{labels:gen.map(function(r){return r.name;}),
       datasets:[{data:gen.map(function(r){return r.gen_mwh/1e6;}),
-        backgroundColor:gen.map(function(r){return r.st===selected?GOLD:BLUE;})}]},
+        backgroundColor:gen.map(barColor)}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
@@ -577,7 +593,7 @@ function renderTable(){
   var body=document.querySelector('#tblStates tbody');
   var usRow='<tr class="hl"><td class="m">United States</td><td class="n">'+us.price_cents.toFixed(2)+'</td><td class="n">n.a.</td><td class="n '+yoyCls(us.yoy_pct)+'">'+yoyTxt(us.yoy_pct)+'</td><td class="n">'+fmtM(us.sales_mwh)+'</td><td class="n">'+(us.gen_mwh!=null?fmtM(us.gen_mwh):'')+'</td><td class="n">'+(us.cap_mw!=null?Math.round(us.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n"></td></tr>';
   var rows=DL04.states.slice().sort(function(a,b){return a.rank-b.rank;}).map(function(r){
-    var hl=r.st===selected?' class="hl-ma"':'';
+    var hl=r.st==='FL'?' class="hl-fl"':((r.st==='MA'||r.st===selected)?' class="hl-ma"':'');
     return '<tr'+hl+' id="row-'+r.st+'"><td class="m">'+r.name+'</td><td class="n">'+r.price_cents.toFixed(2)+'</td><td class="n">'+r.rank+'</td><td class="n '+yoyCls(r.yoy_pct)+'">'+yoyTxt(r.yoy_pct)+'</td><td class="n">'+fmtM(r.sales_mwh)+'</td><td class="n">'+(r.gen_mwh!=null?fmtM(r.gen_mwh):'')+'</td><td class="n">'+(r.cap_mw!=null?Math.round(r.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n">'+(r.sales_mwh_per_capita!=null?r.sales_mwh_per_capita.toFixed(2):'')+'</td></tr>';
   }).join('');
   body.innerHTML=usRow+rows;
@@ -606,7 +622,7 @@ function renderTable(){
 
 var STANDFIRSTS={
   prices:'What households, businesses, and industry together pay for a kilowatthour, state by state. Rebuilt from EIA Form EIA-861 and verified against Electric Power Annual table 2.10.',
-  trends:'The all-sector average since 2012: the EIA U.S. Total against any selected state.',
+  trends:'The all-sector average since 2012: the EIA U.S. Total with Massachusetts and Florida. Select another state to add a line.',
   supply:'Retail sales and in-state net generation for the latest year, with capacity and per-capita figures in the table.',
   table:'Every state and the District of Columbia for the latest year: price, rank, sales, generation, capacity, and sales per resident.'
 };

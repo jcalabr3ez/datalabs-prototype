@@ -5,6 +5,7 @@
 name: Engine eval
 
 on:
+  pull_request: {}
   schedule:
     - cron: "41 11 * * 1" # Mondays 11:41 UTC
   workflow_dispatch:
@@ -23,5 +24,5 @@ jobs:
           node-version: "20"
       - name: Run golden questions against the live endpoint
         env:
-          SITE_URL: ${{ inputs.site_url || vars.SITE_URL || 'https://datalabsai.netlify.app' }}
+          SITE_URL: ${{ github.event.inputs.site_url || vars.SITE_URL || 'https://datalabsai.netlify.app' }}
         run: node scripts/eval_engine.mjs

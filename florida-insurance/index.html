@@ -1313,11 +1313,16 @@ window.setQuery=function setQuery(updates){
 }
 function showView(v){
   const views=['home','policy','report'];
+  if(views.indexOf(v)<0) v='home';
   views.forEach(k=>{
     document.getElementById('view-'+k).hidden=(k!==v);
     document.getElementById('btn-'+k).classList.toggle('on',k===v);
   });
   setQuery({view:v==='home'?null:v});
+  var want='view-'+v;
+  if((location.hash||'').replace(/^#/,'')!==want){
+    history.replaceState(null,'',location.pathname+location.search+'#'+want);
+  }
   const stand={
     home:"What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings.",
     policy:"What the 2022 and 2023 reforms did to the risk taxpayers carry, to the health of the market, and to what households pay. Every figure traced to a state filing.",
@@ -1328,14 +1333,19 @@ function showView(v){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-(function(){
-  var start='home';
+function viewFromLocation(){
+  var h=(location.hash||'').replace(/^#/,'');
+  var hv=h.split('&')[0].replace(/^view-/,'');
+  if(hv==='home'||hv==='policy'||hv==='report') return hv;
   try{
     var q=new URLSearchParams(location.search).get('view');
-    if(q==='policy'||q==='report'||q==='home') start=q;
+    if(q==='policy'||q==='report'||q==='home') return q;
   }catch(err){}
-  showView(start);
-})();
+  return 'home';
+}
+
+window.addEventListener('hashchange', function(){ showView(viewFromLocation()); });
+showView(viewFromLocation());
 
 /* ============ county map and selector (homeowner view) ============ */
 (function(){

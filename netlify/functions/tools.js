@@ -85,14 +85,35 @@ function suiteModel(d) {
   };
 }
 
-function suiteRules(id, src, extra) {
-  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. Answer the metric named in metric_label and any series stored under derived.secondary; cite the source id on each secondary figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. View and chart selection: latest = the current ranking; trend = change over time; table = every row. When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
+function suiteHasTrend(d) {
+  var t = d && d.trend;
+  if (!t) return false;
+  if (Array.isArray(t)) return t.length >= 2;
+  return Object.keys(t).some(function (k) {
+    return t[k] && t[k].length >= 2;
+  });
 }
 
-function suiteLink(slug) {
+function suiteViewId(view) {
+  if (view === 'latest') return 'view-rank';
+  return 'view-' + view;
+}
+
+function suiteRules(id, src, extra, hasTrend) {
+  var pick = hasTrend
+    ? 'View and chart selection: latest = the current ranking; trend = change over time; table = every row. '
+    : 'View and chart selection: latest = the current ranking; table = every row. This page has no trend view. ';
+  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. Answer the metric named in metric_label and any series stored under derived.secondary; cite the source id on each secondary figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. ' + pick + 'When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
+}
+
+function suiteLink(slug, opts) {
+  opts = opts || {};
+  var hasTrend = !!opts.hasTrend;
+  var extra = opts.extraViews || [];
   return function (p) {
-    var view = (p.view && ['latest', 'trend', 'table'].indexOf(p.view) >= 0) ? p.view : 'latest';
-    var url = '/' + slug + '/#view-' + view;
+    var allowed = ['latest', 'table'].concat(hasTrend ? ['trend'] : []).concat(extra);
+    var view = (p.view && allowed.indexOf(p.view) >= 0) ? p.view : 'latest';
+    var url = '/' + slug + '/#' + suiteViewId(view);
     if (p.highlight) url += '&st=' + encodeURIComponent(p.highlight);
     return url;
   };
@@ -103,6 +124,13 @@ function suiteSrc(d) {
 }
 
 function suiteTool(d, spec) {
+  var hasTrend = spec.hasTrend != null ? spec.hasTrend : suiteHasTrend(d);
+  var extraViews = spec.extraViews || [];
+  var views = ['latest'];
+  if (hasTrend) views.push('trend');
+  views.push('table');
+  extraViews.forEach(function (v) { views.push(v); });
+  var charts = views.filter(function (v) { return extraViews.indexOf(v) < 0; });
   return {
     id: spec.id,
     label: spec.label,
@@ -111,16 +139,16 @@ function suiteTool(d, spec) {
     dataset: d,
     coreSlice: suiteCore,
     modelSlice: suiteModel,
-    charts: ['latest', 'trend', 'table'],
-    views: ['latest', 'trend', 'table'],
+    charts: charts,
+    views: views,
     viewDefault: 'latest',
     highlight: {
       key: 'entities',
       uppercase: spec.uppercase !== false,
       describe: spec.hl || 'the exact two-letter jurisdiction code (for example MA, CA, TX) if the question focuses on one state, else null'
     },
-    rules: suiteRules(spec.id, spec.src, spec.extra),
-    link: suiteLink(d.slug),
+    rules: suiteRules(spec.id, spec.src, spec.extra, hasTrend),
+    link: suiteLink(d.slug, { hasTrend: hasTrend, extraViews: extraViews }),
     src: suiteSrc
   };
 }
@@ -458,6 +486,7 @@ module.exports = [
       id: 'DL-11',
       label: '340B participating covered-entity sites, hospital charity-care shares, and contract pharmacies by 2024 state house district',
       src: 'SRC-611-01',
+      extraViews: ['charity', 'districts'],
       triggers: [
         '340b', '340 b', 'covered entity', 'covered entities', 'opais',
         'contract pharmacy', 'contract pharmacies', 'charity care',
@@ -465,7 +494,6 @@ module.exports = [
       ],
       extra: 'Program growth is participating 340B IDs on the OPAIS daily export (SRC-611-01). The start-year trend is the current participating roster, not a reconstructed historical stock. Charity-care shares sit in derived.secondary.charity_care from the CMS Hospital Provider Cost Report PUF (SRC-611-02); RAND TL-303 is the method citation (SRC-611-04). Unique pharmacies by 2024 state house district sit in derived.secondary.legislative (SRC-611-03). A ZIP can cross district lines. Decline hospital or manufacturer advice and federal-rule forecasts.'
     });
-    t.views = ['latest', 'trend', 'table', 'charity', 'districts'];
     t.coreSlice = function (d) {
       var c = suiteCore(d);
       if (c.derived && c.derived.secondary && c.derived.secondary.legislative) {
@@ -480,14 +508,6 @@ module.exports = [
         c.derived = Object.assign({}, c.derived, { secondary: sec });
       }
       return c;
-    };
-    t.link = function (p) {
-      var allowed = ['latest', 'trend', 'table', 'charity', 'districts'];
-      var view = (p.view && allowed.indexOf(p.view) >= 0) ? p.view : 'latest';
-      var hash = { latest: 'view-rank', trend: 'view-trend', table: 'view-table', charity: 'view-charity', districts: 'view-districts' }[view];
-      var url = '/340b/#' + hash;
-      if (p.highlight) url += '&st=' + encodeURIComponent(p.highlight);
-      return url;
     };
     return t;
   }()),

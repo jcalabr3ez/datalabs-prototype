@@ -108,7 +108,7 @@
  {
   "id": "DL-06",
   "t": "Massachusetts Schools",
-  "q": "Enrollment, MCAS, attendance, dropouts, school finances, and Chapter 74 vocational-technical programs for Massachusetts districts.",
+  "q": "Enrollment by grade, demographics, MCAS, attendance, dropouts, school finances, and Chapter 74 vocational-technical programs for Massachusetts districts.",
   "g": [
    "MA"
   ],
@@ -122,7 +122,7 @@
  {
   "id": "DL-07",
   "t": "State School Scores",
-  "q": "NAEP scores, enrollment, and school finance across the fifty states.",
+  "q": "NAEP scores, enrollment, school finance, graduation, and discipline, including suspension by race, across the fifty states.",
   "g": [
    "US"
   ],
@@ -131,12 +131,12 @@
   "ai": true,
   "group": "Education",
   "vint": "Fall 2024",
-  "ma": "NAEP reading rank 1"
+  "ma": "915,932 enrolled, rank 17 of 51"
  },
  {
   "id": "DL-08",
   "t": "College Enrollment",
-  "q": "Fall college enrollment by state, with SAT scores as a later view.",
+  "q": "Fall college enrollment, SAT scores, faculty and staff, graduation, tuition, and higher-education finance by state.",
   "g": [
    "US",
    "MA"
@@ -146,12 +146,12 @@
   "ai": true,
   "group": "Education",
   "vint": "Fall 2022",
-  "ma": "SAT mean 1112"
+  "ma": "468,960 enrolled, rank 12 of 51"
  },
  {
   "id": "DL-09",
   "t": "Charter Enrollment",
-  "q": "Charter-school enrollment by state. Teacher counts are a secondary table.",
+  "q": "Charter-school enrollment by state, with public-school teachers, staff, and instructional aides.",
   "g": [
    "US",
    "MA"
@@ -175,7 +175,7 @@
   "ai": true,
   "group": "Healthcare",
   "vint": "CMS Hospital General Information, retrieved Aug 2026",
-  "ma": "Nantucket Cottage Hospital S-RP 1.79"
+  "ma": "84 CMS-listed hospitals, 9 five-star"
  },
  {
   "id": "DL-11",
@@ -233,7 +233,7 @@
   "ai": true,
   "group": "Economy & Jobs",
   "vint": "Jun 2026",
-  "ma": "LFPR 65.3%, rank 11 of 51"
+  "ma": "4.4%, rank 18 of 51"
  },
  {
   "id": "DL-15",
@@ -263,12 +263,12 @@
   "ai": true,
   "group": "Housing",
   "vint": "Jun 2026 year-to-date",
-  "ma": "house prices +3.65%, rank 21 of 51"
+  "ma": "7,148 units YTD, rank 30 of 51"
  },
  {
   "id": "DL-17",
   "t": "State Migration",
-  "q": "Domestic migration by state, not headcount.",
+  "q": "Domestic and international migration, births, deaths, population change, and age and race shares by state.",
   "g": [
    "US",
    "MA"
@@ -315,12 +315,12 @@
   "ai": true,
   "group": "Economy & Jobs",
   "vint": "Calendar year 2024",
-  "ma": "housing RPP 128.1, rank 4 of 51"
+  "ma": "105.8, rank 7 of 51"
  },
  {
   "id": "DL-20",
   "t": "Taxpayer Migration",
-  "q": "Where taxpayers moved, state to state and county to county, including Massachusetts destinations.",
+  "q": "IRS state-to-state and county-to-county taxpayer flows.",
   "g": [
    "US",
    "MA"
@@ -345,7 +345,7 @@
   "ai": true,
   "group": "Taxation",
   "vint": "Tax year 2022",
-  "ma": "million-plus AGI share 21.87%"
+  "ma": "$422.21 billion AGI, rank 9 of 51"
  },
  {
   "id": "DL-22",
@@ -374,7 +374,7 @@
   "ai": true,
   "group": "Transportation & Infrastructure",
   "vint": "Calendar year 2024",
-  "ma": "NRI 78.8, rank 7 of 51"
+  "ma": "62,013.3 million, rank 20 of 51"
  },
  {
   "id": "DL-24",
@@ -394,7 +394,7 @@
  {
   "id": "DL-25",
   "t": "Massachusetts Town Profiles",
-  "q": "Population, income, housing, and education for every Massachusetts city and town.",
+  "q": "Population, income, housing, and education for every Massachusetts city and town, with Census and ACS peers.",
   "g": [
    "MA"
   ],
@@ -403,7 +403,7 @@
   "ai": true,
   "group": "Your City & Town",
   "vint": "July 1, 2025",
-  "ma": "Boston income $97,344"
+  "ma": "Boston population 672,973"
  },
  {
   "id": "DL-26",
@@ -422,7 +422,7 @@
  {
   "id": "DL-27",
   "t": "Boston City Payroll",
-  "q": "Boston department payroll.",
+  "q": "Boston department payroll, named top earners, and the adopted operating budget.",
   "g": [
    "Boston"
   ],
@@ -445,7 +445,7 @@
   "ai": true,
   "group": "State Government & Spending",
   "vint": "2026 Q1",
-  "ma": "income tax 50.4% of 2026 Q1"
+  "ma": "$11.62 billion in 2026 Q1"
  },
  {
   "id": "DL-29",
@@ -487,7 +487,7 @@
   "ai": true,
   "group": "Crime & Justice",
   "vint": "Year-end 2023",
-  "ma": "imprisonment rate 96, rank 50 of 50"
+  "ma": "6,002 prisoners, rank 36 of 50"
  },
  {
   "id": "DL-32",

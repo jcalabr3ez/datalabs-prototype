@@ -253,6 +253,46 @@ for r in catalog:
     else:
         print(f"catalog hygiene: ok   {r.get('id')} has {len(dashes)} Tableau dashboard(s)")
 
+# ---- 7. Catalog q/ma follow the suite primary metric ----
+from page_voice import SKIP_VOICE, voice_for  # noqa: E402
+from suite_common import geo_to_st  # noqa: E402
+
+if geo_to_st("Tennessee (2)") != "TN":
+    failures.append('geo_to_st must strip trailing (n) footnotes (Tennessee (2) -> TN)')
+    print("geo footnotes: MISS Tennessee (2)")
+else:
+    print("geo footnotes: ok   Tennessee (2) -> TN")
+
+apps_by_id = {a["id"]: a for a in load_apps()}
+for row in catalog:
+    tid = row.get("id")
+    app = apps_by_id.get(tid)
+    if not app:
+        continue
+    if row.get("q") != app.get("q"):
+        failures.append(f"catalog.json {tid} q does not match suite/apps.json")
+        print(f"catalog q: MISS {tid}")
+    else:
+        print(f"catalog q: ok   {tid}")
+    if tid in SKIP_VOICE:
+        continue
+    led_path = ledger_path(tid)
+    if not led_path.exists():
+        continue
+    led = json.loads(led_path.read_text(encoding="utf-8"))
+    if led.get("status") != "live":
+        continue
+    voice = voice_for(app, led)
+    want = (voice or {}).get("ma") or ""
+    got = row.get("ma") or ""
+    if want != got:
+        failures.append(
+            f"catalog.json {tid} ma {got!r} does not match primary metric line {want!r}"
+        )
+        print(f"catalog ma: MISS {tid}")
+    else:
+        print(f"catalog ma: ok   {tid}")
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

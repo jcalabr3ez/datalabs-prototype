@@ -3,7 +3,11 @@
 // questions hit the answering tool) and that core slices stay small
 // enough that twenty of them still fit in one Sonnet call.
 import { createRequire } from "node:module";
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 const require = createRequire(import.meta.url);
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 
 const tools = require("../netlify/functions/tools.js");
 const ask = require("../netlify/functions/ask.js");
@@ -165,6 +169,64 @@ const cores = tools.reduce(function (n, t) {
 const projected20 = Math.round(cores / tools.length * 20);
 check(projected20 < CORES_PROJECTED_BUDGET, "twenty average cores project to " + projected20 + " B (budget " + CORES_PROJECTED_BUDGET + ")");
 console.log("      current cores total " + cores + " B; 20-tool projection " + projected20 + " B");
+
+function toolPageRel(t) {
+  const slug = t.dataset && t.dataset.slug;
+  if (slug) return slug + "/index.html";
+  const map = {
+    "DL-01": "tax-atlas/index.html",
+    "DL-02": "florida-insurance/index.html",
+    "DL-03": "mbta/index.html",
+    "DL-04": "electricity/index.html",
+    "DL-05": "pensions/index.html",
+  };
+  return map[t.id];
+}
+
+function fragmentFor(t, name, kind) {
+  const p = {
+    view: t.viewDefault || "latest",
+    chart: "none",
+  };
+  if (kind === "view") p.view = name;
+  if (kind === "chart") p.chart = name;
+  const url = t.link(p);
+  const hash = (url.split("#")[1] || "").split("&")[0];
+  return { url, hash };
+}
+
+function pageHasViewTarget(html, id, t) {
+  if (!id) return true;
+  const esc = id.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  if (new RegExp("id=[\"']" + esc + "[\"']").test(html)) return true;
+  if (t.id === "DL-01") {
+    const v = id.replace(/^view-/, "");
+    return html.indexOf('["current", "proposals", "ballot", "future", "events"]') >= 0
+      && html.indexOf('"' + v + '"') >= 0;
+  }
+  return false;
+}
+
+for (const t of tools) {
+  const rel = toolPageRel(t);
+  const page = rel && path.join(ROOT, rel);
+  check(!!page && fs.existsSync(page), t.id + " page exists (" + rel + ")");
+  if (!page || !fs.existsSync(page)) continue;
+  const html = fs.readFileSync(page, "utf8");
+  const seen = {};
+  const items = [];
+  for (const name of (t.views || [])) items.push(["view", name]);
+  for (const name of (t.charts || [])) items.push(["chart", name]);
+  for (const [kind, name] of items) {
+    if (!name || name === "none") continue;
+    const { hash } = fragmentFor(t, name, kind);
+    if (!hash) continue;
+    const key = kind + ":" + name + ":" + hash;
+    if (seen[key]) continue;
+    seen[key] = true;
+    check(pageHasViewTarget(html, hash, t), t.id + " " + kind + " " + name + " maps to #" + hash + " on " + rel);
+  }
+}
 
 if (failures) {
   console.log("\n" + failures + " engine check failures");

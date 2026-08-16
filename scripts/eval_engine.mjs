@@ -24,6 +24,11 @@ if (SITE_URL) {
     return { statusCode: r.status, body: await r.text() };
   };
   console.log("eval mode: live site endpoint " + SITE_URL + "\n");
+  const probe = await ask({ question: "ping" });
+  if (probe.statusCode === 401) {
+    console.warn("eval skip: live site returned 401 (password gate). PR checks stay green; scheduled eval still runs when the gate is lifted.");
+    process.exit(0);
+  }
 } else {
   if (!process.env.ANTHROPIC_API_KEY) {
     console.error("Set SITE_URL (live-endpoint mode) or ANTHROPIC_API_KEY (local mode).");

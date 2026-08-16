@@ -1116,8 +1116,8 @@ def build_vmt(app):
             us_val = v
         else:
             values[st] = v
-    if len(values) < 50:
-        sys.exit(f"FATAL: FHWA VM-2 parsed {len(values)} states")
+    if len(values) != 51:
+        sys.exit(f"FATAL: FHWA VM-2 parsed {len(values)} jurisdictions, expected 51")
     if us_val is None:
         us_val = sum(values.values())
     ranked = rank_rows(values, higher_is_better=True)
@@ -1131,7 +1131,7 @@ def build_vmt(app):
         _kpi(
             "U.S. VMT, 2024",
             f"{commify(us_val)} million",
-            "Annual vehicle-miles of travel, all functional systems (SRC-623-01). U.S. is the sum of published state rows when the file has no U.S. line.",
+            "Annual vehicle-miles of travel, all functional systems (SRC-623-01). U.S. is the published U.S. Total row.",
             "The national travel stock.",
             "FHWA Highway Statistics 2024 table VM-2 (SRC-623-01)",
         ),
@@ -1166,8 +1166,8 @@ def build_vmt(app):
         vintage_note=(
             f"Rebuilt {REVISED} from FHWA Highway Statistics 2024 table VM-2, "
             f"combined rural-plus-urban TOTAL column (million vehicle-miles). "
-            f"The U.S. figure is the sum of published state rows when no U.S. "
-            f"line is present."
+            f"Footnoted names such as Tennessee (2) are mapped to the state. "
+            f"The U.S. figure is the published U.S. Total row."
         ),
         metric="vmt_2024_million_vehicle_miles",
         metric_label="Annual vehicle-miles of travel, 2024 (millions)",

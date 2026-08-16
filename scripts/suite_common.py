@@ -186,6 +186,7 @@ def clean_geo_name(s) -> str:
     t = str(s).replace("\xa0", " ").replace("\n", " ").replace("*", "")
     t = re.sub(r"\s+", " ", t).strip()
     t = re.sub(r"/[a-z]+$", "", t, flags=re.I).strip()
+    t = re.sub(r"\s*\(\d+\)\s*$", "", t).strip()
     return t
 
 

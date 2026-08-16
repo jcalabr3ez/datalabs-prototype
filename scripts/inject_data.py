@@ -393,8 +393,9 @@ def extract_json_after(text, prefix, path):
 def main():
     catalog = load("catalog.json")
     sys.path.insert(0, str(ROOT / "scripts"))
-    from page_voice import apply_catalog_ma  # noqa: E402
+    from page_voice import apply_catalog_ma, apply_catalog_q  # noqa: E402
     from suite_common import apply_catalog_dashboards  # noqa: E402
+    apply_catalog_q(catalog)
     apply_catalog_ma(catalog)
     apply_catalog_dashboards(catalog)
     (ROOT / "catalog.json").write_text(

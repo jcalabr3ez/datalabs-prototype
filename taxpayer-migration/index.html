@@ -243,10 +243,26 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
   var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
+  function parseHash(){
+    var raw=(location.hash||'').replace(/^#/,'');
+    var view='', st='';
+    if(!raw) return {view:view, st:st};
+    raw.split('&').forEach(function(part){
+      if(!part) return;
+      try { part=decodeURIComponent(part); } catch(err) {}
+      if(part.indexOf('st=')===0) st=part.slice(3);
+      else if(part.indexOf('view-')===0) view=part.slice(5);
+      else if(part.indexOf('view=')===0) view=part.slice(5);
+      else view=part.replace(/^view-/,'');
+    });
+    if(view==='latest') view='rank';
+    return {view:view, st:st};
+  }
   function applyHash(){
-    var h=(location.hash||'').replace(/^#/,'');
-    if(!h) return;
-    var el=document.getElementById(h)||document.getElementById('view-'+h);
+    var h=parseHash();
+    if(!h.view) return;
+    var id='view-'+h.view;
+    var el=document.getElementById(id)||document.getElementById(h.view);
     if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
   }
   window.addEventListener('hashchange', applyHash);
@@ -581,13 +597,29 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
       setRankPane('map');
     });
   }
-  function applyRankHash(){
-    var h=(location.hash||'').replace(/^#/,'');
-    if(h==='view-table' || h==='table') setRankPane('table');
+  function applyDeepLink(){
+    var h=parseHash();
+    if(h.st){
+      var want=String(h.st);
+      var up=want.toUpperCase();
+      var match=null;
+      for(var i=0;i<rows.length;i++){
+        var r=rows[i];
+        if(r.st && String(r.st).toUpperCase()===up){ match=r; break; }
+        if(r.name && String(r.name).toLowerCase()===want.toLowerCase()){ match=r; break; }
+      }
+      selectedSt=match ? (match.st||match.name||want) : (CHART.geo==='state'?up:want);
+      var findEl=document.getElementById('tblFind');
+      if(findEl && match) findEl.value=match.name||match.st||want;
+      else if(findEl && !findEl.value) findEl.value=want;
+    }
+    if(h.view==='table' && CHART.geo==='state') setRankPane('table');
+    applyFind();
+    if(h.view==='rank' && CHART.geo==='state') drawRank();
   }
-  window.addEventListener('hashchange', applyRankHash);
+  window.addEventListener('hashchange', applyDeepLink);
   drawRank();
-  applyRankHash();
+  applyDeepLink();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
   if(CHART.headline_from==='secondary.public_k12_enrollment'){
@@ -1026,7 +1058,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
     };
     if(find) find.addEventListener('input', function(){ applyFind(); writeQuery(); });
     applyFind();
-    applyRankHash();
+    applyDeepLink();
   }
 })();
 </script>

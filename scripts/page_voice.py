@@ -533,6 +533,8 @@ def pts(n):
 
 
 def voice_dl07(ledger):
+    latest = ledger.get("latest") or {}
+    ma = latest.get("ma") or {}
     naep = sec(ledger, "naep_2024", "series", "read4")
     naep8 = sec(ledger, "naep_2024", "series", "read8")
     ppe = sec(ledger, "npefs_ppe_fy2024")
@@ -567,7 +569,7 @@ def voice_dl07(ledger):
         f"The map ranks Fall 2024 public enrollment; the Grade 4 reading change "
         f"tab is the 2019-to-2024 score movement."
     )
-    return take, kpis, f"NAEP reading rank {ma_r.get('rank')}", "SRC-607-05", "", page_lead
+    return take, kpis, f"{commify(ma.get('v'))} enrolled, {rank_txt(ma)}", "SRC-607-02", "", page_lead
 
 
 def voice_dl08(ledger):
@@ -601,7 +603,7 @@ def voice_dl08(ledger):
             "The state faculty count, not the national composition table.",
             src_name(ledger, "SRC-608-06")),
     ]
-    return take, kpis, f"SAT mean {sat_v}", "SRC-608-02"
+    return take, kpis, f"{commify(ma.get('v'))} enrolled, {rank_txt(ma)}", "SRC-608-01"
 
 
 def voice_dl09(ledger):
@@ -655,7 +657,10 @@ def voice_dl10(ledger):
             "Star ratings are the CMS cut, not the price file.",
             src_name(ledger, "SRC-610-02")),
     ]
-    return take, kpis, f"{hi.get('name')} S-RP {hi.get('v')}", "SRC-610-03"
+    latest = ledger.get("latest") or {}
+    n_hosp = latest.get("n_hospitals")
+    five = latest.get("five_star")
+    return take, kpis, f"{commify(n_hosp)} CMS-listed hospitals, {commify(five)} five-star", "SRC-610-02"
 
 
 def voice_dl11(ledger):
@@ -815,7 +820,7 @@ def voice_dl14(ledger):
             "What a week of work pays in Massachusetts.",
             src_name(ledger, "SRC-614-02")),
     ]
-    return take, kpis, f"LFPR {lma.get('v')}%, {rank_txt(lma)}", "SRC-614-04"
+    return take, kpis, f"{ma.get('v')}%, {rank_txt(ma)}", "SRC-614-01"
 
 
 def voice_dl15(ledger):
@@ -878,7 +883,7 @@ def voice_dl16(ledger):
             "Boston is the only Massachusetts city in that series.",
             src_name(ledger, "SRC-616-03")),
     ]
-    return take, kpis, f"house prices +{hma.get('v')}%, {rank_txt(hma)}", "SRC-616-02"
+    return take, kpis, f"{commify(ma.get('v'))} units YTD, {rank_txt(ma)}", "SRC-616-01"
 
 
 def voice_dl17(ledger):
@@ -938,7 +943,7 @@ def voice_dl19(ledger):
             "The overall price level the components add up to.",
             src_name(ledger, "SRC-619-01")),
     ]
-    return take, kpis, f"housing RPP {hma.get('v')}, {rank_txt(hma)}", "SRC-619-02"
+    return take, kpis, f"{round(ma.get('v'), 1) if ma.get('v') is not None else ''}, {rank_txt(ma)}", "SRC-619-01"
 
 
 def voice_dl20(ledger):
@@ -1020,7 +1025,7 @@ def voice_dl21(ledger):
             "The statewide total those shares sit inside.",
             src_name(ledger, "SRC-621-01")),
     ]
-    return take, kpis, f"million-plus AGI share {mil.get('agi_share_pct')}%", "SRC-621-03"
+    return take, kpis, f"{money(ma.get('v'))} AGI, {rank_txt(ma)}", "SRC-621-01"
 
 
 def voice_dl22(ledger):
@@ -1080,7 +1085,7 @@ def voice_dl23(ledger):
             "How much the state's roads are driven.",
             src_name(ledger, "SRC-623-01")),
     ]
-    return take, kpis, f"NRI {nma.get('v')}, {rank_txt(nma)}", "SRC-623-04"
+    return take, kpis, f"{num(ma.get('v'))} million, {rank_txt(ma)}", "SRC-623-01"
 
 
 def voice_dl24(ledger):
@@ -1138,7 +1143,7 @@ def voice_dl25(ledger):
             "Z-scored income, home value, and bachelor's share. Not the old Pioneer workbook.",
             src_name(ledger, "SRC-625-03")),
     ]
-    return take, kpis, f"Boston income {money(bos.get('median_hh_income'))}", "SRC-625-03"
+    return take, kpis, f"Boston population {commify(hi.get('v'))}", "SRC-625-01"
 
 
 def voice_dl26(ledger):
@@ -1227,7 +1232,7 @@ def voice_dl28(ledger):
             "The annual file next to the quarterly split.",
             src_name(ledger, "SRC-628-02")),
     ]
-    return take, kpis, f"income tax {inc.get('ma_share_pct')}% of 2026 Q1", "SRC-628-01"
+    return take, kpis, f"{money(ma.get('v'))} in 2026 Q1", "SRC-628-01"
 
 
 def voice_dl29(ledger):
@@ -1320,7 +1325,7 @@ def voice_dl31(ledger):
             "The youth-in-adult-prison cell the page can support.",
             src_name(ledger, "SRC-631-03")),
     ]
-    return take, kpis, f"imprisonment rate {int(rma.get('v')) if rma.get('v') is not None else rma.get('v')}, {rank_txt(rma)}", "SRC-631-03"
+    return take, kpis, f"{commify(ma.get('v'))} prisoners, {rank_txt(ma)}", "SRC-631-02"
 
 
 def money_cents(n):
@@ -1828,6 +1833,21 @@ def flagship_voice(tid, ledger):
             "lead": "",
         }
     return None
+
+
+def apply_catalog_q(catalog):
+    """Copy suite/apps.json q onto matching catalog rows.
+
+    Flagship rows (DL-01 through DL-05) are not in the suite registry and stay as authored.
+    """
+    apps = {a["id"]: a for a in load_apps()}
+    for row in catalog:
+        if not isinstance(row, dict):
+            continue
+        app = apps.get(row.get("id"))
+        if app and app.get("q"):
+            row["q"] = app["q"]
+    return catalog
 
 
 def apply_catalog_ma(catalog):

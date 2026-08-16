@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from insight_figures import insight_figures
-from page_voice import takeaways_html, voice_for
+from page_voice import census_place_names, short_place_text, takeaways_html, voice_for
 from suite_common import ROOT, catalog_dashboards, load_apps, ledger_path
 
 def esc(s):
@@ -210,8 +210,8 @@ def chart_spec(app, ledger):
     named = {
         "DL-10": ("hospital", 12, None),
         "DL-22": ("transit agency", 12, "Massachusetts Bay Transportation Authority"),
-        "DL-25": ("city or town", 12, "Boston city"),
-        "DL-26": ("city or town", 12, "Boston city"),
+        "DL-25": ("city or town", 12, "Boston"),
+        "DL-26": ("city or town", 12, "Boston"),
         "DL-27": ("department", 12, "Boston Police Department"),
         "DL-28": ("tax type", n_rows or 12, "Total Taxes"),
         "DL-30": ("department", 12, None),
@@ -303,9 +303,13 @@ def page_html(app, ledger, apps=None):
     version = ledger.get("page", {}).get("version", "0.0")
     metric_label = ledger.get("metric_label") or "Figure"
     unit = ledger.get("unit") or ""
-    lead = ledger.get("lead") or (
-        "This application is in build. The source register below is the inventory. "
-        "Figures will appear here once they are recomputed from those sources."
+    lead = short_place_text(
+        ledger.get("lead")
+        or (
+            "This application is in build. The source register below is the inventory. "
+            "Figures will appear here once they are recomputed from those sources."
+        ),
+        census_place_names(ledger),
     )
     replaces = esc(replaces_list(app, ledger))
     nsrc = len(ledger.get("source_id_map") or {})

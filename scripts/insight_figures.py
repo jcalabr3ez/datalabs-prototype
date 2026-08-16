@@ -6,6 +6,12 @@ unpublished series are captioned as missing, never invented.
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from page_voice import short_place, short_place_text
+
 GOLD = "#CCB26D"
 NAVY = "#293C5C"
 INK = "#222222"
@@ -159,12 +165,13 @@ def named_list(rows, fid, title, lede, src, fmt, unit, note, name_key="name", va
     items = [r for r in (rows or []) if r.get(val_key) is not None][:n]
     if len(items) < 2:
         return None
-    labels = [r.get(name_key) or "" for r in items]
+    labels = [short_place(r.get(name_key) or "") for r in items]
     values = [r[val_key] for r in items]
+    names = [r.get(name_key) for r in items if r.get(name_key)]
     return _fig(
-        fid, title, lede, src, "bar", fmt, unit, labels,
-        _bars(labels, values, highlight=highlight),
-        note, span=span, height="mid" if len(items) >= 8 else None,
+        fid, title, short_place_text(lede, names), src, "bar", fmt, unit, labels,
+        _bars(labels, values, highlight=short_place(highlight) if highlight else None),
+        short_place_text(note, names), span=span, height="mid" if len(items) >= 8 else None,
     )
 
 
@@ -1005,7 +1012,7 @@ def figs_dl25(ledger):
     boston = (latest.get("highest") or {}).get("v")
     rows = []
     if boston is not None:
-        rows.append({"name": "Boston city", "v": boston})
+        rows.append({"name": "Boston", "v": boston})
     rows.extend({"name": r["name"], "v": r["pop"]} for r in peers if r.get("pop") is not None)
     fig = named_list(
         rows, "boston-peers",
@@ -1013,8 +1020,8 @@ def figs_dl25(ledger):
         "Nearest means closest resident count, not the old Pioneer socioeconomic peer workbook.",
         "SRC-625-02",
         "number", "people",
-        "Census vintage 2025 subcounty estimates, SUMLEV 061. Five nearest counts for Boston city.",
-        n=6, highlight="Boston city", span=2,
+        "Census vintage 2025 subcounty estimates, SUMLEV 061. Five nearest counts for Boston.",
+        n=6, highlight="Boston", span=2,
     )
     out = [fig] if fig else []
     acs = sec.get("acs_towns_2024") or {}
@@ -1044,7 +1051,7 @@ def figs_dl25(ledger):
     if fig:
         out.append(fig)
     peers = (acs.get("socioeconomic_peers") or {}).get("Boston city") or []
-    rows = [{"name": "Boston city", "v": (acs.get("boston") or {}).get("median_hh_income")}]
+    rows = [{"name": "Boston", "v": (acs.get("boston") or {}).get("median_hh_income")}]
     rows.extend({"name": r["name"], "v": r.get("median_hh_income")} for r in peers)
     fig = named_list(
         rows, "acs-peers",
@@ -1053,7 +1060,7 @@ def figs_dl25(ledger):
         acs.get("src") or "SRC-625-03",
         "usd", "dollars",
         acs.get("peer_method") or "ACS 5-year socioeconomic distance.",
-        n=6, highlight="Boston city", span=2,
+        n=6, highlight="Boston", span=2,
     )
     if fig:
         out.append(fig)

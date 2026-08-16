@@ -143,11 +143,55 @@ def acs_ok(v):
 
 
 def short_place(name):
-    """Drop Census 'city' / 'town' / 'CDP' suffixes for news-desk copy."""
+    """Drop Census legal suffixes: 'Boston city' -> 'Boston', 'Lexington town' -> 'Lexington'.
+
+    Only the lowercase Census type is removed, so 'City of Culver City' and
+    'Boston City Council' stay intact. 'Amherst Town city' becomes 'Amherst'.
+    """
     text = str(name or "").strip()
-    text = re.sub(r"\s+Town\s+city$", "", text, flags=re.I)
-    text = re.sub(r"\s+(city|town|CDP)$", "", text, flags=re.I)
+    text = re.sub(r"\s+Town city$", "", text)
+    text = re.sub(r"\s+(city|town|CDP)$", "", text)
     return text
+
+
+def short_place_text(text, names=None):
+    """Replace Census place names inside a sentence, longest first."""
+    out = "" if text is None else str(text)
+    seen = []
+    for name in names or []:
+        if name and name not in seen and short_place(name) != name:
+            seen.append(name)
+    for name in sorted(seen, key=len, reverse=True):
+        out = out.replace(name, short_place(name))
+    return out
+
+
+def census_place_names(obj, out=None):
+    """Collect Census-style place names from a ledger or row list."""
+    found = out if out is not None else []
+    if isinstance(obj, dict):
+        name = obj.get("name")
+        if isinstance(name, str) and short_place(name) != name:
+            found.append(name)
+        for v in obj.values():
+            census_place_names(v, found)
+    elif isinstance(obj, list):
+        for item in obj:
+            census_place_names(item, found)
+    return found
+
+
+def display_rows(rows):
+    """Copy rows with Census suffixes stripped from the public name."""
+    out = []
+    for row in rows or []:
+        if not isinstance(row, dict):
+            out.append(row)
+            continue
+        name = row.get("name")
+        short = short_place(name) if name else name
+        out.append(row if short == name else {**row, "name": short})
+    return out
 
 
 def signed(n):
@@ -1149,13 +1193,16 @@ def find_bundle(app, ledger):
             if r.get("n_stints") and r["n_stints"] > 1:
                 facts.append(f"{r['n_stints']} payroll stints in 2025, added together")
         aliases = [norm_key(name), (name or "").lower()]
+        shown = short_place(name) if kind == "town" else name
+        if shown and shown.lower() not in aliases:
+            aliases.append(shown.lower())
         if r.get("last"):
             aliases.append(norm_key(r["last"]))
         if r.get("first") and r.get("last"):
             aliases.append(norm_key(f"{r['first']} {r['last']}"))
             aliases.append(norm_key(f"{r['last']} {r['first']}"))
         cards[norm_key(name)] = {
-            "name": name,
+            "name": shown,
             "value": money_cents(r.get("v")) if kind == "legislator" else _fmt_row_value(r.get("v"), fmt),
             "rank": r.get("rank"),
             "n": r.get("n"),

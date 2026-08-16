@@ -579,7 +579,7 @@ module.exports = [
     label: 'Massachusetts city and town population, Census subcounty estimates',
     src: 'SRC-625-01',
     uppercase: false,
-    hl: 'the exact municipality name as written in entities (for example Boston city) if the question focuses on one city or town, else null',
+    hl: 'the municipality as written in entities (Boston city, Lexington town) if the question focuses on one place, else null. Pages display those names without the city or town suffix.',
     triggers: [
       'massachusetts towns', 'massachusetts cities', 'municipal population',
       'city or town', 'boston population', 'population of boston',

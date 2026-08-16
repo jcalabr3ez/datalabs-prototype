@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Place names without city or town",
+        "body": (
+            "Municipal Atlas and Municipal Rankings now drop the Census "
+            "legal suffix, so Boston city reads as Boston and Lexington town "
+            "reads as Lexington. Charts, tables, find cards, and the lead "
+            "use the short name. Search still matches the old form."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "New Releases cards",
         "body": (
             "The two New Releases cards at the top of the front door are now "

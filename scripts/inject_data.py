@@ -549,7 +549,13 @@ def main():
     # ---- suite pages (DL-06 onward): dateline, KPIs, chart payload ----
     sys.path.insert(0, str(ROOT / "scripts"))
     from render_suite_pages import kpi_html  # noqa: E402
-    from page_voice import takeaways_html, voice_for  # noqa: E402
+    from page_voice import (  # noqa: E402
+        census_place_names,
+        display_rows,
+        short_place_text,
+        takeaways_html,
+        voice_for,
+    )
     from suite_common import load_apps, ledger_path  # noqa: E402
 
     for app in load_apps():
@@ -586,7 +592,13 @@ def main():
         if has_block(new, slug + "-takeaways", style="html") and voice and voice.get("takeaways"):
             new = replace_block(new, slug + "-takeaways", takeaways_html(voice["takeaways"]), p, style="html")
         if has_block(new, slug + "-lead", style="html") and led.get("lead"):
-            new = replace_block(new, slug + "-lead", led["lead"], p, style="html")
+            new = replace_block(
+                new,
+                slug + "-lead",
+                short_place_text(led["lead"], census_place_names(led)),
+                p,
+                style="html",
+            )
         kpis_in = (voice or {}).get("kpis") or led.get("kpis") or []
         if has_block(new, slug + "-kpis", style="html") and kpis_in:
             new = replace_block(new, slug + "-kpis", kpi_html(kpis_in), p, style="html")
@@ -596,7 +608,7 @@ def main():
             payload = {
                 "tool_id": led["tool_id"],
                 "as_of": led.get("as_of"),
-                "rows": led.get("rows") or [],
+                "rows": display_rows(led.get("rows") or []),
                 "trend": led.get("trend") or {},
                 "latest": led.get("latest"),
                 "derived": led.get("derived") or {},

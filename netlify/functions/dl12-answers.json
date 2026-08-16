@@ -559,7 +559,366 @@
         "label": "Medicaid Fraud Control Unit total recoveries, FY 2025",
         "src": "SRC-612-03",
         "unit": "dollars",
-        "as_of_label": "Fiscal year 2025"
+        "as_of_label": "Fiscal year 2025",
+        "rows": [
+          {
+            "st": "VA",
+            "name": "Virginia",
+            "v": 671436387.0,
+            "rank": 1,
+            "n": 51
+          },
+          {
+            "st": "TX",
+            "name": "Texas",
+            "v": 151926474.0,
+            "rank": 2,
+            "n": 51
+          },
+          {
+            "st": "IN",
+            "name": "Indiana",
+            "v": 144624718.0,
+            "rank": 3,
+            "n": 51
+          },
+          {
+            "st": "MA",
+            "name": "Massachusetts",
+            "v": 139892852.0,
+            "rank": 4,
+            "n": 51
+          },
+          {
+            "st": "NY",
+            "name": "New York",
+            "v": 110479749.0,
+            "rank": 5,
+            "n": 51
+          },
+          {
+            "st": "FL",
+            "name": "Florida",
+            "v": 107607792.0,
+            "rank": 6,
+            "n": 51
+          },
+          {
+            "st": "CA",
+            "name": "California",
+            "v": 102126213.0,
+            "rank": 7,
+            "n": 51
+          },
+          {
+            "st": "CO",
+            "name": "Colorado",
+            "v": 57952278.0,
+            "rank": 8,
+            "n": 51
+          },
+          {
+            "st": "AZ",
+            "name": "Arizona",
+            "v": 49346658.0,
+            "rank": 9,
+            "n": 51
+          },
+          {
+            "st": "GA",
+            "name": "Georgia",
+            "v": 46517386.0,
+            "rank": 10,
+            "n": 51
+          },
+          {
+            "st": "WA",
+            "name": "Washington",
+            "v": 45117253.0,
+            "rank": 11,
+            "n": 51
+          },
+          {
+            "st": "PA",
+            "name": "Pennsylvania",
+            "v": 41102003.0,
+            "rank": 12,
+            "n": 51
+          },
+          {
+            "st": "NJ",
+            "name": "New Jersey",
+            "v": 30779902.0,
+            "rank": 13,
+            "n": 51
+          },
+          {
+            "st": "OH",
+            "name": "Ohio",
+            "v": 25781578.0,
+            "rank": 14,
+            "n": 51
+          },
+          {
+            "st": "MN",
+            "name": "Minnesota",
+            "v": 24489409.0,
+            "rank": 15,
+            "n": 51
+          },
+          {
+            "st": "SC",
+            "name": "South Carolina",
+            "v": 22100696.0,
+            "rank": 16,
+            "n": 51
+          },
+          {
+            "st": "KY",
+            "name": "Kentucky",
+            "v": 22037516.0,
+            "rank": 17,
+            "n": 51
+          },
+          {
+            "st": "NV",
+            "name": "Nevada",
+            "v": 18522530.0,
+            "rank": 18,
+            "n": 51
+          },
+          {
+            "st": "IL",
+            "name": "Illinois",
+            "v": 18234545.0,
+            "rank": 19,
+            "n": 51
+          },
+          {
+            "st": "MI",
+            "name": "Michigan",
+            "v": 17319947.0,
+            "rank": 20,
+            "n": 51
+          },
+          {
+            "st": "LA",
+            "name": "Louisiana",
+            "v": 17067307.0,
+            "rank": 21,
+            "n": 51
+          },
+          {
+            "st": "TN",
+            "name": "Tennessee",
+            "v": 16738707.0,
+            "rank": 22,
+            "n": 51
+          },
+          {
+            "st": "NC",
+            "name": "North Carolina",
+            "v": 16642399.0,
+            "rank": 23,
+            "n": 51
+          },
+          {
+            "st": "OR",
+            "name": "Oregon",
+            "v": 13651361.0,
+            "rank": 24,
+            "n": 51
+          },
+          {
+            "st": "CT",
+            "name": "Connecticut",
+            "v": 6863359.0,
+            "rank": 25,
+            "n": 51
+          },
+          {
+            "st": "NM",
+            "name": "New Mexico",
+            "v": 4939985.0,
+            "rank": 26,
+            "n": 51
+          },
+          {
+            "st": "MO",
+            "name": "Missouri",
+            "v": 4507016.0,
+            "rank": 27,
+            "n": 51
+          },
+          {
+            "st": "AR",
+            "name": "Arkansas",
+            "v": 3548245.0,
+            "rank": 28,
+            "n": 51
+          },
+          {
+            "st": "MD",
+            "name": "Maryland",
+            "v": 3353449.0,
+            "rank": 29,
+            "n": 51
+          },
+          {
+            "st": "VT",
+            "name": "Vermont",
+            "v": 3052717.0,
+            "rank": 30,
+            "n": 51
+          },
+          {
+            "st": "AL",
+            "name": "Alabama",
+            "v": 2931853.0,
+            "rank": 31,
+            "n": 51
+          },
+          {
+            "st": "OK",
+            "name": "Oklahoma",
+            "v": 2902280.0,
+            "rank": 32,
+            "n": 51
+          },
+          {
+            "st": "UT",
+            "name": "Utah",
+            "v": 2727899.0,
+            "rank": 33,
+            "n": 51
+          },
+          {
+            "st": "IA",
+            "name": "Iowa",
+            "v": 2356291.0,
+            "rank": 34,
+            "n": 51
+          },
+          {
+            "st": "WI",
+            "name": "Wisconsin",
+            "v": 1918593.0,
+            "rank": 35,
+            "n": 51
+          },
+          {
+            "st": "ND",
+            "name": "North Dakota",
+            "v": 1873183.0,
+            "rank": 36,
+            "n": 51
+          },
+          {
+            "st": "WV",
+            "name": "West Virginia",
+            "v": 1829578.0,
+            "rank": 37,
+            "n": 51
+          },
+          {
+            "st": "RI",
+            "name": "Rhode Island",
+            "v": 1582527.0,
+            "rank": 38,
+            "n": 51
+          },
+          {
+            "st": "WY",
+            "name": "Wyoming",
+            "v": 1525358.0,
+            "rank": 39,
+            "n": 51
+          },
+          {
+            "st": "NE",
+            "name": "Nebraska",
+            "v": 1230810.0,
+            "rank": 40,
+            "n": 51
+          },
+          {
+            "st": "AK",
+            "name": "Alaska",
+            "v": 1188458.0,
+            "rank": 41,
+            "n": 51
+          },
+          {
+            "st": "MS",
+            "name": "Mississippi",
+            "v": 1171831.0,
+            "rank": 42,
+            "n": 51
+          },
+          {
+            "st": "ID",
+            "name": "Idaho",
+            "v": 900756.0,
+            "rank": 43,
+            "n": 51
+          },
+          {
+            "st": "MT",
+            "name": "Montana",
+            "v": 711089.0,
+            "rank": 44,
+            "n": 51
+          },
+          {
+            "st": "DE",
+            "name": "Delaware",
+            "v": 619300.0,
+            "rank": 45,
+            "n": 51
+          },
+          {
+            "st": "HI",
+            "name": "Hawaii",
+            "v": 453951.0,
+            "rank": 46,
+            "n": 51
+          },
+          {
+            "st": "KS",
+            "name": "Kansas",
+            "v": 369231.0,
+            "rank": 47,
+            "n": 51
+          },
+          {
+            "st": "NH",
+            "name": "New Hampshire",
+            "v": 356808.0,
+            "rank": 48,
+            "n": 51
+          },
+          {
+            "st": "ME",
+            "name": "Maine",
+            "v": 343479.0,
+            "rank": 49,
+            "n": 51
+          },
+          {
+            "st": "DC",
+            "name": "District of Columbia",
+            "v": 289915.0,
+            "rank": 50,
+            "n": 51
+          },
+          {
+            "st": "SD",
+            "name": "South Dakota",
+            "v": 225578.0,
+            "rank": 51,
+            "n": 51
+          }
+        ]
       }
     }
   },

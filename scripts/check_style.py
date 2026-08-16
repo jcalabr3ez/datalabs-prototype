@@ -298,6 +298,53 @@ for row in catalog:
     else:
         print(f"catalog ma: ok   {tid}")
 
+# Companion state rankings must keep every published jurisdiction, not only
+# the highlight snap. Windows already store `ranked`; those count as rows.
+def _snap_row_count(obj):
+    rows = obj.get("rows") or obj.get("ranked") or obj.get("states") or []
+    return len(rows) if isinstance(rows, list) else 0
+
+missing_rows = []
+for path in sorted((ROOT / "netlify" / "functions").glob("dl*-answers.json")):
+    led = json.loads(path.read_text(encoding="utf-8"))
+    tid = led.get("tool_id") or path.stem
+    if tid in ("DL-01", "DL-02"):
+        continue
+
+    def walk(node, trail):
+        if not isinstance(node, dict):
+            return
+        n = node.get("n_ranked")
+        if isinstance(n, int) and n >= 40 and (node.get("ma") or node.get("highest")):
+            if _snap_row_count(node) < 40:
+                missing_rows.append(f"{tid} {trail}")
+        for k, v in node.items():
+            if k in ("rows", "trend", "cube", "series", "points", "history"):
+                continue
+            walk(v, f"{trail}.{k}" if trail else k)
+
+    walk(led, "")
+
+if missing_rows:
+    failures.append("companion snaps missing jurisdiction rows: " + "; ".join(missing_rows[:8]))
+    print("snap rows: MISS " + "; ".join(missing_rows[:8]))
+else:
+    print("snap rows: ok   50-state companion snaps keep jurisdiction rows")
+
+lfpr = json.loads((ROOT / "netlify" / "functions" / "dl14-answers.json").read_text())
+lfpr_rows = (
+    ((lfpr.get("derived") or {}).get("secondary") or {})
+    .get("laus_labor_2026", {})
+    .get("lfpr", {})
+    .get("rows") or []
+)
+wy = next((r for r in lfpr_rows if r.get("st") == "WY"), None)
+if not wy or wy.get("v") is None:
+    failures.append("DL-14 LFPR rows must include Wyoming")
+    print("lfpr rows: MISS Wyoming")
+else:
+    print(f"lfpr rows: ok   Wyoming {wy.get('v')} rank {wy.get('rank')} of {wy.get('n')}")
+
 if failures:
     print("\nSTYLE/CONSISTENCY FAILURES:")
     for f in failures:

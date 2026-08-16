@@ -68,7 +68,13 @@ function slimSnap(snap) {
   if (!snap || typeof snap !== 'object' || Array.isArray(snap)) return snap;
   var out = {};
   Object.keys(snap).forEach(function (k) {
-    if (!CORE_HEAVY[k]) out[k] = snap[k];
+    if (CORE_HEAVY[k]) return;
+    var v = snap[k];
+    if (v && typeof v === 'object' && !Array.isArray(v) && (v.n_ranked || v.ma || v.highest || v.lfpr)) {
+      out[k] = slimSnap(v);
+    } else {
+      out[k] = v;
+    }
   });
   return out;
 }
@@ -80,9 +86,15 @@ function slimDerived(derived) {
     highest_five: derived.highest_five,
     lowest_five: derived.lowest_five,
     massachusetts_rank: derived.massachusetts_rank,
-    n_ranked: derived.n_ranked,
-    windows: derived.windows
+    n_ranked: derived.n_ranked
   };
+  if (derived.windows) {
+    var win = {};
+    Object.keys(derived.windows).forEach(function (k) {
+      win[k] = slimSnap(derived.windows[k]);
+    });
+    out.windows = win;
+  }
   Object.keys(derived).forEach(function (k) {
     if (out[k] !== undefined || k === 'secondary') return;
     var v = derived[k];
@@ -613,7 +625,7 @@ module.exports = [
       'labor force participation', 'labor-force participation',
       'employment-population', 'epop'
     ],
-    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. CPS age-sex-race detail is not posted: decline those.'
+    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026; each of those snaps has a rows array for every state and D.C. A named-state participation question uses that row. CPS age-sex-race detail is not posted: decline those.'
   }),
   suiteTool(DL15, {
     id: 'DL-15',

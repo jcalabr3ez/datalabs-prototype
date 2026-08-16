@@ -33,6 +33,7 @@ from suite_common import (
     parse_num,
     rank_named,
     rank_rows,
+    snap_pack,
     usd_prose,
     write_ledger,
 )
@@ -159,25 +160,7 @@ def _digest_state_pairs(ws, start_row, col, us_row=None, min_states=48):
 
 
 def _snap(values, us_val, round_to=None, higher_is_better=True):
-    ranked = rank_rows(values, higher_is_better=higher_is_better)
-    if round_to is not None:
-        for rec in ranked:
-            rec["v"] = round(rec["v"], round_to)
-        if us_val is not None:
-            us_val = round(us_val, round_to)
-    ma = next(r for r in ranked if r["st"] == "MA")
-    hi, lo = ranked[0], ranked[-1]
-    out = {
-        "us": us_val,
-        "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
-        "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
-        "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
-        "n_ranked": ma["n"],
-    }
-    fl = fl_cell(ranked)
-    if fl:
-        out["fl"] = fl
-    return out
+    return snap_pack(values, us_val, round_to=round_to, higher_is_better=higher_is_better)
 
 
 def sec_public_he_faculty():

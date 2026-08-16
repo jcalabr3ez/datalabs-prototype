@@ -1067,7 +1067,366 @@
           "label": "Share of AGI on returns with $1 million or more",
           "src": "SRC-621-03",
           "unit": "percent",
-          "as_of_label": "Tax year 2022"
+          "as_of_label": "Tax year 2022",
+          "rows": [
+            {
+              "st": "WY",
+              "name": "Wyoming",
+              "v": 32.6,
+              "rank": 1,
+              "n": 51
+            },
+            {
+              "st": "FL",
+              "name": "Florida",
+              "v": 30.9,
+              "rank": 2,
+              "n": 51
+            },
+            {
+              "st": "NV",
+              "name": "Nevada",
+              "v": 26.8,
+              "rank": 3,
+              "n": 51
+            },
+            {
+              "st": "CT",
+              "name": "Connecticut",
+              "v": 26.4,
+              "rank": 4,
+              "n": 51
+            },
+            {
+              "st": "NY",
+              "name": "New York",
+              "v": 26.3,
+              "rank": 5,
+              "n": 51
+            },
+            {
+              "st": "DC",
+              "name": "District of Columbia",
+              "v": 26.2,
+              "rank": 6,
+              "n": 51
+            },
+            {
+              "st": "MA",
+              "name": "Massachusetts",
+              "v": 21.9,
+              "rank": 7,
+              "n": 51
+            },
+            {
+              "st": "TX",
+              "name": "Texas",
+              "v": 21.0,
+              "rank": 8,
+              "n": 51
+            },
+            {
+              "st": "CA",
+              "name": "California",
+              "v": 20.8,
+              "rank": 9,
+              "n": 51
+            },
+            {
+              "st": "MT",
+              "name": "Montana",
+              "v": 18.5,
+              "rank": 10,
+              "n": 51
+            },
+            {
+              "st": "UT",
+              "name": "Utah",
+              "v": 18.1,
+              "rank": 11,
+              "n": 51
+            },
+            {
+              "st": "NJ",
+              "name": "New Jersey",
+              "v": 17.4,
+              "rank": 12,
+              "n": 51
+            },
+            {
+              "st": "IL",
+              "name": "Illinois",
+              "v": 17.2,
+              "rank": 13,
+              "n": 51
+            },
+            {
+              "st": "SD",
+              "name": "South Dakota",
+              "v": 17.0,
+              "rank": 14,
+              "n": 51
+            },
+            {
+              "st": "NH",
+              "name": "New Hampshire",
+              "v": 16.8,
+              "rank": 15,
+              "n": 51
+            },
+            {
+              "st": "TN",
+              "name": "Tennessee",
+              "v": 16.4,
+              "rank": 16,
+              "n": 51
+            },
+            {
+              "st": "CO",
+              "name": "Colorado",
+              "v": 16.0,
+              "rank": 17,
+              "n": 51
+            },
+            {
+              "st": "WA",
+              "name": "Washington",
+              "v": 15.8,
+              "rank": 18,
+              "n": 51
+            },
+            {
+              "st": "AR",
+              "name": "Arkansas",
+              "v": 15.7,
+              "rank": 19,
+              "n": 51
+            },
+            {
+              "st": "GA",
+              "name": "Georgia",
+              "v": 15.4,
+              "rank": 20,
+              "n": 51
+            },
+            {
+              "st": "AZ",
+              "name": "Arizona",
+              "v": 15.2,
+              "rank": 21,
+              "n": 51
+            },
+            {
+              "st": "ID",
+              "name": "Idaho",
+              "v": 14.6,
+              "rank": 22,
+              "n": 51
+            },
+            {
+              "st": "VA",
+              "name": "Virginia",
+              "v": 14.2,
+              "rank": 23,
+              "n": 51
+            },
+            {
+              "st": "PA",
+              "name": "Pennsylvania",
+              "v": 13.8,
+              "rank": 24,
+              "n": 51
+            },
+            {
+              "st": "NE",
+              "name": "Nebraska",
+              "v": 13.7,
+              "rank": 25,
+              "n": 51
+            },
+            {
+              "st": "ND",
+              "name": "North Dakota",
+              "v": 13.2,
+              "rank": 26,
+              "n": 51
+            },
+            {
+              "st": "NC",
+              "name": "North Carolina",
+              "v": 13.0,
+              "rank": 27,
+              "n": 51
+            },
+            {
+              "st": "MO",
+              "name": "Missouri",
+              "v": 12.9,
+              "rank": 28,
+              "n": 51
+            },
+            {
+              "st": "KS",
+              "name": "Kansas",
+              "v": 12.7,
+              "rank": 29,
+              "n": 51
+            },
+            {
+              "st": "SC",
+              "name": "South Carolina",
+              "v": 12.7,
+              "rank": 30,
+              "n": 51
+            },
+            {
+              "st": "LA",
+              "name": "Louisiana",
+              "v": 12.7,
+              "rank": 31,
+              "n": 51
+            },
+            {
+              "st": "RI",
+              "name": "Rhode Island",
+              "v": 12.5,
+              "rank": 32,
+              "n": 51
+            },
+            {
+              "st": "MI",
+              "name": "Michigan",
+              "v": 12.5,
+              "rank": 33,
+              "n": 51
+            },
+            {
+              "st": "WI",
+              "name": "Wisconsin",
+              "v": 12.4,
+              "rank": 34,
+              "n": 51
+            },
+            {
+              "st": "OK",
+              "name": "Oklahoma",
+              "v": 12.4,
+              "rank": 35,
+              "n": 51
+            },
+            {
+              "st": "MN",
+              "name": "Minnesota",
+              "v": 12.2,
+              "rank": 36,
+              "n": 51
+            },
+            {
+              "st": "AL",
+              "name": "Alabama",
+              "v": 12.1,
+              "rank": 37,
+              "n": 51
+            },
+            {
+              "st": "MD",
+              "name": "Maryland",
+              "v": 12.0,
+              "rank": 38,
+              "n": 51
+            },
+            {
+              "st": "HI",
+              "name": "Hawaii",
+              "v": 11.9,
+              "rank": 39,
+              "n": 51
+            },
+            {
+              "st": "IN",
+              "name": "Indiana",
+              "v": 11.4,
+              "rank": 40,
+              "n": 51
+            },
+            {
+              "st": "OH",
+              "name": "Ohio",
+              "v": 11.2,
+              "rank": 41,
+              "n": 51
+            },
+            {
+              "st": "VT",
+              "name": "Vermont",
+              "v": 10.7,
+              "rank": 42,
+              "n": 51
+            },
+            {
+              "st": "IA",
+              "name": "Iowa",
+              "v": 10.6,
+              "rank": 43,
+              "n": 51
+            },
+            {
+              "st": "OR",
+              "name": "Oregon",
+              "v": 10.5,
+              "rank": 44,
+              "n": 51
+            },
+            {
+              "st": "MS",
+              "name": "Mississippi",
+              "v": 10.3,
+              "rank": 45,
+              "n": 51
+            },
+            {
+              "st": "DE",
+              "name": "Delaware",
+              "v": 10.2,
+              "rank": 46,
+              "n": 51
+            },
+            {
+              "st": "KY",
+              "name": "Kentucky",
+              "v": 9.6,
+              "rank": 47,
+              "n": 51
+            },
+            {
+              "st": "ME",
+              "name": "Maine",
+              "v": 9.2,
+              "rank": 48,
+              "n": 51
+            },
+            {
+              "st": "NM",
+              "name": "New Mexico",
+              "v": 8.6,
+              "rank": 49,
+              "n": 51
+            },
+            {
+              "st": "AK",
+              "name": "Alaska",
+              "v": 8.3,
+              "rank": 50,
+              "n": 51
+            },
+            {
+              "st": "WV",
+              "name": "West Virginia",
+              "v": 6.5,
+              "rank": 51,
+              "n": 51
+            }
+          ]
         },
         "note": "Historic table 2 size-of-AGI stubs. This is not a dedicated percentile-by-state file. Stub 10 is $1 million or more of AGI."
       }

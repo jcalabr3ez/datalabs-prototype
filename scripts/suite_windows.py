@@ -84,6 +84,10 @@ def window_snapshot(values_by_st, *, src, label, end, n_periods, unit,
     fl = fl_cell(ranked)
     if fl:
         out["fl"] = fl
+    out["rows"] = [
+        {"st": r["st"], "name": r["name"], "v": r["v"], "rank": r["rank"], "n": r["n"]}
+        for r in ranked
+    ]
     if window_id:
         out["id"] = window_id
     return out

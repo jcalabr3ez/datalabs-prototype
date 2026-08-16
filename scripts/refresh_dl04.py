@@ -200,6 +200,10 @@ def pack_sector_year(hs861, year, field):
         "lowest": {"st": ranked[-1]["st"], "name": ranked[-1]["name"], "v": ranked[-1]["v"]},
         "n_ranked": len(ranked),
         "states": ranked,
+        "rows": [
+            {"st": r["st"], "name": r["name"], "v": r["v"], "rank": r["rank"], "n": r["n"]}
+            for r in ranked
+        ],
     }
 
 
@@ -280,6 +284,10 @@ def attach_sector_prices(ledger, hs861):
             "highest": packs[name]["highest"],
             "lowest": packs[name]["lowest"],
             "n_ranked": packs[name]["n_ranked"],
+            "rows": packs[name].get("rows") or [
+                {"st": r["st"], "name": r["name"], "v": r["v"], "rank": r["rank"], "n": r["n"]}
+                for r in packs[name].get("states") or []
+            ],
         }
         for name in ("residential", "commercial", "industrial")
     }

@@ -19,8 +19,8 @@
   --navy:#293C5C; --gold:#CCB26D; --goldlt:#CCB26D;
   --fl:#C45C26;
   --wash:#F7F7F7; --hover:#F4F4F4;
-  /* dark chrome (legacy heroes, footer) */
-  --bar:#0B1520; --hero2:#132536; --hero3:#0B1520;
+  /* dark chrome: Pioneer header/footer blue, plus their darker hover */
+  --bar:#293C5C; --hero2:#141D2C; --hero3:#293C5C;
   /* aliases some pages use */
   --blue:#293C5C; --accent:#CCB26D; --blue-lt:#F4F4F4;
   --g1:#3D3D40; --g2:#58575A; --g3:#6F6F73;

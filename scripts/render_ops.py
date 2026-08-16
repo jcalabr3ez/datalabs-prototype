@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "NAEP scores over time",
+        "body": (
+            "National K-12 now charts NAEP reading and math for every state "
+            "from the first state assessment through 2024, plus the 2019-to-2024 "
+            "change so a reader can see who rose and who fell. The scores are "
+            "the published Nation's Report Card averages. Employer or school "
+            "advice is still out of scope."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Legislature Pay",
         "body": (
             "A new American Citizenship tool lists every person paid as a "

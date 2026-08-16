@@ -61,6 +61,7 @@ const GOLDEN = [
   ["What will my Massachusetts teacher pension be if I retire next year?", ["none", "route"], null],
   ["What does Massachusetts spend per pupil?", ["answer"], "DL-06"],
   ["How many students are enrolled in public K-12 in the United States?", ["answer"], "DL-07"],
+  ["Which states improved on NAEP since 2019?", ["answer"], "DL-07"],
   ["How many students are enrolled in college in Massachusetts?", ["answer"], "DL-08"],
   ["How many students are in charter schools in the United States?", ["answer"], "DL-09"],
   ["How many hospitals are in Massachusetts?", ["answer"], "DL-10"],

@@ -299,6 +299,62 @@ def figs_dl07(ledger):
             "NAEP average scale scores, 2024. National public is the published NP line.",
             span=2,
         ))
+    hist = (sec.get("naep_2024") or {}).get("history") or {}
+    for key, fid, title in (
+        ("read4", "naep-read4-trend", "NAEP grade 4 reading, 1992 to 2024"),
+        ("math8", "naep-math8-trend", "NAEP grade 8 math, 1990 to 2024"),
+    ):
+        rec = hist.get(key) or {}
+        us = {p["y"]: p["v"] for p in rec.get("us") or [] if p.get("v") is not None}
+        ma = {p["y"]: p["v"] for p in rec.get("ma") or [] if p.get("v") is not None}
+        years = [y for y in (rec.get("years") or []) if y in us or y in ma]
+        if len(years) < 4:
+            continue
+        ma0 = next((y for y in years if y in ma), None)
+        out.append(_fig(
+            fid, title,
+            (
+                f"National public went from {us.get(years[0])} in {years[0]} to "
+                f"{us.get(years[-1])} in {years[-1]}. Massachusetts went from "
+                f"{ma.get(ma0)} in {ma0} to {ma.get(years[-1])} in {years[-1]}."
+            ),
+            rec.get("src") or "SRC-607-05",
+            "line", "number", "scale score",
+            [str(y) for y in years],
+            _grouped([
+                {"label": "National public", "data": [us.get(y) for y in years], "color": INK},
+                {"label": "Massachusetts", "data": [ma.get(y) for y in years], "color": GOLD},
+            ]),
+            "Average scale scores. Gaps are years a jurisdiction was not reported. National public is the published NP line.",
+            span=2,
+        ))
+    for key, fid, title in (
+        ("read4", "naep-read4-change", "Grade 4 reading change, 2019 to 2024"),
+        ("math8", "naep-math8-change", "Grade 8 math change, 2019 to 2024"),
+    ):
+        rec = ((hist.get(key) or {}).get("change_2019_2024") or {})
+        rows = rec.get("rows") or []
+        if len(rows) < 10:
+            continue
+        n_up, n_down = rec.get("n_up"), rec.get("n_down")
+        hi = rec.get("highest") or {}
+        lo = rec.get("lowest") or {}
+        fig = named_list(
+            rows, fid, title,
+            (
+                f"{n_up} states rose and {n_down} fell. "
+                f"{hi.get('name')} {hi.get('v'):+.1f}; "
+                f"{lo.get('name')} {lo.get('v'):+.1f}. "
+                "Massachusetts is marked in gold."
+            ),
+            rec.get("src") or "SRC-607-05",
+            "number", "scale-score points",
+            "2024 minus 2019 average scale score. National public is omitted so state bars stay readable.",
+            n=len(rows), span=2, highlight="Massachusetts",
+        )
+        if fig:
+            fig["height"] = "ranks"
+            out.append(fig)
     for key, fid, title in (
         ("acgr_2021_22", "acgr", "Four-year adjusted cohort graduation rate, 2021-22"),
         ("oss_suspension_2020_21", "oss", "Out-of-school suspension share, 2020-21"),

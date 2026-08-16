@@ -6,7 +6,7 @@
   "group": "Education",
   "status": "live",
   "as_of": "2024-10",
-  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil.",
+  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil.",
   "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education.",
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "replaces": [
@@ -22,41 +22,41 @@
       "name": "NCES NAEP state results",
       "cadence": "Biennial",
       "url": "https://nces.ed.gov/nationsreportcard/",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-02": {
       "name": "NCES Digest table 203.20, public K-12 enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-03": {
       "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-04": {
       "name": "NCES Digest table 233.40, out-of-school suspension share",
       "cadence": "Periodic",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-05": {
-      "name": "NAEP 2024 state reading and math average scale scores",
+      "name": "NAEP state reading and math average scale scores, 1990-2024",
       "cadence": "Biennial",
       "url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-06": {
       "name": "NCES NPEFS current expenditures per pupil, FY 2024",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
@@ -69,7 +69,7 @@
   "unit": "students",
   "data_month": "2024-10",
   "data_month_label": "Fall 2024",
-  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). On the 2024 NAEP, grade-4 reading averaged <b>214.3</b> in the national public sample; Massachusetts scored <b>224.8</b>, rank 1 of 51 (SRC-607-05). Grade-4 math was <b>237.3</b> nationally and <b>246.5</b> in Massachusetts (SRC-607-05). Grade-8 reading was <b>256.7</b> / <b>268.0</b>; grade-8 math was <b>272.2</b> / <b>283.5</b> (SRC-607-05). NCES NPEFS current expenditures per pupil were <b>$17,644</b> in the United States in FY 2024 (SRC-607-06). Massachusetts was <b>$27,008</b>, rank 5 of 51 (derived, SRC-607-06).",
+  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). On the 2024 NAEP, grade-4 reading averaged <b>214.3</b> in the national public sample; Massachusetts scored <b>224.8</b>, rank 1 of 51 (SRC-607-05). Grade-4 math was <b>237.3</b> nationally and <b>246.5</b> in Massachusetts (SRC-607-05). Grade-8 reading was <b>256.7</b> / <b>268.0</b>; grade-8 math was <b>272.2</b> / <b>283.5</b> (SRC-607-05). From 2019 to 2024, national public grade-4 reading changed <b>-5.2</b> points; <b>2</b> of 51 states rose and <b>49</b> fell (SRC-607-05). <b>Louisiana</b> had the largest grade-4 reading gain at <b>+6.1</b> (SRC-607-05). Grade-8 math changed <b>-8.8</b> nationally; <b>0</b> states rose (SRC-607-05). NCES NPEFS current expenditures per pupil were <b>$17,644</b> in the United States in FY 2024 (SRC-607-06). Massachusetts was <b>$27,008</b>, rank 5 of 51 (derived, SRC-607-06).",
   "kpis": [
     {
       "label": "U.S. public K-12, Fall 2024",
@@ -717,9 +717,10 @@
         "note": "Higher is more students suspended, not a performance ranking."
       },
       "naep_2024": {
-        "label": "NAEP state reading and math, 2024",
+        "label": "NAEP state reading and math, 1992-2024",
         "src": "SRC-607-05",
         "as_of_label": "2024",
+        "note": "Average scale scores for public-school students. National public is the published NP line. Change is 2024 minus the earlier year. States with no published score in either year are omitted from that change ranking.",
         "series": {
           "read4": {
             "us": 214.3,
@@ -785,7 +786,7 @@
               "v": 223.8
             },
             "n_ranked": 51,
-            "label": "NAEP mathematics grade 4 average scale score, 2024",
+            "label": "NAEP math grade 4 average scale score, 2024",
             "src": "SRC-607-05",
             "unit": "scale score",
             "as_of_label": "2024"
@@ -808,10 +809,2613 @@
               "v": 256.2
             },
             "n_ranked": 51,
-            "label": "NAEP mathematics grade 8 average scale score, 2024",
+            "label": "NAEP math grade 8 average scale score, 2024",
             "src": "SRC-607-05",
             "unit": "scale score",
             "as_of_label": "2024"
+          }
+        },
+        "history": {
+          "read4": {
+            "label": "NAEP reading grade 4 average scale score",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "years": [
+              1992,
+              1994,
+              1998,
+              2000,
+              2002,
+              2003,
+              2005,
+              2007,
+              2009,
+              2011,
+              2013,
+              2015,
+              2017,
+              2019,
+              2022,
+              2024
+            ],
+            "us": [
+              {
+                "y": 1992,
+                "v": 214.8
+              },
+              {
+                "y": 1994,
+                "v": 212.3
+              },
+              {
+                "y": 1998,
+                "v": 212.8
+              },
+              {
+                "y": 2000,
+                "v": 211.3
+              },
+              {
+                "y": 2002,
+                "v": 216.8
+              },
+              {
+                "y": 2003,
+                "v": 216.5
+              },
+              {
+                "y": 2005,
+                "v": 217.3
+              },
+              {
+                "y": 2007,
+                "v": 219.7
+              },
+              {
+                "y": 2009,
+                "v": 219.6
+              },
+              {
+                "y": 2011,
+                "v": 220.0
+              },
+              {
+                "y": 2013,
+                "v": 220.7
+              },
+              {
+                "y": 2015,
+                "v": 221.4
+              },
+              {
+                "y": 2017,
+                "v": 220.8
+              },
+              {
+                "y": 2019,
+                "v": 219.4
+              },
+              {
+                "y": 2022,
+                "v": 216.1
+              },
+              {
+                "y": 2024,
+                "v": 214.3
+              }
+            ],
+            "ma": [
+              {
+                "y": 1992,
+                "v": 226.0
+              },
+              {
+                "y": 1994,
+                "v": 223.2
+              },
+              {
+                "y": 1998,
+                "v": 222.8
+              },
+              {
+                "y": 2002,
+                "v": 233.7
+              },
+              {
+                "y": 2003,
+                "v": 227.6
+              },
+              {
+                "y": 2005,
+                "v": 231.3
+              },
+              {
+                "y": 2007,
+                "v": 235.8
+              },
+              {
+                "y": 2009,
+                "v": 233.7
+              },
+              {
+                "y": 2011,
+                "v": 236.8
+              },
+              {
+                "y": 2013,
+                "v": 232.4
+              },
+              {
+                "y": 2015,
+                "v": 235.3
+              },
+              {
+                "y": 2017,
+                "v": 235.7
+              },
+              {
+                "y": 2019,
+                "v": 231.1
+              },
+              {
+                "y": 2022,
+                "v": 226.8
+              },
+              {
+                "y": 2024,
+                "v": 224.8
+              }
+            ],
+            "change_2019_2024": {
+              "us": -5.2,
+              "ma": {
+                "v": -6.3,
+                "rank": 34,
+                "n": 51
+              },
+              "highest": {
+                "st": "LA",
+                "name": "Louisiana",
+                "v": 6.1
+              },
+              "lowest": {
+                "st": "ME",
+                "name": "Maine",
+                "v": -11.6
+              },
+              "n_ranked": 51,
+              "from_year": 2019,
+              "to_year": 2024,
+              "n_up": 2,
+              "n_down": 49,
+              "rows": [
+                {
+                  "st": "LA",
+                  "name": "Louisiana",
+                  "v": 6.1,
+                  "from": 209.9,
+                  "to": 216.0,
+                  "rank": 1,
+                  "n": 51
+                },
+                {
+                  "st": "AL",
+                  "name": "Alabama",
+                  "v": 1.5,
+                  "from": 211.7,
+                  "to": 213.2,
+                  "rank": 2,
+                  "n": 51
+                },
+                {
+                  "st": "MS",
+                  "name": "Mississippi",
+                  "v": -0.8,
+                  "from": 219.3,
+                  "to": 218.5,
+                  "rank": 3,
+                  "n": 51
+                },
+                {
+                  "st": "SC",
+                  "name": "South Carolina",
+                  "v": -1.1,
+                  "from": 216.0,
+                  "to": 214.9,
+                  "rank": 4,
+                  "n": 51
+                },
+                {
+                  "st": "IN",
+                  "name": "Indiana",
+                  "v": -1.7,
+                  "from": 221.8,
+                  "to": 220.1,
+                  "rank": 5,
+                  "n": 51
+                },
+                {
+                  "st": "HI",
+                  "name": "Hawaii",
+                  "v": -1.7,
+                  "from": 217.5,
+                  "to": 215.8,
+                  "rank": 6,
+                  "n": 51
+                },
+                {
+                  "st": "NH",
+                  "name": "New Hampshire",
+                  "v": -2.8,
+                  "from": 224.3,
+                  "to": 221.5,
+                  "rank": 7,
+                  "n": 51
+                },
+                {
+                  "st": "AK",
+                  "name": "Alaska",
+                  "v": -2.8,
+                  "from": 204.4,
+                  "to": 201.6,
+                  "rank": 8,
+                  "n": 51
+                },
+                {
+                  "st": "KY",
+                  "name": "Kentucky",
+                  "v": -2.9,
+                  "from": 220.9,
+                  "to": 218.0,
+                  "rank": 9,
+                  "n": 51
+                },
+                {
+                  "st": "GA",
+                  "name": "Georgia",
+                  "v": -3.6,
+                  "from": 218.0,
+                  "to": 214.4,
+                  "rank": 10,
+                  "n": 51
+                },
+                {
+                  "st": "RI",
+                  "name": "Rhode Island",
+                  "v": -3.9,
+                  "from": 220.2,
+                  "to": 216.3,
+                  "rank": 11,
+                  "n": 51
+                },
+                {
+                  "st": "IL",
+                  "name": "Illinois",
+                  "v": -3.9,
+                  "from": 218.2,
+                  "to": 214.2,
+                  "rank": 12,
+                  "n": 51
+                },
+                {
+                  "st": "CO",
+                  "name": "Colorado",
+                  "v": -3.9,
+                  "from": 224.9,
+                  "to": 220.9,
+                  "rank": 13,
+                  "n": 51
+                },
+                {
+                  "st": "WA",
+                  "name": "Washington",
+                  "v": -4.0,
+                  "from": 219.7,
+                  "to": 215.7,
+                  "rank": 14,
+                  "n": 51
+                },
+                {
+                  "st": "TN",
+                  "name": "Tennessee",
+                  "v": -4.0,
+                  "from": 219.1,
+                  "to": 215.1,
+                  "rank": 15,
+                  "n": 51
+                },
+                {
+                  "st": "TX",
+                  "name": "Texas",
+                  "v": -4.1,
+                  "from": 216.0,
+                  "to": 211.9,
+                  "rank": 16,
+                  "n": 51
+                },
+                {
+                  "st": "MD",
+                  "name": "Maryland",
+                  "v": -4.2,
+                  "from": 219.8,
+                  "to": 215.6,
+                  "rank": 17,
+                  "n": 51
+                },
+                {
+                  "st": "WI",
+                  "name": "Wisconsin",
+                  "v": -4.4,
+                  "from": 219.7,
+                  "to": 215.3,
+                  "rank": 18,
+                  "n": 51
+                },
+                {
+                  "st": "MT",
+                  "name": "Montana",
+                  "v": -4.5,
+                  "from": 221.7,
+                  "to": 217.2,
+                  "rank": 19,
+                  "n": 51
+                },
+                {
+                  "st": "NV",
+                  "name": "Nevada",
+                  "v": -4.5,
+                  "from": 217.6,
+                  "to": 213.1,
+                  "rank": 20,
+                  "n": 51
+                },
+                {
+                  "st": "CA",
+                  "name": "California",
+                  "v": -4.7,
+                  "from": 216.5,
+                  "to": 211.7,
+                  "rank": 21,
+                  "n": 51
+                },
+                {
+                  "st": "WY",
+                  "name": "Wyoming",
+                  "v": -4.7,
+                  "from": 226.7,
+                  "to": 221.9,
+                  "rank": 22,
+                  "n": 51
+                },
+                {
+                  "st": "NY",
+                  "name": "New York",
+                  "v": -5.0,
+                  "from": 219.6,
+                  "to": 214.6,
+                  "rank": 23,
+                  "n": 51
+                },
+                {
+                  "st": "DC",
+                  "name": "District of Columbia",
+                  "v": -5.1,
+                  "from": 214.3,
+                  "to": 209.2,
+                  "rank": 24,
+                  "n": 51
+                },
+                {
+                  "st": "CT",
+                  "name": "Connecticut",
+                  "v": -5.2,
+                  "from": 224.3,
+                  "to": 219.2,
+                  "rank": 25,
+                  "n": 51
+                },
+                {
+                  "st": "AR",
+                  "name": "Arkansas",
+                  "v": -5.4,
+                  "from": 215.1,
+                  "to": 209.7,
+                  "rank": 26,
+                  "n": 51
+                },
+                {
+                  "st": "NJ",
+                  "name": "New Jersey",
+                  "v": -5.6,
+                  "from": 227.2,
+                  "to": 221.6,
+                  "rank": 27,
+                  "n": 51
+                },
+                {
+                  "st": "ND",
+                  "name": "North Dakota",
+                  "v": -5.7,
+                  "from": 221.2,
+                  "to": 215.5,
+                  "rank": 28,
+                  "n": 51
+                },
+                {
+                  "st": "UT",
+                  "name": "Utah",
+                  "v": -5.8,
+                  "from": 225.1,
+                  "to": 219.3,
+                  "rank": 29,
+                  "n": 51
+                },
+                {
+                  "st": "IA",
+                  "name": "Iowa",
+                  "v": -5.9,
+                  "from": 220.5,
+                  "to": 214.6,
+                  "rank": 30,
+                  "n": 51
+                },
+                {
+                  "st": "OH",
+                  "name": "Ohio",
+                  "v": -6.0,
+                  "from": 222.0,
+                  "to": 216.0,
+                  "rank": 31,
+                  "n": 51
+                },
+                {
+                  "st": "KS",
+                  "name": "Kansas",
+                  "v": -6.0,
+                  "from": 219.1,
+                  "to": 213.1,
+                  "rank": 32,
+                  "n": 51
+                },
+                {
+                  "st": "MO",
+                  "name": "Missouri",
+                  "v": -6.1,
+                  "from": 218.0,
+                  "to": 211.9,
+                  "rank": 33,
+                  "n": 51
+                },
+                {
+                  "st": "MA",
+                  "name": "Massachusetts",
+                  "v": -6.3,
+                  "from": 231.1,
+                  "to": 224.8,
+                  "rank": 34,
+                  "n": 51
+                },
+                {
+                  "st": "FL",
+                  "name": "Florida",
+                  "v": -6.5,
+                  "from": 224.7,
+                  "to": 218.2,
+                  "rank": 35,
+                  "n": 51
+                },
+                {
+                  "st": "ID",
+                  "name": "Idaho",
+                  "v": -6.8,
+                  "from": 222.5,
+                  "to": 215.7,
+                  "rank": 36,
+                  "n": 51
+                },
+                {
+                  "st": "NM",
+                  "name": "New Mexico",
+                  "v": -6.9,
+                  "from": 207.6,
+                  "to": 200.6,
+                  "rank": 37,
+                  "n": 51
+                },
+                {
+                  "st": "WV",
+                  "name": "West Virginia",
+                  "v": -7.3,
+                  "from": 213.2,
+                  "to": 205.9,
+                  "rank": 38,
+                  "n": 51
+                },
+                {
+                  "st": "PA",
+                  "name": "Pennsylvania",
+                  "v": -7.5,
+                  "from": 223.2,
+                  "to": 215.8,
+                  "rank": 39,
+                  "n": 51
+                },
+                {
+                  "st": "AZ",
+                  "name": "Arizona",
+                  "v": -7.7,
+                  "from": 215.8,
+                  "to": 208.1,
+                  "rank": 40,
+                  "n": 51
+                },
+                {
+                  "st": "NC",
+                  "name": "North Carolina",
+                  "v": -7.9,
+                  "from": 221.3,
+                  "to": 213.4,
+                  "rank": 41,
+                  "n": 51
+                },
+                {
+                  "st": "SD",
+                  "name": "South Dakota",
+                  "v": -7.9,
+                  "from": 222.0,
+                  "to": 214.1,
+                  "rank": 42,
+                  "n": 51
+                },
+                {
+                  "st": "MN",
+                  "name": "Minnesota",
+                  "v": -8.0,
+                  "from": 222.4,
+                  "to": 214.4,
+                  "rank": 43,
+                  "n": 51
+                },
+                {
+                  "st": "DE",
+                  "name": "Delaware",
+                  "v": -8.2,
+                  "from": 217.7,
+                  "to": 209.5,
+                  "rank": 44,
+                  "n": 51
+                },
+                {
+                  "st": "OK",
+                  "name": "Oklahoma",
+                  "v": -9.1,
+                  "from": 216.4,
+                  "to": 207.3,
+                  "rank": 45,
+                  "n": 51
+                },
+                {
+                  "st": "MI",
+                  "name": "Michigan",
+                  "v": -9.1,
+                  "from": 218.3,
+                  "to": 209.1,
+                  "rank": 46,
+                  "n": 51
+                },
+                {
+                  "st": "VT",
+                  "name": "Vermont",
+                  "v": -9.1,
+                  "from": 221.8,
+                  "to": 212.7,
+                  "rank": 47,
+                  "n": 51
+                },
+                {
+                  "st": "VA",
+                  "name": "Virginia",
+                  "v": -9.5,
+                  "from": 223.6,
+                  "to": 214.1,
+                  "rank": 48,
+                  "n": 51
+                },
+                {
+                  "st": "NE",
+                  "name": "Nebraska",
+                  "v": -10.7,
+                  "from": 222.4,
+                  "to": 211.7,
+                  "rank": 49,
+                  "n": 51
+                },
+                {
+                  "st": "OR",
+                  "name": "Oregon",
+                  "v": -10.7,
+                  "from": 217.7,
+                  "to": 207.0,
+                  "rank": 50,
+                  "n": 51
+                },
+                {
+                  "st": "ME",
+                  "name": "Maine",
+                  "v": -11.6,
+                  "from": 221.2,
+                  "to": 209.6,
+                  "rank": 51,
+                  "n": 51
+                }
+              ]
+            },
+            "change_2022_2024": {
+              "us": -1.8,
+              "ma": {
+                "v": -2.0,
+                "rank": 30,
+                "n": 51
+              },
+              "highest": {
+                "st": "LA",
+                "name": "Louisiana",
+                "v": 3.6
+              },
+              "lowest": {
+                "st": "AZ",
+                "name": "Arizona",
+                "v": -7.4
+              },
+              "n_up": 13,
+              "n_down": 37,
+              "n_ranked": 51,
+              "from_year": 2022,
+              "to_year": 2024
+            }
+          },
+          "read8": {
+            "label": "NAEP reading grade 8 average scale score",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "years": [
+              1992,
+              1994,
+              1998,
+              2002,
+              2003,
+              2005,
+              2007,
+              2009,
+              2011,
+              2013,
+              2015,
+              2017,
+              2019,
+              2022,
+              2024
+            ],
+            "us": [
+              {
+                "y": 1992,
+                "v": 257.9
+              },
+              {
+                "y": 1994,
+                "v": 257.3
+              },
+              {
+                "y": 1998,
+                "v": 260.7
+              },
+              {
+                "y": 2002,
+                "v": 262.7
+              },
+              {
+                "y": 2003,
+                "v": 261.3
+              },
+              {
+                "y": 2005,
+                "v": 260.4
+              },
+              {
+                "y": 2007,
+                "v": 261.0
+              },
+              {
+                "y": 2009,
+                "v": 262.3
+              },
+              {
+                "y": 2011,
+                "v": 263.6
+              },
+              {
+                "y": 2013,
+                "v": 266.0
+              },
+              {
+                "y": 2015,
+                "v": 264.0
+              },
+              {
+                "y": 2017,
+                "v": 265.3
+              },
+              {
+                "y": 2019,
+                "v": 262.0
+              },
+              {
+                "y": 2022,
+                "v": 259.1
+              },
+              {
+                "y": 2024,
+                "v": 256.7
+              }
+            ],
+            "ma": [
+              {
+                "y": 1998,
+                "v": 268.8
+              },
+              {
+                "y": 2002,
+                "v": 270.5
+              },
+              {
+                "y": 2003,
+                "v": 272.9
+              },
+              {
+                "y": 2005,
+                "v": 273.7
+              },
+              {
+                "y": 2007,
+                "v": 273.3
+              },
+              {
+                "y": 2009,
+                "v": 273.6
+              },
+              {
+                "y": 2011,
+                "v": 275.4
+              },
+              {
+                "y": 2013,
+                "v": 277.0
+              },
+              {
+                "y": 2015,
+                "v": 274.5
+              },
+              {
+                "y": 2017,
+                "v": 277.8
+              },
+              {
+                "y": 2019,
+                "v": 273.1
+              },
+              {
+                "y": 2022,
+                "v": 268.8
+              },
+              {
+                "y": 2024,
+                "v": 268.0
+              }
+            ],
+            "change_2019_2024": {
+              "us": -5.3,
+              "ma": {
+                "v": -5.1,
+                "rank": 26,
+                "n": 51
+              },
+              "highest": {
+                "st": "DC",
+                "name": "District of Columbia",
+                "v": 1.5
+              },
+              "lowest": {
+                "st": "VT",
+                "name": "Vermont",
+                "v": -11.2
+              },
+              "n_ranked": 51,
+              "from_year": 2019,
+              "to_year": 2024,
+              "n_up": 1,
+              "n_down": 50,
+              "rows": [
+                {
+                  "st": "DC",
+                  "name": "District of Columbia",
+                  "v": 1.5,
+                  "from": 249.8,
+                  "to": 251.3,
+                  "rank": 1,
+                  "n": 51
+                },
+                {
+                  "st": "HI",
+                  "name": "Hawaii",
+                  "v": -0.9,
+                  "from": 258.2,
+                  "to": 257.3,
+                  "rank": 2,
+                  "n": 51
+                },
+                {
+                  "st": "LA",
+                  "name": "Louisiana",
+                  "v": -0.9,
+                  "from": 257.4,
+                  "to": 256.5,
+                  "rank": 3,
+                  "n": 51
+                },
+                {
+                  "st": "IA",
+                  "name": "Iowa",
+                  "v": -1.6,
+                  "from": 262.3,
+                  "to": 260.7,
+                  "rank": 4,
+                  "n": 51
+                },
+                {
+                  "st": "CO",
+                  "name": "Colorado",
+                  "v": -2.8,
+                  "from": 267.3,
+                  "to": 264.5,
+                  "rank": 5,
+                  "n": 51
+                },
+                {
+                  "st": "SD",
+                  "name": "South Dakota",
+                  "v": -2.9,
+                  "from": 262.8,
+                  "to": 259.9,
+                  "rank": 6,
+                  "n": 51
+                },
+                {
+                  "st": "MS",
+                  "name": "Mississippi",
+                  "v": -2.9,
+                  "from": 256.4,
+                  "to": 253.5,
+                  "rank": 7,
+                  "n": 51
+                },
+                {
+                  "st": "GA",
+                  "name": "Georgia",
+                  "v": -3.1,
+                  "from": 262.4,
+                  "to": 259.3,
+                  "rank": 8,
+                  "n": 51
+                },
+                {
+                  "st": "IL",
+                  "name": "Illinois",
+                  "v": -3.1,
+                  "from": 264.7,
+                  "to": 261.6,
+                  "rank": 9,
+                  "n": 51
+                },
+                {
+                  "st": "TX",
+                  "name": "Texas",
+                  "v": -3.5,
+                  "from": 255.7,
+                  "to": 252.3,
+                  "rank": 10,
+                  "n": 51
+                },
+                {
+                  "st": "TN",
+                  "name": "Tennessee",
+                  "v": -3.5,
+                  "from": 262.5,
+                  "to": 259.0,
+                  "rank": 11,
+                  "n": 51
+                },
+                {
+                  "st": "MN",
+                  "name": "Minnesota",
+                  "v": -3.7,
+                  "from": 263.8,
+                  "to": 260.1,
+                  "rank": 12,
+                  "n": 51
+                },
+                {
+                  "st": "AL",
+                  "name": "Alabama",
+                  "v": -3.8,
+                  "from": 253.4,
+                  "to": 249.6,
+                  "rank": 13,
+                  "n": 51
+                },
+                {
+                  "st": "AR",
+                  "name": "Arkansas",
+                  "v": -4.0,
+                  "from": 258.8,
+                  "to": 254.8,
+                  "rank": 14,
+                  "n": 51
+                },
+                {
+                  "st": "NH",
+                  "name": "New Hampshire",
+                  "v": -4.0,
+                  "from": 268.0,
+                  "to": 263.9,
+                  "rank": 15,
+                  "n": 51
+                },
+                {
+                  "st": "IN",
+                  "name": "Indiana",
+                  "v": -4.3,
+                  "from": 266.0,
+                  "to": 261.7,
+                  "rank": 16,
+                  "n": 51
+                },
+                {
+                  "st": "MT",
+                  "name": "Montana",
+                  "v": -4.3,
+                  "from": 264.8,
+                  "to": 260.5,
+                  "rank": 17,
+                  "n": 51
+                },
+                {
+                  "st": "RI",
+                  "name": "Rhode Island",
+                  "v": -4.4,
+                  "from": 262.1,
+                  "to": 257.8,
+                  "rank": 18,
+                  "n": 51
+                },
+                {
+                  "st": "NJ",
+                  "name": "New Jersey",
+                  "v": -4.4,
+                  "from": 270.4,
+                  "to": 266.0,
+                  "rank": 19,
+                  "n": 51
+                },
+                {
+                  "st": "CA",
+                  "name": "California",
+                  "v": -4.5,
+                  "from": 258.8,
+                  "to": 254.4,
+                  "rank": 20,
+                  "n": 51
+                },
+                {
+                  "st": "WY",
+                  "name": "Wyoming",
+                  "v": -4.7,
+                  "from": 264.6,
+                  "to": 260.0,
+                  "rank": 21,
+                  "n": 51
+                },
+                {
+                  "st": "NV",
+                  "name": "Nevada",
+                  "v": -4.8,
+                  "from": 258.1,
+                  "to": 253.3,
+                  "rank": 22,
+                  "n": 51
+                },
+                {
+                  "st": "NY",
+                  "name": "New York",
+                  "v": -4.9,
+                  "from": 261.8,
+                  "to": 256.9,
+                  "rank": 23,
+                  "n": 51
+                },
+                {
+                  "st": "KY",
+                  "name": "Kentucky",
+                  "v": -5.0,
+                  "from": 263.0,
+                  "to": 258.0,
+                  "rank": 24,
+                  "n": 51
+                },
+                {
+                  "st": "PA",
+                  "name": "Pennsylvania",
+                  "v": -5.0,
+                  "from": 264.2,
+                  "to": 259.1,
+                  "rank": 25,
+                  "n": 51
+                },
+                {
+                  "st": "MA",
+                  "name": "Massachusetts",
+                  "v": -5.1,
+                  "from": 273.1,
+                  "to": 268.0,
+                  "rank": 26,
+                  "n": 51
+                },
+                {
+                  "st": "AZ",
+                  "name": "Arizona",
+                  "v": -5.1,
+                  "from": 259.5,
+                  "to": 254.3,
+                  "rank": 27,
+                  "n": 51
+                },
+                {
+                  "st": "SC",
+                  "name": "South Carolina",
+                  "v": -5.3,
+                  "from": 259.0,
+                  "to": 253.7,
+                  "rank": 28,
+                  "n": 51
+                },
+                {
+                  "st": "VA",
+                  "name": "Virginia",
+                  "v": -5.5,
+                  "from": 261.8,
+                  "to": 256.3,
+                  "rank": 29,
+                  "n": 51
+                },
+                {
+                  "st": "ID",
+                  "name": "Idaho",
+                  "v": -5.8,
+                  "from": 266.5,
+                  "to": 260.7,
+                  "rank": 30,
+                  "n": 51
+                },
+                {
+                  "st": "ND",
+                  "name": "North Dakota",
+                  "v": -5.8,
+                  "from": 263.2,
+                  "to": 257.4,
+                  "rank": 31,
+                  "n": 51
+                },
+                {
+                  "st": "AK",
+                  "name": "Alaska",
+                  "v": -5.9,
+                  "from": 252.4,
+                  "to": 246.4,
+                  "rank": 32,
+                  "n": 51
+                },
+                {
+                  "st": "MD",
+                  "name": "Maryland",
+                  "v": -6.1,
+                  "from": 264.4,
+                  "to": 258.3,
+                  "rank": 33,
+                  "n": 51
+                },
+                {
+                  "st": "UT",
+                  "name": "Utah",
+                  "v": -6.2,
+                  "from": 267.4,
+                  "to": 261.2,
+                  "rank": 34,
+                  "n": 51
+                },
+                {
+                  "st": "CT",
+                  "name": "Connecticut",
+                  "v": -6.6,
+                  "from": 269.7,
+                  "to": 263.1,
+                  "rank": 35,
+                  "n": 51
+                },
+                {
+                  "st": "OH",
+                  "name": "Ohio",
+                  "v": -6.6,
+                  "from": 267.0,
+                  "to": 260.4,
+                  "rank": 36,
+                  "n": 51
+                },
+                {
+                  "st": "NM",
+                  "name": "New Mexico",
+                  "v": -6.6,
+                  "from": 251.7,
+                  "to": 245.1,
+                  "rank": 37,
+                  "n": 51
+                },
+                {
+                  "st": "WA",
+                  "name": "Washington",
+                  "v": -7.0,
+                  "from": 266.3,
+                  "to": 259.3,
+                  "rank": 38,
+                  "n": 51
+                },
+                {
+                  "st": "WI",
+                  "name": "Wisconsin",
+                  "v": -7.3,
+                  "from": 267.4,
+                  "to": 260.1,
+                  "rank": 39,
+                  "n": 51
+                },
+                {
+                  "st": "KS",
+                  "name": "Kansas",
+                  "v": -7.3,
+                  "from": 262.8,
+                  "to": 255.5,
+                  "rank": 40,
+                  "n": 51
+                },
+                {
+                  "st": "MI",
+                  "name": "Michigan",
+                  "v": -7.5,
+                  "from": 262.6,
+                  "to": 255.1,
+                  "rank": 41,
+                  "n": 51
+                },
+                {
+                  "st": "NC",
+                  "name": "North Carolina",
+                  "v": -7.6,
+                  "from": 262.5,
+                  "to": 254.9,
+                  "rank": 42,
+                  "n": 51
+                },
+                {
+                  "st": "NE",
+                  "name": "Nebraska",
+                  "v": -7.9,
+                  "from": 264.0,
+                  "to": 256.1,
+                  "rank": 43,
+                  "n": 51
+                },
+                {
+                  "st": "MO",
+                  "name": "Missouri",
+                  "v": -8.0,
+                  "from": 263.3,
+                  "to": 255.3,
+                  "rank": 44,
+                  "n": 51
+                },
+                {
+                  "st": "WV",
+                  "name": "West Virginia",
+                  "v": -8.3,
+                  "from": 255.6,
+                  "to": 247.4,
+                  "rank": 45,
+                  "n": 51
+                },
+                {
+                  "st": "OR",
+                  "name": "Oregon",
+                  "v": -8.9,
+                  "from": 263.7,
+                  "to": 254.8,
+                  "rank": 46,
+                  "n": 51
+                },
+                {
+                  "st": "OK",
+                  "name": "Oklahoma",
+                  "v": -9.4,
+                  "from": 258.2,
+                  "to": 248.8,
+                  "rank": 47,
+                  "n": 51
+                },
+                {
+                  "st": "ME",
+                  "name": "Maine",
+                  "v": -10.1,
+                  "from": 265.2,
+                  "to": 255.0,
+                  "rank": 48,
+                  "n": 51
+                },
+                {
+                  "st": "DE",
+                  "name": "Delaware",
+                  "v": -10.2,
+                  "from": 259.7,
+                  "to": 249.5,
+                  "rank": 49,
+                  "n": 51
+                },
+                {
+                  "st": "FL",
+                  "name": "Florida",
+                  "v": -10.5,
+                  "from": 263.4,
+                  "to": 252.9,
+                  "rank": 50,
+                  "n": 51
+                },
+                {
+                  "st": "VT",
+                  "name": "Vermont",
+                  "v": -11.2,
+                  "from": 268.5,
+                  "to": 257.3,
+                  "rank": 51,
+                  "n": 51
+                }
+              ]
+            },
+            "change_2022_2024": {
+              "us": -2.4,
+              "ma": {
+                "v": -0.7,
+                "rank": 20,
+                "n": 51
+              },
+              "highest": {
+                "st": "DC",
+                "name": "District of Columbia",
+                "v": 1.6
+              },
+              "lowest": {
+                "st": "FL",
+                "name": "Florida",
+                "v": -6.8
+              },
+              "n_up": 7,
+              "n_down": 43,
+              "n_ranked": 51,
+              "from_year": 2022,
+              "to_year": 2024
+            }
+          },
+          "math4": {
+            "label": "NAEP math grade 4 average scale score",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "years": [
+              1990,
+              1992,
+              1996,
+              2000,
+              2003,
+              2005,
+              2007,
+              2009,
+              2011,
+              2013,
+              2015,
+              2017,
+              2019,
+              2022,
+              2024
+            ],
+            "us": [
+              {
+                "y": 1990,
+                "v": 211.6
+              },
+              {
+                "y": 1992,
+                "v": 218.6
+              },
+              {
+                "y": 1996,
+                "v": 222.0
+              },
+              {
+                "y": 2000,
+                "v": 224.2
+              },
+              {
+                "y": 2003,
+                "v": 234.0
+              },
+              {
+                "y": 2005,
+                "v": 237.1
+              },
+              {
+                "y": 2007,
+                "v": 239.1
+              },
+              {
+                "y": 2009,
+                "v": 239.1
+              },
+              {
+                "y": 2011,
+                "v": 240.1
+              },
+              {
+                "y": 2013,
+                "v": 241.2
+              },
+              {
+                "y": 2015,
+                "v": 239.9
+              },
+              {
+                "y": 2017,
+                "v": 239.2
+              },
+              {
+                "y": 2019,
+                "v": 240.0
+              },
+              {
+                "y": 2022,
+                "v": 234.9
+              },
+              {
+                "y": 2024,
+                "v": 237.3
+              }
+            ],
+            "ma": [
+              {
+                "y": 1992,
+                "v": 226.6
+              },
+              {
+                "y": 1996,
+                "v": 229.0
+              },
+              {
+                "y": 2000,
+                "v": 233.4
+              },
+              {
+                "y": 2003,
+                "v": 241.7
+              },
+              {
+                "y": 2005,
+                "v": 247.3
+              },
+              {
+                "y": 2007,
+                "v": 252.4
+              },
+              {
+                "y": 2009,
+                "v": 252.3
+              },
+              {
+                "y": 2011,
+                "v": 253.4
+              },
+              {
+                "y": 2013,
+                "v": 253.0
+              },
+              {
+                "y": 2015,
+                "v": 250.6
+              },
+              {
+                "y": 2017,
+                "v": 249.1
+              },
+              {
+                "y": 2019,
+                "v": 247.3
+              },
+              {
+                "y": 2022,
+                "v": 241.7
+              },
+              {
+                "y": 2024,
+                "v": 246.5
+              }
+            ],
+            "change_2019_2024": {
+              "us": -2.7,
+              "ma": {
+                "v": -0.8,
+                "rank": 7,
+                "n": 51
+              },
+              "highest": {
+                "st": "AL",
+                "name": "Alabama",
+                "v": 6.7
+              },
+              "lowest": {
+                "st": "VA",
+                "name": "Virginia",
+                "v": -9.0
+              },
+              "n_ranked": 51,
+              "from_year": 2019,
+              "to_year": 2024,
+              "n_up": 4,
+              "n_down": 46,
+              "rows": [
+                {
+                  "st": "AL",
+                  "name": "Alabama",
+                  "v": 6.7,
+                  "from": 229.7,
+                  "to": 236.4,
+                  "rank": 1,
+                  "n": 51
+                },
+                {
+                  "st": "LA",
+                  "name": "Louisiana",
+                  "v": 3.3,
+                  "from": 231.3,
+                  "to": 234.5,
+                  "rank": 2,
+                  "n": 51
+                },
+                {
+                  "st": "SC",
+                  "name": "South Carolina",
+                  "v": 0.9,
+                  "from": 236.8,
+                  "to": 237.6,
+                  "rank": 3,
+                  "n": 51
+                },
+                {
+                  "st": "HI",
+                  "name": "Hawaii",
+                  "v": 0.7,
+                  "from": 238.6,
+                  "to": 239.3,
+                  "rank": 4,
+                  "n": 51
+                },
+                {
+                  "st": "WV",
+                  "name": "West Virginia",
+                  "v": 0.0,
+                  "from": 231.5,
+                  "to": 231.5,
+                  "rank": 5,
+                  "n": 51
+                },
+                {
+                  "st": "TN",
+                  "name": "Tennessee",
+                  "v": -0.1,
+                  "from": 239.7,
+                  "to": 239.6,
+                  "rank": 6,
+                  "n": 51
+                },
+                {
+                  "st": "MA",
+                  "name": "Massachusetts",
+                  "v": -0.8,
+                  "from": 247.3,
+                  "to": 246.5,
+                  "rank": 7,
+                  "n": 51
+                },
+                {
+                  "st": "MI",
+                  "name": "Michigan",
+                  "v": -0.9,
+                  "from": 236.2,
+                  "to": 235.2,
+                  "rank": 8,
+                  "n": 51
+                },
+                {
+                  "st": "IL",
+                  "name": "Illinois",
+                  "v": -1.3,
+                  "from": 237.4,
+                  "to": 236.1,
+                  "rank": 9,
+                  "n": 51
+                },
+                {
+                  "st": "SD",
+                  "name": "South Dakota",
+                  "v": -1.4,
+                  "from": 241.3,
+                  "to": 239.9,
+                  "rank": 10,
+                  "n": 51
+                },
+                {
+                  "st": "KY",
+                  "name": "Kentucky",
+                  "v": -1.5,
+                  "from": 239.3,
+                  "to": 237.8,
+                  "rank": 11,
+                  "n": 51
+                },
+                {
+                  "st": "MS",
+                  "name": "Mississippi",
+                  "v": -1.5,
+                  "from": 240.7,
+                  "to": 239.2,
+                  "rank": 12,
+                  "n": 51
+                },
+                {
+                  "st": "GA",
+                  "name": "Georgia",
+                  "v": -1.5,
+                  "from": 237.6,
+                  "to": 236.1,
+                  "rank": 13,
+                  "n": 51
+                },
+                {
+                  "st": "ND",
+                  "name": "North Dakota",
+                  "v": -1.6,
+                  "from": 242.9,
+                  "to": 241.3,
+                  "rank": 14,
+                  "n": 51
+                },
+                {
+                  "st": "CA",
+                  "name": "California",
+                  "v": -1.7,
+                  "from": 234.7,
+                  "to": 233.0,
+                  "rank": 15,
+                  "n": 51
+                },
+                {
+                  "st": "OH",
+                  "name": "Ohio",
+                  "v": -1.7,
+                  "from": 241.1,
+                  "to": 239.4,
+                  "rank": 16,
+                  "n": 51
+                },
+                {
+                  "st": "WA",
+                  "name": "Washington",
+                  "v": -1.9,
+                  "from": 239.5,
+                  "to": 237.6,
+                  "rank": 17,
+                  "n": 51
+                },
+                {
+                  "st": "RI",
+                  "name": "Rhode Island",
+                  "v": -2.1,
+                  "from": 239.3,
+                  "to": 237.3,
+                  "rank": 18,
+                  "n": 51
+                },
+                {
+                  "st": "KS",
+                  "name": "Kansas",
+                  "v": -2.2,
+                  "from": 239.4,
+                  "to": 237.2,
+                  "rank": 19,
+                  "n": 51
+                },
+                {
+                  "st": "UT",
+                  "name": "Utah",
+                  "v": -2.2,
+                  "from": 243.8,
+                  "to": 241.5,
+                  "rank": 20,
+                  "n": 51
+                },
+                {
+                  "st": "NV",
+                  "name": "Nevada",
+                  "v": -2.4,
+                  "from": 235.6,
+                  "to": 233.2,
+                  "rank": 21,
+                  "n": 51
+                },
+                {
+                  "st": "WI",
+                  "name": "Wisconsin",
+                  "v": -2.4,
+                  "from": 241.7,
+                  "to": 239.3,
+                  "rank": 22,
+                  "n": 51
+                },
+                {
+                  "st": "WY",
+                  "name": "Wyoming",
+                  "v": -2.4,
+                  "from": 245.8,
+                  "to": 243.4,
+                  "rank": 23,
+                  "n": 51
+                },
+                {
+                  "st": "NC",
+                  "name": "North Carolina",
+                  "v": -2.5,
+                  "from": 241.4,
+                  "to": 238.9,
+                  "rank": 24,
+                  "n": 51
+                },
+                {
+                  "st": "FL",
+                  "name": "Florida",
+                  "v": -2.6,
+                  "from": 246.0,
+                  "to": 243.4,
+                  "rank": 25,
+                  "n": 51
+                },
+                {
+                  "st": "NY",
+                  "name": "New York",
+                  "v": -2.6,
+                  "from": 236.7,
+                  "to": 234.2,
+                  "rank": 26,
+                  "n": 51
+                },
+                {
+                  "st": "MT",
+                  "name": "Montana",
+                  "v": -2.6,
+                  "from": 241.1,
+                  "to": 238.5,
+                  "rank": 27,
+                  "n": 51
+                },
+                {
+                  "st": "CO",
+                  "name": "Colorado",
+                  "v": -2.7,
+                  "from": 241.9,
+                  "to": 239.1,
+                  "rank": 28,
+                  "n": 51
+                },
+                {
+                  "st": "AR",
+                  "name": "Arkansas",
+                  "v": -2.9,
+                  "from": 233.3,
+                  "to": 230.3,
+                  "rank": 29,
+                  "n": 51
+                },
+                {
+                  "st": "NH",
+                  "name": "New Hampshire",
+                  "v": -3.0,
+                  "from": 244.6,
+                  "to": 241.6,
+                  "rank": 30,
+                  "n": 51
+                },
+                {
+                  "st": "TX",
+                  "name": "Texas",
+                  "v": -3.1,
+                  "from": 243.6,
+                  "to": 240.5,
+                  "rank": 31,
+                  "n": 51
+                },
+                {
+                  "st": "MO",
+                  "name": "Missouri",
+                  "v": -3.4,
+                  "from": 238.4,
+                  "to": 235.0,
+                  "rank": 32,
+                  "n": 51
+                },
+                {
+                  "st": "ID",
+                  "name": "Idaho",
+                  "v": -3.5,
+                  "from": 241.9,
+                  "to": 238.4,
+                  "rank": 33,
+                  "n": 51
+                },
+                {
+                  "st": "IA",
+                  "name": "Iowa",
+                  "v": -3.6,
+                  "from": 240.7,
+                  "to": 237.0,
+                  "rank": 34,
+                  "n": 51
+                },
+                {
+                  "st": "DC",
+                  "name": "District of Columbia",
+                  "v": -4.0,
+                  "from": 234.6,
+                  "to": 230.6,
+                  "rank": 35,
+                  "n": 51
+                },
+                {
+                  "st": "VT",
+                  "name": "Vermont",
+                  "v": -4.1,
+                  "from": 238.9,
+                  "to": 234.8,
+                  "rank": 36,
+                  "n": 51
+                },
+                {
+                  "st": "CT",
+                  "name": "Connecticut",
+                  "v": -4.2,
+                  "from": 243.3,
+                  "to": 239.1,
+                  "rank": 37,
+                  "n": 51
+                },
+                {
+                  "st": "MD",
+                  "name": "Maryland",
+                  "v": -4.5,
+                  "from": 238.6,
+                  "to": 234.1,
+                  "rank": 38,
+                  "n": 51
+                },
+                {
+                  "st": "IN",
+                  "name": "Indiana",
+                  "v": -4.6,
+                  "from": 244.9,
+                  "to": 240.3,
+                  "rank": 39,
+                  "n": 51
+                },
+                {
+                  "st": "OK",
+                  "name": "Oklahoma",
+                  "v": -4.6,
+                  "from": 237.2,
+                  "to": 232.6,
+                  "rank": 40,
+                  "n": 51
+                },
+                {
+                  "st": "AZ",
+                  "name": "Arizona",
+                  "v": -5.2,
+                  "from": 237.6,
+                  "to": 232.4,
+                  "rank": 41,
+                  "n": 51
+                },
+                {
+                  "st": "NE",
+                  "name": "Nebraska",
+                  "v": -5.6,
+                  "from": 243.8,
+                  "to": 238.2,
+                  "rank": 42,
+                  "n": 51
+                },
+                {
+                  "st": "PA",
+                  "name": "Pennsylvania",
+                  "v": -5.8,
+                  "from": 243.9,
+                  "to": 238.2,
+                  "rank": 43,
+                  "n": 51
+                },
+                {
+                  "st": "NJ",
+                  "name": "New Jersey",
+                  "v": -5.8,
+                  "from": 245.9,
+                  "to": 240.1,
+                  "rank": 44,
+                  "n": 51
+                },
+                {
+                  "st": "DE",
+                  "name": "Delaware",
+                  "v": -6.1,
+                  "from": 239.3,
+                  "to": 233.2,
+                  "rank": 45,
+                  "n": 51
+                },
+                {
+                  "st": "AK",
+                  "name": "Alaska",
+                  "v": -6.4,
+                  "from": 232.3,
+                  "to": 225.9,
+                  "rank": 46,
+                  "n": 51
+                },
+                {
+                  "st": "NM",
+                  "name": "New Mexico",
+                  "v": -7.3,
+                  "from": 231.1,
+                  "to": 223.8,
+                  "rank": 47,
+                  "n": 51
+                },
+                {
+                  "st": "ME",
+                  "name": "Maine",
+                  "v": -7.6,
+                  "from": 240.8,
+                  "to": 233.1,
+                  "rank": 48,
+                  "n": 51
+                },
+                {
+                  "st": "OR",
+                  "name": "Oregon",
+                  "v": -7.7,
+                  "from": 236.3,
+                  "to": 228.7,
+                  "rank": 49,
+                  "n": 51
+                },
+                {
+                  "st": "MN",
+                  "name": "Minnesota",
+                  "v": -7.7,
+                  "from": 248.4,
+                  "to": 240.7,
+                  "rank": 50,
+                  "n": 51
+                },
+                {
+                  "st": "VA",
+                  "name": "Virginia",
+                  "v": -9.0,
+                  "from": 246.9,
+                  "to": 237.9,
+                  "rank": 51,
+                  "n": 51
+                }
+              ]
+            },
+            "change_2022_2024": {
+              "us": 2.4,
+              "ma": {
+                "v": 4.8,
+                "rank": 9,
+                "n": 51
+              },
+              "highest": {
+                "st": "DC",
+                "name": "District of Columbia",
+                "v": 8.0
+              },
+              "lowest": {
+                "st": "NE",
+                "name": "Nebraska",
+                "v": -3.4
+              },
+              "n_up": 45,
+              "n_down": 6,
+              "n_ranked": 51,
+              "from_year": 2022,
+              "to_year": 2024
+            }
+          },
+          "math8": {
+            "label": "NAEP math grade 8 average scale score",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "years": [
+              1990,
+              1992,
+              1996,
+              2000,
+              2003,
+              2005,
+              2007,
+              2009,
+              2011,
+              2013,
+              2015,
+              2017,
+              2019,
+              2022,
+              2024
+            ],
+            "us": [
+              {
+                "y": 1990,
+                "v": 261.7
+              },
+              {
+                "y": 1992,
+                "v": 266.9
+              },
+              {
+                "y": 1996,
+                "v": 268.8
+              },
+              {
+                "y": 2000,
+                "v": 271.8
+              },
+              {
+                "y": 2003,
+                "v": 276.1
+              },
+              {
+                "y": 2005,
+                "v": 277.5
+              },
+              {
+                "y": 2007,
+                "v": 280.2
+              },
+              {
+                "y": 2009,
+                "v": 281.7
+              },
+              {
+                "y": 2011,
+                "v": 282.7
+              },
+              {
+                "y": 2013,
+                "v": 283.6
+              },
+              {
+                "y": 2015,
+                "v": 281.3
+              },
+              {
+                "y": 2017,
+                "v": 282.0
+              },
+              {
+                "y": 2019,
+                "v": 281.0
+              },
+              {
+                "y": 2022,
+                "v": 273.1
+              },
+              {
+                "y": 2024,
+                "v": 272.2
+              }
+            ],
+            "ma": [
+              {
+                "y": 1992,
+                "v": 272.8
+              },
+              {
+                "y": 1996,
+                "v": 277.6
+              },
+              {
+                "y": 2000,
+                "v": 278.9
+              },
+              {
+                "y": 2003,
+                "v": 286.5
+              },
+              {
+                "y": 2005,
+                "v": 291.5
+              },
+              {
+                "y": 2007,
+                "v": 297.9
+              },
+              {
+                "y": 2009,
+                "v": 298.9
+              },
+              {
+                "y": 2011,
+                "v": 298.5
+              },
+              {
+                "y": 2013,
+                "v": 300.6
+              },
+              {
+                "y": 2015,
+                "v": 296.9
+              },
+              {
+                "y": 2017,
+                "v": 297.0
+              },
+              {
+                "y": 2019,
+                "v": 294.5
+              },
+              {
+                "y": 2022,
+                "v": 283.6
+              },
+              {
+                "y": 2024,
+                "v": 283.5
+              }
+            ],
+            "change_2019_2024": {
+              "us": -8.8,
+              "ma": {
+                "v": -11.0,
+                "rank": 42,
+                "n": 51
+              },
+              "highest": {
+                "st": "UT",
+                "name": "Utah",
+                "v": -3.1
+              },
+              "lowest": {
+                "st": "DE",
+                "name": "Delaware",
+                "v": -13.6
+              },
+              "n_ranked": 51,
+              "from_year": 2019,
+              "to_year": 2024,
+              "n_up": 0,
+              "n_down": 51,
+              "rows": [
+                {
+                  "st": "UT",
+                  "name": "Utah",
+                  "v": -3.1,
+                  "from": 284.9,
+                  "to": 281.8,
+                  "rank": 1,
+                  "n": 51
+                },
+                {
+                  "st": "TN",
+                  "name": "Tennessee",
+                  "v": -4.1,
+                  "from": 280.1,
+                  "to": 276.0,
+                  "rank": 2,
+                  "n": 51
+                },
+                {
+                  "st": "MS",
+                  "name": "Mississippi",
+                  "v": -4.7,
+                  "from": 273.7,
+                  "to": 269.1,
+                  "rank": 3,
+                  "n": 51
+                },
+                {
+                  "st": "LA",
+                  "name": "Louisiana",
+                  "v": -4.9,
+                  "from": 271.6,
+                  "to": 266.8,
+                  "rank": 4,
+                  "n": 51
+                },
+                {
+                  "st": "MT",
+                  "name": "Montana",
+                  "v": -4.9,
+                  "from": 284.0,
+                  "to": 279.1,
+                  "rank": 5,
+                  "n": 51
+                },
+                {
+                  "st": "NE",
+                  "name": "Nebraska",
+                  "v": -5.1,
+                  "from": 285.0,
+                  "to": 279.9,
+                  "rank": 6,
+                  "n": 51
+                },
+                {
+                  "st": "IL",
+                  "name": "Illinois",
+                  "v": -5.1,
+                  "from": 282.6,
+                  "to": 277.4,
+                  "rank": 7,
+                  "n": 51
+                },
+                {
+                  "st": "HI",
+                  "name": "Hawaii",
+                  "v": -5.3,
+                  "from": 275.3,
+                  "to": 270.0,
+                  "rank": 8,
+                  "n": 51
+                },
+                {
+                  "st": "ND",
+                  "name": "North Dakota",
+                  "v": -5.8,
+                  "from": 285.6,
+                  "to": 279.8,
+                  "rank": 9,
+                  "n": 51
+                },
+                {
+                  "st": "RI",
+                  "name": "Rhode Island",
+                  "v": -5.8,
+                  "from": 275.7,
+                  "to": 269.8,
+                  "rank": 10,
+                  "n": 51
+                },
+                {
+                  "st": "SD",
+                  "name": "South Dakota",
+                  "v": -6.0,
+                  "from": 287.1,
+                  "to": 281.1,
+                  "rank": 11,
+                  "n": 51
+                },
+                {
+                  "st": "WI",
+                  "name": "Wisconsin",
+                  "v": -6.0,
+                  "from": 288.7,
+                  "to": 282.6,
+                  "rank": 12,
+                  "n": 51
+                },
+                {
+                  "st": "CO",
+                  "name": "Colorado",
+                  "v": -6.6,
+                  "from": 284.7,
+                  "to": 278.1,
+                  "rank": 13,
+                  "n": 51
+                },
+                {
+                  "st": "CA",
+                  "name": "California",
+                  "v": -6.8,
+                  "from": 275.6,
+                  "to": 268.8,
+                  "rank": 14,
+                  "n": 51
+                },
+                {
+                  "st": "IA",
+                  "name": "Iowa",
+                  "v": -6.8,
+                  "from": 281.7,
+                  "to": 274.8,
+                  "rank": 15,
+                  "n": 51
+                },
+                {
+                  "st": "OH",
+                  "name": "Ohio",
+                  "v": -6.9,
+                  "from": 285.7,
+                  "to": 278.8,
+                  "rank": 16,
+                  "n": 51
+                },
+                {
+                  "st": "AL",
+                  "name": "Alabama",
+                  "v": -6.9,
+                  "from": 268.7,
+                  "to": 261.8,
+                  "rank": 17,
+                  "n": 51
+                },
+                {
+                  "st": "KY",
+                  "name": "Kentucky",
+                  "v": -7.3,
+                  "from": 278.1,
+                  "to": 270.8,
+                  "rank": 18,
+                  "n": 51
+                },
+                {
+                  "st": "IN",
+                  "name": "Indiana",
+                  "v": -7.5,
+                  "from": 285.6,
+                  "to": 278.2,
+                  "rank": 19,
+                  "n": 51
+                },
+                {
+                  "st": "NH",
+                  "name": "New Hampshire",
+                  "v": -7.5,
+                  "from": 287.2,
+                  "to": 279.7,
+                  "rank": 20,
+                  "n": 51
+                },
+                {
+                  "st": "DC",
+                  "name": "District of Columbia",
+                  "v": -7.6,
+                  "from": 269.2,
+                  "to": 261.5,
+                  "rank": 21,
+                  "n": 51
+                },
+                {
+                  "st": "NC",
+                  "name": "North Carolina",
+                  "v": -7.8,
+                  "from": 283.7,
+                  "to": 275.8,
+                  "rank": 22,
+                  "n": 51
+                },
+                {
+                  "st": "ID",
+                  "name": "Idaho",
+                  "v": -7.8,
+                  "from": 285.9,
+                  "to": 278.1,
+                  "rank": 23,
+                  "n": 51
+                },
+                {
+                  "st": "WY",
+                  "name": "Wyoming",
+                  "v": -8.0,
+                  "from": 286.3,
+                  "to": 278.3,
+                  "rank": 24,
+                  "n": 51
+                },
+                {
+                  "st": "KS",
+                  "name": "Kansas",
+                  "v": -8.1,
+                  "from": 282.2,
+                  "to": 274.1,
+                  "rank": 25,
+                  "n": 51
+                },
+                {
+                  "st": "AR",
+                  "name": "Arkansas",
+                  "v": -8.2,
+                  "from": 274.4,
+                  "to": 266.2,
+                  "rank": 26,
+                  "n": 51
+                },
+                {
+                  "st": "SC",
+                  "name": "South Carolina",
+                  "v": -8.3,
+                  "from": 276.4,
+                  "to": 268.0,
+                  "rank": 27,
+                  "n": 51
+                },
+                {
+                  "st": "NV",
+                  "name": "Nevada",
+                  "v": -8.6,
+                  "from": 273.8,
+                  "to": 265.2,
+                  "rank": 28,
+                  "n": 51
+                },
+                {
+                  "st": "MN",
+                  "name": "Minnesota",
+                  "v": -8.7,
+                  "from": 290.8,
+                  "to": 282.1,
+                  "rank": 29,
+                  "n": 51
+                },
+                {
+                  "st": "PA",
+                  "name": "Pennsylvania",
+                  "v": -8.8,
+                  "from": 285.0,
+                  "to": 276.2,
+                  "rank": 30,
+                  "n": 51
+                },
+                {
+                  "st": "CT",
+                  "name": "Connecticut",
+                  "v": -9.5,
+                  "from": 286.2,
+                  "to": 276.7,
+                  "rank": 31,
+                  "n": 51
+                },
+                {
+                  "st": "NY",
+                  "name": "New York",
+                  "v": -9.6,
+                  "from": 280.4,
+                  "to": 270.9,
+                  "rank": 32,
+                  "n": 51
+                },
+                {
+                  "st": "ME",
+                  "name": "Maine",
+                  "v": -9.7,
+                  "from": 282.4,
+                  "to": 272.6,
+                  "rank": 33,
+                  "n": 51
+                },
+                {
+                  "st": "NJ",
+                  "name": "New Jersey",
+                  "v": -10.1,
+                  "from": 291.8,
+                  "to": 281.7,
+                  "rank": 34,
+                  "n": 51
+                },
+                {
+                  "st": "TX",
+                  "name": "Texas",
+                  "v": -10.3,
+                  "from": 279.7,
+                  "to": 269.4,
+                  "rank": 35,
+                  "n": 51
+                },
+                {
+                  "st": "AZ",
+                  "name": "Arizona",
+                  "v": -10.3,
+                  "from": 279.9,
+                  "to": 269.7,
+                  "rank": 36,
+                  "n": 51
+                },
+                {
+                  "st": "MI",
+                  "name": "Michigan",
+                  "v": -10.3,
+                  "from": 280.3,
+                  "to": 270.0,
+                  "rank": 37,
+                  "n": 51
+                },
+                {
+                  "st": "AK",
+                  "name": "Alaska",
+                  "v": -10.4,
+                  "from": 274.3,
+                  "to": 264.0,
+                  "rank": 38,
+                  "n": 51
+                },
+                {
+                  "st": "MO",
+                  "name": "Missouri",
+                  "v": -10.4,
+                  "from": 280.8,
+                  "to": 270.4,
+                  "rank": 39,
+                  "n": 51
+                },
+                {
+                  "st": "GA",
+                  "name": "Georgia",
+                  "v": -10.8,
+                  "from": 279.5,
+                  "to": 268.7,
+                  "rank": 40,
+                  "n": 51
+                },
+                {
+                  "st": "VT",
+                  "name": "Vermont",
+                  "v": -11.0,
+                  "from": 286.6,
+                  "to": 275.6,
+                  "rank": 41,
+                  "n": 51
+                },
+                {
+                  "st": "MA",
+                  "name": "Massachusetts",
+                  "v": -11.0,
+                  "from": 294.5,
+                  "to": 283.5,
+                  "rank": 42,
+                  "n": 51
+                },
+                {
+                  "st": "FL",
+                  "name": "Florida",
+                  "v": -11.3,
+                  "from": 278.5,
+                  "to": 267.2,
+                  "rank": 43,
+                  "n": 51
+                },
+                {
+                  "st": "OR",
+                  "name": "Oregon",
+                  "v": -11.6,
+                  "from": 279.5,
+                  "to": 267.9,
+                  "rank": 44,
+                  "n": 51
+                },
+                {
+                  "st": "WV",
+                  "name": "West Virginia",
+                  "v": -11.6,
+                  "from": 272.3,
+                  "to": 260.8,
+                  "rank": 45,
+                  "n": 51
+                },
+                {
+                  "st": "MD",
+                  "name": "Maryland",
+                  "v": -11.9,
+                  "from": 280.1,
+                  "to": 268.2,
+                  "rank": 46,
+                  "n": 51
+                },
+                {
+                  "st": "OK",
+                  "name": "Oklahoma",
+                  "v": -12.0,
+                  "from": 276.5,
+                  "to": 264.5,
+                  "rank": 47,
+                  "n": 51
+                },
+                {
+                  "st": "VA",
+                  "name": "Virginia",
+                  "v": -12.1,
+                  "from": 287.1,
+                  "to": 275.0,
+                  "rank": 48,
+                  "n": 51
+                },
+                {
+                  "st": "WA",
+                  "name": "Washington",
+                  "v": -12.1,
+                  "from": 285.8,
+                  "to": 273.7,
+                  "rank": 49,
+                  "n": 51
+                },
+                {
+                  "st": "NM",
+                  "name": "New Mexico",
+                  "v": -12.6,
+                  "from": 268.8,
+                  "to": 256.2,
+                  "rank": 50,
+                  "n": 51
+                },
+                {
+                  "st": "DE",
+                  "name": "Delaware",
+                  "v": -13.6,
+                  "from": 276.7,
+                  "to": 263.1,
+                  "rank": 51,
+                  "n": 51
+                }
+              ]
+            },
+            "change_2022_2024": {
+              "us": -0.9,
+              "ma": {
+                "v": -0.1,
+                "rank": 24,
+                "n": 51
+              },
+              "highest": {
+                "st": "TN",
+                "name": "Tennessee",
+                "v": 4.0
+              },
+              "lowest": {
+                "st": "AK",
+                "name": "Alaska",
+                "v": -6.0
+              },
+              "n_up": 22,
+              "n_down": 29,
+              "n_ranked": 51,
+              "from_year": 2022,
+              "to_year": 2024
+            }
           }
         }
       },

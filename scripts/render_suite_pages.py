@@ -93,6 +93,8 @@ def insight_html(insights):
         span = " span2" if fig.get("span") == 2 or len(insights) == 1 else ""
         if fig.get("height") == "mid":
             hclass = "plot-mid"
+        elif fig.get("height") == "ranks":
+            hclass = "plot-ranks"
         elif fig.get("span") == 2 or len(insights) == 1:
             hclass = "plot"
         else:

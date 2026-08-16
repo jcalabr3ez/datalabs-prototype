@@ -80,6 +80,9 @@ VERIFY_DROPOUT_MA_2025 = 0.018
 VERIFY_IPEDS_6YR_2017 = 64.6  # Digest 326.10, all 4-year institutions
 VERIFY_NAEP_NP_READ4_2024_MIN = 180
 VERIFY_NAEP_NP_READ4_2024_MAX = 250
+VERIFY_NAEP_NP_READ4_2019 = 219.4
+VERIFY_NAEP_NP_READ4_2024 = 214.3
+VERIFY_NAEP_LA_READ4_CHANGE_2019_2024 = 6.1
 # BLS CEWBD 2025 Q4 news release (July 29, 2026): 338,000 births;
 # 284,000 deaths in 2025 Q1. The national level series is in thousands.
 VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q4 = 338
@@ -286,7 +289,13 @@ def sec_district_finance():
 NAEP_JURS = ",".join(list(RANKED) + ["NP"])
 
 
-def _naep_series(subject, grade, subscale):
+def _naep_displayable(row):
+    disp = row.get("isStatDisplayable")
+    return disp not in (0, "0", False)
+
+
+def _naep_all_years(subject, grade, subscale):
+    """All published years for one NAEP scale. Year omitted so the API returns the series."""
     url = URL_NAEP + "?" + urllib.parse.urlencode({
         "type": "data",
         "subject": subject,
@@ -295,52 +304,153 @@ def _naep_series(subject, grade, subscale):
         "variable": "TOTAL",
         "jurisdiction": NAEP_JURS,
         "stattype": "MN:MN",
-        "Year": "2024",
     })
-    payload = json.loads(fetch(url, timeout=90))
-    values, us_val = {}, None
+    payload = json.loads(fetch(url, timeout=120))
+    by_year = defaultdict(dict)
+    us_by_year = {}
     for r in payload.get("result") or []:
-        jur = r.get("jurisdiction")
-        v = parse_num(r.get("value"))
-        if v is None:
+        if not _naep_displayable(r):
             continue
+        jur = r.get("jurisdiction")
+        year = r.get("year")
+        v = parse_num(r.get("value"))
+        if v is None or year is None:
+            continue
+        year = int(year)
         if jur == "NP":
-            us_val = v
+            us_by_year[year] = v
         elif jur in STATE_NAMES and jur != "US":
-            values[jur] = v
-    return values, us_val
+            by_year[year][jur] = v
+    return by_year, us_by_year
+
+
+def _naep_trend(by_year, us_by_year, st):
+    years = sorted(set(us_by_year) | set(by_year))
+    us, ma = [], []
+    for y in years:
+        if y in us_by_year:
+            us.append({"y": y, "v": round(us_by_year[y], 1)})
+        if st in by_year.get(y, {}):
+            ma.append({"y": y, "v": round(by_year[y][st], 1)})
+    return years, us, ma
+
+
+def _naep_change(by_year, us_by_year, start, end):
+    if start not in by_year or end not in by_year:
+        return None
+    values = {}
+    cells = {}
+    for st in RANKED:
+        a = by_year[start].get(st)
+        b = by_year[end].get(st)
+        if a is None or b is None:
+            continue
+        values[st] = b - a
+        cells[st] = (a, b)
+    if len(values) < 48:
+        return None
+    snap = _snap(values, None if start not in us_by_year or end not in us_by_year else us_by_year[end] - us_by_year[start], round_to=1)
+    ranked = rank_rows(values, higher_is_better=True)
+    rows = []
+    for rec in ranked:
+        a, b = cells[rec["st"]]
+        rows.append({
+            "st": rec["st"],
+            "name": rec["name"],
+            "v": round(rec["v"], 1),
+            "from": round(a, 1),
+            "to": round(b, 1),
+            "rank": rec["rank"],
+            "n": rec["n"],
+        })
+    n_up = sum(1 for r in rows if r["v"] > 0)
+    n_down = sum(1 for r in rows if r["v"] < 0)
+    snap.update({
+        "from_year": start,
+        "to_year": end,
+        "n_up": n_up,
+        "n_down": n_down,
+        "n_ranked": rows[0]["n"] if rows else 0,
+        "rows": rows,
+    })
+    return snap
 
 
 def sec_naep():
-    series = {
-        "read4": ("reading", 4, "RRPCM"),
-        "read8": ("reading", 8, "RRPCM"),
-        "math4": ("mathematics", 4, "MRPCM"),
-        "math8": ("mathematics", 8, "MRPCM"),
+    specs = {
+        "read4": ("reading", 4, "RRPCM", "reading", 4),
+        "read8": ("reading", 8, "RRPCM", "reading", 8),
+        "math4": ("mathematics", 4, "MRPCM", "math", 4),
+        "math8": ("mathematics", 8, "MRPCM", "math", 8),
     }
     out = {}
-    for key, (subj, grade, scale) in series.items():
-        values, us_val = _naep_series(subj, grade, scale)
+    history = {}
+    for key, (subj, grade, scale, short, g) in specs.items():
+        by_year, us_by_year = _naep_all_years(subj, grade, scale)
+        values = by_year.get(2024) or {}
+        us_val = us_by_year.get(2024)
         if us_val is None:
             sys.exit(f"FATAL: NAEP 2024 {key} national public is missing")
         if len(values) < 48:
             sys.exit(f"FATAL: NAEP 2024 {key} parsed {len(values)} states")
         snap = _snap(values, us_val, round_to=1)
         snap.update({
-            "label": f"NAEP {subj} grade {grade} average scale score, 2024",
+            "label": f"NAEP {short} grade {g} average scale score, 2024",
             "src": "SRC-607-05",
             "unit": "scale score",
             "as_of_label": "2024",
         })
         out[key] = snap
+        years, us_tr, ma_tr = _naep_trend(by_year, us_by_year, "MA")
+        ch19 = _naep_change(by_year, us_by_year, 2019, 2024)
+        ch22 = _naep_change(by_year, us_by_year, 2022, 2024)
+        if not ch19 or not ch22:
+            sys.exit(f"FATAL: NAEP {key} missing 2019-2024 or 2022-2024 change")
+        history[key] = {
+            "label": f"NAEP {short} grade {g} average scale score",
+            "src": "SRC-607-05",
+            "unit": "scale score",
+            "years": years,
+            "us": us_tr,
+            "ma": ma_tr,
+            "change_2019_2024": ch19,
+            "change_2022_2024": {
+                "us": ch22.get("us"),
+                "ma": ch22.get("ma"),
+                "highest": ch22.get("highest"),
+                "lowest": ch22.get("lowest"),
+                "n_up": ch22.get("n_up"),
+                "n_down": ch22.get("n_down"),
+                "n_ranked": ch22.get("n_ranked"),
+                "from_year": 2022,
+                "to_year": 2024,
+            },
+        }
     r4 = out["read4"]["us"]
     if r4 < VERIFY_NAEP_NP_READ4_2024_MIN or r4 > VERIFY_NAEP_NP_READ4_2024_MAX:
         sys.exit(f"FATAL: NAEP 2024 grade-4 reading NP is {r4}")
+    if abs(r4 - VERIFY_NAEP_NP_READ4_2024) > 0.15:
+        sys.exit(f"FATAL: NAEP 2024 grade-4 reading NP is {r4}, expected {VERIFY_NAEP_NP_READ4_2024}")
+    us19 = next((p["v"] for p in history["read4"]["us"] if p["y"] == 2019), None)
+    if us19 is None or abs(us19 - VERIFY_NAEP_NP_READ4_2019) > 0.15:
+        sys.exit(f"FATAL: NAEP 2019 grade-4 reading NP is {us19}")
+    la = next(
+        (r for r in history["read4"]["change_2019_2024"]["rows"] if r.get("st") == "LA"),
+        None,
+    )
+    if not la or abs(la["v"] - VERIFY_NAEP_LA_READ4_CHANGE_2019_2024) > 0.15:
+        sys.exit(f"FATAL: Louisiana grade-4 reading 2019-2024 change is {la}")
     return {
-        "label": "NAEP state reading and math, 2024",
+        "label": "NAEP state reading and math, 1992-2024",
         "src": "SRC-607-05",
         "as_of_label": "2024",
+        "note": (
+            "Average scale scores for public-school students. National public is "
+            "the published NP line. Change is 2024 minus the earlier year. "
+            "States with no published score in either year are omitted from that change ranking."
+        ),
         "series": out,
+        "history": history,
     }
 
 
@@ -1181,6 +1291,21 @@ def more_lead(tool_id, sec):
             f"<b>{m8.get('us')}</b> / <b>{(m8.get('ma') or {}).get('v')}</b> "
             f"(SRC-607-05)."
         )
+        hist = ((sec.get("naep_2024") or {}).get("history") or {})
+        r4c = (hist.get("read4") or {}).get("change_2019_2024") or {}
+        m8c = (hist.get("math8") or {}).get("change_2019_2024") or {}
+        r4_hi = r4c.get("highest") or {}
+        if r4c.get("us") is not None:
+            parts.append(
+                f"From 2019 to 2024, national public grade-4 reading changed "
+                f"<b>{r4c['us']:+.1f}</b> points; "
+                f"<b>{r4c.get('n_up')}</b> of {r4c.get('n_ranked')} states rose "
+                f"and <b>{r4c.get('n_down')}</b> fell (SRC-607-05). "
+                f"<b>{r4_hi.get('name')}</b> had the largest grade-4 reading "
+                f"gain at <b>{r4_hi.get('v'):+.1f}</b> (SRC-607-05). "
+                f"Grade-8 math changed <b>{m8c.get('us'):+.1f}</b> nationally; "
+                f"<b>{m8c.get('n_up')}</b> states rose (SRC-607-05)."
+            )
     if tool_id == "DL-08":
         i = sec.get("ipeds_6yr_grad_2017") or {}
         parts.append(

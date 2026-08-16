@@ -58,6 +58,7 @@ const GOLDEN_HITS = [
   ["How many prisoners does Massachusetts hold?", "DL-31"],
   ["What share of Massachusetts students met expectations on MCAS?", "DL-06"],
   ["What is the Massachusetts NAEP grade 4 reading score?", "DL-07"],
+  ["Which states improved on NAEP since 2019?", "DL-07"],
   ["What is the national 6-year college graduation rate?", "DL-08"],
   ["How much did Massachusetts Medicaid fraud units recover?", "DL-12"],
   ["How many UI initial claims did Massachusetts file last week?", "DL-14"],

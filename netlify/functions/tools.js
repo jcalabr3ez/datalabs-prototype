@@ -406,7 +406,7 @@ module.exports = [
       'fall 2024 enrollment',
       'elementary and secondary enrollment', 'naep', 'nations report card'
     ],
-    extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP 2024 state reading and math scores sit in derived.secondary.naep_2024.series (read4, read8, math4, math8). NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.'
+    extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.'
   }),
   suiteTool(DL08, {
     id: 'DL-08',

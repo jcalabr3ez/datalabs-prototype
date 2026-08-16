@@ -195,32 +195,41 @@ def voice_dl06(ledger):
     return take[:3], kpis[:3], f"{money(ma.get('v'))} per pupil, {rank_txt(ma)}", "SRC-606-01"
 
 
+def pts(n):
+    if n is None:
+        return ""
+    sign = "+" if n > 0 else ("\u2212" if n < 0 else "")
+    return f"{sign}{abs(float(n)):.1f}"
+
+
 def voice_dl07(ledger):
     naep = sec(ledger, "naep_2024", "series", "read4")
     naep8 = sec(ledger, "naep_2024", "series", "read8")
     ppe = sec(ledger, "npefs_ppe_fy2024")
-    grad = sec(ledger, "acgr_2021_22")
+    ch = sec(ledger, "naep_2024", "history", "read4", "change_2019_2024")
+    ch8 = sec(ledger, "naep_2024", "history", "math8", "change_2019_2024")
     ma_r = ma_of(naep)
     ma_p = ma_of(ppe)
-    ma_g = ma_of(grad)
+    ma_c = ma_of(ch)
+    hi_c = ch.get("highest") or {}
     take = [
         f"On the 2024 NAEP, Massachusetts ranked <b>1 of {ma_r.get('n') or 51}</b> in grade-4 reading (scale score <b>{ma_r.get('v')}</b>) and grade-8 reading (<b>{(ma_of(naep8) or {}).get('v')}</b>) (SRC-607-05).",
+        f"From 2019 to 2024, national public grade-4 reading changed <b>{pts(ch.get('us'))}</b> points; <b>{ch.get('n_up')}</b> of {ch.get('n_ranked')} states rose. <b>{hi_c.get('name')}</b> gained the most at <b>{pts(hi_c.get('v'))}</b>. Massachusetts was <b>{pts(ma_c.get('v'))}</b>, {rank_txt(ma_c)} (SRC-607-05).",
         f"Massachusetts spent <b>{money(ma_p.get('v'))}</b> per pupil in FY 2024, {rank_txt(ma_p)} (derived, SRC-607-06).",
-        f"The public high-school 4-year graduation rate was <b>{ma_g.get('v')}%</b> in 2021-22, {rank_txt(ma_g)} (derived, SRC-607-03).",
     ]
     kpis = [
         kpi("NAEP grade-4 reading, 2024", f"{ma_r.get('v')}",
             f"{rank_txt(ma_r).capitalize()} (SRC-607-05). U.S. public average {naep.get('us')}.",
             "The national assessment rank, not the enrollment count.",
             src_name(ledger, "SRC-607-05")),
+        kpi("Grade 4 reading since 2019", pts(ch.get("us")),
+            f"National public points. {ch.get('n_up')} states rose, {ch.get('n_down')} fell. {hi_c.get('name')} {pts(hi_c.get('v'))} (SRC-607-05).",
+            "Who is getting better or worse on the same scale.",
+            src_name(ledger, "SRC-607-05")),
         kpi("Massachusetts per-pupil, FY 2024", money(ma_p.get("v")),
             f"{rank_txt(ma_p).capitalize()} (derived, SRC-607-06). U.S. average {money(ppe.get('us'))}.",
             "What Massachusetts spends relative to the other 50 jurisdictions.",
             src_name(ledger, "SRC-607-06")),
-        kpi("Graduation rate, 2021-22", f"{ma_g.get('v')}%",
-            f"{rank_txt(ma_g).capitalize()} (derived, SRC-607-03). U.S. rate {grad.get('us')}%.",
-            "Completion, not headcount.",
-            src_name(ledger, "SRC-607-03")),
     ]
     return take, kpis, f"NAEP reading rank {ma_r.get('rank')}", "SRC-607-05"
 
@@ -1068,6 +1077,18 @@ def find_bundle(app, ledger):
                 facts.append(f"July 1, 2025 population {commify(r['pop2025'])}")
             if r.get("pop2020") is not None:
                 facts.append(f"2020 estimate {commify(r['pop2020'])}")
+        elif tid == "DL-07":
+            hist = (sec(ledger, "naep_2024") or {}).get("history") or {}
+            st = r.get("st")
+            for key, label in (("read4", "Grade 4 reading"), ("math8", "Grade 8 math")):
+                rows = ((hist.get(key) or {}).get("change_2019_2024") or {}).get("rows") or []
+                hit = next((x for x in rows if x.get("st") == st), None)
+                if not hit:
+                    continue
+                sign = "+" if hit.get("v", 0) > 0 else ("\u2212" if hit.get("v", 0) < 0 else "")
+                facts.append(
+                    f"{label} {hit.get('to')} in 2024, {sign}{abs(float(hit.get('v') or 0)):.1f} from 2019 (SRC-607-05)"
+                )
         elif kind == "tax_type":
             qt = qtax_types.get(norm_key(name))
             if qt:

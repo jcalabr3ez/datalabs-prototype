@@ -35,7 +35,7 @@
       "g": ["US"],
       "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
       "replaces": ["Discipline & Security", "High School Completion", "K-12 Enrollment", "K-12 School Finance", "Reading/Math Achievement"],
-      "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, 2024 NAEP state reading and math average scale scores (grades 4 and 8), and NCES NPEFS FY 2024 current expenditures per pupil.",
+      "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil.",
       "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education.",
       "wave": "live",
       "sources": [
@@ -43,7 +43,7 @@
         {"id": "SRC-607-02", "name": "NCES Digest table 203.20, public K-12 enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx"},
         {"id": "SRC-607-03", "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx"},
         {"id": "SRC-607-04", "name": "NCES Digest table 233.40, out-of-school suspension share", "cadence": "Periodic", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx"},
-        {"id": "SRC-607-05", "name": "NAEP 2024 state reading and math average scale scores", "cadence": "Biennial", "url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx"},
+        {"id": "SRC-607-05", "name": "NAEP state reading and math average scale scores, 1990-2024", "cadence": "Biennial", "url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx"},
         {"id": "SRC-607-06", "name": "NCES NPEFS current expenditures per pupil, FY 2024", "cadence": "Annual", "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt"}
       ]
     },

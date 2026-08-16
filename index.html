@@ -160,10 +160,14 @@
   .rcount { font-size:13px; color:var(--faint); padding:14px 0 6px; }
 
   .cab { border-top:2px solid var(--ink); }
-  .area { padding:28px 0 8px; border-bottom:1px solid var(--rule); }
+  .area { padding:0; border-bottom:1px solid var(--rule); }
   .area:last-child { border-bottom:none; }
   .area.hide { display:none; }
-  .areahead { display:flex; align-items:baseline; justify-content:space-between; gap:16px; margin-bottom:6px; }
+  .area > summary.areahead { display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:18px 0; cursor:pointer; list-style:none; }
+  .area > summary.areahead::-webkit-details-marker { display:none; }
+  .area > summary.areahead:after { content:"\25BE"; font-size:14px; color:var(--grey); flex:none; }
+  .area[open] > summary.areahead:after { content:"\25B4"; }
   .areahead .anm { margin:0; font-family:var(--serif); font-size:24px; font-weight:700; letter-spacing:-.01em; color:var(--navy); }
   .areahead .asum { font-size:13px; color:var(--grey); font-variant-numeric:tabular-nums; white-space:nowrap; }
   .topic { margin-top:18px; }
@@ -249,7 +253,6 @@
 
   <section class="sec frame dir-sec" id="directory">
     <h2>Every application</h2>
-    <p class="sub">Browse by Pioneer vertical. Each row is an application, the place it covers, and the vintage of the data inside.</p>
     <div class="cabtop">
       <div class="srchwrap">
         <input id="srch" class="srch" type="search" placeholder="Search by name or topic" aria-label="Search the catalog" autocomplete="off">
@@ -448,10 +451,10 @@ if (AI_ENABLED) {
     ids.forEach(function(id){ rows = rows.concat(byId[id].rows); });
     rows.sort(byName);
     var anchors = ids.map(function(id){ return '<span id="dir-'+esc(id)+'"></span>'; }).join('');
-    return '<section class="area" id="area-'+esc(a.id)+'">' +
+    return '<details class="area" id="area-'+esc(a.id)+'">' +
       anchors +
-      '<div class="areahead"><h3 class="anm">'+esc(a.name)+'</h3><span class="asum" data-asum></span></div>' +
-      topicHtml({ id:a.id+'-apps', name:a.name, rows:rows }, true) + '</section>';
+      '<summary class="areahead"><span class="anm">'+esc(a.name)+'</span><span class="asum" data-asum></span></summary>' +
+      topicHtml({ id:a.id+'-apps', name:a.name, rows:rows }, true) + '</details>';
   }
   document.getElementById('dirList').innerHTML = AREAS.map(areaHtml).join('');
 
@@ -484,10 +487,20 @@ if (AI_ENABLED) {
       if(n){
         vareas++;
         area.querySelector('[data-asum]').textContent = n+(n===1?' application':' applications');
+        if(q) area.open = true;
       }
     });
     count.textContent = matched+(matched===1?' application':' applications')+' in '+vareas+(vareas===1?' vertical':' verticals');
     none.hidden = matched>0;
+  }
+  function openFromHash(){
+    var h=(location.hash||'').replace(/^#/,'');
+    if(!h) return;
+    var el=document.getElementById(h);
+    if(!el) return;
+    var area=el.closest ? el.closest('details.area') : null;
+    if(!area && el.classList && el.classList.contains('area')) area=el;
+    if(area) area.open=true;
   }
   function chrome(){ srchX.hidden = !srchEl.value; }
   srchEl.addEventListener('input',function(){ apply(); chrome(); });
@@ -496,6 +509,8 @@ if (AI_ENABLED) {
     [].slice.call(document.querySelectorAll('.chip')).forEach(function(x){x.classList.toggle('on',x===b);});
     fg=b.dataset.g; apply();});});
   apply();
+  openFromHash();
+  window.addEventListener('hashchange', openFromHash);
 })();
 
 /* ---------- Chart library (numbers come only from the data file) ---------- */

@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Catalog verticals fold closed",
+        "body": (
+            "The four Pioneer verticals on the front door are dropdowns. "
+            "Open Education, Healthcare, Economic Opportunity, or American "
+            "Citizenship to see the applications inside."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Pages read as papers",
         "body": (
             "The front door and the tools other than Florida Insurance Watch "

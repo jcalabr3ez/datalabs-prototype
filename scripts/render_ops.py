@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Legislature pay by person",
+        "body": (
+            "The Legislature Pay table now shows each member's base salary, "
+            "Comptroller supplemental pay, stipend, and total for calendar 2025, "
+            "not only the combined figure. Type a name to jump to that row."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Two-line trends on a shared scale",
         "body": (
             "When a trend chart overlays series of very different size, "

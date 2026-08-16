@@ -188,6 +188,17 @@ for app in load_apps():
             print(f"suite {slug}: MISS as_of {as_of}")
         else:
             print(f"suite {slug}: ok   as_of {as_of}")
+    if app["id"] == "DL-32":
+        for needle, label in (
+            ("Base salary", "base salary column"),
+            ("Supplemental", "supplemental column"),
+            ("Stipend", "stipend column"),
+        ):
+            if needle not in page:
+                failures.append(f"legislature-pay/index.html is missing the {label}")
+                print(f"suite {slug}: MISS {label}")
+            else:
+                print(f"suite {slug}: ok   {label}")
 
 # ---- 6. Catalog is native DataLabs applications only ----
 catalog = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))

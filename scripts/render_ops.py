@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Landing masthead marks the catalog as Beta",
+        "body": (
+            "The front door now reads DataLabs Beta. The supporting line "
+            "says this is an internal staff review. The browser tab and "
+            "share title say the same."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Audience starters, household power prices, and taxpayer destinations",
         "body": (
             "Every live tool except State Wealth Taxes and Florida "

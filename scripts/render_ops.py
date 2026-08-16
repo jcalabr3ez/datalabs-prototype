@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Subtle institutional contrast",
+        "body": (
+            "Pages now carry a cream band under the title and the key figures, "
+            "with slightly darker type and rules. The footer keeps a gold rule. "
+            "Florida Insurance Watch and the State Tax Atlas pick up the same "
+            "colors from the shared palette."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Catalog verticals fold closed",
         "body": (
             "The four Pioneer verticals on the front door are dropdowns. "

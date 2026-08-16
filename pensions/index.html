@@ -45,7 +45,7 @@
   .sitebar .backlink{font:400 13px/1 var(--sans);color:var(--navy);text-decoration:none}
   .sitebar .backlink:hover{color:var(--ink);text-decoration:underline}
 
-  header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:28px var(--bleed) 22px;border-bottom:1px solid var(--rule)}
+  header{background:var(--wash);margin:0 calc(-1 * var(--bleed));padding:28px var(--bleed) 22px;border-bottom:1px solid var(--rule)}
   h1{font:700 clamp(28px,3.6vw,40px)/1.15 var(--serif);color:var(--ink);letter-spacing:-.015em}
   .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
   .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
@@ -72,8 +72,8 @@
   .lede.lead-graf{font-size:17px;max-width:44em}
   .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
 
-  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
-  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
+  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);background:var(--wash);padding:4px 18px;margin-left:-18px;margin-right:-18px}
+  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule)}
   .cell:last-child{border-right:0;padding-right:0}
   .cl{font:400 13px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);
       margin-bottom:4px;min-height:0}
@@ -82,7 +82,7 @@
   .cd .up{color:var(--neg);font-weight:600} .cd .dn{color:var(--pos);font-weight:600}
   @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
 
-  .metrics{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .metrics{/* chrome lives on .strip; this class only tweaks cell type */}
   .metrics .cell{text-align:left;padding:14px 20px 14px 0}
   .metrics .cl{min-height:0;margin-bottom:4px;color:var(--grey)}
   .metrics .cv{font-size:16px;line-height:1.35}
@@ -143,7 +143,7 @@
   .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
   .srcline a:hover{border-bottom-color:var(--ink)}
 
-  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:none;
+  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:2px solid var(--gold);
          padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
   footer b{color:#fff}
   footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}

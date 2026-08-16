@@ -13,7 +13,7 @@ input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{o
 .sitebar .piword:hover{color:var(--navy);text-decoration:none}
 .sitebar .backlink,.sitebar .sbleft a.nav{font:400 13px/1 var(--sans);color:var(--navy);text-decoration:none}
 .sitebar .backlink:hover,.sitebar .sbleft a.nav:hover{color:var(--ink);text-decoration:underline}
-header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:28px var(--bleed) 22px;border-bottom:1px solid var(--rule)}
+header{background:var(--wash);margin:0 calc(-1 * var(--bleed));padding:28px var(--bleed) 22px;border-bottom:1px solid var(--rule)}
 h1{font:700 clamp(28px,3.6vw,40px)/1.15 var(--serif);color:var(--ink);letter-spacing:-.015em}
 .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
 .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
@@ -34,7 +34,7 @@ td.m{font-weight:600}
 .log .when{font:400 13px/1.4 var(--sans);color:var(--grey);margin-bottom:6px}
 .log h3{font:600 16px/1.35 var(--serif);color:var(--ink);margin-bottom:8px}
 .scroll{overflow-x:auto;max-width:100%}
-footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:none;padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:2px solid var(--gold);padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
 footer b{color:#fff}
 footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
 footer a:hover{color:#fff;border-bottom-color:#fff}

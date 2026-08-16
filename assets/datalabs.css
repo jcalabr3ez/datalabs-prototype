@@ -12,17 +12,17 @@
    (JS cannot read CSS custom properties). Keep them in sync by hand.
    ========================================================================== */
 :root{
-  /* neutrals */
-  --ink:#222222; --grey:#666666; --faint:#9AA2AA;
-  --rule:#E4E6E9; --rule-dk:#222222; --rule-lt:#EEF1F4;
+  /* neutrals: ink on cream, with rules dark enough to read as furniture */
+  --ink:#222222; --grey:#4A5560; --faint:#6E7882;
+  --rule:#D4D8DE; --rule-dk:#222222; --rule-lt:#E2E6EB;
   /* brand */
   --navy:#293C5C; --gold:#CCB26D; --goldlt:#CCB26D;
-  --wash:#FCFBF6; --hover:#F6F8FB;
+  --wash:#F6F3EA; --hover:#F0F2F6;
   /* dark chrome (masthead, hero gradient, footer) */
   --bar:#112337; --hero2:#1B2C48; --hero3:#112337;
   /* aliases some pages use */
-  --blue:#293C5C; --accent:#CCB26D; --blue-lt:#F6F8FB;
-  --g1:#3D454E; --g2:#666666; --g3:#9AA2AA;
+  --blue:#293C5C; --accent:#CCB26D; --blue-lt:#F0F2F6;
+  --g1:#3D454E; --g2:#4A5560; --g3:#6E7882;
   /* status (functional, not brand: current / over-a-year / high-value accent) */
   --pos:#177245; --neg:#8C2F1B; --warn:#CCB26D;
   /* type: Libre Bodoni headings, Roboto UI and data */

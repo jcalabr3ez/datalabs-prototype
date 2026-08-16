@@ -315,6 +315,7 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
   </section>
 
   <section id="view-price_rank">
+    <div id="view-households"></div>
     <h2>Across the fifty states</h2>
     <div class="map-tabs" id="mapTabs" role="tablist" aria-label="Map view">
       <button type="button" class="map-tab is-on" data-view="price">Price</button>
@@ -388,7 +389,6 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
 </div><!-- /view-prices -->
 <div id="view-trends"></div>
 <div id="view-supply"></div>
-<div id="view-households" hidden></div>
 <div id="view-sales_rank" hidden></div>
 <div id="view-gen_rank" hidden></div>
 
@@ -669,6 +669,16 @@ function paintCurrentMap(){
     function(){return 'cents per kWh';},
     {label:'U.S. Total',value:DL04.latest.us.price_cents});
 }
+function syncStandfirst(){
+  var el=document.getElementById('standfirst');
+  if(!el || !STANDFIRSTS) return;
+  var tablePane=document.getElementById('view-table');
+  var key='prices';
+  if(tablePane && !tablePane.hidden) key='table';
+  else if(mapView==='res') key='households';
+  else if(mapView==='sales' || mapView==='gen') key='supply';
+  if(STANDFIRSTS[key]) el.textContent=STANDFIRSTS[key];
+}
 function setMapPane(pane){
   var mapPane=document.getElementById('mapPane');
   var tablePane=document.getElementById('view-table');
@@ -691,6 +701,7 @@ function setMapPane(pane){
   } else {
     paintCurrentMap();
   }
+  syncStandfirst();
 }
 function renderPrices(){
   paintCurrentMap();

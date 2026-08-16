@@ -10,7 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from audience_starters import companion_jumps, starters_html
 from insight_figures import insight_figures
-from page_voice import census_place_names, display_lead, short_place_text, voice_for
+from page_voice import census_place_names, display_lead, short_place_text, table_value_label, voice_for
 from suite_common import ROOT, catalog_dashboards, commify, load_apps, ledger_path, paper_dateline
 
 def esc(s):
@@ -555,7 +555,7 @@ def chart_spec(app, ledger):
     else:
         table_columns = [
             {"key": "name", "label": col_name, "cls": "m"},
-            {"key": "v", "label": "Value", "align": "n", "fmt": "value"},
+            {"key": "v", "label": table_value_label(unit, label), "align": "n", "fmt": "value"},
             {"key": "rank", "label": "Rank", "align": "n"},
             {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
         ]
@@ -909,7 +909,7 @@ def page_html(app, ledger, apps=None):
 """
     table_cols = spec.get("table_columns") or [
         {"key": "name", "label": spec.get("col_name") or "Name", "cls": "m"},
-        {"key": "v", "label": "Value", "align": "n"},
+        {"key": "v", "label": table_value_label(spec.get("unit") or unit, spec.get("label") or metric_label), "align": "n"},
         {"key": "rank", "label": "Rank", "align": "n"},
         {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
     ]

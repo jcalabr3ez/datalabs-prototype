@@ -62,6 +62,19 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Find-card units, education leads, and household electricity tab",
+        "body": (
+            "State GDP find cards now scale millions of dollars the same way "
+            "the charts do. Ranking tables and find cards name the unit "
+            "instead of Value. About and Status say only Patents by State "
+            "is in build. Massachusetts Schools and State School Scores "
+            "now open on the story in the title. The Households jump on "
+            "Retail Electricity Prices lands on the residential map and "
+            "updates the standfirst."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Landing masthead marks the catalog as Beta",
         "body": (
             "The front door now reads DataLabs Beta. The supporting line "
@@ -601,8 +614,8 @@ def status_body(rows):
     return f"""
 <section>
   <h2>What this page reports</h2>
-  <p class="lede">Vintage and refresh cadence for every DataLabs application. The colored dot in the catalog is the vintage of the data inside. This table adds the freshness gate and the job that is supposed to move it.</p>
-  <p class="body-p">{live} applications are live. {build} are in build. {stale} {"is" if stale == 1 else "are"} past {"its" if stale == 1 else "their"} freshness gate. Table generated {TODAY_LABEL} from the ledgers in this repository.</p>
+  <p class="lede">Vintage and refresh cadence for every DataLabs application. The vintage on each catalog row is the vintage of the data inside. This table adds the freshness gate and the job that is supposed to move it.</p>
+  <p class="body-p">{live} applications are live. {build} {"is" if build == 1 else "are"} in build. {stale} {"is" if stale == 1 else "are"} past {"its" if stale == 1 else "their"} freshness gate. Table generated {TODAY_LABEL} from the ledgers in this repository.</p>
   <p class="body-p">Questions asked at the front door are written to the site question log so the next tool can come from demand, not from a bigger catalog. Individual questions are not published here. The ask box is on at the front door. Use ?ai=0 to hide it.</p>
   <div class="scroll"><table>
     <thead><tr><th>Application</th><th>Status</th><th>Vintage</th><th>Freshness gate</th><th>Refresh</th></tr></thead>

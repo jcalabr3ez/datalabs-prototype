@@ -70,6 +70,9 @@ def format_metric_value(v, unit):
         if isinstance(v, (int, float)):
             return f"{float(v):.1f}%"
         return str(v)
+    if "star" in u:
+        n = int(v)
+        return f"{n} star" if n == 1 else f"{n} stars"
     if "dollar" in u:
         scale = 1.0
         if "trillion" in u:
@@ -82,6 +85,51 @@ def format_metric_value(v, unit):
     if isinstance(v, float) and not float(v).is_integer():
         return num(v)
     return commify(v)
+
+
+def format_find_value(v, unit):
+    """Find-card figure: same scale as the page, with the unit when it is not already in the number."""
+    formatted = format_metric_value(v, unit)
+    u = (unit or "").strip()
+    if not formatted:
+        return ""
+    ulow = u.lower()
+    if not u or "dollar" in ulow or "percent" in ulow or "star" in ulow:
+        return formatted
+    if "us = 100" in ulow:
+        return f"{formatted} (US = 100)"
+    return f"{formatted} {u}"
+
+
+def table_value_label(unit, metric_label=""):
+    """Short table-column header. Never the word Value."""
+    ulow = (unit or "").strip().lower()
+    named = {
+        "dollars per pupil": "Per pupil",
+        "dollars": "Dollars",
+        "students": "Students",
+        "percent": "Percent",
+        "returns": "Returns",
+        "people": "People",
+        "prisoners": "Prisoners",
+        "sites": "Sites",
+        "applications": "Applications",
+        "units": "Units",
+        "unlinked passenger trips": "Trips",
+        "million metric tons": "Million mt",
+        "million vehicle-miles": "Million VMT",
+        "index (us = 100)": "Index (US=100)",
+        "millions of chained 2017 dollars": "$ millions",
+        "star rating (1-5)": "Stars",
+    }
+    if ulow in named:
+        return named[ulow]
+    if ulow:
+        return (unit or "").strip()[:1].upper() + (unit or "").strip()[1:]
+    label = (metric_label or "").strip()
+    if label:
+        return label
+    return "Figure"
 
 
 def florida_kpi(ledger):
@@ -306,9 +354,12 @@ def takeaways_html(items):
 
 def display_lead(voice, ledger):
     """One-sentence finding for the page. KPIs and charts carry the rest."""
+    custom = (voice or {}).get("page_lead") or ""
+    extra = (voice or {}).get("lead_extra") or ""
+    if custom:
+        return short_place_text((custom + " " + extra).strip(), census_place_names(ledger))
     nat = national_lead(ledger)
     if nat:
-        extra = (voice or {}).get("lead_extra") or ""
         return short_place_text((nat + " " + extra).strip(), census_place_names(ledger))
     takes = (voice or {}).get("takeaways") or []
     if takes:
@@ -463,7 +514,15 @@ def voice_dl06(ledger):
             f"The 2024-25 attendance rate was <b>{att.get('attendance_pct')}%</b>; "
             f"<b>{att.get('chronic_pct')}%</b> of students were chronically absent (SRC-606-05)."
         )
-    return take[:3], kpis[:3], f"{money(ma.get('v'))} per pupil, {rank_txt(ma)}", "SRC-606-01"
+    enroll = sec(ledger, "public_k12_enrollment")
+    ma_e = enroll.get("ma") or {}
+    page_lead = (
+        f"Massachusetts public-school enrollment was <b>{commify(ma_e.get('v'))}</b> "
+        f"in Fall 2024 (SRC-606-02). The Commonwealth spent <b>{money(ma.get('v'))}</b> "
+        f"per pupil in fiscal year 2024, {rank_txt(ma)}, on the fifty-state spending "
+        f"file (derived, SRC-606-01)."
+    )
+    return take[:3], kpis[:3], f"{money(ma.get('v'))} per pupil, {rank_txt(ma)}", "SRC-606-01", "", page_lead
 
 
 def pts(n):
@@ -502,7 +561,13 @@ def voice_dl07(ledger):
             "What Massachusetts spends relative to the other 50 jurisdictions.",
             src_name(ledger, "SRC-607-06")),
     ]
-    return take, kpis, f"NAEP reading rank {ma_r.get('rank')}", "SRC-607-05"
+    page_lead = (
+        f"On the 2024 NAEP, Massachusetts ranked <b>1 of {ma_r.get('n') or 51}</b> "
+        f"in grade-4 reading (scale score <b>{ma_r.get('v')}</b>) (SRC-607-05). "
+        f"The map ranks Fall 2024 public enrollment; the Grade 4 reading change "
+        f"tab is the 2019-to-2024 score movement."
+    )
+    return take, kpis, f"NAEP reading rank {ma_r.get('rank')}", "SRC-607-05", "", page_lead
 
 
 def voice_dl08(ledger):
@@ -1421,7 +1486,8 @@ def find_bundle(app, ledger):
         kind = "row"
     cards = {}
     fmt = "number"
-    unit = (ledger.get("unit") or "").lower()
+    unit_raw = ledger.get("unit") or ""
+    unit = unit_raw.lower()
     if "dollar" in unit:
         fmt = "usd"
     elif "percent" in unit:
@@ -1527,7 +1593,7 @@ def find_bundle(app, ledger):
             aliases.append(norm_key(f"{r['last']} {r['first']}"))
         cards[norm_key(name)] = {
             "name": shown,
-            "value": money_cents(r.get("v")) if kind == "legislator" else _fmt_row_value(r.get("v"), fmt),
+            "value": money_cents(r.get("v")) if kind == "legislator" else format_find_value(r.get("v"), unit_raw),
             "rank": r.get("rank"),
             "n": r.get("n"),
             "yoy": r.get("yoy_pct"),
@@ -1574,7 +1640,10 @@ def voice_for(app, ledger):
     fn = VOICES.get(tid) or fallback_voice
     packed = fn(ledger)
     lead_extra = ""
-    if len(packed) == 5:
+    page_lead = ""
+    if len(packed) == 6:
+        take, kpis, ma_line, src_id, lead_extra, page_lead = packed
+    elif len(packed) == 5:
         take, kpis, ma_line, src_id, lead_extra = packed
     else:
         take, kpis, ma_line, src_id = packed
@@ -1588,6 +1657,7 @@ def voice_for(app, ledger):
         "find": find_bundle(app, ledger),
         "src_id": src_id,
         "lead_extra": lead_extra,
+        "page_lead": page_lead,
     }
 
 

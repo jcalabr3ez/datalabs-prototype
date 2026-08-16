@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Landing drops the About label",
+        "body": (
+            "The front-door About section no longer prints an ABOUT "
+            "eyebrow. The heading above the two briefing tiles is now "
+            "New releases, matching Every application."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "One-month Pioneer staff beta",
         "body": (
             "The catalog is open for Pioneer staff from August 16 through "

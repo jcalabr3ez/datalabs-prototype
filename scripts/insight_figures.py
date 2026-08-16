@@ -183,6 +183,30 @@ def from_latest(ledger, fid="latest-compare", title=None, lede=None, note=None, 
     return from_snap(snap, fid, title=title, lede=lede, note=note, skip_us=skip_us)
 
 
+def state_map(rows, fid, title, lede, src, fmt, unit, note, name_key="name", val_key="v", span=2):
+    items = []
+    for r in rows or []:
+        st = r.get("st")
+        if not st or r.get(val_key) is None:
+            continue
+        items.append({
+            "st": st,
+            "name": r.get(name_key) or st,
+            "v": r[val_key],
+            "rank": r.get("rank"),
+        })
+    if len(items) < 10:
+        return None
+    fig = _fig(
+        fid, title, lede, src, "map", fmt, unit,
+        [r["st"] for r in items],
+        [{"label": "", "data": [r["v"] for r in items]}],
+        note, span=span, height="map",
+    )
+    fig["rows"] = items
+    return fig
+
+
 def named_list(rows, fid, title, lede, src, fmt, unit, note, name_key="name", val_key="v", n=8, highlight=None, highlight_names=None, span=1):
     items = [r for r in (rows or []) if r.get(val_key) is not None][:n]
     if len(items) < 2:
@@ -390,22 +414,19 @@ def figs_dl07(ledger):
         n_up, n_down = rec.get("n_up"), rec.get("n_down")
         hi = rec.get("highest") or {}
         lo = rec.get("lowest") or {}
-        fig = named_list(
+        fig = state_map(
             rows, fid, title,
             (
                 f"{n_up} states rose and {n_down} fell. "
                 f"{hi.get('name')} {hi.get('v'):+.1f}; "
                 f"{lo.get('name')} {lo.get('v'):+.1f}. "
-                "Massachusetts is marked in gold; Florida in rust."
+                "Massachusetts has a gold outline; Florida a rust outline."
             ),
             rec.get("src") or "SRC-607-05",
             "number", "scale-score points",
-            "2024 minus 2019 average scale score. National public is omitted so state bars stay readable.",
-            n=len(rows), span=2, highlight="Massachusetts",
-            highlight_names=["Massachusetts", "Florida"],
+            "2024 minus 2019 average scale score. National public is omitted so the state map stays readable.",
         )
         if fig:
-            fig["height"] = "ranks"
             out.append(fig)
     for key, fid, title in (
         ("acgr_2021_22", "acgr", "Four-year adjusted cohort graduation rate, 2021-22"),

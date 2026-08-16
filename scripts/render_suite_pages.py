@@ -126,7 +126,9 @@ def insight_html(insights):
     blocks = []
     for i, fig in enumerate(insights):
         span = " span2" if fig.get("span") == 2 or len(insights) == 1 else ""
-        if fig.get("height") == "mid":
+        if fig.get("type") == "map" or fig.get("height") == "map":
+            hclass = "plot plot-map"
+        elif fig.get("height") == "mid":
             hclass = "plot-mid"
         elif fig.get("height") == "ranks":
             hclass = "plot-ranks"
@@ -142,7 +144,11 @@ def insight_html(insights):
             "    <div class=\"exhibit" + span + "\">\n"
             "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + str(i + 1) + "</span>\n"
             "        <span class=\"ex-t\">" + esc(fig["title"]) + "</span></div>\n"
-            "      <div class=\"" + hclass + "\"><canvas id=\"chInsight" + str(i) + "\"></canvas></div>\n"
+            "      <div class=\"" + hclass + "\""
+            + (" id=\"chInsight" + str(i) + "\"" if fig.get("type") == "map" else "")
+            + ">"
+            + ("" if fig.get("type") == "map" else "<canvas id=\"chInsight" + str(i) + "\"></canvas>")
+            + "</div>\n"
             + note_html
             + "      <div class=\"srcline\"><b>Source:</b> " + esc(fig.get("src") or "see the register")
             + ". <b>Unit:</b> " + esc(fig.get("unit") or "see the register") + ".</div>\n"
@@ -300,9 +306,10 @@ def chart_spec(app, ledger):
     lede = ""
     if geo == "state":
         lede = (
-            "Every state and the District of Columbia on the same ranking. "
-            "Use the region chips to slice the chart and the table. "
-            "Massachusetts is marked in gold; Florida in rust."
+            "Every state and the District of Columbia on one map. "
+            "Darker navy is a higher value. Use the region chips to fade "
+            "the other states and to filter the table. Massachusetts has a "
+            "gold outline; Florida a rust outline."
         )
     trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
     has_trend = bool(trend_keys)
@@ -491,7 +498,7 @@ def page_html(app, ledger, apps=None):
 {('    <div class="lede">' + esc(spec["lede"]) + "</div>\n") if spec.get("lede") else ""}{REGION_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 1}</span>
         <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>
-      <div class="plot {"plot-ranks" if spec.get("geo") == "state" else "plot-mid"}"><canvas id="chRank"></canvas></div>
+      <div class="plot {"plot-map" if spec.get("geo") == "state" else "plot-mid"}"{' id="chRank"' if spec.get("geo") == "state" else ""}>{"" if spec.get("geo") == "state" else '<canvas id="chRank"></canvas>'}</div>
       <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
     </div>
   </section>
@@ -672,7 +679,7 @@ const FIND=FIND_JSON;
   }
   function sizeRankPlot(n){
     var plot=document.querySelector('#view-rank .plot');
-    if(!plot) return;
+    if(!plot || plot.classList.contains('plot-map')) return;
     plot.style.height=Math.max(280, Math.min(1200, n*20+48))+'px';
   }
   function rankTitleText(){
@@ -680,7 +687,25 @@ const FIND=FIND_JSON;
     if(CHART.geo!=='state' || region==='all') return base;
     return (CHART.label||base)+' in '+REGION_NAMES[region];
   }
+  function drawRankMap(){
+    var el=document.getElementById('chRank');
+    if(!el||!window.dlStateMap) return;
+    chartRows=chartRowsFor();
+    var titleEl=document.getElementById('rankTitle');
+    if(titleEl) titleEl.textContent=rankTitleText();
+    window.dlStateMap(el,{
+      rows:rows,
+      format:function(v){return fmtVal(v,true);},
+      extra:function(r){return r.rank?('rank '+r.rank):'';},
+      active:regionList(),
+      onSelect:function(r){
+        var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
+        if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    });
+  }
   function drawRank(){
+    if(CHART.geo==='state'){ drawRankMap(); return; }
     var el=document.getElementById('chRank');
     if(!el||!window.Chart) return;
     chartRows=chartRowsFor();
@@ -824,7 +849,16 @@ const FIND=FIND_JSON;
   }
   (INSIGHTS||[]).forEach(function(fig, i){
     var el=document.getElementById('chInsight'+i);
-    if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
+    if(!el||!fig) return;
+    if(fig.type==='map' && window.dlStateMap && fig.rows){
+      window.dlStateMap(el,{
+        rows:fig.rows,
+        format:function(v){return fmtInsight(fig.format||'number',v,true);},
+        extra:function(r){return r.rank?('rank '+r.rank):'';}
+      });
+      return;
+    }
+    if(!window.Chart||!fig.labels||!fig.series) return;
     var ifmt=fig.format||'number';
     var iunit=fig.unit||(ifmt==='percent'?'percent':((ifmt==='usd'||ifmt==='usd_millions')?'dollars':''));
     var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
@@ -913,7 +947,7 @@ const FIND=FIND_JSON;
         var cls=c.cls||(c.align==='n'?'n':'');
         return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
       }).join('');
-      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'">'+cells+'</tr>';
+      return '<tr'+hl+(r.st?' id="row-'+r.st+'"':'')+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'">'+cells+'</tr>';
     }).join('');
     var find=document.getElementById('tblFind');
     var countEl=document.getElementById('tblCount');
@@ -1034,6 +1068,8 @@ const FIND=FIND_JSON;
 <script src="/assets/chart.umd.min.js"></script>
 <script src="/assets/chart-theme.js"></script>
 <script src="/assets/chart-labels.js"></script>
+<script src="/assets/us-map.js"></script>
+<link rel="stylesheet" href="/assets/us-map.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">

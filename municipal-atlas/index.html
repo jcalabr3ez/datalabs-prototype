@@ -17,6 +17,8 @@
 <script src="/assets/chart.umd.min.js"></script>
 <script src="/assets/chart-theme.js"></script>
 <script src="/assets/chart-labels.js"></script>
+<script src="/assets/us-map.js"></script>
+<link rel="stylesheet" href="/assets/us-map.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
@@ -303,7 +305,7 @@ const FIND={"kind": "town", "cards": {"boston": {"name": "Boston", "value": "672
   }
   function sizeRankPlot(n){
     var plot=document.querySelector('#view-rank .plot');
-    if(!plot) return;
+    if(!plot || plot.classList.contains('plot-map')) return;
     plot.style.height=Math.max(280, Math.min(1200, n*20+48))+'px';
   }
   function rankTitleText(){
@@ -311,7 +313,25 @@ const FIND={"kind": "town", "cards": {"boston": {"name": "Boston", "value": "672
     if(CHART.geo!=='state' || region==='all') return base;
     return (CHART.label||base)+' in '+REGION_NAMES[region];
   }
+  function drawRankMap(){
+    var el=document.getElementById('chRank');
+    if(!el||!window.dlStateMap) return;
+    chartRows=chartRowsFor();
+    var titleEl=document.getElementById('rankTitle');
+    if(titleEl) titleEl.textContent=rankTitleText();
+    window.dlStateMap(el,{
+      rows:rows,
+      format:function(v){return fmtVal(v,true);},
+      extra:function(r){return r.rank?('rank '+r.rank):'';},
+      active:regionList(),
+      onSelect:function(r){
+        var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
+        if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    });
+  }
   function drawRank(){
+    if(CHART.geo==='state'){ drawRankMap(); return; }
     var el=document.getElementById('chRank');
     if(!el||!window.Chart) return;
     chartRows=chartRowsFor();
@@ -455,7 +475,16 @@ const FIND={"kind": "town", "cards": {"boston": {"name": "Boston", "value": "672
   }
   (INSIGHTS||[]).forEach(function(fig, i){
     var el=document.getElementById('chInsight'+i);
-    if(!el||!window.Chart||!fig||!fig.labels||!fig.series) return;
+    if(!el||!fig) return;
+    if(fig.type==='map' && window.dlStateMap && fig.rows){
+      window.dlStateMap(el,{
+        rows:fig.rows,
+        format:function(v){return fmtInsight(fig.format||'number',v,true);},
+        extra:function(r){return r.rank?('rank '+r.rank):'';}
+      });
+      return;
+    }
+    if(!window.Chart||!fig.labels||!fig.series) return;
     var ifmt=fig.format||'number';
     var iunit=fig.unit||(ifmt==='percent'?'percent':((ifmt==='usd'||ifmt==='usd_millions')?'dollars':''));
     var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
@@ -544,7 +573,7 @@ const FIND={"kind": "town", "cards": {"boston": {"name": "Boston", "value": "672
         var cls=c.cls||(c.align==='n'?'n':'');
         return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
       }).join('');
-      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'">'+cells+'</tr>';
+      return '<tr'+hl+(r.st?' id="row-'+r.st+'"':'')+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'">'+cells+'</tr>';
     }).join('');
     var find=document.getElementById('tblFind');
     var countEl=document.getElementById('tblCount');

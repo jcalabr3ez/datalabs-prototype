@@ -23,6 +23,8 @@
 <script src="/assets/chart.umd.min.js"></script>
 <script src="/assets/chart-theme.js"></script>
 <script src="/assets/chart-labels.js"></script>
+<script src="/assets/us-map.js"></script>
+<link rel="stylesheet" href="/assets/us-map.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
@@ -96,6 +98,11 @@
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
   .plot-ranks{height:clamp(720px,92vh,1180px)}
+  .region-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 16px}
+  .region-chips{display:flex;flex-wrap:wrap;gap:6px}
+  .region-chips button{border:1px solid var(--rule);background:#fff;color:var(--ink);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer}
+  .region-chips button:hover{border-color:var(--navy)}
+  .region-chips button.on{border-color:var(--navy);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
   .plot-mid{height:clamp(420px,52vh,640px)}
   .plot-sm{height:clamp(240px,28vh,360px)}
 
@@ -272,7 +279,7 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
 
   <section id="view-price_rank">
     <h2>Prices across the fifty states</h2>
-    <div class="lede">Every state and the District of Columbia on the same all-sector ranking. Use the region chips to slice the chart and the table. Massachusetts is marked in gold; Florida in rust. The dashed line is the EIA U.S. Total.</div>
+    <div class="lede">Every state and the District of Columbia on one map. Darker navy is a higher all-sector price. Use the region chips to fade the other states and to filter the table. Massachusetts has a gold outline; Florida a rust outline. The U.S. Total sits under the map.</div>
     <div class="region-bar">
       <span class="sel-lab">Census region</span>
       <div class="region-chips" role="group" aria-label="Filter by Census region">
@@ -286,7 +293,7 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
         <span class="ex-t" id="fig1t">All-sector average retail electricity price by state</span></div>
-      <div class="plot plot-ranks"><canvas id="chRank"></canvas></div>
+      <div class="plot plot-map" id="chRank"></div>
       <div class="note">Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">All-sector average (EIA, not Pioneer)</div><code>price = total retail revenue / total retail sales
 
 The U.S. figure is EIA's published U.S. Total row:
@@ -323,11 +330,11 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
 
   <section style="margin-top:30px" id="view-sales_rank">
     <h2>How much electricity did each state sell?</h2>
-    <div class="lede">Retail sales to ultimate customers, in million megawatthours, for the latest year. This is the volume behind the price: what was sold, not what a household paid on a bill. The region chips above also apply here.</div>
+    <div class="lede">Retail sales to ultimate customers, in million megawatthours, for the latest year. This is the volume behind the price: what was sold, not what a household paid on a bill. The region chips also apply to this map.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 3</span>
         <span class="ex-t" id="fig3t">Total retail electricity sales by state</span></div>
-      <div class="plot plot-ranks"><canvas id="chSales"></canvas></div>
+      <div class="plot plot-map" id="chSales"></div>
       <div class="note">Sales are megawatthours delivered to residential, commercial, industrial, and transportation customers combined (SRC-401). Large states lead because they have more customers, not because prices are higher. Per-capita sales, in the table, divide this volume by the Census July 1 resident population (derived, SRC-401, SRC-402).</div>
       <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total sales (SRC-401). Population: Census Bureau vintage estimates (SRC-402). <b>Calculation:</b> Pioneer Institute (per capita only).</div>
     </div>
@@ -335,11 +342,11 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
 
   <section id="view-gen_rank">
     <h2>How much did each state generate?</h2>
-    <div class="lede">Net generation at utility-scale plants located in the state, all energy sources. Generation is not the same as sales: power crosses state lines, and this figure is where it was produced. The region chips apply here too.</div>
+    <div class="lede">Net generation at utility-scale plants located in the state, all energy sources. Generation is not the same as sales: power crosses state lines, and this figure is where it was produced. The region chips apply to this map too.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 4</span>
         <span class="ex-t" id="fig4t">Net electricity generation by state</span></div>
-      <div class="plot plot-ranks"><canvas id="chGen"></canvas></div>
+      <div class="plot plot-map" id="chGen"></div>
       <div class="note">Net generation, Total Electric Power Industry, all energy sources (SRC-403). A state can sell more than it generates, or the reverse. Net summer capacity, in the table, is the EIA-860 all-sources total (SRC-404).</div>
       <div class="srcline"><b>Source:</b> EIA-923 annual generation by state (SRC-403); EIA-860 existing capacity (SRC-404). <b>Calculation:</b> Pioneer Institute (per capita only).</div>
     </div>
@@ -494,7 +501,6 @@ function refLineX(x,color,label){
 
 var rendered={};
 var trendChart=null;
-var priceChart=null, salesChart=null, genChart=null;
 var selected='MA';
 var REGIONS={
   all:null,
@@ -525,49 +531,42 @@ function regionRows(rows, key){
 }
 function sizePlot(id, n){
   var el=document.getElementById(id);
-  if(!el||!el.parentNode) return;
+  if(!el||!el.parentNode||el.classList.contains('plot-map')) return;
   el.parentNode.style.height=Math.max(280, Math.min(1200, n*20+48))+'px';
+}
+function paintStateMap(id, rows, fmt, extra, ref){
+  var el=document.getElementById(id);
+  if(!el||!window.dlStateMap) return;
+  window.dlStateMap(el,{
+    rows:rows,
+    format:fmt,
+    extra:extra||function(){return '';},
+    active:regionList(),
+    selected:selected,
+    ref:ref||null,
+    onSelect:function(r){
+      var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
+      if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
+    }
+  });
 }
 function syncRegionButtons(){
   [].slice.call(document.querySelectorAll('[data-region]')).forEach(function(btn){
     btn.classList.toggle('on', btn.getAttribute('data-region')===region);
   });
 }
-function barColor(r){
-  if(r.st==='MA') return GOLD;
-  if(r.st==='FL') return RUST;
-  if(r.st===selected) return GOLD;
-  return BLUE;
-}
 var priceRows=[], salesRows=[], genRows=[];
 function renderPrices(){
   var rows=regionRows(DL04.states,'price_cents');
   priceRows=rows;
-  sizePlot('chRank', rows.length);
   document.getElementById('fig1t').textContent=(region==='all'
     ? 'All-sector average retail prices, '
     : 'All-sector average retail prices in '+REGION_NAMES[region]+', ')+DL04.year;
-  var payload={labels:rows.map(function(r){return r.st;}),
-    datasets:[{data:rows.map(function(r){return r.price_cents;}),
-      backgroundColor:rows.map(barColor)}]};
-  if(priceChart){
-    priceChart.data=payload;
-    priceChart.update();
-    return;
-  }
-  priceChart=new Chart(document.getElementById('chRank'),{type:'bar',
-    data:payload,
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:10,right:56}},
-      plugins:{legend:{display:false},
-        tooltip:{callbacks:{
-          title:function(items){var i=items[0]&&items[0].dataIndex; return (priceRows[i]&&priceRows[i].name)||'';},
-          label:function(c){return ' '+c.parsed.x.toFixed(2)+' cents per kWh';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,grace:'14%',title:axisTitle('Cents per kilowatt-hour'),
-          ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
-        y:catY()}},
-    plugins:[valueLabels(function(v){return v.toFixed(2);}),
-      refLineX(DL04.latest.us.price_cents,INK,'U.S. '+DL04.latest.us.price_cents.toFixed(2)+'¢')]});
+  paintStateMap('chRank',
+    DL04.states.map(function(r){return {st:r.st,name:r.name,v:r.price_cents,rank:r.rank};}),
+    function(v){return Number(v).toFixed(2)+'\u00a2';},
+    function(r){return r.rank?('rank '+r.rank):'';},
+    {label:'U.S. Total',value:DL04.latest.us.price_cents});
 }
 
 function fillSelect(){
@@ -614,53 +613,23 @@ function renderTrends(){
 function renderSupply(){
   var sales=regionRows(DL04.states,'sales_mwh');
   salesRows=sales;
-  sizePlot('chSales', sales.length);
   document.getElementById('fig3t').textContent=(region==='all'
     ? 'Total retail electricity sales by state, '
     : 'Total retail electricity sales in '+REGION_NAMES[region]+', ')+DL04.year;
-  var salesPayload={labels:sales.map(function(r){return r.st;}),
-    datasets:[{data:sales.map(function(r){return r.sales_mwh/1e6;}),
-      backgroundColor:sales.map(barColor)}]};
-  if(salesChart){
-    salesChart.data=salesPayload;
-    salesChart.update();
-  } else {
-    salesChart=new Chart(document.getElementById('chSales'),{type:'bar',
-      data:salesPayload,
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
-        plugins:{legend:{display:false},
-          tooltip:{callbacks:{
-            title:function(items){var i=items[0]&&items[0].dataIndex; return (salesRows[i]&&salesRows[i].name)||'';},
-            label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
-        scales:{x:Object.assign({},AY,{beginAtZero:true,grace:'14%',title:axisTitle('Million megawatt-hours'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
-          y:catY()}},
-      plugins:[valueLabels(function(v){return v.toFixed(1);})]});
-  }
+  paintStateMap('chSales',
+    DL04.states.map(function(r){return {st:r.st,name:r.name,v:r.sales_mwh/1e6};}),
+    function(v){return Number(v).toFixed(1);},
+    function(){return 'million MWh';});
 
   var gen=regionRows(DL04.states.filter(function(r){return r.gen_mwh!=null;}),'gen_mwh');
   genRows=gen;
-  sizePlot('chGen', gen.length);
   document.getElementById('fig4t').textContent=(region==='all'
     ? 'Net electricity generation by state, '
     : 'Net electricity generation in '+REGION_NAMES[region]+', ')+DL04.year;
-  var genPayload={labels:gen.map(function(r){return r.st;}),
-    datasets:[{data:gen.map(function(r){return r.gen_mwh/1e6;}),
-      backgroundColor:gen.map(barColor)}]};
-  if(genChart){
-    genChart.data=genPayload;
-    genChart.update();
-  } else {
-    genChart=new Chart(document.getElementById('chGen'),{type:'bar',
-      data:genPayload,
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
-        plugins:{legend:{display:false},
-          tooltip:{callbacks:{
-            title:function(items){var i=items[0]&&items[0].dataIndex; return (genRows[i]&&genRows[i].name)||'';},
-            label:function(c){return ' '+c.parsed.x.toFixed(1)+' million MWh';}}}},
-        scales:{x:Object.assign({},AY,{beginAtZero:true,grace:'14%',title:axisTitle('Million megawatt-hours'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
-          y:catY()}},
-      plugins:[valueLabels(function(v){return v.toFixed(1);})]});
-  }
+  paintStateMap('chGen',
+    DL04.states.filter(function(r){return r.gen_mwh!=null;}).map(function(r){return {st:r.st,name:r.name,v:r.gen_mwh/1e6};}),
+    function(v){return Number(v).toFixed(1);},
+    function(){return 'million MWh';});
 }
 
 function renderTable(){

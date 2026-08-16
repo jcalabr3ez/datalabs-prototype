@@ -548,7 +548,7 @@ const FIND=FIND_JSON;
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#4A5560';
+  var GOLD='#CCB26D', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
   function applyHash(){
     var h=(location.hash||'').replace(/^#/,'');
     if(!h) return;

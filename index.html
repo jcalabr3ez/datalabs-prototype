@@ -37,14 +37,14 @@
   .frame { max-width:960px; margin:0 auto; padding:0 24px; }
 
   /* ---------- Pioneer masthead ---------- */
-  .pibar { background:var(--wash); border-bottom:2px solid var(--gold); }
-  .pibar-in { display:flex; align-items:flex-end; justify-content:space-between; padding-top:18px; padding-bottom:16px; gap:18px; flex-wrap:wrap; }
-  .pilogo { color:var(--navy); font-weight:700; font-size:13px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; }
+  .pibar { background:#fff; border-bottom:1px solid var(--gold); }
+  .pibar-in { display:flex; align-items:flex-end; justify-content:space-between; padding-top:22px; padding-bottom:20px; gap:18px; flex-wrap:wrap; }
+  .pilogo { color:var(--navy); font-weight:700; font-size:12px; letter-spacing:.16em; text-transform:uppercase; text-decoration:none; }
   .pilogo:hover { color:var(--navy); text-decoration:none; }
-  .pimast { display:flex; flex-direction:column; gap:4px; }
-  .pidl { font-family:var(--serif); font-weight:700; font-size:22px; letter-spacing:-.01em; color:var(--ink); line-height:1.2; }
-  .pideck { font-size:13.5px; color:var(--grey); }
-  .pinav { display:flex; align-items:center; gap:18px; font-size:13px; font-weight:400; }
+  .pimast { display:flex; flex-direction:column; gap:6px; }
+  .pidl { font-family:var(--serif); font-weight:700; font-size:26px; letter-spacing:-.02em; color:var(--ink); line-height:1.15; }
+  .pideck { font-size:13px; color:var(--grey); letter-spacing:.01em; }
+  .pinav { display:flex; align-items:center; gap:22px; font-size:13px; font-weight:400; }
   .pinav a { color:var(--navy); text-decoration:none; }
   .pinav a:hover { color:var(--ink); text-decoration:underline; }
 
@@ -110,14 +110,14 @@
   @keyframes spin { to { transform:rotate(360deg); } }
 
   /* ---------- sections ---------- */
-  .sec { padding-top:36px; }
-  .sec .lab { font-size:13px; font-weight:400; color:var(--faint); }
-  .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(24px,3.6vw,34px); letter-spacing:-.01em; margin-top:8px; color:var(--navy); }
-  .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
+  .sec { padding-top:48px; }
+  .sec .lab { font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); }
+  .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.6vw,36px); letter-spacing:-.02em; margin-top:8px; color:var(--ink); }
+  .sec .sub { margin-top:10px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
   /* New Releases: two ruled columns, no card chrome */
-  .desk { margin-top:20px; border-top:2px solid var(--ink); display:grid; grid-template-columns:1fr 1fr;
-    background:var(--wash); padding:0 20px; margin-left:-20px; margin-right:-20px; }
+  .desk { margin-top:24px; border-top:1px solid var(--ink); display:grid; grid-template-columns:1fr 1fr;
+    background:#fff; }
   .lead { padding:18px 28px 22px 0; border-right:1px solid var(--rule); cursor:pointer; }
   .lead:last-child { border-right:none; padding-right:0; padding-left:28px; }
   .lead .place { display:flex; align-items:center; justify-content:space-between; gap:8px;
@@ -160,18 +160,18 @@
   .chip.on span { color:#fff; }
   .rcount { font-size:13px; color:var(--faint); padding:14px 0 6px; }
 
-  .cab { border-top:2px solid var(--ink); }
+  .cab { border-top:1px solid var(--ink); }
   .area { padding:0; border-bottom:1px solid var(--rule); }
   .area:last-child { border-bottom:none; }
   .area.hide { display:none; }
-  .area[open] { background:var(--wash); margin:0 -16px; padding:0 16px; }
+  .area[open] { background:#fff; }
   .area[open] > summary.areahead { border-bottom:1px solid var(--rule); }
   .area > summary.areahead { display:flex; align-items:center; justify-content:space-between; gap:16px;
     padding:18px 0; cursor:pointer; list-style:none; }
   .area > summary.areahead::-webkit-details-marker { display:none; }
   .area > summary.areahead:after { content:"\25BE"; font-size:14px; color:var(--grey); flex:none; }
   .area[open] > summary.areahead:after { content:"\25B4"; }
-  .areahead .anm { margin:0; font-family:var(--serif); font-size:24px; font-weight:700; letter-spacing:-.01em; color:var(--navy); }
+  .areahead .anm { margin:0; font-family:var(--serif); font-size:24px; font-weight:700; letter-spacing:-.02em; color:var(--ink); }
   .areahead .asum { font-size:13px; color:var(--grey); font-variant-numeric:tabular-nums; white-space:nowrap; }
   .topic { margin-top:18px; }
   .topic.hide { display:none; }
@@ -201,7 +201,7 @@
   }
 
   footer { margin-top:0; }
-  .pifoot { background:var(--bar); color:#C9D2E0; border-top:2px solid var(--gold); }
+  .pifoot { background:var(--bar); color:#C9D2E0; border-top:none; }
   .pifoot-in { display:grid; grid-template-columns:1.2fr auto 1fr; gap:28px 48px; padding-top:36px; padding-bottom:26px; align-items:start; }
   @media (max-width:820px){ .pifoot-in { grid-template-columns:1fr; } }
   .pf-logo { color:#fff; font-weight:700; font-size:13px; letter-spacing:.14em; }
@@ -215,14 +215,14 @@
 
   body.ai-off #respBar, body.ai-off #resp { display:none; }
 
-  .about-sec { padding-bottom:0; background:var(--wash); border-top:1px solid var(--rule);
-    margin-top:48px; padding-top:36px; padding-bottom:48px; }
+  .about-sec { padding-bottom:0; background:#fff; border-top:1px solid var(--rule);
+    margin-top:56px; padding-top:48px; padding-bottom:56px; }
   .about-sec .sub { max-width:none; margin-top:10px; line-height:1.55; }
   .about-sec .body { margin-top:16px; }
   .about-sec .body p { margin:0 0 14px; color:var(--grey); font-size:14.5px; }
   .about-sec .body p:last-child { margin-bottom:0; }
-  .about-sec h3 { font-family:var(--serif); font-size:21px; font-weight:700; letter-spacing:-.01em;
-    color:var(--navy); margin:26px 0 8px; }
+  .about-sec h3 { font-family:var(--serif); font-size:21px; font-weight:700; letter-spacing:-.02em;
+    color:var(--ink); margin:26px 0 8px; }
   .about-sec h3:first-child { margin-top:0; }
   .about-sec .body a { color:var(--navy); font-weight:600; }
   .about-sec .body a:hover { color:var(--ink); text-decoration:underline; }

@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "A white institutional field",
+        "body": (
+            "The cream bands are gone. Pages now use a white field, near-black "
+            "type, and cool hairline rules. Gold is a thin rule under the "
+            "wordmark only. The footer no longer carries a gold stripe."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Charts read as a statistical brief",
         "body": (
             "Figures now use a shared paper theme: Roboto ticks, square bars, "

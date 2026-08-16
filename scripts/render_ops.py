@@ -62,6 +62,25 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Full history cubes and trailing-window ranks",
+        "body": (
+            "Live tools now keep the years and jurisdictions the published "
+            "file already has, and the ask box reads precomputed trailing "
+            "windows instead of averaging unpublished cells. Business "
+            "Formation adds every BFS month from 2004, high-propensity and "
+            "projected-formation columns from the same Census file, "
+            "applications per 100,000 residents, and BLS establishment "
+            "birth and death rates for all 51 jurisdictions, including the "
+            "9-quarter window ending 2024 Q3. Unemployment, housing "
+            "permits, quarterly taxes, and the other live cubes pick up "
+            "the same window ranks. Faculty, FEMA, Boston payroll, and "
+            "Census of Governments companions already on those ledgers "
+            "are later views. Patents by State stays in build. State "
+            "Wealth Taxes and Florida Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Catalog cards name the tool and what it covers",
         "body": (
             "Each catalog row now leads with the tool name and the coverage "

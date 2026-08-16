@@ -2291,6 +2291,297 @@
         "as_of_label": "July 1, 2025",
         "note": "Census vintage 2025 NST-EST2025-ALLDATA. Births, deaths, natural change, international migration, and NPOPCHG_2025 are published cells."
       }
+    },
+    "windows": {
+      "note": "Prefer these over recomputing. Window means and ranks cite (derived) plus the source id on each snapshot.",
+      "dl17_t4_2025": {
+        "id": "dl17_t4_2025",
+        "label": "Domestic migration, trailing 4 periods ending 2025",
+        "src": "SRC-617-01",
+        "unit": "people",
+        "end": "2025",
+        "n_periods": 4,
+        "higher_is_better": true,
+        "us": null,
+        "ma": {
+          "v": -33962.25,
+          "rank": 47,
+          "n": 51
+        },
+        "highest": {
+          "st": "FL",
+          "name": "Florida",
+          "v": 143866.5
+        },
+        "lowest": {
+          "st": "CA",
+          "name": "California",
+          "v": -289677.25
+        },
+        "n_ranked": 51,
+        "ranked": [
+          {
+            "st": "FL",
+            "v": 143866.5,
+            "rank": 1
+          },
+          {
+            "st": "TX",
+            "v": 140218.25,
+            "rank": 2
+          },
+          {
+            "st": "NC",
+            "v": 91126.5,
+            "rank": 3
+          },
+          {
+            "st": "SC",
+            "v": 73966.5,
+            "rank": 4
+          },
+          {
+            "st": "TN",
+            "v": 57899.5,
+            "rank": 5
+          },
+          {
+            "st": "GA",
+            "v": 46046.5,
+            "rank": 6
+          },
+          {
+            "st": "AZ",
+            "v": 42132.25,
+            "rank": 7
+          },
+          {
+            "st": "AL",
+            "v": 26450.75,
+            "rank": 8
+          },
+          {
+            "st": "ID",
+            "v": 19655.5,
+            "rank": 9
+          },
+          {
+            "st": "OK",
+            "v": 19118.75,
+            "rank": 10
+          },
+          {
+            "st": "AR",
+            "v": 16200.5,
+            "rank": 11
+          },
+          {
+            "st": "NV",
+            "v": 14917.0,
+            "rank": 12
+          },
+          {
+            "st": "MO",
+            "v": 9929.75,
+            "rank": 13
+          },
+          {
+            "st": "DE",
+            "v": 9324.25,
+            "rank": 14
+          },
+          {
+            "st": "ME",
+            "v": 9219.0,
+            "rank": 15
+          },
+          {
+            "st": "MT",
+            "v": 9025.5,
+            "rank": 16
+          },
+          {
+            "st": "KY",
+            "v": 7944.75,
+            "rank": 17
+          },
+          {
+            "st": "WI",
+            "v": 6974.75,
+            "rank": 18
+          },
+          {
+            "st": "NH",
+            "v": 6584.0,
+            "rank": 19
+          },
+          {
+            "st": "IN",
+            "v": 6316.0,
+            "rank": 20
+          },
+          {
+            "st": "UT",
+            "v": 4998.0,
+            "rank": 21
+          },
+          {
+            "st": "SD",
+            "v": 4195.25,
+            "rank": 22
+          },
+          {
+            "st": "WV",
+            "v": 3580.25,
+            "rank": 23
+          },
+          {
+            "st": "WY",
+            "v": 1593.75,
+            "rank": 24
+          },
+          {
+            "st": "OH",
+            "v": 1187.5,
+            "rank": 25
+          },
+          {
+            "st": "CO",
+            "v": 1082.0,
+            "rank": 26
+          },
+          {
+            "st": "VT",
+            "v": 149.75,
+            "rank": 27
+          },
+          {
+            "st": "ND",
+            "v": -431.25,
+            "rank": 28
+          },
+          {
+            "st": "NE",
+            "v": -1878.25,
+            "rank": 29
+          },
+          {
+            "st": "WA",
+            "v": -2464.75,
+            "rank": 30
+          },
+          {
+            "st": "RI",
+            "v": -2540.25,
+            "rank": 31
+          },
+          {
+            "st": "NM",
+            "v": -2570.0,
+            "rank": 32
+          },
+          {
+            "st": "IA",
+            "v": -2800.0,
+            "rank": 33
+          },
+          {
+            "st": "DC",
+            "v": -3062.25,
+            "rank": 34
+          },
+          {
+            "st": "MS",
+            "v": -3848.5,
+            "rank": 35
+          },
+          {
+            "st": "OR",
+            "v": -3956.0,
+            "rank": 36
+          },
+          {
+            "st": "KS",
+            "v": -4440.75,
+            "rank": 37
+          },
+          {
+            "st": "AK",
+            "v": -4882.5,
+            "rank": 38
+          },
+          {
+            "st": "MN",
+            "v": -5196.75,
+            "rank": 39
+          },
+          {
+            "st": "VA",
+            "v": -6369.25,
+            "rank": 40
+          },
+          {
+            "st": "CT",
+            "v": -6843.75,
+            "rank": 41
+          },
+          {
+            "st": "MI",
+            "v": -8128.25,
+            "rank": 42
+          },
+          {
+            "st": "HI",
+            "v": -11172.0,
+            "rank": 43
+          },
+          {
+            "st": "PA",
+            "v": -19836.0,
+            "rank": 44
+          },
+          {
+            "st": "MD",
+            "v": -26982.75,
+            "rank": 45
+          },
+          {
+            "st": "LA",
+            "v": -27865.0,
+            "rank": 46
+          },
+          {
+            "st": "MA",
+            "v": -33962.25,
+            "rank": 47
+          },
+          {
+            "st": "NJ",
+            "v": -44204.25,
+            "rank": 48
+          },
+          {
+            "st": "IL",
+            "v": -80696.25,
+            "rank": 49
+          },
+          {
+            "st": "NY",
+            "v": -179894.75,
+            "rank": 50
+          },
+          {
+            "st": "CA",
+            "v": -289677.25,
+            "rank": 51
+          }
+        ],
+        "fl": {
+          "v": 143866.5,
+          "rank": 1,
+          "n": 51
+        }
+      }
     }
   },
   "entities": {

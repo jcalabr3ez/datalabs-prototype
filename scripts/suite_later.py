@@ -36,6 +36,7 @@ from suite_common import (
     yoy_pct,
 )
 from suite_public_later import MORE_SECONDARY, MORE_STRIP, more_lead
+from suite_windows import attach_windows, windows_from_trend
 from suite_substance import sec_boston_earners, sec_k12_staff
 
 DIGEST_219 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx"
@@ -1154,7 +1155,10 @@ def enrich(app, ledger):
         sec.update(SECONDARY[tid]())
     if tid in MORE_SECONDARY:
         sec.update(MORE_SECONDARY[tid]())
-    ledger.setdefault("derived", {})["secondary"] = sec
+    derived = ledger.setdefault("derived", {})
+    existing = derived.get("secondary") or {}
+    existing.update(sec)
+    derived["secondary"] = existing
     for phrase in list(STRIP_PHRASES.get(tid, [])) + list(MORE_STRIP.get(tid, [])):
         if ledger.get("lead"):
             ledger["lead"] = ledger["lead"].replace(phrase, "")
@@ -1237,6 +1241,46 @@ def enrich(app, ledger):
             "DESE / E2C Next Generation MCAS (SRC-606-04)",
         ))
         ledger["kpis"] = kpis
+    if tid == "DL-13":
+        bed = sec.get("bed_births_deaths") or {}
+        states = bed.get("states") or {}
+        birth, death = {}, {}
+        for st, series in states.items():
+            b, d = [], []
+            for p in series or []:
+                q = p.get("q")
+                if p.get("birth_rate_pct") is not None and q:
+                    b.append({"q": q, "v": p["birth_rate_pct"]})
+                if p.get("death_rate_pct") is not None and q:
+                    d.append({"q": q, "v": p["death_rate_pct"]})
+            if len(b) >= 2:
+                birth[st] = b
+            if len(d) >= 2:
+                death[st] = d
+        wins = {}
+        if birth:
+            wins.update(windows_from_trend(
+                birth, src="SRC-613-02", unit="percent",
+                ns=(4, 9), label_stem="Establishment birth rate",
+                named_ends=["2024 Q3"], prefix="bed_birth_rate",
+            ))
+        if death:
+            wins.update(windows_from_trend(
+                death, src="SRC-613-02", unit="percent",
+                ns=(4, 9), label_stem="Establishment death rate",
+                named_ends=["2024 Q3"], prefix="bed_death_rate",
+            ))
+        attach_windows(
+            ledger, wins,
+            note="Prefer these over recomputing. BED window means and ranks cite (derived, SRC-613-02).",
+        )
+        w9 = wins.get("bed_birth_rate_t9_2024q3")
+        if w9:
+            bed["window_9q_2024q3"] = {
+                "ma": w9.get("ma"), "us": w9.get("us"), "fl": w9.get("fl"),
+                "highest": w9.get("highest"), "lowest": w9.get("lowest"),
+                "end": w9.get("end"), "n_periods": 9,
+            }
     extra_note = (
         f" Later views compiled {REVISED} are stored under derived.secondary."
     )

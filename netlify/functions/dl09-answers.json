@@ -1407,6 +1407,247 @@
         "as_of_label": "Fall 2022",
         "note": "NCES Digest table 213.20."
       }
+    },
+    "windows": {
+      "note": "Prefer these over recomputing. Window means and ranks cite (derived) plus the source id on each snapshot.",
+      "dl09_t4_2022": {
+        "id": "dl09_t4_2022",
+        "label": "Public charter fall enrollment, trailing 4 periods ending 2022",
+        "src": "SRC-609-01",
+        "unit": "students",
+        "end": "2022",
+        "n_periods": 4,
+        "higher_is_better": true,
+        "us": 3200913.0,
+        "ma": {
+          "v": 43349.75,
+          "rank": 20,
+          "n": 41
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 605232.75
+        },
+        "lowest": {
+          "st": "IA",
+          "name": "Iowa",
+          "v": 295.25
+        },
+        "n_ranked": 41,
+        "ranked": [
+          {
+            "st": "CA",
+            "v": 605232.75,
+            "rank": 1
+          },
+          {
+            "st": "TX",
+            "v": 363182.5,
+            "rank": 2
+          },
+          {
+            "st": "FL",
+            "v": 310986.75,
+            "rank": 3
+          },
+          {
+            "st": "AZ",
+            "v": 201078.25,
+            "rank": 4
+          },
+          {
+            "st": "PA",
+            "v": 145291.0,
+            "rank": 5
+          },
+          {
+            "st": "MI",
+            "v": 143066.0,
+            "rank": 6
+          },
+          {
+            "st": "NY",
+            "v": 141642.0,
+            "rank": 7
+          },
+          {
+            "st": "CO",
+            "v": 118076.75,
+            "rank": 8
+          },
+          {
+            "st": "OH",
+            "v": 114565.0,
+            "rank": 9
+          },
+          {
+            "st": "NC",
+            "v": 105532.75,
+            "rank": 10
+          },
+          {
+            "st": "LA",
+            "v": 76854.5,
+            "rank": 11
+          },
+          {
+            "st": "UT",
+            "v": 70618.5,
+            "rank": 12
+          },
+          {
+            "st": "GA",
+            "v": 69015.0,
+            "rank": 13
+          },
+          {
+            "st": "IL",
+            "v": 59842.5,
+            "rank": 14
+          },
+          {
+            "st": "MN",
+            "v": 58217.25,
+            "rank": 15
+          },
+          {
+            "st": "NV",
+            "v": 50032.25,
+            "rank": 16
+          },
+          {
+            "st": "NJ",
+            "v": 49074.75,
+            "rank": 17
+          },
+          {
+            "st": "WI",
+            "v": 46124.0,
+            "rank": 18
+          },
+          {
+            "st": "IN",
+            "v": 45394.0,
+            "rank": 19
+          },
+          {
+            "st": "MA",
+            "v": 43349.75,
+            "rank": 20
+          },
+          {
+            "st": "SC",
+            "v": 38438.25,
+            "rank": 21
+          },
+          {
+            "st": "OK",
+            "v": 37870.5,
+            "rank": 22
+          },
+          {
+            "st": "DC",
+            "v": 37723.5,
+            "rank": 23
+          },
+          {
+            "st": "OR",
+            "v": 36133.75,
+            "rank": 24
+          },
+          {
+            "st": "TN",
+            "v": 34430.0,
+            "rank": 25
+          },
+          {
+            "st": "AR",
+            "v": 32201.75,
+            "rank": 26
+          },
+          {
+            "st": "NM",
+            "v": 26791.25,
+            "rank": 27
+          },
+          {
+            "st": "ID",
+            "v": 23976.75,
+            "rank": 28
+          },
+          {
+            "st": "MO",
+            "v": 22749.75,
+            "rank": 29
+          },
+          {
+            "st": "MD",
+            "v": 22707.25,
+            "rank": 30
+          },
+          {
+            "st": "DE",
+            "v": 15175.5,
+            "rank": 31
+          },
+          {
+            "st": "HI",
+            "v": 11261.25,
+            "rank": 32
+          },
+          {
+            "st": "CT",
+            "v": 9658.25,
+            "rank": 33
+          },
+          {
+            "st": "RI",
+            "v": 9360.5,
+            "rank": 34
+          },
+          {
+            "st": "AK",
+            "v": 7216.75,
+            "rank": 35
+          },
+          {
+            "st": "NH",
+            "v": 3936.5,
+            "rank": 36
+          },
+          {
+            "st": "KS",
+            "v": 2863.75,
+            "rank": 37
+          },
+          {
+            "st": "ME",
+            "v": 1951.0,
+            "rank": 38
+          },
+          {
+            "st": "VA",
+            "v": 1026.75,
+            "rank": 39
+          },
+          {
+            "st": "WY",
+            "v": 564.0,
+            "rank": 40
+          },
+          {
+            "st": "IA",
+            "v": 295.25,
+            "rank": 41
+          }
+        ],
+        "fl": {
+          "v": 310986.75,
+          "rank": 3,
+          "n": 41
+        }
+      }
     }
   },
   "entities": {

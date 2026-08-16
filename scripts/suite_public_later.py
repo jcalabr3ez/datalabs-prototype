@@ -39,6 +39,7 @@ from suite_common import (
     LEDGER_DIR,
     RANKED,
     STATE_NAMES,
+    ST_TO_FIPS,
     UA,
     commify,
     fetch,
@@ -1188,43 +1189,57 @@ def sec_vendor_extract():
     }
 
 
-def _bls_bd_series(ids, start="2016", end="2026"):
-    # The public BLS API returns at most ten calendar years per call.
+def _bd_rate_id(st, kind):
+    """kind is 'birth' or 'death'. Rate series, seasonally adjusted, quarterly."""
+    fips = ST_TO_FIPS.get(st)
+    if not fips:
+        return None
+    elem = "07" if kind == "birth" else "08"
+    return f"BDS00000{fips}0000000001200{elem}RQ5"
+
+
+def _bls_bd_series(ids, start="2006", end="2026", require_all=True):
+    # Unregistered BLS API: 25 series and ten calendar years per call.
+    ids = list(ids)
     out = {sid: [] for sid in ids}
     year = int(start)
     end_y = int(end)
     while year <= end_y:
         chunk_end = min(year + 9, end_y)
-        body = json.dumps({
-            "seriesid": list(ids),
-            "startyear": str(year),
-            "endyear": str(chunk_end),
-        }).encode()
-        req = urllib.request.Request(
-            BLS_API,
-            data=body,
-            headers={"User-Agent": UA, "Content-Type": "application/json"},
-            method="POST",
-        )
-        with urllib.request.urlopen(req, timeout=90) as resp:
-            payload = json.loads(resp.read())
-        if payload.get("status") != "REQUEST_SUCCEEDED":
-            sys.exit(f"FATAL: BLS BED API {payload.get('status')} {payload.get('message')}")
-        for s in payload.get("Results", {}).get("series", []):
-            sid = s["seriesID"]
-            seen = {(y, q) for y, q, _ in out[sid]}
-            for r in s.get("data") or []:
-                raw = (r.get("value") or "").strip()
-                v = None if raw in ("", "-") else parse_num(raw)
-                y, q = int(r["year"]), int(r["period"][1:])
-                if (y, q) not in seen:
-                    out[sid].append((y, q, v))
-                    seen.add((y, q))
+        for i in range(0, len(ids), 25):
+            batch = ids[i:i + 25]
+            body = json.dumps({
+                "seriesid": batch,
+                "startyear": str(year),
+                "endyear": str(chunk_end),
+            }).encode()
+            req = urllib.request.Request(
+                BLS_API,
+                data=body,
+                headers={"User-Agent": UA, "Content-Type": "application/json"},
+                method="POST",
+            )
+            with urllib.request.urlopen(req, timeout=120) as resp:
+                payload = json.loads(resp.read())
+            if payload.get("status") != "REQUEST_SUCCEEDED":
+                sys.exit(f"FATAL: BLS BED API {payload.get('status')} {payload.get('message')}")
+            for s in payload.get("Results", {}).get("series", []):
+                sid = s["seriesID"]
+                if sid not in out:
+                    out[sid] = []
+                seen = {(y, q) for y, q, _ in out[sid]}
+                for r in s.get("data") or []:
+                    raw = (r.get("value") or "").strip()
+                    v = None if raw in ("", "-") else parse_num(raw)
+                    y, q = int(r["year"]), int(r["period"][1:])
+                    if (y, q) not in seen:
+                        out[sid].append((y, q, v))
+                        seen.add((y, q))
         year = chunk_end + 1
     for sid in out:
         out[sid].sort()
-    missing = [i for i in ids if not out[i]]
-    if missing:
+    missing = [i for i in ids if not out.get(i)]
+    if missing and require_all:
         sys.exit(f"FATAL: BLS BED missing series {missing}")
     return out
 
@@ -1248,13 +1263,26 @@ def _q_label(year, quarter):
 
 
 def sec_bed_births_deaths():
-    ids = (
+    level_ids = (
         BD_US_BIRTHS_L, BD_US_DEATHS_L, BD_MA_BIRTHS_L, BD_MA_DEATHS_L,
         BD_FL_BIRTHS_L, BD_FL_DEATHS_L,
         BD_US_BIRTHS_R, BD_US_DEATHS_R, BD_MA_BIRTHS_R, BD_MA_DEATHS_R,
         BD_FL_BIRTHS_R, BD_FL_DEATHS_R,
     )
-    series = _bls_bd_series(ids)
+    rate_ids = []
+    rate_map = {}
+    for st in list(RANKED) + ["US"]:
+        bid = _bd_rate_id(st, "birth")
+        did = _bd_rate_id(st, "death")
+        if bid:
+            rate_ids.append(bid)
+            rate_map[bid] = (st, "birth")
+        if did:
+            rate_ids.append(did)
+            rate_map[did] = (st, "death")
+    series = _bls_bd_series(level_ids, start="2006", end="2026", require_all=True)
+    rates = _bls_bd_series(rate_ids, start="2006", end="2026", require_all=False)
+    series.update(rates)
     us_b4 = _bd_lookup(series[BD_US_BIRTHS_L], 2025, 4)
     us_d1 = _bd_lookup(series[BD_US_DEATHS_L], 2025, 1)
     if us_b4 != VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q4:
@@ -1352,15 +1380,39 @@ def sec_bed_births_deaths():
         "overlap": overlap,
         "fl_overlap": fl_overlap,
         "trend": trend,
+        "states": _bed_state_cube(rates, rate_map),
         "note": (
             "BLS Business Employment Dynamics, total private, seasonally adjusted. "
             "Births are a subset of openings; deaths are a subset of closings and "
             "lag three quarters. Rates are the component as a percent of the "
             "average of current and prior-quarter establishment counts. U.S. "
             "counts are thousands of establishments, matching the BLS news release. "
-            "Florida uses the same statewide total-private series as Massachusetts."
+            "State rates cover every published jurisdiction on the same series. "
+            "The states cube is the all-jurisdiction quarterly file; the trend "
+            "array keeps the United States, Massachusetts, and Florida overlay."
         ),
     }
+
+
+def _bed_state_cube(rates, rate_map):
+    """{st: [{q, birth_rate_pct, death_rate_pct}, ...]} for modelSlice."""
+    by_st = {}
+    for sid, points in rates.items():
+        rec = rate_map.get(sid)
+        if not rec:
+            continue
+        st, kind = rec
+        key = "birth_rate_pct" if kind == "birth" else "death_rate_pct"
+        for y, q, v in points:
+            row = by_st.setdefault(st, {}).setdefault((y, q), {"q": _q_label(y, q)})
+            if v is not None:
+                row[key] = round(v, 1)
+    cube = {}
+    for st, recs in by_st.items():
+        series = [recs[k] for k in sorted(recs)]
+        if len(series) >= 2:
+            cube[st] = series
+    return cube
 
 
 MORE_SECONDARY = {
@@ -1559,6 +1611,14 @@ def more_lead(tool_id, sec):
                 f"Florida's establishment birth rate was "
                 f"<b>{fl.get('birth_rate_pct')}%</b> in {fl.get('births_as_of')} "
                 f"({commify(fl.get('births') or 0)} establishments, SRC-613-02)."
+            )
+        w9 = (b.get("window_9q_2024q3") or {})
+        if (w9.get("ma") or {}).get("rank"):
+            parts.append(
+                f"Over the 9 quarters ending 2024 Q3, Massachusetts had the "
+                f"{'lowest' if w9['ma']['rank'] == w9['ma']['n'] else 'rank ' + str(w9['ma']['rank'])} "
+                f"mean establishment birth rate among {w9['ma']['n']} jurisdictions "
+                f"at <b>{w9['ma']['v']}%</b> (derived, SRC-613-02)."
             )
     if tool_id == "DL-14":
         u = sec.get("ui_initial_claims") or {}

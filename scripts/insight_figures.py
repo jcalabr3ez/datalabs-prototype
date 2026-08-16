@@ -1837,4 +1837,4 @@ def insight_figures(app, ledger):
         fallback = from_latest(ledger)
         if fallback:
             figs = [fallback]
-    return figs[:2]
+    return figs

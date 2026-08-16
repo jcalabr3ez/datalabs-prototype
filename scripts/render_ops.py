@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Shorter copy on the tools",
+        "body": (
+            "Suite pages now open with one finding. Chart captions that only "
+            "restated the figure are gone. The source register no longer "
+            "repeats the full scope on every row."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Subtle institutional contrast",
         "body": (
             "Pages now carry a cream band under the title and the key figures, "

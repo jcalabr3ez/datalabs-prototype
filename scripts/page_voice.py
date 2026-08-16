@@ -96,6 +96,19 @@ def takeaways_html(items):
     return f'    <ol class="takeaways">\n{lis}\n    </ol>'
 
 
+def display_lead(voice, ledger):
+    """One-sentence finding for the page. KPIs and charts carry the rest."""
+    takes = (voice or {}).get("takeaways") or []
+    if takes:
+        return short_place_text(takes[0], census_place_names(ledger))
+    raw = (ledger.get("lead") or "").strip()
+    if not raw:
+        return ""
+    end = raw.find(". ")
+    first = raw[: end + 1] if end > 0 else raw
+    return short_place_text(first, census_place_names(ledger))
+
+
 def rank_txt(cell):
     if not cell:
         return ""

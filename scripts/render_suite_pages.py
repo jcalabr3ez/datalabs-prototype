@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from insight_figures import insight_figures
-from page_voice import census_place_names, short_place_text, voice_for
+from page_voice import census_place_names, display_lead, short_place_text, voice_for
 from suite_common import ROOT, catalog_dashboards, load_apps, ledger_path, paper_dateline
 
 def esc(s):
@@ -23,7 +23,6 @@ def src_rows(ledger):
             "<tr><td class=\"src\"><a href=\"" + esc(s.get("url", "#"))
             + "\" target=\"_blank\" rel=\"noopener\">" + esc(s.get("name", sid))
             + " (" + esc(sid) + ")</a></td><td>" + esc(s.get("cadence", ""))
-            + "</td><td>" + esc(s.get("supports", ""))
             + "</td><td>" + esc(ledger.get("data_month_label") or "pending")
             + "</td><td>" + esc(s.get("cadence", "See publisher"))
             + "</td></tr>"
@@ -90,6 +89,24 @@ def dashboards_html(app):
     )
 
 
+LIMIT_MARKERS = (
+    "waitlist", "not published", "not in this", "omitted", "pending",
+    "not comparable", "no state column", "so the state bars",
+    "so state bars", "does not draw", "not drawn", "remain pending",
+    "not a published", "not posted", "not in the statewide",
+    "not in that", "gaps are years",
+)
+
+
+def figure_limit(fig):
+    """Keep a chart note only when it states a limit, not when it restates the figure."""
+    for text in (fig.get("note") or "", fig.get("lede") or ""):
+        low = text.lower()
+        if text.strip() and any(m in low for m in LIMIT_MARKERS):
+            return text.strip()
+    return ""
+
+
 def insight_html(insights):
     if not insights:
         return ""
@@ -104,14 +121,17 @@ def insight_html(insights):
             hclass = "plot"
         else:
             hclass = "plot-sm"
+        note = figure_limit(fig)
+        note_html = (
+            "      <div class=\"note\">" + esc(note) + "</div>\n" if note else ""
+        )
         blocks.append(
             "    <div class=\"exhibit" + span + "\">\n"
             "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + str(i + 1) + "</span>\n"
             "        <span class=\"ex-t\">" + esc(fig["title"]) + "</span></div>\n"
-            "      <div class=\"lede\">" + esc(fig["lede"]) + "</div>\n"
             "      <div class=\"" + hclass + "\"><canvas id=\"chInsight" + str(i) + "\"></canvas></div>\n"
-            "      <div class=\"note\">" + esc(fig["note"]) + "</div>\n"
-            "      <div class=\"srcline\"><b>Source:</b> " + esc(fig.get("src") or "see the register")
+            + note_html
+            + "      <div class=\"srcline\"><b>Source:</b> " + esc(fig.get("src") or "see the register")
             + ". <b>Unit:</b> " + esc(fig.get("unit") or "see the register") + ".</div>\n"
             "    </div>"
         )
@@ -198,7 +218,6 @@ def related_html(app, apps):
     return (
         '  <section id="related">\n'
         "    <h2>Related applications</h2>\n"
-        '    <p class="lede">Other applications on the same subject.</p>\n'
         '    <div class="related">' + links + "</div>\n"
         "  </section>\n"
     )
@@ -265,13 +284,7 @@ def chart_spec(app, ledger):
         title = label
     if n_rows and n_chart < n_rows:
         title += f" (largest {n_chart} of {n_rows})"
-    lede = label + "."
-    if unit and unit.lower() not in label.lower():
-        lede += " Unit: " + unit + "."
-    if highlight == "MA":
-        lede += " Massachusetts is marked in gold."
-    elif highlight:
-        lede += " The highlighted bar is " + highlight + "."
+    lede = ""
     trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
     has_trend = bool(trend_keys)
     trend_mode = trend_compare_mode(ledger)
@@ -291,16 +304,16 @@ def chart_spec(app, ledger):
         trend_lede = (
             "Each line is the percent change from its first year so "
             + (trend_lede_named or "the series")
-            + " can be compared. Hover a point for the raw count. Empty periods are omitted."
+            + " can be compared. Hover a point for the raw count."
         )
         trend_unit = "percent change from first year"
     elif set(trend_keys) >= {"US", "MA"}:
         trend_title = label + ", United States and Massachusetts"
-        trend_lede = trend_title + ". Empty periods are omitted."
+        trend_lede = ""
         trend_unit = unit
     else:
         trend_title = label + " over time"
-        trend_lede = trend_title + ". Empty periods are omitted."
+        trend_lede = ""
         trend_unit = unit
     compare_title = {
         "state": "Compared with other states",
@@ -339,12 +352,7 @@ def chart_spec(app, ledger):
             {"key": "v", "label": "Total", "align": "n", "fmt": "usd_cents"},
             {"key": "rank", "label": "Rank", "align": "n"},
         ]
-        table_lede = (
-            "Base salary, Comptroller supplemental pay, and stipend for every "
-            "person paid as a Representative or Senator in calendar 2025. "
-            "Type a name to jump to a row. A unique match opens a card; share "
-            "it with ?q= on the URL."
-        )
+        table_lede = "Type a name to jump to a row."
         table_note = (
             "Amounts are the published CTHRU named-employee lines. Ranks are "
             "Pioneer calculations (derived). Year-over-year change is not on this file."
@@ -356,7 +364,7 @@ def chart_spec(app, ledger):
             {"key": "rank", "label": "Rank", "align": "n"},
             {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
         ]
-        table_lede = ""
+        table_lede = "Type a name to jump to a row."
         table_note = (
             "Ranks and year-over-year changes are Pioneer calculations (derived)."
         )
@@ -394,7 +402,11 @@ def page_html(app, ledger, apps=None):
     revised = ledger.get("page", {}).get("revised", "")
     metric_label = ledger.get("metric_label") or "Figure"
     unit = ledger.get("unit") or ""
-    lead = short_place_text(
+    replaces = esc(replaces_list(app, ledger))
+    nsrc = len(ledger.get("source_id_map") or {})
+    src_word = "source" if nsrc == 1 else "sources"
+    voice = voice_for(app, ledger) if app.get("id") not in ("DL-01", "DL-02") else None
+    lead = display_lead(voice, ledger) if live else short_place_text(
         ledger.get("lead")
         or (
             "This application is in build. The source register below is the inventory. "
@@ -402,10 +414,6 @@ def page_html(app, ledger, apps=None):
         ),
         census_place_names(ledger),
     )
-    replaces = esc(replaces_list(app, ledger))
-    nsrc = len(ledger.get("source_id_map") or {})
-    src_word = "source" if nsrc == 1 else "sources"
-    voice = voice_for(app, ledger) if app.get("id") not in ("DL-01", "DL-02") else None
     finding_kpis = (voice or {}).get("kpis") or []
     kpis = kpi_html(finding_kpis or ledger.get("kpis") or [])
     cite = (voice or {}).get("cite") or (
@@ -452,12 +460,10 @@ def page_html(app, ledger, apps=None):
 {insight_html(insights)}
   <section id="view-rank">
     <h2>{esc(compare_h2)}</h2>
-    <div class="lede">{esc(spec.get("lede") or metric_label)} The full list is in the table below.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 1}</span>
         <span class="ex-t">{esc(spec.get("title") or metric_label)}</span></div>
       <div class="plot plot-mid"><canvas id="chRank"></canvas></div>
-      <div class="note">Ranks are Pioneer calculations from the published source file (derived). Values are labeled on each bar.</div>
       <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
     </div>
   </section>
@@ -484,8 +490,7 @@ def page_html(app, ledger, apps=None):
         trend_section = f"""
 <section id="view-trend">
     <h2>{esc(spec.get("trend_title") or "The trend")}</h2>
-    <div class="lede">{esc(spec.get("trend_lede") or spec.get("trend_title"))}</div>
-    <div class="exhibit">
+{('    <div class="lede">' + esc(spec["trend_lede"]) + "</div>\n") if spec.get("trend_lede") else ""}    <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 2}</span>
         <span class="ex-t">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
@@ -505,13 +510,7 @@ def page_html(app, ledger, apps=None):
             f'<th{(" class=\"n\"" if c.get("align") == "n" else "")}>{esc(c.get("label") or "")}</th>'
             for c in table_cols
         )
-        table_lede = (
-            esc(spec["table_lede"]) if spec.get("table_lede")
-            else (
-                f"{esc(metric_label)}{', ' + esc(unit) if unit else ''}. "
-                "Type a name to jump to a row. A unique match opens a card; share it with ?q= on the URL."
-            )
-        )
+        table_lede = esc(spec.get("table_lede") or "Type a name to jump to a row.")
         table_note = spec.get("table_note") or (
             "Ranks and year-over-year changes are Pioneer calculations (derived)."
         )
@@ -933,12 +932,12 @@ const FIND=FIND_JSON;
 {related_section}
 <section id="sources">
   <h2>Data Sources</h2>
-  <div class="subhead">Every figure on this page traces to a source below. Derived measures are Pioneer Institute calculations, disclosed as such where they are used.</div>
+  <div class="subhead">Every figure traces to a source below. Ranks and changes are Pioneer calculations.</div>
   <details class="srcfold">
     <summary><span class="car">&#9654;</span><span class="name">Source register: cadence, vintage, and next release</span></summary>
     <div class="fold-body">
       <div class="scroll"><table class="reg">
-        <thead><tr><th>Source</th><th>Publisher cadence</th><th>What it supports</th><th>Data vintage</th><th>Next release</th></tr></thead>
+        <thead><tr><th>Source</th><th>Publisher cadence</th><th>Data vintage</th><th>Next release</th></tr></thead>
         <tbody>
           {src_rows(ledger)}
         </tbody>

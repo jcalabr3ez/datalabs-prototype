@@ -546,9 +546,8 @@ def main():
     sys.path.insert(0, str(ROOT / "scripts"))
     from render_suite_pages import kpi_html  # noqa: E402
     from page_voice import (  # noqa: E402
-        census_place_names,
+        display_lead,
         display_rows,
-        short_place_text,
         takeaways_html,
         voice_for,
     )
@@ -584,11 +583,12 @@ def main():
             )
         if has_block(new, slug + "-takeaways", style="html") and voice and voice.get("takeaways"):
             new = replace_block(new, slug + "-takeaways", takeaways_html(voice["takeaways"]), p, style="html")
-        if has_block(new, slug + "-lead", style="html") and led.get("lead"):
+        lead_txt = display_lead(voice, led)
+        if has_block(new, slug + "-lead", style="html") and lead_txt:
             new = replace_block(
                 new,
                 slug + "-lead",
-                short_place_text(led["lead"], census_place_names(led)),
+                lead_txt,
                 p,
                 style="html",
             )

@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Catalog tiles a step lighter",
+        "body": (
+            "Catalog rows now use Pioneer Institute's paler blue "
+            "(#CAD3E2). Hover still uses the earlier light blue. "
+            "The masthead is unchanged."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Open for Pioneer staff beta",
         "body": (
             "The front door now reads Internal beta for Pioneer staff. "

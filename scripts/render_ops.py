@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Corrections go to Jim Calabrese",
+        "body": (
+            "Every tool and the front door now list "
+            "jcalabrese@pioneerinstitute.org for corrections. The "
+            "shared DataLabs inbox is no longer published."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Catalog tiles in Pioneer light blue",
         "body": (
             "Catalog rows now use Pioneer Institute's light blue "

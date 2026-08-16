@@ -33,7 +33,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "netlify/functions/dl04-answers.json"
 
-UA = "PioneerDataLabs/1.0 (datalabs@pioneerinstitute.org)"
+UA = "PioneerDataLabs/1.0 (jcalabrese@pioneerinstitute.org)"
 FIRST_YEAR = 2012
 
 URL_HS861 = "https://www.eia.gov/electricity/data/state/xls/861/HS861%202010-.xlsx"

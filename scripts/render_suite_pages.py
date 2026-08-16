@@ -2552,6 +2552,7 @@ EXTRA_TOOL_JS})();
   </div>
   <div class="disclaimer">
     <div><b>About this tool.</b> {esc(title)} is a Pioneer Institute DataLabs research tool. Corrections and data refreshes are logged in the <a href="/changelog/">public changelog</a>. It is a living data tool, not a static report.</div>
+    <div><b>Corrections.</b> Write <a href="mailto:jcalabrese@pioneerinstitute.org">jcalabrese@pioneerinstitute.org</a>.</div>
     <div><b>How to cite.</b>
 <!-- DATA:BEGIN {slug}-cite -->
 {esc(cite)}

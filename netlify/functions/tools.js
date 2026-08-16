@@ -140,22 +140,31 @@ function suiteHasTrend(d) {
 function suiteViewId(view, opts) {
   opts = opts || {};
   if (view === 'latest') return opts.latestId || 'view-rank';
+  if (view === 'table' && opts.tableId) return opts.tableId;
   return 'view-' + view;
 }
 
-function suiteRules(id, src, extra, hasTrend) {
-  var pick = hasTrend
-    ? 'View and chart selection: latest = the current ranking; trend = change over time; table = every row. '
-    : 'View and chart selection: latest = the current ranking; table = every row. This page has no trend view. ';
+function suiteRules(id, src, extra, hasTrend, hasTable) {
+  var pick;
+  if (hasTable === false) {
+    pick = hasTrend
+      ? 'View and chart selection: latest and trend = the namesake series over time. This page has no ranking table. '
+      : 'View and chart selection: latest = the namesake finding. This page has no ranking table. ';
+  } else {
+    pick = hasTrend
+      ? 'View and chart selection: latest = the current ranking; trend = change over time; table = every row. '
+      : 'View and chart selection: latest = the current ranking; table = every row. This page has no trend view. ';
+  }
   return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks, year-over-year changes, and trailing-window means cite (derived, ' + src + '). Prefer the precomputed values in latest, derived.windows, and derived.secondary over your own arithmetic. Do not average unpublished state-periods. Unscoped questions use the published United States cell in latest.us when that cell exists; never average the fifty states to invent a U.S. figure. If latest.us is missing, answer with the published highest state, not an invented national total. A named-state question uses that state\'s row. Answer the metric named in metric_label and any series stored under derived.secondary or derived.windows; cite the source id on each figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. ' + pick + 'When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
 }
 
 function suiteLink(slug, opts) {
   opts = opts || {};
   var hasTrend = !!opts.hasTrend;
+  var hasTable = opts.hasTable !== false;
   var extra = opts.extraViews || [];
   return function (p) {
-    var allowed = ['latest', 'table'].concat(hasTrend ? ['trend'] : []).concat(extra);
+    var allowed = ['latest'].concat(hasTrend ? ['trend'] : []).concat(hasTable ? ['table'] : []).concat(extra);
     var view = (p.view && allowed.indexOf(p.view) >= 0) ? p.view : 'latest';
     var url = '/' + slug + '/#' + suiteViewId(view, opts);
     if (p.highlight) url += '&st=' + encodeURIComponent(p.highlight);
@@ -169,10 +178,11 @@ function suiteSrc(d) {
 
 function suiteTool(d, spec) {
   var hasTrend = spec.hasTrend != null ? spec.hasTrend : suiteHasTrend(d);
+  var hasTable = spec.hasTable !== false;
   var extraViews = spec.extraViews || [];
   var views = ['latest'];
   if (hasTrend) views.push('trend');
-  views.push('table');
+  if (hasTable) views.push('table');
   extraViews.forEach(function (v) { views.push(v); });
   var charts = views.filter(function (v) { return extraViews.indexOf(v) < 0; });
   return {
@@ -191,11 +201,13 @@ function suiteTool(d, spec) {
       uppercase: spec.uppercase !== false,
       describe: spec.hl || 'the exact two-letter jurisdiction code (for example MA, CA, TX) if the question focuses on one state, else null'
     },
-    rules: suiteRules(spec.id, spec.src, spec.extra, hasTrend),
+    rules: suiteRules(spec.id, spec.src, spec.extra, hasTrend, hasTable),
     link: suiteLink(d.slug, {
       hasTrend: hasTrend,
+      hasTable: hasTable,
       extraViews: extraViews,
-      latestId: spec.latestId
+      latestId: spec.latestId,
+      tableId: spec.tableId
     }),
     src: suiteSrc
   };
@@ -468,9 +480,11 @@ module.exports = [
   },
   suiteTool(DL06, {
     id: 'DL-06',
-    label: 'Massachusetts Schools: current expenditures per pupil by state, Massachusetts public enrollment, and Chapter 74 vocational-technical enrollment',
-    src: 'SRC-606-01',
+    label: 'Massachusetts Schools: Fall public-school enrollment, with per-pupil spending, MCAS, and Chapter 74 as later views',
+    src: 'SRC-606-02',
     triggers: [
+      'massachusetts enrollment', 'public-school enrollment', 'public school enrollment',
+      'how many students are enrolled in massachusetts',
       'per-pupil', 'per pupil', 'school spending', 'massachusetts k-12',
       'k-12 spending', 'k12 spending', 'current expenditures per pupil',
       'vocational', 'voc-tech', 'voc tech', 'chapter 74', 'career technical',
@@ -479,12 +493,14 @@ module.exports = [
       'low income', 'english learner', 'selected populations', 'enrollment by race',
       'enrollment by grade', 'kindergarten'
     ],
-    extra: 'Chapter 74 CTE sits in derived.secondary.ma_chapter74_cte. Next Generation MCAS 2025 sits in derived.secondary.mcas_2025; attendance in attendance_2025; dropouts in dropouts_2025; district per-pupil finance in district_finance_fy2025. Race, selected-population, and grade counts sit in derived.secondary.ma_enrollment_demographics_2026. Waitlists, lottery outcomes, and a 30,000-seat target are pending: decline those.'
+    extra: 'Chapter 74 CTE sits in derived.secondary.ma_chapter74_cte. Next Generation MCAS 2025 sits in derived.secondary.mcas_2025; attendance in attendance_2025; dropouts in dropouts_2025; district per-pupil finance in district_finance_fy2025. Race, selected-population, and grade counts sit in derived.secondary.ma_enrollment_demographics_2026. Waitlists, lottery outcomes, and a 30,000-seat target are pending: decline those.',
+    latestId: 'view-trend',
+    hasTable: false
   }),
   suiteTool(DL07, {
     id: 'DL-07',
-    label: 'State School Scores: public elementary and secondary enrollment by state',
-    src: 'SRC-607-02',
+    label: 'State School Scores: NAEP grade 4 reading by state, with enrollment and finance as later views',
+    src: 'SRC-607-05',
     triggers: [
       'k-12 enrollment', 'k12 enrollment', 'public school enrollment',
       'public k-12', 'national k-12', 'fall 2023 enrollment',

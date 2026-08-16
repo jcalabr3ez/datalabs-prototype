@@ -64,10 +64,10 @@ for app in apps:
     if ma_line and re.match(r"^\d{1,3}$", value) and re.search(r"\d,\d{3}", ma_line):
         fail(f"{tid} hero value {value!r} looks like a comma-split of {ma_line!r}")
     if tid == "DL-06":
-        if "per pupil" not in q.lower() or "$" not in value:
-            fail(f"{tid} public question should be per-pupil spending, value={value!r}")
+        if "enroll" not in q.lower() or "915,932" not in value:
+            fail(f"{tid} public question should be Massachusetts enrollment, value={value!r}")
         else:
-            ok(f"{tid} per-pupil")
+            ok(f"{tid} enrollment")
     if tid == "DL-08":
         if "enroll" not in q.lower():
             fail(f"{tid} public question should be enrollment, got {q!r}")

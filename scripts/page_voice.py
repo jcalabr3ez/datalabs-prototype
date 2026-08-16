@@ -173,7 +173,7 @@ def fifty_state_ledger(ledger):
 # MA-only, agency, town, and finder tools stay on their current open.
 # DL-01 and DL-02 are already in SKIP_VOICE.
 LENS_SKIP = SKIP_VOICE | {
-    "DL-03", "DL-05", "DL-10", "DL-18", "DL-22",
+    "DL-03", "DL-05", "DL-06", "DL-10", "DL-18", "DL-22",
     "DL-25", "DL-26", "DL-27", "DL-28", "DL-30", "DL-32",
 }
 
@@ -324,6 +324,16 @@ def supporting_kpis(tid, ledger, skip_highest=False):
         hi_val = format_metric_value(hi.get("v"), unit) if hi.get("v") is not None else ""
         lo_val = format_metric_value(lo.get("v"), unit) if lo.get("v") is not None else ""
         ma_val = format_metric_value(ma.get("v"), unit) if ma.get("v") is not None else ""
+        if tid == "DL-09" and lo.get("v") == 0:
+            positive = [
+                r for r in (ledger.get("rows") or [])
+                if isinstance(r, dict)
+                and isinstance(r.get("v"), (int, float))
+                and r["v"] > 0
+            ]
+            if positive:
+                lo = min(positive, key=lambda r: r["v"])
+                lo_val = format_metric_value(lo.get("v"), unit)
     out = []
     hi_st = hi.get("st")
     lo_st = lo.get("st")
@@ -336,10 +346,16 @@ def supporting_kpis(tid, ledger, skip_highest=False):
             src,
         ))
     if lo_val and lo.get("name"):
+        lo_detail = f"{lo['name']} is lowest among the published jurisdictions."
+        if tid == "DL-09":
+            lo_detail = (
+                f"{lo['name']} is lowest among states with a published "
+                "count above zero. Kentucky published zero."
+            )
         out.append(kpi(
             "Lowest" + (f", {as_of}" if as_of else ""),
             lo_val,
-            f"{lo['name']} is lowest among the published jurisdictions.",
+            lo_detail,
             "The bottom of the national ranking.",
             src,
         ))
@@ -352,6 +368,16 @@ def supporting_kpis(tid, ledger, skip_highest=False):
             "Massachusetts on the same ranking as the map.",
             src,
         ))
+    elif tid == "DL-07":
+        us_v = (sec(ledger, "naep_2024", "series", "read4") or {}).get("us")
+        if us_v is not None:
+            out.append(kpi(
+                "United States public, 2024",
+                str(us_v),
+                "National public average on the same NAEP scale (SRC-607-05).",
+                "The published national-public line, not a state.",
+                src,
+            ))
     return out[:3]
 
 
@@ -642,7 +668,13 @@ def enrich_answer(answer, tid, ledger, src_id, title, as_of):
     if not answer.get("geo"):
         answer["geo"] = "Massachusetts"
     answer.setdefault("unit", ledger.get("unit") or "")
-    if tid == "DL-07":
+    if tid == "DL-06":
+        answer["vintage"] = "Fall 2024"
+        answer["metric"] = "Massachusetts public K-12 enrollment"
+        answer["src_id"] = "SRC-606-02"
+        answer["unit"] = "students"
+        answer["geo"] = "Massachusetts"
+    elif tid == "DL-07":
         answer["vintage"] = "2024 NAEP"
         answer["metric"] = "NAEP grade 4 reading"
         answer["src_id"] = "SRC-607-05"
@@ -764,43 +796,50 @@ def voice_dl06(ledger):
     mcas = sec(ledger, "mcas_2025")
     ch74 = sec(ledger, "ma_chapter74_cte")
     att = sec(ledger, "attendance_2025")
+    enroll = sec(ledger, "public_k12_enrollment")
+    ma_e = enroll.get("ma") or {}
     take = [
-        f"Massachusetts spent <b>{money(ma.get('v'))}</b> per pupil in fiscal year 2024, {rank_txt(ma)} (derived, SRC-606-01).",
-        f"On the 2025 Next Generation MCAS, <b>{mcas.get('ela_3_8_pct')}%</b> of grades 3-8 students met or exceeded expectations in English language arts and <b>{mcas.get('math_3_8_pct')}%</b> in mathematics (SRC-606-04).",
-        f"Chapter 74 career technical education enrolled <b>{commify(ch74.get('v'))}</b> high-school students in 2025-26, {ch74.get('share') and round(ch74['share']*100, 1)} percent of high-school enrollment (SRC-606-03).",
-        (
-            f"Kindergarten enrolled <b>{commify(next((r.get('v') for r in (sec(ledger, 'ma_enrollment_demographics_2026').get('grades') or []) if r.get('name')=='Kindergarten'), 0))}</b> "
-            f"students in 2025-26 (SRC-606-08)."
-        ),
+        f"Massachusetts public-school enrollment was <b>{commify(ma_e.get('v'))}</b> "
+        f"in Fall 2024, {rank_txt(ma_e)} (SRC-606-02).",
+        f"The Commonwealth spent <b>{money(ma.get('v'))}</b> per pupil in fiscal year 2024, "
+        f"{rank_txt(ma)}, on the fifty-state spending file (derived, SRC-606-01).",
+        f"On the 2025 Next Generation MCAS, <b>{mcas.get('ela_3_8_pct')}%</b> of grades 3-8 "
+        f"students met or exceeded expectations in English language arts and "
+        f"<b>{mcas.get('math_3_8_pct')}%</b> in mathematics (SRC-606-04).",
     ]
     kpis = [
-        kpi("Massachusetts per-pupil, FY 2024", money(ma.get("v")),
-            f"{rank_txt(ma).capitalize()} (derived, SRC-606-01). The U.S. average was {money((latest.get('us') or {}).get('v'))}.",
-            "Spending per pupil is the finding the national file is for.",
-            src_name(ledger, "SRC-606-01")),
+        kpi("Massachusetts enrollment, Fall 2024", commify(ma_e.get("v")),
+            f"{rank_txt(ma_e).capitalize()} on the fifty-state enrollment file (SRC-606-02).",
+            "The namesake stock. Spending and MCAS sit later on this page.",
+            src_name(ledger, "SRC-606-02")),
         kpi("MCAS grades 3-8 ELA, 2025", f"{mcas.get('ela_3_8_pct')}%",
             f"Met or exceeded expectations. Math was {mcas.get('math_3_8_pct')}% (SRC-606-04).",
             "The statewide proficiency print, not the enrollment stock.",
             src_name(ledger, "SRC-606-04")),
         kpi("Chapter 74 CTE, 2025-26", commify(ch74.get("v")),
             f"{round(ch74['share']*100, 1) if ch74.get('share') is not None else ''} percent of high-school enrollment. {ch74.get('districts')} districts (SRC-606-03).",
-            "Vocational-technical enrollment is the program the page now measures.",
+            "Vocational-technical enrollment is a later view on this page.",
             src_name(ledger, "SRC-606-03")),
     ]
     if att.get("chronic_pct") is not None:
-        take[2] = (
+        take.append(
             f"The 2024-25 attendance rate was <b>{att.get('attendance_pct')}%</b>; "
             f"<b>{att.get('chronic_pct')}%</b> of students were chronically absent (SRC-606-05)."
         )
-    enroll = sec(ledger, "public_k12_enrollment")
-    ma_e = enroll.get("ma") or {}
     page_lead = (
         f"Massachusetts public-school enrollment was <b>{commify(ma_e.get('v'))}</b> "
         f"in Fall 2024 (SRC-606-02). The Commonwealth spent <b>{money(ma.get('v'))}</b> "
         f"per pupil in fiscal year 2024, {rank_txt(ma)}, on the fifty-state spending "
         f"file (derived, SRC-606-01)."
     )
-    return take[:3], kpis[:3], f"{money(ma.get('v'))} per pupil, {rank_txt(ma)}", "SRC-606-01", "", page_lead
+    return (
+        take[:3],
+        kpis[:3],
+        f"{commify(ma_e.get('v'))} enrolled, Fall 2024",
+        "SRC-606-02",
+        "",
+        page_lead,
+    )
 
 
 def pts(n):
@@ -2197,7 +2236,15 @@ def build_answer(tid, ledger, ma_line=""):
     value = ""
     context = ""
     src_id = first_src(ledger)
-    if tid == "DL-07":
+    if tid == "DL-06":
+        enroll = sec(ledger, "public_k12_enrollment")
+        ma_e = enroll.get("ma") or {}
+        value = commify(ma_e.get("v"))
+        context = (
+            "Fall 2024 public elementary and secondary enrollment (SRC-606-02)."
+        )
+        src_id = "SRC-606-02"
+    elif tid == "DL-07":
         naep = sec(ledger, "naep_2024", "series", "read4")
         ma_r = ma_of(naep)
         value = str(ma_r.get("v") or "")
@@ -2349,7 +2396,7 @@ def voice_for(app, ledger):
     slug = app.get("slug") or ledger.get("slug") or ""
     title = app.get("title") or ledger.get("title") or tid
     live = ledger.get("status") == "live"
-    as_of = ledger.get("data_month_label") or "pending"
+    as_of = display_as_of(tid, ledger)
     page = ledger.get("page") or {}
     if tid in SKIP_VOICE:
         return None
@@ -2630,6 +2677,15 @@ def apply_catalog_g(catalog):
     return catalog
 
 
+def display_as_of(tid, ledger):
+    """Masthead and catalog vintage for the namesake series, not a companion file."""
+    if tid == "DL-06":
+        return "Fall 2024"
+    if tid == "DL-07":
+        return "2024 NAEP"
+    return ledger.get("data_month_label") or "pending"
+
+
 def apply_catalog_ma(catalog):
     """Write a Massachusetts-in-one-number line onto live catalog rows.
 
@@ -2648,6 +2704,7 @@ def apply_catalog_ma(catalog):
         voice = voice_for(app, ledger)
         if voice and voice.get("ma") and ledger.get("status") == "live":
             row["ma"] = voice["ma"]
+            row["vint"] = display_as_of(tid, ledger)
         else:
             row.pop("ma", None)
     for tid, loader in (

@@ -566,14 +566,6 @@ def figs_dl07(ledger):
 def figs_dl08(ledger):
     sec = _sec(ledger)
     out = []
-    latest = from_latest(
-        ledger, "enroll-compare",
-        title="Fall 2022 postsecondary enrollment",
-        note="NCES Digest table 304.10. The U.S. bar is omitted when it dwarfs the states.",
-        skip_us=True,
-    )
-    if latest:
-        out.append(latest)
     sat = sec.get("sat_2023") or {}
     fig = from_snap(
         sat, "sat-2023",
@@ -583,7 +575,8 @@ def figs_dl08(ledger):
             f"{int(sat['us'])}. Participation was "
             f"{sat.get('participation_pct', {}).get('ma')} percent in "
             f"Massachusetts and {sat.get('participation_pct', {}).get('us')} "
-            "percent nationally."
+            "percent nationally. Means are not comparable across states "
+            "with very different participation rates."
         ) if sat.get("ma") and sat.get("us") else None,
     )
     if fig:
@@ -670,18 +663,11 @@ def figs_dl08(ledger):
 def figs_dl09(ledger):
     sec = _sec(ledger)
     out = []
-    latest = from_latest(
-        ledger, "charter-enroll",
-        title="Public charter fall enrollment, 2022-23",
-        skip_us=True,
-        note="NCES Digest table 216.90. Kentucky published zero charter enrollment.",
-    )
-    if latest:
-        out.append(latest)
     fig = from_snap(
         sec.get("teachers_fte_fall_2022"), "teachers-fte",
         title="Public-school teachers (FTE), Fall 2022",
         skip_us=True,
+        note="NCES Digest table 208.30. These are all public-school teachers, not charter staff only.",
     )
     if fig:
         out.append(fig)
@@ -689,7 +675,7 @@ def figs_dl09(ledger):
         sec.get("k12_staff_fte_fall_2022"), "k12-staff",
         title="Public-school staff (FTE), Fall 2022",
         skip_us=True,
-        note="NCES Digest table 213.20. The U.S. total is omitted so state bars remain readable.",
+        note="NCES Digest table 213.20. These are all public-school staff, not charter staff only. The U.S. total is omitted so state bars remain readable.",
     )
     if fig:
         out.append(fig)
@@ -697,6 +683,7 @@ def figs_dl09(ledger):
         sec.get("k12_aides_fte_fall_2022"), "k12-aides",
         title="Instructional aides (FTE), Fall 2022",
         skip_us=True,
+        note="NCES Digest table 213.20. These are all public-school instructional aides, not charter staff only.",
     )
     if fig:
         out.append(fig)

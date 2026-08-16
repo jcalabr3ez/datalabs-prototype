@@ -30,3 +30,5 @@ jobs:
           fi
       - name: Engine loads and shapes responses (no API key needed)
         run: node scripts/check_engine.mjs
+      - name: Chart scales keep zero only when the series sits near it
+        run: node scripts/check_chart_scale.mjs

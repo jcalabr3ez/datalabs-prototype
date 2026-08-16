@@ -737,13 +737,20 @@ function drawTrend(){
     document.getElementById('fig2t').textContent='All-sector average retail price, United States, Massachusetts, Florida, and '+extraName+', 2012 to '+DL04.year;
   }
   var data={labels:us.map(function(e){return e.y;}),datasets:datasets};
+  var yvals=[];
+  datasets.forEach(function(d){ (d.data||[]).forEach(function(v){ if(v!=null&&v!=='') yvals.push(v); }); });
   var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:96}},
     plugins:{legend:{display:true,position:'top',align:'end'},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(2)+' cents';}}}},
-    scales:{y:Object.assign({},AY,{grace:'8%',title:axisTitle('Cents per kilowatt-hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),
+    scales:{y:window.dlApplyScale(Object.assign({},AY,{grace:'8%',title:axisTitle('Cents per kilowatt-hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}), yvals),
       x:Object.assign({},AX)}};
   var endLab=window.dlChartLabels(function(v){return Number(v).toFixed(2)+'¢';},'end');
-  if(trendChart){ trendChart.data=data; trendChart.update(); return; }
+  if(trendChart){
+    trendChart.data=data;
+    trendChart.options.scales.y=opts.scales.y;
+    trendChart.update();
+    return;
+  }
   trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts,plugins:[endLab]});
 }
 

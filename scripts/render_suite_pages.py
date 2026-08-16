@@ -714,9 +714,10 @@ def extra_tool_js(app, ledger):
     if(cel&&window.Chart&&crows.length){
       var plot=cel.parentNode;
       if(plot) plot.style.height=Math.max(280, Math.min(1200, crows.length*20+48))+'px';
+      var cvals=crows.map(function(r){return r.v;});
       new Chart(cel,{type:'bar',
         data:{labels:crows.map(function(r){return r.st;}),
-          datasets:[{data:crows.map(function(r){return r.v;}),
+          datasets:[{data:cvals,
             backgroundColor:crows.map(function(r){
               if(r.st==='MA') return GOLD;
               if(r.st==='FL') return RUST;
@@ -724,7 +725,7 @@ def extra_tool_js(app, ledger):
             })}]},
         options:{indexAxis:'y',plugins:{legend:{display:false},
           tooltip:{callbacks:{label:function(c){return ' '+Number(c.parsed.x).toFixed(2)+'%';}}}},
-          scales:{x:{ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'percent of total costs'}},y:{}}},
+          scales:{x:fitScale({ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'percent of total costs'}}, cvals),y:{}}},
         plugins:[dataLabels(function(v){return Number(v).toFixed(1)+'%';},'all')]
       });
     }
@@ -735,14 +736,15 @@ def extra_tool_js(app, ledger):
       var years={};
       series.forEach(function(s){ (ctr[s.key]||[]).forEach(function(p){ years[p.y]=1; }); });
       var labels=Object.keys(years).map(Number).sort(function(a,b){return a-b;});
+      var tsets=series.map(function(s){
+        var by={}; (ctr[s.key]||[]).forEach(function(p){ by[p.y]=p.v; });
+        return {label:s.label,data:labels.map(function(y){return by[y];}),borderColor:s.color,backgroundColor:'transparent',spanGaps:true};
+      });
       new Chart(tel,{type:'line',
-        data:{labels:labels,datasets:series.map(function(s){
-          var by={}; (ctr[s.key]||[]).forEach(function(p){ by[p.y]=p.v; });
-          return {label:s.label,data:labels.map(function(y){return by[y];}),borderColor:s.color,backgroundColor:'transparent',spanGaps:true};
-        })},
+        data:{labels:labels,datasets:tsets},
         options:{plugins:{legend:{display:true},
           tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+Number(c.parsed.y).toFixed(2)+'%';}}}},
-          scales:{y:{ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'percent of total costs'}}}},
+          scales:{y:fitScale({ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'percent of total costs'}}, seriesValues(tsets))}},
         plugins:[dataLabels(function(v){return Number(v).toFixed(1)+'%';},'end')]
       });
     }
@@ -1133,6 +1135,40 @@ const FIND=FIND_JSON;
     if(Math.abs(n-Math.round(n))<1e-6) return sign+String(Math.round(a));
     return sign+a.toLocaleString(undefined,{maximumFractionDigits:1});
   }
+  function seriesValues(series){
+    var out=[];
+    (series||[]).forEach(function(s){
+      (s&&s.data?s.data:[]).forEach(function(v){
+        if(v==null||v==='') return;
+        if(typeof v==='object' && !Array.isArray(v)){
+          if(v.x!=null) out.push(v.x);
+          if(v.y!=null) out.push(v.y);
+          if(v.v!=null) out.push(v.v);
+          return;
+        }
+        if(Array.isArray(v)){ v.forEach(function(x){ if(x!=null&&x!=='') out.push(x); }); return; }
+        out.push(v);
+      });
+    });
+    return out;
+  }
+  function fitScale(scale, values, extra){
+    extra=extra||{};
+    delete scale.min;
+    delete scale.max;
+    if(window.dlApplyScale) return window.dlApplyScale(scale, values, extra);
+    scale.beginAtZero=false;
+    if(scale.grace==null) scale.grace=extra.grace||'12%';
+    return scale;
+  }
+  function copyFit(dest, src){
+    if(!dest||!src) return dest;
+    dest.beginAtZero=src.beginAtZero;
+    dest.grace=src.grace;
+    if(src.min==null) delete dest.min; else dest.min=src.min;
+    if(src.max==null) delete dest.max; else dest.max=src.max;
+    return dest;
+  }
   function rowLabel(r){
     if(CHART.geo==='state' && r.st && String(r.st).length===2) return r.st;
     var s=r.name||r.st||'';
@@ -1316,12 +1352,16 @@ const FIND=FIND_JSON;
     sizeRankPlot(chartRows.length);
     var titleEl=document.getElementById('rankTitle');
     if(titleEl) titleEl.textContent=rankTitleText();
+    var vals=chartRows.map(function(r){return r.v;});
     var payload={
       labels:chartRows.map(rowLabel),
-      datasets:[{data:chartRows.map(function(r){return r.v;}),backgroundColor:chartRows.map(hlColor)}]
+      datasets:[{data:vals,backgroundColor:chartRows.map(hlColor)}]
     };
+    var xScale=fitScale({title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+      ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'rgba(34,34,34,.08)'},grace:'14%'}, vals);
     if(rankChart){
       rankChart.data=payload;
+      copyFit(rankChart.options.scales.x, xScale);
       rankChart.update();
       return;
     }
@@ -1335,8 +1375,7 @@ const FIND=FIND_JSON;
             label:function(c){var r=chartRows[c.dataIndex]||{}; var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' \u00b7 '+unit:''); return ' '+fmtVal(c.parsed.x)+' \u00b7 rank '+(r.rank||'')+extra;}
           }}},
         scales:{
-          x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
-            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'rgba(34,34,34,.08)'},grace:'14%'},
+          x:xScale,
           y:{ticks:{color:INK,font:{size:11,family:'Roboto,sans-serif'},autoSkip:false,
             callback:function(v){return String(this.getLabelForValue(v));}},
             grid:{display:false},border:{display:false}}
@@ -1565,6 +1604,8 @@ const FIND=FIND_JSON;
     });
     var yTitle=trendMode==='pct_from_start'?'percent change from first year':axisUnit;
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
+    var yNums=[];
+    datasets.forEach(function(d){ (d.data||[]).forEach(function(v){ if(v!=null&&v!=='') yNums.push(v); }); });
     function tickLab(v){
       var lab=String(v==null?'':v);
       if(/^\\d{4}-\\d{2}$/.test(lab)) return lab.slice(-2)==='01'?lab.slice(0,4):'';
@@ -1593,8 +1634,8 @@ const FIND=FIND_JSON;
       scales:{
         x:{type:'category',ticks:{color:GREY,autoSkip:true,maxTicksLimit:12,
           callback:function(v){return tickLab(this.getLabelForValue(v));}}},
-        y:{grace:'10%',title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
-          ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}
+        y:fitScale({grace:'10%',title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
+          ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}, yNums)
       }};
     var lbl=dataLabels(yFmt, labels.length>18?'end':'all');
     if(trendChart){
@@ -1602,6 +1643,7 @@ const FIND=FIND_JSON;
       trendChart.options.plugins.tooltip.callbacks=opts.plugins.tooltip.callbacks;
       trendChart.options.scales.y.title=opts.scales.y.title;
       trendChart.options.scales.y.ticks.callback=opts.scales.y.ticks.callback;
+      copyFit(trendChart.options.scales.y, opts.scales.y);
       trendChart.update();
       return;
     }
@@ -1655,13 +1697,14 @@ const FIND=FIND_JSON;
     var iunit=fig.unit||(ifmt==='percent'?'percent':((ifmt==='usd'||ifmt==='usd_millions')?'dollars':''));
     var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
     var horiz=fig.type==='bar';
+    var ivals=seriesValues(fig.series);
     var scales=horiz?{
-      x:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'rgba(34,34,34,.08)'},grace:'14%'},
+      x:fitScale({ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'rgba(34,34,34,.08)'},grace:'14%'}, ivals),
       y:{ticks:catTick(32),grid:{display:false},border:{display:false}}
     }:{
       x:{ticks:Object.assign({},catTick(16),{color:GREY,autoSkip:fig.labels.length>12,maxTicksLimit:12}),
         grid:{display:false}},
-      y:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'rgba(34,34,34,.08)'},border:{display:false},grace:'12%'}
+      y:fitScale({ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'rgba(34,34,34,.08)'},border:{display:false},grace:'12%'}, ivals)
     };
     var nLab=(fig.labels||[]).length;
     var opts={

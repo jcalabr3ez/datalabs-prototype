@@ -573,8 +573,8 @@ function renderBoards(){
         layout:{padding:{top:6,right:64}},
         plugins:{legend:{display:false},
           tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' percent funded';}}}},
-        scales:{x:Object.assign({},AY,{beginAtZero:true,max:120,title:axisTitle('Funded ratio, percent'),
-            ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+        scales:{x:window.dlApplyScale(Object.assign({},AY,{max:120,title:axisTitle('Funded ratio, percent'),
+            ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}), rows.map(function(r){return r.funded_pct;})),
           y:catY()}},
       plugins:[valueLabels(function(v){return v.toFixed(1)+'%';})]});
     rendered.b=true;
@@ -617,9 +617,15 @@ function drawTrend(){
   var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:96}},
     plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+(c.parsed.y==null?'':c.parsed.y.toFixed(1)+' percent');}}}},
-    scales:{y:Object.assign({},AY,{title:axisTitle('Funded ratio, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+    scales:{y:window.dlApplyScale(Object.assign({},AY,{title:axisTitle('Funded ratio, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+        data.datasets.reduce(function(a,d){return a.concat(d.data||[]);},[])),
       x:Object.assign({},AX)}};
-  if(trendChart){ trendChart.data=data; trendChart.update(); return; }
+  if(trendChart){
+    trendChart.data=data;
+    trendChart.options.scales.y=opts.scales.y;
+    trendChart.update();
+    return;
+  }
   trendChart=new Chart(document.getElementById('chTrend'),{type:'line',data:data,options:opts,plugins:[endLabels(function(v){return v.toFixed(1)+'%';})]});
 }
 
@@ -634,7 +640,8 @@ function renderReturns(){
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:72}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' percent';}}}},
-      scales:{x:Object.assign({},AY,{beginAtZero:true,grace:'14%',title:axisTitle('One-year return, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+      scales:{x:window.dlApplyScale(Object.assign({},AY,{grace:'14%',title:axisTitle('One-year return, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
+          rows.map(function(r){return r.return_1y_pct;})),
         y:catY()}},
     plugins:[valueLabels(function(v){return v.toFixed(1)+'%';})]});
 }
@@ -652,7 +659,8 @@ function renderRetirees(){
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:96}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': $'+c.parsed.y.toFixed(2)+' billion';}}}},
-      scales:{y:Object.assign({},AY,{title:axisTitle('Billion dollars'),ticks:Object.assign({},AY.ticks,{callback:function(v){return '$'+v+'b';}})}),
+      scales:{y:window.dlApplyScale(Object.assign({},AY,{title:axisTitle('Billion dollars'),ticks:Object.assign({},AY.ticks,{callback:function(v){return '$'+v+'b';}})}),
+          y.map(function(r){return [r.msers.annual_amount/1e9, r.mtrs.annual_amount/1e9];}).reduce(function(a,p){return a.concat(p);},[])),
         x:Object.assign({},AX)}},
     plugins:[endLabels(function(v){return '$'+v.toFixed(2)+'b';})]});
 

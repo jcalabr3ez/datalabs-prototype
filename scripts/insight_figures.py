@@ -13,6 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from page_voice import short_place, short_place_text
 
 GOLD = "#CCB26D"
+STEEL = "#5C7A99"
 NAVY = "#293C5C"
 INK = "#222222"
 GREY = "#8DA0B5"
@@ -58,14 +59,19 @@ def _fig(
     return out
 
 
+def _bar_color(lab, names):
+    if lab in names or lab in ("Massachusetts", "Boston"):
+        return GOLD
+    if lab == "Florida":
+        return STEEL
+    return NAVY
+
+
 def _bars(labels, values, highlight=None, highlight_names=None):
     names = set(highlight_names or [])
     if highlight:
         names.add(highlight)
-    colors = [
-        GOLD if (lab in names or lab == "Massachusetts" or lab == "Boston") else NAVY
-        for lab in labels
-    ]
+    colors = [_bar_color(lab, names) for lab in labels]
     return [{"label": "", "data": values, "colors": colors}]
 
 
@@ -104,21 +110,30 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
         return None
     ma = snap.get("ma") if isinstance(snap.get("ma"), dict) else None
     ma_v = _snap_val(snap.get("ma"))
+    fl = snap.get("fl") if isinstance(snap.get("fl"), dict) else None
+    if fl is None:
+        for r in snap.get("rows") or []:
+            if r.get("st") == "FL":
+                fl = r
+                break
+    fl_v = _snap_val(fl)
     us = _snap_val(snap.get("us"))
     hi = snap.get("highest") or {}
     lo = snap.get("lowest") or {}
-    others = [v for v in (ma_v, hi.get("v"), lo.get("v")) if v is not None]
+    others = [v for v in (ma_v, fl_v, hi.get("v"), lo.get("v")) if v is not None]
     hide_us = skip_us if skip_us is not None else _us_dwarfs(us, others)
     pairs = []
     if us is not None and not hide_us:
         pairs.append(("United States", us))
-    if hi.get("name") and hi.get("v") is not None and hi.get("st") != "MA":
+    if hi.get("name") and hi.get("v") is not None and hi.get("st") not in ("MA", "FL"):
         pairs.append((hi["name"], hi["v"]))
     if ma_v is not None:
         pairs.append(("Massachusetts", ma_v))
+    if fl_v is not None and (fl or {}).get("st") not in (hi.get("st"), lo.get("st"), "MA"):
+        pairs.append(("Florida", fl_v))
     lo_st = lo.get("st")
     hi_st = hi.get("st")
-    if lo.get("name") and lo.get("v") is not None and lo_st not in ("MA", hi_st):
+    if lo.get("name") and lo.get("v") is not None and lo_st not in ("MA", "FL", hi_st):
         pairs.append((lo["name"], lo["v"]))
     if len(pairs) < 2:
         return None
@@ -129,6 +144,8 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
         lede = snap.get("label") or title
         if ma and ma.get("rank") and ma.get("n"):
             lede += f". Massachusetts ranks {ma['rank']} of {ma['n']} (derived)."
+        if fl and fl.get("rank") and fl.get("n"):
+            lede += f" Florida ranks {fl['rank']} of {fl['n']} (derived)."
     note = note or snap.get("note") or "Published cells only. Ranks are Pioneer calculations (derived)."
     fmt = "percent" if "percent" in unit.lower() else (
         "usd" if "dollar" in unit.lower() else "number"
@@ -146,9 +163,11 @@ def from_latest(ledger, fid="latest-compare", title=None, lede=None, note=None, 
     if not latest.get("ma") and not latest.get("highest"):
         return None
     src_map = ledger.get("source_id_map") or {}
+    fl = next((r for r in (ledger.get("rows") or []) if r.get("st") == "FL"), None)
     snap = {
         "us": latest.get("us"),
         "ma": latest.get("ma"),
+        "fl": fl,
         "highest": latest.get("highest"),
         "lowest": latest.get("lowest"),
         "label": ledger.get("metric_label") or "Latest comparison",
@@ -350,7 +369,7 @@ def figs_dl07(ledger):
                 f"{n_up} states rose and {n_down} fell. "
                 f"{hi.get('name')} {hi.get('v'):+.1f}; "
                 f"{lo.get('name')} {lo.get('v'):+.1f}. "
-                "Massachusetts is marked in gold."
+                "Massachusetts is marked in gold; Florida in steel."
             ),
             rec.get("src") or "SRC-607-05",
             "number", "scale-score points",

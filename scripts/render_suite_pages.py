@@ -223,8 +223,8 @@ def related_html(app, apps):
     )
 
 
-TREND_NAMES = {"US": "United States", "MA": "Massachusetts", "Boston": "Boston"}
-TREND_LEDE_NAMES = {"US": "the United States", "MA": "Massachusetts", "Boston": "Boston"}
+TREND_NAMES = {"US": "United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
+TREND_LEDE_NAMES = {"US": "the United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
 TREND_INDEX_RATIO = 2.5
 
 
@@ -372,6 +372,7 @@ def chart_spec(app, ledger):
         "geo": geo,
         "format": fmt,
         "highlight": highlight,
+        "highlights": (["MA", "FL"] if geo == "state" else ([highlight] if highlight else [])),
         "n_chart": n_chart,
         "unit": unit,
         "axis_unit": axis_unit,
@@ -548,7 +549,7 @@ const FIND=FIND_JSON;
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
+  var GOLD='#CCB26D', STEEL='#5C7A99', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
   function applyHash(){
     var h=(location.hash||'').replace(/^#/,'');
     if(!h) return;
@@ -560,10 +561,28 @@ const FIND=FIND_JSON;
   var fmt=CHART.format||'number';
   var unit=CHART.unit||'';
   var axisUnit=CHART.axis_unit||unit;
+  function hlList(){
+    if(CHART.highlights && CHART.highlights.length) return CHART.highlights;
+    if(CHART.geo==='state') return ['MA','FL'];
+    if(CHART.highlight) return [CHART.highlight];
+    return [];
+  }
+  function isMA(r){ return r.st==='MA' || r.name==='Massachusetts'; }
+  function isFL(r){ return r.st==='FL' || r.name==='Florida'; }
   function isHL(r){
-    if(r.st==='MA') return true;
-    if(CHART.highlight && (r.name===CHART.highlight || r.st===CHART.highlight)) return true;
+    var list=hlList();
+    for(var i=0;i<list.length;i++){ if(r.name===list[i] || r.st===list[i]) return true; }
     return false;
+  }
+  function hlColor(r){
+    if(isMA(r) || r.name==='Boston') return GOLD;
+    if(isFL(r) && CHART.geo==='state') return STEEL;
+    return isHL(r)?GOLD:BLUE;
+  }
+  function hlClass(r){
+    if(isFL(r) && CHART.geo==='state') return 'hl-fl';
+    if(isHL(r)) return 'hl-ma';
+    return '';
   }
   function fmtVal(v, short){
     if(v==null||v==='') return '';
@@ -590,14 +609,17 @@ const FIND=FIND_JSON;
   var rows=(DL&&DL.rows)||[];
   var nChart=CHART.n_chart||12;
   var chartRows=rows.slice(0,nChart);
-  if(CHART.highlight && !chartRows.some(isHL)){
-    for(var hi=0;hi<rows.length;hi++){ if(isHL(rows[hi])){ chartRows=chartRows.concat([rows[hi]]); break; } }
-  }
+  hlList().forEach(function(h){
+    if(chartRows.some(function(r){ return r.name===h || r.st===h; })) return;
+    for(var hi=0;hi<rows.length;hi++){
+      if(rows[hi].name===h || rows[hi].st===h){ chartRows=chartRows.concat([rows[hi]]); break; }
+    }
+  });
   var chRank=document.getElementById('chRank');
   if(chRank && chartRows.length && window.Chart){
     var labels=chartRows.map(rowLabel);
     var data=chartRows.map(function(r){return r.v;});
-    var colors=chartRows.map(function(r){return isHL(r)?GOLD:BLUE;});
+    var colors=chartRows.map(hlColor);
     new Chart(chRank,{type:'bar',
       data:{labels:labels,datasets:[{data:data,backgroundColor:colors}]},
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
@@ -620,10 +642,11 @@ const FIND=FIND_JSON;
   var trend=(DL&&DL.trend)||{};
   var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
   if(chTrend && window.Chart && keys.length){
-    var pretty={US:'United States',MA:'Massachusetts',Boston:'Boston'};
+    var pretty={US:'United States',MA:'Massachusetts',FL:'Florida',Boston:'Boston'};
     var trendMode=CHART.trend_mode||'level';
     function trendColor(k){
       if(k==='MA') return GOLD;
+      if(k==='FL') return STEEL;
       if(k==='Boston') return BLUE;
       if(k==='US') return INK;
       return BLUE;
@@ -784,7 +807,8 @@ const FIND=FIND_JSON;
       return String(v).replace(/</g,'');
     }
     tb.innerHTML=rows.map(function(r){
-      var hl=isHL(r)?' class="hl-ma"':'';
+      var cls=hlClass(r);
+      var hl=cls?' class="'+cls+'"':'';
       var key=((r.name||'')+' '+(r.st||'')).toLowerCase();
       var cells=cols.map(function(c){
         var cls=c.cls||(c.align==='n'?'n':'');

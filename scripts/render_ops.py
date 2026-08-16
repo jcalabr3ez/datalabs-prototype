@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Landing masthead marks the catalog as Beta",
+        "body": (
+            "The front door now reads DataLabs Beta. The supporting line "
+            "says this is an internal staff review. The browser tab and "
+            "share title say the same."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Ask box on, and darker New Releases tiles",
         "body": (
             "The front-door question box is on and sits in the dark header "

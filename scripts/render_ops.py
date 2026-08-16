@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Catalog tiles in Pioneer light blue",
+        "body": (
+            "Catalog rows now use Pioneer Institute's light blue "
+            "(#859DC1) instead of the header navy, so the directory "
+            "is lighter than the masthead. Type on those tiles is "
+            "navy. New Releases and the header are unchanged."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Masthead and footer use Pioneer blue",
         "body": (
             "The front-door heading and footer, and the heading on every "

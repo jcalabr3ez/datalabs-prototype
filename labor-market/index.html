@@ -24,6 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
 <link rel="stylesheet" href="/assets/suite.css">
+<link rel="stylesheet" href="/assets/ask-widget.css">
 </head>
 <body>
 <div class="wrap">
@@ -45,7 +46,16 @@ Jun 2026 · Revised 16 August 2026
 <!-- DATA:END labor-market-dateline -->
   </div>
 </header>
-<nav class="jump" aria-label="On this page"><span class="onlab">On this page</span><a href="#view-trend">The trend</a><a href="#view-rank">Across the fifty states</a><a href="#view-table">Every state</a></nav>
+<section class="ask-starters" id="ask-starters" data-tool="DL-14">
+  <div class="ask-k">Ask this page</div>
+  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="What is the unemployment rate in Massachusetts?"><span class="ask-who">General public</span><span class="ask-q">What is the unemployment rate in Massachusetts?</span></button><button type="button" class="ask-chip" data-q="How many UI initial claims did Massachusetts file last week?"><span class="ask-who">Journalist</span><span class="ask-q">How many UI initial claims did Massachusetts file last week?</span></button><button type="button" class="ask-chip" data-q="Is the unemployment rate seasonally adjusted, and is the wage figure from the same month?"><span class="ask-who">Researcher</span><span class="ask-q">Is the unemployment rate seasonally adjusted, and is the wage figure from the same month?</span></button><button type="button" class="ask-chip" data-q="What is the Massachusetts labor-force participation rate?"><span class="ask-who">Policymaker</span><span class="ask-q">What is the Massachusetts labor-force participation rate?</span></button></div>
+  <div class="askbar">
+    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
+    <button id="toolAskBtn" type="button">Ask</button>
+  </div>
+  <div class="ask-resp" id="toolAskResp" hidden></div>
+</section>
+<nav class="jump" aria-label="On this page"><span class="onlab">On this page</span><a href="#view-trend">The trend</a><a href="#view-rank">Across the fifty states</a><a href="#view-table">Every state</a><a href="#insight-qcew-wage">Wages</a><a href="#insight-ui-claims">UI claims</a><a href="#insight-lfpr">Participation</a></nav>
 
 
 <section id="finding" style="margin-top:28px">
@@ -99,39 +109,39 @@ District of Columbia leads the fifty states at <b>6.0%</b>; South Dakota is lowe
   </section>
   <section id="insights">
     <div class="insight-grid">
-    <div class="exhibit">
+    <div class="exhibit" id="insight-qcew-wage">
       <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t">Average weekly wage, all industries, 2025 Q4</span></div>
       <div class="plot-sm"><canvas id="chInsight0"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-614-02. <b>Unit:</b> dollars per week.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-ui-claims">
       <div class="ex-head"><span class="ex-n">Figure 3</span>
         <span class="ex-t">UI initial claims, week ending 2026-08-08</span></div>
       <div class="plot-sm"><canvas id="chInsight1"></canvas></div>
       <div class="note">ETA 539 cell C3. Massachusetts also reported 75,706 continued weeks claimed. The U.S. total is omitted so state bars remain readable.</div>
       <div class="srcline"><b>Source:</b> SRC-614-03. <b>Unit:</b> claims.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-lfpr">
       <div class="ex-head"><span class="ex-n">Figure 4</span>
         <span class="ex-t">Labor-force participation rate</span></div>
       <div class="plot-sm"><canvas id="chInsight2"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-614-04. <b>Unit:</b> percent.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-epop">
       <div class="ex-head"><span class="ex-n">Figure 5</span>
         <span class="ex-t">Employment-population ratio</span></div>
       <div class="plot-sm"><canvas id="chInsight3"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-614-04. <b>Unit:</b> percent.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-employment">
       <div class="ex-head"><span class="ex-n">Figure 6</span>
         <span class="ex-t">Employment level</span></div>
       <div class="plot-sm"><canvas id="chInsight4"></canvas></div>
       <div class="note">BLS LAUS statewide seasonally adjusted employment. The U.S. total is not in this file.</div>
       <div class="srcline"><b>Source:</b> SRC-614-04. <b>Unit:</b> people.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-qcew-emp">
       <div class="ex-head"><span class="ex-n">Figure 7</span>
         <span class="ex-t">Average monthly employment, all industries, 2025 Q4</span></div>
       <div class="plot-sm"><canvas id="chInsight5"></canvas></div>
@@ -263,6 +273,7 @@ Pioneer Institute DataLabs, State Unemployment, https://datalabsai.netlify.app/l
   <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
 </footer>
 </div>
+<script src="/assets/ask-widget.js"></script>
 
 <script>
 /* DATA:BEGIN labor-market-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */

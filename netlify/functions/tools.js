@@ -276,12 +276,14 @@ module.exports = [
   {
     id: 'DL-04',
     label: 'Retail electricity prices: all-sector average cents per kilowatthour by state, plus sales, generation, and capacity',
-    scope: 'Covers the all-sector average retail price of electricity by state and for the United States, plus retail sales, net generation, net summer capacity, and per-capita sales and generation, calendar years 2012 through the dataset data_year. The U.S. figure is EIA\'s published U.S. Total row, a sales-weighted all-sector average, never an unweighted mean of the state prices. Does NOT cover: residential, commercial, or industrial prices as separate series; utility, city, or customer-class rates; forecasts or what prices will do next year; bill calculators or rate-case advice; other fuels.',
+    scope: 'Covers the all-sector average retail price of electricity by state and for the United States, plus residential, commercial, and industrial averages from the same EIA-861 file, plus retail sales, net generation, net summer capacity, and per-capita sales and generation, calendar years 2012 through the dataset data_year. The U.S. figure is EIA\'s published U.S. Total row, a sales-weighted average, never an unweighted mean of the state prices. Does NOT cover: utility, city, or customer-class rates; forecasts or what prices will do next year; bill calculators or rate-case advice; other fuels.',
     triggers: [
       'electricity', 'electric', 'kilowatthour', 'kwh', 'cents per', 'retail price',
       'electricity price', 'electricity cost', 'power price', 'utility rate',
       'eia-861', 'form eia', 'all-sector', 'hawaii electricity',
-      'massachusetts electricity', 'state electricity'
+      'massachusetts electricity', 'state electricity', 'household',
+      'residential electricity', 'what does a household pay', 'commercial electricity',
+      'industrial electricity'
     ],
     dataset: DL04,
     coreSlice: function (d) {
@@ -290,6 +292,8 @@ module.exports = [
         vintage_note: d.vintage_note, source_id_map: d.source_id_map,
         entities: d.entities, latest: d.latest, latest_states: d.latest_states,
         derived: d.derived,
+        residential_states: d.residential_states,
+        residential_trend: d.residential_trend,
         price_trend_us: d.price_trend.US,
         price_trend_ma: d.price_trend.MA
       };
@@ -299,13 +303,14 @@ module.exports = [
       Object.keys(d).forEach(function (k) { if (k !== 'series') o[k] = d[k]; });
       return o;
     },
-    charts: ['price_rank', 'price_trend', 'sales_rank', 'gen_rank'],
-    views: ['prices', 'trends', 'supply', 'table'],
+    charts: ['price_rank', 'price_trend', 'sales_rank', 'gen_rank', 'res_rank'],
+    views: ['prices', 'trends', 'supply', 'table', 'households'],
     viewDefault: 'prices',
     highlight: { key: 'entities', uppercase: true, describe: 'the exact two-letter jurisdiction code (for example MA, HI, ND, US) if the question focuses on one state, else null' },
-    rules: 'DL-04 rules. Every figure cites its source in parentheses: prices and sales cite (SRC-401); generation cites (SRC-403); capacity cites (SRC-404); population and per-capita figures cite (SRC-402) or (derived, SRC-401, SRC-402). Ranks and year-over-year changes cite (derived, SRC-401). Prefer the precomputed values in latest, latest_states, and derived over your own arithmetic. The U.S. average is latest.us.price_cents, EIA\'s U.S. Total row; never average the 50 state prices. Prices are all-sector averages in cents per kilowatthour, not a household bill and not a residential-only rate. Chart selection: price_rank = comparing states or who pays the most or least; price_trend = change over time or since 2012; sales_rank = how much electricity was sold; gen_rank = how much was generated; none = no view fits. When the question names a state, set highlight to that state code. View selection: prices for the latest-year ranking; trends for the 2012-forward series; supply for sales or generation; table for the full latest-year table. Decline forecasts, utility-specific rates, residential-only rates, and bill advice.',
+    rules: 'DL-04 rules. Every figure cites its source in parentheses: prices and sales cite (SRC-401); generation cites (SRC-403); capacity cites (SRC-404); population and per-capita figures cite (SRC-402) or (derived, SRC-401, SRC-402). Ranks and year-over-year changes cite (derived, SRC-401). Prefer the precomputed values in latest, latest_states, derived.sectors, residential_states, and latest.residential over your own arithmetic. The U.S. all-sector average is latest.us.price_cents, EIA\'s U.S. Total row; never average the 50 state prices. Household questions use latest.residential and residential_states (price_cents on each row). Commercial and industrial averages sit in derived.sectors. A residential price is still not a household bill. Chart selection: res_rank = household or residential prices; price_rank = all-sector comparison; price_trend = change over time or since 2012; sales_rank = how much electricity was sold; gen_rank = how much was generated; none = no view fits. When the question names a state, set highlight to that state code. View selection: households for residential prices; prices for the all-sector ranking; trends for the 2012-forward series; supply for sales or generation; table for the full latest-year table. Decline forecasts, utility-specific rates, and bill advice.',
     link: function (p) {
       var chart = p.chart && p.chart !== 'none' ? p.chart : (p.view && p.view !== 'prices' ? p.view : 'price_rank');
+      if (chart === 'res_rank' || p.view === 'households') chart = 'households';
       var url = '/electricity/#view-' + chart;
       if (p.highlight) url += '&st=' + p.highlight;
       return url;
@@ -410,7 +415,7 @@ module.exports = [
       'fall 2024 enrollment',
       'elementary and secondary enrollment', 'naep', 'nations report card',
       'expulsion', 'expelled', 'out-of-school suspension',
-      'suspension by race'
+      'suspension by race', 'improved on naep', 'naep grade'
     ],
     extra: 'Graduation rates, out-of-school suspension shares, and expulsion shares sit in derived.secondary. Suspension and expulsion shares by race sit in derived.secondary.discipline_race_2020_21. In-school suspension is not a column on Digest 233.40: decline those. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.'
   }),
@@ -515,9 +520,10 @@ module.exports = [
     src: 'SRC-614-01',
     triggers: [
       'unemployment', 'unemployment rate', 'jobless', 'laus',
-      'labor force', 'seasonally adjusted unemployment',
+      'labor force', 'labor-force', 'seasonally adjusted unemployment',
       'ui claims', 'initial claims', 'unemployment insurance claims',
-      'labor force participation', 'employment-population', 'epop'
+      'labor force participation', 'labor-force participation',
+      'employment-population', 'epop'
     ],
     extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the U.S. wage there is derived from state sums. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. CPS age-sex-race detail is not posted: decline those.'
   }),
@@ -570,9 +576,10 @@ module.exports = [
     src: 'SRC-620-01',
     triggers: [
       'taxpayer migration', 'taxpayers leaving', 'filers leaving',
-      'irs migration', 'state-to-state migration', 'returns in and out'
+      'irs migration', 'state-to-state migration', 'returns in and out',
+      'where did massachusetts taxpayers', 'taxpayers move', 'went to florida'
     ],
-    extra: 'Census domestic migration sits on DL-17. Massachusetts county nets sit in derived.secondary.ma_county_taxpayer_migration_2022_23. Decline relocation advice.'
+    extra: 'Census domestic migration sits on DL-17. Massachusetts county nets sit in derived.secondary.ma_county_taxpayer_migration_2022_23. Origin-destination pairs, including Massachusetts to Florida, sit in derived.secondary.state_pair_flows_2022_23. Decline relocation advice.'
   }),
   suiteTool(DL21, {
     id: 'DL-21',
@@ -616,7 +623,8 @@ module.exports = [
     triggers: [
       'carbon dioxide', 'co2', 'energy emissions', 'emissions from energy',
       'state emissions', '2024 emissions', 'energy production',
-      'seds production', 'energy produce'
+      'seds production', 'energy produce', 'energy consumption',
+      'consumes', 'produce more energy'
     ],
     extra: 'Retail electricity prices sit on DL-04. SEDS consumption sits in derived.secondary.seds_consumption_2024. SEDS production sits in derived.secondary.seds_production_2024.'
   }),
@@ -682,7 +690,8 @@ module.exports = [
       'state employees', 'public employment', 'aspep',
       'government units', 'government organizations',
       'state and local revenue', 'state and local expenditure',
-      'aspp', 'public pension cash', 'public pension holdings'
+      'aspp', 'public pension cash', 'public pension holdings',
+      'rainy-day', 'rainy day', 'income tax share'
     ],
     extra: 'The Massachusetts type-of-tax split sits on DL-28. ASPEP 2023 state FTE employment sits in derived.secondary.aspep_fte_2023. Census STC FY 2023 totals and income-tax shares sit in derived.secondary.stc_2023. State-and-local revenue and expenditure sit in derived.secondary.aslg_revenue_2022 and aslg_expenditure_2022. Government-unit counts sit in derived.secondary.gov_units_2022. Public pension cash and investments sit in derived.secondary.aspp_holdings_2025. NASBO rainy-day funds and party dominance are pending. Massachusetts retirement boards sit on DL-05. Excludes D.C.'
   }),
@@ -721,7 +730,8 @@ module.exports = [
       'representative salary', 'senator salary', 'house speaker',
       'senate president', 'legislative stipend', 'legislative compensation',
       'general court pay', 'ma legislator', 'massachusetts legislator',
-      'how much are legislators', 'how much is the speaker'
+      'how much are legislators', 'how much is the speaker',
+      'gic health', 'office-expense', 'leadership premium'
     ],
     extra: 'Answer named Representative and Senator pay from the rows. Total pay is base plus AA1 (Comptroller supplemental) plus A14 (stipends). Employer-paid GIC health and MSERS pension contributions are not in this file: decline those as unpublished and do not invent them. The office-expense allowance is not a named column here. Calendar 2026 is year-to-date and is not the headline. Decline advice about a member. Statewide department payroll sits on DL-30. Retiree pensions sit on DL-05.'
   })

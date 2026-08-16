@@ -49,6 +49,8 @@ URL_SEDS = "https://www.eia.gov/state/seds/sep_use/total/csv/use_all_btu.csv"
 URL_QCEW = "https://data.bls.gov/cew/data/api/2025/4/industry/10.csv"
 URL_CO_OUT = "https://www.irs.gov/pub/irs-soi/countyoutflow2223.csv"
 URL_CO_IN = "https://www.irs.gov/pub/irs-soi/countyinflow2223.csv"
+URL_ST_OUT = "https://www.irs.gov/pub/irs-soi/stateoutflow2223.csv"
+URL_ST_IN = "https://www.irs.gov/pub/irs-soi/stateinflow2223.csv"
 URL_NTD = "https://data.transportation.gov/resource/8bui-9xvu.json"
 URL_CTHRU = "https://cthru.data.socrata.com/resource/9ttk-7vz6.json"
 URL_SPEND = "https://cthru.data.socrata.com/resource/pegc-naaa.json"
@@ -739,6 +741,108 @@ def _pack_county_rows(ranked, state_name, min_counties):
     }
 
 
+def _state_pair_rows(url):
+    """IRS SOI state outflow: y1 is origin FIPS, y2 is destination FIPS."""
+    rows = []
+    for r in csv.DictReader(io.StringIO(fetch_text(url))):
+        o_fips = str(r.get("y1_statefips") or "").strip().zfill(2)
+        d_fips = str(r.get("y2_statefips") or "").strip().zfill(2)
+        if d_fips in {"96", "97", "98"} or o_fips in {"96", "97", "98"}:
+            continue
+        origin = FIPS_TO_ST.get(o_fips)
+        dest = FIPS_TO_ST.get(d_fips)
+        if origin not in STATE_NAMES or dest not in STATE_NAMES:
+            continue
+        if origin == dest or origin == "US" or dest == "US":
+            continue
+        n1 = parse_num(r.get("n1"))
+        agi = parse_num(r.get("AGI") or r.get("agi"))
+        if n1 is None:
+            continue
+        rows.append({
+            "origin": origin,
+            "dest": dest,
+            "returns": int(round(n1)),
+            "agi": int(round(agi)) if agi is not None else None,
+        })
+    return rows
+
+
+def _top_from(rows, origin, key="dest", n=8):
+    picked = [r for r in rows if r["origin"] == origin]
+    picked.sort(key=lambda r: r["returns"], reverse=True)
+    out = []
+    for r in picked[:n]:
+        st = r[key]
+        item = {
+            "st": st,
+            "name": STATE_NAMES.get(st, st),
+            "returns": r["returns"],
+        }
+        if r.get("agi") is not None:
+            item["agi"] = r["agi"]
+        out.append(item)
+    return out
+
+
+def _top_into(rows, dest, n=8):
+    picked = [r for r in rows if r["dest"] == dest]
+    picked.sort(key=lambda r: r["returns"], reverse=True)
+    out = []
+    for r in picked[:n]:
+        item = {
+            "st": r["origin"],
+            "name": STATE_NAMES.get(r["origin"], r["origin"]),
+            "returns": r["returns"],
+        }
+        if r.get("agi") is not None:
+            item["agi"] = r["agi"]
+        out.append(item)
+    return out
+
+
+def _pair_cell(rows, origin, dest):
+    for r in rows:
+        if r["origin"] == origin and r["dest"] == dest:
+            cell = {"returns": r["returns"]}
+            if r.get("agi") is not None:
+                cell["agi"] = r["agi"]
+            return cell
+    return None
+
+
+def sec_state_pair_flows():
+    """Origin-destination taxpayer returns from the same IRS SOI state files."""
+    outflow = _state_pair_rows(URL_ST_OUT)
+    if len(outflow) < 2000:
+        sys.exit(f"FATAL: IRS state outflow pairs parsed {len(outflow)} rows")
+    ma_fl = _pair_cell(outflow, "MA", "FL")
+    fl_ma = _pair_cell(outflow, "FL", "MA")
+    if not ma_fl or not fl_ma:
+        sys.exit("FATAL: IRS state outflow missing the Massachusetts-Florida pair")
+    ma_out = _top_from(outflow, "MA")
+    fl_in = _top_into(outflow, "FL")
+    if not ma_out or ma_out[0]["st"] not in STATE_NAMES:
+        sys.exit("FATAL: IRS state outflow missing Massachusetts destinations")
+    return {
+        "label": "State-to-state taxpayer destinations, tax years 2022-23",
+        "src": "SRC-620-01",
+        "unit": "returns",
+        "as_of_label": "Tax years 2022-23",
+        "note": (
+            "Origin-destination returns from IRS SOI stateoutflow2223.csv. "
+            "Same-state, foreign, and Total Migration-US aggregate rows are "
+            "excluded. AGI is the published IRS column, in thousands of dollars."
+        ),
+        "ma_to_fl": ma_fl,
+        "fl_to_ma": fl_ma,
+        "ma_out_top": ma_out,
+        "ma_in_top": _top_into(outflow, "MA"),
+        "fl_in_top": fl_in,
+        "fl_out_top": _top_from(outflow, "FL"),
+    }
+
+
 def sec_county_migration_bundle():
     """Parse the two IRS county files once; return MA, FL, and U.S. packs."""
     ranked = _county_migration_nets()
@@ -836,7 +940,7 @@ SECONDARY = {
     "DL-14": lambda: {"qcew_avg_weekly_wage_2025q4": sec_qcew()},
     "DL-15": lambda: {"personal_income_2025": sec_personal_income()},
     "DL-16": lambda: {"fhfa_hpi_annual_change_2025": sec_fhfa()},
-    "DL-20": sec_county_migration_bundle,
+    "DL-20": lambda: {**sec_county_migration_bundle(), "state_pair_flows_2022_23": sec_state_pair_flows()},
     "DL-24": lambda: {"seds_consumption_2024": sec_seds()},
     "DL-27": lambda: {"boston_operating_budget_fy26": sec_boston_budget(), **sec_boston_earners()},
 }
@@ -960,6 +1064,21 @@ def lead_appendix(tool_id, sec):
                 f"({commify(us['highest']['v'])} returns) and "
                 f"<b>{us['lowest']['name']}</b> the largest net outflow "
                 f"({commify(us['lowest']['v'])}) (derived, SRC-620-02)."
+            )
+        pairs = sec.get("state_pair_flows_2022_23") or {}
+        ma_fl = pairs.get("ma_to_fl") or {}
+        top = (pairs.get("ma_out_top") or [{}])[0]
+        if ma_fl.get("returns") is not None and top.get("name"):
+            bits.append(
+                f"The largest destination for Massachusetts filers was "
+                f"<b>{top['name']}</b> at <b>{commify(top['returns'])}</b> "
+                f"returns (SRC-620-01)."
+                if top.get("st") == "FL"
+                else
+                f"The largest destination for Massachusetts filers was "
+                f"<b>{top['name']}</b> at <b>{commify(top['returns'])}</b> "
+                f"returns. Massachusetts to Florida was "
+                f"<b>{commify(ma_fl['returns'])}</b> returns (SRC-620-01)."
             )
         return " ".join(bits)
     if tool_id == "DL-24":

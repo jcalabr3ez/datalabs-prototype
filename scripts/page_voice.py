@@ -894,6 +894,19 @@ def voice_dl20(ledger):
         f"Among {commify(us_cty.get('n_counties') or 0)} U.S. counties, <b>{us_hi.get('name')}</b> gained the most returns and <b>{us_lo.get('name')}</b> lost the most (derived, SRC-620-02)." if us_hi.get("name") else
         f"<b>{hi.get('name')}</b> had the largest Massachusetts county inflow ({minus(hi.get('v'))} returns); <b>{lo.get('name')}</b> the largest outflow ({minus(lo.get('v'))}) (derived, SRC-620-02).",
     ]
+    pairs = sec(ledger, "state_pair_flows_2022_23")
+    top = (pairs.get("ma_out_top") or [{}])[0]
+    ma_fl = pairs.get("ma_to_fl") or {}
+    if top.get("name") and ma_fl.get("returns") is not None:
+        take.append(
+            f"The largest destination for Massachusetts filers was <b>{top['name']}</b> "
+            f"({commify(top.get('returns'))} returns) (SRC-620-01)."
+            if top.get("st") == "FL"
+            else
+            f"The largest destination for Massachusetts filers was <b>{top['name']}</b> "
+            f"({commify(top.get('returns'))} returns); Massachusetts to Florida was "
+            f"<b>{commify(ma_fl['returns'])}</b> returns (SRC-620-01)."
+        )
     kpis = [
         kpi("Net taxpayer flow, 2022-23", minus(ma.get("v")),
             f"{rank_txt(ma).capitalize()} (derived, SRC-620-01). {commify(ma.get('in'))} in, {commify(ma.get('out'))} out.",
@@ -1624,6 +1637,19 @@ def flagship_voice(tid, ledger):
                 "Massachusetts on the fifty-state ranking.",
                 "EIA Form EIA-861 (SRC-401)"),
         ]
+        res = latest.get("residential") or (ledger.get("latest") or {}).get("residential") or {}
+        res_ma = (res.get("ma") or {})
+        res_us = (res.get("us") or {})
+        if res_ma.get("price_cents") is not None:
+            take.append(
+                f"Households paid <b>{res_ma['price_cents']:.2f} cents</b> per kilowatthour "
+                f"in Massachusetts, {rank_txt(res_ma)} on the residential series "
+                f"(SRC-401). The U.S. residential average was "
+                f"{res_us.get('price_cents'):.2f} cents (SRC-401)."
+                if res_us.get("price_cents") is not None else
+                f"Households paid <b>{res_ma['price_cents']:.2f} cents</b> per kilowatthour "
+                f"in Massachusetts, {rank_txt(res_ma)} on the residential series (SRC-401)."
+            )
         if fl_p is not None:
             kpis_html_data.append(kpi(
                 f"Florida, {year}", f"{fl_p:.2f}\u00a2",
@@ -1643,6 +1669,12 @@ def flagship_voice(tid, ledger):
             f" Florida paid <b>{fl_p:.2f} cents</b>, {rank_txt(fl)} (derived, SRC-401)."
             if fl_p is not None else ""
         )
+        res_lead = ""
+        if res_ma.get("price_cents") is not None:
+            res_lead = (
+                f" Households paid <b>{res_ma['price_cents']:.2f} cents</b> in "
+                f"Massachusetts, {rank_txt(res_ma)} on the residential series (SRC-401)."
+            )
         return {
             "takeaways": take,
             "kpis": kpis_html_data,
@@ -1653,7 +1685,7 @@ def flagship_voice(tid, ledger):
                 f"The United States all-sector average was <b>{us_p:.2f} cents</b> per kilowatthour "
                 f"in {year}, {'up' if (us.get('yoy_pct') or 0) > 0 else 'down'} {abs(us.get('yoy_pct') or 0):.1f} percent "
                 f"from {year - 1} (SRC-401). Massachusetts paid <b>{ma_p:.2f} cents</b>, "
-                f"{rank_txt(ma)} (derived, SRC-401).{fl_lead} {hi.get('name')} was highest at "
+                f"{rank_txt(ma)} (derived, SRC-401).{fl_lead}{res_lead} {hi.get('name')} was highest at "
                 f"{hi.get('price_cents'):.2f} cents and {lo.get('name')} lowest at "
                 f"{lo.get('price_cents'):.2f} cents (SRC-401)."
             ),

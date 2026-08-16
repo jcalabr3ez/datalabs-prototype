@@ -24,6 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
 <link rel="stylesheet" href="/assets/suite.css">
+<link rel="stylesheet" href="/assets/ask-widget.css">
 </head>
 <body>
 <div class="wrap">
@@ -45,6 +46,15 @@ Fall 2022 · Revised 16 August 2026
 <!-- DATA:END higher-education-dateline -->
   </div>
 </header>
+<section class="ask-starters" id="ask-starters" data-tool="DL-08">
+  <div class="ask-k">Ask this page</div>
+  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="What is public 4-year in-state tuition in Massachusetts?"><span class="ask-who">General public</span><span class="ask-q">What is public 4-year in-state tuition in Massachusetts?</span></button><button type="button" class="ask-chip" data-q="Which states have the highest public 4-year in-state tuition?"><span class="ask-who">Journalist</span><span class="ask-q">Which states have the highest public 4-year in-state tuition?</span></button><button type="button" class="ask-chip" data-q="What share of Massachusetts graduates took the SAT, and is that the same as the national share?"><span class="ask-who">Researcher</span><span class="ask-q">What share of Massachusetts graduates took the SAT, and is that the same as the national share?</span></button><button type="button" class="ask-chip" data-q="How do Massachusetts higher-education appropriations compare with in-state tuition?"><span class="ask-who">Policymaker</span><span class="ask-q">How do Massachusetts higher-education appropriations compare with in-state tuition?</span></button></div>
+  <div class="askbar">
+    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
+    <button id="toolAskBtn" type="button">Ask</button>
+  </div>
+  <div class="ask-resp" id="toolAskResp" hidden></div>
+</section>
 <nav class="jump" aria-label="On this page"><span class="onlab">On this page</span><a href="#view-trend">The trend</a><a href="#view-rank">Across the fifty states</a><a href="#view-table">Every state</a></nav>
 
 
@@ -99,67 +109,67 @@ California leads the fifty states at <b>2,486,788</b>; Alaska is lowest at 20,15
   </section>
   <section id="insights">
     <div class="insight-grid">
-    <div class="exhibit">
+    <div class="exhibit" id="insight-enroll-compare">
       <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t">Fall 2022 postsecondary enrollment</span></div>
       <div class="plot-sm"><canvas id="chInsight0"></canvas></div>
       <div class="note">NCES Digest table 304.10. The U.S. bar is omitted when it dwarfs the states.</div>
       <div class="srcline"><b>Source:</b> SRC-608-01. <b>Unit:</b> students.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-sat-2023">
       <div class="ex-head"><span class="ex-n">Figure 3</span>
         <span class="ex-t">SAT mean total score, 2023 graduates</span></div>
       <div class="plot-sm"><canvas id="chInsight1"></canvas></div>
       <div class="note">Means are not comparable across states with very different participation rates.</div>
       <div class="srcline"><b>Source:</b> SRC-608-02. <b>Unit:</b> points.</div>
     </div>
-    <div class="exhibit span2">
+    <div class="exhibit span2" id="insight-faculty-ft">
       <div class="ex-head"><span class="ex-n">Figure 4</span>
         <span class="ex-t">Full-time faculty, Fall 2023 (national)</span></div>
       <div class="plot"><canvas id="chInsight2"></canvas></div>
       <div class="note">Digest 315.20 is full-time faculty only and has no state column. Digest 315.10 remains the all-faculty national count.</div>
       <div class="srcline"><b>Source:</b> SRC-608-05. <b>Unit:</b> faculty.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-he-faculty">
       <div class="ex-head"><span class="ex-n">Figure 5</span>
         <span class="ex-t">Public FTE faculty, Fall 2023</span></div>
       <div class="plot-sm"><canvas id="chInsight3"></canvas></div>
       <div class="note">NCES Digest table 314.50. The U.S. total is omitted so state bars remain readable.</div>
       <div class="srcline"><b>Source:</b> SRC-608-06. <b>Unit:</b> full-time-equivalent faculty.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-he-ratio">
       <div class="ex-head"><span class="ex-n">Figure 6</span>
         <span class="ex-t">FTE students per FTE faculty, Fall 2023</span></div>
       <div class="plot-sm"><canvas id="chInsight4"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-608-06. <b>Unit:</b> students per faculty.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-ipeds-6yr-state">
       <div class="ex-head"><span class="ex-n">Figure 7</span>
         <span class="ex-t">IPEDS 6-year bachelor&#x27;s graduation rate, 2017 cohort</span></div>
       <div class="plot-sm"><canvas id="chInsight5"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-608-12. <b>Unit:</b> percent.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-he-tuition">
       <div class="ex-head"><span class="ex-n">Figure 8</span>
         <span class="ex-t">Public 4-year in-state tuition and fees, 2022-23</span></div>
       <div class="plot-sm"><canvas id="chInsight6"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-608-09. <b>Unit:</b> dollars.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-he-approp">
       <div class="ex-head"><span class="ex-n">Figure 9</span>
         <span class="ex-t">State appropriations to public higher education, 2020-21</span></div>
       <div class="plot-sm"><canvas id="chInsight7"></canvas></div>
       <div class="note">NCES Digest table 333.30. The U.S. total is omitted so state bars remain readable.</div>
       <div class="srcline"><b>Source:</b> SRC-608-07. <b>Unit:</b> dollars.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-he-exp">
       <div class="ex-head"><span class="ex-n">Figure 10</span>
         <span class="ex-t">Public higher-education expenditures, 2020-21</span></div>
       <div class="plot-sm"><canvas id="chInsight8"></canvas></div>
       <div class="note">NCES Digest table 334.20. The U.S. total is omitted so state bars remain readable.</div>
       <div class="srcline"><b>Source:</b> SRC-608-08. <b>Unit:</b> dollars.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-he-ba">
       <div class="ex-head"><span class="ex-n">Figure 11</span>
         <span class="ex-t">Bachelor&#x27;s degrees conferred, 2020-21</span></div>
       <div class="plot-sm"><canvas id="chInsight9"></canvas></div>
@@ -299,6 +309,7 @@ Pioneer Institute DataLabs, College Enrollment, https://datalabsai.netlify.app/h
   <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
 </footer>
 </div>
+<script src="/assets/ask-widget.js"></script>
 
 <script>
 /* DATA:BEGIN higher-education-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */

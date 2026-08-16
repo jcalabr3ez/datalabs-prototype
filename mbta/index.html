@@ -27,6 +27,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
+<link rel="stylesheet" href="/assets/ask-widget.css">
 <style>
   /* ============ Pioneer DataLabs design system (matched to datalabs landing + State Wealth Taxes) ============ */
   /* brand tokens (color + type) come from /assets/datalabs.css; page-only scalars here */
@@ -322,6 +323,15 @@
   <div class="dateline">Data through June 2026 · Verified 11 August 2026</div>
 </header>
 
+<section class="ask-starters" id="ask-starters" data-tool="DL-03">
+  <div class="ask-k">Ask this page</div>
+  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="Is the T back to pre-pandemic ridership?"><span class="ask-who">General public</span><span class="ask-q">Is the T back to pre-pandemic ridership?</span></button><button type="button" class="ask-chip" data-q="Which MBTA mode is still furthest from June 2019 ridership?"><span class="ask-who">Journalist</span><span class="ask-q">Which MBTA mode is still furthest from June 2019 ridership?</span></button><button type="button" class="ask-chip" data-q="Are MBTA ridership figures unlinked passenger trips, and why is subway reliability not on this page?"><span class="ask-who">Researcher</span><span class="ask-q">Are MBTA ridership figures unlinked passenger trips, and why is subway reliability not on this page?</span></button><button type="button" class="ask-chip" data-q="What is MBTA farebox recovery by mode?"><span class="ask-who">Policymaker</span><span class="ask-q">What is MBTA farebox recovery by mode?</span></button></div>
+  <div class="askbar">
+    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
+    <button id="toolAskBtn" type="button">Ask</button>
+  </div>
+  <div class="ask-resp" id="toolAskResp" hidden></div>
+</section>
 
 <nav class="jump" aria-label="On this page">
   <a href="#view-ridership">Ridership</a>
@@ -584,6 +594,7 @@ year over year: 26,288,869 / 22,281,887 x 100 - 100 = +18.0%</code><div class="o
 
 </div><!-- /wrap -->
 
+<script src="/assets/ask-widget.js"></script>
 <script>
 /* ---- embed support: strip chrome and report height to the parent ---- */
 (function(){

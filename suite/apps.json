@@ -297,7 +297,7 @@
       "g": ["US", "MA", "FL"],
       "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
       "replaces": ["County to County Migration", "State to State Tax Migration", "Taxpayer Migration"],
-      "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties, Florida counties, and the largest U.S. county gains and losses.",
+      "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), reports origin-destination pair flows from the same state files (including Massachusetts to Florida), and also reports the same net for Massachusetts counties, Florida counties, and the largest U.S. county gains and losses.",
       "exclusions": "Does not cover Census domestic migration (that is State Migration) or advice about relocating for tax reasons.",
       "wave": "live",
       "sources": [

@@ -82,7 +82,7 @@
  {
   "id": "DL-04",
   "t": "Retail Electricity Prices",
-  "q": "What every state pays for a kilowatthour, all sectors combined, from EIA's annual record.",
+  "q": "What every state pays for a kilowatthour, including the household (residential) average, from EIA's annual record.",
   "g": [
    "US"
   ],
@@ -320,7 +320,7 @@
  {
   "id": "DL-20",
   "t": "Taxpayer Migration",
-  "q": "IRS state-to-state and county-to-county taxpayer flows.",
+  "q": "Where taxpayers moved, state to state and county to county, including Massachusetts destinations.",
   "g": [
    "US",
    "MA"

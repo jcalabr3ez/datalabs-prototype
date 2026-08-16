@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+from audience_starters import companion_jumps, starters_html
 from insight_figures import insight_figures
 from page_voice import census_place_names, display_lead, short_place_text, voice_for
 from suite_common import ROOT, catalog_dashboards, commify, load_apps, ledger_path, paper_dateline
@@ -152,8 +153,9 @@ def insight_html(insights, start=1):
         note_html = (
             "      <div class=\"note\">" + esc(note) + "</div>\n" if note else ""
         )
+        fid = fig.get("id") or ("fig" + str(start + i))
         blocks.append(
-            "    <div class=\"exhibit" + span + "\">\n"
+            "    <div class=\"exhibit" + span + "\" id=\"insight-" + esc(fid) + "\">\n"
             "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + str(start + i) + "</span>\n"
             "        <span class=\"ex-t\">" + esc(fig["title"]) + "</span></div>\n"
             "      <div class=\"" + hclass + "\""
@@ -873,6 +875,8 @@ def page_html(app, ledger, apps=None):
         if app["id"] == "DL-11":
             jump_links.append('<a href="#view-charity">Charity care</a>')
             jump_links.append('<a href="#view-districts">Legislative mapping</a>')
+        for label, href in companion_jumps(app["id"]):
+            jump_links.append('<a href="' + esc(href) + '">' + esc(label) + "</a>")
         jump = (
             '<nav class="jump" aria-label="On this page">'
             '<span class="onlab">On this page</span>'
@@ -1806,6 +1810,7 @@ EXTRA_TOOL_JS})();
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
 <link rel="stylesheet" href="/assets/suite.css">
+<link rel="stylesheet" href="/assets/ask-widget.css">
 </head>
 <body>
 <div class="wrap">
@@ -1827,7 +1832,7 @@ EXTRA_TOOL_JS})();
 <!-- DATA:END {slug}-dateline -->
   </div>
 </header>
-{jump}
+{starters_html(app["id"])}{jump}
 {latest_section}
 {table_section}{extra_section}
 {related_section}
@@ -1874,6 +1879,7 @@ EXTRA_TOOL_JS})();
   <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
 </footer>
 </div>
+<script src="/assets/ask-widget.js"></script>
 {js}
 </body>
 </html>

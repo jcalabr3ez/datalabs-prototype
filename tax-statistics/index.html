@@ -24,6 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
 <link rel="stylesheet" href="/assets/suite.css">
+<link rel="stylesheet" href="/assets/ask-widget.css">
 </head>
 <body>
 <div class="wrap">
@@ -45,6 +46,15 @@ Tax year 2022 · Revised 16 August 2026
 <!-- DATA:END tax-statistics-dateline -->
   </div>
 </header>
+<section class="ask-starters" id="ask-starters" data-tool="DL-21">
+  <div class="ask-k">Ask this page</div>
+  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="What is Massachusetts adjusted gross income?"><span class="ask-who">General public</span><span class="ask-q">What is Massachusetts adjusted gross income?</span></button><button type="button" class="ask-chip" data-q="What share of Massachusetts AGI is on returns of $1 million or more?"><span class="ask-who">Journalist</span><span class="ask-q">What share of Massachusetts AGI is on returns of $1 million or more?</span></button><button type="button" class="ask-chip" data-q="What tax year is the AGI file, and is there a percentile-by-state table?"><span class="ask-who">Researcher</span><span class="ask-q">What tax year is the AGI file, and is there a percentile-by-state table?</span></button><button type="button" class="ask-chip" data-q="Which Massachusetts county has the most AGI?"><span class="ask-who">Policymaker</span><span class="ask-q">Which Massachusetts county has the most AGI?</span></button></div>
+  <div class="askbar">
+    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
+    <button id="toolAskBtn" type="button">Ask</button>
+  </div>
+  <div class="ask-resp" id="toolAskResp" hidden></div>
+</section>
 <nav class="jump" aria-label="On this page"><span class="onlab">On this page</span><a href="#view-rank">Across the fifty states</a><a href="#view-table">Every state</a></nav>
 
 
@@ -84,39 +94,39 @@ California leads the fifty states at <b>$1.99 trillion</b>; Vermont is lowest at
   </section>
   <section id="insights">
     <div class="insight-grid">
-    <div class="exhibit span2">
+    <div class="exhibit span2" id="insight-county-agi">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
         <span class="ex-t">Massachusetts county adjusted gross income, tax year 2022</span></div>
       <div class="plot"><canvas id="chInsight0"></canvas></div>
       <div class="note">County AGI is the sum of SOI size-of-AGI stubs. Amounts in A00100 are thousands of dollars. A dedicated AGI-percentile-by-state file is not posted.</div>
       <div class="srcline"><b>Source:</b> SRC-621-02. <b>Unit:</b> dollars.</div>
     </div>
-    <div class="exhibit span2">
+    <div class="exhibit span2" id="insight-fl-county-agi">
       <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t">Florida county adjusted gross income, tax year 2022</span></div>
       <div class="plot"><canvas id="chInsight1"></canvas></div>
       <div class="note">County AGI is the sum of SOI size-of-AGI stubs. Amounts in A00100 are thousands of dollars. A dedicated AGI-percentile-by-state file is not posted.</div>
       <div class="srcline"><b>Source:</b> SRC-621-02. <b>Unit:</b> dollars.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-state-agi">
       <div class="ex-head"><span class="ex-n">Figure 3</span>
         <span class="ex-t">State adjusted gross income, tax year 2022</span></div>
       <div class="plot-sm"><canvas id="chInsight2"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-621-01. <b>Unit:</b> dollars.</div>
     </div>
-    <div class="exhibit span2">
+    <div class="exhibit span2" id="insight-agi-stubs">
       <div class="ex-head"><span class="ex-n">Figure 4</span>
         <span class="ex-t">Massachusetts AGI by size-of-AGI stub, tax year 2022</span></div>
       <div class="plot"><canvas id="chInsight3"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-621-03. <b>Unit:</b> percent of AGI.</div>
     </div>
-    <div class="exhibit span2">
+    <div class="exhibit span2" id="insight-fl-agi-stubs">
       <div class="ex-head"><span class="ex-n">Figure 5</span>
         <span class="ex-t">Florida AGI by size-of-AGI stub, tax year 2022</span></div>
       <div class="plot"><canvas id="chInsight4"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-621-03. <b>Unit:</b> percent of AGI.</div>
     </div>
-    <div class="exhibit">
+    <div class="exhibit" id="insight-agi-million">
       <div class="ex-head"><span class="ex-n">Figure 6</span>
         <span class="ex-t">Share of AGI on returns with $1 million or more, tax year 2022</span></div>
       <div class="plot-sm"><canvas id="chInsight5"></canvas></div>
@@ -246,6 +256,7 @@ Pioneer Institute DataLabs, Taxpayer Income, https://datalabsai.netlify.app/tax-
   <div class="flegal">Copyright &copy; 2026 Pioneer Institute. All rights reserved.</div>
 </footer>
 </div>
+<script src="/assets/ask-widget.js"></script>
 
 <script>
 /* DATA:BEGIN tax-statistics-data (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */

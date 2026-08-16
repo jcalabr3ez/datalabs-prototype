@@ -207,6 +207,9 @@ def inject_electricity(dl04, text, path):
         "latest": latest,
         "states": dl04["latest_states"],
         "price_trend": dl04["price_trend"],
+        "residential": (dl04.get("latest") or {}).get("residential"),
+        "residential_states": dl04.get("residential_states") or [],
+        "residential_trend": dl04.get("residential_trend") or {},
         "derived": {
             "highest_five": dl04["derived"]["highest_five"],
             "lowest_five": dl04["derived"]["lowest_five"],

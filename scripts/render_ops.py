@@ -62,6 +62,23 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Audience starters, household power prices, and taxpayer destinations",
+        "body": (
+            "Every live tool except State Wealth Taxes and Florida "
+            "Homeowners Insurance now opens with four starter questions, "
+            "one each for the general public, a journalist, a researcher, "
+            "and a policymaker, wired to the ask box. Retail Electricity "
+            "Prices now publishes the EIA-861 residential, commercial, and "
+            "industrial averages, so a household question has a household "
+            "number. Taxpayer Migration now names the largest destinations "
+            "from Massachusetts, including the Florida pair, from the same "
+            "IRS state files. Companion series already on Labor, Migration, "
+            "GDP, Energy, State Tax Collections, and the school tools sit "
+            "in the jump nav."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Ask box on, and darker New Releases tiles",
         "body": (
             "The front-door question box is on and sits in the dark header "

@@ -1326,6 +1326,35 @@ def figs_dl19(ledger):
 def figs_dl20(ledger):
     sec = _sec(ledger)
     out = []
+    pairs = sec.get("state_pair_flows_2022_23") or {}
+    dest = pairs.get("ma_out_top") or []
+    if dest:
+        ma_fl = pairs.get("ma_to_fl") or {}
+        top = dest[0]
+        fl_bit = ""
+        if ma_fl.get("returns") is not None and top.get("st") != "FL":
+            fl_bit = (
+                f" Massachusetts to Florida was {ma_fl['returns']:,} returns."
+            )
+        fig = named_list(
+            [{"name": r["name"], "v": r["returns"]} for r in dest],
+            "ma-destinations",
+            "Where Massachusetts taxpayers moved, 2022-23",
+            (
+                f"{top.get('name')} was the largest destination at "
+                f"{top.get('returns'):,} returns."
+                + fl_bit
+            ),
+            pairs.get("src") or "SRC-620-01",
+            "number", "returns",
+            pairs.get("note") or (
+                "Origin-destination returns from IRS SOI state outflow. "
+                "Same-state and foreign rows are excluded."
+            ),
+            n=8, span=2,
+        )
+        if fig:
+            out.append(fig)
     us = sec.get("us_county_taxpayer_migration_2022_23") or {}
     fig = named_list(
         us.get("chart"), "us-county-mig",

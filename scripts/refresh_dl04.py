@@ -119,12 +119,27 @@ def num(v):
     return float(s)
 
 
+# Year, STATE, then Residential / Commercial / Industrial / Transportation /
+# Total, each with revenue, sales, customers, price. Total price is column 21
+# (0-based); total sales is column 19.
+SECTOR_PRICE_COL = {
+    "residential": 5,
+    "commercial": 9,
+    "industrial": 13,
+    "total": 21,
+}
+SECTOR_SALES_COL = {
+    "residential": 3,
+    "commercial": 7,
+    "industrial": 11,
+    "total": 19,
+}
+
+
 def load_hs861(blob):
     import openpyxl
     wb = openpyxl.load_workbook(io.BytesIO(blob), data_only=True, read_only=True)
     ws = wb["Total Electric Industry"]
-    # Year, STATE, then 5 sectors x (rev, sales, customers, price).
-    # TOTAL price is column 21 (0-based), TOTAL sales column 19.
     out = {}
     for row in ws.iter_rows(min_row=4, values_only=True):
         year, st = row[0], row[1]
@@ -134,16 +149,155 @@ def load_hs861(blob):
         st = str(st).strip()
         if year < FIRST_YEAR or st not in STATE_NAMES:
             continue
-        price = num(row[21])
-        sales = num(row[19])
+        price = num(row[SECTOR_PRICE_COL["total"]])
+        sales = num(row[SECTOR_SALES_COL["total"]])
         if price is None or sales is None:
             continue
-        out[(year, st)] = {
+        rec = {
             "price_cents": round(price, 2),
             "sales_mwh": int(round(sales)),
         }
+        for name, col in SECTOR_PRICE_COL.items():
+            if name == "total":
+                continue
+            cents = num(row[col])
+            if cents is not None:
+                rec[name + "_cents"] = round(cents, 2)
+            sold = num(row[SECTOR_SALES_COL[name]])
+            if sold is not None:
+                rec[name + "_sales_mwh"] = int(round(sold))
+        out[(year, st)] = rec
     wb.close()
     return out
+
+
+def pack_sector_year(hs861, year, field):
+    """Rank 51 jurisdictions on one HS861 sector price. U.S. is EIA's row."""
+    ranked = []
+    us = None
+    for st, name in STATE_NAMES.items():
+        rec = hs861.get((year, st))
+        if not rec or rec.get(field) is None:
+            continue
+        if st == "US":
+            us = rec[field]
+            continue
+        ranked.append({"st": st, "name": name, "v": rec[field]})
+    if us is None or len(ranked) < 51:
+        return None
+    ranked.sort(key=lambda r: (-r["v"], r["st"]))
+    for i, rec in enumerate(ranked, 1):
+        rec["rank"] = i
+        rec["n"] = len(ranked)
+    ma = next((r for r in ranked if r["st"] == "MA"), None)
+    fl = next((r for r in ranked if r["st"] == "FL"), None)
+    return {
+        "year": year,
+        "us": us,
+        "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]} if ma else None,
+        "fl": {"v": fl["v"], "rank": fl["rank"], "n": fl["n"]} if fl else None,
+        "highest": {"st": ranked[0]["st"], "name": ranked[0]["name"], "v": ranked[0]["v"]},
+        "lowest": {"st": ranked[-1]["st"], "name": ranked[-1]["name"], "v": ranked[-1]["v"]},
+        "n_ranked": len(ranked),
+        "states": ranked,
+    }
+
+
+def sector_trend(hs861, st, field):
+    years = sorted({y for (y, s) in hs861 if s == st})
+    out = []
+    for y in years:
+        rec = hs861.get((y, st))
+        if rec and rec.get(field) is not None:
+            out.append({"y": y, "v": rec[field]})
+    return out
+
+
+def attach_sector_prices(ledger, hs861):
+    """Add residential, commercial, and industrial prices to an existing ledger."""
+    latest = ledger.get("data_year") or (ledger.get("latest") or {}).get("year")
+    if not latest:
+        sys.exit("FATAL: DL-04 ledger has no data_year")
+    packs = {}
+    for name in ("residential", "commercial", "industrial"):
+        pack = pack_sector_year(hs861, latest, name + "_cents")
+        if not pack:
+            sys.exit(f"FATAL: HS861 missing {name} prices for {latest}")
+        packs[name] = pack
+    res = packs["residential"]
+    if abs(res["us"] - 16.48) > 2 and latest == 2024:
+        # Residential sits above the all-sector average. Guard a wild parse.
+        if not (8 <= res["us"] <= 30):
+            sys.exit(f"FATAL: implausible U.S. residential price {res['us']}")
+    if not (8 <= res["us"] <= 40):
+        sys.exit(f"FATAL: implausible U.S. residential price {res['us']}")
+    ledger.setdefault("latest", {})["residential"] = {
+        "year": latest,
+        "us": {"price_cents": res["us"]},
+        "ma": {
+            "price_cents": res["ma"]["v"],
+            "rank": res["ma"]["rank"],
+            "n": res["ma"]["n"],
+        },
+        "fl": {
+            "price_cents": res["fl"]["v"],
+            "rank": res["fl"]["rank"],
+            "n": res["fl"]["n"],
+        } if res.get("fl") else None,
+        "highest": {
+            "st": res["highest"]["st"],
+            "name": res["highest"]["name"],
+            "price_cents": res["highest"]["v"],
+        },
+        "lowest": {
+            "st": res["lowest"]["st"],
+            "name": res["lowest"]["name"],
+            "price_cents": res["lowest"]["v"],
+        },
+    }
+    ledger["residential_states"] = [
+        {
+            "st": r["st"],
+            "name": r["name"],
+            "price_cents": r["v"],
+            "rank": r["rank"],
+        }
+        for r in res["states"]
+    ]
+    ledger["residential_trend"] = {
+        st: sector_trend(hs861, st, "residential_cents")
+        for st in ("US", "MA", "FL")
+    }
+    derived = ledger.setdefault("derived", {})
+    derived["sectors"] = {
+        name: {
+            "label": name.capitalize() + " average retail price, " + str(latest),
+            "src": "SRC-401",
+            "unit": "cents per kWh",
+            "us": packs[name]["us"],
+            "ma": packs[name]["ma"],
+            "fl": packs[name]["fl"],
+            "highest": packs[name]["highest"],
+            "lowest": packs[name]["lowest"],
+            "n_ranked": packs[name]["n_ranked"],
+        }
+        for name in ("residential", "commercial", "industrial")
+    }
+    scope = ledger.get("scope") or ""
+    scope = scope.replace(
+        "Does NOT cover: residential, commercial, or industrial prices as "
+        "separate published series on this page; ",
+        "Also covers residential, commercial, and industrial average prices "
+        "from the same EIA-861 Total Electric Industry file. Does NOT cover: ",
+    )
+    scope = scope.replace(
+        "Does NOT cover: residential, commercial, or industrial prices as "
+        "separate series; ",
+        "Also covers residential, commercial, and industrial average prices "
+        "from the same EIA-861 file. Does NOT cover: ",
+    )
+    ledger["scope"] = scope
+    return ledger
 
 
 def load_epa_210(blob):
@@ -399,10 +553,10 @@ def main():
             f"population figure joins, calendar years {FIRST_YEAR} through {latest}. "
             "The U.S. figure is EIA's published U.S. Total row, a sales-weighted "
             "all-sector average, never an unweighted mean of the state prices. "
-            "Does NOT cover: residential, commercial, or industrial prices as "
-            "separate published series on this page; utility, city, or customer "
-            "class rates; forecasts or what prices will do next year; bill "
-            "calculators or rate-case advice; other fuels."
+            "Also covers residential, commercial, and industrial average prices "
+            "from the same EIA-861 Total Electric Industry file. Does NOT cover: "
+            "utility, city, or customer class rates; forecasts or what prices "
+            "will do next year; bill calculators or rate-case advice; other fuels."
         ),
         "vintage_note": (
             f"Rebuilt from EIA Form EIA-861 historical state file (HS861 2010-), "
@@ -420,7 +574,7 @@ def main():
         "source_id_map": {
             "SRC-401": {
                 "label": "EIA Form EIA-861 / Electric Power Annual table 2.10",
-                "what": "All-sector average retail price (cents per kWh) and total retail sales (MWh) by state, including the U.S. Total row",
+                "what": "All-sector, residential, commercial, and industrial average retail prices (cents per kWh) and retail sales (MWh) by state, including the U.S. Total row",
                 "cadence": "Annual; Electric Power Annual and the EIA-861 historical state file typically land in October for the prior calendar year",
                 "url": "https://www.eia.gov/electricity/data/state/",
                 "epa_table": "https://www.eia.gov/electricity/annual/html/epa_02_10.html",
@@ -542,6 +696,7 @@ def main():
         new["page"]["revised"] = old["page"]["revised"]
     else:
         new["page"]["revised"] = page_revised
+    attach_sector_prices(new, hs861)
 
     LEDGER.parent.mkdir(parents=True, exist_ok=True)
     LEDGER.write_text(json.dumps(new, ensure_ascii=True, indent=1) + "\n", encoding="utf-8")

@@ -4,16 +4,16 @@
  "as_of": "2024-12",
  "data_year": 2024,
  "first_year": 2012,
- "scope": "Covers the all-sector average retail price of electricity by state and for the United States, plus retail sales, net generation, net summer capacity, and per-capita sales and generation where a Census population figure joins, calendar years 2012 through 2024. The U.S. figure is EIA's published U.S. Total row, a sales-weighted all-sector average, never an unweighted mean of the state prices. Does NOT cover: residential, commercial, or industrial prices as separate published series on this page; utility, city, or customer class rates; forecasts or what prices will do next year; bill calculators or rate-case advice; other fuels.",
+ "scope": "Covers the all-sector average retail price of electricity by state and for the United States, plus retail sales, net generation, net summer capacity, and per-capita sales and generation where a Census population figure joins, calendar years 2012 through 2024. The U.S. figure is EIA's published U.S. Total row, a sales-weighted all-sector average, never an unweighted mean of the state prices. Also covers residential, commercial, and industrial average prices from the same EIA-861 Total Electric Industry file. Does NOT cover: utility, city, or customer class rates; forecasts or what prices will do next year; bill calculators or rate-case advice; other fuels.",
  "vintage_note": "Rebuilt from EIA Form EIA-861 historical state file (HS861 2010-), Total Electric Industry, through 2024, on 2026-08-15 by scripts/refresh_dl04.py. All-sector prices and sales for 2023 and 2024 were checked cell-by-cell against Electric Power Annual table 2.10 (SRC-401). Generation is EIA-923 annual state totals (SRC-403). Net summer capacity is EIA-860 (SRC-404). Population is Census vintage 2025 for 2020 forward and the 2010-2020 vintage file for 2012-2019 (SRC-402). Massachusetts 2023 all-sector price 23.21 cents per kWh matches both EIA publications and the recovered Retail-Price Electricity extract.",
  "page": {
-  "revised": "Aug 15, 2026",
+  "revised": "Aug 16, 2026",
   "version": "1.0"
  },
  "source_id_map": {
   "SRC-401": {
    "label": "EIA Form EIA-861 / Electric Power Annual table 2.10",
-   "what": "All-sector average retail price (cents per kWh) and total retail sales (MWh) by state, including the U.S. Total row",
+   "what": "All-sector, residential, commercial, and industrial average retail prices (cents per kWh) and retail sales (MWh) by state, including the U.S. Total row",
    "cadence": "Annual; Electric Power Annual and the EIA-861 historical state file typically land in October for the prior calendar year",
    "url": "https://www.eia.gov/electricity/data/state/",
    "epa_table": "https://www.eia.gov/electricity/annual/html/epa_02_10.html",
@@ -7540,6 +7540,32 @@
    "st": "ND",
    "name": "North Dakota",
    "price_cents": 7.93
+  },
+  "residential": {
+   "year": 2024,
+   "us": {
+    "price_cents": 16.48
+   },
+   "ma": {
+    "price_cents": 29.35,
+    "rank": 3,
+    "n": 51
+   },
+   "fl": {
+    "price_cents": 14.14,
+    "rank": 33,
+    "n": 51
+   },
+   "highest": {
+    "st": "HI",
+    "name": "Hawaii",
+    "price_cents": 42.86
+   },
+   "lowest": {
+    "st": "ND",
+    "name": "North Dakota",
+    "price_cents": 11.51
+   }
   }
  },
  "latest_states": [
@@ -11423,6 +11449,561 @@
      "price_cents": 12.94
     }
    ]
+  },
+  "sectors": {
+   "residential": {
+    "label": "Residential average retail price, 2024",
+    "src": "SRC-401",
+    "unit": "cents per kWh",
+    "us": 16.48,
+    "ma": {
+     "v": 29.35,
+     "rank": 3,
+     "n": 51
+    },
+    "fl": {
+     "v": 14.14,
+     "rank": 33,
+     "n": 51
+    },
+    "highest": {
+     "st": "HI",
+     "name": "Hawaii",
+     "v": 42.86
+    },
+    "lowest": {
+     "st": "ND",
+     "name": "North Dakota",
+     "v": 11.51
+    },
+    "n_ranked": 51
+   },
+   "commercial": {
+    "label": "Commercial average retail price, 2024",
+    "src": "SRC-401",
+    "unit": "cents per kWh",
+    "us": 12.75,
+    "ma": {
+     "v": 20.9,
+     "rank": 6,
+     "n": 51
+    },
+    "fl": {
+     "v": 10.99,
+     "rank": 30,
+     "n": 51
+    },
+    "highest": {
+     "st": "HI",
+     "name": "Hawaii",
+     "v": 38.18
+    },
+    "lowest": {
+     "st": "ND",
+     "name": "North Dakota",
+     "v": 7.19
+    },
+    "n_ranked": 51
+   },
+   "industrial": {
+    "label": "Industrial average retail price, 2024",
+    "src": "SRC-401",
+    "unit": "cents per kWh",
+    "us": 8.13,
+    "ma": {
+     "v": 18.19,
+     "rank": 5,
+     "n": 51
+    },
+    "fl": {
+     "v": 8.5,
+     "rank": 20,
+     "n": 51
+    },
+    "highest": {
+     "st": "HI",
+     "name": "Hawaii",
+     "v": 34.13
+    },
+    "lowest": {
+     "st": "NM",
+     "name": "New Mexico",
+     "v": 5.43
+    },
+    "n_ranked": 51
+   }
   }
+ },
+ "residential_states": [
+  {
+   "st": "HI",
+   "name": "Hawaii",
+   "price_cents": 42.86,
+   "rank": 1
+  },
+  {
+   "st": "CA",
+   "name": "California",
+   "price_cents": 31.97,
+   "rank": 2
+  },
+  {
+   "st": "MA",
+   "name": "Massachusetts",
+   "price_cents": 29.35,
+   "rank": 3
+  },
+  {
+   "st": "CT",
+   "name": "Connecticut",
+   "price_cents": 28.75,
+   "rank": 4
+  },
+  {
+   "st": "RI",
+   "name": "Rhode Island",
+   "price_cents": 28.65,
+   "rank": 5
+  },
+  {
+   "st": "AK",
+   "name": "Alaska",
+   "price_cents": 24.82,
+   "rank": 6
+  },
+  {
+   "st": "NY",
+   "name": "New York",
+   "price_cents": 24.43,
+   "rank": 7
+  },
+  {
+   "st": "ME",
+   "name": "Maine",
+   "price_cents": 24.29,
+   "rank": 8
+  },
+  {
+   "st": "NH",
+   "name": "New Hampshire",
+   "price_cents": 23.4,
+   "rank": 9
+  },
+  {
+   "st": "VT",
+   "name": "Vermont",
+   "price_cents": 21.9,
+   "rank": 10
+  },
+  {
+   "st": "NJ",
+   "name": "New Jersey",
+   "price_cents": 19.34,
+   "rank": 11
+  },
+  {
+   "st": "MI",
+   "name": "Michigan",
+   "price_cents": 19.3,
+   "rank": 12
+  },
+  {
+   "st": "MD",
+   "name": "Maryland",
+   "price_cents": 17.86,
+   "rank": 13
+  },
+  {
+   "st": "PA",
+   "name": "Pennsylvania",
+   "price_cents": 17.77,
+   "rank": 14
+  },
+  {
+   "st": "DC",
+   "name": "District of Columbia",
+   "price_cents": 17.71,
+   "rank": 15
+  },
+  {
+   "st": "WI",
+   "name": "Wisconsin",
+   "price_cents": 17.18,
+   "rank": 16
+  },
+  {
+   "st": "DE",
+   "name": "Delaware",
+   "price_cents": 16.57,
+   "rank": 17
+  },
+  {
+   "st": "OH",
+   "name": "Ohio",
+   "price_cents": 15.99,
+   "rank": 18
+  },
+  {
+   "st": "IL",
+   "name": "Illinois",
+   "price_cents": 15.87,
+   "rank": 19
+  },
+  {
+   "st": "MN",
+   "name": "Minnesota",
+   "price_cents": 15.45,
+   "rank": 20
+  },
+  {
+   "st": "AL",
+   "name": "Alabama",
+   "price_cents": 15.18,
+   "rank": 21
+  },
+  {
+   "st": "WV",
+   "name": "West Virginia",
+   "price_cents": 15.07,
+   "rank": 22
+  },
+  {
+   "st": "NV",
+   "name": "Nevada",
+   "price_cents": 15.0,
+   "rank": 23
+  },
+  {
+   "st": "TX",
+   "name": "Texas",
+   "price_cents": 14.94,
+   "rank": 24
+  },
+  {
+   "st": "CO",
+   "name": "Colorado",
+   "price_cents": 14.92,
+   "rank": 25
+  },
+  {
+   "st": "AZ",
+   "name": "Arizona",
+   "price_cents": 14.91,
+   "rank": 26
+  },
+  {
+   "st": "IN",
+   "name": "Indiana",
+   "price_cents": 14.77,
+   "rank": 27
+  },
+  {
+   "st": "OR",
+   "name": "Oregon",
+   "price_cents": 14.7,
+   "rank": 28
+  },
+  {
+   "st": "VA",
+   "name": "Virginia",
+   "price_cents": 14.41,
+   "rank": 29
+  },
+  {
+   "st": "SC",
+   "name": "South Carolina",
+   "price_cents": 14.23,
+   "rank": 30
+  },
+  {
+   "st": "NM",
+   "name": "New Mexico",
+   "price_cents": 14.2,
+   "rank": 31
+  },
+  {
+   "st": "KS",
+   "name": "Kansas",
+   "price_cents": 14.15,
+   "rank": 32
+  },
+  {
+   "st": "FL",
+   "name": "Florida",
+   "price_cents": 14.14,
+   "rank": 33
+  },
+  {
+   "st": "NC",
+   "name": "North Carolina",
+   "price_cents": 14.13,
+   "rank": 34
+  },
+  {
+   "st": "GA",
+   "name": "Georgia",
+   "price_cents": 14.08,
+   "rank": 35
+  },
+  {
+   "st": "IA",
+   "name": "Iowa",
+   "price_cents": 13.4,
+   "rank": 36
+  },
+  {
+   "st": "MS",
+   "name": "Mississippi",
+   "price_cents": 13.39,
+   "rank": 37
+  },
+  {
+   "st": "MO",
+   "name": "Missouri",
+   "price_cents": 12.91,
+   "rank": 38
+  },
+  {
+   "st": "SD",
+   "name": "South Dakota",
+   "price_cents": 12.86,
+   "rank": 39
+  },
+  {
+   "st": "KY",
+   "name": "Kentucky",
+   "price_cents": 12.79,
+   "rank": 40
+  },
+  {
+   "st": "MT",
+   "name": "Montana",
+   "price_cents": 12.66,
+   "rank": 41
+  },
+  {
+   "st": "WY",
+   "name": "Wyoming",
+   "price_cents": 12.47,
+   "rank": 42
+  },
+  {
+   "st": "TN",
+   "name": "Tennessee",
+   "price_cents": 12.42,
+   "rank": 43
+  },
+  {
+   "st": "AR",
+   "name": "Arkansas",
+   "price_cents": 12.32,
+   "rank": 44
+  },
+  {
+   "st": "OK",
+   "name": "Oklahoma",
+   "price_cents": 12.24,
+   "rank": 45
+  },
+  {
+   "st": "UT",
+   "name": "Utah",
+   "price_cents": 12.22,
+   "rank": 46
+  },
+  {
+   "st": "WA",
+   "name": "Washington",
+   "price_cents": 11.9,
+   "rank": 47
+  },
+  {
+   "st": "LA",
+   "name": "Louisiana",
+   "price_cents": 11.73,
+   "rank": 48
+  },
+  {
+   "st": "NE",
+   "name": "Nebraska",
+   "price_cents": 11.53,
+   "rank": 49
+  },
+  {
+   "st": "ID",
+   "name": "Idaho",
+   "price_cents": 11.52,
+   "rank": 50
+  },
+  {
+   "st": "ND",
+   "name": "North Dakota",
+   "price_cents": 11.51,
+   "rank": 51
+  }
+ ],
+ "residential_trend": {
+  "US": [
+   {
+    "y": 2012,
+    "v": 11.88
+   },
+   {
+    "y": 2013,
+    "v": 12.13
+   },
+   {
+    "y": 2014,
+    "v": 12.52
+   },
+   {
+    "y": 2015,
+    "v": 12.65
+   },
+   {
+    "y": 2016,
+    "v": 12.55
+   },
+   {
+    "y": 2017,
+    "v": 12.89
+   },
+   {
+    "y": 2018,
+    "v": 12.87
+   },
+   {
+    "y": 2019,
+    "v": 13.01
+   },
+   {
+    "y": 2020,
+    "v": 13.15
+   },
+   {
+    "y": 2021,
+    "v": 13.66
+   },
+   {
+    "y": 2022,
+    "v": 15.04
+   },
+   {
+    "y": 2023,
+    "v": 16.0
+   },
+   {
+    "y": 2024,
+    "v": 16.48
+   }
+  ],
+  "MA": [
+   {
+    "y": 2012,
+    "v": 14.91
+   },
+   {
+    "y": 2013,
+    "v": 15.83
+   },
+   {
+    "y": 2014,
+    "v": 17.39
+   },
+   {
+    "y": 2015,
+    "v": 19.83
+   },
+   {
+    "y": 2016,
+    "v": 19.0
+   },
+   {
+    "y": 2017,
+    "v": 20.06
+   },
+   {
+    "y": 2018,
+    "v": 21.61
+   },
+   {
+    "y": 2019,
+    "v": 21.92
+   },
+   {
+    "y": 2020,
+    "v": 21.97
+   },
+   {
+    "y": 2021,
+    "v": 22.89
+   },
+   {
+    "y": 2022,
+    "v": 25.97
+   },
+   {
+    "y": 2023,
+    "v": 29.61
+   },
+   {
+    "y": 2024,
+    "v": 29.35
+   }
+  ],
+  "FL": [
+   {
+    "y": 2012,
+    "v": 11.42
+   },
+   {
+    "y": 2013,
+    "v": 11.27
+   },
+   {
+    "y": 2014,
+    "v": 11.89
+   },
+   {
+    "y": 2015,
+    "v": 11.58
+   },
+   {
+    "y": 2016,
+    "v": 10.98
+   },
+   {
+    "y": 2017,
+    "v": 11.61
+   },
+   {
+    "y": 2018,
+    "v": 11.54
+   },
+   {
+    "y": 2019,
+    "v": 11.7
+   },
+   {
+    "y": 2020,
+    "v": 11.27
+   },
+   {
+    "y": 2021,
+    "v": 11.9
+   },
+   {
+    "y": 2022,
+    "v": 13.9
+   },
+   {
+    "y": 2023,
+    "v": 15.21
+   },
+   {
+    "y": 2024,
+    "v": 14.14
+   }
+  ]
  }
 }

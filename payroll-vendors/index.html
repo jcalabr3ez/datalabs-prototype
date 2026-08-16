@@ -335,7 +335,7 @@ const FIND={"kind": "row", "cards": {"university of massachusetts system ums": {
     rankChart=new Chart(el,{type:'bar',
       data:payload,
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        layout:{padding:{right:64,top:6}},
+        layout:{padding:{right:72,top:6}},
         plugins:{legend:{display:false},
           tooltip:{callbacks:{
             title:function(items){var i=items[0]&&items[0].dataIndex; return (chartRows[i]&&chartRows[i].name)||'';},
@@ -408,7 +408,7 @@ const FIND={"kind": "row", "cards": {"university of massachusetts system ums": {
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
     new Chart(chTrend,{type:'line',data:{datasets:datasets},
       options:{responsive:true,maintainAspectRatio:false,
-        layout:{padding:{top:12,right:72}},
+        layout:{padding:{top:12,right:96}},
         plugins:{legend:{display:true,position:'top',align:'end'},
           tooltip:{callbacks:{label:function(c){
             if(trendMode==='pct_from_start'){
@@ -484,7 +484,7 @@ const FIND={"kind": "row", "cards": {"university of massachusetts system ums": {
     var nLab=(fig.labels||[]).length;
     var opts={
       responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:fig.type==='grouped'||fig.type==='line'?14:8,right:horiz||fig.type==='line'?64:16}},
+      layout:{padding:{top:fig.type==='grouped'?36:(fig.type==='line'?16:8),right:fig.type==='line'?96:(horiz?72:16)}},
       plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
         position:'top',align:'end'},
         tooltip:{callbacks:{

@@ -596,7 +596,7 @@ function drawTrend(){
     document.getElementById('fig2t').textContent='All-sector average retail price, United States, Massachusetts, Florida, and '+extraName+', 2012 to '+DL04.year;
   }
   var data={labels:us.map(function(e){return e.y;}),datasets:datasets};
-  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:64}},
+  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:12,right:96}},
     plugins:{legend:{display:true,position:'top',align:'end'},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y.toFixed(2)+' cents';}}}},
     scales:{y:Object.assign({},AY,{grace:'8%',title:axisTitle('Cents per kilowatt-hour'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'¢';}})}),

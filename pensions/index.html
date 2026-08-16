@@ -603,7 +603,7 @@ function drawTrend(){
       {label:name,data:align(selected),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2,spanGaps:true}
     ]
   };
-  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:72}},
+  var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:96}},
     plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
       tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+(c.parsed.y==null?'':c.parsed.y.toFixed(1)+' percent');}}}},
     scales:{y:Object.assign({},AY,{title:axisTitle('Funded ratio, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
@@ -620,7 +620,7 @@ function renderReturns(){
     data:{labels:rows.map(function(r){return r.name;}),
       datasets:[{data:rows.map(function(r){return r.return_1y_pct;}),
         backgroundColor:rows.map(function(r){return barColor(r.id);})}]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:72}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' percent';}}}},
       scales:{x:Object.assign({},AY,{beginAtZero:true,grace:'14%',title:axisTitle('One-year return, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
@@ -638,7 +638,7 @@ function renderRetirees(){
         {label:'MSERS',data:y.map(function(r){return r.msers.annual_amount/1e9;}),borderColor:INK,backgroundColor:'transparent'},
         {label:'MTRS',data:y.map(function(r){return r.mtrs.annual_amount/1e9;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2}
       ]},
-    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:72}},
+    options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:96}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},
         tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': $'+c.parsed.y.toFixed(2)+' billion';}}}},
       scales:{y:Object.assign({},AY,{title:axisTitle('Billion dollars'),ticks:Object.assign({},AY.ticks,{callback:function(v){return '$'+v+'b';}})}),

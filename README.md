@@ -3,8 +3,8 @@
 Live site: [datalabsai.netlify.app](https://datalabsai.netlify.app)
 
 Public catalog of Pioneer Institute data tools. Five flagships plus a
-27-application suite, all on one Netlify site. The ask box is off by
-default (`?ai=1` still previews it). Production deploys from `main`.
+27-application suite, all on one Netlify site. The ask box is on at the
+front door (`?ai=0` hides it). Production deploys from `main`.
 Merging a pull request is what publishes.
 
 | Tool | Page | Canonical ledger | How it refreshes |

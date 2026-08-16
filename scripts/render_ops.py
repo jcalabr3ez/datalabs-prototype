@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Ask box on, and darker New Releases tiles",
+        "body": (
+            "The front-door question box is on and sits in the dark header "
+            "band. The two New Releases tiles use the same dark field as "
+            "the masthead: white titles, steel supporting lines, gold for "
+            "the ask prompts. Questions still write to the site question "
+            "log. ?ai=0 hides the box."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "State maps show the ranking without a click",
         "body": (
             "The fifty-state map now uses five color classes so neighboring "
@@ -541,7 +552,7 @@ def status_body(rows):
   <h2>What this page reports</h2>
   <p class="lede">Vintage and refresh cadence for every DataLabs application. The colored dot in the catalog is the vintage of the data inside. This table adds the freshness gate and the job that is supposed to move it.</p>
   <p class="body-p">{live} applications are live. {build} are in build. {stale} {"is" if stale == 1 else "are"} past {"its" if stale == 1 else "their"} freshness gate. Table generated {TODAY_LABEL} from the ledgers in this repository.</p>
-  <p class="body-p">Questions asked at the front door are written to the site question log so the next tool can come from demand, not from a bigger catalog. Individual questions are not published here. The ask box stays off by default until the Monday eval has a green run against the live site.</p>
+  <p class="body-p">Questions asked at the front door are written to the site question log so the next tool can come from demand, not from a bigger catalog. Individual questions are not published here. The ask box is on at the front door. Use ?ai=0 to hide it.</p>
   <div class="scroll"><table>
     <thead><tr><th>Application</th><th>Status</th><th>Vintage</th><th>Freshness gate</th><th>Refresh</th></tr></thead>
     <tbody>

@@ -3,7 +3,7 @@
 Live site: [datalabsai.netlify.app](https://datalabsai.netlify.app)
 
 Public catalog of Pioneer Institute data tools. Five flagships plus a
-26-application suite, all on one Netlify site. The ask box is off by
+27-application suite, all on one Netlify site. The ask box is off by
 default (`?ai=1` still previews it). Production deploys from `main`.
 Merging a pull request is what publishes.
 
@@ -14,7 +14,7 @@ Merging a pull request is what publishes.
 | DL-03 Transportation & MBTA | `/mbta/` | `netlify/functions/dl03-answers.json` | Monthly GitHub Action. Script: `scripts/refresh_dl03.py` |
 | DL-04 Retail Electricity Prices | `/electricity/` | `netlify/functions/dl04-answers.json` | Yearly GitHub Action, October. Script: `scripts/refresh_dl04.py` |
 | DL-05 Massachusetts Public Pensions | `/pensions/` | `netlify/functions/dl05-answers.json` | Monthly GitHub Action for CTHRU retirees and name search (`scripts/refresh_dl05.py`). Research pass when PERAC posts a new Investment Report: `scripts/dl05-research-pass.md`. `scripts/build_dl05.py` is the one-time compiler from the partner extracts, not a publisher refresh. |
-| DL-06 to DL-31 (26 apps) | see `suite/apps.json` | `netlify/functions/dlXX-answers.json` | Monthly GitHub Action (`scripts/refresh_suite.py`). Live builders fetch public files. 340B and Patents stay in-build stubs. No invented figures. |
+| DL-06 to DL-32 (27 apps) | see `suite/apps.json` | `netlify/functions/dlXX-answers.json` | Monthly GitHub Action (`scripts/refresh_suite.py`). Live builders fetch public files. 340B and Patents stay in-build stubs. No invented figures. |
 
 Public ops pages: [`/status/`](https://datalabsai.netlify.app/status/) (vintage and freshness) and [`/changelog/`](https://datalabsai.netlify.app/changelog/). Chart.js 4.4.1 (MIT) is vendored at `assets/chart.umd.min.js`.
 

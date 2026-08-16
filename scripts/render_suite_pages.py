@@ -142,8 +142,9 @@ RELATED_PAIRS = {
     "DL-27": ["DL-25", "DL-26"],
     "DL-28": ["DL-29", "DL-30"],
     "DL-29": ["DL-28", "DL-21"],
-    "DL-30": ["DL-28", "DL-27"],
+    "DL-30": ["DL-32", "DL-28"],
     "DL-31": ["DL-26"],
+    "DL-32": ["DL-30", "DL-28", "DL-05"],
 }
 
 FLAGSHIP_LINKS = {
@@ -212,6 +213,7 @@ def chart_spec(app, ledger):
         "DL-27": ("department", 12, "Boston Police Department"),
         "DL-28": ("tax type", n_rows or 12, "Total Taxes"),
         "DL-30": ("department", 12, None),
+        "DL-32": ("legislator", 12, None),
     }
     if tid in named:
         geo, n_chart, highlight = named[tid]
@@ -254,6 +256,7 @@ def chart_spec(app, ledger):
         "city or town": "Every city or town",
         "department": "Every department",
         "tax type": "Every tax type",
+        "legislator": "Every legislator",
     }.get(geo, "Every row")
     col_name = {
         "state": "State",
@@ -262,6 +265,7 @@ def chart_spec(app, ledger):
         "city or town": "City or town",
         "department": "Department",
         "tax type": "Tax type",
+        "legislator": "Legislator",
     }.get(geo, "Name")
     return {
         "geo": geo,

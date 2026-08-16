@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Later views and remaining stub builders for the 26-app suite.
+"""Later views and remaining stub builders for the suite.
 
 Each helper fetches a public file and returns verified figures only.
 Nothing here invents a cell. Apps whose files are still blocked stay stubs.
@@ -1300,7 +1300,8 @@ def build_payroll(app):
         vintage_note=(
             f"Rebuilt {REVISED} from CTHRU Commonwealth Of Massachusetts Payroll "
             f"v4 (Socrata 9ttk-7vz6), calendar 2025, summed by department_division. "
-            f"Named employees are not published here. Spending is the Comptroller "
+            f"Named employees are not published here; named House and Senate pay "
+            f"sits on Legislature Pay. Spending is the Comptroller "
             f"file pegc-naaa, budget fiscal year 2025, all object classes. "
             f"Calendar 2026 payroll is year-to-date and is not the headline."
         ),
@@ -1329,8 +1330,259 @@ def build_payroll(app):
     )
 
 
+# Two-path checks against a prior complete pull of calendar 2025.
+VERIFY_LEG_2025_TOTAL = 26508845.89
+VERIFY_LEG_2025_TOP = 223719.88
+VERIFY_LEG_HOUSE_N = 179
+VERIFY_LEG_SENATE_N = 43
+VERIFY_LEG_HOUSE_MEDIAN = 111864.14
+VERIFY_LEG_SENATE_MEDIAN = 156726.07
+
+
+def _median(vals):
+    nums = sorted(v for v in vals if v is not None)
+    n = len(nums)
+    if n == 0:
+        return None
+    if n % 2:
+        return nums[n // 2]
+    return (nums[n // 2 - 1] + nums[n // 2]) / 2
+
+
+def _title_name(part):
+    text = (part or "").strip()
+    if not text:
+        return ""
+    if text.isupper() or text.islower():
+        return text.title()
+    return text
+
+
+def _leg_pay(row, key):
+    v = parse_num(row.get(key))
+    return 0.0 if v is None else float(v)
+
+
+def build_legislature_pay(app):
+    """DL-32: named House and Senate pay from CTHRU, calendar 2025."""
+    raw = _soda(URL_CTHRU, {
+        "$select": (
+            "name_first,name_last,department_code,position_title,"
+            "pay_base_actual,aa1,a14,pay_other_actual,pay_total_actual,"
+            "annual_rate,year"
+        ),
+        "$where": (
+            "year='2025' AND department_code in('HOU','SEN') "
+            "AND position_title in('Representative','Senator')"
+        ),
+        "$limit": "5000",
+    })
+    if not raw:
+        sys.exit("FATAL: CTHRU legislator payroll returned no calendar 2025 rows")
+    house = [
+        r for r in raw
+        if r.get("department_code") == "HOU" and r.get("position_title") == "Representative"
+    ]
+    senate = [
+        r for r in raw
+        if r.get("department_code") == "SEN" and r.get("position_title") == "Senator"
+    ]
+    if len(house) != VERIFY_LEG_HOUSE_N:
+        sys.exit(f"FATAL: House Representative rows {len(house)}, expected {VERIFY_LEG_HOUSE_N}")
+    if len(senate) != VERIFY_LEG_SENATE_N:
+        sys.exit(f"FATAL: Senate Senator rows {len(senate)}, expected {VERIFY_LEG_SENATE_N}")
+
+    total = sum(_leg_pay(r, "pay_total_actual") for r in raw)
+    base = sum(_leg_pay(r, "pay_base_actual") for r in raw)
+    a14 = sum(_leg_pay(r, "a14") for r in raw)
+    aa1 = sum(_leg_pay(r, "aa1") for r in raw)
+    if abs(total - VERIFY_LEG_2025_TOTAL) > 0.05:
+        sys.exit(f"FATAL: legislator 2025 total {total}, expected {VERIFY_LEG_2025_TOTAL}")
+
+    house_pays = [_leg_pay(r, "pay_total_actual") for r in house]
+    senate_pays = [_leg_pay(r, "pay_total_actual") for r in senate]
+    house_med = _median(house_pays)
+    senate_med = _median(senate_pays)
+    if house_med is None or abs(house_med - VERIFY_LEG_HOUSE_MEDIAN) > 0.05:
+        sys.exit(f"FATAL: House median {house_med}, expected {VERIFY_LEG_HOUSE_MEDIAN}")
+    if senate_med is None or abs(senate_med - VERIFY_LEG_SENATE_MEDIAN) > 0.05:
+        sys.exit(f"FATAL: Senate median {senate_med}, expected {VERIFY_LEG_SENATE_MEDIAN}")
+
+    grouped = defaultdict(list)
+    for r in raw:
+        key = (
+            (r.get("name_first") or "").strip().lower(),
+            (r.get("name_last") or "").strip().lower(),
+        )
+        grouped[key].append(r)
+
+    display_used = set()
+    values = {}
+    extras = {}
+    for recs in grouped.values():
+        first = _title_name(recs[0].get("name_first"))
+        last = _title_name(recs[0].get("name_last"))
+        name = " ".join(p for p in (first, last) if p)
+        if name in display_used:
+            sys.exit(f"FATAL: duplicate legislator display name {name}")
+        display_used.add(name)
+        tot = sum(_leg_pay(r, "pay_total_actual") for r in recs)
+        base_p = sum(_leg_pay(r, "pay_base_actual") for r in recs)
+        a14_p = sum(_leg_pay(r, "a14") for r in recs)
+        aa1_p = sum(_leg_pay(r, "aa1") for r in recs)
+        depts = {r.get("department_code") for r in recs}
+        titles = {r.get("position_title") for r in recs}
+        primary = max(recs, key=lambda r: _leg_pay(r, "pay_total_actual"))
+        if depts == {"HOU", "SEN"} or titles == {"Representative", "Senator"}:
+            chamber = "House and Senate"
+            title = "Representative and Senator"
+        elif primary.get("department_code") == "SEN" or primary.get("position_title") == "Senator":
+            chamber = "Senate"
+            title = "Senator"
+        else:
+            chamber = "House"
+            title = "Representative"
+        values[name] = tot
+        extras[name] = {
+            "base": round(base_p, 2),
+            "a14": round(a14_p, 2),
+            "aa1": round(aa1_p, 2),
+            "chamber": chamber,
+            "title": title,
+            "first": first,
+            "last": last,
+            "n_stints": len(recs),
+            "annual_rate": round(max(_leg_pay(r, "annual_rate") for r in recs), 2),
+        }
+
+    ranked = rank_named(values, higher_is_better=True, st_key=lambda n: extras[n]["last"][:8])
+    for rec in ranked:
+        rec.update(extras[rec["name"]])
+        rec["v"] = round(rec["v"], 2)
+
+    top = ranked[0]
+    if abs(top["v"] - VERIFY_LEG_2025_TOP) > 0.05:
+        sys.exit(f"FATAL: top legislator pay {top['v']}, expected {VERIFY_LEG_2025_TOP}")
+    tied = [r for r in ranked if abs(r["v"] - VERIFY_LEG_2025_TOP) <= 0.05]
+    if len(tied) < 2:
+        sys.exit(f"FATAL: expected Speaker and Senate President tie at {VERIFY_LEG_2025_TOP}")
+
+    y2026 = _soda(URL_CTHRU, {
+        "$select": "count(*) as n,sum(pay_total_actual) as pay",
+        "$where": (
+            "year='2026' AND department_code in('HOU','SEN') "
+            "AND position_title in('Representative','Senator')"
+        ),
+    })
+    ytd_n = int(float((y2026[0] or {}).get("n") or 0)) if y2026 else 0
+    ytd_pay = parse_num((y2026[0] or {}).get("pay")) if y2026 else None
+
+    as_of = "2025-12"
+    as_of_label = "Calendar year 2025"
+    hi_names = " and ".join(r["name"] for r in tied[:2])
+    kpis = [
+        _kpi(
+            "Highest 2025 pay",
+            usd_prose(VERIFY_LEG_2025_TOP),
+            f"{hi_names}, the House Speaker and Senate President (SRC-632-01).",
+            "Leadership extras sit in the Comptroller supplemental (AA1) bucket.",
+            "CTHRU named House and Senate payroll (SRC-632-01)",
+        ),
+        _kpi(
+            "House median, 2025",
+            usd_prose(house_med),
+            f"{commify(len(house))} Representative rows on the House payroll (SRC-632-01).",
+            "The typical House check, including partial-year replacements.",
+            "CTHRU named House and Senate payroll (SRC-632-01)",
+        ),
+        _kpi(
+            "Senate median, 2025",
+            usd_prose(senate_med),
+            f"{commify(len(senate))} Senator rows on the Senate payroll (SRC-632-01).",
+            "The typical Senate check, including partial-year replacements.",
+            "CTHRU named House and Senate payroll (SRC-632-01)",
+        ),
+    ]
+    lead = (
+        f"People paid as a Massachusetts Representative or Senator received "
+        f"<b>{usd_prose(total)}</b> in calendar 2025 (SRC-632-01). "
+        f"<b>{hi_names}</b> each received <b>{usd_prose(VERIFY_LEG_2025_TOP)}</b>, "
+        f"the House Speaker and Senate President totals (SRC-632-01). "
+        f"The House median was <b>{usd_prose(house_med)}</b>; the Senate median "
+        f"was <b>{usd_prose(senate_med)}</b> (SRC-632-01). Employer-paid health "
+        f"and pension contributions are not named-employee lines on this file."
+    )
+    components = [
+        {"name": "Base salary", "v": round(base, 2)},
+        {"name": "Supplemental (AA1)", "v": round(aa1, 2)},
+        {"name": "Stipends (A14)", "v": round(a14, 2)},
+    ]
+    ledger = finish_live(
+        app,
+        as_of=as_of,
+        as_of_label=as_of_label,
+        vintage_note=(
+            f"Rebuilt Aug 16, 2026 from CTHRU Commonwealth Of Massachusetts Payroll "
+            f"v4 (Socrata 9ttk-7vz6), calendar 2025. Rows are people with "
+            f"department_code HOU or SEN and position_title Representative or "
+            f"Senator. Directory rows collapse one person across chambers. "
+            f"{len(raw)} payroll rows become {len(ranked)} people because of "
+            f"mid-year replacements and chamber switches. Total pay equals "
+            f"base plus AA1 (Comptroller Salaries, supplemental) plus A14 "
+            f"(Stipends, bonus pay, and awards). Buyout and overtime are $0 "
+            f"on these rows. Employer-paid GIC and MSERS amounts are not on "
+            f"this file. Calendar 2026 is year-to-date "
+            f"({commify(ytd_n)} rows"
+            + (f", {usd_prose(ytd_pay)}" if ytd_pay is not None else "")
+            + ") and is not the headline."
+        ),
+        metric="ma_legislator_pay_2025",
+        metric_label="Massachusetts legislator pay, calendar 2025",
+        unit="dollars",
+        lead=lead,
+        kpis=kpis,
+        ranked=ranked,
+        trend={},
+        latest={
+            "total": round(total, 2),
+            "base": round(base, 2),
+            "a14": round(a14, 2),
+            "aa1": round(aa1, 2),
+            "n_people": len(ranked),
+            "n_rows": len(raw),
+            "house": {
+                "n": len(house),
+                "median": house_med,
+                "total": round(sum(house_pays), 2),
+            },
+            "senate": {
+                "n": len(senate),
+                "median": senate_med,
+                "total": round(sum(senate_pays), 2),
+            },
+            "highest": [
+                {"name": r["name"], "v": r["v"], "chamber": r["chamber"], "title": r["title"]}
+                for r in tied
+            ],
+            "components": components,
+            "ytd_2026": {"n": ytd_n, "pay": ytd_pay},
+        },
+        src_note="SRC-632-01",
+        extra={"derived": {
+            "components": components,
+            "chamber_medians": [
+                {"name": "House median", "v": house_med},
+                {"name": "Senate median", "v": senate_med},
+            ],
+        }},
+    )
+    ledger["page"]["revised"] = "Aug 16, 2026"
+    return ledger
+
+
 BUILDERS = {
     "DL-10": build_hospitals,
     "DL-22": build_transit,
     "DL-30": build_payroll,
+    "DL-32": build_legislature_pay,
 }

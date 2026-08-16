@@ -1250,6 +1250,55 @@ def figs_dl31(ledger):
     return out
 
 
+def figs_dl32(ledger):
+    latest = ledger.get("latest") or {}
+    derived = ledger.get("derived") or {}
+    out = []
+    fig = named_list(
+        latest.get("components") or derived.get("components"),
+        "components",
+        "Massachusetts legislator payroll by component, calendar 2025",
+        "Base salary, Comptroller supplemental (AA1), and stipends (A14). Employer-paid health and pension contributions are not in this file.",
+        "SRC-632-01",
+        "usd",
+        "dollars",
+        "CTHRU named payroll for Representative and Senator titles, calendar 2025.",
+        n=3,
+        span=2,
+    )
+    if fig:
+        out.append(fig)
+    fig = named_list(
+        derived.get("chamber_medians"),
+        "chamber-median",
+        "House and Senate median pay, calendar 2025",
+        "Medians are from the published Representative and Senator rows, including partial-year replacements.",
+        "SRC-632-01",
+        "usd",
+        "dollars",
+        "CTHRU named House and Senate payroll, calendar 2025.",
+        n=2,
+        span=1,
+    )
+    if fig:
+        out.append(fig)
+    fig = named_list(
+        ledger.get("rows"),
+        "top-pay",
+        "Highest legislator pay, calendar 2025",
+        "Speaker and Senate President sit at the top. Type a name in the table to open the component card.",
+        "SRC-632-01",
+        "usd",
+        "dollars",
+        "CTHRU named House and Senate payroll, calendar 2025.",
+        n=8,
+        span=1,
+    )
+    if fig:
+        out.append(fig)
+    return out
+
+
 DISPATCH = {
     "DL-06": figs_dl06,
     "DL-07": figs_dl07,
@@ -1275,6 +1324,7 @@ DISPATCH = {
     "DL-29": figs_dl29,
     "DL-30": figs_dl30,
     "DL-31": figs_dl31,
+    "DL-32": figs_dl32,
 }
 
 

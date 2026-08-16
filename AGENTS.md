@@ -6,7 +6,7 @@ pull requests**. They do not merge and they do not push `main`.
 ## Canonical files (edit these)
 
 - `catalog.json`
-- `suite/apps.json` (the 26-app registry; do not invent a 27th without a source)
+- `suite/apps.json` (the suite registry; do not invent an app without a source)
 - `netlify/functions/dl01-answers.json`
 - `netlify/functions/dl02-answers.json`
 - `netlify/functions/dl03-answers.json`
@@ -44,7 +44,7 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   `scripts/dl05-research-pass.md`. Update an existing PR only if it is a
   draft whose title starts with `DL-05`. Do not invent a fetch for the
   Investment Report; that source is a PDF.
-- **Suite (DL-06 to DL-31):** `.github/workflows/suite-refresh.yml`
+- **Suite (DL-06 to DL-32):** `.github/workflows/suite-refresh.yml`
   already opens a monthly PR from `scripts/refresh_suite.py` (first-wave
   builders plus later public-file builders; 340B and Patents stay stubs).
   Do not invent a second suite refresh. Do not mark a stub `live` or

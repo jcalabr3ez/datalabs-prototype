@@ -1,4 +1,4 @@
-"""Shared helpers for the 26-app suite: states, fetch, money, ledger I/O."""
+"""Shared helpers for the suite: states, fetch, money, ledger I/O."""
 from __future__ import annotations
 
 import json

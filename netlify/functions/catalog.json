@@ -513,5 +513,19 @@
   "group": "Crime & Justice",
   "vint": "Year-end 2023",
   "ma": "imprisonment rate 96, rank 50 of 50"
+ },
+ {
+  "id": "DL-32",
+  "t": "Legislature Pay",
+  "q": "Salary, supplemental pay, and stipends for every Massachusetts representative and senator.",
+  "g": [
+   "MA"
+  ],
+  "st": "live",
+  "url": "/legislature-pay/",
+  "ai": true,
+  "group": "State Government & Spending",
+  "vint": "Calendar year 2025",
+  "ma": "Speaker and Senate President $223,720 each"
  }
 ]

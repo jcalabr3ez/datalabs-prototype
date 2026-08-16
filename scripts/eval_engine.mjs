@@ -83,6 +83,7 @@ const GOLDEN = [
   ["Which state collected the most tax last quarter?", ["answer"], "DL-29"],
   ["How much is Commonwealth payroll?", ["answer"], "DL-30"],
   ["How many prisoners does Massachusetts hold?", ["answer"], "DL-31"],
+  ["How much is the Massachusetts House Speaker paid?", ["answer"], "DL-32"],
 ];
 
 let failures = 0;

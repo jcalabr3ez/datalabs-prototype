@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-08-15",
-  "note": "The 26 new applications that replace the Tableau suite. The five flagships (DL-01 to DL-05) stay frozen. Each app sits in one of the four Pioneer verticals.",
+  "as_of": "2026-08-16",
+  "note": "The 27 new applications that replace the Tableau suite, plus Legislature Pay. The five flagships (DL-01 to DL-05) stay frozen. Each app sits in one of the four Pioneer verticals.",
   "apps": [
     {
       "id": "DL-06",
@@ -480,7 +480,7 @@
       "heritage": "Formerly Payroll State Agencies, Higher Education, Quasi Public Agencies, and Vendor Payments",
       "replaces": ["Payroll State Agencies", "Payroll-Higher Education", "Payroll-Quasi Public Agencies", "Vendor Payments Quasi-Public Agencies", "Vendor Payments-State"],
       "scope": "This ledger ranks Commonwealth departments on CTHRU calendar-2025 payroll (pay_total_actual), reports Comptroller-recorded spending for fiscal 2025, and also reports CTHRU quasi-public payroll for calendar 2025 and a vendor-only extract of non-payroll object classes for FY 2025.",
-      "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), named-employee lookups, or advice about a contract bid.",
+      "exclusions": "Does not cover municipal payroll (Boston or Municipal Atlas), retiree pensions (DL-05), named House and Senate pay (Legislature Pay), other named-employee lookups, or advice about a contract bid.",
       "wave": "live",
       "sources": [
         {"id": "SRC-630-01", "name": "CTHRU Commonwealth of Massachusetts payroll v4", "cadence": "Annual / monthly", "url": "https://cthru.data.socrata.com/resource/9ttk-7vz6.json"},
@@ -506,6 +506,23 @@
         {"id": "SRC-631-01", "name": "FBI Crime Data Explorer / UCR and NIBRS", "cadence": "Annual", "url": "https://cde.ucr.cjis.gov/"},
         {"id": "SRC-631-02", "name": "BJS Prisoners in 2023 statistical tables, table 2", "cadence": "Annual", "url": "https://bjs.ojp.gov/document/p23st.zip"},
         {"id": "SRC-631-03", "name": "BJS Prisoners in 2023 tables 7, 8, 9, and 15 (rates, admissions, releases, youth in adult prisons)", "cadence": "Annual", "url": "https://bjs.ojp.gov/document/p23st.zip"}
+      ]
+    },
+    {
+      "id": "DL-32",
+      "slug": "legislature-pay",
+      "title": "Legislature Pay",
+      "q": "Salary, supplemental pay, and stipends for every Massachusetts representative and senator.",
+      "vertical": "American Citizenship",
+      "group": "State Government & Spending",
+      "g": ["MA"],
+      "heritage": "New. The Tableau suite did not publish a named legislator-pay directory.",
+      "replaces": [],
+      "scope": "This ledger lists every person paid as a Massachusetts Representative or Senator on the CTHRU Commonwealth payroll file in calendar 2025, with base salary, Comptroller supplemental pay (AA1), stipends (A14), and total. Calendar 2025 is the last complete year. People who served in both chambers are one directory row with the stints added together.",
+      "exclusions": "Does not cover House or Senate staff, municipal pay, other state jobs a member may hold, employer-paid GIC health or MSERS pension contributions (those are not named-employee lines on this file), the statutory office-expense allowance (not a named column here), calendar 2026 year-to-date as the headline, or advice about a member. Department-level Commonwealth payroll sits on Payroll and Vendors.",
+      "wave": "live",
+      "sources": [
+        {"id": "SRC-632-01", "name": "CTHRU Commonwealth of Massachusetts payroll v4, named House and Senate rows", "cadence": "Annual / monthly", "url": "https://cthru.data.socrata.com/resource/9ttk-7vz6.json"}
       ]
     }
   ]

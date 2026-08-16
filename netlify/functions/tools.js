@@ -54,6 +54,7 @@ const DL28 = require('./dl28-answers.json');
 const DL29 = require('./dl29-answers.json');
 const DL30 = require('./dl30-answers.json');
 const DL31 = require('./dl31-answers.json');
+const DL32 = require('./dl32-answers.json');
 
 function suiteCore(d) {
   var src = {};
@@ -646,7 +647,7 @@ module.exports = [
       'massachusetts state payroll', 'vendor payments', 'comptroller spending',
       'quasi-public', 'quasi public payroll'
     ],
-    extra: 'Decline named-employee lookups. Boston city payroll sits on DL-27. Retiree pensions sit on DL-05. Quasi-public payroll sits in derived.secondary.quasi_payroll_2025. The vendor-only extract sits in derived.secondary.vendor_extract_fy2025. Spending on the headline KPI is the Comptroller all-object-class total.'
+    extra: 'Decline named-employee lookups. Named House and Senate pay sits on DL-32. Boston city payroll sits on DL-27. Retiree pensions sit on DL-05. Quasi-public payroll sits in derived.secondary.quasi_payroll_2025. The vendor-only extract sits in derived.secondary.vendor_extract_fy2025. Spending on the headline KPI is the Comptroller all-object-class total.'
   }),
   suiteTool(DL31, {
     id: 'DL-31',
@@ -658,5 +659,20 @@ module.exports = [
       'prison admissions', 'juveniles in prison'
     ],
     extra: 'Imprisonment rates, admissions, releases, and youth in adult prisons sit in derived.secondary.bjs_depth_2023. FBI crime rates and IC3 internet-crime reports are pending: decline those. Youth counts are prisoners age 17 or younger in adult prisons, not OJJDP juvenile-justice custody. Municipal crime rankings are pending. This ledger is not a Boston crime rate.'
+  }),
+  suiteTool(DL32, {
+    id: 'DL-32',
+    label: 'Massachusetts legislator pay: named House and Senate salary, supplemental pay, and stipends',
+    src: 'SRC-632-01',
+    uppercase: false,
+    hl: 'the exact legislator name as written in entities if the question focuses on one member, else null',
+    triggers: [
+      'legislator', 'legislators', 'legislature pay', 'legislative pay',
+      'representative salary', 'senator salary', 'house speaker',
+      'senate president', 'legislative stipend', 'legislative compensation',
+      'general court pay', 'ma legislator', 'massachusetts legislator',
+      'how much are legislators', 'how much is the speaker'
+    ],
+    extra: 'Answer named Representative and Senator pay from the rows. Total pay is base plus AA1 (Comptroller supplemental) plus A14 (stipends). Employer-paid GIC health and MSERS pension contributions are not in this file: decline those as unpublished and do not invent them. The office-expense allowance is not a named column here. Calendar 2026 is year-to-date and is not the headline. Decline advice about a member. Statewide department payroll sits on DL-30. Retiree pensions sit on DL-05.'
   })
 ];

@@ -70,6 +70,8 @@ const GOLDEN_HITS = [
   ["How much energy production does Massachusetts have?", "DL-24"],
   ["What towns are population peers of Boston?", "DL-25"],
   ["How much is Massachusetts quasi-public payroll?", "DL-30"],
+  ["How much is the Massachusetts House Speaker paid?", "DL-32"],
+  ["How much did Massachusetts legislators earn in 2025?", "DL-32"],
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context
@@ -85,7 +87,7 @@ function check(ok, msg) {
   }
 }
 
-check(tools.length >= 29, "five flagships plus the 24 live suite tools are registered (" + tools.length + ")");
+check(tools.length >= 30, "five flagships plus the live suite tools are registered (" + tools.length + ")");
 
 for (const t of tools) {
   for (const f of REQUIRED) {

@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Landing masthead matches the footer",
+        "body": (
+            "The front-door header now uses the same dark field as the footer: "
+            "white wordmark and links, steel deck line. The light wash and gold "
+            "rule are gone so the masthead reads against the white page."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Florida in rust, with a matching KPI",
         "body": (
             "Florida is now rust, a higher-contrast mark next to Massachusetts "

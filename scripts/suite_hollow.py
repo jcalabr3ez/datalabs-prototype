@@ -42,6 +42,7 @@ from suite_common import (
     parse_num,
     rank_named,
     rank_rows,
+    snap_pack,
     usd_prose,
     yoy_pct,
 )
@@ -121,25 +122,7 @@ def _ma(ranked):
 
 
 def _snap(values, us_val, round_to=None, higher_is_better=True):
-    ranked = rank_rows(values, higher_is_better=higher_is_better)
-    if round_to is not None:
-        for rec in ranked:
-            rec["v"] = round(rec["v"], round_to)
-        if us_val is not None:
-            us_val = round(us_val, round_to)
-    ma = _ma(ranked)
-    hi, lo = ranked[0], ranked[-1]
-    out = {
-        "us": us_val,
-        "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
-        "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
-        "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
-        "n_ranked": ma["n"],
-    }
-    fl = fl_cell(ranked)
-    if fl:
-        out["fl"] = fl
-    return out
+    return snap_pack(values, us_val, round_to=round_to, higher_is_better=higher_is_better)
 
 
 def _wb(url, timeout=120):
@@ -330,7 +313,7 @@ def sec_cms_hospital_depth():
 # DL-14 LAUS levels, EPOP, LFPR
 # ---------------------------------------------------------------------------
 
-def sec_laus_labor():
+def sec_laus_labor(pin=None):
     text = fetch_text(URL_LAUS, timeout=120)
     series = defaultdict(dict)
     for line in text.splitlines()[1:]:
@@ -360,7 +343,7 @@ def sec_laus_labor():
     if not series["08"]:
         sys.exit("FATAL: LAUS labor-force participation series is empty")
     latest = max((y, m) for (_st, y, m) in series["08"])
-    year, month = latest
+    year, month = pin if pin else latest
 
     def _vals(measure):
         return {
@@ -384,6 +367,10 @@ def sec_laus_labor():
         snap["ma"]["v"] = int(snap["ma"]["v"])
         snap["highest"]["v"] = int(snap["highest"]["v"])
         snap["lowest"]["v"] = int(snap["lowest"]["v"])
+        if snap.get("fl"):
+            snap["fl"]["v"] = int(snap["fl"]["v"])
+        for rec in snap.get("rows") or []:
+            rec["v"] = int(rec["v"])
     as_of_label = f"{year}-{month:02d}"
     return {
         "label": "LAUS labor force, employment, participation, and employment-population ratio",

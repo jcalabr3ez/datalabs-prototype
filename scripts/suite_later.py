@@ -32,6 +32,7 @@ from suite_common import (
     pct,
     rank_named,
     rank_rows,
+    snap_pack,
     usd_prose,
     yoy_pct,
 )
@@ -132,25 +133,7 @@ def _digest_state_col(ws, header_row, year_col, start_row):
 
 
 def _state_snapshot(values, us_val, round_to=None):
-    ranked = rank_rows(values, higher_is_better=True)
-    if round_to is not None:
-        for rec in ranked:
-            rec["v"] = round(rec["v"], round_to)
-        if us_val is not None:
-            us_val = round(us_val, round_to)
-    ma = _ma(ranked)
-    hi, lo = _extremes(ranked)
-    out = {
-        "us": us_val,
-        "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
-        "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
-        "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
-        "n_ranked": ma["n"],
-    }
-    fl = fl_cell(ranked)
-    if fl:
-        out["fl"] = fl
-    return out
+    return snap_pack(values, us_val, round_to=round_to)
 
 
 # ---------------------------------------------------------------------------
@@ -569,12 +552,17 @@ def sec_personal_income():
         "highest": snap["highest"],
         "lowest": snap["lowest"],
         "n_ranked": snap["n_ranked"],
+        "fl": snap.get("fl"),
+        "rows": snap.get("rows") or [],
         "per_capita": {
             "label": "Per capita personal income, 2025",
             "us": us_pcpi,
             "ma": pc["ma"],
             "highest": pc["highest"],
             "lowest": pc["lowest"],
+            "n_ranked": pc.get("n_ranked"),
+            "fl": pc.get("fl"),
+            "rows": pc.get("rows") or [],
             "unit": "dollars",
         },
     }

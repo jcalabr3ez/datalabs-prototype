@@ -57,6 +57,8 @@ const GOLDEN_HITS = [
   ["What is Massachusetts business applications per 100,000 residents?", "DL-13"],
   ["What is the unemployment rate in Massachusetts?", "DL-14"],
   ["Which state has the highest unemployment rate?", "DL-14"],
+  ["What is the labor force participation rate in WY?", "DL-14"],
+  ["What is the labor-force participation rate in Wyoming?", "DL-14"],
   ["What is the U.S. public NAEP grade 4 reading score?", "DL-07"],
   ["How many students are enrolled in U.S. colleges?", "DL-08"],
   ["How much were state tax collections in the United States last quarter?", "DL-29"],

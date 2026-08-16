@@ -50,6 +50,7 @@ from suite_common import (
     pct,
     rank_named,
     rank_rows,
+    snap_pack,
     usd_prose,
     yoy_pct,
 )
@@ -138,25 +139,7 @@ def _ma(ranked):
 
 
 def _snap(values, us_val, round_to=None):
-    ranked = rank_rows(values, higher_is_better=True)
-    if round_to is not None:
-        for rec in ranked:
-            rec["v"] = round(rec["v"], round_to)
-        if us_val is not None:
-            us_val = round(us_val, round_to)
-    ma = _ma(ranked)
-    hi, lo = ranked[0], ranked[-1]
-    out = {
-        "us": us_val,
-        "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
-        "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
-        "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
-        "n_ranked": ma["n"],
-    }
-    fl = fl_cell(ranked)
-    if fl:
-        out["fl"] = fl
-    return out
+    return snap_pack(values, us_val, round_to=round_to)
 
 
 def _as_pct(v):

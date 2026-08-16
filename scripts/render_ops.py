@@ -62,6 +62,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Fifty-one jurisdiction rows on companion snaps",
+        "body": (
+            "Labor-force participation, employment-population ratio, "
+            "employment, and labor-force levels now keep every state and "
+            "D.C., so a Wyoming participation question can answer from the "
+            "same BLS LAUS file. Other companion rankings that already "
+            "parsed the full set keep those rows too. State Wealth Taxes "
+            "and Florida Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Insight bars draw again",
         "body": (
             "A missing color name in the suite chart script stopped every "

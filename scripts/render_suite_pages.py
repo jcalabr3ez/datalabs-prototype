@@ -349,16 +349,24 @@ HEADLINE = {
 
 
 def trend_compare_mode(ledger):
-    """Use percent-from-start when two series cannot share one level axis."""
+    """Use percent-from-start when two strictly positive series cannot share one level axis."""
     series = [(k, v) for k, v in (ledger.get("trend") or {}).items() if v]
     if len(series) < 2:
         return "level"
     maxs = []
+    all_pos = True
     for _k, pts in series:
-        vs = [abs(p["v"]) for p in pts if isinstance(p, dict) and p.get("v") is not None]
+        vs = []
+        for p in pts:
+            if not isinstance(p, dict) or p.get("v") is None:
+                continue
+            n = float(p["v"])
+            if n <= 0:
+                all_pos = False
+            vs.append(abs(n))
         if vs:
             maxs.append(max(vs))
-    if len(maxs) < 2 or min(maxs) == 0:
+    if not all_pos or len(maxs) < 2 or min(maxs) == 0:
         return "level"
     return "pct_from_start" if max(maxs) / min(maxs) >= TREND_INDEX_RATIO else "level"
 
@@ -1282,12 +1290,19 @@ const FIND=FIND_JSON;
     return keys;
   }
   function headlineMode(keys){
-    var maxs=[];
+    var maxs=[], allPos=true;
     keys.forEach(function(k){
-      var vs=(trend[k]||[]).map(function(p){ return p&&p.v!=null?Math.abs(Number(p.v)):null; }).filter(function(v){ return v!=null && isFinite(v); });
+      var vs=[];
+      (trend[k]||[]).forEach(function(p){
+        if(!p || p.v==null) return;
+        var n=Number(p.v);
+        if(!isFinite(n)) return;
+        if(n<=0) allPos=false;
+        vs.push(Math.abs(n));
+      });
       if(vs.length) maxs.push(Math.max.apply(null, vs));
     });
-    if(maxs.length<2 || Math.min.apply(null,maxs)===0) return 'level';
+    if(!allPos || maxs.length<2 || Math.min.apply(null,maxs)===0) return 'level';
     return (Math.max.apply(null,maxs)/Math.min.apply(null,maxs)>=2.5)?'pct_from_start':'level';
   }
   function drawHeadline(){
@@ -1302,23 +1317,29 @@ const FIND=FIND_JSON;
       pts.forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
     });
     var labels=Object.keys(labelSet).sort();
+    var rawByKey={};
     var datasets=keys.map(function(k){
       var pts=seriesPts[k]||[];
       var by={}, first=null;
       pts.forEach(function(p){
-        if(first==null && p && p.v!=null) first=p.v;
+        if(first==null && p && p.v!=null && Number(p.v)>0) first=Number(p.v);
         by[trendKey(p)]=p;
       });
+      var raws=[], nums=[];
+      labels.forEach(function(lab){
+        var p=by[lab];
+        if(!p || p.v==null || !isFinite(Number(p.v))){ raws.push(null); nums.push(null); return; }
+        var raw=Number(p.v);
+        raws.push(raw);
+        if(trendMode==='pct_from_start' && first) nums.push(((raw/first)-1)*100);
+        else nums.push(raw);
+      });
+      rawByKey[k]=raws;
       return {label:trendName(k), key:k,
-        data:labels.map(function(lab){
-          var p=by[lab];
-          if(!p || p.v==null) return null;
-          var y=p.v;
-          if(trendMode==='pct_from_start' && first) y=((p.v/first)-1)*100;
-          return {y:y, raw:p.v};
-        }),
+        data:nums,
         borderColor:trendColor(k),
         backgroundColor:'transparent',
+        fill:false,
         spanGaps:true,
         pointRadius:labels.length>24?0:2,
         pointHoverRadius:4,
@@ -1344,8 +1365,8 @@ const FIND=FIND_JSON;
             return (labels[i]!=null)?String(labels[i]):'';
           },
           label:function(c){
+          var di=c.dataIndex, key=c.dataset.key, raw=rawByKey[key]?rawByKey[key][di]:null;
           if(trendMode==='pct_from_start'){
-            var raw=c.raw&&c.raw.raw;
             return ' '+c.dataset.label+': '+fmtPct(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
           }
           var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
@@ -1354,13 +1375,15 @@ const FIND=FIND_JSON;
       scales:{
         x:{type:'category',ticks:{color:GREY,autoSkip:true,maxTicksLimit:12,
           callback:function(v){return tickLab(this.getLabelForValue(v));}}},
-        y:{title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
+        y:{grace:'10%',title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
           ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}
       }};
     var lbl=dataLabels(yFmt, labels.length>18?'end':'all');
     if(trendChart){
       trendChart.data=payload;
-      trendChart.options=opts;
+      trendChart.options.plugins.tooltip.callbacks=opts.plugins.tooltip.callbacks;
+      trendChart.options.scales.y.title=opts.scales.y.title;
+      trendChart.options.scales.y.ticks.callback=opts.scales.y.ticks.callback;
       trendChart.update();
       return;
     }

@@ -126,6 +126,53 @@ def _digest_state_table(url, header_row, year_token, us_check=None):
     return values, us_val, year_col, header_label, raw, ws, header_row
 
 
+def _digest_all_year_trend(ws, header_row, enroll_second=False):
+    """Build {st: [{y, v}, ...]} from every year-like column in a Digest table.
+
+    When enroll_second is true (charter 216.90), each school year has two
+    columns and the second is fall enrollment.
+    """
+    headers = [c.value for c in ws[header_row]]
+    year_cols = []
+    seen = {}
+    for i, h in enumerate(headers):
+        if h is None:
+            continue
+        s = str(h).replace("\xa0", " ").replace("\n", " ").strip()
+        year = None
+        if s.isdigit() and len(s) == 4:
+            year = int(s)
+        elif s.startswith("Fall ") and s[5:9].isdigit():
+            year = int(s[5:9])
+        elif len(s) >= 7 and s[4] == "-" and s[:4].isdigit() and s[5:7].isdigit():
+            year = int(s[:4])
+        if year is None or year < 1990 or year > 2030:
+            continue
+        if enroll_second:
+            seen[year] = seen.get(year, []) + [i]
+        else:
+            year_cols.append((year, i))
+    if enroll_second:
+        for year, cols in sorted(seen.items()):
+            year_cols.append((year, cols[1] if len(cols) > 1 else cols[0]))
+    trend = {}
+    for row in ws.iter_rows(min_row=header_row + 1, values_only=True):
+        st = geo_to_st(row[0])
+        if not st:
+            continue
+        series = []
+        for year, col in year_cols:
+            if col >= len(row):
+                continue
+            v = parse_num(row[col])
+            if v is None:
+                continue
+            series.append({"y": year, "v": int(round(v))})
+        if len(series) >= 2:
+            trend[st] = series
+    return trend
+
+
 def _npefs_mem_key(row):
     for key in ("MEMBR23", "MEMBR22", "MEMBR21"):
         if key in row:
@@ -290,7 +337,7 @@ def build_national_k12(app):
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
     headers = [c.value for c in ws[2]]
-    trend = {"US": [], "MA": [], "FL": []}
+    trend = {}
     by_st = {st: row for st, row in raw}
     for i, h in enumerate(headers):
         if h is None:
@@ -301,13 +348,10 @@ def build_national_k12(app):
         year = parse_num(s.replace("Fall ", "")[:4])
         if year is None:
             continue
-        for st in ("US", "MA", "FL"):
-            row = by_st.get(st)
-            if not row:
-                continue
+        for st, row in by_st.items():
             v = parse_num(row[i])
             if v is not None:
-                trend[st].append({"y": int(year), "v": int(round(v))})
+                trend.setdefault(st, []).append({"y": int(year), "v": int(round(v))})
     as_of = "2024-10"
     as_of_label = "Fall 2024"
     kpis = [
@@ -453,7 +497,7 @@ def build_higher_ed(app):
         lead=lead,
         kpis=kpis,
         ranked=ranked,
-        trend={},
+        trend=_digest_all_year_trend(ws, 2),
         latest={
             "us": {"v": int(us_val)},
             "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
@@ -544,7 +588,7 @@ def build_charters(app):
         lead=lead,
         kpis=kpis,
         ranked=ranked,
-        trend={},
+        trend=_digest_all_year_trend(ws, 3, enroll_second=True),
         latest={
             "us": {"v": int(us_val)},
             "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
@@ -670,7 +714,7 @@ def build_gdp(app):
     rows = _bea_csv_from_zip(URL_SAGDP, "SAGDP1__ALL_AREAS_1997_2025.csv")
     values = {}
     us_val = None
-    trend = {"US": [], "MA": [], "FL": []}
+    trend = {}
     for r in rows:
         if str(r.get("LineCode", "")).strip() != "1":
             continue
@@ -684,11 +728,13 @@ def build_gdp(app):
             us_val = v
         else:
             values[st] = v
-        if st in ("US", "MA", "FL"):
-            for y in range(1997, 2026):
-                yv = parse_num(r.get(str(y)))
-                if yv is not None:
-                    trend[st].append({"y": y, "v": yv})
+        series = []
+        for y in range(1997, 2026):
+            yv = parse_num(r.get(str(y)))
+            if yv is not None:
+                series.append({"y": y, "v": yv})
+        if len(series) >= 2:
+            trend[st] = series
     if us_val is None or abs(us_val - VERIFY_US_REAL_GDP_2025) > 1:
         sys.exit(f"FATAL: BEA SAGDP1 US 2025 real GDP is {us_val}")
     ranked = rank_rows(values, higher_is_better=True)
@@ -759,7 +805,7 @@ def build_rpp(app):
     rows = _bea_csv_from_zip(URL_SARPP, "SARPP_STATE_2008_2024.csv")
     values = {}
     us_val = None
-    trend = {"US": [], "MA": [], "FL": []}
+    trend = {}
     for r in rows:
         if str(r.get("LineCode", "")).strip() != "1":
             continue
@@ -773,11 +819,13 @@ def build_rpp(app):
             us_val = v
         else:
             values[st] = v
-        if st in ("US", "MA", "FL"):
-            for y in range(2008, 2025):
-                yv = parse_num(r.get(str(y)))
-                if yv is not None:
-                    trend[st].append({"y": y, "v": yv})
+        series = []
+        for y in range(2008, 2025):
+            yv = parse_num(r.get(str(y)))
+            if yv is not None:
+                series.append({"y": y, "v": yv})
+        if len(series) >= 2:
+            trend[st] = series
     if us_val is None or abs(us_val - VERIFY_US_RPP_2024) > 0.01:
         sys.exit(f"FATAL: BEA SARPP US 2024 all-items RPP is {us_val}")
     ranked = rank_rows(values, higher_is_better=True)
@@ -1166,21 +1214,22 @@ def _seds_tetce_2024():
 def _seds_tetce_trend():
     """US and MA TETCE from 2000 through 2024 from the SEDS complete file."""
     text = fetch_text(URL_SEDS_COMPLETE, timeout=180)
-    trend = {"US": [], "MA": [], "FL": []}
+    trend = {}
     for row in csv.DictReader(io.StringIO(text)):
         if row.get("MSN") != "TETCE":
             continue
         st = row.get("StateCode")
-        if st not in ("US", "MA", "FL"):
+        if st not in STATE_NAMES and st != "US":
             continue
         year = parse_num(row.get("Year"))
         v = parse_num(row.get("Data"))
         if year is None or v is None or year < 2000:
             continue
-        trend[st].append({"y": int(year), "v": round(v, 3)})
-    for st in ("US", "MA"):
+        trend.setdefault(st, []).append({"y": int(year), "v": round(v, 3)})
+    for st in list(trend):
         trend[st].sort(key=lambda x: x["y"])
-        if not trend[st] or trend[st][-1]["y"] != 2024:
+    for st in ("US", "MA"):
+        if not trend.get(st) or trend[st][-1]["y"] != 2024:
             sys.exit(f"FATAL: SEDS complete TETCE {st} trend missing 2024")
     us_2024 = next(p["v"] for p in trend["US"] if p["y"] == 2024)
     ma_2024 = next(p["v"] for p in trend["MA"] if p["y"] == 2024)

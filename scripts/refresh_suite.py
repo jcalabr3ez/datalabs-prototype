@@ -119,9 +119,10 @@ def build_bfs(app):
         rec["yoy_pct"] = yoy_pct(rec["v"], prev_values.get(rec["st"]))
     ma = next(r for r in ranked if r["st"] == "MA")
     us_yoy = yoy_pct(values["US"], prev_values.get("US"))
-    # monthly US trend, seasonally adjusted, last 8 years
-    trend = {"US": [], "MA": [], "FL": []}
-    for st in ("US", "MA", "FL"):
+    # monthly trend, seasonally adjusted, last 8 years, every jurisdiction
+    trend = {}
+    for st in by_geo:
+        series = []
         for y in sorted(by_geo.get(st, {})):
             if y < 2018:
                 continue
@@ -130,7 +131,9 @@ def build_bfs(app):
                 raw = (row.get(key) or "").strip()
                 if not raw:
                     continue
-                trend[st].append({"m": f"{y}-{i:02d}", "v": int(float(raw))})
+                series.append({"m": f"{y}-{i:02d}", "v": int(float(raw))})
+        if len(series) >= 2:
+            trend[st] = series
     as_of = f"{year}-{month_i:02d}"
     as_of_label = f"{MONTH_ABBR[month_i]} {year}"
     kpis = [
@@ -262,10 +265,12 @@ def build_laus(app):
     ma = next(r for r in ranked if r["st"] == "MA")
     us_rate = None
     # US is not in LAUS statewide file; leave it out of the rank and note it.
-    trend = {"MA": [], "FL": []}
+    trend = {}
     for (st, y, m), v in sorted(series.items()):
-        if st in ("MA", "FL") and y >= 2018:
-            trend[st].append({"m": f"{y}-{m:02d}", "v": v})
+        if y < 2018:
+            continue
+        trend.setdefault(st, []).append({"m": f"{y}-{m:02d}", "v": v})
+    trend = {st: pts for st, pts in trend.items() if len(pts) >= 2}
     as_of = f"{year}-{month:02d}"
     as_of_label = f"{MONTH_ABBR[month]} {year}"
     kpis = [
@@ -533,15 +538,23 @@ def build_pep(app):
         f"<b>{commify(ma['v'])}</b>, rank {ma['rank']} of {ma['n']} "
         f"(derived, SRC-617-01)."
     )
-    # population trend 2020-2025
-    trend = {"US": [], "MA": [], "FL": []}
-    us_row = next(r for r in rows if r["NAME"] == "United States")
-    ma_row = next(r for r in rows if r["NAME"] == "Massachusetts")
-    fl_row = next(r for r in rows if r["NAME"] == "Florida")
-    for y in range(2020, 2026):
-        trend["US"].append({"y": y, "v": int(us_row[f"POPESTIMATE{y}"])})
-        trend["MA"].append({"y": y, "v": int(ma_row[f"POPESTIMATE{y}"])})
-        trend["FL"].append({"y": y, "v": int(fl_row[f"POPESTIMATE{y}"])})
+    # domestic migration by year, every state. The U.S. row is omitted:
+    # domestic flows sum to zero across the fifty states and D.C.
+    trend = {}
+    for r in rows:
+        if r.get("SUMLEV") != "040":
+            continue
+        st = next((k for k, v in STATE_NAMES.items() if v == r["NAME"]), None)
+        if not st:
+            continue
+        series = []
+        for y in range(2020, 2026):
+            raw = (r.get(f"DOMESTICMIG{y}") or "").strip()
+            if raw == "":
+                continue
+            series.append({"y": y, "v": int(float(raw))})
+        if len(series) >= 2:
+            trend[st] = series
     return base_ledger(
         app,
         "live",

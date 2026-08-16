@@ -132,7 +132,7 @@ def figure_limit(fig):
     return ""
 
 
-def insight_html(insights):
+def insight_html(insights, start=1):
     if not insights:
         return ""
     blocks = []
@@ -154,7 +154,7 @@ def insight_html(insights):
         )
         blocks.append(
             "    <div class=\"exhibit" + span + "\">\n"
-            "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + str(i + 1) + "</span>\n"
+            "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + str(start + i) + "</span>\n"
             "        <span class=\"ex-t\">" + esc(fig["title"]) + "</span></div>\n"
             "      <div class=\"" + hclass + "\""
             + (" id=\"chInsight" + str(i) + "\"" if fig.get("type") == "map" else "")
@@ -259,6 +259,94 @@ TREND_NAMES = {"US": "United States", "MA": "Massachusetts", "FL": "Florida", "B
 TREND_LEDE_NAMES = {"US": "the United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
 TREND_INDEX_RATIO = 2.5
 
+# Opening line: the namesake question. Select-a-state copy is added in JS
+# when more than the core series exist.
+HEADLINE = {
+    "DL-06": {
+        "title": "Massachusetts public-school enrollment over time",
+        "lede": (
+            "Fall enrollment in Massachusetts public schools. "
+            "This is the stock the rest of the page sits on."
+        ),
+        "from": "secondary.public_k12_enrollment",
+    },
+    "DL-07": {
+        "title": "Public-school enrollment over time",
+        "lede": (
+            "The United States line shows whether national enrollment has "
+            "risen or fallen. Select a state to add it."
+        ),
+    },
+    "DL-08": {
+        "title": "College enrollment over time",
+        "lede": (
+            "Fall enrollment in degree-granting postsecondary institutions. "
+            "The United States line is the national stock. Select a state to add it."
+        ),
+    },
+    "DL-09": {
+        "title": "Charter enrollment over time",
+        "lede": (
+            "Fall enrollment in public charter schools. The United States "
+            "line shows whether the national charter stock has risen or "
+            "fallen. Select a state to add it."
+        ),
+    },
+    "DL-11": {
+        "title": "340B sites over time",
+        "lede": (
+            "Currently participating 340B sites by the year they started. "
+            "A site that later left is not in this series."
+        ),
+    },
+    "DL-13": {
+        "title": "Business applications over time",
+        "lede": (
+            "Seasonally adjusted business applications. The United States "
+            "line shows whether formation has risen or fallen. Select a "
+            "state to add it."
+        ),
+    },
+    "DL-14": {
+        "title": "Unemployment rate over time",
+        "lede": (
+            "Seasonally adjusted statewide unemployment rates. The U.S. "
+            "civilian rate is not in this BLS file. Select a state to add it."
+        ),
+    },
+    "DL-15": {
+        "title": "Real GDP over time",
+        "lede": (
+            "Real GDP, chained 2017 dollars. The United States line is "
+            "national output. Select a state to add it."
+        ),
+    },
+    "DL-17": {
+        "title": "Domestic migration over time",
+        "lede": (
+            "Domestic migration, not headcount. Select a state to add it."
+        ),
+    },
+    "DL-19": {
+        "title": "Cost of living over time",
+        "lede": (
+            "Regional price parities, United States = 100. Select a state "
+            "to add it."
+        ),
+    },
+    "DL-24": {
+        "title": "Energy CO2 over time",
+        "lede": (
+            "Carbon dioxide from energy. The United States line is the "
+            "national stock. Select a state to add it."
+        ),
+    },
+    "DL-25": {
+        "title": "Massachusetts population over time",
+        "lede": "Statewide resident population, with Boston when the series exists.",
+    },
+}
+
 
 def trend_compare_mode(ledger):
     """Use percent-from-start when two series cannot share one level axis."""
@@ -344,8 +432,15 @@ def chart_spec(app, ledger):
             "as a line. Hover a state, a row, or a dot. Click to open the "
             "table. Massachusetts has a gold outline; Florida a rust outline."
         )
-    trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
-    has_trend = bool(trend_keys)
+    headline = HEADLINE.get(tid) or {}
+    trend_source = dict(ledger.get("trend") or {})
+    if headline.get("from") == "secondary.public_k12_enrollment":
+        enr = ((ledger.get("derived") or {}).get("secondary") or {}).get("public_k12_enrollment") or {}
+        pts = enr.get("trend") or []
+        if pts:
+            trend_source = {"MA": pts}
+    trend_keys = [k for k, v in trend_source.items() if v]
+    has_trend = any(len(v) >= 2 for v in trend_source.values() if v)
     trend_mode = trend_compare_mode(ledger)
     trend_names = [TREND_NAMES.get(k, k) for k in trend_keys]
     lede_names = [TREND_LEDE_NAMES.get(k, k) for k in trend_keys]
@@ -358,7 +453,18 @@ def chart_spec(app, ledger):
     else:
         trend_named = ""
         trend_lede_named = ""
-    if trend_mode == "pct_from_start":
+    if headline.get("title"):
+        trend_title = headline["title"]
+        trend_lede = headline.get("lede") or ""
+        trend_unit = unit
+    elif geo == "state":
+        trend_title = (label or "The figure") + " over time"
+        trend_lede = (
+            "The line shows whether the figure has risen or fallen. "
+            "Select a state to add it when that series is on file."
+        )
+        trend_unit = unit
+    elif trend_mode == "pct_from_start":
         trend_title = "Change since the first year" + (", " + trend_named if trend_named else "")
         trend_lede = (
             "Each line is the percent change from its first year so "
@@ -366,14 +472,6 @@ def chart_spec(app, ledger):
             + " can be compared. Hover a point for the raw count."
         )
         trend_unit = "percent change from first year"
-    elif set(trend_keys) >= {"US", "MA", "FL"}:
-        trend_title = label + ", United States, Massachusetts, and Florida"
-        trend_lede = ""
-        trend_unit = unit
-    elif set(trend_keys) >= {"US", "MA"}:
-        trend_title = label + ", United States and Massachusetts"
-        trend_lede = ""
-        trend_unit = unit
     else:
         trend_title = label + " over time"
         trend_lede = ""
@@ -482,6 +580,7 @@ def chart_spec(app, ledger):
         "compare_title": compare_title,
         "lede": lede,
         "has_trend": has_trend,
+        "headline_from": headline.get("from") or "",
         "table_noun": table_noun,
         "col_name": col_name,
         "table_columns": table_columns,
@@ -724,17 +823,18 @@ def page_html(app, ledger, apps=None):
     find_spec = (voice or {}).get("find") or {"kind": None, "cards": {}, "metric": ""}
     spec = chart_spec(app, ledger) if live else {}
     insights = insight_figures(app, ledger) if live else []
+    if spec.get("headline_from") == "secondary.public_k12_enrollment":
+        insights = [f for f in insights if f.get("id") != "ma-enroll"]
     has_trend = bool(spec.get("has_trend"))
     find_noun = (spec.get("geo") or "name").replace("_", " ")
     jump = ""
     compare_h2 = spec.get("compare_title") or spec.get("title") or "Compared"
     table_h2 = spec.get("table_noun") or "Every row"
     if live:
-        jump_links = [
-            '<a href="#view-rank">' + esc(compare_h2) + "</a>",
-        ]
+        jump_links = []
         if has_trend:
             jump_links.append('<a href="#view-trend">The trend</a>')
+        jump_links.append('<a href="#view-rank">' + esc(compare_h2) + "</a>")
         jump_links.append('<a href="#view-table">' + esc(table_h2) + "</a>")
         if app["id"] == "DL-11":
             jump_links.append('<a href="#view-charity">Charity care</a>')
@@ -747,6 +847,25 @@ def page_html(app, ledger, apps=None):
         )
     latest_section = ""
     n_fig = len(insights) if live else 0
+    rank_n = (1 if has_trend else 0) + n_fig + 1
+    insight_start = 2 if has_trend else 1
+    trend_block = ""
+    if live and has_trend:
+        trend_block = f"""
+<section id="view-trend">
+    <h2>{esc(spec.get("trend_title") or "The trend")}</h2>
+{('    <div class="lede">' + esc(spec["trend_lede"]) + "</div>\n") if spec.get("trend_lede") else ""}    <div class="findrow" id="trendPick" hidden>
+      <label class="sel-lab" for="trendSel">Add a state</label>
+      <select id="trendSel"></select>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t" id="trendTitle">{esc(spec.get("trend_title") or "Trend")}</span></div>
+      <div class="plot"><canvas id="chTrend"></canvas></div>
+      <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
+    </div>
+  </section>
+"""
     if live:
         latest_section = f"""
 <section id="finding" style="margin-top:28px">
@@ -761,11 +880,11 @@ def page_html(app, ledger, apps=None):
 <!-- DATA:END {slug}-kpis -->
     </div>
   </section>
-{insight_html(insights)}
+{trend_block}{insight_html(insights, start=insight_start)}
   <section id="view-rank">
     <h2>{esc(compare_h2)}</h2>
 {('    <div class="lede">' + esc(spec["lede"]) + "</div>\n") if spec.get("lede") else ""}{REGION_BAR if spec.get("geo") == "state" else ""}{EXPLORE_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure {n_fig + 1}</span>
+      <div class="ex-head"><span class="ex-n">Figure {rank_n}</span>
         <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>
       <div class="plot {"plot-map" if spec.get("geo") == "state" else "plot-mid"}"{' id="chRank"' if spec.get("geo") == "state" else ""}>{"" if spec.get("geo") == "state" else '<canvas id="chRank"></canvas>'}</div>
       <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
@@ -789,19 +908,6 @@ def page_html(app, ledger, apps=None):
   <p class="body-p">{esc(app['exclusions'])}</p>
 </section>
 {dash_block}"""
-    trend_section = ""
-    if live and has_trend:
-        trend_section = f"""
-<section id="view-trend">
-    <h2>{esc(spec.get("trend_title") or "The trend")}</h2>
-{('    <div class="lede">' + esc(spec["trend_lede"]) + "</div>\n") if spec.get("trend_lede") else ""}    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure {n_fig + 2}</span>
-        <span class="ex-t">{esc(spec.get("trend_title") or "Trend")}</span></div>
-      <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
-    </div>
-  </section>
-"""
     table_section = ""
     if live:
         table_cols = spec.get("table_columns") or [
@@ -1114,40 +1220,80 @@ const FIND=FIND_JSON;
   drawRank();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
-  var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
-  if(chTrend && window.Chart && keys.length){
-    var pretty={US:'United States',MA:'Massachusetts',FL:'Florida',Boston:'Boston'};
-    var trendOrder=['US','MA','FL','Boston'];
-    keys.sort(function(a,b){
-      var ia=trendOrder.indexOf(a), ib=trendOrder.indexOf(b);
-      if(ia<0) ia=50; if(ib<0) ib=50;
-      return ia-ib || a.localeCompare(b);
+  if(CHART.headline_from==='secondary.public_k12_enrollment'){
+    var enr=((((DL||{}).derived||{}).secondary)||{}).public_k12_enrollment||{};
+    if(enr.trend && enr.trend.length) trend={MA:enr.trend};
+  }
+  var allTrendKeys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length>=2;});
+  var pretty={US:'United States',MA:'Massachusetts',FL:'Florida',Boston:'Boston'};
+  function trendName(st){
+    if(pretty[st]) return pretty[st];
+    for(var i=0;i<rows.length;i++) if(rows[i].st===st) return rows[i].name;
+    return st;
+  }
+  var coreKeys=['US','MA','FL','Boston'].filter(function(k){ return allTrendKeys.indexOf(k)>=0; });
+  var extraKeys=allTrendKeys.filter(function(k){ return coreKeys.indexOf(k)<0; }).sort();
+  var pickedSt='';
+  var trendChart=null;
+  var startTrend=(q.get('trend')||'').toUpperCase();
+  if(startTrend && allTrendKeys.indexOf(startTrend)>=0 && coreKeys.indexOf(startTrend)<0) pickedSt=startTrend;
+  var pickWrap=document.getElementById('trendPick');
+  var pickSel=document.getElementById('trendSel');
+  if(pickWrap && pickSel && extraKeys.length){
+    pickWrap.hidden=false;
+    pickSel.innerHTML='<option value=\"\">'+coreKeys.map(trendName).join(', ')+'</option>'+
+      extraKeys.map(function(st){
+        return '<option value=\"'+st+'\"'+(st===pickedSt?' selected':'')+'>'+trendName(st)+'</option>';
+      }).join('');
+    pickSel.addEventListener('change', function(){
+      pickedSt=pickSel.value||'';
+      drawHeadline();
+      if(typeof writeQuery==='function') writeQuery();
     });
-    var trendMode=CHART.trend_mode||'level';
-    function trendColor(k){
-      if(k==='MA') return GOLD;
-      if(k==='FL') return RUST;
-      if(k==='Boston') return BLUE;
-      if(k==='US') return INK;
-      return BLUE;
-    }
-    function fmtPct(v){
-      if(v==null||v==='') return '';
-      var n=Number(v), sign=n<0?'\u2212':(n>0?'+':'');
-      return sign+Math.abs(n).toFixed(1)+'%';
-    }
-    function trendKey(p){
-      if(!p) return '';
-      if(p.m) return String(p.m);
-      if(p.q) return String(p.q);
-      if(p.y!=null) return String(p.y);
-      return '';
-    }
-    function sortPts(pts){
-      return (pts||[]).slice().sort(function(a,b){
-        return trendKey(a).localeCompare(trendKey(b));
-      });
-    }
+  }
+  function trendColor(k){
+    if(k==='MA') return GOLD;
+    if(k==='FL') return RUST;
+    if(k==='Boston') return BLUE;
+    if(k==='US') return INK;
+    return BLUE;
+  }
+  function fmtPct(v){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'\u2212':(n>0?'+':'');
+    return sign+Math.abs(n).toFixed(1)+'%';
+  }
+  function trendKey(p){
+    if(!p) return '';
+    if(p.m) return String(p.m);
+    if(p.q) return String(p.q);
+    if(p.y!=null) return String(p.y);
+    return '';
+  }
+  function sortPts(pts){
+    return (pts||[]).slice().sort(function(a,b){
+      return trendKey(a).localeCompare(trendKey(b));
+    });
+  }
+  function visibleTrendKeys(){
+    var keys=coreKeys.slice();
+    if(pickedSt && allTrendKeys.indexOf(pickedSt)>=0 && keys.indexOf(pickedSt)<0) keys.push(pickedSt);
+    if(!keys.length) keys=allTrendKeys.slice();
+    return keys;
+  }
+  function headlineMode(keys){
+    var maxs=[];
+    keys.forEach(function(k){
+      var vs=(trend[k]||[]).map(function(p){ return p&&p.v!=null?Math.abs(Number(p.v)):null; }).filter(function(v){ return v!=null && isFinite(v); });
+      if(vs.length) maxs.push(Math.max.apply(null, vs));
+    });
+    if(maxs.length<2 || Math.min.apply(null,maxs)===0) return 'level';
+    return (Math.max.apply(null,maxs)/Math.min.apply(null,maxs)>=2.5)?'pct_from_start':'level';
+  }
+  function drawHeadline(){
+    if(!chTrend || !window.Chart || !allTrendKeys.length) return;
+    var keys=visibleTrendKeys();
+    var trendMode=headlineMode(keys);
     var labelSet={};
     var seriesPts={};
     keys.forEach(function(k){
@@ -1163,7 +1309,7 @@ const FIND=FIND_JSON;
         if(first==null && p && p.v!=null) first=p.v;
         by[trendKey(p)]=p;
       });
-      return {label:pretty[k]||k, key:k,
+      return {label:trendName(k), key:k,
         data:labels.map(function(lab){
           var p=by[lab];
           if(!p || p.v==null) return null;
@@ -1176,40 +1322,51 @@ const FIND=FIND_JSON;
         spanGaps:true,
         pointRadius:labels.length>24?0:2,
         pointHoverRadius:4,
-        borderWidth:(k==='MA'||k==='FL')?2:1.75};
+        borderWidth:(k==='MA'||k==='FL'||k===pickedSt)?2:1.75};
     });
-    var yTitle=trendMode==='pct_from_start'?(CHART.trend_unit||'percent change from first year'):axisUnit;
+    var yTitle=trendMode==='pct_from_start'?'percent change from first year':axisUnit;
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
     function tickLab(v){
       var lab=String(v==null?'':v);
       if(/^\\d{4}-\\d{2}$/.test(lab)) return lab.slice(-2)==='01'?lab.slice(0,4):'';
       return lab;
     }
-    new Chart(chTrend,{type:'line',data:{labels:labels,datasets:datasets},
-      options:{responsive:true,maintainAspectRatio:false,
-        layout:{padding:{top:12,right:96}},
-        plugins:{legend:{display:true,position:'top',align:'end'},
-          tooltip:{callbacks:{
-            title:function(items){
-              var i=items[0]&&items[0].dataIndex;
-              return (labels[i]!=null)?String(labels[i]):'';
-            },
-            label:function(c){
-            if(trendMode==='pct_from_start'){
-              var raw=c.raw&&c.raw.raw;
-              return ' '+c.dataset.label+': '+fmtPct(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
-            }
-            var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
-            return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;
-          }}}},
-        scales:{
-          x:{type:'category',ticks:{color:GREY,autoSkip:true,maxTicksLimit:12,
-            callback:function(v){return tickLab(this.getLabelForValue(v));}}},
-          y:{title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
-            ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}
-        }},
-      plugins:[dataLabels(yFmt, labels.length>18?'end':'all')]});
+    var titleEl=document.getElementById('trendTitle');
+    if(titleEl && pickedSt) titleEl.textContent=(CHART.trend_title||CHART.label||'Trend')+', plus '+trendName(pickedSt);
+    else if(titleEl) titleEl.textContent=CHART.trend_title||CHART.label||'Trend';
+    var payload={labels:labels,datasets:datasets};
+    var opts={responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:12,right:96}},
+      plugins:{legend:{display:true,position:'top',align:'end'},
+        tooltip:{callbacks:{
+          title:function(items){
+            var i=items[0]&&items[0].dataIndex;
+            return (labels[i]!=null)?String(labels[i]):'';
+          },
+          label:function(c){
+          if(trendMode==='pct_from_start'){
+            var raw=c.raw&&c.raw.raw;
+            return ' '+c.dataset.label+': '+fmtPct(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
+          }
+          var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
+          return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;
+        }}}},
+      scales:{
+        x:{type:'category',ticks:{color:GREY,autoSkip:true,maxTicksLimit:12,
+          callback:function(v){return tickLab(this.getLabelForValue(v));}}},
+        y:{title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
+          ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}
+      }};
+    var lbl=dataLabels(yFmt, labels.length>18?'end':'all');
+    if(trendChart){
+      trendChart.data=payload;
+      trendChart.options=opts;
+      trendChart.update();
+      return;
+    }
+    trendChart=new Chart(chTrend,{type:'line',data:payload,options:opts,plugins:[lbl]});
   }
+  drawHeadline();
   function fmtInsight(fmt, v, short){
     if(v==null||v==='') return '';
     var n=Number(v), sign=n<0?'\u2212':'', a=Math.abs(n);
@@ -1416,6 +1573,7 @@ const FIND=FIND_JSON;
       var params=new URLSearchParams();
       if(region && region!=='all') params.set('region', region);
       if(band && band!=='all') params.set('band', band);
+      if(pickedSt) params.set('trend', pickedSt);
       if(qv) params.set('q', qv);
       var qs=params.toString();
       history.replaceState(null,'',location.pathname+(qs?('?'+qs):'')+location.hash);
@@ -1536,7 +1694,6 @@ EXTRA_TOOL_JS})();
 </header>
 {jump}
 {latest_section}
-{trend_section}
 {table_section}{extra_section}
 {related_section}
 <section id="sources">

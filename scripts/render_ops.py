@@ -62,6 +62,24 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Each tool opens with the namesake trend",
+        "body": (
+            "Live tools that have a time series now open with that line, "
+            "right after the headline numbers, so the first chart answers "
+            "whether the figure in the tool name has risen or fallen. "
+            "When the file has every state, a selector adds a state to "
+            "the United States, Massachusetts, and Florida lines. Charter "
+            "enrollment, college enrollment, school enrollment, business "
+            "applications, unemployment, GDP, migration, cost of living, "
+            "and energy CO2 compile those state series from the same "
+            "published files. Retail electricity prices already had the "
+            "selector; that line is now Figure 1. Tools without a published "
+            "history still open on the snapshot they have. No flagship "
+            "ledger cells were rewritten."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "State maps show the ranking without a click",
         "body": (
             "The fifty-state map now uses five color classes so neighboring "

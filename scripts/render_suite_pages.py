@@ -437,8 +437,8 @@ def chart_spec(app, ledger):
         lede = (
             "Every state and the District of Columbia. Color is a fifth of "
             "the ranking: the darkest navy is the highest fifth. Hover a "
-            "state for its figure and rank. Click to open the table. "
-            "Massachusetts has a gold outline; Florida a rust outline."
+            "state for its figure and rank. Click a state to open the table "
+            "tab. Massachusetts has a gold outline; Florida a rust outline."
         )
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
@@ -871,7 +871,10 @@ def page_html(app, ledger, apps=None):
         if has_trend:
             jump_links.append('<a href="#view-trend">The trend</a>')
         jump_links.append('<a href="#view-rank">' + esc(compare_h2) + "</a>")
-        jump_links.append('<a href="#view-table">' + esc(table_h2) + "</a>")
+        if spec.get("geo") == "state":
+            jump_links.append('<a href="#view-table">Table</a>')
+        else:
+            jump_links.append('<a href="#view-table">' + esc(table_h2) + "</a>")
         if app["id"] == "DL-11":
             jump_links.append('<a href="#view-charity">Charity care</a>')
             jump_links.append('<a href="#view-districts">Legislative mapping</a>')
@@ -904,8 +907,45 @@ def page_html(app, ledger, apps=None):
     </div>
   </section>
 """
+    table_cols = spec.get("table_columns") or [
+        {"key": "name", "label": spec.get("col_name") or "Name", "cls": "m"},
+        {"key": "v", "label": "Value", "align": "n"},
+        {"key": "rank", "label": "Rank", "align": "n"},
+        {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
+    ]
+    th_html = "".join(
+        (
+            '<th'
+            + (' class="n"' if c.get("align") == "n" else "")
+            + ' data-key="'
+            + esc(c.get("key") or "")
+            + '" scope="col"><button type="button" class="th-sort">'
+            + esc(c.get("label") or "")
+            + "</button></th>"
+        )
+        for c in table_cols
+    )
+    table_lede = esc(spec.get("table_lede") or "Type a name to jump to a row.")
+    table_note = spec.get("table_note") or (
+        "Ranks and year-over-year changes are Pioneer calculations (derived)."
+    )
+    table_body = f"""    <div class="lede">{table_lede}</div>
+    <div class="findrow">
+      <label class="sel-lab" for="tblFind">Find a {esc(find_noun)}</label>
+      <input id="tblFind" type="search" placeholder="Type a name" autocomplete="off">
+      <span id="tblCount" class="findcount"></span>
+    </div>
+    <div id="findCard" class="findcard" hidden></div>
+    <div class="scroll">
+      <table id="tblStates">
+        <thead><tr>{th_html}</tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="srcline"><b>Source:</b> see the register. {esc(table_note)}</div>
+"""
     map_tabs = ""
-    if len(map_views) > 1:
+    if spec.get("geo") == "state":
         buttons = []
         for i, view in enumerate(map_views):
             on = " is-on" if i == 0 else ""
@@ -914,12 +954,57 @@ def page_html(app, ledger, apps=None):
                 + esc(view.get("tab") or view.get("title") or "View")
                 + "</button>"
             )
+        buttons.append(
+            '<button type="button" class="map-tab" data-pane="table">Table</button>'
+        )
         map_tabs = (
             '    <div class="map-tabs" id="mapTabs" role="tablist" '
             'aria-label="Map view">' + "".join(buttons) + "</div>\n"
         )
     map_lede = spec.get("lede") or ""
     if live:
+        if spec.get("geo") == "state":
+            rank_inner = (
+                f"{map_tabs}"
+                + (
+                    f'    <div class="lede" id="mapLede">{esc(map_lede)}</div>\n'
+                    if map_lede
+                    else '    <div class="lede" id="mapLede" hidden></div>\n'
+                )
+                + REGION_BAR
+                + EXPLORE_BAR
+                + '    <div id="mapPane">\n'
+                + '    <div class="exhibit">\n'
+                + f'      <div class="ex-head"><span class="ex-n">Figure {rank_n}</span>\n'
+                + f'        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>\n'
+                + '      <div class="plot plot-map" id="chRank"></div>\n'
+                + '      <div class="note" id="mapNote" hidden></div>\n'
+                + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
+                + esc(unit or "see the register")
+                + ".</div>\n"
+                + "    </div>\n"
+                + "    </div>\n"
+                + '    <div id="view-table" hidden>\n'
+                + table_body
+                + "    </div>\n"
+            )
+        else:
+            rank_inner = (
+                (
+                    f'    <div class="lede" id="mapLede">{esc(map_lede)}</div>\n'
+                    if map_lede
+                    else '    <div class="lede" id="mapLede" hidden></div>\n'
+                )
+                + '    <div class="exhibit">\n'
+                + f'      <div class="ex-head"><span class="ex-n">Figure {rank_n}</span>\n'
+                + f'        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>\n'
+                + '      <div class="plot plot-mid"><canvas id="chRank"></canvas></div>\n'
+                + '      <div class="note" id="mapNote" hidden></div>\n'
+                + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
+                + esc(unit or "see the register")
+                + ".</div>\n"
+                + "    </div>\n"
+            )
         latest_section = f"""
 <section id="finding" style="margin-top:28px">
     <p class="lede lead-graf">
@@ -936,14 +1021,7 @@ def page_html(app, ledger, apps=None):
 {trend_block}{insight_html(insights, start=insight_start)}
   <section id="view-rank">
     <h2>{esc(compare_h2)}</h2>
-{map_tabs}{('    <div class="lede" id="mapLede">' + esc(map_lede) + "</div>\n") if map_lede else '    <div class="lede" id="mapLede" hidden></div>\n'}{REGION_BAR if spec.get("geo") == "state" else ""}{EXPLORE_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure {rank_n}</span>
-        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>
-      <div class="plot {"plot-map" if spec.get("geo") == "state" else "plot-mid"}"{' id="chRank"' if spec.get("geo") == "state" else ""}>{"" if spec.get("geo") == "state" else '<canvas id="chRank"></canvas>'}</div>
-      <div class="note" id="mapNote" hidden></div>
-      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
-    </div>
-  </section>
+{rank_inner}  </section>
 """
     else:
         dash_block = dashboards_html(app)
@@ -963,48 +1041,14 @@ def page_html(app, ledger, apps=None):
 </section>
 {dash_block}"""
     table_section = ""
-    if live:
-        table_cols = spec.get("table_columns") or [
-            {"key": "name", "label": spec.get("col_name") or "Name", "cls": "m"},
-            {"key": "v", "label": "Value", "align": "n"},
-            {"key": "rank", "label": "Rank", "align": "n"},
-            {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
-        ]
-        th_html = "".join(
-            (
-                '<th'
-                + (' class="n"' if c.get("align") == "n" else "")
-                + ' data-key="'
-                + esc(c.get("key") or "")
-                + '" scope="col"><button type="button" class="th-sort">'
-                + esc(c.get("label") or "")
-                + "</button></th>"
-            )
-            for c in table_cols
-        )
-        table_lede = esc(spec.get("table_lede") or "Type a name to jump to a row.")
-        table_note = spec.get("table_note") or (
-            "Ranks and year-over-year changes are Pioneer calculations (derived)."
-        )
+    if live and spec.get("geo") != "state":
         table_section = f"""
 <section id="view-table">
     <h2>{esc(spec.get("table_noun") or "Every row")}</h2>
-    <div class="lede">{table_lede}</div>
-{REGION_BAR if spec.get("geo") == "state" else ""}{EXPLORE_BAR if spec.get("geo") == "state" else ""}    <div class="findrow">
-      <label class="sel-lab" for="tblFind">Find a {esc(find_noun)}</label>
-      <input id="tblFind" type="search" placeholder="Type a name" autocomplete="off">
-      <span id="tblCount" class="findcount"></span>
-    </div>
-    <div id="findCard" class="findcard" hidden></div>
-    <div class="scroll">
-      <table id="tblStates">
-        <thead><tr>{th_html}</tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="srcline"><b>Source:</b> see the register. {esc(table_note)}</div>
-  </section>
+{table_body}  </section>
 """
+    elif live:
+        table_section = ""
     extra_section = extra_tool_sections(app, ledger, n_fig, has_trend) if live else ""
     related_section = related_html(app, apps) if live else ""
     js = ""
@@ -1241,7 +1285,7 @@ const FIND=FIND_JSON;
         var find=document.getElementById('tblFind');
         if(find) find.value=r.name||r.st||'';
         applyFind();
-        drawRankMap();
+        setRankPane('table');
         var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
         if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
       }
@@ -1330,18 +1374,44 @@ const FIND=FIND_JSON;
     btn.classList.toggle('on', btn.getAttribute('data-band')===band);
   });
   var tabs=document.getElementById('mapTabs');
+  function setRankPane(pane){
+    var mapPane=document.getElementById('mapPane');
+    var tablePane=document.getElementById('view-table');
+    var showTable=pane==='table';
+    if(mapPane) mapPane.hidden=showTable;
+    if(tablePane && CHART.geo==='state') tablePane.hidden=!showTable;
+    var ledeEl=document.getElementById('mapLede');
+    if(ledeEl && CHART.geo==='state') ledeEl.hidden=showTable || !ledeEl.textContent;
+    if(tabs){
+      [].slice.call(tabs.querySelectorAll('.map-tab')).forEach(function(b){
+        var on=showTable
+          ? b.getAttribute('data-pane')==='table'
+          : (b.getAttribute('data-pane')!=='table' && Number(b.getAttribute('data-view'))===mapView);
+        b.classList.toggle('is-on', !!on);
+      });
+    }
+    if(showTable) applyFind();
+    else drawRank();
+  }
   if(tabs){
     tabs.addEventListener('click', function(ev){
       var btn=ev.target.closest('.map-tab');
       if(!btn) return;
+      if(btn.getAttribute('data-pane')==='table'){
+        setRankPane('table');
+        return;
+      }
       mapView=Number(btn.getAttribute('data-view'))||0;
-      [].slice.call(tabs.querySelectorAll('.map-tab')).forEach(function(b,i){
-        b.classList.toggle('is-on', i===mapView);
-      });
-      drawRank();
+      setRankPane('map');
     });
   }
+  function applyRankHash(){
+    var h=(location.hash||'').replace(/^#/,'');
+    if(h==='view-table' || h==='table') setRankPane('table');
+  }
+  window.addEventListener('hashchange', applyRankHash);
   drawRank();
+  applyRankHash();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
   if(CHART.headline_from==='secondary.public_k12_enrollment'){
@@ -1780,6 +1850,7 @@ const FIND=FIND_JSON;
     };
     if(find) find.addEventListener('input', function(){ applyFind(); writeQuery(); });
     applyFind();
+    applyRankHash();
   }
 EXTRA_TOOL_JS})();
 </script>

@@ -117,6 +117,16 @@ CHANGELOG = [
     },
     {
         "date": "August 16, 2026",
+        "title": "The fifty-state table sits on a map tab",
+        "body": (
+            "The ranking of every state no longer sits under the country "
+            "map. That table is a tab on the map. Click a state to open "
+            "its row. Extra views, such as sales and generation on Retail "
+            "Electricity Prices, share the same United States graphic."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "One country map, colored by the ranking",
         "body": (
             "Each state tool keeps a single United States map. The ranking "

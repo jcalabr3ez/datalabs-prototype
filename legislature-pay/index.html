@@ -423,7 +423,7 @@ const FIND={"kind": "legislator", "cards": {"karen spilka": {"name": "Karen Spil
         var find=document.getElementById('tblFind');
         if(find) find.value=r.name||r.st||'';
         applyFind();
-        drawRankMap();
+        setRankPane('table');
         var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
         if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
       }
@@ -512,18 +512,44 @@ const FIND={"kind": "legislator", "cards": {"karen spilka": {"name": "Karen Spil
     btn.classList.toggle('on', btn.getAttribute('data-band')===band);
   });
   var tabs=document.getElementById('mapTabs');
+  function setRankPane(pane){
+    var mapPane=document.getElementById('mapPane');
+    var tablePane=document.getElementById('view-table');
+    var showTable=pane==='table';
+    if(mapPane) mapPane.hidden=showTable;
+    if(tablePane && CHART.geo==='state') tablePane.hidden=!showTable;
+    var ledeEl=document.getElementById('mapLede');
+    if(ledeEl && CHART.geo==='state') ledeEl.hidden=showTable || !ledeEl.textContent;
+    if(tabs){
+      [].slice.call(tabs.querySelectorAll('.map-tab')).forEach(function(b){
+        var on=showTable
+          ? b.getAttribute('data-pane')==='table'
+          : (b.getAttribute('data-pane')!=='table' && Number(b.getAttribute('data-view'))===mapView);
+        b.classList.toggle('is-on', !!on);
+      });
+    }
+    if(showTable) applyFind();
+    else drawRank();
+  }
   if(tabs){
     tabs.addEventListener('click', function(ev){
       var btn=ev.target.closest('.map-tab');
       if(!btn) return;
+      if(btn.getAttribute('data-pane')==='table'){
+        setRankPane('table');
+        return;
+      }
       mapView=Number(btn.getAttribute('data-view'))||0;
-      [].slice.call(tabs.querySelectorAll('.map-tab')).forEach(function(b,i){
-        b.classList.toggle('is-on', i===mapView);
-      });
-      drawRank();
+      setRankPane('map');
     });
   }
+  function applyRankHash(){
+    var h=(location.hash||'').replace(/^#/,'');
+    if(h==='view-table' || h==='table') setRankPane('table');
+  }
+  window.addEventListener('hashchange', applyRankHash);
   drawRank();
+  applyRankHash();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
   if(CHART.headline_from==='secondary.public_k12_enrollment'){
@@ -962,6 +988,7 @@ const FIND={"kind": "legislator", "cards": {"karen spilka": {"name": "Karen Spil
     };
     if(find) find.addEventListener('input', function(){ applyFind(); writeQuery(); });
     applyFind();
+    applyRankHash();
   }
 })();
 </script>

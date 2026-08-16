@@ -215,7 +215,7 @@
       "id": "DL-16",
       "slug": "housing-market",
       "title": "Housing Permits",
-      "q": "Housing units authorized to build. House-price change is a later view.",
+      "q": "Housing units authorized to build.",
       "vertical": "Economic Opportunity",
       "group": "Housing",
       "g": ["US", "MA", "FL"],

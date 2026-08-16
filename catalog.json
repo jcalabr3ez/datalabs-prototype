@@ -262,7 +262,7 @@
  {
   "id": "DL-16",
   "t": "Housing Permits",
-  "q": "Housing units authorized to build. House-price change is a later view.",
+  "q": "Housing units authorized to build.",
   "g": [
    "US",
    "MA",

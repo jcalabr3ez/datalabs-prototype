@@ -922,49 +922,8 @@ def figs_dl15(ledger):
 
 
 def figs_dl16(ledger):
-    sec = _sec(ledger)
-    out = []
-    cs = sec.get("case_shiller_boston") or {}
-    bos_labels, bos_vals = _trend_xy(cs.get("trend"), y_key="m")
-    mia_labels, mia_vals = _trend_xy(cs.get("miami_trend"), y_key="m")
-    if bos_labels and bos_vals:
-        by_m = {m: v for m, v in zip(mia_labels, mia_vals)}
-        months = bos_labels
-        series = [{"label": "Boston MSA", "data": bos_vals, "color": GOLD}]
-        if by_m:
-            series.append({
-                "label": "Miami MSA",
-                "data": [by_m.get(m) for m in months],
-                "color": RUST,
-            })
-        mia_lede = ""
-        if cs.get("miami") is not None:
-            mia_lede = (
-                f" Miami MSA {cs.get('miami')} in {cs.get('miami_as_of_label')}, "
-                f"{cs.get('miami_yoy_pct')} percent year over year."
-            )
-        out.append(_fig(
-            "cs-boston",
-            "Case-Shiller Boston and Miami house-price indexes",
-            (
-                f"Boston MSA {cs.get('boston')} in {cs.get('as_of_label')}, "
-                f"{cs.get('yoy_pct')} percent year over year."
-                + mia_lede
-                + " January 2000 equals 100."
-            ),
-            cs.get("src") or "SRC-616-03",
-            "line", "number", "index, January 2000 = 100",
-            months, _grouped(series),
-            cs.get("note") or "FRED BOXRSA and MIXRSA, seasonally adjusted.",
-            span=2,
-        ))
-    fig = from_snap(
-        sec.get("fhfa_hpi_annual_change_2025"), "fhfa-hpi",
-        title="FHFA house-price index, annual change, 2025",
-    )
-    if fig:
-        out.append(fig)
-    return out
+    # Namesake is permits. House-price series stay in the ledger for Ask.
+    return []
 
 
 def figs_dl17(ledger):
@@ -1531,7 +1490,7 @@ def insight_figures(app, ledger):
     figs = fn(ledger) if fn else []
     figs = [f for f in figs if f]
     figs = [f for f in figs if f.get("type") != "map"]
-    if not figs and tid not in ("DL-07", "DL-10", "DL-14", "DL-25", "DL-26", "DL-32"):
+    if not figs and tid not in ("DL-07", "DL-10", "DL-14", "DL-16", "DL-25", "DL-26", "DL-32"):
         fallback = from_latest(ledger)
         if fallback:
             figs = [fallback]

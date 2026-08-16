@@ -1187,28 +1187,19 @@ def voice_dl15(ledger):
 def voice_dl16(ledger):
     latest = ledger.get("latest") or {}
     ma = latest.get("ma") or {}
-    hpi = sec(ledger, "fhfa_hpi_annual_change_2025")
-    cs = sec(ledger, "case_shiller_boston")
-    hma = ma_of(hpi)
+    us = latest.get("us") if isinstance(latest.get("us"), dict) else {}
+    fl = fl_cell(ledger) or {}
     take = [
         f"Massachusetts authorized <b>{commify(ma.get('v'))}</b> housing units through Jun 2026, {rank_txt(ma)}, {ma.get('yoy_pct'):+.1f}% from the same months of 2025 (derived, SRC-616-01)." if ma.get("yoy_pct") is not None else
         f"Massachusetts authorized <b>{commify(ma.get('v'))}</b> housing units through Jun 2026, {rank_txt(ma)} (derived, SRC-616-01).",
-        f"The FHFA house-price index rose <b>{hma.get('v')}%</b> in 2025, {rank_txt(hma)} (derived, SRC-616-02).",
-        f"The Case-Shiller Boston index was <b>{cs.get('boston')}</b> in {cs.get('as_of_label')} ({cs.get('yoy_pct'):+.1f}% from a year earlier) (SRC-616-03).",
+        f"Permit-issuing places authorized <b>{commify(us.get('v'))}</b> housing units in the United States through Jun 2026 (derived, SRC-616-01)." if us.get("v") is not None else "",
+        f"Florida authorized <b>{commify(fl.get('v'))}</b>, {rank_txt(fl)} (derived, SRC-616-01)." if fl.get("v") is not None else "",
     ]
     kpis = [
         kpi("Massachusetts permits, YTD Jun 2026", commify(ma.get("v")),
             f"{rank_txt(ma).capitalize()}. {ma.get('yoy_pct'):+.1f}% from a year earlier (derived, SRC-616-01)." if ma.get("yoy_pct") is not None else f"{rank_txt(ma).capitalize()} (derived, SRC-616-01).",
             "Units authorized, the production-side finding.",
             src_name(ledger, "SRC-616-01")),
-        kpi("House-price change, 2025", f"{hma.get('v')}%",
-            f"{rank_txt(hma).capitalize()} on the FHFA all-transactions index (derived, SRC-616-02).",
-            "How fast Massachusetts house prices moved.",
-            src_name(ledger, "SRC-616-02")),
-        kpi("Case-Shiller Boston", str(cs.get("boston")),
-            f"{cs.get('as_of_label')}, {cs.get('yoy_pct'):+.1f}% year over year (SRC-616-03).",
-            "Boston is the only Massachusetts city in that series.",
-            src_name(ledger, "SRC-616-03")),
     ]
     return take, kpis, f"{commify(ma.get('v'))} units YTD, {rank_txt(ma)}", "SRC-616-01"
 
@@ -2455,7 +2446,10 @@ def voice_for(app, ledger):
         "page_lead": page_lead,
         "answer": answer,
         "answers": answers,
-        "vintages": mixed_vintage_lines(ledger),
+        "vintages": (
+            [(ledger.get("metric_label") or "Housing units authorized", ledger.get("data_month_label"))]
+            if tid == "DL-16" else mixed_vintage_lines(ledger)
+        ),
     }
 
 

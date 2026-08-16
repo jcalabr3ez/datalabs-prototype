@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Housing Permits drops house-price charts",
+        "body": (
+            "Housing Permits now shows authorized units only. The "
+            "Case-Shiller Boston and Miami indexes and the FHFA annual "
+            "change bar are off the page. Those series stay in the ledger "
+            "for Ask. The ledger was not rebuilt."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "One namesake, fewer bars",
         "body": (
             "Live pages outside State Wealth Taxes and Florida Homeowners "

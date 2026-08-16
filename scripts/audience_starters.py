@@ -111,9 +111,9 @@ STARTERS = {
     },
     "DL-16": {
         "public": "How many housing units were authorized in the United States?",
-        "journalist": "Where did house prices rise fastest last year?",
-        "researcher": "Are housing permits completions, and is FHFA the same as Case-Shiller?",
-        "policymaker": "What is the Case-Shiller Boston house price index?",
+        "journalist": "Which state authorized the most housing units?",
+        "researcher": "Are housing permits completions, and is this year-to-date?",
+        "policymaker": "How many housing units were authorized in Massachusetts?",
     },
     "DL-17": {
         "public": "Which state gained the most people from domestic migration?",

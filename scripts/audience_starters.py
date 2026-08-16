@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
-"""Four audience starter questions for every live tool except DL-01 and DL-02.
+"""Four audience starter questions for every live tool.
 
 Questions are phrased for the ask box. They use only series the matching
-ledger already publishes (or will publish after the residential-price and
-taxpayer-pair compiles). Patents (DL-18) is in build and is omitted.
+ledger already publishes. Patents (DL-18) is in build and is omitted.
 """
 from __future__ import annotations
 
 import html
 
-SKIP = {"DL-01", "DL-02", "DL-18"}
+SKIP = {"DL-18"}
 
 WHO = (
     ("public", "General public"),
@@ -20,6 +19,18 @@ WHO = (
 
 # tool_id -> {public, journalist, researcher, policymaker}
 STARTERS = {
+    "DL-01": {
+        "public": "What is the Massachusetts top income tax rate?",
+        "journalist": "Which states are considering a wealth tax?",
+        "researcher": "Is Near-Term Risk a Pioneer model, and when was it last scored?",
+        "policymaker": "What events should I watch on wealth and high-earner taxes?",
+    },
+    "DL-02": {
+        "public": "What does homeowners insurance cost in Miami-Dade?",
+        "journalist": "How many homes does Citizens still insure?",
+        "researcher": "Does Florida publish one official statewide average premium?",
+        "policymaker": "What share of nationwide homeowners lawsuits are filed in Florida?",
+    },
     "DL-03": {
         "public": "Is the T back to pre-pandemic ridership?",
         "journalist": "Which MBTA mode is still furthest from June 2019 ridership?",

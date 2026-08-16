@@ -116,29 +116,31 @@
   .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.6vw,36px); letter-spacing:-.02em; margin-top:8px; color:var(--ink); }
   .sec .sub { margin-top:10px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
-  /* New Releases: two ruled columns, no card chrome */
-  .desk { margin-top:24px; border-top:1px solid var(--ink); display:grid; grid-template-columns:1fr 1fr;
-    background:#fff; }
-  .lead { padding:18px 28px 22px 0; border-right:1px solid var(--rule); cursor:pointer; }
-  .lead:last-child { border-right:none; padding-right:0; padding-left:28px; }
+  /* New Releases: two equal institutional tiles */
+  .desk { margin-top:22px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .lead { display:flex; flex-direction:column; min-height:100%;
+    padding:22px 24px 20px; background:#fff; border:1px solid var(--rule);
+    box-shadow:inset 0 2px 0 var(--gold); cursor:pointer; }
+  .lead:hover { border-color:var(--navy); }
   .lead .place { display:flex; align-items:center; justify-content:space-between; gap:8px;
-    font-size:13px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--grey); }
+    font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--faint); }
   .lead .askbadge { flex:none; font-size:10px; font-weight:700; letter-spacing:.08em;
-    color:var(--navy); border:1px solid var(--rule); padding:2px 7px; }
-  .lead h3 { margin:8px 0 0; line-height:1.25; }
-  .lead h3 a { font-family:var(--serif); font-size:22px; font-weight:700;
-    letter-spacing:-.01em; color:var(--navy); }
+    color:var(--navy); border:1px solid var(--rule); padding:2px 7px; text-transform:uppercase; }
+  .lead h3 { margin:10px 0 0; line-height:1.2; }
+  .lead h3 a { font-family:var(--serif); font-size:clamp(22px,2.4vw,26px); font-weight:700;
+    letter-spacing:-.015em; color:var(--navy); }
   .lead:hover h3 a { color:var(--ink); text-decoration:underline; }
-  .lead .statline { margin-top:12px; font-size:15px; color:var(--ink); line-height:1.5; }
+  .lead .statline { margin-top:14px; font-size:15.5px; color:var(--ink); line-height:1.5; flex:1; }
   .lead .statline b { font-variant-numeric:tabular-nums; font-weight:700; }
-  .lead .status { margin-top:14px; font-size:12px; color:var(--faint); line-height:1.45; }
   .lead .askex { margin-top:12px; font-size:13px; font-weight:600; color:var(--navy); padding:0; }
   .lead .askex i { font-family:var(--serif); font-weight:500; }
   .lead .askex:hover { color:var(--ink); text-decoration:underline; }
+  .lead .status { margin-top:18px; padding-top:12px; border-top:1px solid var(--rule-lt);
+    font-size:12px; color:var(--faint); line-height:1.45; }
+  .lead .go { margin-top:10px; font-size:13px; font-weight:600; color:var(--navy); }
+  .lead:hover .go { color:var(--ink); text-decoration:underline; }
   @media (max-width:640px){
     .desk { grid-template-columns:1fr; }
-    .lead, .lead:last-child { border-right:none; border-bottom:1px solid var(--rule); padding:16px 0; }
-    .lead:last-child { border-bottom:none; }
   }
 
   /* catalog: four open verticals, one tool per row */
@@ -546,7 +548,7 @@ const CHART_TITLES = {
   takeouts:'Net policies flowing into Citizens per 100 taken out'
 };
 
-/* ---------- The desk: New Releases, two ruled columns ---------- */
+/* ---------- The desk: New Releases, two institutional tiles ---------- */
 (function(){
   var flLast = FLPIF[FLPIF.length-1][1], flPeak = Math.max.apply(null, FLPIF.map(function(r){return r[1];}));
   var cards = [
@@ -568,7 +570,8 @@ const CHART_TITLES = {
       '<h3><a href="'+c.url+'">'+esc(t.t||c.id)+'</a></h3>' +
       '<div class="statline">'+c.line+'</div>' +
       ((c.q&&AI_ENABLED)?'<button class="askex" type="button" data-q="'+esc(c.q)+'">Ask: <i>&#8220;'+esc(c.qshort)+'&#8221;</i></button>':'') +
-      '<div class="status">'+c.status+'</div></article>';
+      '<div class="status">'+c.status+'</div>' +
+      '<div class="go">Open the application</div></article>';
   }).join('') + '</div>';
   [].slice.call(document.querySelectorAll('.lead')).forEach(function(el){
     el.addEventListener('click', function(e){

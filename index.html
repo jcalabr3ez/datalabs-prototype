@@ -196,11 +196,9 @@
   .cr:focus-visible { outline:2px solid #fff; outline-offset:3px; }
   .cr.hide { display:none; }
   .cr-main { min-width:0; flex:1; display:flex; flex-direction:column; gap:4px; }
-  .cr-stat { font-size:16.5px; font-weight:700; color:#fff; line-height:1.35;
-    font-variant-numeric:tabular-nums; }
-  .cr-name { font-size:13px; font-weight:500; color:#8DA0B5; line-height:1.4; }
-  .cr-name.cr-name-only { font-size:16.5px; font-weight:700; color:#fff;
+  .cr-name { font-size:16.5px; font-weight:700; color:#fff; line-height:1.3;
     font-family:var(--serif); letter-spacing:-.015em; }
+  .cr-cover { font-size:13px; font-weight:500; color:#8DA0B5; line-height:1.4; }
   .cr:hover .cr-name { color:#fff; text-decoration:underline; }
   .cr .flag { font-family:var(--sans); font-size:10px; font-weight:700; letter-spacing:.08em;
     color:var(--gold); margin-left:8px; text-transform:uppercase; }
@@ -209,7 +207,6 @@
   .cr-vint { display:block; color:#8DA0B5; }
   .cr .ext { color:#8DA0B5; font-size:11px; }
   .cr-build { opacity:.62; }
-  .cr-build .cr-stat { font-size:13.5px; font-weight:500; color:#8DA0B5; }
   .noresult { padding:24px 2px; font-size:14px; color:var(--faint); }
   @media (max-width:640px){
     .srchwrap { max-width:none; flex-basis:100%; }
@@ -420,7 +417,7 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
       s:(t.g && t.g[0]) || FLAG_GEO[t.id] || '',
       vint:t.st==='build'?'In build':(t.vint || FLAG_VINT[t.id] || ''),
       st:t.st,
-      ma:t.ma || t.q || '',
+      q:t.q || '',
       dlid:t.id, host:'' }; });
     CATALOG.forEach(function(t){
       var topic = FLAG_TOPIC[t.id] || GROUP_TOPIC[t.group];
@@ -430,7 +427,7 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
         rows.push({
           n:d.t, u:d.u, s:d.g || (t.g && t.g[0]) || 'US',
           vint:'Tableau', st:'dash',
-          ma:d.q || '', dlid:'', host:hostOf(d.u)
+          q:d.q || '', dlid:'', host:hostOf(d.u)
         });
       });
     });
@@ -461,15 +458,15 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
   function rowHtml(r, topicName){
     var ext = r.u && r.u.charAt(0)!=='/' ? ' target="_blank" rel="noopener"' : '';
     var flag = r.st==='build' ? 'In build' : (r.st==='dash' ? 'Tableau' : '');
-    var q = (r.n+' '+topicName+' '+(r.ma||'')+' '+(r.dlid||'')).toLowerCase();
+    var q = (r.n+' '+topicName+' '+(r.q||'')+' '+(r.dlid||'')).toLowerCase();
     var cls = 'cr'+(r.st==='build'?' cr-build':'')+(r.st==='dash'?' cr-dash':'');
-    var stat = r.st==='dash' ? '' : (r.ma || (r.st==='build' ? 'In build' : ''));
+    var cover = r.q || (r.st==='build' ? 'In build' : '');
     return '<a class="'+cls+'" href="'+esc(r.u)+'"'+ext+(r.host?' title="Opens on '+esc(r.host)+'"':'')+
       ' data-g="'+esc(r.s)+'" data-q="'+esc(q)+'">' +
       '<span class="cr-main">' +
-        (stat?'<span class="cr-stat">'+esc(stat)+'</span>':'') +
-        '<span class="cr-name'+(stat?'':' cr-name-only')+'">'+esc(r.n)+
+        '<span class="cr-name">'+esc(r.n)+
           (flag?'<span class="flag">'+esc(flag)+'</span>':'')+'</span>' +
+        (cover?'<span class="cr-cover">'+esc(cover)+'</span>':'') +
       '</span>' +
       '<span class="cr-side">' +
         '<span class="cr-place">'+esc(GEO[r.s]||r.s)+(r.host?' <span class="ext">'+esc(r.host)+'</span>':'')+'</span>' +

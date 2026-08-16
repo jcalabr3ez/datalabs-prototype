@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Catalog cards name the tool and what it covers",
+        "body": (
+            "Each catalog row now leads with the tool name and the coverage "
+            "line already on the catalog, not a Massachusetts figure. The "
+            "numbers stay on the tool pages."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "One page spine, Census Albers maps, and a quieter catalog",
         "body": (
             "Live tools other than State Wealth Taxes and Florida Homeowners "

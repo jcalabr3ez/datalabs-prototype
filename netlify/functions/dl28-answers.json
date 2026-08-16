@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-28",
-  "title": "Massachusetts State Finances",
+  "title": "Massachusetts Tax Collections",
   "slug": "ma-state-finances",
   "vertical": "American Citizenship",
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2026-03",
   "scope": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2023. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment.",
-  "exclusions": "Does not cover municipal levies (Municipal Rankings), the 51-state ranking (U.S. State Finances), or advice about a filing. DOR monthly reports and tax credits are pending: decline those.",
+  "exclusions": "Does not cover municipal levies (Massachusetts Town Rankings), the 51-state ranking (State Tax Collections), or advice about a filing. DOR monthly reports and tax credits are pending: decline those.",
   "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
   "replaces": [
     "Revenue Tax",

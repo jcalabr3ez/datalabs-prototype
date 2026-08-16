@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-07",
-  "title": "National K-12",
+  "title": "State School Scores",
   "slug": "national-k12",
   "vertical": "Education",
   "group": "Education",
   "status": "live",
   "as_of": "2024-10",
   "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil.",
-  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts K-12) or higher education.",
+  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts Schools) or higher education.",
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "replaces": [
     "Discipline & Security",
@@ -90,7 +90,7 @@
       "label": "Highest / lowest",
       "value": "CA 5,897,886",
       "detail": "California enrolled the most students; Vermont the fewest at 81,398 (SRC-607-02).",
-      "why": "Large states lead on raw counts; per-pupil finance sits on Massachusetts K-12.",
+      "why": "Large states lead on raw counts; per-pupil finance sits on Massachusetts Schools.",
       "src": "NCES Digest table 203.20 (SRC-607-02)"
     }
   ],

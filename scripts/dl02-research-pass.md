@@ -1,7 +1,7 @@
 # DL-02 monthly research pass (17th, 10:00 AM ET)
 
 This is the canonical prompt for the **monthly full update** of Pioneer
-Institute DataLabs Florida Insurance Watch (DL-02). A Cursor Automation
+Institute DataLabs Florida Homeowners Insurance (DL-02). A Cursor Automation
 should follow this file on the 17th of each month at 10:00 AM Eastern.
 The first fire is Monday, August 17, 2026. A human can also paste it
 into a Cloud Agent.
@@ -41,7 +41,7 @@ OIR portal. Do not enable merge or any "push to main" action.
 **Prompt to paste:**
 
     Follow scripts/dl02-research-pass.md exactly. This is the monthly
-    full research pass for Pioneer DataLabs Florida Insurance Watch
+    full research pass for Pioneer DataLabs Florida Homeowners Insurance
     (DL-02).
 
     Recheck every source in the flagship register, not only sources

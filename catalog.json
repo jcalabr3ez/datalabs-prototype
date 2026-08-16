@@ -45,8 +45,8 @@
  },
  {
   "id": "DL-01",
-  "t": "State Tax Atlas",
-  "q": "Every state\u2019s wealth-tax, surtax, and intangibles provisions, mapped provision by provision.",
+  "t": "State Wealth Taxes",
+  "q": "Every state's wealth-tax, surtax, and intangibles provisions, mapped provision by provision.",
   "g": [
    "US"
   ],
@@ -57,8 +57,8 @@
  },
  {
   "id": "DL-02",
-  "t": "Florida Insurance Watch",
-  "q": "Why Florida homeowners insurance costs what it costs, county by county.",
+  "t": "Florida Homeowners Insurance",
+  "q": "Florida homeowners premiums and residual-market pressure by county.",
   "g": [
    "FL"
   ],
@@ -68,8 +68,8 @@
  },
  {
   "id": "DL-03",
-  "t": "Transportation & MBTA",
-  "q": "How the T performs, mode by mode: ridership against 2019, service and productivity, reliability, and costs.",
+  "t": "MBTA Performance",
+  "q": "MBTA ridership, reliability, and cost. U.S. agencies sit on Transit Systems.",
   "g": [
    "MA",
    "US"
@@ -107,7 +107,7 @@
  },
  {
   "id": "DL-06",
-  "t": "Massachusetts K-12",
+  "t": "Massachusetts Schools",
   "q": "Enrollment, MCAS, attendance, dropouts, school finances, and Chapter 74 vocational-technical programs for Massachusetts districts.",
   "g": [
    "MA"
@@ -121,8 +121,8 @@
  },
  {
   "id": "DL-07",
-  "t": "National K-12",
-  "q": "NAEP reading and math, enrollment, finance, completion, and discipline across the 50 states.",
+  "t": "State School Scores",
+  "q": "NAEP scores, enrollment, and school finance across the fifty states.",
   "g": [
    "US"
   ],
@@ -135,8 +135,8 @@
  },
  {
   "id": "DL-08",
-  "t": "Higher Education",
-  "q": "College admissions tests, enrollment, faculty, and student outcomes.",
+  "t": "College Enrollment",
+  "q": "Fall college enrollment by state, with SAT scores as a later view.",
   "g": [
    "US",
    "MA"
@@ -150,8 +150,8 @@
  },
  {
   "id": "DL-09",
-  "t": "Charters and Teachers",
-  "q": "Charter school enrollment and public-school teachers by state.",
+  "t": "Charter Enrollment",
+  "q": "Charter-school enrollment by state. Teacher counts are a secondary table.",
   "g": [
    "US",
    "MA"
@@ -179,8 +179,8 @@
  },
  {
   "id": "DL-11",
-  "t": "340B",
-  "q": "340B program growth, hospital charity care, and state legislative mapping.",
+  "t": "340B Drug Discounts",
+  "q": "Participating 340B sites, contract pharmacies, and hospital charity care.",
   "g": [
    "US"
   ],
@@ -193,8 +193,8 @@
  },
  {
   "id": "DL-12",
-  "t": "Medicaid Spending and Fraud",
-  "q": "State Medicaid spending and Medicaid fraud recoveries.",
+  "t": "State Medicaid Spending",
+  "q": "Medicaid expenditures and fraud recoveries by state.",
   "g": [
    "US"
   ],
@@ -222,8 +222,8 @@
  },
  {
   "id": "DL-14",
-  "t": "Labor Market",
-  "q": "Unemployment, employment, and labor force by state from BLS LAUS.",
+  "t": "State Unemployment",
+  "q": "The unemployment rate by state, from BLS LAUS.",
   "g": [
    "US",
    "MA"
@@ -237,8 +237,8 @@
  },
  {
   "id": "DL-15",
-  "t": "GDP and Economic Profiles",
-  "q": "State GDP, personal income, and the Massachusetts and U.S. economic profiles.",
+  "t": "State GDP",
+  "q": "Real GDP by state. Personal income is the companion series.",
   "g": [
    "US",
    "MA"
@@ -252,8 +252,8 @@
  },
  {
   "id": "DL-16",
-  "t": "Housing Market",
-  "q": "Building permits by state, the production side of the housing file.",
+  "t": "Housing Permits",
+  "q": "Housing units authorized to build. House-price change is a later view.",
   "g": [
    "US",
    "MA"
@@ -267,8 +267,8 @@
  },
  {
   "id": "DL-17",
-  "t": "Population and Migration",
-  "q": "State population, domestic migration, and the rural-urban continuum.",
+  "t": "State Migration",
+  "q": "Domestic migration by state, not headcount.",
   "g": [
    "US",
    "MA"
@@ -282,8 +282,8 @@
  },
  {
   "id": "DL-18",
-  "t": "Patents and Innovation",
-  "q": "Utility patents by state and sector.",
+  "t": "Patents by State",
+  "q": "USPTO utility patents by state.",
   "g": [
    "US",
    "MA"
@@ -334,8 +334,8 @@
  },
  {
   "id": "DL-21",
-  "t": "Tax Statistics",
-  "q": "Income-tax statistics by state and county, plus size-of-AGI stubs.",
+  "t": "Taxpayer Income",
+  "q": "IRS adjusted gross income and income-tax returns by state.",
   "g": [
    "US",
    "MA"
@@ -364,8 +364,8 @@
  },
  {
   "id": "DL-23",
-  "t": "Roads and Risk",
-  "q": "Roadway travel, FEMA obligations, and the National Risk Index.",
+  "t": "Vehicle-Miles Traveled",
+  "q": "Miles driven by state. FEMA, the National Risk Index, and degree days are later views.",
   "g": [
    "US"
   ],
@@ -378,8 +378,8 @@
  },
  {
   "id": "DL-24",
-  "t": "Energy Supply",
-  "q": "Energy consumption, production, and CO2 emissions by state. Not the retail-price page.",
+  "t": "State Energy Emissions",
+  "q": "CO2 from energy by state, with consumption and production as companions.",
   "g": [
    "US",
    "MA"
@@ -393,8 +393,8 @@
  },
  {
   "id": "DL-25",
-  "t": "Municipal Atlas",
-  "q": "Population, income, housing, and education for every Massachusetts city and town, with Census and ACS peers.",
+  "t": "Massachusetts Town Profiles",
+  "q": "Population, income, housing, and education for every Massachusetts city and town.",
   "g": [
    "MA"
   ],
@@ -407,7 +407,7 @@
  },
  {
   "id": "DL-26",
-  "t": "Municipal Rankings",
+  "t": "Massachusetts Town Rankings",
   "q": "Population change, school spending, income, poverty, and home values for Massachusetts cities and towns.",
   "g": [
    "MA"
@@ -421,8 +421,8 @@
  },
  {
   "id": "DL-27",
-  "t": "Boston",
-  "q": "Boston city budget and payroll.",
+  "t": "Boston City Payroll",
+  "q": "Boston department payroll.",
   "g": [
    "Boston"
   ],
@@ -435,8 +435,8 @@
  },
  {
   "id": "DL-28",
-  "t": "Massachusetts State Finances",
-  "q": "Commonwealth quarterly and annual tax collections by type from Census QTAX and STC.",
+  "t": "Massachusetts Tax Collections",
+  "q": "Commonwealth tax collections by type from Census QTAX and STC.",
   "g": [
    "MA"
   ],
@@ -449,8 +449,8 @@
  },
  {
   "id": "DL-29",
-  "t": "U.S. State Finances",
-  "q": "State tax collections, annual tax mix, and state government employment.",
+  "t": "State Tax Collections",
+  "q": "State tax collections by type.",
   "g": [
    "US"
   ],
@@ -463,8 +463,8 @@
  },
  {
   "id": "DL-30",
-  "t": "Payroll and Vendors",
-  "q": "Massachusetts state, higher-ed, and quasi-public payroll, plus vendor payments.",
+  "t": "Massachusetts State Payroll",
+  "q": "Commonwealth, campus, and quasi-public payroll.",
   "g": [
    "MA"
   ],
@@ -477,8 +477,8 @@
  },
  {
   "id": "DL-31",
-  "t": "Crime and Justice",
-  "q": "Imprisonment rates, admissions, releases, and youth in adult prisons by state from BJS.",
+  "t": "State Imprisonment",
+  "q": "BJS prisoners and imprisonment rates by state.",
   "g": [
    "US"
   ],

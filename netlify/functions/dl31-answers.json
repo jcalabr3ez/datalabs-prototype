@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-31",
-  "title": "Crime and Justice",
+  "title": "State Imprisonment",
   "slug": "crime-justice",
   "vertical": "American Citizenship",
   "group": "Crime & Justice",
   "status": "live",
   "as_of": "2023-12",
   "scope": "This ledger ranks states on BJS prisoners under jurisdiction at year-end 2023, and also reports 2023 imprisonment rates per 100,000 residents, sentenced admissions, releases, and prisoners age 17 or younger held in adult prisons. FBI UCR/NIBRS crime rates and IC3 internet-crime reports remain later views because those publishers do not post a stable machine-readable state file on this pass.",
-  "exclusions": "Does not cover Massachusetts municipal crime rankings (Municipal Rankings) or advice about a case. FBI crime rates and IC3 internet-crime reports are pending: decline those. Youth counts are prisoners age 17 or younger in adult prisons, not OJJDP juvenile-justice custody.",
+  "exclusions": "Does not cover Massachusetts municipal crime rankings (Massachusetts Town Rankings) or advice about a case. FBI crime rates and IC3 internet-crime reports are pending: decline those. Youth counts are prisoners age 17 or younger in adult prisons, not OJJDP juvenile-justice custody.",
   "heritage": "Formerly Crime Rates, Adult Incarceration, Juvenile Incarceration, and Internet Crime",
   "replaces": [
     "Adult Incarceration",

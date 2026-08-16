@@ -9,9 +9,9 @@ Merging a pull request is what publishes.
 
 | Tool | Page | Canonical ledger | How it refreshes |
 | --- | --- | --- | --- |
-| DL-01 State Tax Atlas | `/tax-atlas/` | `netlify/functions/dl01-answers.json` | Weekly Cursor Automation, Monday 9:00 AM ET. Runbook: `scripts/dl01-research-pass.md` |
-| DL-02 Florida Insurance Watch | `/florida-insurance/` | `netlify/functions/dl02-answers.json` | Monthly Cursor Automation, 17th at 10:00 AM ET. Runbook: `scripts/dl02-research-pass.md` |
-| DL-03 Transportation & MBTA | `/mbta/` | `netlify/functions/dl03-answers.json` | Monthly GitHub Action. Script: `scripts/refresh_dl03.py` |
+| DL-01 State Wealth Taxes | `/tax-atlas/` | `netlify/functions/dl01-answers.json` | Weekly Cursor Automation, Monday 9:00 AM ET. Runbook: `scripts/dl01-research-pass.md` |
+| DL-02 Florida Homeowners Insurance | `/florida-insurance/` | `netlify/functions/dl02-answers.json` | Monthly Cursor Automation, 17th at 10:00 AM ET. Runbook: `scripts/dl02-research-pass.md` |
+| DL-03 MBTA Performance | `/mbta/` | `netlify/functions/dl03-answers.json` | Monthly GitHub Action. Script: `scripts/refresh_dl03.py` |
 | DL-04 Retail Electricity Prices | `/electricity/` | `netlify/functions/dl04-answers.json` | Yearly GitHub Action, October. Script: `scripts/refresh_dl04.py` |
 | DL-05 Massachusetts Public Pensions | `/pensions/` | `netlify/functions/dl05-answers.json` | Monthly GitHub Action for CTHRU retirees and name search (`scripts/refresh_dl05.py`). Research pass when PERAC posts a new Investment Report: `scripts/dl05-research-pass.md`. `scripts/build_dl05.py` is the one-time compiler from the partner extracts, not a publisher refresh. |
 | DL-06 to DL-32 (27 apps) | see `suite/apps.json` | `netlify/functions/dlXX-answers.json` | Monthly GitHub Action (`scripts/refresh_suite.py`). Live builders fetch public files. 340B rebuilds from a local OPAIS daily export plus CMS and Census files (`scripts/build_dl11.py`); Patents stays an in-build stub. No invented figures. |

@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-17",
-  "title": "Population and Migration",
+  "title": "State Migration",
   "slug": "population-migration",
   "vertical": "Economic Opportunity",
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2025-07",
   "scope": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, and USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties).",
-  "exclusions": "Does not cover IRS taxpayer migration (that is Taxpayer Migration) or municipal populations (that is Municipal Atlas).",
+  "exclusions": "Does not cover IRS taxpayer migration (that is Taxpayer Migration) or municipal populations (that is Massachusetts Town Profiles).",
   "heritage": "Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban",
   "replaces": [
     "US Demographics",

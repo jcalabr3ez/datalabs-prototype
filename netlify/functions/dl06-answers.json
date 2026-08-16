@@ -1,6 +1,6 @@
 {
   "tool_id": "DL-06",
-  "title": "Massachusetts K-12",
+  "title": "Massachusetts Schools",
   "slug": "ma-k12",
   "vertical": "Education",
   "group": "Education",
@@ -676,7 +676,7 @@
             "v": 915932
           }
         ],
-        "note": "NCES Digest table 203.20, public elementary and secondary enrollment. Same published cells as the National K-12 ranking."
+        "note": "NCES Digest table 203.20, public elementary and secondary enrollment. Same published cells as the State School Scores ranking."
       },
       "ma_chapter74_cte": {
         "label": "Massachusetts Chapter 74 career technical education enrollment, 2025-26",

@@ -13,9 +13,9 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    (DL-01 through DL-31 only). Public
                                    production site.
     suite/apps.json                CANONICAL registry of the 26 new applications
-    mbta/index.html                DL-03 Transportation & MBTA flagship page
-    florida-insurance/index.html   DL-02 Florida Insurance Watch flagship page
-    tax-atlas/index.html           DL-01 State Tax Atlas flagship page
+    mbta/index.html                DL-03 MBTA Performance flagship page
+    florida-insurance/index.html   DL-02 Florida Homeowners Insurance flagship page
+    tax-atlas/index.html           DL-01 State Wealth Taxes flagship page
     electricity/index.html         DL-04 Retail Electricity Prices flagship page
     pensions/index.html            DL-05 Massachusetts Public Pensions flagship page
     netlify/functions/ask.js       The engine: one Sonnet 5 call reads the

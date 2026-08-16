@@ -1,13 +1,13 @@
 {
   "tool_id": "DL-25",
-  "title": "Municipal Atlas",
+  "title": "Massachusetts Town Profiles",
   "slug": "municipal-atlas",
   "vertical": "American Citizenship",
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-07",
-  "scope": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell, and also reports ACS 2020-2024 5-year median household income, median home value, poverty rate, bachelor's-or-higher share, median age, and ACS socioeconomic peers (z-scored income, home value, and bachelor's share). Population peers are Census count distance. ACS peers are not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Municipal Rankings.",
-  "exclusions": "Does not cover Boston-only payroll (that is Boston), statewide multi-metric rankings (Municipal Rankings), or advice about moving. DLS levy files are not a stable public CSV: decline those.",
+  "scope": "This ledger lists all 351 Massachusetts cities and towns by July 1, 2025 Census population (SUMLEV 061), reports five nearest-population peers for Boston, Worcester, Springfield, Cambridge, and Lowell, and also reports ACS 2020-2024 5-year median household income, median home value, poverty rate, bachelor's-or-higher share, median age, and ACS socioeconomic peers (z-scored income, home value, and bachelor's share). Population peers are Census count distance. ACS peers are not the old Pioneer socioeconomic workbook. A DLS levy file is not posted as a stable public CSV. Rankings of change sit on Massachusetts Town Rankings.",
+  "exclusions": "Does not cover Boston-only payroll (that is Boston City Payroll), statewide multi-metric rankings (Massachusetts Town Rankings), or advice about moving. DLS levy files are not a stable public CSV: decline those.",
   "heritage": "Formerly Choose a City or Town, Economic Snapshot, and Find Peers",
   "replaces": [
     "Choose a City or Town",

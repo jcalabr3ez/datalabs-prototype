@@ -8,9 +8,17 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from audience_starters import companion_jumps, starters_html
+from audience_starters import starters_html
 from insight_figures import insight_figures
-from page_voice import census_place_names, display_lead, short_place_text, table_value_label, voice_for
+from page_voice import (
+    census_place_names,
+    display_lead,
+    mixed_vintage_lines,
+    short_place_text,
+    source_vintage,
+    table_value_label,
+    voice_for,
+)
 from suite_common import ROOT, catalog_dashboards, commify, load_apps, ledger_path, paper_dateline
 
 def esc(s):
@@ -20,11 +28,12 @@ def esc(s):
 def src_rows(ledger):
     lines = []
     for sid, s in ledger.get("source_id_map", {}).items():
+        vintage = source_vintage(ledger, sid, s)
         lines.append(
             "<tr><td class=\"src\"><a href=\"" + esc(s.get("url", "#"))
             + "\" target=\"_blank\" rel=\"noopener\">" + esc(s.get("name", sid))
             + " (" + esc(sid) + ")</a></td><td>" + esc(s.get("cadence", ""))
-            + "</td><td>" + esc(ledger.get("data_month_label") or "pending")
+            + "</td><td>" + esc(vintage)
             + "</td><td>" + esc(s.get("cadence", "See publisher"))
             + "</td></tr>"
         )
@@ -52,6 +61,12 @@ EXPLORE_BAR = """    <div class="explore-bar" hidden>
         <button type="button" data-band="top10">Top 10</button>
         <button type="button" data-band="bottom10">Bottom 10</button>
       </div>
+    </div>
+"""
+
+COMPARE_BAR = """    <div class="compare-bar" id="compareBar">
+      <label class="sel-lab" for="compareSel">Compare</label>
+      <select id="compareSel" aria-label="Pin a second state"></select>
     </div>
 """
 
@@ -83,10 +98,16 @@ def kpi_html(kpis):
     return html
 
 
-def answer_html(answer, kpis_markup="", slug=""):
+def answer_html(answer, kpis_markup="", slug="", vintages=None):
     if not answer or not answer.get("value"):
         return ""
     ctx = answer.get("context") or ""
+    cite = answer.get("cite") or ""
+    meta_bits = [b for b in (
+        answer.get("geo"),
+        answer.get("vintage"),
+        answer.get("src_id"),
+    ) if b]
     kpi_block = ""
     if kpis_markup:
         begin = f"<!-- DATA:BEGIN {slug}-kpis -->" if slug else ""
@@ -98,11 +119,42 @@ def answer_html(answer, kpis_markup="", slug=""):
             + ("\n" + end + "\n" if end else "\n")
             + "    </div>\n"
         )
+    vintage_block = ""
+    mixed = [v for v in (vintages or []) if v and v[1]]
+    if len({v[1].lower() for v in mixed}) >= 2:
+        parts = []
+        for name, lab in mixed[:6]:
+            if name:
+                parts.append(esc(name) + ": " + esc(lab))
+            else:
+                parts.append(esc(lab))
+        vintage_block = (
+            '    <p class="vintage-mix">Figures on this page mix vintages. '
+            + "; ".join(parts)
+            + ".</p>\n"
+        )
+    cite_btn = ""
+    if cite:
+        cite_btn = (
+            '    <button type="button" class="cite-copy" data-cite="'
+            + esc(cite)
+            + '">Copy citation</button>\n'
+        )
+    meta_html = ""
+    if meta_bits:
+        meta_html = (
+            '    <p class="answer-meta">'
+            + esc(" · ".join(str(b) for b in meta_bits))
+            + "</p>\n"
+        )
     return (
         '  <section id="answer" class="answer-block">\n'
         "    <h2>" + esc(answer.get("q") or "The finding") + "</h2>\n"
         '    <div class="answer-num">' + esc(answer["value"]) + "</div>\n"
         + ('    <p class="answer-ctx">' + esc(ctx) + "</p>\n" if ctx else "")
+        + meta_html
+        + cite_btn
+        + vintage_block
         + kpi_block
         + "  </section>\n"
     )
@@ -498,12 +550,25 @@ def chart_spec(app, ledger):
         and state_vals
         and min(state_vals) <= us_val <= max(state_vals)
     )
+    if tid == "DL-07":
+        # Default map and table are NAEP scores, not enrollment vs the U.S.
+        us_compare = False
     lede = ""
     if geo == "state":
+        n_file = n_rows or n_chart
+        if n_file == 51:
+            where_lede = "Every state and the District of Columbia. "
+        elif n_file == 50:
+            where_lede = "The 50 states. The District of Columbia is not in this file. "
+        elif n_file == 46:
+            where_lede = "46 jurisdictions. Not every state is in this file. "
+        else:
+            where_lede = f"{n_file} jurisdictions. "
         lede = (
-            "Every state and the District of Columbia. Darker navy is higher. "
+            where_lede
+            + "Darker navy is higher. "
             "Hover a state to update the readout. Click a state to open the table. "
-            "Massachusetts has a gold outline."
+            "Massachusetts has a gold outline. Pin a second state to compare."
         )
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
@@ -552,7 +617,11 @@ def chart_spec(app, ledger):
         trend_lede = ""
         trend_unit = unit
     compare_title = {
-        "state": "Across the fifty states",
+        "state": (
+            "Across the 50 states and D.C." if (n_rows or n_chart) == 51
+            else "Across the 50 states" if (n_rows or n_chart) == 50
+            else f"Across {n_rows or n_chart} jurisdictions"
+        ),
         "hospital": "Compared with other hospitals",
         "transit agency": "Compared with other agencies",
         "city or town": "Compared with other cities and towns",
@@ -948,13 +1017,23 @@ def page_html(app, ledger, apps=None):
         if app["id"] == "DL-11":
             jump_links.append('<a href="#view-charity">Charity care</a>')
             jump_links.append('<a href="#view-districts">Legislative mapping</a>')
-        for label, href in companion_jumps(app["id"]):
-            jump_links.append('<a href="' + esc(href) + '">' + esc(label) + "</a>")
+        for fig in insights:
+            fid = fig.get("id")
+            if not fid:
+                continue
+            label = (fig.get("title") or fid).strip()
+            if len(label) > 36:
+                label = label[:34] + "\u2026"
+            jump_links.append(
+                '<a href="#insight-' + esc(fid) + '">' + esc(label) + "</a>"
+            )
         jump = (
             '<nav class="jump" aria-label="On this page">'
-            '<span class="onlab">On this page</span>'
+            '<details class="jump-fold">'
+            "<summary>On this page</summary>"
+            '<div class="jump-links">'
             + "".join(jump_links)
-            + "</nav>\n"
+            + "</div></details></nav>\n"
         )
     latest_section = ""
     n_fig = len(insights) if live else 0
@@ -1066,6 +1145,7 @@ def page_html(app, ledger, apps=None):
                 )
                 + REGION_BAR
                 + EXPLORE_BAR
+                + COMPARE_BAR
                 + '    <div id="mapPane">\n'
                 + '    <div class="exhibit">\n'
                 + '      <div class="ex-head"><span class="ex-n">Figure 1</span>\n'
@@ -1117,7 +1197,12 @@ def page_html(app, ledger, apps=None):
             )
         else:
             rank_inner = ""
-        answer_block = answer_html((voice or {}).get("answer"), kpis, slug)
+        answer_block = answer_html(
+            (voice or {}).get("answer"),
+            kpis,
+            slug,
+            (voice or {}).get("vintages") or mixed_vintage_lines(ledger),
+        )
         if not answer_block:
             answer_block = f"""
 <section id="answer" class="answer-block">
@@ -1240,7 +1325,8 @@ const FIND=FIND_JSON;
     return isHL(r)?GOLD:BLUE;
   }
   function hlClass(r){
-    if(CHART.geo==='state') return '';
+    if(isMA(r) || r.name==='Boston') return 'hl-ma';
+    if(compareSt && r.st===compareSt && r.st!=='MA') return 'hl-fl';
     if(isHL(r)) return 'hl-ma';
     return '';
   }
@@ -1312,11 +1398,13 @@ const FIND=FIND_JSON;
   var region='all';
   var band='all';
   var selectedSt='';
+  var compareSt='FL';
   var mapView=0;
   var rankChart=null;
   var chartRows=[];
   var applyFind=function(){};
   var writeQuery=function(){};
+  var fillTableBody=function(){};
   function usFigure(){
     if(CHART.us!=null && CHART.us!=='') return Number(CHART.us);
     var u=DL && DL.latest && DL.latest.us;
@@ -1365,6 +1453,7 @@ const FIND=FIND_JSON;
   }
   function mapActiveStates(){
     if(CHART.geo!=='state') return null;
+    var view=currentMapView();
     var base=mapBaseRows();
     var reg=regionList();
     if(!reg && band==='all') return null;
@@ -1378,6 +1467,10 @@ const FIND=FIND_JSON;
       });
       keep=band==='top10'?ranked.slice(0,10):ranked.slice(-10);
       keep=keep.map(function(r){ return r.st; });
+    } else if((band==='above' || band==='below') && usCompare && usVal!=null && view.primary){
+      keep=usable.filter(function(r){
+        return band==='above' ? Number(r.v)>usVal : Number(r.v)<usVal;
+      }).map(function(r){ return r.st; });
     }
     return base.filter(function(r){
       if(reg && reg.indexOf(r.st)<0) return false;
@@ -1454,7 +1547,8 @@ const FIND=FIND_JSON;
     var viewFmt=view.format||fmt;
     window.dlStateMap(el,{
       mode: view.mode || CHART.map_mode || el.getAttribute('data-mode') || 'geo',
-      highlightFlorida: false,
+      highlightFlorida: compareSt==='FL',
+      compareSt: compareSt,
       rows:base,
       format:function(v){
         return view.primary?fmtVal(v,true):fmtInsight(viewFmt,v,true);
@@ -1630,6 +1724,32 @@ const FIND=FIND_JSON;
   [].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
     btn.classList.toggle('on', btn.getAttribute('data-band')===band);
   });
+  (function initCompare(){
+    var sel=document.getElementById('compareSel');
+    var bar=document.getElementById('compareBar');
+    if(!sel || CHART.geo!=='state'){
+      if(bar) bar.hidden=true;
+      return;
+    }
+    var opts=rows.filter(function(r){ return r && r.st && r.st.length===2 && r.st!=='US'; })
+      .slice().sort(function(a,b){ return String(a.name||a.st).localeCompare(String(b.name||b.st)); });
+    if(!opts.length){
+      bar.hidden=true;
+      return;
+    }
+    if(!opts.some(function(r){ return r.st===compareSt; })) compareSt=(opts[0]&&opts[0].st)||'';
+    sel.innerHTML=opts.map(function(r){
+      var st=r.st;
+      var lab=r.name||st;
+      if(st==='MA') lab=lab+' (gold)';
+      return '<option value="'+st+'"'+(st===compareSt?' selected':'')+'>'+lab+'</option>';
+    }).join('');
+    sel.addEventListener('change', function(){
+      compareSt=sel.value||'';
+      drawRank();
+      if(typeof fillTableBody==='function') fillTableBody();
+    });
+  })();
   var tabs=document.getElementById('mapTabs');
   function setRankPane(pane){
     var mapPane=document.getElementById('mapPane');
@@ -1647,7 +1767,10 @@ const FIND=FIND_JSON;
         b.classList.toggle('is-on', !!on);
       });
     }
-    if(showTable) applyFind();
+    if(showTable){
+      if(typeof fillTableBody==='function') fillTableBody();
+      applyFind();
+    }
     else drawRank();
   }
   if(tabs){
@@ -1989,24 +2112,58 @@ const FIND=FIND_JSON;
         var n=Number(v), sign=n<0?'\u2212':'';
         return sign+'$'+Math.abs(n).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
       }
-      if(col.key==='v' || col.fmt==='value') return fmtVal(v);
+      if(col.key==='v' || col.fmt==='value'){
+        var view=currentMapView();
+        if(view && view.format) return fmtInsight(view.format, v, true);
+        return fmtVal(v);
+      }
       if(v==null||v==='') return '';
       return String(v).replace(/</g,'');
     }
-    tb.innerHTML=rows.map(function(r){
-      var cls=hlClass(r);
-      var hl=cls?' class="'+cls+'"':'';
-      var key=((r.name||'')+' '+(r.st||'')).toLowerCase();
-      var cells=cols.map(function(c){
-        var cls=c.cls||(c.align==='n'?'n':'');
-        return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
+    function tableRows(){
+      if(CHART.geo!=='state') return rows;
+      var base=mapBaseRows();
+      var keep=mapActiveStates();
+      if(!keep) return base.slice();
+      return base.filter(function(r){ return keep.indexOf(r.st)>=0; });
+    }
+    function syncTableHead(){
+      var view=currentMapView();
+      var src=tableRows();
+      var vTh=document.querySelector('#tblStates thead th[data-key="v"] .th-sort');
+      if(vTh && view && view.unit){
+        var u=String(view.unit);
+        vTh.textContent=u.charAt(0).toUpperCase()+u.slice(1);
+      } else if(vTh && CHART.unit){
+        vTh.textContent=(CHART.table_columns&&CHART.table_columns[1]&&CHART.table_columns[1].label)||'Figure';
+      }
+      var yoyTh=document.querySelector('#tblStates thead th[data-key="yoy_pct"]');
+      var hasYoy=src.some(function(r){ return r && r.yoy_pct!=null && r.yoy_pct!==''; });
+      if(yoyTh) yoyTh.hidden=!hasYoy;
+    }
+    fillTableBody=function(){
+      var src=tableRows();
+      syncTableHead();
+      tb.innerHTML=src.map(function(r){
+        var cls=hlClass(r);
+        var hl=cls?' class="'+cls+'"':'';
+        var key=((r.name||'')+' '+(r.st||'')).toLowerCase();
+        var cells=cols.map(function(c){
+          if(c.key==='yoy_pct'){
+            var yoyTh=document.querySelector('#tblStates thead th[data-key="yoy_pct"]');
+            if(yoyTh && yoyTh.hidden) return '';
+          }
+          var cls=c.cls||(c.align==='n'?'n':'');
+          return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
+        }).join('');
+        var sorts=cols.map(function(c){
+          var sv=r[c.key];
+          return ' data-sort-'+c.key+'="'+(sv==null?'':String(sv).replace(/"/g,''))+'"';
+        }).join('');
+        return '<tr'+hl+(r.st?' id="row-'+r.st+'"':'')+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'"'+sorts+'>'+cells+'</tr>';
       }).join('');
-      var sorts=cols.map(function(c){
-        var sv=r[c.key];
-        return ' data-sort-'+c.key+'="'+(sv==null?'':String(sv).replace(/"/g,''))+'"';
-      }).join('');
-      return '<tr'+hl+(r.st?' id="row-'+r.st+'"':'')+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'"'+sorts+'>'+cells+'</tr>';
-    }).join('');
+      if(typeof sortRows==='function') sortRows();
+    };
     var find=document.getElementById('tblFind');
     var countEl=document.getElementById('tblCount');
     var sortKey='rank';
@@ -2036,6 +2193,7 @@ const FIND=FIND_JSON;
         else th.removeAttribute('aria-sort');
       });
     }
+    fillTableBody();
     [].slice.call(document.querySelectorAll('#tblStates thead th[data-key]')).forEach(function(th){
       th.addEventListener('click', function(){
         var k=th.getAttribute('data-key');
@@ -2045,10 +2203,10 @@ const FIND=FIND_JSON;
         sortRows();
       });
     });
-    sortRows();
+    fillTableBody();
     applyFind=function(){
       var q=(find&&find.value||'').toLowerCase().replace(/^\\s+|\\s+$/g,'');
-      var list=activeStates();
+      var list=(CHART.geo==='state')?mapActiveStates():activeStates();
       var n=0, shown=0, first=null;
       [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){
         var st=tr.getAttribute('data-st')||'';
@@ -2059,7 +2217,7 @@ const FIND=FIND_JSON;
         n++;
         if(ok){ shown++; if(!first) first=tr; }
       });
-      var total=list?filteredRows().length:n;
+      var total=list?list.length:n;
       var extra=(region!=='all'?' in '+REGION_NAMES[region]:'')+(band!=='all'?(region!=='all'?' ':' ')+BAND_NAMES[band]:'');
       if(countEl){
         if(q) countEl.textContent=shown+' of '+total+extra;
@@ -2147,7 +2305,8 @@ const FIND=FIND_JSON;
       if(extra && shown.length===1){
         var key=(shown[0].getAttribute('data-q')||'');
         var row=null;
-        rows.forEach(function(r){
+        var src=(CHART.geo==='state')?mapBaseRows():rows;
+        src.forEach(function(r){
           var rk=((r.name||'')+' '+(r.st||'')).toLowerCase();
           if(rk===key) row=r;
         });
@@ -2155,7 +2314,8 @@ const FIND=FIND_JSON;
       } else if(shown.length===1){
         var key2=(shown[0].getAttribute('data-q')||'');
         var row2=null;
-        rows.forEach(function(r){
+        var src2=(CHART.geo==='state')?mapBaseRows():rows;
+        src2.forEach(function(r){
           var rk=((r.name||'')+' '+(r.st||'')).toLowerCase();
           if(rk===key2) row2=r;
         });

@@ -274,6 +274,11 @@ for row in catalog:
         print(f"catalog q: MISS {tid}")
     else:
         print(f"catalog q: ok   {tid}")
+    if tid not in ("DL-01", "DL-02") and app.get("g") and row.get("g") != app.get("g"):
+        failures.append(f"catalog.json {tid} g {row.get('g')!r} does not match suite/apps.json {app.get('g')!r}")
+        print(f"catalog g: MISS {tid}")
+    else:
+        print(f"catalog g: ok   {tid}")
     if tid in SKIP_VOICE:
         continue
     led_path = ledger_path(tid)

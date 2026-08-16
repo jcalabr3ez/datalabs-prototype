@@ -27,8 +27,9 @@
 .usmap-key{margin-top:8px;font:12px/1.5 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-key i{display:inline-block;width:11px;height:8px;margin:0 6px 0 0;vertical-align:middle;
   box-shadow:inset 0 0 0 1.5px #CCB26D;background:transparent}
-.usmap.fl-on .usmap-key i.fl{display:inline-block;box-shadow:inset 0 0 0 1.5px #C45C26;margin-left:14px}
-.usmap:not(.fl-on) .usmap-key i.fl{display:none}
+.usmap.fl-on .usmap-key i.fl,.usmap.fl-on .usmap-key i.cmp{display:inline-block;box-shadow:inset 0 0 0 1.5px #C45C26;margin-left:14px}
+.usmap:not(.fl-on) .usmap-key i.fl,.usmap:not(.fl-on) .cmp-key{display:none}
+.usmap .cmp-key{margin-left:8px}
 .usmap-hint{margin-top:8px;font:12px/1.5 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-read{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-top:14px;
   padding-top:12px;border-top:1px solid #E6E8EB}
@@ -48,6 +49,7 @@
 .usmap.is-tile .tile .r{font:400 10.5px/1.2 Roboto,system-ui,sans-serif;font-variant-numeric:tabular-nums;opacity:.9}
 .usmap.is-tile .tile-empty{min-height:44px;background:transparent;pointer-events:none}
 .usmap.is-tile .tile.is-ma{box-shadow:inset 0 0 0 2px #CCB26D}
+.usmap.fl-on.is-tile .tile.is-fl{box-shadow:inset 0 0 0 2px #C45C26}
 .usmap.is-tile .tile.is-hot,.usmap.is-tile .tile:hover,.usmap.is-tile .tile:focus{
   box-shadow:inset 0 0 0 2px #1A1A1A;outline:none}
 .usmap.is-tile .tile.is-dim{opacity:.18;pointer-events:none}

@@ -28,6 +28,8 @@ jobs:
             git diff --stat
             exit 1
           fi
+      - name: Question-to-number contract and live jump hrefs
+        run: python3 scripts/check_answers.py
       - name: Engine loads and shapes responses (no API key needed)
         run: node scripts/check_engine.mjs
       - name: Chart scales keep zero only when the series sits near it

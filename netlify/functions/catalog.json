@@ -84,7 +84,8 @@
   "t": "Retail Electricity Prices",
   "q": "What every state pays for a kilowatthour, including the household (residential) average, from EIA's annual record.",
   "g": [
-   "US"
+   "US",
+   "FL"
   ],
   "st": "live",
   "url": "/electricity/",
@@ -124,7 +125,8 @@
   "t": "State School Scores",
   "q": "NAEP scores, enrollment, school finance, graduation, and discipline, including suspension by race, across the fifty states.",
   "g": [
-   "US"
+   "US",
+   "FL"
   ],
   "st": "live",
   "url": "/national-k12/",
@@ -139,7 +141,8 @@
   "q": "Fall college enrollment, SAT scores, faculty and staff, graduation, tuition, and higher-education finance by state.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/higher-education/",
@@ -154,7 +157,8 @@
   "q": "Charter-school enrollment by state, with public-school teachers, staff, and instructional aides.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/charters-staff/",
@@ -182,7 +186,8 @@
   "t": "340B Drug Discounts",
   "q": "Participating 340B sites, contract pharmacies, and hospital charity care.",
   "g": [
-   "US"
+   "US",
+   "FL"
   ],
   "st": "live",
   "url": "/340b/",
@@ -196,7 +201,8 @@
   "t": "State Medicaid Spending",
   "q": "Medicaid expenditures and fraud recoveries by state.",
   "g": [
-   "US"
+   "US",
+   "FL"
   ],
   "st": "live",
   "url": "/medicaid-health/",
@@ -211,7 +217,8 @@
   "q": "New business applications from Census BFS, and private-sector establishment births and deaths from BLS BED.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/business-formation/",
@@ -226,7 +233,8 @@
   "q": "The unemployment rate by state, from BLS LAUS.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/labor-market/",
@@ -241,7 +249,8 @@
   "q": "Real GDP by state. Personal income is the companion series.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/gdp-profiles/",
@@ -256,7 +265,8 @@
   "q": "Housing units authorized to build. House-price change is a later view.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/housing-market/",
@@ -271,7 +281,8 @@
   "q": "Domestic and international migration, births, deaths, population change, and age and race shares by state.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/population-migration/",
@@ -308,7 +319,8 @@
   "q": "Regional price parities by state from the Bureau of Economic Analysis.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/cost-of-living/",
@@ -323,7 +335,8 @@
   "q": "IRS state-to-state and county-to-county taxpayer flows.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/taxpayer-migration/",
@@ -338,7 +351,8 @@
   "q": "IRS adjusted gross income and income-tax returns by state.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/tax-statistics/",
@@ -353,7 +367,8 @@
   "q": "Compare U.S. transit agencies on ridership, cost, and recovery. Not the MBTA-only page.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/transit-systems/",
@@ -367,7 +382,8 @@
   "t": "Vehicle-Miles Traveled",
   "q": "Miles driven by state. FEMA, the National Risk Index, and degree days are later views.",
   "g": [
-   "US"
+   "US",
+   "FL"
   ],
   "st": "live",
   "url": "/roads-risk/",
@@ -382,7 +398,8 @@
   "q": "CO2 from energy by state, with consumption and production as companions.",
   "g": [
    "US",
-   "MA"
+   "MA",
+   "FL"
   ],
   "st": "live",
   "url": "/energy-supply/",
@@ -452,7 +469,8 @@
   "t": "State Tax Collections",
   "q": "State tax collections by type.",
   "g": [
-   "US"
+   "US",
+   "FL"
   ],
   "st": "live",
   "url": "/us-state-finances/",
@@ -473,14 +491,15 @@
   "ai": true,
   "group": "State Government & Spending",
   "vint": "Calendar year 2025",
-  "ma": "UNIVERSITY OF MASSACHUSETTS SYSTEM (UMS) $1.82 billion"
+  "ma": "$10.89 billion across 162,473 employee rows"
  },
  {
   "id": "DL-31",
   "t": "State Imprisonment",
   "q": "BJS prisoners and imprisonment rates by state.",
   "g": [
-   "US"
+   "US",
+   "FL"
   ],
   "st": "live",
   "url": "/crime-justice/",

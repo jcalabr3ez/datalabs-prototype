@@ -173,7 +173,7 @@
       '</div>' +
       '<div class="usmap-legend">' +
         '<div class="usmap-bins"></div>' +
-        '<div class="usmap-key"><i></i>Massachusetts</div>' +
+        '<div class="usmap-key"><i></i>Massachusetts<span class="cmp-key" hidden><i class="cmp"></i><span data-cmp-lab>Compare</span></span></div>' +
       '</div>' +
       '<div class="usmap-read"></div>';
   }
@@ -229,7 +229,12 @@
     if (!read) return;
     var htmlRead = cell('', 'Highest', hi) + cell('', 'Lowest', lo);
     if (ma && !el.classList.contains('townmap')) htmlRead += cell('ma', 'Massachusetts', ma);
-    if (opts.highlightFlorida) htmlRead += cell('fl', 'Florida', lookup.FL);
+    var cmp = (opts.compareSt || (opts.highlightFlorida ? 'FL' : '') || '').toUpperCase();
+    if (cmp && cmp !== 'MA' && lookup[cmp]) {
+      htmlRead += cell('fl', lookup[cmp].name || cmp, lookup[cmp]);
+    } else if (opts.highlightFlorida) {
+      htmlRead += cell('fl', 'Florida', lookup.FL);
+    }
     if (opts.ref && refValue(opts.ref) != null) {
       htmlRead += '<div><div class="k">' + htmlEsc(opts.ref.label || 'United States') +
         '</div><div class="v">' + htmlEsc(fmt(refValue(opts.ref))) + '</div></div>';
@@ -309,12 +314,20 @@
     var active = opts.active || null;
     var selected = opts.selected ? String(opts.selected).toUpperCase() : '';
     var compact = isCompact(el, opts);
-    var flOn = !!opts.highlightFlorida;
+    var cmp = (opts.compareSt || (opts.highlightFlorida ? 'FL' : '') || '').toUpperCase();
+    var cmpOn = !!(cmp && cmp !== 'MA');
     el.classList.toggle('is-compact', compact);
-    el.classList.toggle('fl-on', flOn);
+    el.classList.toggle('fl-on', cmpOn);
+    el.classList.toggle('cmp-on', cmpOn);
 
     var bins = el.querySelector('.usmap-bins');
     if (bins) bins.innerHTML = legendHtml(sc, fmt);
+    var cmpLab = el.querySelector('[data-cmp-lab]');
+    var cmpKey = el.querySelector('.cmp-key');
+    if (cmpKey) {
+      cmpKey.hidden = !cmpOn;
+      if (cmpLab) cmpLab.textContent = (lookup[cmp] && lookup[cmp].name) || cmp || 'Compare';
+    }
 
     [].forEach.call(el.querySelectorAll('.st'), function (p) {
       var st = p.getAttribute('data-st');
@@ -323,7 +336,7 @@
       p.style.fill = (!row || v == null) ? '' : sc.fill(v);
       p.classList.toggle('is-empty', !row || v == null);
       p.classList.toggle('is-ma', st === 'MA');
-      p.classList.toggle('is-fl', flOn && st === 'FL');
+      p.classList.toggle('is-fl', cmpOn && st === cmp);
       p.classList.toggle('is-on', st === selected);
       p.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
       p.setAttribute('tabindex', (!row || v == null || (active && active.indexOf(st) < 0)) ? '-1' : '0');
@@ -376,12 +389,20 @@
     var extra = opts.extra || function () { return ''; };
     var active = opts.active || null;
     var selected = opts.selected ? String(opts.selected).toUpperCase() : '';
-    var flOn = !!opts.highlightFlorida;
+    var cmp = (opts.compareSt || (opts.highlightFlorida ? 'FL' : '') || '').toUpperCase();
+    var cmpOn = !!(cmp && cmp !== 'MA');
     el.classList.add('is-tile');
-    el.classList.toggle('fl-on', flOn);
+    el.classList.toggle('fl-on', cmpOn);
+    el.classList.toggle('cmp-on', cmpOn);
 
     var bins = el.querySelector('.usmap-bins');
     if (bins) bins.innerHTML = legendHtml(sc, fmt);
+    var cmpLab = el.querySelector('[data-cmp-lab]');
+    var cmpKey = el.querySelector('.cmp-key');
+    if (cmpKey) {
+      cmpKey.hidden = !cmpOn;
+      if (cmpLab) cmpLab.textContent = (lookup[cmp] && lookup[cmp].name) || cmp || 'Compare';
+    }
 
     [].forEach.call(el.querySelectorAll('.tile.st'), function (p) {
       var st = p.getAttribute('data-st');
@@ -390,7 +411,7 @@
       p.style.background = (!row || v == null) ? EMPTY : sc.fill(v);
       p.classList.toggle('is-empty', !row || v == null);
       p.classList.toggle('is-ma', st === 'MA');
-      p.classList.toggle('is-fl', flOn && st === 'FL');
+      p.classList.toggle('is-fl', cmpOn && st === cmp);
       p.classList.toggle('is-on', st === selected);
       p.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
       var span = p.querySelector('.r');

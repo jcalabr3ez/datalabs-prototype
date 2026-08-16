@@ -227,7 +227,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "100,48
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', INK='#1A1A1A', GREY='#58575A';
+  var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', NAVY='#293C5C', INK='#1A1A1A', GREY='#58575A';
   function parseHash(){
     var raw=(location.hash||'').replace(/^#/,'');
     var view='', st='';
@@ -1020,6 +1020,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "100,48
   }
   var insightCharts={};
   (INSIGHTS||[]).forEach(function(fig, i){
+    try {
     var el=document.getElementById('chInsight'+i);
     if(!el||!fig) return;
     if(fig.type==='map' && window.dlStateMap && fig.rows){
@@ -1105,7 +1106,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "100,48
     function barColors(labs){
       return (labs||[]).map(function(lab){
         var t=String(lab);
-        return (lab==='Massachusetts'||lab==='Boston'||t.indexOf(', MA')>=0)?GOLD:NAVY;
+        return (lab==='Massachusetts'||lab==='Boston'||t.indexOf(', MA')>=0)?GOLD:BLUE;
       });
     }
     function insightPicks(src){
@@ -1114,14 +1115,11 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "100,48
       var picks=[];
       if(by.US) picks.push('US');
       if(by.MA) picks.push('MA');
-      var extra=null;
-      if(by.FL && picks.indexOf('FL')<0) extra='FL';
-      else {
-        for(var ci=0;ci<cells.length;ci++){
-          if(picks.indexOf(cells[ci].st)<0){ extra=cells[ci].st; break; }
-        }
-      }
-      if(extra) picks.push(extra);
+      if(by.FL && picks.indexOf('FL')<0) picks.push('FL');
+      cells.forEach(function(c){
+        if(picks.length>=4) return;
+        if(picks.indexOf(c.st)<0) picks.push(c.st);
+      });
       return picks;
     }
     function applyInsightStates(src, picks){
@@ -1168,6 +1166,9 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "100,48
       data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||BLUE}]},
       options:Object.assign({},opts,{indexAxis:'y'}),
       plugins:[lbl]});
+    } catch (err) {
+      if (window.console && console.error) console.error('insight chart '+((fig&&fig.id)||i), err);
+    }
   });
   var tb=document.querySelector('#tblStates tbody');
   if(tb){

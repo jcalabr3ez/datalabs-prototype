@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Insight bars draw again",
+        "body": (
+            "A missing color name in the suite chart script stopped every "
+            "Compare a state bar, including labor-force participation on "
+            "State Unemployment. Those figures draw again. One broken "
+            "insight no longer blocks the rest of the page."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Housing Permits drops house-price charts",
         "body": (
             "Housing Permits now shows authorized units only. The "

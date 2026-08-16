@@ -2,16 +2,20 @@
 .plot.plot-map{height:auto;min-height:0}
 .usmap{position:relative}
 .usmap-box{position:relative}
-.usmap-svg{width:100%;height:auto;display:block;max-height:540px}
-.usmap .st{cursor:pointer;fill:#EEF1F4;stroke:#fff;stroke-width:1;transition:fill .12s,stroke .12s,opacity .12s}
-.usmap circle.st{stroke-width:1.4}
-.usmap .st:hover,.usmap .st:focus{stroke:#1A1A1A;stroke-width:1.8;outline:none}
+.usmap-svg{width:100%;height:auto;display:block;max-height:720px;
+  shape-rendering:geometricPrecision}
+.usmap .st{cursor:pointer;fill:#EEF1F4;stroke:#A8B3C2;stroke-width:1.15;
+  vector-effect:non-scaling-stroke;transition:fill .12s,stroke .12s,opacity .12s}
+.usmap circle.st{stroke-width:1.6}
+.usmap .st:hover,.usmap .st:focus{stroke:#1A1A1A;stroke-width:2;outline:none}
 .usmap .st.is-ma{stroke:#CCB26D;stroke-width:2.4}
 .usmap .st.is-fl{stroke:#C45C26;stroke-width:2.4}
-.usmap .st.is-on{stroke:#1A1A1A;stroke-width:2.6}
+.usmap .st.is-on{stroke:#1A1A1A;stroke-width:2.8}
 .usmap .st.is-dim{opacity:.2;pointer-events:none}
 .usmap .st.is-empty{cursor:default}
 .usmap-sep{stroke:#D4D8DE;stroke-width:1.4}
+.usmap-inset-frame{fill:#fff;stroke:#C5CDD8;stroke-width:1.2}
+.usmap-inset-lab{fill:#58575A;font:11px/1 Roboto,system-ui,sans-serif}
 .usmap-tip{position:absolute;z-index:3;min-width:140px;max-width:240px;padding:8px 10px;
   background:#1A1A1A;color:#fff;font:12.5px/1.4 Roboto,system-ui,sans-serif;pointer-events:none}
 .usmap-tip b{display:block;font:600 13px/1.3 Roboto,system-ui,sans-serif;margin-bottom:2px}
@@ -24,6 +28,7 @@
 .usmap-key i{display:inline-block;width:11px;height:8px;margin:0 6px 0 12px;vertical-align:middle;
   box-shadow:inset 0 0 0 1.5px #CCB26D;background:transparent}
 .usmap-key i.fl{box-shadow:inset 0 0 0 1.5px #C45C26;margin-left:14px}
+.usmap-hint{margin-top:8px;font:12px/1.5 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-read{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-top:14px;
   padding-top:12px;border-top:1px solid #E6E8EB}
 .usmap-read div{min-width:0}

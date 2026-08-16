@@ -125,6 +125,7 @@
   tr.hl td{background:var(--wash);font-weight:600}
   tr.hl-ma td{background:var(--wash);box-shadow:inset 3px 0 0 var(--gold)}
   tr.hl-fl td{background:var(--wash);box-shadow:inset 3px 0 0 var(--fl)}
+  tr.is-on td{background:var(--wash);box-shadow:inset 3px 0 0 var(--ink)}
   .neg{color:var(--neg)} .pos{color:var(--pos)}
 
   details{margin-top:18px;border-top:1px solid var(--rule-lt)}
@@ -359,7 +360,7 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
 
   <section style="margin-top:30px">
     <h2>The latest year, state by state</h2>
-    <div class="lede">All-sector price, rank, year-over-year change, retail sales, net generation, net summer capacity, and sales per resident. The United States row is EIA&rsquo;s U.S. Total, not a rank. Filter by Census region or type a state. Massachusetts is marked in gold; Florida in rust.</div>
+    <div class="lede">All-sector price, rank, year-over-year change, retail sales, net generation, net summer capacity, and sales per resident. The United States row is EIA&rsquo;s U.S. Total, not a rank. Filter by Census region or type a state. Click a state on the map to open its row.</div>
     <div class="region-bar">
       <span class="sel-lab">Census region</span>
       <div class="region-chips" role="group" aria-label="Filter by Census region">
@@ -546,6 +547,17 @@ function paintStateMap(id, rows, fmt, extra, ref){
     selected:selected,
     ref:ref||null,
     onSelect:function(r){
+      selected=r.st;
+      var sel=document.getElementById('stSel');
+      if(sel) sel.value=r.st;
+      var find=document.getElementById('tblFind');
+      if(find) find.value=r.name||r.st||'';
+      if(typeof drawTrend==='function') drawTrend();
+      [].slice.call(document.querySelectorAll('#tblStates tr[data-st]')).forEach(function(tr){
+        var on=tr.getAttribute('data-st')===r.st && r.st!=='US';
+        tr.classList.toggle('is-on', on);
+        tr.classList.remove('hl-ma','hl-fl');
+      });
       var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
       if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
     }
@@ -639,7 +651,7 @@ function renderTable(){
   if(!rendered.tbl){
     var usRow='<tr class="hl" data-st="US"><td class="m">United States</td><td class="n">'+us.price_cents.toFixed(2)+'</td><td class="n">n.a.</td><td class="n '+yoyCls(us.yoy_pct)+'">'+yoyTxt(us.yoy_pct)+'</td><td class="n">'+fmtM(us.sales_mwh)+'</td><td class="n">'+(us.gen_mwh!=null?fmtM(us.gen_mwh):'')+'</td><td class="n">'+(us.cap_mw!=null?Math.round(us.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n"></td></tr>';
     var rows=DL04.states.slice().sort(function(a,b){return a.rank-b.rank;}).map(function(r){
-      var hl=r.st==='FL'?' class="hl-fl"':((r.st==='MA'||r.st===selected)?' class="hl-ma"':'');
+      var hl='';
       return '<tr'+hl+' id="row-'+r.st+'" data-st="'+r.st+'"><td class="m">'+r.name+'</td><td class="n">'+r.price_cents.toFixed(2)+'</td><td class="n">'+r.rank+'</td><td class="n '+yoyCls(r.yoy_pct)+'">'+yoyTxt(r.yoy_pct)+'</td><td class="n">'+fmtM(r.sales_mwh)+'</td><td class="n">'+(r.gen_mwh!=null?fmtM(r.gen_mwh):'')+'</td><td class="n">'+(r.cap_mw!=null?Math.round(r.cap_mw).toLocaleString('en-US'):'')+'</td><td class="n">'+(r.sales_mwh_per_capita!=null?r.sales_mwh_per_capita.toFixed(2):'')+'</td></tr>';
     }).join('');
     body.innerHTML=usRow+rows;

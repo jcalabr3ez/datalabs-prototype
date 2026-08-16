@@ -99,6 +99,7 @@ def _bfs_fl():
             raw = (r.get(key) or "").strip()
             if raw:
                 out.append({"m": f"{year}-{i:02d}", "v": int(float(raw))})
+    out.sort(key=lambda x: x["m"])
     if len(out) < 24:
         sys.exit(f"FATAL: BFS Florida trend parsed {len(out)} months")
     return out

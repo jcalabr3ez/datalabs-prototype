@@ -82,6 +82,61 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   }
 
+  var INSET = ['ME', 'NH', 'VT', 'MA', 'RI', 'CT', 'NY', 'NJ', 'PA', 'DE', 'MD', 'DC'];
+
+  function addInset(svg) {
+    if (!svg || svg.querySelector('.usmap-inset')) return;
+    var nodes = [];
+    INSET.forEach(function (st) {
+      var p = svg.querySelector('.st[data-st="' + st + '"]');
+      if (p) nodes.push(p);
+    });
+    if (!nodes.length) return;
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    nodes.forEach(function (p) {
+      var b = p.getBBox();
+      minX = Math.min(minX, b.x);
+      minY = Math.min(minY, b.y);
+      maxX = Math.max(maxX, b.x + b.width);
+      maxY = Math.max(maxY, b.y + b.height);
+    });
+    var pad = 10;
+    minX -= pad; minY -= pad; maxX += pad; maxY += pad;
+    var srcW = maxX - minX, srcH = maxY - minY;
+    if (!(srcW > 0 && srcH > 0)) return;
+    svg.setAttribute('viewBox', '0 0 1148 593');
+    var destX = 976, destY = 72, destW = 156, destH = 430;
+    var scale = Math.min(destW / srcW, destH / srcH);
+    var ox = destX + (destW - srcW * scale) / 2;
+    var oy = destY + (destH - srcH * scale) / 2;
+    var ns = 'http://www.w3.org/2000/svg';
+    var g = document.createElementNS(ns, 'g');
+    g.setAttribute('class', 'usmap-inset');
+    g.setAttribute('aria-label', 'Northeast states, enlarged');
+    var frame = document.createElementNS(ns, 'rect');
+    frame.setAttribute('class', 'usmap-inset-frame');
+    frame.setAttribute('x', String(destX - 8));
+    frame.setAttribute('y', String(destY - 22));
+    frame.setAttribute('width', String(destW + 16));
+    frame.setAttribute('height', String(destH + 34));
+    g.appendChild(frame);
+    var label = document.createElementNS(ns, 'text');
+    label.setAttribute('class', 'usmap-inset-lab');
+    label.setAttribute('x', String(destX));
+    label.setAttribute('y', String(destY - 8));
+    label.textContent = 'Northeast';
+    g.appendChild(label);
+    nodes.forEach(function (p) {
+      var c = p.cloneNode(true);
+      c.setAttribute(
+        'transform',
+        'translate(' + ox + ',' + oy + ') scale(' + scale + ') translate(' + (-minX) + ',' + (-minY) + ')'
+      );
+      g.appendChild(c);
+    });
+    svg.appendChild(g);
+  }
+
   function mount(el, svg) {
     el.classList.add('usmap');
     el.innerHTML =
@@ -90,8 +145,10 @@
         '<div class="usmap-legbar"></div>' +
         '<div class="usmap-leglab"><span class="usmap-lo"></span><span class="usmap-mid"></span><span class="usmap-hi"></span></div>' +
         '<div class="usmap-key"><i></i>Massachusetts<i class="fl"></i>Florida</div>' +
+        '<div class="usmap-hint">Click a state to open its row. Small Northeast states are enlarged at right.</div>' +
       '</div>' +
       '<div class="usmap-read"></div>';
+    addInset(el.querySelector('svg'));
   }
 
   function pick(rows, pred) {
@@ -161,6 +218,12 @@
     el._dlExtra = extra;
     el._dlLookup = lookup;
     el._dlOnSelect = opts.onSelect || null;
+    var hint = el.querySelector('.usmap-hint');
+    if (hint) {
+      hint.textContent = el._dlOnSelect
+        ? 'Click a state to open its row. Small Northeast states are enlarged at right.'
+        : 'Hover a state for the figure. Small Northeast states are enlarged at right.';
+    }
 
     if (!el._dlMapBound) {
       el._dlMapBound = true;

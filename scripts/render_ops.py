@@ -62,6 +62,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "State maps, trends, and lists",
+        "body": (
+            "Fifty-state maps are larger, with steel borders and a Northeast "
+            "panel so small states are easier to click. Click a state to open "
+            "its row. The change-since-first-year chart now lines up each "
+            "series on one timeline, including Florida. Massachusetts and "
+            "Florida are no longer marked in the every-state list; the map "
+            "and trend lines still use gold and rust."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Catalog names match what the page can show",
         "body": (
             "Catalog names now match the page. Charters and Teachers replaces "

@@ -308,9 +308,10 @@ def chart_spec(app, ledger):
     if geo == "state":
         lede = (
             "Every state and the District of Columbia on one map. "
-            "Darker navy is a higher value. Use the region chips to fade "
-            "the other states and to filter the table. Massachusetts has a "
-            "gold outline; Florida a rust outline."
+            "Darker navy is a higher value. Click a state to open its row. "
+            "Small Northeast states are enlarged at right. Use the region "
+            "chips to fade the other states and to filter the table. "
+            "Massachusetts has a gold outline; Florida a rust outline."
         )
     trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
     has_trend = bool(trend_keys)
@@ -383,7 +384,7 @@ def chart_spec(app, ledger):
         table_lede = (
             "Filter by Census region or type a name. Sites are currently "
             "participating 340B IDs. Pharmacies are unique active contract "
-            "pharmacy IDs in that state. Massachusetts is marked in gold; Florida in rust."
+            "pharmacy IDs in that state."
         )
         table_note = (
             "Ranks are Pioneer calculations (derived, SRC-611-01). Year-over-year "
@@ -421,7 +422,7 @@ def chart_spec(app, ledger):
             {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
         ]
         table_lede = (
-            "Filter by Census region or type a name. Massachusetts is marked in gold; Florida in rust."
+            "Filter by Census region or type a name. Click a state on the map to open its row."
             if geo == "state"
             else "Type a name to jump to a row."
         )
@@ -602,8 +603,7 @@ def extra_tool_js(app, ledger):
     var ctb=document.querySelector('#tblCharity tbody');
     if(ctb){
       ctb.innerHTML=crows.map(function(r){
-        var cls=r.st==='MA'?' class="hl-ma"':(r.st==='FL'?' class="hl-fl"':'');
-        return '<tr'+cls+' data-q="'+((r.name||'')+' '+(r.st||'')).toLowerCase()+'"><td class="m">'+(r.name||'')+'</td><td class="n">'+(r.v==null?'':Number(r.v).toFixed(2)+'%')+'</td><td class="n">'+money(r.charity)+'</td><td class="n">'+money(r.costs)+'</td><td class="n">'+(r.rank||'')+'</td></tr>';
+        return '<tr data-q="'+((r.name||'')+' '+(r.st||'')).toLowerCase()+'"><td class="m">'+(r.name||'')+'</td><td class="n">'+(r.v==null?'':Number(r.v).toFixed(2)+'%')+'</td><td class="n">'+money(r.charity)+'</td><td class="n">'+money(r.costs)+'</td><td class="n">'+(r.rank||'')+'</td></tr>';
       }).join('');
       var cf=document.getElementById('charityFind');
       var cc=document.getElementById('charityCount');
@@ -845,7 +845,7 @@ const FIND=FIND_JSON;
     return isHL(r)?GOLD:BLUE;
   }
   function hlClass(r){
-    if(isFL(r) && CHART.geo==='state') return 'hl-fl';
+    if(CHART.geo==='state') return '';
     if(isHL(r)) return 'hl-ma';
     return '';
   }
@@ -881,6 +881,7 @@ const FIND=FIND_JSON;
   };
   var REGION_NAMES={all:'all states',northeast:'the Northeast',midwest:'the Midwest',south:'the South',west:'the West'};
   var region='all';
+  var selectedSt='';
   var rankChart=null;
   var chartRows=[];
   var applyFind=function(){};
@@ -929,7 +930,13 @@ const FIND=FIND_JSON;
       format:function(v){return fmtVal(v,true);},
       extra:function(r){return r.rank?('rank '+r.rank):'';},
       active:regionList(),
+      selected:selectedSt,
       onSelect:function(r){
+        selectedSt=r.st||'';
+        var find=document.getElementById('tblFind');
+        if(find) find.value=r.name||r.st||'';
+        applyFind();
+        drawRankMap();
         var tr=document.getElementById('row-'+r.st)||document.querySelector('#tblStates tr[data-st="'+r.st+'"]');
         if(tr) tr.scrollIntoView({behavior:'smooth',block:'center'});
       }
@@ -998,6 +1005,12 @@ const FIND=FIND_JSON;
   var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
   if(chTrend && window.Chart && keys.length){
     var pretty={US:'United States',MA:'Massachusetts',FL:'Florida',Boston:'Boston'};
+    var trendOrder=['US','MA','FL','Boston'];
+    keys.sort(function(a,b){
+      var ia=trendOrder.indexOf(a), ib=trendOrder.indexOf(b);
+      if(ia<0) ia=50; if(ib<0) ib=50;
+      return ia-ib || a.localeCompare(b);
+    });
     var trendMode=CHART.trend_mode||'level';
     function trendColor(k){
       if(k==='MA') return GOLD;
@@ -1011,27 +1024,65 @@ const FIND=FIND_JSON;
       var n=Number(v), sign=n<0?'\u2212':(n>0?'+':'');
       return sign+Math.abs(n).toFixed(1)+'%';
     }
+    function trendKey(p){
+      if(!p) return '';
+      if(p.m) return String(p.m);
+      if(p.q) return String(p.q);
+      if(p.y!=null) return String(p.y);
+      return '';
+    }
+    function sortPts(pts){
+      return (pts||[]).slice().sort(function(a,b){
+        return trendKey(a).localeCompare(trendKey(b));
+      });
+    }
+    var labelSet={};
+    var seriesPts={};
+    keys.forEach(function(k){
+      var pts=sortPts(trend[k]);
+      seriesPts[k]=pts;
+      pts.forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
+    });
+    var labels=Object.keys(labelSet).sort();
     var datasets=keys.map(function(k){
-      var series=trend[k]||[];
-      var first=null;
-      series.forEach(function(p){ if(first==null && p && p.v!=null) first=p.v; });
+      var pts=seriesPts[k]||[];
+      var by={}, first=null;
+      pts.forEach(function(p){
+        if(first==null && p && p.v!=null) first=p.v;
+        by[trendKey(p)]=p;
+      });
       return {label:pretty[k]||k, key:k,
-        data:series.map(function(p){
+        data:labels.map(function(lab){
+          var p=by[lab];
+          if(!p || p.v==null) return null;
           var y=p.v;
           if(trendMode==='pct_from_start' && first) y=((p.v/first)-1)*100;
-          return {x:p.m||String(p.y), y:y, raw:p.v};
+          return {y:y, raw:p.v};
         }),
         borderColor:trendColor(k),
         backgroundColor:'transparent',
+        spanGaps:true,
+        pointRadius:labels.length>24?0:2,
+        pointHoverRadius:4,
         borderWidth:(k==='MA'||k==='FL')?2:1.75};
     });
     var yTitle=trendMode==='pct_from_start'?(CHART.trend_unit||'percent change from first year'):axisUnit;
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
-    new Chart(chTrend,{type:'line',data:{datasets:datasets},
+    function tickLab(v){
+      var lab=String(v==null?'':v);
+      if(/^\\d{4}-\\d{2}$/.test(lab)) return lab.slice(-2)==='01'?lab.slice(0,4):'';
+      return lab;
+    }
+    new Chart(chTrend,{type:'line',data:{labels:labels,datasets:datasets},
       options:{responsive:true,maintainAspectRatio:false,
         layout:{padding:{top:12,right:96}},
         plugins:{legend:{display:true,position:'top',align:'end'},
-          tooltip:{callbacks:{label:function(c){
+          tooltip:{callbacks:{
+            title:function(items){
+              var i=items[0]&&items[0].dataIndex;
+              return (labels[i]!=null)?String(labels[i]):'';
+            },
+            label:function(c){
             if(trendMode==='pct_from_start'){
               var raw=c.raw&&c.raw.raw;
               return ' '+c.dataset.label+': '+fmtPct(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
@@ -1040,12 +1091,12 @@ const FIND=FIND_JSON;
             return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;
           }}}},
         scales:{
-          x:{type:'category',ticks:{color:GREY,maxTicksLimit:12,
-            callback:function(v){return String(this.getLabelForValue(v));}}},
+          x:{type:'category',ticks:{color:GREY,autoSkip:true,maxTicksLimit:12,
+            callback:function(v){return tickLab(this.getLabelForValue(v));}}},
           y:{title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
             ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}
         }},
-      plugins:[dataLabels(yFmt)]});
+      plugins:[dataLabels(yFmt, labels.length>18?'end':'all')]});
   }
   function fmtInsight(fmt, v, short){
     if(v==null||v==='') return '';
@@ -1191,6 +1242,7 @@ const FIND=FIND_JSON;
         var inRegion=!list || list.indexOf(st)>=0;
         var ok=inRegion && (!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0);
         tr.hidden=!ok;
+        tr.classList.toggle('is-on', !!(ok && selectedSt && st===selectedSt));
         n++;
         if(ok){ shown++; if(!first) first=tr; }
       });

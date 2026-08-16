@@ -216,6 +216,40 @@ def _trend_xy(points, y_key="y"):
 def figs_dl06(ledger):
     sec = _sec(ledger)
     out = []
+    enroll = sec.get("public_k12_enrollment") or {}
+    enr_pts = enroll.get("trend") or []
+    enr_labels, enr_values = _trend_xy(enr_pts)
+    ma_enr = (enroll.get("ma") or {}).get("v")
+    ma_rank = (enroll.get("ma") or {}).get("rank")
+    ma_n = (enroll.get("ma") or {}).get("n")
+    if enr_labels and all(v is not None for v in enr_values) and ma_enr is not None:
+        peak = max(enr_pts, key=lambda p: p.get("v") or 0)
+        recent = max(
+            (p for p in enr_pts if (p.get("y") or 0) >= 2014),
+            key=lambda p: p.get("v") or 0,
+            default=peak,
+        )
+        rank_bit = (
+            f", rank {ma_rank} of {ma_n}" if ma_rank and ma_n else ""
+        )
+        out.append(_fig(
+            "ma-enroll",
+            "Massachusetts public K-12 enrollment, Fall 1990 to Fall 2024",
+            (
+                f"Massachusetts public schools enrolled {ma_enr:,} students "
+                f"in Fall 2024{rank_bit}. Fall {peak.get('y')} was "
+                f"{peak.get('v'):,}; Fall {recent.get('y')} was "
+                f"{recent.get('v'):,}."
+            ),
+            enroll.get("src") or "SRC-606-02",
+            "line", "number", "students",
+            [str(x) for x in enr_labels], _line(enr_values, "Massachusetts"),
+            enroll.get("note") or (
+                "NCES Digest table 203.20, public elementary and secondary "
+                "enrollment."
+            ),
+            span=2,
+        ))
     ch74 = sec.get("ma_chapter74_cte") or {}
     labels, values = _trend_xy(ch74.get("trend"))
     if labels and all(v is not None for v in values):

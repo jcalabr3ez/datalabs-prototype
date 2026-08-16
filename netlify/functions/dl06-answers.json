@@ -590,6 +590,94 @@
     "n_ranked": 51,
     "massachusetts_rank": 5,
     "secondary": {
+      "public_k12_enrollment": {
+        "label": "Massachusetts public K-12 enrollment",
+        "src": "SRC-606-02",
+        "unit": "students",
+        "as_of_label": "Fall 2024",
+        "us": 49387403,
+        "ma": {
+          "v": 915932,
+          "rank": 17,
+          "n": 51,
+          "name": "Massachusetts"
+        },
+        "fl": {
+          "v": 2859600,
+          "rank": 3,
+          "n": 51,
+          "name": "Florida"
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 5897886
+        },
+        "lowest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 81398
+        },
+        "trend": [
+          {
+            "y": 1990,
+            "v": 834314
+          },
+          {
+            "y": 2000,
+            "v": 975150
+          },
+          {
+            "y": 2010,
+            "v": 955563
+          },
+          {
+            "y": 2014,
+            "v": 955844
+          },
+          {
+            "y": 2015,
+            "v": 964026
+          },
+          {
+            "y": 2016,
+            "v": 964514
+          },
+          {
+            "y": 2017,
+            "v": 964791
+          },
+          {
+            "y": 2018,
+            "v": 962297
+          },
+          {
+            "y": 2019,
+            "v": 959394
+          },
+          {
+            "y": 2020,
+            "v": 921712
+          },
+          {
+            "y": 2021,
+            "v": 921180
+          },
+          {
+            "y": 2022,
+            "v": 923349
+          },
+          {
+            "y": 2023,
+            "v": 914958
+          },
+          {
+            "y": 2024,
+            "v": 915932
+          }
+        ],
+        "note": "NCES Digest table 203.20, public elementary and secondary enrollment. Same published cells as the National K-12 ranking."
+      },
       "ma_chapter74_cte": {
         "label": "Massachusetts Chapter 74 career technical education enrollment, 2025-26",
         "src": "SRC-606-03",

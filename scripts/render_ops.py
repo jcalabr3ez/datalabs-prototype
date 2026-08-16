@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Massachusetts K-12 enrollment on the page",
+        "body": (
+            "Massachusetts K-12 now opens with public-school enrollment from "
+            "Fall 1990 through Fall 2024. The figure is NCES Digest table "
+            "203.20, the same published cells as the National K-12 ranking."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Landing masthead matches the footer",
         "body": (
             "The front-door header now uses the same dark field as the footer: "

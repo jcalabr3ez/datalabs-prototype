@@ -19,6 +19,7 @@ from openpyxl import load_workbook
 
 from suite_hollow import hollow_lead, hollow_secondary
 from suite_common import (
+    LEDGER_DIR,
     RANKED,
     STATE_NAMES,
     UA,
@@ -139,6 +140,42 @@ def _as_pct(v):
 # ---------------------------------------------------------------------------
 # Education
 # ---------------------------------------------------------------------------
+
+def sec_public_k12_enrollment():
+    """Fall enrollment from Digest 203.20, already verified on National K-12."""
+    path = LEDGER_DIR / "dl07-answers.json"
+    dl07 = json.loads(path.read_text())
+    latest = dl07.get("latest") or {}
+    ma = latest.get("ma") or {}
+    trend = (dl07.get("trend") or {}).get("MA") or []
+    fl = next((r for r in (dl07.get("rows") or []) if r.get("st") == "FL"), None)
+    if not ma.get("v") or len(trend) < 2:
+        return None
+    return {
+        "label": "Massachusetts public K-12 enrollment",
+        "src": "SRC-606-02",
+        "unit": "students",
+        "as_of_label": "Fall 2024",
+        "us": (latest.get("us") or {}).get("v"),
+        "ma": {
+            "v": ma.get("v"),
+            "rank": ma.get("rank"),
+            "n": ma.get("n"),
+            "name": "Massachusetts",
+        },
+        "fl": (
+            {"v": fl["v"], "rank": fl["rank"], "n": fl["n"], "name": fl["name"]}
+            if fl else None
+        ),
+        "highest": latest.get("highest"),
+        "lowest": latest.get("lowest"),
+        "trend": trend,
+        "note": (
+            "NCES Digest table 203.20, public elementary and secondary "
+            "enrollment. Same published cells as the National K-12 ranking."
+        ),
+    }
+
 
 def sec_mcas():
     rows = _soda(E2C_MCAS, {
@@ -1230,10 +1267,13 @@ def sec_bed_births_deaths():
 
 MORE_SECONDARY = {
     "DL-06": lambda: {
-        "mcas_2025": sec_mcas(),
-        "attendance_2025": sec_attendance(),
-        "dropouts_2025": sec_dropouts(),
-        "district_finance_fy2025": sec_district_finance(),
+        k: v for k, v in {
+            "public_k12_enrollment": sec_public_k12_enrollment(),
+            "mcas_2025": sec_mcas(),
+            "attendance_2025": sec_attendance(),
+            "dropouts_2025": sec_dropouts(),
+            "district_finance_fy2025": sec_district_finance(),
+        }.items() if v
     },
     "DL-07": lambda: {"naep_2024": sec_naep(), **hollow_secondary("DL-07")},
     "DL-08": lambda: {"ipeds_6yr_grad_2017": sec_ipeds_outcomes(), **hollow_secondary("DL-08")},

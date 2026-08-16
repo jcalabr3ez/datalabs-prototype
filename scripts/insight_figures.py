@@ -311,6 +311,56 @@ def figs_dl06(ledger):
             labels, _bars(labels, values),
             mcas.get("note") or "Statewide All Students, Next Generation MCAS 2025.",
         ))
+    att = sec.get("attendance_2025") or {}
+    if att.get("attend_rate_pct") is not None and att.get("chronic_absent_10_pct") is not None:
+        labels = ["Attendance rate", "Chronically absent"]
+        values = [att["attend_rate_pct"], att["chronic_absent_10_pct"]]
+        out.append(_fig(
+            "attendance-2025",
+            "Massachusetts attendance, 2024-25",
+            (
+                f"The attendance rate was {att['attend_rate_pct']} percent. "
+                f"{att['chronic_absent_10_pct']} percent of students were "
+                f"chronically absent."
+            ),
+            att.get("src") or "SRC-606-05",
+            "bar", "percent", "percent",
+            labels, _bars(labels, values),
+            "Statewide end-of-year attendance. Chronic absence is 10 percent or more of days.",
+        ))
+    drop = sec.get("dropouts_2025") or {}
+    if drop.get("dropout_count") is not None and drop.get("enroll_count") is not None:
+        labels = ["High-school enrollment", "Dropouts"]
+        values = [drop["enroll_count"], drop["dropout_count"]]
+        rate = drop.get("dropout_pct")
+        rate_bit = f", {rate} percent" if rate is not None else ""
+        out.append(_fig(
+            "dropouts-2025",
+            "Massachusetts high-school dropouts, 2024-25",
+            (
+                f"{drop['dropout_count']:,} students dropped out{rate_bit} "
+                f"of {drop['enroll_count']:,} enrolled."
+            ),
+            drop.get("src") or "SRC-606-06",
+            "bar", "number", "students",
+            labels, _bars(labels, values),
+            "DESE / E2C high-school dropouts. Both counts are published cells.",
+        ))
+    fin = sec.get("district_finance_fy2025") or {}
+    fig = named_list(
+        fin.get("top_five"), "dist-ppe-ma",
+        "Highest Massachusetts district total expenditures per pupil, FY 2025",
+        (
+            f"{(fin.get('highest') or {}).get('name')} was highest at "
+            f"${(fin.get('highest') or {}).get('v'):,}."
+        ) if fin.get("highest") else "DESE district total expenditures per pupil.",
+        fin.get("src") or "SRC-606-07",
+        "usd", "dollars per pupil",
+        "DESE / E2C district finance. Small districts sit at the top of a per-pupil ranking.",
+        n=5, span=2,
+    )
+    if fig:
+        out.append(fig)
     latest = ledger.get("latest") or {}
     ma_ppe = (latest.get("ma") or {}).get("v")
     us_ppe = (latest.get("us") or {}).get("v")
@@ -499,6 +549,23 @@ def figs_dl08(ledger):
             labels, _bars(labels, values),
             fac.get("note") or "Digest 315.20 is national and has no state column.",
             span=2,
+        ))
+    ipeds = sec.get("ipeds_6yr_grad_2017") or {}
+    if ipeds.get("us") is not None:
+        labels = ["All 4-year institutions"]
+        values = [ipeds["us"]]
+        out.append(_fig(
+            "ipeds-6yr",
+            "IPEDS 6-year bachelor's graduation rate, 2017 cohort",
+            (
+                f"{ipeds['us']} percent of the 2017 bachelor's cohort finished "
+                "within six years at all 4-year institutions. Digest 326.10 "
+                "has no state column."
+            ),
+            ipeds.get("src") or "SRC-608-04",
+            "bar", "percent", "percent",
+            labels, _bars(labels, values),
+            ipeds.get("note") or "National table. Digest 326.10 has no state column.",
         ))
     return out
 
@@ -1143,6 +1210,20 @@ def figs_dl25(ledger):
     )
     if fig:
         out.append(fig)
+    fig = named_list(
+        (acs.get("bachelors") or {}).get("top_eight"), "town-bachelors",
+        "Highest bachelor's-or-higher share, ACS 2020-2024",
+        (
+            f"{(acs.get('bachelors') or {}).get('highest', {}).get('name')} is highest at "
+            f"{(acs.get('bachelors') or {}).get('highest', {}).get('v')} percent."
+        ) if (acs.get("bachelors") or {}).get("highest") else "ACS bachelor's-or-higher share.",
+        acs.get("src") or "SRC-625-03",
+        "percent", "percent",
+        "Census ACS 5-year 2020-2024, population 25 and over.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -1199,6 +1280,20 @@ def figs_dl26(ledger):
         acs.get("src") or "SRC-626-03",
         "usd", "dollars",
         "Census ACS 5-year 2020-2024 table B25077.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
+    fig = named_list(
+        (acs.get("bachelors") or {}).get("top_eight"), "rank-bachelors",
+        "Highest bachelor's-or-higher share, ACS 2020-2024",
+        (
+            f"{(acs.get('bachelors') or {}).get('highest', {}).get('name')} is highest at "
+            f"{(acs.get('bachelors') or {}).get('highest', {}).get('v')} percent."
+        ) if (acs.get("bachelors") or {}).get("highest") else "ACS bachelor's-or-higher share.",
+        acs.get("src") or "SRC-626-03",
+        "percent", "percent",
+        "Census ACS 5-year 2020-2024, population 25 and over.",
         n=8, span=2,
     )
     if fig:
@@ -1327,6 +1422,28 @@ def figs_dl29(ledger):
 def figs_dl30(ledger):
     sec = _sec(ledger)
     out = []
+    he_rows = []
+    for r in ledger.get("rows") or []:
+        name = (r.get("name") or "").upper()
+        if r.get("v") is None:
+            continue
+        if any(tok in name for tok in ("UNIVERSITY", "COMMUNITY COLLEGE", "STATE COLLEGE")):
+            he_rows.append(r)
+    he_rows.sort(key=lambda r: r.get("v") or 0, reverse=True)
+    fig = named_list(
+        he_rows, "highered-pay",
+        "Massachusetts public higher-education payroll, calendar 2025",
+        (
+            f"{he_rows[0]['name']} was the largest public campus payroll "
+            f"at ${he_rows[0]['v']:,.0f}."
+        ) if he_rows else "CTHRU campus payroll.",
+        "SRC-630-01",
+        "usd", "dollars",
+        "Departments whose published CTHRU name includes University, Community College, or State College.",
+        n=8, span=2,
+    )
+    if fig:
+        out.append(fig)
     quasi = sec.get("quasi_payroll_2025") or {}
     fig = named_list(
         quasi.get("top_five"), "quasi",
@@ -1378,6 +1495,14 @@ def figs_dl31(ledger):
         title="Admissions of sentenced prisoners, 2023",
         skip_us=True,
         note="BJS Prisoners in 2023, table 8. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        b.get("releases"), "releases",
+        title="Releases of sentenced prisoners, 2023",
+        skip_us=True,
+        note="BJS Prisoners in 2023, table 9. The U.S. total is omitted so state bars remain readable.",
     )
     if fig:
         out.append(fig)

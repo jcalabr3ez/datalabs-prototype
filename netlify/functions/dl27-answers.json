@@ -34,7 +34,7 @@
   "geo": [
     "Boston"
   ],
-  "q": "Boston city budget, payroll, and the former Boston Data Labs views.",
+  "q": "Boston city budget and payroll.",
   "pending": false,
   "metric": "boston_department_earnings_2025",
   "metric_label": "Department earnings, calendar year 2025",

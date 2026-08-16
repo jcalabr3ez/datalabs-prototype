@@ -151,7 +151,7 @@
  {
   "id": "DL-09",
   "t": "Charters and School Staff",
-  "q": "Charter school counts and education staff by state and district.",
+  "q": "Charter school enrollment and public-school teachers by state.",
   "g": [
    "US",
    "MA"
@@ -219,7 +219,7 @@
  {
   "id": "DL-12",
   "t": "Medicaid and State Health Spending",
-  "q": "State Medicaid spending, broader state health expenses, and Medicaid fraud recoveries.",
+  "q": "State Medicaid spending and Medicaid fraud recoveries.",
   "g": [
    "US"
   ],
@@ -360,7 +360,7 @@
  {
   "id": "DL-21",
   "t": "Tax Statistics",
-  "q": "Income-tax statistics by state, county, and municipality, plus AGI percentiles.",
+  "q": "Income-tax statistics by state and county, plus size-of-AGI stubs.",
   "g": [
    "US",
    "MA"
@@ -390,7 +390,7 @@
  {
   "id": "DL-23",
   "t": "Roads and Risk",
-  "q": "Roadway travel, FEMA obligations, the National Risk Index, and heating and cooling days.",
+  "q": "Roadway travel, FEMA obligations, and the National Risk Index.",
   "g": [
    "US"
   ],
@@ -447,7 +447,7 @@
  {
   "id": "DL-27",
   "t": "Boston",
-  "q": "Boston city budget, payroll, and the former Boston Data Labs views.",
+  "q": "Boston city budget and payroll.",
   "g": [
    "Boston"
   ],

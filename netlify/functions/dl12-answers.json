@@ -42,7 +42,7 @@
   "geo": [
     "US"
   ],
-  "q": "State Medicaid spending, broader state health expenses, and Medicaid fraud recoveries.",
+  "q": "State Medicaid spending and Medicaid fraud recoveries.",
   "pending": false,
   "metric": "medicaid_map_total_computable_fy2024",
   "metric_label": "Medicaid MAP net expenditures, FY 2024 (total computable)",

@@ -44,7 +44,7 @@
     "US",
     "MA"
   ],
-  "q": "Income-tax statistics by state, county, and municipality, plus AGI percentiles.",
+  "q": "Income-tax statistics by state and county, plus size-of-AGI stubs.",
   "pending": false,
   "metric": "agi_tax_year_2022",
   "metric_label": "Adjusted gross income, tax year 2022",

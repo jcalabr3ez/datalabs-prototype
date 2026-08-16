@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Every heading topic has a figure",
+        "body": (
+            "Each live tool heading now names only topics the page can show. "
+            "Where the ledger already had the cells, the page gained the "
+            "matching graphic: Massachusetts attendance and dropouts, the "
+            "national IPEDS graduation rate, town bachelor's shares, "
+            "prisoner releases, and public campus payroll."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Massachusetts K-12 enrollment on the page",
         "body": (
             "Massachusetts K-12 now opens with public-school enrollment from "

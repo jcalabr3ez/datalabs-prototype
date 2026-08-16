@@ -36,7 +36,7 @@
     "US",
     "MA"
   ],
-  "q": "Charter school counts and education staff by state and district.",
+  "q": "Charter school enrollment and public-school teachers by state.",
   "pending": false,
   "metric": "charter_enrollment_2022_23",
   "metric_label": "Charter school fall enrollment, 2022-23",

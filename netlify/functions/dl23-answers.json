@@ -55,7 +55,7 @@
   "geo": [
     "US"
   ],
-  "q": "Roadway travel, FEMA obligations, the National Risk Index, and heating and cooling days.",
+  "q": "Roadway travel, FEMA obligations, and the National Risk Index.",
   "pending": false,
   "metric": "vmt_2024_million_vehicle_miles",
   "metric_label": "Annual vehicle-miles of travel, 2024 (millions)",

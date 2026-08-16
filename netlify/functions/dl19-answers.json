@@ -16,7 +16,7 @@
     "MA Tariff Impacts",
     "Defense Impact"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SARPP_STATE_2008_2024, LineCode 1 (RPPs: All items). U.S. 2024 equals 100. Tariff, defense, and state-dependency indexes remain pending. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SARPP_STATE_2008_2024, LineCode 1 (RPPs: All items). U.S. 2024 equals 100. Tariff, defense, and state-dependency indexes remain pending. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-619-01": {
       "name": "BEA SARPP all-items regional price parities, 2008-2024",

@@ -13,7 +13,7 @@
     "Housing Prices",
     "Housing Production"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census BPS state year-to-date files st2606y.txt and the matching 2025 file. Units are 1-unit + 2-unit + 3-4 unit + 5-or-more, reported buildings' units columns. The U.S. total is the sum of published state rows, not a separate Census U.S. line. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census BPS state year-to-date files st2606y.txt and the matching 2025 file. Units are 1-unit + 2-unit + 3-4 unit + 5-or-more, reported buildings' units columns. The U.S. total is the sum of published state rows, not a separate Census U.S. line. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-616-01": {
       "name": "Census Bureau Building Permits Survey, state year-to-date files",

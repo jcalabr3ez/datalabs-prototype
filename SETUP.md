@@ -9,10 +9,10 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     AGENTS.md                      Hard rules for cloud agents (draft PR, no main)
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic headings plus the
-                                   five flagships and the 26-app suite
-                                   (DL-01 through DL-31 only). Public
+                                   five flagships and the 27-app suite
+                                   (DL-01 through DL-32). Public
                                    production site.
-    suite/apps.json                CANONICAL registry of the 26 new applications
+    suite/apps.json                CANONICAL registry of the 27 suite applications
     mbta/index.html                DL-03 MBTA Performance flagship page
     florida-insurance/index.html   DL-02 Florida Homeowners Insurance flagship page
     tax-atlas/index.html           DL-01 State Wealth Taxes flagship page

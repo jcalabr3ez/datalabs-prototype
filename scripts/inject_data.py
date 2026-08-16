@@ -446,17 +446,6 @@ def main():
                        .get("Certified for the 2026 ballot", {}).get("count", 0),
         "as_of": dl01["as_of"],
     }
-    dl04d = {
-        "year": dl04["data_year"],
-        "us_price": dl04["latest"]["us"]["price_cents"],
-        "us_price_fmt": f"{dl04['latest']['us']['price_cents']:.2f}",
-        "ma_price_fmt": f"{dl04['latest']['ma']['price_cents']:.2f}",
-        "us_yoy": dl04["latest"]["us"].get("yoy_pct"),
-        "highest_name": dl04["latest"]["highest"]["name"],
-        "highest_price_fmt": f"{dl04['latest']['highest']['price_cents']:.2f}",
-        "as_of": dl04["as_of"],
-        "us_trend": [[e["y"], e["v"]] for e in dl04["price_trend"]["US"]],
-    }
     dl05d = {
         "state_funded_pct": dl05["latest"]["state"]["funded_pct"],
         "mtrs_funded_pct": dl05["latest"]["mtrs"]["funded_pct"],
@@ -475,7 +464,6 @@ def main():
     front_payload = (
         "const DATA = " + jdump(data) + ";\n"
         + "const DL01D = " + jdump(dl01d) + ";\n"
-        + "const DL04D = " + jdump(dl04d) + ";\n"
         + "const DL05D = " + jdump(dl05d) + ";"
     )
     new = replace_block(text, "front-data", front_payload, p)

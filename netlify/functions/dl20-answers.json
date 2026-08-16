@@ -14,7 +14,7 @@
   "State to State Tax Migration",
   "Taxpayer Migration"
  ],
- "vintage_note": "Rebuilt Aug 15, 2026 from IRS SOI stateinflow2223.csv and stateoutflow2223.csv. Net equals Total Migration-US inflow n1 minus Total Migration-US outflow n1. Same-state and foreign rows are excluded. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Origin-destination pairs compiled Aug 16, 2026 from stateoutflow2223.csv.",
+ "vintage_note": "Rebuilt Aug 15, 2026 from IRS SOI stateinflow2223.csv and stateoutflow2223.csv. Net equals Total Migration-US inflow n1 minus Total Migration-US outflow n1. Same-state and foreign rows are excluded. Later views compiled Aug 15, 2026 are stored under derived.secondary. Origin-destination pairs compiled Aug 16, 2026 from stateoutflow2223.csv.",
  "source_id_map": {
   "SRC-620-01": {
    "name": "IRS SOI state-to-state migration, tax years 2022-23",

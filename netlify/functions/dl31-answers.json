@@ -15,7 +15,7 @@
     "Internet Crime",
     "Juvenile Incarceration"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BJS Prisoners in 2023 statistical tables, p23stt02.csv (jurisdiction counts, 2023). U.S. total equals 1,254,224. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BJS Prisoners in 2023 statistical tables, p23stt02.csv (jurisdiction counts, 2023). U.S. total equals 1,254,224. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-631-01": {
       "name": "FBI Crime Data Explorer / UCR and NIBRS",

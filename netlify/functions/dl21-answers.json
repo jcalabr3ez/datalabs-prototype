@@ -15,7 +15,7 @@
     "Tax Statistics-Municipalities",
     "Tracking Wealth"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from IRS 22in55cmcsv.csv, AGI_STUB 0 (all returns). A00100 is AGI in thousands of dollars. U.S. return count equals 159,651,330. A dedicated AGI-percentile-by-state file is not posted. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from IRS 22in55cmcsv.csv, AGI_STUB 0 (all returns). A00100 is AGI in thousands of dollars. U.S. return count equals 159,651,330. A dedicated AGI-percentile-by-state file is not posted. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-621-01": {
       "name": "IRS SOI historic table 2, tax year 2022 (22in55cmcsv.csv)",

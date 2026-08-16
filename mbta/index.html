@@ -43,16 +43,16 @@
   /* shared DataLabs content column: everything below the hero sits in one measure */
   .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
 
-  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:#fff;border-bottom:2px solid var(--gold);
-           padding:14px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:#fff;border-bottom:1px solid var(--gold);
+           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
   .sitebar .sbleft{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
   .sitebar .piword{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none}
   .sitebar .piword:hover{color:var(--navy);text-decoration:none}
   .sitebar .backlink{font:400 13px/1 var(--sans);color:var(--navy);text-decoration:none}
   .sitebar .backlink:hover{color:var(--ink);text-decoration:underline}
 
-  header{background:var(--wash);margin:0 calc(-1 * var(--bleed));padding:28px var(--bleed) 22px;border-bottom:1px solid var(--rule)}
-  h1{font:700 clamp(28px,3.6vw,40px)/1.15 var(--serif);color:var(--ink);letter-spacing:-.015em}
+  header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:36px var(--bleed) 28px;border-bottom:1px solid var(--rule)}
+  h1{font:700 clamp(28px,3.6vw,40px)/1.12 var(--serif);color:var(--ink);letter-spacing:-.02em}
   .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
   .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
   .dateline{margin-top:6px;font:400 13.5px/1.5 var(--sans);color:var(--grey)}
@@ -80,7 +80,7 @@
   .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
   .body-p.big{font-size:17px;line-height:1.6}
 
-  .strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--navy);border-bottom:1px solid var(--rule);background:var(--wash);padding:4px 18px;margin-left:-18px;margin-right:-18px}
+  .strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);background:#fff}
   .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule)}
   .cell:last-child{border-right:0;padding-right:0}
   .cl{font:400 13px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);
@@ -189,8 +189,8 @@
   ol.lim li:before{content:counter(l) ".";position:absolute;left:0;top:0;font:700 14.5px/1.62 var(--sans);color:var(--navy)}
   ol.lim b{font-weight:700;color:var(--ink)}
 
-  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:2px solid var(--gold);
-         padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
+  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:none;
+         padding:36px var(--bleed) 28px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
   footer b{color:#fff}
   footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
   footer a:hover{color:#fff;border-bottom-color:#fff}
@@ -606,7 +606,7 @@ const ANSWERS={"as_of":"2026-06","vintage_note":"Ridership rebuilt from FTA NTD 
 /* DATA:END mbta-data */
 
 /* ---- house chart defaults (matched to Florida Insurance Watch) ---- */
-const BLUE='#293C5C',INK='#112337',G2='#666666',G3='#9AA2AA',RULE='#E4E6E9',GOLD='#CCB26D',POS='#177245',
+const BLUE='#293C5C',INK='#1A1A1A',G2='#58575A',G3='#6F6F73',RULE='#E6E6E6',GOLD='#CCB26D',POS='#177245',
       SANS='"Roboto",system-ui,sans-serif',MONO='"Roboto",system-ui,sans-serif';
 Chart.defaults.font.family=SANS; Chart.defaults.font.size=11; Chart.defaults.color=G2;
 Chart.defaults.plugins.legend.display=false;

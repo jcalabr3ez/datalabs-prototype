@@ -7,9 +7,9 @@
   if (!root.Chart) return;
   var Chart = root.Chart;
   var SANS = 'Roboto, system-ui, sans-serif';
-  var INK = '#222222';
-  var GREY = '#4A5560';
-  var GRID = 'rgba(34,34,34,.08)';
+  var INK = '#1A1A1A';
+  var GREY = '#58575A';
+  var GRID = 'rgba(26,26,26,.08)';
 
   Chart.defaults.font.family = SANS;
   Chart.defaults.font.size = 11;

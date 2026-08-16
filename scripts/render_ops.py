@@ -122,6 +122,16 @@ CHANGELOG = [
     },
     {
         "date": "August 16, 2026",
+        "title": "Florida on every US-tool chart that already shows Massachusetts",
+        "body": (
+            "Live US tools that already plot Massachusetts now carry the "
+            "matching Florida series from the same published files. County "
+            "and state compare figures keep both states in view. The "
+            "underlying cells are unchanged."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Landing masthead matches the footer",
         "body": (
             "The front-door header now uses the same dark field as the footer: "

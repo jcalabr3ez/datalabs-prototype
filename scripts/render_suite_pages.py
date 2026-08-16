@@ -294,6 +294,36 @@ def insight_html(insights, start=1):
     )
 
 
+def later_view_html(later, start_fig, canvas_start):
+    """First-class later exhibits beyond the two-insight cap."""
+    if not later:
+        return ""
+    blocks = []
+    for i, fig in enumerate(later):
+        fid = fig.get("id") or ("later" + str(i))
+        note = figure_limit(fig)
+        note_html = (
+            "      <div class=\"note\">" + esc(note) + "</div>\n" if note else ""
+        )
+        blocks.append(
+            "  <section id=\"view-" + esc(fid) + "\">\n"
+            "    <h2>" + esc(fig.get("title") or fid) + "</h2>\n"
+            "    <div class=\"exhibit span2\">\n"
+            "      <div class=\"ex-head\"><span class=\"ex-n\">Figure "
+            + str(start_fig + i) + "</span>\n"
+            "        <span class=\"ex-t\">" + esc(fig.get("title") or fid) + "</span></div>\n"
+            "      <div class=\"plot\"><canvas id=\"chInsight"
+            + str(canvas_start + i) + "\"></canvas></div>\n"
+            + note_html
+            + "      <div class=\"srcline\"><b>Source:</b> "
+            + esc(fig.get("src") or "see the register")
+            + ". <b>Unit:</b> " + esc(fig.get("unit") or "see the register") + ".</div>\n"
+            "    </div>\n"
+            "  </section>\n"
+        )
+    return "".join(blocks)
+
+
 RELATED_PAIRS = {
     "DL-06": ["DL-07", "DL-09", "DL-08"],
     "DL-07": ["DL-06", "DL-08", "DL-09"],
@@ -951,7 +981,8 @@ def page_html(app, ledger, apps=None):
     )
     find_spec = (voice or {}).get("find") or {"kind": None, "cards": {}, "metric": ""}
     spec = chart_spec(app, ledger) if live else {}
-    insights = insight_figures(app, ledger) if live else []
+    all_insights = insight_figures(app, ledger) if live else []
+    insights = all_insights
     if spec.get("headline_from") == "secondary.public_k12_enrollment":
         insights = [f for f in insights if f.get("id") != "ma-enroll"]
     map_insights = [f for f in insights if f.get("type") == "map" and f.get("rows")]
@@ -986,9 +1017,12 @@ def page_html(app, ledger, apps=None):
                 "mode": mode,
             })
     has_trend = bool(spec.get("has_trend"))
+    later_insights = []
     if has_trend:
+        later_insights = insights[1:]
         insights = insights[:1]
     else:
+        later_insights = insights[2:]
         insights = insights[:2]
     find_noun = (spec.get("geo") or "name").replace("_", " ")
     jump = ""
@@ -1026,6 +1060,16 @@ def page_html(app, ledger, apps=None):
                 label = label[:34] + "\u2026"
             jump_links.append(
                 '<a href="#insight-' + esc(fid) + '">' + esc(label) + "</a>"
+            )
+        for fig in later_insights:
+            fid = fig.get("id")
+            if not fid:
+                continue
+            label = (fig.get("title") or fid).strip()
+            if len(label) > 36:
+                label = label[:34] + "\u2026"
+            jump_links.append(
+                '<a href="#view-' + esc(fid) + '">' + esc(label) + "</a>"
             )
         jump = (
             '<nav class="jump" aria-label="On this page">'
@@ -1228,6 +1272,7 @@ def page_html(app, ledger, apps=None):
             else ""
         )
         insight_start = 3 if has_trend else 2
+        later_start = insight_start + len(insights)
         latest_section = (
             answer_block
             + finder_block
@@ -1235,6 +1280,7 @@ def page_html(app, ledger, apps=None):
             + chips
             + trend_block
             + insight_html(insights, start=insight_start)
+            + later_view_html(later_insights, later_start, len(insights))
         )
     else:
         dash_block = dashboards_html(app)
@@ -2330,7 +2376,7 @@ const FIND=FIND_JSON;
   }
 EXTRA_TOOL_JS})();
 </script>
-""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights, ensure_ascii=True)).replace("MAP_VIEWS_JSON", json.dumps(map_views, ensure_ascii=True)).replace("FIND_JSON", json.dumps(find_spec, ensure_ascii=True)).replace("EXTRA_TOOL_JS", extra_tool_js(app, ledger))
+""".replace("SLUG", slug).replace("CHART_JSON", json.dumps(spec, ensure_ascii=True)).replace("INSIGHTS_JSON", json.dumps(insights + later_insights, ensure_ascii=True)).replace("MAP_VIEWS_JSON", json.dumps(map_views, ensure_ascii=True)).replace("FIND_JSON", json.dumps(find_spec, ensure_ascii=True)).replace("EXTRA_TOOL_JS", extra_tool_js(app, ledger))
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>

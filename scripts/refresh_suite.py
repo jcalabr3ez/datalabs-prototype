@@ -37,6 +37,7 @@ from suite_common import (
     write_ledger,
     yoy_pct,
 )
+from suite_windows import attach_windows, windows_from_trend
 from suite_builders import BUILDERS as EXTRA_BUILDERS
 from suite_later import BUILDERS as LATER_BUILDERS, enrich
 
@@ -119,13 +120,11 @@ def build_bfs(app):
         rec["yoy_pct"] = yoy_pct(rec["v"], prev_values.get(rec["st"]))
     ma = next(r for r in ranked if r["st"] == "MA")
     us_yoy = yoy_pct(values["US"], prev_values.get("US"))
-    # monthly trend, seasonally adjusted, last 8 years, every jurisdiction
+    # monthly trend, seasonally adjusted, every published year
     trend = {}
     for st in by_geo:
         series = []
         for y in sorted(by_geo.get(st, {})):
-            if y < 2018:
-                continue
             row = by_geo[st][y]
             for i, key in enumerate(MONTHS, 1):
                 raw = (row.get(key) or "").strip()
@@ -134,6 +133,10 @@ def build_bfs(app):
                 series.append({"m": f"{y}-{i:02d}", "v": int(float(raw))})
         if len(series) >= 2:
             trend[st] = series
+    companions = _bfs_companion_snaps(rows, year, month_key)
+    per_cap = _bfs_per_100k(trend, year, month_i)
+    if per_cap:
+        companions["bfs_per_100k"] = per_cap
     as_of = f"{year}-{month_i:02d}"
     as_of_label = f"{MONTH_ABBR[month_i]} {year}"
     kpis = [
@@ -208,9 +211,163 @@ def build_bfs(app):
                 "lowest_five": list(reversed(ranked[-5:])),
                 "massachusetts_rank": ma["rank"],
                 "n_ranked": ma["n"],
+                "secondary": companions,
+                "windows": _bfs_windows(trend),
             },
         },
     )
+
+
+def _bfs_parse_series(rows, series_id):
+    by_geo = {}
+    for r in rows:
+        if r["sa"] != "A" or r["naics_sector"] != "TOTAL" or r["series"] != series_id:
+            continue
+        geo = r["geo"]
+        if geo not in STATE_NAMES:
+            continue
+        by_geo.setdefault(geo, {})[int(r["year"])] = r
+    return by_geo
+
+
+def _bfs_month_values(by_geo, year, month_key):
+    values = {}
+    for st, years in by_geo.items():
+        cur = years.get(year)
+        if not cur:
+            continue
+        raw = (cur.get(month_key) or "").strip()
+        if raw:
+            values[st] = int(float(raw))
+    return values
+
+
+def _bfs_companion_snaps(rows, year, month_key):
+    """High-propensity applications and projected 4-quarter formations."""
+    from suite_public_later import _snap
+    out = {}
+    specs = (
+        ("BA_CBA", "high_propensity_applications",
+         "High-propensity business applications (seasonally adjusted)",
+         "applications"),
+        ("BF_PBF4Q", "projected_formations_4q",
+         "Projected business formations within four quarters (seasonally adjusted)",
+         "formations"),
+    )
+    for series_id, key, label, unit in specs:
+        by_geo = _bfs_parse_series(rows, series_id)
+        values = _bfs_month_values(by_geo, year, month_key)
+        if "MA" not in values or "US" not in values or len(values) < 50:
+            continue
+        us_val = values["US"]
+        snap = _snap({st: v for st, v in values.items() if st != "US"}, us_val)
+        snap.update({
+            "label": label,
+            "src": "SRC-613-01",
+            "unit": unit,
+            "as_of_label": f"{MONTH_ABBR[MONTHS.index(month_key) + 1]} {year}" if month_key in MONTHS else str(year),
+            "note": (
+                f"Census BFS monthly CSV, seasonally adjusted {series_id}, "
+                "TOTAL NAICS. Same file as the headline BA_BA series."
+            ),
+        })
+        out[key] = snap
+    return out
+
+
+def _bfs_pop_by_year():
+    """July 1 resident population by state-year from the vintages already used."""
+    pop = {}
+    try:
+        text = fetch_text(URL_PEP, timeout=90)
+        for r in csv.DictReader(io.StringIO(text)):
+            if r.get("SUMLEV") != "040":
+                continue
+            st = next((k for k, v in STATE_NAMES.items() if v == r.get("NAME")), None)
+            if not st:
+                continue
+            for y in range(2020, 2026):
+                raw = (r.get(f"POPESTIMATE{y}") or "").strip()
+                if raw:
+                    pop[(st, y)] = float(raw)
+            us_name = r.get("NAME")
+            if us_name == "United States":
+                for y in range(2020, 2026):
+                    raw = (r.get(f"POPESTIMATE{y}") or "").strip()
+                    if raw:
+                        pop[("US", y)] = float(raw)
+    except Exception:
+        return pop
+    try:
+        older = (
+            "https://www2.census.gov/programs-surveys/popest/datasets/"
+            "2010-2020/state/totals/nst-est2020-alldata.csv"
+        )
+        text = fetch_text(older, timeout=90)
+        for r in csv.DictReader(io.StringIO(text)):
+            if r.get("SUMLEV") != "040":
+                continue
+            st = next((k for k, v in STATE_NAMES.items() if v == r.get("NAME")), None)
+            if not st:
+                continue
+            for y in range(2010, 2020):
+                raw = (r.get(f"POPESTIMATE{y}") or "").strip()
+                if raw and (st, y) not in pop:
+                    pop[(st, y)] = float(raw)
+    except Exception:
+        pass
+    return pop
+
+
+def _bfs_per_100k(trend, year, month_i):
+    pop = _bfs_pop_by_year()
+    if not pop:
+        return None
+    # 2026 months use the 2025 estimate; earlier years use that July 1 figure.
+    use_year = year if any((st, year) in pop for st in RANKED) else 2025
+    values = {}
+    us_val = None
+    month_key = f"{year}-{month_i:02d}"
+    for st, series in trend.items():
+        pt = next((p for p in series if p.get("m") == month_key), None)
+        p = pop.get((st, use_year))
+        if not pt or not p:
+            continue
+        rate = pt["v"] / p * 100000
+        if st == "US":
+            us_val = rate
+        else:
+            values[st] = rate
+    if "MA" not in values or len(values) < 50:
+        return None
+    from suite_public_later import _snap
+    snap = _snap({k: round(v, 2) for k, v in values.items()},
+                 round(us_val, 2) if us_val is not None else None, round_to=2)
+    snap.update({
+        "label": f"Business applications per 100,000 residents, {MONTH_ABBR[month_i]} {year}",
+        "src": "SRC-613-01",
+        "unit": "applications per 100,000 residents",
+        "as_of_label": f"{MONTH_ABBR[month_i]} {year}",
+        "pop_year": use_year,
+        "note": (
+            "Seasonally adjusted BA_BA divided by Census July 1 resident "
+            f"population for {use_year}, times 100,000 (derived, SRC-613-01). "
+            "2026 months use the 2025 population estimate."
+        ),
+    })
+    return snap
+
+
+def _bfs_windows(trend):
+    wins = windows_from_trend(
+        trend, src="SRC-613-01", unit="applications",
+        ns=(12, 36), label_stem="Seasonally adjusted business applications",
+        prefix="bfs_ba_ba",
+    )
+    return {
+        "note": "Prefer these over recomputing. Window means and ranks cite (derived, SRC-613-01).",
+        **wins,
+    }
 
 
 def parse_laus(text):
@@ -267,8 +424,6 @@ def build_laus(app):
     # US is not in LAUS statewide file; leave it out of the rank and note it.
     trend = {}
     for (st, y, m), v in sorted(series.items()):
-        if y < 2018:
-            continue
         trend.setdefault(st, []).append({"m": f"{y}-{m:02d}", "v": v})
     trend = {st: pts for st, pts in trend.items() if len(pts) >= 2}
     as_of = f"{year}-{month:02d}"
@@ -339,6 +494,14 @@ def build_laus(app):
                 "lowest_five": list(reversed(ranked[-5:])),
                 "massachusetts_rank": ma["rank"],
                 "n_ranked": ma["n"],
+                "windows": {
+                    "note": "Prefer these over recomputing. Window means and ranks cite (derived, SRC-614-01).",
+                    **windows_from_trend(
+                        trend, src="SRC-614-01", unit="percent",
+                        ns=(12, 36), label_stem="Seasonally adjusted unemployment rate",
+                        prefix="laus_rate",
+                    ),
+                },
             },
         },
     )

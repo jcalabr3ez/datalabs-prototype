@@ -57,6 +57,49 @@ const DL30 = require('./dl30-answers.json');
 const DL31 = require('./dl31-answers.json');
 const DL32 = require('./dl32-answers.json');
 
+var CORE_HEAVY = {
+  trend: 1, rows: 1, district_rows: 1, states: 1, cube: 1,
+  ma_districts: 1, fl_districts: 1, series: 1, points: 1,
+  top: 1, top_ten: 1, race: 1, selected: 1, grades: 1,
+  types: 1, ma_types: 1, agencies: 1
+};
+
+function slimSnap(snap) {
+  if (!snap || typeof snap !== 'object' || Array.isArray(snap)) return snap;
+  var out = {};
+  Object.keys(snap).forEach(function (k) {
+    if (!CORE_HEAVY[k]) out[k] = snap[k];
+  });
+  return out;
+}
+
+function slimDerived(derived) {
+  if (!derived || typeof derived !== 'object') return derived;
+  var out = {
+    note: derived.note,
+    highest_five: derived.highest_five,
+    lowest_five: derived.lowest_five,
+    massachusetts_rank: derived.massachusetts_rank,
+    n_ranked: derived.n_ranked,
+    windows: derived.windows
+  };
+  Object.keys(derived).forEach(function (k) {
+    if (out[k] !== undefined || k === 'secondary') return;
+    var v = derived[k];
+    if (v && typeof v === 'object' && !Array.isArray(v) && (v.ma || v.us || v.v != null)) {
+      out[k] = slimSnap(v);
+    }
+  });
+  if (derived.secondary) {
+    var sec = {};
+    Object.keys(derived.secondary).forEach(function (k) {
+      sec[k] = slimSnap(derived.secondary[k]);
+    });
+    out.secondary = sec;
+  }
+  return out;
+}
+
 function suiteCore(d) {
   var src = {};
   Object.keys(d.source_id_map || {}).forEach(function (k) {
@@ -69,7 +112,7 @@ function suiteCore(d) {
     vintage_note: d.vintage_note, metric: d.metric,
     metric_label: d.metric_label, unit: d.unit,
     data_month_label: d.data_month_label,
-    latest: d.latest, derived: d.derived, source_ids: src
+    latest: d.latest, derived: slimDerived(d.derived), source_ids: src
   };
 }
 
@@ -104,7 +147,7 @@ function suiteRules(id, src, extra, hasTrend) {
   var pick = hasTrend
     ? 'View and chart selection: latest = the current ranking; trend = change over time; table = every row. '
     : 'View and chart selection: latest = the current ranking; table = every row. This page has no trend view. ';
-  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks and year-over-year changes cite (derived, ' + src + '). Prefer the precomputed values in latest and derived over your own arithmetic. Answer the metric named in metric_label and any series stored under derived.secondary; cite the source id on each secondary figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. ' + pick + 'When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
+  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks, year-over-year changes, and trailing-window means cite (derived, ' + src + '). Prefer the precomputed values in latest, derived.windows, and derived.secondary over your own arithmetic. Do not average unpublished state-periods. Answer the metric named in metric_label and any series stored under derived.secondary or derived.windows; cite the source id on each figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. ' + pick + 'When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
 }
 
 function suiteLink(slug, opts) {
@@ -457,6 +500,7 @@ module.exports = [
     id: 'DL-08',
     label: 'College Enrollment: fall enrollment in degree-granting institutions by state',
     src: 'SRC-608-01',
+    extraViews: ['he-faculty', 'ipeds-6yr-state', 'he-tuition'],
     triggers: [
       'college', 'college enrollment', 'higher education', 'postsecondary',
       'fall enrollment', 'degree-granting', 'university enrollment',
@@ -539,7 +583,7 @@ module.exports = [
       'establishment death', 'births and deaths', 'birth rate',
       'death rate', 'formation rate'
     ],
-    extra: 'Establishment births and deaths sit in derived.secondary.bed_births_deaths. U.S. counts there are thousands of establishments; Massachusetts counts are establishments. Deaths lag three quarters. Census BDS firm births are not in this ledger.'
+    extra: 'Establishment birth and death rates for every state sit in derived.secondary.bed_births_deaths and derived.windows. U.S. counts there are thousands of establishments; state counts are establishments. Deaths lag three quarters. Trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3, are precomputed: use those, do not average unpublished quarters. High-propensity applications and projected 4-quarter formations sit in derived.secondary. Census BDS firm births are not in this ledger.'
   }),
   suiteTool(DL14, {
     id: 'DL-14',
@@ -552,7 +596,7 @@ module.exports = [
       'labor force participation', 'labor-force participation',
       'employment-population', 'epop'
     ],
-    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the U.S. wage there is derived from state sums. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. CPS age-sex-race detail is not posted: decline those.'
+    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. CPS age-sex-race detail is not posted: decline those.'
   }),
   suiteTool(DL15, {
     id: 'DL-15',
@@ -636,6 +680,7 @@ module.exports = [
     id: 'DL-23',
     label: 'Annual vehicle-miles of travel by state from FHWA VM-2',
     src: 'SRC-623-01',
+    extraViews: ['degree-days'],
     triggers: [
       'vehicle-miles', 'vehicle miles', 'vmt', 'roadway travel',
       'miles driven', 'highway statistics', 'fema obligated',
@@ -686,6 +731,7 @@ module.exports = [
     id: 'DL-27',
     label: 'City of Boston department earnings, calendar year 2025',
     src: 'SRC-627-01',
+    extraViews: ['bos-pay-trend'],
     uppercase: false,
     hl: 'the exact department name as written in entities if the question focuses on one department, else null',
     triggers: [
@@ -711,6 +757,7 @@ module.exports = [
     id: 'DL-29',
     label: 'State government tax collections by state, Census QTAX latest quarter',
     src: 'SRC-629-01',
+    extraViews: ['aslg-rev', 'aspp-hold', 'gov-units'],
     triggers: [
       'state tax collections', 'which state collected', 'qtax',
       'quarterly tax revenue', 'state government taxes',

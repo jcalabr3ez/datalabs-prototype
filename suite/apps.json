@@ -164,8 +164,8 @@
       "g": ["US", "MA", "FL"],
       "heritage": "Formerly Business Births and Deaths and Business Dynamics",
       "replaces": ["Business Births and Deaths", "Business Dynamics"],
-      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications and projected formations within four quarters, for the United States and each state. Also reports BLS Business Employment Dynamics private-sector establishment birth and death counts and rates for the United States, Massachusetts, and Florida.",
-      "exclusions": "Does not cover industry clusters or advice about starting a firm. Establishment births and deaths are the BLS BED private-sector series, not Census BDS firm births.",
+      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3. Counts for the United States, Massachusetts, and Florida stay on the same BLS file.",
+      "exclusions": "Does not cover industry clusters or advice about starting a firm. Establishment births and deaths are the BLS BED private-sector series, not Census BDS firm births. Do not average unpublished state-quarters; use derived.windows.",
       "wave": "live",
       "sources": [
         {"id": "SRC-613-01", "name": "Census Bureau Business Formation Statistics monthly time series", "cadence": "Monthly", "url": "https://www.census.gov/econ/bfs/csv/bfs_monthly.csv"},

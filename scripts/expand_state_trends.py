@@ -65,8 +65,6 @@ def expand_bfs():
     for st, years in by_geo.items():
         series = []
         for y in sorted(years):
-            if y < 2018:
-                continue
             row = years[y]
             for i, key in enumerate(MONTHS, 1):
                 raw = (row.get(key) or "").strip()
@@ -82,8 +80,6 @@ def expand_laus():
     series = parse_laus(text)
     trend = {}
     for (st, y, m), v in sorted(series.items()):
-        if y < 2018:
-            continue
         trend.setdefault(st, []).append({"m": f"{y}-{m:02d}", "v": v})
     trend = {st: pts for st, pts in trend.items() if len(pts) >= 2}
     return _save(_load("DL-14"), trend, "DL-14 LAUS")

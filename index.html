@@ -191,21 +191,21 @@
 
   .topic.solo { display:flex; flex-direction:column; gap:8px; }
   .cr { display:flex; align-items:flex-start; justify-content:space-between; gap:12px 24px;
-    padding:16px 18px; background:var(--bar); color:#C9D2E0; text-decoration:none; }
-  .cr:hover { background:var(--hero2); color:#C9D2E0; text-decoration:none; }
-  .cr:focus-visible { outline:2px solid #fff; outline-offset:3px; }
+    padding:16px 18px; background:var(--tile); color:var(--navy); text-decoration:none; }
+  .cr:hover { background:color-mix(in srgb, var(--tile) 72%, var(--navy)); color:var(--navy); text-decoration:none; }
+  .cr:focus-visible { outline:2px solid var(--navy); outline-offset:3px; }
   .cr.hide { display:none; }
   .cr-main { min-width:0; flex:1; display:flex; flex-direction:column; gap:4px; }
-  .cr-name { font-size:16.5px; font-weight:700; color:#fff; line-height:1.3;
+  .cr-name { font-size:16.5px; font-weight:700; color:var(--hero2); line-height:1.3;
     font-family:var(--serif); letter-spacing:-.015em; }
-  .cr-cover { font-size:13px; font-weight:500; color:#8DA0B5; line-height:1.4; }
-  .cr:hover .cr-name { color:#fff; text-decoration:underline; }
+  .cr-cover { font-size:13px; font-weight:500; color:var(--navy); line-height:1.4; }
+  .cr:hover .cr-name { color:var(--hero2); text-decoration:underline; }
   .cr .flag { font-family:var(--sans); font-size:10px; font-weight:700; letter-spacing:.08em;
     color:var(--gold); margin-left:8px; text-transform:uppercase; }
-  .cr-side { flex:none; text-align:right; font-size:12px; color:#8DA0B5; line-height:1.4; }
-  .cr-place { display:block; font-weight:600; color:#C9D2E0; }
-  .cr-vint { display:block; color:#8DA0B5; }
-  .cr .ext { color:#8DA0B5; font-size:11px; }
+  .cr-side { flex:none; text-align:right; font-size:12px; color:var(--navy); line-height:1.4; }
+  .cr-place { display:block; font-weight:600; color:var(--hero2); }
+  .cr-vint { display:block; color:var(--navy); }
+  .cr .ext { color:var(--navy); font-size:11px; }
   .cr-build { opacity:.62; }
   .noresult { padding:24px 2px; font-size:14px; color:var(--faint); }
   @media (max-width:640px){

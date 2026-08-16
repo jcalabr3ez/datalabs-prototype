@@ -158,7 +158,7 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Business Births and Deaths and Business Dynamics",
       "replaces": ["Business Births and Deaths", "Business Dynamics"],
-      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications and projected formations within four quarters, for the United States and each state. Also reports BLS Business Employment Dynamics private-sector establishment birth and death counts and rates for the United States and Massachusetts.",
+      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications and projected formations within four quarters, for the United States and each state. Also reports BLS Business Employment Dynamics private-sector establishment birth and death counts and rates for the United States, Massachusetts, and Florida.",
       "exclusions": "Does not cover industry clusters or advice about starting a firm. Establishment births and deaths are the BLS BED private-sector series, not Census BDS firm births.",
       "wave": "live",
       "sources": [
@@ -215,13 +215,13 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Housing Production and Housing Prices",
       "replaces": ["Housing Prices", "Housing Production"],
-      "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state and the S&P/CoreLogic Case-Shiller Boston MSA index (FRED BOXRSA). Boston is the only Massachusetts city in that series.",
+      "scope": "Covers Census Building Permits Survey: year-to-date authorized units by state. Also reports the FHFA all-transactions house-price index annual change by state and the S&P/CoreLogic Case-Shiller Boston and Miami MSA indexes (FRED BOXRSA and MIXRSA). Boston is the only Massachusetts city in that series; Miami is the Florida 20-city counterpart.",
       "exclusions": "Does not cover Florida insurance (that is DL-02), individual listings, or advice about buying a house.",
       "wave": "live",
       "sources": [
         {"id": "SRC-616-01", "name": "Census Bureau Building Permits Survey, state year-to-date files", "cadence": "Monthly", "url": "https://www2.census.gov/econ/bps/State/"},
         {"id": "SRC-616-02", "name": "FHFA all-transactions house-price index, annual state file", "cadence": "Annual", "url": "https://www.fhfa.gov/hpi/download/annual/hpi_at_state.csv"},
-        {"id": "SRC-616-03", "name": "S&P/CoreLogic Case-Shiller Boston house-price index (FRED BOXRSA)", "cadence": "Monthly", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOXRSA"}
+        {"id": "SRC-616-03", "name": "S&P/CoreLogic Case-Shiller Boston and Miami house-price indexes (FRED BOXRSA, MIXRSA)", "cadence": "Monthly", "url": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOXRSA"}
       ]
     },
     {
@@ -287,15 +287,15 @@
       "q": "IRS state-to-state and county-to-county taxpayer flows.",
       "vertical": "Economic Opportunity",
       "group": "Taxation",
-      "g": ["US", "MA"],
+      "g": ["US", "MA", "FL"],
       "heritage": "Formerly Taxpayer Migration, State to State Tax Migration, and County to County Migration",
       "replaces": ["County to County Migration", "State to State Tax Migration", "Taxpayer Migration"],
-      "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties.",
+      "scope": "This ledger ranks states on IRS SOI net domestic taxpayer migration for tax years 2022-23 (Total Migration-US inflow minus outflow, returns), and also reports the same net for Massachusetts counties, Florida counties, and the largest U.S. county gains and losses.",
       "exclusions": "Does not cover Census domestic migration (that is Population and Migration) or advice about relocating for tax reasons.",
       "wave": "live",
       "sources": [
         {"id": "SRC-620-01", "name": "IRS SOI state-to-state migration, tax years 2022-23", "cadence": "Annual, with a multi-year lag", "url": "https://www.irs.gov/pub/irs-soi/stateoutflow2223.csv"},
-        {"id": "SRC-620-02", "name": "IRS SOI county-to-county migration, tax years 2022-23, Massachusetts", "cadence": "Annual, with a multi-year lag", "url": "https://www.irs.gov/pub/irs-soi/countyoutflow2223.csv"}
+        {"id": "SRC-620-02", "name": "IRS SOI county-to-county migration, tax years 2022-23", "cadence": "Annual, with a multi-year lag", "url": "https://www.irs.gov/pub/irs-soi/countyoutflow2223.csv"}
       ]
     },
     {
@@ -308,7 +308,7 @@
       "g": ["US", "MA"],
       "heritage": "Formerly Individual Statistics, Tax Statistics County and Municipalities, and Tracking Wealth",
       "replaces": ["Individual Statistics", "Tax Statistics-County", "Tax Statistics-Municipalities", "Tracking Wealth"],
-      "scope": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), reports Massachusetts county AGI from the same-year SOI county file, and also reports Historic Table 2 size-of-AGI stubs (including the share of AGI on returns with $1 million or more). A dedicated AGI-percentile-by-state file is not posted.",
+      "scope": "This ledger ranks states on IRS SOI adjusted gross income for tax year 2022 (all returns), reports Massachusetts and Florida county AGI from the same-year SOI county file, and also reports Historic Table 2 size-of-AGI stubs for the United States, Massachusetts, and Florida (including the share of AGI on returns with $1 million or more). A dedicated AGI-percentile-by-state file is not posted.",
       "exclusions": "Does not cover the wealth-tax and surtax atlas (that is DL-01) or advice about a filing. Municipal extracts and a dedicated AGI-percentile-by-state file are not posted.",
       "wave": "live",
       "sources": [

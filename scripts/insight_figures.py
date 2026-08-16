@@ -60,9 +60,10 @@ def _fig(
 
 
 def _bar_color(lab, names):
-    if lab in names or lab in ("Massachusetts", "Boston"):
+    text = str(lab)
+    if lab in names or lab in ("Massachusetts", "Boston") or text.endswith(", MA"):
         return GOLD
-    if lab == "Florida":
+    if lab == "Florida" or text.endswith(", FL"):
         return RUST
     return NAVY
 
@@ -116,10 +117,15 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
             if r.get("st") == "FL":
                 fl = r
                 break
-    fl_v = _snap_val(fl)
     us = _snap_val(snap.get("us"))
     hi = snap.get("highest") or {}
     lo = snap.get("lowest") or {}
+    if fl is None:
+        if hi.get("st") == "FL":
+            fl = hi
+        elif lo.get("st") == "FL":
+            fl = lo
+    fl_v = _snap_val(fl)
     others = [v for v in (ma_v, fl_v, hi.get("v"), lo.get("v")) if v is not None]
     hide_us = skip_us if skip_us is not None else _us_dwarfs(us, others)
     pairs = []
@@ -129,7 +135,7 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
         pairs.append((hi["name"], hi["v"]))
     if ma_v is not None:
         pairs.append(("Massachusetts", ma_v))
-    if fl_v is not None and (fl or {}).get("st") not in (hi.get("st"), lo.get("st"), "MA"):
+    if fl_v is not None:
         pairs.append(("Florida", fl_v))
     lo_st = lo.get("st")
     hi_st = hi.get("st")
@@ -606,12 +612,15 @@ def _bed_annual_rates(trend, years=10):
     for r in trend:
         ma = r.get("ma_birth_rate_pct")
         us = r.get("us_birth_rate_pct")
+        fl = r.get("fl_birth_rate_pct")
         if ma is None or us is None:
             continue
         y = int(str(r.get("q") or "").split()[0])
-        rec = by_year.setdefault(y, {"ma": [], "us": []})
+        rec = by_year.setdefault(y, {"ma": [], "us": [], "fl": []})
         rec["ma"].append(ma)
         rec["us"].append(us)
+        if fl is not None:
+            rec["fl"].append(fl)
     ordered = sorted(by_year)
     if not ordered:
         return []
@@ -619,11 +628,15 @@ def _bed_annual_rates(trend, years=10):
     for y in ordered[-years:]:
         ma = by_year[y]["ma"]
         us = by_year[y]["us"]
-        out.append({
+        fl = by_year[y]["fl"]
+        rec = {
             "y": str(y),
             "ma_birth_rate_pct": round(sum(ma) / len(ma), 1),
             "us_birth_rate_pct": round(sum(us) / len(us), 1),
-        })
+        }
+        if fl:
+            rec["fl_birth_rate_pct"] = round(sum(fl) / len(fl), 1)
+        out.append(rec)
     return out
 
 
@@ -636,32 +649,48 @@ def figs_dl13(ledger):
     if window:
         ma = bed.get("ma") or {}
         us = bed.get("us") or {}
+        fl = bed.get("fl") or {}
         first, last = window[0], window[-1]
+        series = [
+            {"label": "Massachusetts", "data": [r.get("ma_birth_rate_pct") for r in window], "color": GOLD},
+            {"label": "United States", "data": [r.get("us_birth_rate_pct") for r in window], "color": NAVY},
+        ]
+        fl_lede = ""
+        if any(r.get("fl_birth_rate_pct") is not None for r in window):
+            series.append({
+                "label": "Florida",
+                "data": [r.get("fl_birth_rate_pct") for r in window],
+                "color": RUST,
+            })
+            fl_lede = (
+                f" Florida averaged {last.get('fl_birth_rate_pct')} percent "
+                f"in {last.get('y')}."
+            )
         out.append(_fig(
             "bed-ma-us-rate",
-            "Establishment birth rate, Massachusetts and the United States",
+            "Establishment birth rate, Massachusetts, Florida, and the United States",
             (
                 f"Massachusetts averaged {last.get('ma_birth_rate_pct')} percent "
                 f"in {last.get('y')}; the United States averaged "
-                f"{last.get('us_birth_rate_pct')} percent. "
-                f"In {first.get('y')}, the first year on this chart, "
-                f"the annual averages were {first.get('ma_birth_rate_pct')} "
-                f"and {first.get('us_birth_rate_pct')} percent."
+                f"{last.get('us_birth_rate_pct')} percent."
+                + fl_lede
+                + (
+                    f" In {first.get('y')}, the first year on this chart, "
+                    f"the annual averages were {first.get('ma_birth_rate_pct')} "
+                    f"and {first.get('us_birth_rate_pct')} percent."
+                )
             ),
             bed.get("src") or "SRC-613-02",
             "line", "percent", "percent of establishments",
             [r["y"] for r in window],
-            [
-                {"label": "Massachusetts", "data": [r.get("ma_birth_rate_pct") for r in window], "color": GOLD},
-                {"label": "United States", "data": [r.get("us_birth_rate_pct") for r in window], "color": NAVY},
-            ],
+            series,
             (
                 "BLS Business Employment Dynamics, total private, seasonally "
                 "adjusted. Each year is the Pioneer average of that year's "
-                "published quarterly birth rates (derived, SRC-613-02). The "
-                "United States line is the national rate, the comparison for "
-                "Massachusetts. Latest quarterly Massachusetts print "
-                f"{ma.get('births_as_of')}; latest United States print "
+                "published quarterly birth rates (derived, SRC-613-02). "
+                "Latest quarterly Massachusetts print "
+                f"{ma.get('births_as_of')}; Florida "
+                f"{fl.get('births_as_of')}; United States "
                 f"{us.get('births_as_of')}."
             ),
             span=2,
@@ -688,6 +717,33 @@ def figs_dl13(ledger):
             [
                 {"label": "Birth rate", "data": births, "color": GOLD},
                 {"label": "Death rate", "data": deaths, "color": INK},
+            ],
+            bed.get("note") or (
+                "BLS Business Employment Dynamics, total private, seasonally "
+                "adjusted. Deaths lag three quarters."
+            ),
+            span=2,
+        ))
+    if trend and any(r.get("fl_birth_rate_pct") is not None for r in trend):
+        labels = [r["q"] for r in trend]
+        fl = bed.get("fl") or {}
+        ov = bed.get("fl_overlap") or {}
+        out.append(_fig(
+            "bed-fl-rates",
+            "Florida establishment birth and death rates",
+            (
+                f"The birth rate was {fl.get('birth_rate_pct')} percent in "
+                f"{fl.get('births_as_of')}. Deaths are published through "
+                f"{fl.get('deaths_as_of')}. In {ov.get('q')}, the last "
+                f"overlapping quarter, births were {ov.get('fl_birth_rate_pct')} "
+                f"percent and deaths were {ov.get('fl_death_rate_pct')} percent."
+            ),
+            bed.get("src") or "SRC-613-02",
+            "line", "percent", "percent of establishments",
+            labels,
+            [
+                {"label": "Birth rate", "data": [r.get("fl_birth_rate_pct") for r in trend], "color": RUST},
+                {"label": "Death rate", "data": [r.get("fl_death_rate_pct") for r in trend], "color": INK},
             ],
             bed.get("note") or (
                 "BLS Business Employment Dynamics, total private, seasonally "
@@ -761,7 +817,7 @@ def figs_dl15(ledger):
     sec = _sec(ledger)
     out = []
     inds = ((sec.get("sagdp2_naics_2025") or {}).get("industries")) or {}
-    pairs = []
+    labels, ma_vals, fl_vals = [], [], []
     for key, label in (
         ("manufacturing", "Manufacturing"),
         ("finance_insurance", "Finance and insurance"),
@@ -769,20 +825,25 @@ def figs_dl15(ledger):
         ("construction", "Construction"),
     ):
         rec = inds.get(key) or {}
-        v = _snap_val(rec.get("ma"))
-        if v is not None:
-            pairs.append((label, v * 1_000_000))
-    if pairs:
-        labels = [p[0] for p in pairs]
-        values = [p[1] for p in pairs]
+        ma_v = _snap_val(rec.get("ma"))
+        fl_v = _snap_val(rec.get("fl"))
+        if ma_v is None:
+            continue
+        labels.append(label)
+        ma_vals.append(ma_v * 1_000_000)
+        fl_vals.append(None if fl_v is None else fl_v * 1_000_000)
+    if labels:
+        series = [{"label": "Massachusetts", "data": ma_vals, "color": GOLD}]
+        if any(v is not None for v in fl_vals):
+            series.append({"label": "Florida", "data": fl_vals, "color": RUST})
         out.append(_fig(
             "ma-industries",
-            "Massachusetts current-dollar GDP by industry, 2025",
-            "Finance and insurance is the largest of these published NAICS slices.",
+            "Current-dollar GDP by industry, 2025",
+            "Finance and insurance is the largest of these published Massachusetts NAICS slices. Florida is the rust series.",
             "SRC-615-03",
-            "bar", "usd", "dollars",
-            labels, _bars(labels, values),
-            "BEA SAGDP2. Values are Massachusetts industry GDP in current dollars. Information is suppressed in some other states.",
+            "grouped", "usd", "dollars",
+            labels, _grouped(series),
+            "BEA SAGDP2. Values are industry GDP in current dollars. Information is suppressed in some other states.",
             span=2,
         ))
     pi = (sec.get("personal_income_2025") or {}).get("per_capita") or {}
@@ -800,20 +861,37 @@ def figs_dl16(ledger):
     sec = _sec(ledger)
     out = []
     cs = sec.get("case_shiller_boston") or {}
-    labels, values = _trend_xy(cs.get("trend"), y_key="m")
-    if labels and values:
+    bos_labels, bos_vals = _trend_xy(cs.get("trend"), y_key="m")
+    mia_labels, mia_vals = _trend_xy(cs.get("miami_trend"), y_key="m")
+    if bos_labels and bos_vals:
+        by_m = {m: v for m, v in zip(mia_labels, mia_vals)}
+        months = bos_labels
+        series = [{"label": "Boston MSA", "data": bos_vals, "color": GOLD}]
+        if by_m:
+            series.append({
+                "label": "Miami MSA",
+                "data": [by_m.get(m) for m in months],
+                "color": RUST,
+            })
+        mia_lede = ""
+        if cs.get("miami") is not None:
+            mia_lede = (
+                f" Miami MSA {cs.get('miami')} in {cs.get('miami_as_of_label')}, "
+                f"{cs.get('miami_yoy_pct')} percent year over year."
+            )
         out.append(_fig(
             "cs-boston",
-            "Case-Shiller Boston house-price index",
+            "Case-Shiller Boston and Miami house-price indexes",
             (
                 f"Boston MSA {cs.get('boston')} in {cs.get('as_of_label')}, "
-                f"{cs.get('yoy_pct')} percent year over year. "
-                "January 2000 equals 100."
+                f"{cs.get('yoy_pct')} percent year over year."
+                + mia_lede
+                + " January 2000 equals 100."
             ),
             cs.get("src") or "SRC-616-03",
             "line", "number", "index, January 2000 = 100",
-            labels, _line(values, "Boston MSA"),
-            cs.get("note") or "FRED BOXRSA, seasonally adjusted.",
+            months, _grouped(series),
+            cs.get("note") or "FRED BOXRSA and MIXRSA, seasonally adjusted.",
             span=2,
         ))
     fig = from_snap(
@@ -871,7 +949,7 @@ def figs_dl19(ledger):
         ("utilities", "Utilities"),
         ("other_services", "Other services"),
     ]
-    us, ma = [], []
+    us, ma, fl = [], [], []
     labels = []
     for key, lab in order:
         rec = comps.get(key) or {}
@@ -880,18 +958,22 @@ def figs_dl19(ledger):
         labels.append(lab)
         us.append(rec["us"])
         ma.append(_snap_val(rec["ma"]))
+        fl.append(_snap_val(rec.get("fl")))
     if labels:
+        series = [
+            {"label": "United States", "data": us, "color": INK},
+            {"label": "Massachusetts", "data": ma, "color": GOLD},
+        ]
+        if any(v is not None for v in fl):
+            series.append({"label": "Florida", "data": fl, "color": RUST})
         out.append(_fig(
             "rpp-components",
             "Regional price parities by component, 2024",
-            "Housing is the Massachusetts component furthest above the national index of 100.",
+            "Housing is the Massachusetts component furthest above the national index of 100. Florida is the rust series.",
             "SRC-619-02",
             "grouped", "number", "index (US = 100)",
             labels,
-            _grouped([
-                {"label": "United States", "data": us, "color": INK},
-                {"label": "Massachusetts", "data": ma, "color": GOLD},
-            ]),
+            _grouped(series),
             "BEA SARPP component RPPs. United States equals 100 on each line.",
             span=2,
         ))
@@ -900,17 +982,70 @@ def figs_dl19(ledger):
 
 def figs_dl20(ledger):
     sec = _sec(ledger)
+    out = []
+    us = sec.get("us_county_taxpayer_migration_2022_23") or {}
+    fig = named_list(
+        us.get("chart"), "us-county-mig",
+        "Largest U.S. county taxpayer gains and losses, 2022-23",
+        (
+            f"{(us.get('highest') or {}).get('name')} had the largest net "
+            f"inflow; {(us.get('lowest') or {}).get('name')} the largest "
+            f"net outflow. {us.get('n_counties') or 0:,} counties are in the file. "
+            "Massachusetts counties are marked in gold; Florida in rust."
+        ) if us.get("highest") and us.get("lowest") else
+        "Largest county net domestic taxpayer flows.",
+        us.get("src") or "SRC-620-02",
+        "number", "returns",
+        us.get("note") or (
+            "The 15 largest net gains and the 15 largest net losses. "
+            "Net equals Total Migration-US inflow minus outflow."
+        ),
+        n=30, span=2,
+        highlight_names=[
+            r["name"] for r in (us.get("chart") or [])
+            if r.get("st") in ("MA", "FL")
+        ],
+    )
+    if fig:
+        fig["height"] = "ranks"
+        out.append(fig)
     mig = sec.get("ma_county_taxpayer_migration_2022_23") or {}
     fig = named_list(
         mig.get("counties"), "county-mig",
         "Massachusetts county net domestic taxpayer migration, 2022-23",
-        "Bristol County is the only net gainer. Middlesex County lost the most returns.",
+        (
+            f"{(mig.get('highest') or {}).get('name')} had the largest net "
+            f"inflow; {(mig.get('lowest') or {}).get('name')} the largest "
+            "net outflow."
+        ) if mig.get("highest") else
+        "Massachusetts county net domestic taxpayer migration.",
         mig.get("src") or "SRC-620-02",
         "number", "returns",
         mig.get("note") or "Net equals Total Migration-US inflow minus outflow. Same-state and foreign rows are excluded.",
         n=14, span=2,
     )
-    out = [fig] if fig else []
+    if fig:
+        out.append(fig)
+    fl = sec.get("fl_county_taxpayer_migration_2022_23") or {}
+    fig = named_list(
+        fl.get("counties"), "fl-county-mig",
+        "Florida county net domestic taxpayer migration, 2022-23",
+        (
+            f"{(fl.get('highest') or {}).get('name')} had the largest net "
+            f"inflow; {(fl.get('lowest') or {}).get('name')} the largest "
+            "net outflow."
+        ) if fl.get("highest") else
+        "Florida county net domestic taxpayer migration.",
+        fl.get("src") or "SRC-620-02",
+        "number", "returns",
+        fl.get("note") or "Net equals Total Migration-US inflow minus outflow. Same-state and foreign rows are excluded.",
+        n=67, span=2,
+    )
+    if fig:
+        fig["height"] = "ranks"
+        if fig.get("series"):
+            fig["series"][0]["colors"] = [RUST] * len(fig["labels"])
+        out.append(fig)
     latest = from_latest(
         ledger, "state-mig",
         title="State-to-state taxpayer migration, 2022-23",
@@ -934,6 +1069,24 @@ def figs_dl21(ledger):
         n=5, span=2,
     )
     out = [fig] if fig else []
+    fl_agi = sec.get("fl_county_agi_2022") or {}
+    fig = named_list(
+        fl_agi.get("top_five"), "fl-county-agi",
+        "Florida county adjusted gross income, tax year 2022",
+        (
+            f"{(fl_agi.get('highest') or {}).get('name')} is highest at "
+            f"${(fl_agi.get('highest') or {}).get('v'):,}."
+        ) if (fl_agi.get("highest") or {}).get("v") is not None else
+        "Florida county adjusted gross income.",
+        fl_agi.get("src") or "SRC-621-02",
+        "usd", "dollars",
+        fl_agi.get("note") or "County AGI is the sum of SOI size-of-AGI stubs.",
+        n=5, span=2,
+    )
+    if fig:
+        if fig.get("series"):
+            fig["series"][0]["colors"] = [RUST] * len(fig["labels"])
+        out.append(fig)
     latest = from_latest(
         ledger, "state-agi",
         title="State adjusted gross income, tax year 2022",
@@ -959,6 +1112,26 @@ def figs_dl21(ledger):
             "IRS SOI Historic Table 2 size-of-AGI stubs. This is not a dedicated percentile file.",
             span=2,
         ))
+    fl_stubs = ((sec.get("agi_stubs_2022") or {}).get("fl") or {}).get("stubs") or []
+    if fl_stubs:
+        labels = [s["name"].replace("adjusted gross income", "AGI") for s in fl_stubs]
+        values = [s["agi_share_pct"] for s in fl_stubs]
+        mp = (sec.get("agi_stubs_2022") or {}).get("fl", {}).get("million_plus") or {}
+        out.append(_fig(
+            "fl-agi-stubs",
+            "Florida AGI by size-of-AGI stub, tax year 2022",
+            (
+                f"Returns with $1 million or more held {mp.get('agi_share_pct')} "
+                "percent of Florida AGI."
+            ),
+            "SRC-621-03",
+            "bar", "percent", "percent of AGI",
+            labels, _bars(labels, values, highlight_names=[]),
+            "IRS SOI Historic Table 2 size-of-AGI stubs. This is not a dedicated percentile file.",
+            span=2,
+        ))
+        if out[-1].get("series"):
+            out[-1]["series"][0]["colors"] = [RUST] * len(labels)
     fig = from_snap(
         (sec.get("agi_stubs_2022") or {}).get("million_plus_agi_share"),
         "agi-million",

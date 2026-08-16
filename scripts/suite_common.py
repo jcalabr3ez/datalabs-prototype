@@ -216,6 +216,14 @@ def parse_num(v):
         return None
 
 
+def fl_cell(ranked):
+    """Florida rank cell, or None when the file has no Florida row."""
+    rec = next((r for r in ranked if r.get("st") == "FL"), None)
+    if not rec:
+        return None
+    return {"v": rec["v"], "rank": rec["rank"], "n": rec["n"]}
+
+
 def rank_named(values: dict, higher_is_better=True, st_key=None):
     """values: label -> number. For towns, departments, or tax types."""
     items = [(k, v) for k, v in values.items() if v is not None]

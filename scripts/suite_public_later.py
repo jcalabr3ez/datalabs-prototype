@@ -25,6 +25,7 @@ from suite_common import (
     commify,
     fetch,
     fetch_text,
+    fl_cell,
     geo_to_st,
     parse_num,
     pct,
@@ -47,6 +48,7 @@ URL_OIG_MFCU = (
 URL_UI = "https://oui.doleta.gov/unemploy/csv/ar539.csv"
 URL_SAGDP = "https://apps.bea.gov/regional/zip/SAGDP.zip"
 URL_CS_BOS = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOXRSA"
+URL_CS_MIA = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MIXRSA"
 URL_RUCC = (
     "https://www.ers.usda.gov/media/5768/2023-rural-urban-continuum-codes.csv"
     "?v=23323"
@@ -98,6 +100,10 @@ BD_US_BIRTHS_R = "BDS0000000000000000120007RQ5"
 BD_US_DEATHS_R = "BDS0000000000000000120008RQ5"
 BD_MA_BIRTHS_R = "BDS0000025000000000120007RQ5"
 BD_MA_DEATHS_R = "BDS0000025000000000120008RQ5"
+BD_FL_BIRTHS_L = "BDS0000012000000000120007LQ5"
+BD_FL_DEATHS_L = "BDS0000012000000000120008LQ5"
+BD_FL_BIRTHS_R = "BDS0000012000000000120007RQ5"
+BD_FL_DEATHS_R = "BDS0000012000000000120008RQ5"
 
 
 def _soda(url, params):
@@ -121,13 +127,17 @@ def _snap(values, us_val, round_to=None):
             us_val = round(us_val, round_to)
     ma = _ma(ranked)
     hi, lo = ranked[0], ranked[-1]
-    return {
+    out = {
         "us": us_val,
         "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},
         "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
         "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
         "n_ranked": ma["n"],
     }
+    fl = fl_cell(ranked)
+    if fl:
+        out["fl"] = fl
+    return out
 
 
 def _as_pct(v):
@@ -598,25 +608,48 @@ def sec_sagdp2():
     }
 
 
-def sec_case_shiller():
-    text = fetch_text(URL_CS_BOS, timeout=60)
-    rows = [(r["observation_date"], parse_num(r["BOXRSA"]))
+def _fred_cs(url, col):
+    text = fetch_text(url, timeout=60)
+    rows = [(r["observation_date"], parse_num(r[col]))
             for r in csv.DictReader(io.StringIO(text))
-            if parse_num(r.get("BOXRSA")) is not None]
+            if parse_num(r.get(col)) is not None]
     if len(rows) < 24:
-        sys.exit(f"FATAL: FRED BOXRSA parsed {len(rows)} months")
+        sys.exit(f"FATAL: FRED {col} parsed {len(rows)} months")
     last_d, last_v = rows[-1]
-    prev = next((v for d, v in reversed(rows) if d[:4] == str(int(last_d[:4]) - 1) and d[5:7] == last_d[5:7]), None)
-    trend = [{"m": d[:7], "v": round(v, 2)} for d, v in rows[-36:]]
+    prev = next(
+        (v for d, v in reversed(rows)
+         if d[:4] == str(int(last_d[:4]) - 1) and d[5:7] == last_d[5:7]),
+        None,
+    )
     return {
-        "label": "S&P/CoreLogic Case-Shiller Boston house-price index",
+        "as_of": last_d[:7],
+        "v": round(last_v, 2),
+        "yoy_pct": yoy_pct(last_v, prev),
+        "trend": [{"m": d[:7], "v": round(v, 2)} for d, v in rows[-36:]],
+    }
+
+
+def sec_case_shiller():
+    bos = _fred_cs(URL_CS_BOS, "BOXRSA")
+    mia = _fred_cs(URL_CS_MIA, "MIXRSA")
+    return {
+        "label": "S&P/CoreLogic Case-Shiller Boston and Miami house-price indexes",
         "src": "SRC-616-03",
         "unit": "index, January 2000 = 100",
-        "as_of_label": last_d[:7],
-        "boston": round(last_v, 2),
-        "yoy_pct": yoy_pct(last_v, prev),
-        "trend": trend,
-        "note": "Seasonally adjusted Boston MSA series BOXRSA via FRED. Case-Shiller does not publish another Massachusetts city.",
+        "as_of_label": bos["as_of"],
+        "boston": bos["v"],
+        "yoy_pct": bos["yoy_pct"],
+        "miami": mia["v"],
+        "miami_as_of_label": mia["as_of"],
+        "miami_yoy_pct": mia["yoy_pct"],
+        "trend": bos["trend"],
+        "miami_trend": mia["trend"],
+        "note": (
+            "Seasonally adjusted Boston MSA series BOXRSA and Miami MSA series "
+            "MIXRSA via FRED. January 2000 equals 100. Case-Shiller does not "
+            "publish another Massachusetts city; Miami is the Florida 20-city "
+            "counterpart."
+        ),
     }
 
 
@@ -675,33 +708,18 @@ def sec_rucc():
     return snap
 
 
-def sec_irs_county():
-    text = fetch_text(URL_IRS_COUNTY, timeout=120)
-    by_county = defaultdict(lambda: {"returns": 0, "agi": 0})
-    stubs = defaultdict(lambda: {"returns": 0, "agi": 0})
-    for r in csv.DictReader(io.StringIO(text)):
-        if r.get("STATE") != "MA":
-            continue
-        fips = (r.get("COUNTYFIPS") or "").zfill(3)
-        name = (r.get("COUNTYNAME") or "").strip()
-        n = parse_num(r.get("N1")) or 0
-        agi = parse_num(r.get("A00100")) or 0  # thousands of dollars
-        stub = r.get("agi_stub")
-        if fips == "000":
-            stubs[stub]["returns"] += n
-            stubs[stub]["agi"] += agi
-            continue
-        by_county[name]["returns"] += n
-        by_county[name]["agi"] += agi
-    if len(by_county) < 10:
-        sys.exit(f"FATAL: IRS county TY2022 MA parsed {len(by_county)} counties")
+def _pack_irs_county(state, state_name, by_county, stubs, min_counties):
+    if len(by_county) < min_counties:
+        sys.exit(
+            f"FATAL: IRS county TY2022 {state} parsed {len(by_county)} counties"
+        )
     values = {k: v["agi"] * 1000 for k, v in by_county.items()}
     ranked = rank_named(values, higher_is_better=True, st_key=lambda n: n)
     for rec in ranked:
         rec["v"] = round(rec["v"])
         rec["returns"] = int(by_county[rec["name"]]["returns"])
     return {
-        "label": "Massachusetts county adjusted gross income, tax year 2022",
+        "label": f"{state_name} county adjusted gross income, tax year 2022",
         "src": "SRC-621-02",
         "unit": "dollars",
         "as_of_label": "Tax year 2022",
@@ -714,6 +732,41 @@ def sec_irs_county():
         },
         "note": "County AGI is the sum of SOI size-of-AGI stubs. Amounts in A00100 are thousands of dollars. A dedicated AGI-percentile-by-state file is not posted.",
         "top_five": [{"name": r["name"], "v": r["v"]} for r in ranked[:5]],
+    }
+
+
+def sec_irs_county_bundle():
+    text = fetch_text(URL_IRS_COUNTY, timeout=120)
+    by_st = {
+        "MA": defaultdict(lambda: {"returns": 0, "agi": 0}),
+        "FL": defaultdict(lambda: {"returns": 0, "agi": 0}),
+    }
+    stubs = {
+        "MA": defaultdict(lambda: {"returns": 0, "agi": 0}),
+        "FL": defaultdict(lambda: {"returns": 0, "agi": 0}),
+    }
+    for r in csv.DictReader(io.StringIO(text)):
+        st = r.get("STATE")
+        if st not in by_st:
+            continue
+        fips = (r.get("COUNTYFIPS") or "").zfill(3)
+        name = (r.get("COUNTYNAME") or "").strip()
+        n = parse_num(r.get("N1")) or 0
+        agi = parse_num(r.get("A00100")) or 0  # thousands of dollars
+        stub = r.get("agi_stub")
+        if fips == "000":
+            stubs[st][stub]["returns"] += n
+            stubs[st][stub]["agi"] += agi
+            continue
+        by_st[st][name]["returns"] += n
+        by_st[st][name]["agi"] += agi
+    return {
+        "ma_county_agi_2022": _pack_irs_county(
+            "MA", "Massachusetts", by_st["MA"], stubs["MA"], 10
+        ),
+        "fl_county_agi_2022": _pack_irs_county(
+            "FL", "Florida", by_st["FL"], stubs["FL"], 50
+        ),
     }
 
 
@@ -1143,7 +1196,9 @@ def _q_label(year, quarter):
 def sec_bed_births_deaths():
     ids = (
         BD_US_BIRTHS_L, BD_US_DEATHS_L, BD_MA_BIRTHS_L, BD_MA_DEATHS_L,
+        BD_FL_BIRTHS_L, BD_FL_DEATHS_L,
         BD_US_BIRTHS_R, BD_US_DEATHS_R, BD_MA_BIRTHS_R, BD_MA_DEATHS_R,
+        BD_FL_BIRTHS_R, BD_FL_DEATHS_R,
     )
     series = _bls_bd_series(ids)
     us_b4 = _bd_lookup(series[BD_US_BIRTHS_L], 2025, 4)
@@ -1166,10 +1221,14 @@ def sec_bed_births_deaths():
         (BD_US_DEATHS_L, "us_deaths_thousands"),
         (BD_MA_BIRTHS_L, "ma_births"),
         (BD_MA_DEATHS_L, "ma_deaths"),
+        (BD_FL_BIRTHS_L, "fl_births"),
+        (BD_FL_DEATHS_L, "fl_deaths"),
         (BD_US_BIRTHS_R, "us_birth_rate_pct"),
         (BD_US_DEATHS_R, "us_death_rate_pct"),
         (BD_MA_BIRTHS_R, "ma_birth_rate_pct"),
         (BD_MA_DEATHS_R, "ma_death_rate_pct"),
+        (BD_FL_BIRTHS_R, "fl_birth_rate_pct"),
+        (BD_FL_DEATHS_R, "fl_death_rate_pct"),
     )
     for sid, key in fields:
         for y, q, v in series[sid]:
@@ -1182,13 +1241,25 @@ def sec_bed_births_deaths():
     dy, dq, dv = _bd_last(series[BD_MA_DEATHS_R])
     us_by, us_bq, us_bv = _bd_last(series[BD_US_BIRTHS_R])
     us_dy, us_dq, us_dv = _bd_last(series[BD_US_DEATHS_R])
+    fl_by, fl_bq, fl_bv = _bd_last(series[BD_FL_BIRTHS_R])
+    fl_dy, fl_dq, fl_dv = _bd_last(series[BD_FL_DEATHS_R])
     ma_b_n = _bd_lookup(series[BD_MA_BIRTHS_L], by, bq)
     ma_d_n = _bd_lookup(series[BD_MA_DEATHS_L], dy, dq)
+    fl_b_n = _bd_lookup(series[BD_FL_BIRTHS_L], fl_by, fl_bq)
+    fl_d_n = _bd_lookup(series[BD_FL_DEATHS_L], fl_dy, fl_dq)
     overlap = next(
         (
             rec for rec in reversed(trend)
             if rec.get("ma_birth_rate_pct") is not None
             and rec.get("ma_death_rate_pct") is not None
+        ),
+        None,
+    )
+    fl_overlap = next(
+        (
+            rec for rec in reversed(trend)
+            if rec.get("fl_birth_rate_pct") is not None
+            and rec.get("fl_death_rate_pct") is not None
         ),
         None,
     )
@@ -1216,14 +1287,24 @@ def sec_bed_births_deaths():
             "deaths": int(ma_d_n) if ma_d_n is not None else None,
             "deaths_as_of": _q_label(dy, dq),
         },
+        "fl": {
+            "birth_rate_pct": fl_bv,
+            "births": int(fl_b_n) if fl_b_n is not None else None,
+            "births_as_of": _q_label(fl_by, fl_bq),
+            "death_rate_pct": fl_dv,
+            "deaths": int(fl_d_n) if fl_d_n is not None else None,
+            "deaths_as_of": _q_label(fl_dy, fl_dq),
+        },
         "overlap": overlap,
+        "fl_overlap": fl_overlap,
         "trend": trend,
         "note": (
             "BLS Business Employment Dynamics, total private, seasonally adjusted. "
             "Births are a subset of openings; deaths are a subset of closings and "
             "lag three quarters. Rates are the component as a percent of the "
             "average of current and prior-quarter establishment counts. U.S. "
-            "counts are thousands of establishments, matching the BLS news release."
+            "counts are thousands of establishments, matching the BLS news release. "
+            "Florida uses the same statewide total-private series as Massachusetts."
         ),
     }
 
@@ -1245,7 +1326,7 @@ MORE_SECONDARY = {
     "DL-15": lambda: {"sagdp2_naics_2025": sec_sagdp2()},
     "DL-16": lambda: {"case_shiller_boston": sec_case_shiller()},
     "DL-17": lambda: {"rucc_2023": sec_rucc()},
-    "DL-21": lambda: {"ma_county_agi_2022": sec_irs_county(), **hollow_secondary("DL-21")},
+    "DL-21": lambda: {**sec_irs_county_bundle(), **hollow_secondary("DL-21")},
     "DL-22": lambda: {"ntd_annual_2024": sec_ntd_annual()},
     "DL-23": lambda: {
         k: v for k, v in {
@@ -1354,6 +1435,13 @@ def more_lead(tool_id, sec):
             f"was <b>{ov.get('ma_birth_rate_pct')}%</b> and the death rate was "
             f"<b>{ov.get('ma_death_rate_pct')}%</b> (SRC-613-02)."
         )
+        fl = b.get("fl") or {}
+        if fl.get("birth_rate_pct") is not None:
+            parts.append(
+                f"Florida's establishment birth rate was "
+                f"<b>{fl.get('birth_rate_pct')}%</b> in {fl.get('births_as_of')} "
+                f"({commify(fl.get('births') or 0)} establishments, SRC-613-02)."
+            )
     if tool_id == "DL-14":
         u = sec.get("ui_initial_claims") or {}
         parts.append(
@@ -1385,7 +1473,10 @@ def more_lead(tool_id, sec):
             f"The S&P/CoreLogic Case-Shiller Boston index was "
             f"<b>{c.get('boston')}</b> in {c.get('as_of_label')} "
             f"({pct(c.get('yoy_pct'))} from a year earlier) (SRC-616-03). "
-            f"Boston is the only Massachusetts city in that series."
+            f"Boston is the only Massachusetts city in that series. "
+            f"The Miami MSA index was <b>{c.get('miami')}</b> in "
+            f"{c.get('miami_as_of_label')} "
+            f"({pct(c.get('miami_yoy_pct'))} from a year earlier) (SRC-616-03)."
         )
     if tool_id == "DL-17":
         r = sec.get("rucc_2023") or {}
@@ -1403,6 +1494,10 @@ def more_lead(tool_id, sec):
             f"Among Massachusetts counties, <b>{c.get('highest', {}).get('name')}</b> "
             f"had the most adjusted gross income in tax year 2022 at "
             f"<b>{usd_prose(c.get('highest', {}).get('v') or 0)}</b> "
+            f"(derived, SRC-621-02). Among Florida counties, "
+            f"<b>{(sec.get('fl_county_agi_2022') or {}).get('highest', {}).get('name')}</b> "
+            f"had the most AGI at "
+            f"<b>{usd_prose((sec.get('fl_county_agi_2022') or {}).get('highest', {}).get('v') or 0)}</b> "
             f"(derived, SRC-621-02). A dedicated AGI-percentile-by-state file "
             f"is not posted; size-of-AGI stubs are stored under derived.secondary."
         )

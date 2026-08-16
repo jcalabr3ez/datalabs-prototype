@@ -15,6 +15,7 @@
 <meta property="og:url" content="https://datalabsai.netlify.app/crime-justice/">
 <meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <script src="/assets/chart.umd.min.js"></script>
+<script src="/assets/chart-theme.js"></script>
 <script src="/assets/chart-labels.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -197,7 +198,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#666666';
+  var GOLD='#CCB26D', BLUE='#293C5C', INK='#222222', GREY='#4A5560';
   function applyHash(){
     var h=(location.hash||'').replace(/^#/,'');
     if(!h) return;
@@ -248,7 +249,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
     var data=chartRows.map(function(r){return r.v;});
     var colors=chartRows.map(function(r){return isHL(r)?GOLD:BLUE;});
     new Chart(chRank,{type:'bar',
-      data:{labels:labels,datasets:[{data:data,backgroundColor:colors,barPercentage:.72}]},
+      data:{labels:labels,datasets:[{data:data,backgroundColor:colors}]},
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
         layout:{padding:{right:64,top:6}},
         plugins:{legend:{display:false},
@@ -258,7 +259,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
           }}},
         scales:{
           x:{title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
-            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'#EEF1F4'},grace:'14%'},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'rgba(34,34,34,.08)'},grace:'14%'},
           y:{ticks:{color:INK,font:{size:11,family:'Roboto,sans-serif'},autoSkip:false,
             callback:function(v){return String(this.getLabelForValue(v));}},
             grid:{display:false},border:{display:false}}
@@ -293,15 +294,15 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
           return {x:p.m||String(p.y), y:y, raw:p.v};
         }),
         borderColor:trendColor(k),
-        backgroundColor:'transparent',tension:.15,pointRadius:2.5,pointHoverRadius:5,
-        borderWidth:k==='MA'?2.4:2};
+        backgroundColor:'transparent',
+        borderWidth:k==='MA'?2:1.75};
     });
     var yTitle=trendMode==='pct_from_start'?(CHART.trend_unit||'percent change from first year'):axisUnit;
     var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
     new Chart(chTrend,{type:'line',data:{datasets:datasets},
       options:{responsive:true,maintainAspectRatio:false,
         layout:{padding:{top:12,right:72}},
-        plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+        plugins:{legend:{display:true,position:'top',align:'end'},
           tooltip:{callbacks:{label:function(c){
             if(trendMode==='pct_from_start'){
               var raw=c.raw&&c.raw.raw;
@@ -314,7 +315,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
           x:{type:'category',ticks:{color:GREY,maxTicksLimit:12,
             callback:function(v){return String(this.getLabelForValue(v));}}},
           y:{title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
-            ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'#EEF1F4'}}
+            ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}
         }},
       plugins:[dataLabels(yFmt)]});
   }
@@ -357,19 +358,19 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
     var extra=(ifmt==='usd'||ifmt==='usd_millions'||ifmt==='percent')?'':(iunit?' '+iunit:'');
     var horiz=fig.type==='bar';
     var scales=horiz?{
-      x:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'},grace:'14%'},
+      x:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'rgba(34,34,34,.08)'},grace:'14%'},
       y:{ticks:catTick(32),grid:{display:false},border:{display:false}}
     }:{
       x:{ticks:Object.assign({},catTick(16),{color:GREY,autoSkip:fig.labels.length>12,maxTicksLimit:12}),
         grid:{display:false}},
-      y:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'#EEF1F4'},border:{display:false},grace:'12%'}
+      y:{ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'rgba(34,34,34,.08)'},border:{display:false},grace:'12%'}
     };
     var nLab=(fig.labels||[]).length;
     var opts={
       responsive:true,maintainAspectRatio:false,
       layout:{padding:{top:fig.type==='grouped'||fig.type==='line'?14:8,right:horiz||fig.type==='line'?64:16}},
       plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
-        position:'top',align:'end',labels:{boxWidth:10,font:{size:11}}},
+        position:'top',align:'end'},
         tooltip:{callbacks:{
           title:function(items){
             var idx=items[0]&&items[0].dataIndex;
@@ -387,8 +388,8 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
     if(fig.type==='line'){
       new Chart(el,{type:'line',
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
-          return {label:s.label||fig.title,data:s.data,borderColor:s.color||GOLD,
-            backgroundColor:'transparent',tension:.15,pointRadius:2,pointHoverRadius:5,borderWidth:2.2,spanGaps:true};
+          return {label:s.label||fig.title,data:s.data,borderColor:s.color||INK,
+            backgroundColor:'transparent',spanGaps:true};
         })},
         options:Object.assign({},opts,{indexAxis:'x'}),
         plugins:[lbl]});
@@ -397,7 +398,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
     if(fig.type==='grouped'){
       new Chart(el,{type:'bar',
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
-          return {label:s.label,data:s.data,backgroundColor:s.color||NAVY,barPercentage:.72};
+          return {label:s.label,data:s.data,backgroundColor:s.color||BLUE};
         })},
         options:Object.assign({},opts,{indexAxis:'x'}),
         plugins:[lbl]});
@@ -405,7 +406,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "149,26
     }
     var s0=fig.series[0]||{};
     new Chart(el,{type:'bar',
-      data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||NAVY,barPercentage:.72}]},
+      data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||BLUE}]},
       options:Object.assign({},opts,{indexAxis:'y'}),
       plugins:[lbl]});
   });

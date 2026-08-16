@@ -21,6 +21,7 @@
 <meta name="twitter:description" content="What Florida households pay for homeowners insurance, what their coverage now includes, and how both have changed. Compiled from state filings.">
 <meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <script src="/assets/chart.umd.min.js"></script>
+<script src="/assets/chart-theme.js"></script>
 <script src="/assets/chart-labels.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1091,15 +1092,15 @@ const FLPML={"vintages":[["Dec 2018","Citizens Feb 2019 statutory report, 12/31/
 const FLCONC={"share_of_residential_tiv_pct":2.5,"share_of_1in100_low_pct":5.3,"share_of_1in100_high_pct":6.7};
 const FL={"as_of":"June 2026","data_through":"Jun 30, 2026","revised":"Aug 15, 2026","version":"1.0","pif":278246,"pif_fmt":"278,246","peak":1407805,"peak_fmt":"1,407,805","decline_pct":80.2};
 /* DATA:END florida-charts */
-const BLUE='#293C5C',INK='#112337',G2='#666666',G3='#9AA2AA',RULE='#E4E6E9', SANS='"Roboto",system-ui,sans-serif';
+const BLUE='#293C5C',INK='#112337',G2='#4A5560',G3='#6E7882',RULE='#D4D8DE', SANS='"Roboto",system-ui,sans-serif';
 Chart.defaults.font.family=SANS; Chart.defaults.font.size=11; Chart.defaults.color=G2;
 Chart.defaults.plugins.legend.display=false;
 Chart.defaults.plugins.tooltip.backgroundColor=INK;
-Chart.defaults.plugins.tooltip.cornerRadius=3;
+Chart.defaults.plugins.tooltip.cornerRadius=0;
 Chart.defaults.plugins.tooltip.displayColors=false;
-const AX={grid:{display:false},border:{color:G3},ticks:{padding:8,color:G2}};
-const AY={grid:{color:RULE,drawTicks:false},border:{display:false},ticks:{padding:10,color:G2}};
-function axisTitle(text){return {display:true,text:text,color:'#5c6b7a',font:{size:11}};}
+const AX={grid:{display:false},border:{display:false},ticks:{padding:8,color:G2}};
+const AY={grid:{color:'rgba(34,34,34,.08)',drawTicks:false},border:{display:false},ticks:{padding:10,color:G2}};
+function axisTitle(text){return {display:true,text:text,color:'#4A5560',font:{size:11}};}
 function catY(){return {...AX,ticks:{...AX.ticks,autoSkip:false,callback:function(v){return String(this.getLabelForValue(v));}}};}
 function pointLabels(fmt){ return window.dlChartLabels(fmt, 'auto'); }
 function barLabels(fmt){ return window.dlChartLabels(fmt, 'all'); }
@@ -1202,9 +1203,9 @@ function renderPolicy(){
   new Chart(document.getElementById('cChartP'),{type:'line',
     data:{labels:FLSTAT.labels,datasets:[
       {label:'Underwriting result',data:FLSTAT.uw,
-       borderColor:'#CCB26D',backgroundColor:'#CCB26D',borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25},
+       borderColor:'#CCB26D',backgroundColor:'transparent'},
       {label:'Net income',data:FLSTAT.ni,
-       borderColor:BLUE,backgroundColor:BLUE,borderWidth:2.5,pointRadius:3.5,pointHoverRadius:5,tension:.25}]},
+       borderColor:BLUE,backgroundColor:'transparent'}]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16,right:72}},
       plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:14,padding:16,font:{size:12}}},
         tooltip:{callbacks:{label:c=>c.dataset.label+': '+(c.parsed.y<0?'-':'+')+'$'+Math.abs(c.parsed.y).toLocaleString(undefined,{maximumFractionDigits:0})+'M'}}},

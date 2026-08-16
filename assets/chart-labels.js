@@ -98,7 +98,7 @@
         var use = pickMode(chart, mode);
         var reserved = reservedList(chart);
         ctx.save();
-        ctx.font = '600 10px Roboto,system-ui,sans-serif';
+        ctx.font = '500 11px Roboto,system-ui,sans-serif';
         var placed = [];
         var cands = [];
 

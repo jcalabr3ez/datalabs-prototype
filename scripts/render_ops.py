@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Charts read as a statistical brief",
+        "body": (
+            "Figures now use a shared paper theme: Roboto ticks, square bars, "
+            "straight lines without dots, hairline grids, and a square ink "
+            "tooltip. Gold remains the Massachusetts highlight."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Shorter copy on the tools",
         "body": (
             "Suite pages now open with one finding. Chart captions that only "

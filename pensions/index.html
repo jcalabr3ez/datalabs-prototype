@@ -21,6 +21,7 @@
 <meta name="twitter:description" content="Every MA retirement board's funded status and returns, plus the State and Teacher retiree payroll, rebuilt from PERAC and CTHRU.">
 <meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <script src="/assets/chart.umd.min.js"></script>
+<script src="/assets/chart-theme.js"></script>
 <script src="/assets/chart-labels.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -555,7 +556,7 @@ function renderBoards(){
     new Chart(document.getElementById('chFunded'),{type:'bar',
       data:{labels:rows.map(function(r){return r.name;}),
         datasets:[{data:rows.map(function(r){return r.funded_pct;}),
-          backgroundColor:rows.map(function(r){return barColor(r.id);}),barPercentage:.78}]},
+          backgroundColor:rows.map(function(r){return barColor(r.id);})}]},
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
         layout:{padding:{top:6,right:64}},
         plugins:{legend:{display:false},
@@ -596,9 +597,9 @@ function drawTrend(){
   var data={
     labels:labels,
     datasets:[
-      {label:'State Retirement Board',data:align('state'),borderColor:INK,backgroundColor:'transparent',borderWidth:2,pointRadius:2,spanGaps:true,tension:.15},
-      {label:'Mass Teachers (MTRS)',data:align('mtrs'),borderColor:'#8C2F1B',backgroundColor:'transparent',borderWidth:2,pointRadius:2,spanGaps:true,tension:.15},
-      {label:name,data:align(selected),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2.4,pointRadius:3,spanGaps:true,tension:.15}
+      {label:'State Retirement Board',data:align('state'),borderColor:INK,backgroundColor:'transparent',spanGaps:true},
+      {label:'Mass Teachers (MTRS)',data:align('mtrs'),borderColor:'#8C2F1B',backgroundColor:'transparent',spanGaps:true},
+      {label:name,data:align(selected),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2,spanGaps:true}
     ]
   };
   var opts={responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:72}},
@@ -617,7 +618,7 @@ function renderReturns(){
   new Chart(document.getElementById('chReturns'),{type:'bar',
     data:{labels:rows.map(function(r){return r.name;}),
       datasets:[{data:rows.map(function(r){return r.return_1y_pct;}),
-        backgroundColor:rows.map(function(r){return barColor(r.id);}),barPercentage:.78}]},
+        backgroundColor:rows.map(function(r){return barColor(r.id);})}]},
     options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:56}},
       plugins:{legend:{display:false},
         tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' percent';}}}},
@@ -633,8 +634,8 @@ function renderRetirees(){
   new Chart(document.getElementById('chRetirees'),{type:'line',
     data:{labels:y.map(function(r){return r.year;}),
       datasets:[
-        {label:'MSERS',data:y.map(function(r){return r.msers.annual_amount/1e9;}),borderColor:INK,backgroundColor:'transparent',borderWidth:2,pointRadius:2,tension:.15},
-        {label:'MTRS',data:y.map(function(r){return r.mtrs.annual_amount/1e9;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2.4,pointRadius:2,tension:.15}
+        {label:'MSERS',data:y.map(function(r){return r.msers.annual_amount/1e9;}),borderColor:INK,backgroundColor:'transparent'},
+        {label:'MTRS',data:y.map(function(r){return r.mtrs.annual_amount/1e9;}),borderColor:GOLD,backgroundColor:'transparent',borderWidth:2}
       ]},
     options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:14,right:72}},
       plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11}}},

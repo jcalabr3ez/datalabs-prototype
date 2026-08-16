@@ -62,7 +62,6 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
-<<<<<<< HEAD
         "title": "Catalog names match what the page can show",
         "body": (
             "Catalog names now match the page. Charters and Teachers replaces "
@@ -90,13 +89,15 @@ CHANGELOG = [
             "Massachusetts K-12 now opens with public-school enrollment from "
             "Fall 1990 through Fall 2024. The figure is NCES Digest table "
             "203.20, the same published cells as the National K-12 ranking."
-=======
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Tool sitebars match the landing masthead",
         "body": (
             "Every tool page now uses the same dark field as the front door: "
             "white Pioneer wordmark and links, no gold rule. The page title "
             "and figures below the bar are unchanged."
->>>>>>> origin/cursor/tool-sitebar-contrast-614f
         ),
     },
     {

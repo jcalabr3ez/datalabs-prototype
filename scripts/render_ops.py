@@ -61,6 +61,16 @@ FLAGSHIPS = [
 
 CHANGELOG = [
     {
+        "date": "August 16, 2026",
+        "title": "A clearer catalog",
+        "body": (
+            "The front-door catalog is now four open verticals with one "
+            "application per row: name, finding, place, and vintage. The "
+            "nested accordion, dotted leaders, and color-coded vintage dots "
+            "are gone. Search and place filters still work."
+        ),
+    },
+    {
         "date": "August 15, 2026",
         "title": "Public production pass",
         "body": (

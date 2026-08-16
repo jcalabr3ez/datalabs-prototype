@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Ask chips on State Wealth Taxes and Florida Homeowners Insurance",
+        "body": (
+            "State Wealth Taxes and Florida Homeowners Insurance now open "
+            "with the same four audience starter questions as the rest of "
+            "the live catalog, wired to the page ask box. Patents by State "
+            "is still the only live-looking tool without them, and it "
+            "remains in build."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Find-card units, education leads, and household electricity tab",
         "body": (
             "State GDP find cards now scale millions of dollars the same way "

@@ -46,6 +46,25 @@ def jdump(obj):
     return json.dumps(obj, ensure_ascii=True, separators=(",", ":"), sort_keys=False)
 
 
+def slim_answers(answers):
+    """Page-side lens payload: question, number, context, cite. No extras."""
+    out = {}
+    for key, rec in (answers or {}).items():
+        if not isinstance(rec, dict) or not rec.get("value"):
+            continue
+        out[key] = {
+            "q": rec.get("q") or "",
+            "value": rec.get("value") or "",
+            "context": rec.get("context") or "",
+            "src_id": rec.get("src_id") or "",
+            "geo": rec.get("geo") or "",
+            "vintage": rec.get("vintage") or "",
+            "cite": rec.get("cite") or "",
+            "kind": rec.get("kind") or "",
+        }
+    return out
+
+
 def has_block(text, name, style="js"):
     begin = ("<!-- DATA:BEGIN " if style == "html" else "/* DATA:BEGIN ") + name
     return begin in text
@@ -195,6 +214,11 @@ def inject_electricity(dl04, text, path):
     latest = dl04["latest"]
     page = dl04.get("page") or {}
     year = dl04["data_year"]
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from audience_starters import starters_html  # noqa: E402
+    from page_voice import flagship_voice, takeaways_html, answer_inner_html  # noqa: E402
+    from render_suite_pages import kpi_html  # noqa: E402
+    voice = flagship_voice("DL-04", dl04)
     payload = {
         "year": year,
         "as_of": dl04["as_of"],
@@ -217,14 +241,11 @@ def inject_electricity(dl04, text, path):
             "massachusetts_rank": dl04["derived"]["massachusetts_rank"],
             "n_ranked": dl04["derived"]["n_ranked"],
         },
+        "answers": slim_answers((voice or {}).get("answers")),
     }
     text = replace_block(text, "electricity-data", "const DL04=" + jdump(payload) + ";", path)
     dateline = paper_dateline(f"Calendar year {year}", page.get("revised", ""))
     text = replace_block(text, "electricity-dateline", dateline, path, style="html")
-    sys.path.insert(0, str(ROOT / "scripts"))
-    from page_voice import flagship_voice, takeaways_html, answer_inner_html  # noqa: E402
-    from render_suite_pages import kpi_html  # noqa: E402
-    voice = flagship_voice("DL-04", dl04)
     if has_block(text, "electricity-takeaways", style="html") and voice.get("takeaways"):
         text = replace_block(text, "electricity-takeaways", takeaways_html(voice["takeaways"]), path, style="html")
     if has_block(text, "electricity-answer", style="html") and voice.get("answer"):
@@ -619,6 +640,7 @@ def main():
                 "derived": led.get("derived") or {},
                 "metric": led.get("metric"),
                 "unit": led.get("unit"),
+                "answers": slim_answers((voice or {}).get("answers")),
             }
             new = replace_block(new, slug + "-data", "const DL=" + jdump(payload) + ";", p)
         if new != text:

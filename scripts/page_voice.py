@@ -170,6 +170,25 @@ def fifty_state_ledger(ledger):
     return "MA" in sts and "FL" in sts and len(sts) >= 40
 
 
+# MA-only, agency, town, and finder tools stay on their current open.
+# DL-01 and DL-02 are already in SKIP_VOICE.
+LENS_SKIP = SKIP_VOICE | {
+    "DL-03", "DL-05", "DL-10", "DL-18", "DL-22",
+    "DL-25", "DL-26", "DL-27", "DL-28", "DL-30", "DL-32",
+}
+
+
+def uses_national_lens(tid, ledger=None):
+    """Fifty-state ranking tools, plus Retail Electricity."""
+    if tid == "DL-04":
+        return True
+    if tid in LENS_SKIP:
+        return False
+    if ledger is None:
+        return False
+    return fifty_state_ledger(ledger)
+
+
 def _rank_clause(cell):
     r, n = (cell or {}).get("rank"), (cell or {}).get("n")
     if r and n:
@@ -264,6 +283,76 @@ def national_kpis(ledger):
             src,
         ))
     return out[:4]
+
+
+def supporting_kpis(tid, ledger, skip_highest=False):
+    """Range under a national hero: highest, lowest, Massachusetts. No second U.S. number."""
+    src = src_name(ledger, first_src(ledger))
+    as_of = ledger.get("data_month_label") or ""
+    unit = ledger.get("unit") or ""
+    hi, lo, ma = {}, {}, {}
+    hi_val = lo_val = ma_val = ""
+    if tid == "DL-07":
+        naep = sec(ledger, "naep_2024", "series", "read4")
+        hi = naep.get("highest") or {}
+        lo = naep.get("lowest") or {}
+        ma = ma_of(naep)
+        hi_val = str(hi.get("v") or "")
+        lo_val = str(lo.get("v") or "")
+        ma_val = str(ma.get("v") or "")
+        src = src_name(ledger, "SRC-607-05")
+        as_of = "2024"
+    elif tid == "DL-04":
+        res = (ledger.get("latest") or {}).get("residential") or {}
+        hi = res.get("highest") or {}
+        lo = res.get("lowest") or {}
+        ma = res.get("ma") or {}
+        year = (ledger.get("latest") or {}).get("year") or ""
+        as_of = str(year)
+        src = "EIA Form EIA-861 (SRC-401)"
+        if hi.get("price_cents") is not None:
+            hi_val = f"{hi['price_cents']:.2f}\u00a2"
+        if lo.get("price_cents") is not None:
+            lo_val = f"{lo['price_cents']:.2f}\u00a2"
+        if ma.get("price_cents") is not None:
+            ma_val = f"{ma['price_cents']:.2f}\u00a2"
+    else:
+        latest = ledger.get("latest") or {}
+        hi = latest.get("highest") or {}
+        lo = latest.get("lowest") or {}
+        ma = latest.get("ma") if isinstance(latest.get("ma"), dict) else {}
+        hi_val = format_metric_value(hi.get("v"), unit) if hi.get("v") is not None else ""
+        lo_val = format_metric_value(lo.get("v"), unit) if lo.get("v") is not None else ""
+        ma_val = format_metric_value(ma.get("v"), unit) if ma.get("v") is not None else ""
+    out = []
+    hi_st = hi.get("st")
+    lo_st = lo.get("st")
+    if not skip_highest and hi_val and hi.get("name"):
+        out.append(kpi(
+            "Highest" + (f", {as_of}" if as_of else ""),
+            hi_val,
+            f"{hi['name']} leads the published ranking.",
+            "The top of the national ranking.",
+            src,
+        ))
+    if lo_val and lo.get("name"):
+        out.append(kpi(
+            "Lowest" + (f", {as_of}" if as_of else ""),
+            lo_val,
+            f"{lo['name']} is lowest among the published jurisdictions.",
+            "The bottom of the national ranking.",
+            src,
+        ))
+    if ma_val and hi_st != "MA" and lo_st != "MA":
+        bits = [rank_txt(ma).capitalize() if rank_txt(ma) else "Massachusetts"]
+        out.append(kpi(
+            "Massachusetts" + (f", {as_of}" if as_of else ""),
+            ma_val,
+            ", ".join(bits) + ".",
+            "Massachusetts on the same ranking as the map.",
+            src,
+        ))
+    return out[:3]
 
 
 def with_florida_kpi(kpis, ledger):
@@ -550,7 +639,8 @@ def enrich_answer(answer, tid, ledger, src_id, title, as_of):
     if not answer:
         return answer
     answer.setdefault("metric", ledger.get("metric_label") or "")
-    answer.setdefault("geo", "Massachusetts")
+    if not answer.get("geo"):
+        answer["geo"] = "Massachusetts"
     answer.setdefault("unit", ledger.get("unit") or "")
     if tid == "DL-07":
         answer["vintage"] = "2024 NAEP"
@@ -1856,6 +1946,248 @@ def public_question(tid):
     return spec.get("public") or ""
 
 
+def _yoy_clause(cell):
+    yoy = (cell or {}).get("yoy_pct")
+    if not isinstance(yoy, (int, float)):
+        return ""
+    sign = "+" if yoy > 0 else ("\u2212" if yoy < 0 else "")
+    return f" {sign}{abs(yoy):.1f}% from a year earlier."
+
+
+def _src_paren(src_id, derived=False):
+    if not src_id:
+        return ""
+    if derived and not str(src_id).startswith("derived"):
+        return f" (derived, {src_id})"
+    return f" ({src_id})"
+
+
+def _label_tail(ledger):
+    label = (ledger.get("metric_label") or "").strip()
+    if not label:
+        return ""
+    return label[0].lower() + label[1:] if label[0].isupper() else label
+
+
+def format_lens_value(tid, v, unit):
+    if v is None:
+        return ""
+    if tid in ("DL-17", "DL-20"):
+        if v < 0:
+            return "\u2212" + commify(abs(v))
+        if v > 0:
+            return "+" + commify(v)
+        return commify(v)
+    if tid == "DL-07":
+        return f"{float(v):.1f}"
+    if tid == "DL-04":
+        return f"{float(v):.2f}\u00a2"
+    return format_metric_value(v, unit)
+
+
+def _state_context(tid, cell, ledger, src_id):
+    rk = rank_txt(cell)
+    derived = bool(rk)
+    tail = _label_tail(ledger)
+    if tid == "DL-07":
+        tail = "the 2024 NAEP grade-4 reading scale"
+        src_id = "SRC-607-05"
+        derived = False
+    elif tid == "DL-04":
+        tail = "the residential average"
+        src_id = "SRC-401"
+        derived = False
+    elif tid == "DL-14":
+        tail = "the seasonally adjusted statewide unemployment rate"
+    elif tid == "DL-19":
+        v = cell.get("v")
+        if isinstance(v, (int, float)):
+            if v > 100:
+                return (
+                    f"Yes. Regional price parity {float(v):.1f}, above the "
+                    f"United States (= 100){_src_paren(src_id)}."
+                )
+            if v < 100:
+                return (
+                    f"No. Regional price parity {float(v):.1f}, below the "
+                    f"United States (= 100){_src_paren(src_id)}."
+                )
+            return f"Even with the United States (= 100){_src_paren(src_id)}."
+    elif tid == "DL-17":
+        v = cell.get("v")
+        verb = "Gaining" if isinstance(v, (int, float)) and v > 0 else (
+            "Losing" if isinstance(v, (int, float)) and v < 0 else "Unchanged"
+        )
+        extra = (rk.capitalize() + " on domestic migration") if rk else "net domestic migration"
+        return f"{verb}. {extra}{_src_paren(src_id, derived)}.{_yoy_clause(cell)}"
+    elif tid == "DL-20":
+        v = cell.get("v")
+        verb = "Net in" if isinstance(v, (int, float)) and v > 0 else (
+            "Net out" if isinstance(v, (int, float)) and v < 0 else "Unchanged"
+        )
+        extra = (rk.capitalize() + " on taxpayer returns") if rk else "net domestic taxpayer migration"
+        return f"{verb}. {extra}{_src_paren(src_id, derived)}.{_yoy_clause(cell)}"
+    bits = [rk.capitalize() if rk else ""]
+    if tail and not (rk and unit_already_in_value(format_lens_value(tid, cell.get("v"), ledger.get("unit")), tail)):
+        bits.append("on " + tail if rk else tail)
+    ctx = " ".join(b for b in bits if b).strip()
+    if not ctx:
+        ctx = "On this file"
+    return ctx + _src_paren(src_id, derived) + "." + _yoy_clause(cell)
+
+
+def _us_context(tid, cell, ledger, src_id):
+    if tid == "DL-07":
+        return "National public average on the 2024 NAEP grade-4 reading scale (SRC-607-05)."
+    if tid == "DL-04":
+        return "EIA residential U.S. Total row (SRC-401)."
+    if tid == "DL-19":
+        return f"United States = 100 by construction on regional price parities{_src_paren(src_id)}."
+    tail = _label_tail(ledger) or "this metric"
+    return (
+        f"The published United States figure on {tail}"
+        f"{_src_paren(src_id)}.{_yoy_clause(cell)}"
+    )
+
+
+def _rank_context(tid, cell, ledger, src_id):
+    name = cell.get("name") or "This state"
+    tail = _label_tail(ledger)
+    if tid == "DL-14":
+        tail = "the seasonally adjusted statewide unemployment rate"
+    extra = f" on {tail}" if tail else ""
+    return f"{name} leads the published ranking{extra}{_src_paren(src_id, True)}."
+
+
+def _naep_read4_rows(ledger):
+    hist = sec(ledger, "naep_2024", "history", "read4", "change_2019_2024")
+    items = []
+    for r in hist.get("rows") or []:
+        if not r.get("st") or r.get("to") is None:
+            continue
+        items.append({
+            "st": r["st"],
+            "name": r.get("name") or r["st"],
+            "v": r["to"],
+        })
+    items.sort(key=lambda x: -float(x["v"]))
+    n = len(items)
+    for i, rec in enumerate(items, 1):
+        rec["rank"] = i
+        rec["n"] = n
+    return items
+
+
+def _electricity_rows(ledger):
+    rows = []
+    for r in ledger.get("residential_states") or []:
+        if not r.get("st") or r.get("price_cents") is None:
+            continue
+        rec = {
+            "st": r["st"],
+            "name": r.get("name") or r["st"],
+            "v": r["price_cents"],
+            "rank": r.get("rank"),
+            "n": r.get("n") or 51,
+        }
+        rows.append(rec)
+    return rows
+
+
+def _pack_answer(tid, ledger, q, value, context, src_id, geo, kind="us"):
+    as_of = ledger.get("data_month_label") or ""
+    title = ledger.get("title") or tid
+    raw = {
+        "q": q,
+        "value": value or "",
+        "context": (context or "").strip(),
+        "src_id": src_id,
+        "geo": geo,
+        "kind": kind,
+    }
+    return enrich_answer(raw, tid, ledger, src_id, title, as_of)
+
+
+def build_answers(tid, ledger):
+    """Precomputed US (or ranking) plus each published state. No invented cells."""
+    from audience_starters import state_question
+
+    if not uses_national_lens(tid, ledger):
+        return {}
+    latest = ledger.get("latest") or {}
+    unit = ledger.get("unit") or ""
+    src_id = first_src(ledger)
+    answers = {}
+    us_q = public_question(tid)
+
+    if tid == "DL-04":
+        src_id = "SRC-401"
+        res = latest.get("residential") or {}
+        res_us = res.get("us") or {}
+        us_v = res_us.get("price_cents")
+        if us_v is not None:
+            answers["US"] = _pack_answer(
+                tid, ledger, us_q, format_lens_value(tid, us_v, unit),
+                _us_context(tid, res_us, ledger, src_id), src_id, "United States", "us",
+            )
+        for r in _electricity_rows(ledger):
+            name = r.get("name") or r["st"]
+            q = state_question(tid, name)
+            answers[r["st"]] = _pack_answer(
+                tid, ledger, q, format_lens_value(tid, r["v"], unit),
+                _state_context(tid, r, ledger, src_id), src_id, name, "state",
+            )
+        return answers
+
+    if tid == "DL-07":
+        src_id = "SRC-607-05"
+        naep = sec(ledger, "naep_2024", "series", "read4")
+        us_v = naep.get("us")
+        if us_v is not None:
+            answers["US"] = _pack_answer(
+                tid, ledger, us_q, format_lens_value(tid, us_v, unit),
+                _us_context(tid, {"v": us_v}, ledger, src_id), src_id, "United States", "us",
+            )
+        for r in _naep_read4_rows(ledger):
+            name = r.get("name") or r["st"]
+            q = state_question(tid, name)
+            answers[r["st"]] = _pack_answer(
+                tid, ledger, q, format_lens_value(tid, r["v"], unit),
+                _state_context(tid, r, ledger, src_id), src_id, name, "state",
+            )
+        return answers
+
+    us = latest.get("us") if isinstance(latest.get("us"), dict) else {}
+    has_us = us.get("v") is not None
+    if has_us:
+        answers["US"] = _pack_answer(
+            tid, ledger, us_q, format_lens_value(tid, us["v"], unit),
+            _us_context(tid, us, ledger, src_id), src_id, "United States", "us",
+        )
+    else:
+        hi = latest.get("highest") or {}
+        if hi.get("v") is not None:
+            answers["US"] = _pack_answer(
+                tid, ledger, us_q, format_lens_value(tid, hi["v"], unit),
+                _rank_context(tid, hi, ledger, src_id), src_id,
+                hi.get("name") or "Highest", "rank",
+            )
+
+    for r in ledger.get("rows") or []:
+        st = r.get("st")
+        if not isinstance(st, str) or len(st) != 2 or st == "US":
+            continue
+        if r.get("v") is None:
+            continue
+        name = r.get("name") or st
+        q = state_question(tid, name)
+        answers[st] = _pack_answer(
+            tid, ledger, q, format_lens_value(tid, r["v"], unit),
+            _state_context(tid, r, ledger, src_id), src_id, name, "state",
+        )
+    return answers
+
+
 def build_answer(tid, ledger, ma_line=""):
     """H2 question, one large number, one clause. Uses published cells only."""
     q = public_question(tid)
@@ -1993,12 +2325,12 @@ def answer_inner_html(answer):
         answer.get("vintage"),
         answer.get("src_id"),
     ) if b]
-    out = f"    <h2>{q}</h2>\n    <div class=\"answer-num\">{val}</div>\n"
+    out = f"    <h2 id=\"answerQ\">{q}</h2>\n    <div class=\"answer-num\" id=\"answerNum\">{val}</div>\n"
     if ctx:
-        out += f'    <p class="answer-ctx">{ctx}</p>\n'
+        out += f'    <p class="answer-ctx" id="answerCtx">{ctx}</p>\n'
     if meta_bits:
         out += (
-            '    <p class="answer-meta">'
+            '    <p class="answer-meta" id="answerMeta">'
             + html.escape(" · ".join(str(b) for b in meta_bits))
             + "</p>\n"
         )
@@ -2047,14 +2379,31 @@ def voice_for(app, ledger):
         take, kpis, ma_line, src_id = packed
     take = [t for t in take if t][:3]
     kpis = with_florida_kpi(kpis, ledger)
-    answer = enrich_answer(
-        build_answer(tid, ledger, ma_line),
-        tid,
-        ledger,
-        src_id,
-        title,
-        as_of,
-    )
+    answers = {}
+    if uses_national_lens(tid, ledger):
+        answers = build_answers(tid, ledger)
+        us_ans = answers.get("US") or {}
+        if us_ans.get("value"):
+            answer = us_ans
+            kpis = supporting_kpis(tid, ledger, skip_highest=us_ans.get("kind") == "rank")
+        else:
+            answer = enrich_answer(
+                build_answer(tid, ledger, ma_line),
+                tid,
+                ledger,
+                src_id,
+                title,
+                as_of,
+            )
+    else:
+        answer = enrich_answer(
+            build_answer(tid, ledger, ma_line),
+            tid,
+            ledger,
+            src_id,
+            title,
+            as_of,
+        )
     return {
         "takeaways": take,
         "kpis": kpis,
@@ -2065,6 +2414,7 @@ def voice_for(app, ledger):
         "lead_extra": lead_extra,
         "page_lead": page_lead,
         "answer": answer,
+        "answers": answers,
         "vintages": mixed_vintage_lines(ledger),
     }
 
@@ -2105,48 +2455,23 @@ def flagship_voice(tid, ledger):
         take.append(
             f"Massachusetts all-sector was <b>{ma_p:.2f} cents</b>, {rank_txt(ma)} (derived, SRC-401)."
         )
-        kpis_html_data = []
-        if res_ma.get("price_cents") is not None:
-            kpis_html_data.append(kpi(
-                f"Massachusetts households, {year}",
-                f"{res_ma['price_cents']:.2f}\u00a2",
-                f"{rank_txt(res_ma).capitalize()} on the residential series (SRC-401).",
-                "The public question is the household price, not the all-sector average.",
-                "EIA Form EIA-861 (SRC-401)",
-            ))
-        if res_us.get("price_cents") is not None:
-            kpis_html_data.append(kpi(
-                f"U.S. households, {year}",
-                f"{res_us['price_cents']:.2f}\u00a2",
-                "EIA residential U.S. Total row (SRC-401).",
-                "The national household average on the same file.",
-                "EIA Form EIA-861 (SRC-401)",
-            ))
-        kpis_html_data.append(kpi(
-            f"Massachusetts all-sector, {year}",
-            f"{ma_p:.2f}\u00a2",
-            f"{rank_txt(ma).capitalize()} states and D.C. (derived, SRC-401).",
-            "The all-sector average sits behind the household figure.",
-            "EIA Form EIA-861 (SRC-401)",
-        ))
-        if res_hi.get("price_cents") is not None:
-            kpis_html_data.append(kpi(
-                "Highest residential",
-                f"{res_hi.get('st')} {res_hi['price_cents']:.2f}\u00a2",
-                f"{res_hi.get('name')} is highest on the household series (SRC-401).",
-                "The top of the residential ranking.",
-                "EIA Form EIA-861 (SRC-401)",
-            ))
-        kpis_html_data = kpis_html_data[:4]
+        answers = build_answers("DL-04", ledger)
+        us_ans = answers.get("US") or {}
+        kpis_html_data = supporting_kpis("DL-04", ledger)
+        res_us_v = res_us.get("price_cents")
         res_val = res_ma.get("price_cents")
         lead = (
-            f"Massachusetts households paid <b>{res_val:.2f} cents</b> per kilowatthour "
-            f"in {year}, {rank_txt(res_ma)} on the residential series (SRC-401). "
-            f"The U.S. residential average was {res_us.get('price_cents'):.2f} cents (SRC-401). "
-            f"The all-sector Massachusetts average was {ma_p:.2f} cents, {rank_txt(ma)} (derived, SRC-401)."
-            if res_val is not None else
-            f"Massachusetts paid <b>{ma_p:.2f} cents</b> per kilowatthour in {year}, "
-            f"{rank_txt(ma)} (derived, SRC-401)."
+            f"Households in the United States paid <b>{res_us_v:.2f} cents</b> per kilowatthour "
+            f"in {year} (SRC-401). Massachusetts was {res_val:.2f} cents, {rank_txt(res_ma)} "
+            f"on the residential series (SRC-401)."
+            if res_us_v is not None and res_val is not None else
+            (
+                f"Massachusetts households paid <b>{res_val:.2f} cents</b> per kilowatthour "
+                f"in {year}, {rank_txt(res_ma)} on the residential series (SRC-401)."
+                if res_val is not None else
+                f"Massachusetts paid <b>{ma_p:.2f} cents</b> per kilowatthour in {year}, "
+                f"{rank_txt(ma)} (derived, SRC-401)."
+            )
         )
         return {
             "takeaways": take[:3],
@@ -2159,24 +2484,15 @@ def flagship_voice(tid, ledger):
             ),
             "src_id": "SRC-401",
             "lead": lead,
-            "answer": enrich_answer({
-                "q": "What does a household pay for electricity in Massachusetts?",
-                "value": f"{res_val:.2f}\u00a2" if res_val is not None else f"{ma_p:.2f}\u00a2",
-                "context": (
-                    f"{rank_txt(res_ma).capitalize()} on the residential average (SRC-401). "
-                    f"The U.S. residential average was {res_us.get('price_cents'):.2f} cents (SRC-401)."
-                    if res_val is not None and res_us.get("price_cents") is not None else
-                    (
-                        f"{rank_txt(res_ma).capitalize()} on the residential average (SRC-401)."
-                        if res_val is not None else
-                        f"{rank_txt(ma).capitalize()} on the all-sector average (derived, SRC-401). "
-                        f"The United States all-sector average was {us_p:.2f} cents (SRC-401)."
-                    )
-                ),
-                "geo": "Massachusetts",
+            "answer": us_ans or enrich_answer({
+                "q": public_question("DL-04"),
+                "value": f"{res_us_v:.2f}\u00a2" if res_us_v is not None else f"{ma_p:.2f}\u00a2",
+                "context": "EIA residential U.S. Total row (SRC-401).",
+                "geo": "United States",
                 "metric": "Residential average retail price",
                 "unit": "cents per kilowatthour",
             }, "DL-04", ledger, "SRC-401", "Retail Electricity Prices", str(year or "")),
+            "answers": answers,
             "vintages": [],
         }
     if tid == "DL-05":

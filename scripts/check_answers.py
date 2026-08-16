@@ -15,7 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 
 from audience_starters import starters_for  # noqa: E402
-from page_voice import SKIP_VOICE, flagship_voice, split_ma_line, voice_for  # noqa: E402
+from page_voice import SKIP_VOICE, flagship_voice, split_ma_line, uses_national_lens, voice_for  # noqa: E402
 from suite_common import ledger_path, load_apps  # noqa: E402
 
 failures = []
@@ -85,12 +85,29 @@ for app in apps:
         else:
             ok(f"{tid} town change")
     if tid == "DL-29":
-        if "which state collected the most" in q.lower():
+        if uses_national_lens(tid, ledger):
+            if "united states" not in q.lower():
+                fail(f"{tid} public question should be United States collections, got {q!r}")
+            else:
+                ok(f"{tid} national tax")
+        elif "which state collected the most" in q.lower():
             fail(f"{tid} public question is the journalist ranking, not Massachusetts")
         elif "massachusetts" not in q.lower():
             fail(f"{tid} public question should be Massachusetts collections, got {q!r}")
         else:
             ok(f"{tid} MA-first tax")
+    if uses_national_lens(tid, ledger):
+        geo = (answer.get("geo") or "").lower()
+        kind = answer.get("kind") or ""
+        if kind == "rank":
+            if not value:
+                fail(f"{tid} ranking hero is empty")
+            else:
+                ok(f"{tid} ranking hero")
+        elif geo != "united states":
+            fail(f"{tid} national-lens default geo is {answer.get('geo')!r}, not United States")
+        else:
+            ok(f"{tid} national default")
     if tid == "DL-30":
         if "10.89" not in value:
             fail(f"{tid} hero should be Commonwealth payroll total, value={value!r}")

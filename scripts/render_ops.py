@@ -62,6 +62,20 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Fifty-state tools open on a national question",
+        "body": (
+            "Live fifty-state tools, including Retail Electricity Prices, "
+            "now open on a United States question, the published national "
+            "figure, and the same fifty-state map. A Place control rewrites "
+            "that question, number, and clause for any published state. "
+            "When the file has no U.S. row, the page opens on the highest "
+            "state instead of inventing a national total. Massachusetts-only "
+            "finders, agency lists, State Wealth Taxes, and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Full history cubes and trailing-window ranks",
         "body": (
             "Live tools now keep the years and jurisdictions the published "

@@ -98,7 +98,33 @@ def kpi_html(kpis):
     return html
 
 
-def answer_html(answer, kpis_markup="", slug="", vintages=None):
+def lens_html(answers):
+    if not answers or not answers.get("US"):
+        return ""
+    us = answers["US"]
+    us_lab = "Highest" if us.get("kind") == "rank" else "United States"
+    opts = ['<option value="US">' + esc(us_lab) + "</option>"]
+    keys = []
+    if "MA" in answers:
+        keys.append("MA")
+    keys.extend(sorted(
+        (k for k in answers if k not in ("US", "MA")),
+        key=lambda k: (answers[k].get("geo") or k),
+    ))
+    for k in keys:
+        lab = answers[k].get("geo") or k
+        opts.append('<option value="' + esc(k) + '">' + esc(lab) + "</option>")
+    return (
+        '    <div class="lens-bar" id="lensBar">\n'
+        '      <label class="sel-lab" for="lensSel">Place</label>\n'
+        '      <select id="lensSel" aria-label="United States or a state">'
+        + "".join(opts)
+        + "</select>\n"
+        "    </div>\n"
+    )
+
+
+def answer_html(answer, kpis_markup="", slug="", vintages=None, answers=None):
     if not answer or not answer.get("value"):
         return ""
     ctx = answer.get("context") or ""
@@ -143,15 +169,16 @@ def answer_html(answer, kpis_markup="", slug="", vintages=None):
     meta_html = ""
     if meta_bits:
         meta_html = (
-            '    <p class="answer-meta">'
+            '    <p class="answer-meta" id="answerMeta">'
             + esc(" · ".join(str(b) for b in meta_bits))
             + "</p>\n"
         )
     return (
         '  <section id="answer" class="answer-block">\n'
-        "    <h2>" + esc(answer.get("q") or "The finding") + "</h2>\n"
-        '    <div class="answer-num">' + esc(answer["value"]) + "</div>\n"
-        + ('    <p class="answer-ctx">' + esc(ctx) + "</p>\n" if ctx else "")
+        + lens_html(answers)
+        + "    <h2 id=\"answerQ\">" + esc(answer.get("q") or "The finding") + "</h2>\n"
+        '    <div class="answer-num" id="answerNum">' + esc(answer["value"]) + "</div>\n"
+        + ('    <p class="answer-ctx" id="answerCtx">' + esc(ctx) + "</p>\n" if ctx else "")
         + meta_html
         + cite_btn
         + vintage_block
@@ -1246,6 +1273,7 @@ def page_html(app, ledger, apps=None):
             kpis,
             slug,
             (voice or {}).get("vintages") or mixed_vintage_lines(ledger),
+            (voice or {}).get("answers"),
         )
         if not answer_block:
             answer_block = f"""
@@ -1445,6 +1473,53 @@ const FIND=FIND_JSON;
   var band='all';
   var selectedSt='';
   var compareSt='FL';
+  var ANSWERS=(DL&&DL.answers)||{};
+  var hasLens=!!(ANSWERS.US && ANSWERS.US.value);
+  function answerKey(st){
+    if(!st || st==='US') return 'US';
+    return String(st).toUpperCase();
+  }
+  function applyLens(st){
+    if(!hasLens) return;
+    var a=ANSWERS[answerKey(st)]||ANSWERS.US;
+    if(!a || !a.value) return;
+    var h2=document.getElementById('answerQ');
+    var num=document.getElementById('answerNum');
+    var ctx=document.getElementById('answerCtx');
+    var meta=document.getElementById('answerMeta');
+    var cite=document.querySelector('#answer .cite-copy');
+    if(h2) h2.textContent=a.q||'';
+    if(num) num.textContent=a.value||'';
+    if(ctx){ ctx.textContent=a.context||''; ctx.hidden=!a.context; }
+    if(meta){
+      var bits=[a.geo,a.vintage,a.src_id].filter(Boolean);
+      meta.textContent=bits.join(' \\u00b7 ');
+    }
+    if(cite && a.cite) cite.setAttribute('data-cite', a.cite);
+    var sel=document.getElementById('lensSel');
+    if(sel){
+      var key=answerKey(st);
+      if(sel.querySelector('option[value="'+key+'"]')) sel.value=key;
+      else sel.value='US';
+    }
+  }
+  function writeLensHash(st){
+    var h=parseHash();
+    var parts=[];
+    if(h.view) parts.push(h.view.indexOf('view-')===0?h.view:('view-'+h.view));
+    var key=answerKey(st);
+    if(key && key!=='US') parts.push('st='+key);
+    var next=parts.length?('#'+parts.join('&')):'';
+    if(location.hash!==next) history.replaceState(null,'',location.pathname+location.search+next);
+  }
+  function setLens(st, redraw){
+    selectedSt=(!st || st==='US')?'':String(st).toUpperCase();
+    applyLens(selectedSt||'US');
+    writeLensHash(selectedSt||'US');
+    if(redraw!==false && typeof drawRank==='function') drawRank();
+    if(typeof fillTableBody==='function') fillTableBody();
+    if(typeof applyFind==='function') applyFind();
+  }
   var mapView=0;
   var rankChart=null;
   var chartRows=[];
@@ -1604,6 +1679,10 @@ const FIND=FIND_JSON;
       selected:selectedSt,
       ref: view.primary && usVal!=null && isFinite(usVal) ? {label:'United States',value:usVal,compare:usCompare} : null,
       onSelect:function(r){
+        if(hasLens){
+          setLens(r.st||'US', true);
+          return;
+        }
         selectedSt=r.st||'';
         var find=document.getElementById('tblFind');
         if(find) find.value=r.name||r.st||'';
@@ -1796,6 +1875,13 @@ const FIND=FIND_JSON;
       if(typeof fillTableBody==='function') fillTableBody();
     });
   })();
+  (function(){
+    var sel=document.getElementById('lensSel');
+    if(!sel || !hasLens) return;
+    sel.addEventListener('change', function(){
+      setLens(sel.value||'US', true);
+    });
+  })();
   var tabs=document.getElementById('mapTabs');
   function setRankPane(pane){
     var mapPane=document.getElementById('mapPane');
@@ -1836,17 +1922,22 @@ const FIND=FIND_JSON;
     if(h.st){
       var want=String(h.st);
       var up=want.toUpperCase();
-      var match=null;
-      for(var i=0;i<rows.length;i++){
-        var r=rows[i];
-        if(r.st && String(r.st).toUpperCase()===up){ match=r; break; }
-        if(r.name && String(r.name).toLowerCase()===want.toLowerCase()){ match=r; break; }
+      if(up==='US'){
+        selectedSt='';
+      } else {
+        var match=null;
+        for(var i=0;i<rows.length;i++){
+          var r=rows[i];
+          if(r.st && String(r.st).toUpperCase()===up){ match=r; break; }
+          if(r.name && String(r.name).toLowerCase()===want.toLowerCase()){ match=r; break; }
+        }
+        selectedSt=match ? (match.st||match.name||want) : (CHART.geo==='state'?up:want);
+        var findEl=document.getElementById('tblFind');
+        if(findEl && match) findEl.value=match.name||match.st||want;
+        else if(findEl && !findEl.value) findEl.value=want;
       }
-      selectedSt=match ? (match.st||match.name||want) : (CHART.geo==='state'?up:want);
-      var findEl=document.getElementById('tblFind');
-      if(findEl && match) findEl.value=match.name||match.st||want;
-      else if(findEl && !findEl.value) findEl.value=want;
     }
+    if(hasLens) applyLens(selectedSt||'US');
     if(h.view==='table' && CHART.geo==='state') setRankPane('table');
     applyFind();
     if(h.view==='rank' && CHART.geo==='state') drawRank();

@@ -1195,7 +1195,7 @@ def _bd_rate_id(st, kind):
     if not fips:
         return None
     elem = "07" if kind == "birth" else "08"
-    return f"BDS00000{fips}000000001200{elem}RQ5"
+    return f"BDS00000{fips}0000000001200{elem}RQ5"
 
 
 def _bls_bd_series(ids, start="2006", end="2026", require_all=True):
@@ -1611,6 +1611,14 @@ def more_lead(tool_id, sec):
                 f"Florida's establishment birth rate was "
                 f"<b>{fl.get('birth_rate_pct')}%</b> in {fl.get('births_as_of')} "
                 f"({commify(fl.get('births') or 0)} establishments, SRC-613-02)."
+            )
+        w9 = (b.get("window_9q_2024q3") or {})
+        if (w9.get("ma") or {}).get("rank"):
+            parts.append(
+                f"Over the 9 quarters ending 2024 Q3, Massachusetts had the "
+                f"{'lowest' if w9['ma']['rank'] == w9['ma']['n'] else 'rank ' + str(w9['ma']['rank'])} "
+                f"mean establishment birth rate among {w9['ma']['n']} jurisdictions "
+                f"at <b>{w9['ma']['v']}%</b> (derived, SRC-613-02)."
             )
     if tool_id == "DL-14":
         u = sec.get("ui_initial_claims") or {}

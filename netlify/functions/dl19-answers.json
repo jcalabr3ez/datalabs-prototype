@@ -4291,6 +4291,585 @@
         },
         "note": "BEA SARPP_STATE_2008_2024. LineCode 2 goods, 3 housing, 4 utilities, 5 other services. United States equals 100 on each line. Tariff, defense, and fiscal-dependency indexes remain Pioneer methods and are not in this ledger."
       }
+    },
+    "windows": {
+      "note": "Prefer these over recomputing. Window means and ranks cite (derived) plus the source id on each snapshot.",
+      "dl19_t4_2024": {
+        "id": "dl19_t4_2024",
+        "label": "Regional price parities, trailing 4 periods ending 2024",
+        "src": "SRC-619-01",
+        "unit": "index, US=100",
+        "end": "2024",
+        "n_periods": 4,
+        "higher_is_better": true,
+        "us": 100.0,
+        "ma": {
+          "v": 107.39,
+          "rank": 7,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 111.86
+        },
+        "lowest": {
+          "st": "MS",
+          "name": "Mississippi",
+          "v": 86.83
+        },
+        "n_ranked": 51,
+        "ranked": [
+          {
+            "st": "CA",
+            "v": 111.86,
+            "rank": 1
+          },
+          {
+            "st": "DC",
+            "v": 111.19,
+            "rank": 2
+          },
+          {
+            "st": "HI",
+            "v": 110.84,
+            "rank": 3
+          },
+          {
+            "st": "NJ",
+            "v": 108.92,
+            "rank": 4
+          },
+          {
+            "st": "WA",
+            "v": 108.56,
+            "rank": 5
+          },
+          {
+            "st": "NY",
+            "v": 108.22,
+            "rank": 6
+          },
+          {
+            "st": "MA",
+            "v": 107.39,
+            "rank": 7
+          },
+          {
+            "st": "MD",
+            "v": 105.14,
+            "rank": 8
+          },
+          {
+            "st": "NH",
+            "v": 104.99,
+            "rank": 9
+          },
+          {
+            "st": "OR",
+            "v": 104.48,
+            "rank": 10
+          },
+          {
+            "st": "CT",
+            "v": 104.26,
+            "rank": 11
+          },
+          {
+            "st": "AK",
+            "v": 103.17,
+            "rank": 12
+          },
+          {
+            "st": "RI",
+            "v": 102.75,
+            "rank": 13
+          },
+          {
+            "st": "FL",
+            "v": 102.68,
+            "rank": 14
+          },
+          {
+            "st": "CO",
+            "v": 102.48,
+            "rank": 15
+          },
+          {
+            "st": "VA",
+            "v": 101.69,
+            "rank": 16
+          },
+          {
+            "st": "IL",
+            "v": 100.31,
+            "rank": 17
+          },
+          {
+            "st": "AZ",
+            "v": 99.5,
+            "rank": 18
+          },
+          {
+            "st": "VT",
+            "v": 98.71,
+            "rank": 19
+          },
+          {
+            "st": "DE",
+            "v": 98.5,
+            "rank": 20
+          },
+          {
+            "st": "ME",
+            "v": 98.28,
+            "rank": 21
+          },
+          {
+            "st": "MN",
+            "v": 98.19,
+            "rank": 22
+          },
+          {
+            "st": "TX",
+            "v": 97.5,
+            "rank": 23
+          },
+          {
+            "st": "NV",
+            "v": 97.38,
+            "rank": 24
+          },
+          {
+            "st": "PA",
+            "v": 96.84,
+            "rank": 25
+          },
+          {
+            "st": "GA",
+            "v": 96.04,
+            "rank": 26
+          },
+          {
+            "st": "UT",
+            "v": 95.91,
+            "rank": 27
+          },
+          {
+            "st": "MI",
+            "v": 94.6,
+            "rank": 28
+          },
+          {
+            "st": "NC",
+            "v": 94.12,
+            "rank": 29
+          },
+          {
+            "st": "SC",
+            "v": 93.54,
+            "rank": 30
+          },
+          {
+            "st": "WI",
+            "v": 93.26,
+            "rank": 31
+          },
+          {
+            "st": "ID",
+            "v": 92.77,
+            "rank": 32
+          },
+          {
+            "st": "IN",
+            "v": 92.47,
+            "rank": 33
+          },
+          {
+            "st": "OH",
+            "v": 92.1,
+            "rank": 34
+          },
+          {
+            "st": "WY",
+            "v": 91.86,
+            "rank": 35
+          },
+          {
+            "st": "MT",
+            "v": 91.79,
+            "rank": 36
+          },
+          {
+            "st": "TN",
+            "v": 91.59,
+            "rank": 37
+          },
+          {
+            "st": "MO",
+            "v": 91.23,
+            "rank": 38
+          },
+          {
+            "st": "NM",
+            "v": 90.96,
+            "rank": 39
+          },
+          {
+            "st": "NE",
+            "v": 90.55,
+            "rank": 40
+          },
+          {
+            "st": "KS",
+            "v": 90.21,
+            "rank": 41
+          },
+          {
+            "st": "WV",
+            "v": 89.82,
+            "rank": 42
+          },
+          {
+            "st": "LA",
+            "v": 89.69,
+            "rank": 43
+          },
+          {
+            "st": "KY",
+            "v": 89.67,
+            "rank": 44
+          },
+          {
+            "st": "ND",
+            "v": 89.2,
+            "rank": 45
+          },
+          {
+            "st": "OK",
+            "v": 88.8,
+            "rank": 46
+          },
+          {
+            "st": "SD",
+            "v": 88.67,
+            "rank": 47
+          },
+          {
+            "st": "IA",
+            "v": 88.66,
+            "rank": 48
+          },
+          {
+            "st": "AL",
+            "v": 88.5,
+            "rank": 49
+          },
+          {
+            "st": "AR",
+            "v": 87.39,
+            "rank": 50
+          },
+          {
+            "st": "MS",
+            "v": 86.83,
+            "rank": 51
+          }
+        ],
+        "fl": {
+          "v": 102.68,
+          "rank": 14,
+          "n": 51
+        }
+      },
+      "dl19_t8_2024": {
+        "id": "dl19_t8_2024",
+        "label": "Regional price parities, trailing 8 periods ending 2024",
+        "src": "SRC-619-01",
+        "unit": "index, US=100",
+        "end": "2024",
+        "n_periods": 8,
+        "higher_is_better": true,
+        "us": 100.0,
+        "ma": {
+          "v": 107.58,
+          "rank": 7,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 111.67
+        },
+        "lowest": {
+          "st": "MS",
+          "name": "Mississippi",
+          "v": 86.66
+        },
+        "n_ranked": 51,
+        "ranked": [
+          {
+            "st": "CA",
+            "v": 111.67,
+            "rank": 1
+          },
+          {
+            "st": "HI",
+            "v": 111.23,
+            "rank": 2
+          },
+          {
+            "st": "DC",
+            "v": 110.79,
+            "rank": 3
+          },
+          {
+            "st": "NJ",
+            "v": 109.74,
+            "rank": 4
+          },
+          {
+            "st": "NY",
+            "v": 108.99,
+            "rank": 5
+          },
+          {
+            "st": "WA",
+            "v": 108.03,
+            "rank": 6
+          },
+          {
+            "st": "MA",
+            "v": 107.58,
+            "rank": 7
+          },
+          {
+            "st": "MD",
+            "v": 105.64,
+            "rank": 8
+          },
+          {
+            "st": "NH",
+            "v": 104.82,
+            "rank": 9
+          },
+          {
+            "st": "CT",
+            "v": 104.67,
+            "rank": 10
+          },
+          {
+            "st": "OR",
+            "v": 103.89,
+            "rank": 11
+          },
+          {
+            "st": "AK",
+            "v": 103.31,
+            "rank": 12
+          },
+          {
+            "st": "RI",
+            "v": 102.45,
+            "rank": 13
+          },
+          {
+            "st": "CO",
+            "v": 102.43,
+            "rank": 14
+          },
+          {
+            "st": "FL",
+            "v": 101.52,
+            "rank": 15
+          },
+          {
+            "st": "VA",
+            "v": 101.37,
+            "rank": 16
+          },
+          {
+            "st": "IL",
+            "v": 100.21,
+            "rank": 17
+          },
+          {
+            "st": "VT",
+            "v": 99.64,
+            "rank": 18
+          },
+          {
+            "st": "AZ",
+            "v": 98.79,
+            "rank": 19
+          },
+          {
+            "st": "DE",
+            "v": 98.42,
+            "rank": 20
+          },
+          {
+            "st": "MN",
+            "v": 98.2,
+            "rank": 21
+          },
+          {
+            "st": "TX",
+            "v": 97.81,
+            "rank": 22
+          },
+          {
+            "st": "ME",
+            "v": 97.73,
+            "rank": 23
+          },
+          {
+            "st": "NV",
+            "v": 97.71,
+            "rank": 24
+          },
+          {
+            "st": "PA",
+            "v": 97.54,
+            "rank": 25
+          },
+          {
+            "st": "UT",
+            "v": 96.36,
+            "rank": 26
+          },
+          {
+            "st": "GA",
+            "v": 95.39,
+            "rank": 27
+          },
+          {
+            "st": "MI",
+            "v": 94.43,
+            "rank": 28
+          },
+          {
+            "st": "WI",
+            "v": 93.47,
+            "rank": 29
+          },
+          {
+            "st": "NC",
+            "v": 93.2,
+            "rank": 30
+          },
+          {
+            "st": "WY",
+            "v": 92.86,
+            "rank": 31
+          },
+          {
+            "st": "SC",
+            "v": 92.7,
+            "rank": 32
+          },
+          {
+            "st": "ID",
+            "v": 92.6,
+            "rank": 33
+          },
+          {
+            "st": "MT",
+            "v": 92.5,
+            "rank": 34
+          },
+          {
+            "st": "OH",
+            "v": 92.32,
+            "rank": 35
+          },
+          {
+            "st": "IN",
+            "v": 92.27,
+            "rank": 36
+          },
+          {
+            "st": "NM",
+            "v": 92.0,
+            "rank": 37
+          },
+          {
+            "st": "MO",
+            "v": 91.64,
+            "rank": 38
+          },
+          {
+            "st": "TN",
+            "v": 91.35,
+            "rank": 39
+          },
+          {
+            "st": "KS",
+            "v": 91.23,
+            "rank": 40
+          },
+          {
+            "st": "NE",
+            "v": 91.15,
+            "rank": 41
+          },
+          {
+            "st": "LA",
+            "v": 90.52,
+            "rank": 42
+          },
+          {
+            "st": "ND",
+            "v": 90.2,
+            "rank": 43
+          },
+          {
+            "st": "IA",
+            "v": 89.76,
+            "rank": 44
+          },
+          {
+            "st": "KY",
+            "v": 89.55,
+            "rank": 45
+          },
+          {
+            "st": "SD",
+            "v": 89.53,
+            "rank": 46
+          },
+          {
+            "st": "OK",
+            "v": 89.34,
+            "rank": 47
+          },
+          {
+            "st": "WV",
+            "v": 89.19,
+            "rank": 48
+          },
+          {
+            "st": "AL",
+            "v": 88.41,
+            "rank": 49
+          },
+          {
+            "st": "AR",
+            "v": 87.65,
+            "rank": 50
+          },
+          {
+            "st": "MS",
+            "v": 86.66,
+            "rank": 51
+          }
+        ],
+        "fl": {
+          "v": 101.52,
+          "rank": 15,
+          "n": 51
+        }
+      }
     }
   },
   "entities": {

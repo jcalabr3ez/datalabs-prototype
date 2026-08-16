@@ -40,7 +40,10 @@ SKIP = {"DL-01", "DL-02", "DL-18"}
 
 
 def _load(tid):
-    return json.loads(ledger_path(tid).read_text(encoding="utf-8"))
+    led = json.loads(ledger_path(tid).read_text(encoding="utf-8"))
+    if "tool_id" not in led:
+        led["tool_id"] = tid
+    return led
 
 
 def _touch(led):
@@ -86,6 +89,13 @@ def attach_bed_windows(ledger):
         ledger, wins,
         note="Prefer these over recomputing. BED window means and ranks cite (derived, SRC-613-02).",
     )
+    w9 = wins.get("bed_birth_rate_t9_2024q3")
+    if w9 and bed:
+        bed["window_9q_2024q3"] = {
+            "ma": w9.get("ma"), "us": w9.get("us"), "fl": w9.get("fl"),
+            "highest": w9.get("highest"), "lowest": w9.get("lowest"),
+            "end": w9.get("end"), "n_periods": 9,
+        }
     return ledger
 
 
@@ -295,9 +305,44 @@ def expand_bps_history():
     print(f"  BPS years={len(trend['MA'])} geos={len(trend)}")
 
 
+def _qtax_totals(ws):
+    """Read Total Taxes by state from a QTAX table-3 sheet.
+
+    2026 Q1 uses five columns per geo. Earlier quarters use two (footnote, value).
+    """
+    from suite_builders import geo_to_st
+    header = None
+    totals = None
+    for row in ws.iter_rows(min_row=5, max_row=12, values_only=True):
+        cells = list(row)
+        label = str(cells[0] or "").strip()
+        if header is None and any(geo_to_st(c) for c in cells if c):
+            header = cells
+        if label == "Total Taxes":
+            totals = cells
+            break
+    if not header or not totals:
+        return {}
+    geos = []
+    for i, name in enumerate(header):
+        st = geo_to_st(name) if name else None
+        if st:
+            geos.append((i, st))
+    out = {}
+    for idx, (i, st) in enumerate(geos):
+        nxt = geos[idx + 1][0] if idx + 1 < len(geos) else len(totals)
+        v = None
+        for j in range(i, nxt):
+            v = parse_num(totals[j]) if j < len(totals) else None
+            if v is not None and abs(v) > 10:
+                break
+        if v is not None:
+            out[st] = v * 1000
+    return out
+
+
 def expand_qtax_stack():
     print("expand DL-28/29 QTAX quarter stack ...")
-    from suite_builders import geo_to_st
     cube = {}
     for year, q in (
         (2024, 1), (2024, 2), (2024, 3), (2024, 4),
@@ -310,19 +355,13 @@ def expand_qtax_stack():
         except Exception as exc:
             print(f"  skip QTAX {year} Q{q}: {exc}")
             continue
-        names = [c.value for c in ws[6]]
-        totals = [c.value for c in ws[8]]
+        values = _qtax_totals(ws)
+        if "MA" not in values:
+            print(f"  skip QTAX {year} Q{q}: no Massachusetts cell")
+            continue
         label = f"{year} Q{q}"
-        for i, name in enumerate(names):
-            if not name or name in ("Tax Description", "Code"):
-                continue
-            st = geo_to_st(name)
-            if not st:
-                continue
-            v = parse_num(totals[i])
-            if v is None:
-                continue
-            cube.setdefault(st, []).append({"q": label, "v": v * 1000})
+        for st, v in values.items():
+            cube.setdefault(st, []).append({"q": label, "v": round(v)})
     if "MA" not in cube or len(cube["MA"]) < 2:
         print("  QTAX stack too thin")
         return

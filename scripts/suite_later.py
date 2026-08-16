@@ -1274,6 +1274,13 @@ def enrich(app, ledger):
             ledger, wins,
             note="Prefer these over recomputing. BED window means and ranks cite (derived, SRC-613-02).",
         )
+        w9 = wins.get("bed_birth_rate_t9_2024q3")
+        if w9:
+            bed["window_9q_2024q3"] = {
+                "ma": w9.get("ma"), "us": w9.get("us"), "fl": w9.get("fl"),
+                "highest": w9.get("highest"), "lowest": w9.get("lowest"),
+                "end": w9.get("end"), "n_periods": 9,
+            }
     extra_note = (
         f" Later views compiled {REVISED} are stored under derived.secondary."
     )

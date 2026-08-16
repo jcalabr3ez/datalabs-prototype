@@ -581,7 +581,8 @@ module.exports = [
       'bfs', 'startup applications', 'applications to start',
       'business births', 'business deaths', 'establishment birth',
       'establishment death', 'births and deaths', 'birth rate',
-      'death rate', 'formation rate'
+      'death rate', 'formation rate', 'high-propensity', 'high propensity',
+      'projected formation', 'per 100,000', 'applications per'
     ],
     extra: 'Establishment birth and death rates for every state sit in derived.secondary.bed_births_deaths and derived.windows. U.S. counts there are thousands of establishments; state counts are establishments. Deaths lag three quarters. Trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3, are precomputed: use those, do not average unpublished quarters. High-propensity applications and projected 4-quarter formations sit in derived.secondary. Census BDS firm births are not in this ledger.'
   }),

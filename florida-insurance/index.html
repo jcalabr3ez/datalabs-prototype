@@ -40,7 +40,7 @@
   input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
   .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
   /* shared DataLabs content column: everything below the hero sits in one measure */
-  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+  .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
 
   /* Pioneer masthead */
   .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);
@@ -70,13 +70,6 @@
   .dateline span:first-child{padding-left:0;border-left:none}
   .dateline b{color:var(--goldlt);font-weight:500}
 
-  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);
-         margin:0 calc(-1 * var(--bleed)) 16px;padding:9px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
-  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);
-             border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
-  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
-  .proto-txt b{color:#fff;font-weight:600}
-  .proto-txt a{color:inherit;text-decoration:underline}
 
   /* ---- audience toggle ---- */
   .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:8px}
@@ -236,19 +229,12 @@
   body.embed{background:#fff;padding:0}
   body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
   body.embed .sitebar,body.embed footer .fbrand{display:none}
-  body.embed header,body.embed .proto,body.embed footer{margin-left:0;margin-right:0}
-  /* the host page (WP DataLabs) already carries the Pioneer masthead and subnav,
-     so compress the hero and the published strip when embedded */
+  body.embed header,body.embed footer{margin-left:0;margin-right:0}
   body.embed header{padding:22px var(--bleed) 20px}
   body.embed .org{margin-bottom:10px}
   body.embed h1{font-size:clamp(25px,3.1vw,36px)}
   body.embed .standfirst{margin-top:9px;font-size:14.5px}
   body.embed .dateline{margin-top:14px}
-  body.embed .proto{padding:9px var(--bleed)}
-  body.embed .proto-txt{font-size:12px}
-  /* to hide the published banner entirely in embeds, uncomment the next line:
-  body.embed .proto{display:none}
-  */
 
 
   h3.sub{font:500 17px/1.4 var(--serif);color:var(--ink);margin:26px 0 4px;padding-top:18px;border-top:1px solid var(--rule-lt)}
@@ -373,7 +359,6 @@
   </div>
 </header>
 
-<div class="proto"><span class="proto-tag">DataLabs</span><span class="proto-txt"><b>A living data tool.</b> Figures trace to the register below, with vintage and next scheduled release. For corrections e-mail <a href="mailto:datalabs@pioneerinstitute.org">datalabs@pioneerinstitute.org</a>.</span></div>
 
 <div class="toggle" role="tablist" aria-label="Choose a view">
     <button id="btn-home" class="on" onclick="showView('home')">

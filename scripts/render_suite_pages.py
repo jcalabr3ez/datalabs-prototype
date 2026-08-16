@@ -301,16 +301,6 @@ def page_html(app, ledger, apps=None):
         "This application is in build. The source register below is the inventory. "
         "Figures will appear here once they are recomputed from those sources."
     )
-    proto_tag = "In build" if not live else "DataLabs"
-    proto = (
-        "<b>A living data tool.</b> Figures trace to the register below, with vintage "
-        "and next scheduled release. For corrections e-mail "
-        "<a href=\"mailto:datalabs@pioneerinstitute.org\">datalabs@pioneerinstitute.org</a>."
-        if live else
-        "<b>Sources are locked. Figures are not published yet.</b> A later refresh "
-        "will compile the ledger from the register below. Corrections: "
-        "<a href=\"mailto:datalabs@pioneerinstitute.org\">datalabs@pioneerinstitute.org</a>."
-    )
     replaces = esc(replaces_list(app, ledger))
     nsrc = len(ledger.get("source_id_map") or {})
     src_word = "source" if nsrc == 1 else "sources"
@@ -770,7 +760,6 @@ const FIND=FIND_JSON;
 <!-- DATA:END {slug}-dateline -->
   </div>
 </header>
-<div class="proto"><span class="proto-tag">{proto_tag}</span><span class="proto-txt">{proto}</span></div>
 {jump}
 {latest_section}
 {trend_section}

@@ -6,7 +6,7 @@
   a:hover{color:var(--gold)}
   input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
   .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
-  .wrap>*:not(.sitebar):not(header):not(.proto):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
+  .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
   .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
   .sitebar img{height:24px;width:auto;display:block}
   .sitebar .sbleft{display:flex;align-items:center;gap:16px}
@@ -26,11 +26,6 @@
   .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
   .dateline span:first-child{padding-left:0;border-left:none}
   .dateline b{color:var(--goldlt);font-weight:500}
-  .proto{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--hero3);margin:0 calc(-1 * var(--bleed)) 30px;padding:12px var(--bleed);border-top:1px solid rgba(255,255,255,.08)}
-  .proto-tag{font:800 10px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;color:var(--goldlt);border:1px solid var(--goldlt);border-radius:3px;padding:4px 9px;flex-shrink:0}
-  .proto-txt{font:400 13px/1.55 var(--sans);color:#AEBDD2;flex:1;min-width:260px}
-  .proto-txt b{color:#fff;font-weight:600}
-  .proto-txt a{color:inherit;text-decoration:underline}
   .jump{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}
   .jump a{font:600 13px/1.3 var(--sans);color:var(--navy);text-decoration:none}
   .jump a:hover{color:var(--gold)}

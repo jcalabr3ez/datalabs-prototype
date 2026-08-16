@@ -27,283 +27,40 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
+<link rel="stylesheet" href="/assets/suite.css">
 <link rel="stylesheet" href="/assets/ask-widget.css">
 <style>
-  /* ============ Pioneer DataLabs design system (matched to datalabs landing + State Wealth Taxes) ============ */
-  /* brand tokens (color + type) come from /assets/datalabs.css; page-only scalars here */
-  :root{
-    --bleed:clamp(18px,2.6vw,48px);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{width:100%}
-  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
-  a{color:var(--navy);text-decoration:none}
-  a:hover{color:var(--ink);text-decoration:underline}
-  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
-  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
-  /* shared DataLabs content column: everything below the hero sits in one measure */
-  .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
-
-  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);border-bottom:none;
-           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
-  .sitebar .sbleft{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .sitebar .piword{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none}
-  .sitebar .piword:hover{color:#fff;text-decoration:none}
-  .sitebar .backlink{font:400 13px/1 var(--sans);color:#fff;text-decoration:none}
-  .sitebar .backlink:hover{color:#fff;text-decoration:underline}
-  .sitebar a:focus-visible{outline:2px solid #fff;outline-offset:3px}
-
-  header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:36px var(--bleed) 28px;border-bottom:1px solid var(--rule)}
-  h1{font:700 clamp(28px,3.6vw,40px)/1.12 var(--serif);color:var(--ink);letter-spacing:-.02em}
-  .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
-  .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
-  .dateline{margin-top:6px;font:400 13.5px/1.5 var(--sans);color:var(--grey)}
-
-
-  /* ---- audience toggle ---- */
-  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
-  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
-                 font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
-  .toggle button.on{color:var(--ink);border-bottom-color:var(--navy)}
-  .toggle button:not(.on):hover{color:var(--navy)}
-  .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
-  .toggle button.on .who{color:var(--grey)}
-  @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
-  .jump{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}
-  .jump a{font:400 13px/1.5 var(--sans);color:var(--navy);text-decoration:none}
-  .jump a:hover{color:var(--ink);text-decoration:underline}
-
-  /* ---- shared blocks ---- */
-  section{margin-top:56px}
-  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
-     border-bottom:none;padding-bottom:0;margin-bottom:6px}
-  .lede{font-size:16px;color:var(--ink);margin:10px 0 22px;max-width:42em;line-height:1.55}
-  .lede.lead-graf{font-size:17px;max-width:44em}
-  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
-  .body-p.big{font-size:17px;line-height:1.6}
-
-  .strip{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);background:#fff}
-  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule)}
-  .cell:last-child{border-right:0;padding-right:0}
-  .cl{font:400 13px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);
-      margin-bottom:4px;min-height:0}
-  .cv{font:600 16px/1.35 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
-  .cv.warn{color:var(--gold)} .cv.pos{color:var(--pos)}
-  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
-  .cd .up{color:var(--pos);font-weight:600} .cd .dn{color:var(--neg);font-weight:600}
-  @media(max-width:900px){.strip{grid-template-columns:repeat(2,1fr)}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
-  @media(max-width:520px){.strip{grid-template-columns:1fr}}
-
-  /* top KPI band */
-  .metrics{/* chrome lives on .strip; this class only tweaks cell type */}
-  .metrics .cell{text-align:left;padding:14px 20px 14px 0}
-  .metrics .cl{min-height:0;margin-bottom:4px;color:var(--grey)}
-  .metrics .cv{font-size:16px;line-height:1.35}
-  .metrics .cd{margin-top:6px;max-width:none;margin-left:0;margin-right:0}
-  .metrics .csrc{border-top:0;margin-top:8px}
-
-  .exhibit{margin-top:30px}
-  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
-  .ex-n{font:400 13px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);white-space:nowrap}
-  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
-  .plot{height:clamp(300px,34vh,460px)}
   .plot-tall{height:clamp(350px,44vh,560px)}
-  .plot-sm{height:clamp(240px,28vh,360px)}
-
-  /* ---- county map + selector ---- */
-  .mtoggle{display:flex;gap:6px;width:fit-content;margin:2px 0 16px;flex-wrap:wrap;border:none}
-  .mtoggle button{font:600 12px/1.3 var(--sans);padding:8px 13px;border:1px solid var(--rule);border-radius:3px;
-                  background:#fff;color:var(--navy);cursor:pointer}
-  .mtoggle button.on{background:var(--bar);border-color:var(--bar);color:#fff}
-  .mtoggle button:not(.on):hover{border-color:var(--navy);background:var(--hover)}
-  .maprow{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap}
-  .mapbox{flex:1 1 420px;min-width:300px;position:relative}
-  .cty{cursor:pointer}
-  .cty:hover{stroke:#222222;stroke-width:1.3}
-  #tip{position:absolute;pointer-events:none;background:var(--bar);color:#fff;font:600 11.5px/1.5 var(--sans);
-       padding:7px 10px;border-radius:3px;display:none;z-index:5;max-width:230px}
-  #tip small{display:block;font-weight:400;color:#AEBDD2}
-  .legend{margin-top:12px}
-  .legbar{height:10px;width:min(320px,100%);border:1px solid var(--rule);border-radius:2px}
-  .leglab{display:flex;justify-content:space-between;width:min(320px,100%);font:600 10px/1.4 var(--sans);color:var(--grey);margin-top:5px}
-  .legex{display:none;align-items:center;gap:7px;font:600 10px/1.4 var(--sans);color:var(--grey);margin-top:8px}
-  .legex
-  .readout{flex:0 1 320px;min-width:270px;border:1px solid #D8DDE3;border-radius:4px;padding:16px 18px}
-  .readout h3{font:500 16px/1.35 var(--serif);color:var(--ink);margin-bottom:8px}
-  .readout .rrow{display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:7px 0;border-bottom:1px solid var(--rule-lt)}
-  .readout .rrow b{font-variant-numeric:tabular-nums;text-align:right}
-  .readout .hint{font-size:11px;color:var(--faint);margin-top:10px;line-height:1.55}
-  .findrow{margin-top:22px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .sel-lab{font:600 10.5px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);display:block;width:100%;margin-bottom:2px}
-  .findrow select{font:600 13px/1.4 var(--sans);color:var(--ink);border:1px solid #D8DDE3;border-radius:3px;padding:9px 12px;background:#fff;width:100%}
-  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;
-        border-top:1px solid var(--rule-lt);max-width:none}
-  .note b{color:var(--g1);font-weight:700}
-  .note a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .note a:hover{border-bottom-color:var(--ink)}
-
-  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
-  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
-     text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
-  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
-  th.n{white-space:normal}
-  th.key,td.key{background:var(--hover)}
-  table.tc th,table.tc td{text-align:center;padding-left:10px;padding-right:10px;vertical-align:middle}
-  td.m{font-weight:600}
-  tr.hl td{background:var(--wash);font-weight:600}
-  .neg{color:var(--neg)} .pos{color:var(--pos)} .dim{color:var(--grey);font-size:12px;font-weight:400}
-
-  /* analysis rendered as report prose */
   .answer{margin-top:20px}
   .answer h3{font:500 17px/1.45 var(--serif);color:var(--ink);margin-bottom:9px}
   .answer p{font-size:15px;line-height:1.66;margin-bottom:13px;max-width:none}
   .answer p:last-child{margin-bottom:0}
   .answer b{color:var(--ink);font-weight:700}
-  /* field-research pull quote */
   .callout{margin:30px 0}
   .callout h3{font:600 10.5px/1.5 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--grey);margin-bottom:14px}
   .callout p{font-size:15px;line-height:1.66;margin-bottom:13px;max-width:none}
   .callout p:last-child{margin-bottom:0}
   .callout .quote{font:400 italic 23px/1.45 var(--serif);color:var(--navy);margin:10px 0 18px;letter-spacing:-.005em}
   .answer .srcline,.callout .srcline{margin-top:13px}
-
-  details{margin-top:18px;border-top:1px solid var(--rule-lt)}
-  summary{cursor:pointer;font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
-          list-style:none;padding:11px 0}
-  summary::-webkit-details-marker{display:none}
-  summary:after{content:"\25B6";font-size:9px;color:var(--navy);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
-  details[open]>summary:after{transform:translateY(-1px) rotate(90deg)}
-  summary:hover{color:var(--ink)}
   .work{font:12px/1.7 var(--mono);white-space:pre;overflow-x:auto;color:var(--g1);background:var(--hover);
         border:none;border-left:2px solid var(--navy);padding:15px 17px;margin-bottom:14px}
-
-  sup.f{font:700 9px/1 var(--sans);color:var(--navy);vertical-align:super;margin-left:2px}
-  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
-  .csrc a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .csrc a:hover{border-bottom-color:var(--ink)}
-  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
-  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .srcline a:hover{border-bottom-color:var(--ink)}
-
-  ol.lim{list-style:none;counter-reset:l;max-width:none;margin-top:16px}
-  ol.lim li{counter-increment:l;position:relative;padding-left:24px;margin-bottom:12px;font-size:14.5px;line-height:1.62}
-  ol.lim li:before{content:counter(l) ".";position:absolute;left:0;top:0;font:700 14.5px/1.62 var(--sans);color:var(--navy)}
-  ol.lim b{font-weight:700;color:var(--ink)}
-
-  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:none;
-         padding:36px var(--bleed) 28px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
-  footer b{color:#fff}
-  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
-  footer a:hover{color:#fff;border-bottom-color:#fff}
-  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
-  .disclaimer b{color:#C9D2E0}
-  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
-  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
-  .fbrand a{color:#fff;border-bottom:1px solid rgba(255,255,255,.25)}
-
-  /* collapsible secondary detail */
-  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:10px}
-  .simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
-                    font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
-  .simplify summary::-webkit-details-marker{display:none}
-  .simplify summary:hover{background:var(--hover);color:var(--navy)}
-  .simplify summary:after{content:none}
-  .simplify summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
-  .simplify[open] summary .car{transform:rotate(90deg)}
-  .simplify[open] summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
-  .simplify .dt-body{padding:14px 18px 16px}
-  .simplify .dt-body > :first-child{margin-top:0}
-
-  /* embed mode: host page supplies the frame */
-  body.embed{background:#fff;padding:0}
-  body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
-  body.embed .sitebar,body.embed footer .fbrand{display:none}
-  body.embed header,body.embed footer{margin-left:0;margin-right:0}
-  body.embed header{padding:22px var(--bleed) 20px}
-  body.embed .org{margin-bottom:10px}
-  body.embed h1{font-size:clamp(25px,3.1vw,36px)}
-  body.embed .standfirst{margin-top:9px;font-size:14.5px}
-  body.embed .dateline{margin-top:14px}
-
-
   h3.sub{font:500 17px/1.4 var(--serif);color:var(--ink);margin:26px 0 4px;padding-top:18px;border-top:1px solid var(--rule-lt)}
-
-  /* inline calculation disclosure */
-  details.math{margin-top:12px;border-top:1px solid var(--rule-lt)}
-  details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
-    font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
-  details.math > summary::-webkit-details-marker{display:none}
-  .mathbox{background:var(--hover);border:none;border-left:2px solid var(--navy);
-    padding:13px 15px;margin-bottom:10px}
-  .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
-  .mathbox .lbl{font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
-  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--navy)}
-  .mathsrc{font-size:11px;color:var(--faint);line-height:1.55;margin-top:2px}
-
-
-  /* ---- release apparatus: published strip, collapsible sources, changelog ---- */
-  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
   .feedback{border:1px solid var(--rule);border-left:2px solid var(--navy);border-radius:0;padding:16px 20px;margin:22px 0}
   .feedback h3{font:500 16px/1.35 var(--serif);color:var(--ink);margin-bottom:6px}
   .feedback p{font-size:13.5px;color:var(--g1);line-height:1.6;margin-bottom:10px;max-width:none}
   .feedback .fb-btn{display:inline-block;font:700 13px/1 var(--sans);color:#fff;background:var(--bar);border-radius:3px;padding:10px 16px;margin:2px 0;border-bottom:none}
   .feedback .fb-btn:hover{background:var(--navy);color:#fff}
   .feedback .fb-norm{font-size:11.5px;color:var(--faint);line-height:1.6;margin:10px 0 0}
-  details.srcfold{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
-  details.srcfold>summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
-                          font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
-  details.srcfold>summary::-webkit-details-marker{display:none}
-  details.srcfold>summary:after{content:none}
-  details.srcfold>summary:hover{background:var(--hover);color:var(--navy)}
-  details.srcfold>summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
-  details.srcfold[open]>summary .car{transform:rotate(90deg)}
-  details.srcfold[open]>summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
-  details.srcfold .fold-body{padding:14px 18px 16px}
-  details.srcfold .fold-body>:first-child{margin-top:0}
-  table.reg{font-size:11.5px;line-height:1.55}
-  table.reg th{width:20%}
-  table.reg th:first-child{width:26%}
-  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
-  table.reg td.src{color:var(--ink);font-weight:600}
-  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  table.reg td.src a:hover{border-bottom-color:var(--ink)}
-  table.reg tr.grp td{background:var(--hover);font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--rule)}
-  td.ver{font:500 12px/1.6 var(--mono);color:var(--ink);white-space:nowrap}
-  td.cdate{white-space:nowrap;color:var(--faint)}
-  .kind{display:inline-block;font:600 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);border:1px solid var(--rule);border-radius:3px;padding:3px 8px;white-space:nowrap}
-  .kind.fix{color:var(--navy);border-color:var(--navy)}
-  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
-
-  .scroll{overflow-x:auto;max-width:100%}
-  .strip.cols3{grid-template-columns:repeat(3,1fr)}
-  @media(max-width:900px){.strip.cols3{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:520px){.strip.cols3{grid-template-columns:1fr}}
-
-  [hidden]{display:none !important}
-
-  /* ---- report card (reform grades view) ---- */
-  @media(max-width:900px){}
-  @media(max-width:560px){}
-
-  .rc td{vertical-align:top}
-  .rc td.obj{width:34%;border-left:3px solid var(--rule);padding-left:14px}
-  .rc .law{display:block;font:400 12px/1.5 var(--sans);color:var(--grey);margin-top:5px}
-  .rc td.gcell{width:9%;text-align:center}
-  .grade{display:inline-block;font:600 19px/1.1 var(--serif);color:var(--ink);padding:2px 0}
-  .pmseg{display:flex;gap:0;margin:10px 0 4px;border:1px solid var(--rule);border-radius:4px;width:max-content;overflow:hidden}
-  .pmseg button{font:600 11.5px/1 var(--sans);letter-spacing:.03em;padding:8px 14px;border:0;background:#fff;color:#4A5560;cursor:pointer;border-right:1px solid var(--rule)}
-  .pmseg button:last-child{border-right:0}
-  .pmseg button.on{background:var(--navy);color:#fff}
-  .pmread{font:400 13px/1.55 var(--sans);color:#4A5560;margin:2px 0 10px}
-  .gA,.gB,.gC,.gI{color:var(--ink);background:none;border:0}
   .rc .ev{font:400 13.5px/1.6 var(--sans);color:var(--ink)}
-  .rc .csrc{margin-top:6px}
-
-  
-
-  .exhibit.hl{outline:2px solid var(--goldlt);outline-offset:10px;transition:outline-color 1s}
+  body.embed{background:#fff;padding:0}
+  body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
+  body.embed header,body.embed footer{margin-left:0;margin-right:0}
+  body.embed header{padding:22px var(--bleed) 20px}
+  body.embed h1{font-size:clamp(25px,3.1vw,36px)}
+  body.embed .standfirst{margin-top:9px;font-size:14.5px}
+  body.embed .dateline{margin-top:14px}
 </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -312,7 +69,8 @@
   <div class="sbleft">
     <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
     <a class="backlink" href="/">DataLabs catalog</a>
-    <a class="backlink" href="/#about">About</a>
+    <a class="nav" href="/#about">About</a>
+    <a class="nav" href="/status/">Status</a>
   </div>
 </div>
 
@@ -323,17 +81,8 @@
   <div class="dateline">Data through June 2026 · Verified 11 August 2026</div>
 </header>
 
-<section class="ask-starters" id="ask-starters" data-tool="DL-03">
-  <div class="ask-k">Ask this page</div>
-  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="Is the T back to pre-pandemic ridership?"><span class="ask-who">General public</span><span class="ask-q">Is the T back to pre-pandemic ridership?</span></button><button type="button" class="ask-chip" data-q="Which MBTA mode is still furthest from June 2019 ridership?"><span class="ask-who">Journalist</span><span class="ask-q">Which MBTA mode is still furthest from June 2019 ridership?</span></button><button type="button" class="ask-chip" data-q="Are MBTA ridership figures unlinked passenger trips, and why is subway reliability not on this page?"><span class="ask-who">Researcher</span><span class="ask-q">Are MBTA ridership figures unlinked passenger trips, and why is subway reliability not on this page?</span></button><button type="button" class="ask-chip" data-q="What is MBTA farebox recovery by mode?"><span class="ask-who">Policymaker</span><span class="ask-q">What is MBTA farebox recovery by mode?</span></button></div>
-  <div class="askbar">
-    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
-    <button id="toolAskBtn" type="button">Ask</button>
-  </div>
-  <div class="ask-resp" id="toolAskResp" hidden></div>
-</section>
-
 <nav class="jump" aria-label="On this page">
+  <a href="#answer">The finding</a>
   <a href="#view-ridership">Ridership</a>
   <a href="#view-service">Service</a>
   <a href="#view-reliability">Reliability</a>
@@ -342,8 +91,17 @@
 
 <div id="view-ridership">
 
-  <section style="margin-top:28px">
-    <p class="lede lead-graf">The T carried <b>26,288,869</b> unlinked passenger trips in June 2026, <b>88.1 percent</b> of the same month in 2019 (derived, SRC-301). Ferry stood at <b>118.9 percent</b> of June 2019 ridership and commuter rail at <b>107.7 percent</b>; the subway sat at <b>79.1 percent</b> (derived, SRC-301). June 2026 ridership was <b>18.0 percent</b> above June 2025 (derived, SRC-301).</p>
+  <section id="answer" class="answer-block">
+<!-- DATA:BEGIN mbta-answer (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <h2>Is the T back to pre-pandemic ridership?</h2>
+    <div class="answer-num">88.1%</div>
+    <p class="answer-ctx">of June 2019 ridership, on 26,288,869 unlinked passenger trips (derived, SRC-301).</p>
+<!-- DATA:END mbta-answer -->
+    <p class="lede lead-graf" hidden>
+<!-- DATA:BEGIN mbta-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+The T carried <b>26,288,869</b> unlinked passenger trips in June 2026, <b>88.1 percent</b> of the same month in 2019 (derived, SRC-301).
+<!-- DATA:END mbta-lead -->
+    </p>
     <div class="strip metrics cols3">
       <div class="cell">
         <div class="cl">Trips in June 2026</div>
@@ -380,6 +138,18 @@ year over year: 26,288,869 / 22,281,887 x 100 - 100 = +18.0%</code><div class="o
       <div class="srcline"><b>Source:</b> <a href="https://data.transportation.gov/Public-Transit/Complete-Monthly-Ridership-with-adjustments-and-es/8bui-9xvu" target="_blank">FTA National Transit Database, Complete Monthly Ridership</a> (SRC-301), through June 2026. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
+
+<section class="ask-starters" id="ask-starters" data-tool="DL-03">
+  <div class="ask-k">Ask this page</div>
+  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="Is the T back to pre-pandemic ridership?"><span class="ask-who">General public</span><span class="ask-q">Is the T back to pre-pandemic ridership?</span></button><button type="button" class="ask-chip" data-q="Which MBTA mode is still furthest from June 2019 ridership?"><span class="ask-who">Journalist</span><span class="ask-q">Which MBTA mode is still furthest from June 2019 ridership?</span></button><button type="button" class="ask-chip" data-q="Are MBTA ridership figures unlinked passenger trips, and why is subway reliability not on this page?"><span class="ask-who">Researcher</span><span class="ask-q">Are MBTA ridership figures unlinked passenger trips, and why is subway reliability not on this page?</span></button><button type="button" class="ask-chip" data-q="What is MBTA farebox recovery by mode?"><span class="ask-who">Policymaker</span><span class="ask-q">What is MBTA farebox recovery by mode?</span></button></div>
+  <div class="askbar">
+    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
+    <button id="toolAskBtn" type="button">Ask</button>
+  </div>
+  <div class="ask-resp" id="toolAskResp" hidden></div>
+</section>
+
+
 
   <section id="view-recovery_by_mode">
     <h2>Which riders came back first?</h2>

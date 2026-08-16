@@ -59,7 +59,8 @@ EXPLORE_BAR = """    <div class="explore-bar" hidden>
 def kpi_html(kpis):
     blocks = []
     srcs = []
-    for k in kpis:
+    cells = [k for k in (kpis or []) if k and k.get("value") not in (None, "", "see register")][:4]
+    for k in cells:
         src = (k.get("src") or "").strip()
         if src and src not in srcs:
             srcs.append(src)
@@ -70,13 +71,75 @@ def kpi_html(kpis):
             "        <div class=\"cd\">" + k["detail"] + "</div>\n"
             "      </div>"
         )
+    html = "\n".join(blocks)
     if srcs:
-        blocks.append(
-            "      <div class=\"cell kpi-src\">\n"
-            "        <div class=\"csrc\">Source: " + esc("; ".join(srcs)) + "</div>\n"
+        html += (
+            "\n      <div class=\"cell kpi-src\">\n"
+            "        <div class=\"csrc\">Source: "
+            + esc("; ".join(srcs))
+            + "</div>\n"
             "      </div>"
         )
-    return "\n".join(blocks)
+    return html
+
+
+def answer_html(answer, kpis_markup="", slug=""):
+    if not answer or not answer.get("value"):
+        return ""
+    ctx = answer.get("context") or ""
+    kpi_block = ""
+    if kpis_markup:
+        begin = f"<!-- DATA:BEGIN {slug}-kpis -->" if slug else ""
+        end = f"<!-- DATA:END {slug}-kpis -->" if slug else ""
+        kpi_block = (
+            '    <div class="strip metrics">\n'
+            + (begin + "\n" if begin else "")
+            + kpis_markup
+            + ("\n" + end + "\n" if end else "\n")
+            + "    </div>\n"
+        )
+    return (
+        '  <section id="answer" class="answer-block">\n'
+        "    <h2>" + esc(answer.get("q") or "The finding") + "</h2>\n"
+        '    <div class="answer-num">' + esc(answer["value"]) + "</div>\n"
+        + ('    <p class="answer-ctx">' + esc(ctx) + "</p>\n" if ctx else "")
+        + kpi_block
+        + "  </section>\n"
+    )
+
+
+TILE_TOOLS = {"DL-07", "DL-14", "DL-19", "DL-31"}
+TOWN_TOOLS = {"DL-25", "DL-26"}
+FINDER_TOOLS = {"DL-10", "DL-25", "DL-26"}
+HIST_TOOLS = {"DL-32"}
+
+
+def ranked_state_rows(rows, val_key="v"):
+    items = []
+    for r in rows or []:
+        if not r.get("st") or r.get(val_key) is None:
+            continue
+        items.append({
+            "st": r["st"],
+            "name": r.get("name") or r["st"],
+            "v": r[val_key],
+            "rank": r.get("rank"),
+        })
+    items.sort(key=lambda x: -float(x["v"]))
+    n = len(items)
+    for i, rec in enumerate(items, 1):
+        rec["rank"] = i
+        rec["n"] = n
+    return items
+
+
+def naep_score_rows(ledger):
+    hist = (
+        ((ledger.get("derived") or {}).get("secondary") or {})
+        .get("naep_2024") or {}
+    ).get("history") or {}
+    rec = ((hist.get("read4") or {}).get("change_2019_2024") or {})
+    return ranked_state_rows(rec.get("rows") or [], val_key="to")
 
 
 def replaces_list(app, ledger):
@@ -141,6 +204,8 @@ def insight_html(insights, start=1):
         span = " span2" if fig.get("span") == 2 or len(insights) == 1 else ""
         if fig.get("type") == "map" or fig.get("height") == "map":
             hclass = "plot plot-map"
+        elif fig.get("type") in ("hist", "slope", "dots"):
+            hclass = "plot"
         elif fig.get("height") == "mid":
             hclass = "plot-mid"
         elif fig.get("height") == "ranks":
@@ -273,11 +338,12 @@ HEADLINE = {
         "from": "secondary.public_k12_enrollment",
     },
     "DL-07": {
-        "title": "Public-school enrollment over time",
+        "title": "NAEP grade 4 reading over time",
         "lede": (
-            "The United States line shows whether national enrollment has "
-            "risen or fallen. Select a state to add it."
+            "National public and Massachusetts scale scores. "
+            "The map on this page is the 2024 ranking, not enrollment."
         ),
+        "from": "skip",
     },
     "DL-08": {
         "title": "College enrollment over time",
@@ -412,7 +478,7 @@ def chart_spec(app, ledger):
         title = label + " by " + geo
     else:
         title = label
-    if n_rows and n_chart < n_rows and geo != "state":
+    if n_rows and n_chart < n_rows and geo != "state" and tid not in TOWN_TOOLS | HIST_TOOLS | FINDER_TOOLS:
         title += f" (largest {n_chart} of {n_rows})"
     latest = ledger.get("latest") or {}
     us_raw = latest.get("us")
@@ -435,10 +501,9 @@ def chart_spec(app, ledger):
     lede = ""
     if geo == "state":
         lede = (
-            "Every state and the District of Columbia. Color is a fifth of "
-            "the ranking: the darkest navy is the highest fifth. Hover a "
-            "state for its figure and rank. Click a state to open the table "
-            "tab. Massachusetts has a gold outline; Florida a rust outline."
+            "Every state and the District of Columbia. Darker navy is higher. "
+            "Hover a state to update the readout. Click a state to open the table. "
+            "Massachusetts has a gold outline."
         )
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
@@ -447,6 +512,8 @@ def chart_spec(app, ledger):
         pts = enr.get("trend") or []
         if pts:
             trend_source = {"MA": pts}
+    if headline.get("from") == "skip":
+        trend_source = {}
     trend_keys = [k for k, v in trend_source.items() if v]
     has_trend = any(len(v) >= 2 for v in trend_source.values() if v)
     trend_mode = trend_compare_mode(ledger)
@@ -579,7 +646,7 @@ def chart_spec(app, ledger):
         "geo": geo,
         "format": fmt,
         "highlight": highlight,
-        "highlights": (["MA", "FL"] if geo == "state" else ([highlight] if highlight else [])),
+        "highlights": (["MA"] if geo == "state" else ([highlight] if highlight else [])),
         "n_chart": n_chart,
         "unit": unit,
         "axis_unit": axis_unit,
@@ -600,6 +667,15 @@ def chart_spec(app, ledger):
         "trend_unit": trend_unit,
         "us": us_val,
         "us_compare": us_compare,
+        "map_mode": ("tile" if tid in TILE_TOOLS else "geo"),
+        "compare": (
+            "map" if geo == "state"
+            else "town" if tid in TOWN_TOOLS
+            else "hist" if tid in HIST_TOOLS
+            else "finder" if tid in FINDER_TOOLS
+            else "dots"
+        ),
+        "hero_finder": tid in FINDER_TOOLS,
     }
 
 
@@ -612,8 +688,7 @@ def extra_tool_sections(app, ledger, n_fig, has_trend):
     legis = sec.get("legislative") or {}
     if not charity and not legis:
         return ""
-    fig_c = n_fig + (2 if has_trend else 1) + 1
-    fig_t = fig_c + 1
+    fig_t = n_fig + (2 if has_trend else 1) + 1
     us = charity.get("us") or {}
     split = charity.get("hospital_split_2023") or {}
     b340 = split.get("340b") or {}
@@ -647,12 +722,6 @@ def extra_tool_sections(app, ledger, n_fig, has_trend):
 <section id="view-charity">
     <h2>Hospital charity care</h2>
     <div class="lede">{esc(charity_lede)}</div>
-    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure {fig_c}</span>
-        <span class="ex-t" id="charityTitle">Hospital charity-care share of total costs, 2023</span></div>
-      <div class="plot plot-ranks"><canvas id="chCharity"></canvas></div>
-      <div class="srcline"><b>Source:</b> CMS Hospital Provider Cost Report PUF (SRC-611-02). Method citation: RAND TL-303 (SRC-611-04). <b>Unit:</b> percent of total costs.</div>
-    </div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {fig_t}</span>
         <span class="ex-t">Charity-care share since 2011</span></div>
@@ -710,25 +779,6 @@ def extra_tool_js(app, ledger):
       return sign+'$'+Math.round(a).toLocaleString();
     }
     var crows=charity.rows||[];
-    var cel=document.getElementById('chCharity');
-    if(cel&&window.Chart&&crows.length){
-      var plot=cel.parentNode;
-      if(plot) plot.style.height=Math.max(280, Math.min(1200, crows.length*20+48))+'px';
-      var cvals=crows.map(function(r){return r.v;});
-      new Chart(cel,{type:'bar',
-        data:{labels:crows.map(function(r){return r.st;}),
-          datasets:[{data:cvals,
-            backgroundColor:crows.map(function(r){
-              if(r.st==='MA') return GOLD;
-              if(r.st==='FL') return RUST;
-              return BLUE;
-            })}]},
-        options:{indexAxis:'y',plugins:{legend:{display:false},
-          tooltip:{callbacks:{label:function(c){return ' '+Number(c.parsed.x).toFixed(2)+'%';}}}},
-          scales:{x:fitScale({ticks:{callback:function(v){return v+'%';}},title:{display:true,text:'percent of total costs'}}, cvals),y:{}}},
-        plugins:[dataLabels(function(v){return Number(v).toFixed(1)+'%';},'all')]
-      });
-    }
     var ctr=charity.trend||{};
     var tel=document.getElementById('chCharityTrend');
     if(tel&&window.Chart&&(ctr.US||ctr.MA||ctr.FL)){
@@ -840,39 +890,57 @@ def page_html(app, ledger, apps=None):
     map_views = []
     if live and spec.get("geo") == "state":
         src_ids = list((ledger.get("source_id_map") or {}))
-        map_views.append({
-            "id": "latest",
-            "tab": spec.get("label") or "Latest",
-            "title": spec.get("title") or spec.get("label") or "",
-            "lede": spec.get("lede") or "",
-            "src": src_ids[0] if src_ids else "",
-            "unit": spec.get("unit") or unit or "",
-            "format": spec.get("format") or "number",
-            "primary": True,
-        })
-        for fig in map_insights:
+        mode = spec.get("map_mode") or "geo"
+        if app["id"] == "DL-07":
             map_views.append({
-                "id": fig.get("id") or "",
-                "tab": fig.get("title") or fig.get("id") or "View",
-                "title": fig.get("title") or "",
-                "lede": fig.get("lede") or "",
-                "src": fig.get("src") or "",
-                "unit": fig.get("unit") or "",
-                "format": fig.get("format") or "number",
-                "note": figure_limit(fig),
-                "rows": fig.get("rows") or [],
-                "primary": False,
+                "id": "naep",
+                "tab": "Grade 4 reading",
+                "title": "NAEP grade 4 reading, 2024",
+                "lede": spec.get("lede") or "",
+                "src": "SRC-607-05",
+                "unit": "scale score",
+                "format": "number",
+                "primary": True,
+                "rows": naep_score_rows(ledger),
+                "mode": "tile",
+            })
+        else:
+            map_views.append({
+                "id": "latest",
+                "tab": spec.get("label") or "Latest",
+                "title": spec.get("title") or spec.get("label") or "",
+                "lede": spec.get("lede") or "",
+                "src": src_ids[0] if src_ids else "",
+                "unit": spec.get("unit") or unit or "",
+                "format": spec.get("format") or "number",
+                "primary": True,
+                "mode": mode,
             })
     has_trend = bool(spec.get("has_trend"))
+    if has_trend:
+        insights = insights[:1]
+    else:
+        insights = insights[:2]
     find_noun = (spec.get("geo") or "name").replace("_", " ")
     jump = ""
     compare_h2 = spec.get("compare_title") or spec.get("title") or "Compared"
     table_h2 = spec.get("table_noun") or "Every row"
+    chips = starters_html(app["id"]) if live else ""
     if live:
-        jump_links = []
+        jump_links = ['<a href="#answer">The finding</a>']
+        if spec.get("hero_finder"):
+            noun = "hospital" if app["id"] == "DL-10" else "city or town"
+            jump_links.append('<a href="#view-proof">Look up a ' + esc(noun) + "</a>")
+        has_compare = (
+            spec.get("geo") == "state"
+            or app["id"] in TOWN_TOOLS
+            or app["id"] in HIST_TOOLS
+            or (spec.get("compare") or "") in ("dots", "map", "town", "hist")
+        )
+        if has_compare:
+            jump_links.append('<a href="#view-rank">' + esc(compare_h2) + "</a>")
         if has_trend:
             jump_links.append('<a href="#view-trend">The trend</a>')
-        jump_links.append('<a href="#view-rank">' + esc(compare_h2) + "</a>")
         if spec.get("geo") == "state":
             jump_links.append('<a href="#view-table">Table</a>')
         else:
@@ -890,8 +958,6 @@ def page_html(app, ledger, apps=None):
         )
     latest_section = ""
     n_fig = len(insights) if live else 0
-    rank_n = (1 if has_trend else 0) + n_fig + 1
-    insight_start = 2 if has_trend else 1
     trend_block = ""
     if live and has_trend:
         trend_block = f"""
@@ -902,7 +968,7 @@ def page_html(app, ledger, apps=None):
       <select id="trendSel"></select>
     </div>
     <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 1</span>
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t" id="trendTitle">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
       <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
@@ -964,8 +1030,33 @@ def page_html(app, ledger, apps=None):
             'aria-label="Map view">' + "".join(buttons) + "</div>\n"
         )
     map_lede = spec.get("lede") or ""
+    compare = spec.get("compare") or ("map" if spec.get("geo") == "state" else "dots")
+    finder_block = ""
+    if live and spec.get("hero_finder"):
+        noun = "hospital" if app["id"] == "DL-10" else "city or town"
+        finder_block = (
+            '  <section id="view-proof" class="proof-find">\n'
+            f"    <h2>Look up a {esc(noun)}</h2>\n"
+            '    <div class="findrow">\n'
+            f'      <label class="sel-lab" for="proofFind">Type a {esc(noun)}</label>\n'
+            '      <input id="proofFind" type="search" placeholder="Type a name" autocomplete="off">\n'
+            "    </div>\n"
+            '    <div id="proofCard" class="findcard"></div>\n'
+            "  </section>\n"
+        )
     if live:
         if spec.get("geo") == "state":
+            mode = (map_views[0].get("mode") if map_views else spec.get("map_mode")) or "geo"
+            fig1_title = (
+                (map_views[0].get("title") if map_views else None)
+                or spec.get("title")
+                or metric_label
+            )
+            fig1_unit = (
+                (map_views[0].get("unit") if map_views else None)
+                or unit
+                or "see the register"
+            )
             rank_inner = (
                 f"{map_tabs}"
                 + (
@@ -977,12 +1068,12 @@ def page_html(app, ledger, apps=None):
                 + EXPLORE_BAR
                 + '    <div id="mapPane">\n'
                 + '    <div class="exhibit">\n'
-                + f'      <div class="ex-head"><span class="ex-n">Figure {rank_n}</span>\n'
-                + f'        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>\n'
-                + '      <div class="plot plot-map" id="chRank"></div>\n'
+                + '      <div class="ex-head"><span class="ex-n">Figure 1</span>\n'
+                + f'        <span class="ex-t" id="rankTitle">{esc(fig1_title)}</span></div>\n'
+                + f'      <div class="plot plot-map" id="chRank" data-mode="{esc(mode)}"></div>\n'
                 + '      <div class="note" id="mapNote" hidden></div>\n'
                 + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
-                + esc(unit or "see the register")
+                + esc(fig1_unit)
                 + ".</div>\n"
                 + "    </div>\n"
                 + "    </div>\n"
@@ -990,7 +1081,7 @@ def page_html(app, ledger, apps=None):
                 + table_body
                 + "    </div>\n"
             )
-        else:
+        elif compare == "town":
             rank_inner = (
                 (
                     f'    <div class="lede" id="mapLede">{esc(map_lede)}</div>\n'
@@ -998,17 +1089,38 @@ def page_html(app, ledger, apps=None):
                     else '    <div class="lede" id="mapLede" hidden></div>\n'
                 )
                 + '    <div class="exhibit">\n'
-                + f'      <div class="ex-head"><span class="ex-n">Figure {rank_n}</span>\n'
+                + '      <div class="ex-head"><span class="ex-n">Figure 1</span>\n'
                 + f'        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>\n'
-                + '      <div class="plot plot-mid"><canvas id="chRank"></canvas></div>\n'
+                + '      <div class="plot plot-map" id="chRank" data-mode="town"></div>\n'
                 + '      <div class="note" id="mapNote" hidden></div>\n'
                 + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
                 + esc(unit or "see the register")
                 + ".</div>\n"
                 + "    </div>\n"
             )
-        latest_section = f"""
-<section id="finding" style="margin-top:28px">
+        elif compare in ("hist", "dots"):
+            rank_inner = (
+                (
+                    f'    <div class="lede" id="mapLede">{esc(map_lede)}</div>\n'
+                    if map_lede
+                    else '    <div class="lede" id="mapLede" hidden></div>\n'
+                )
+                + '    <div class="exhibit">\n'
+                + '      <div class="ex-head"><span class="ex-n">Figure 1</span>\n'
+                + f'        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>\n'
+                + '      <div class="plot"><canvas id="chRank"></canvas></div>\n'
+                + '      <div class="note" id="mapNote" hidden></div>\n'
+                + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
+                + esc(unit or "see the register")
+                + ".</div>\n"
+                + "    </div>\n"
+            )
+        else:
+            rank_inner = ""
+        answer_block = answer_html((voice or {}).get("answer"), kpis, slug)
+        if not answer_block:
+            answer_block = f"""
+<section id="answer" class="answer-block">
     <p class="lede lead-graf">
 <!-- DATA:BEGIN {slug}-lead -->
 {lead}
@@ -1020,11 +1132,25 @@ def page_html(app, ledger, apps=None):
 <!-- DATA:END {slug}-kpis -->
     </div>
   </section>
-{trend_block}{insight_html(insights, start=insight_start)}
+"""
+        rank_section = (
+            f"""
   <section id="view-rank">
     <h2>{esc(compare_h2)}</h2>
 {rank_inner}  </section>
 """
+            if rank_inner
+            else ""
+        )
+        insight_start = 3 if has_trend else 2
+        latest_section = (
+            answer_block
+            + finder_block
+            + rank_section
+            + chips
+            + trend_block
+            + insight_html(insights, start=insight_start)
+        )
     else:
         dash_block = dashboards_html(app)
         jump = (
@@ -1098,7 +1224,7 @@ const FIND=FIND_JSON;
   var axisUnit=CHART.axis_unit||unit;
   function hlList(){
     if(CHART.highlights && CHART.highlights.length) return CHART.highlights;
-    if(CHART.geo==='state') return ['MA','FL'];
+    if(CHART.geo==='state') return ['MA'];
     if(CHART.highlight) return [CHART.highlight];
     return [];
   }
@@ -1111,7 +1237,6 @@ const FIND=FIND_JSON;
   }
   function hlColor(r){
     if(isMA(r) || r.name==='Boston') return GOLD;
-    if(isFL(r) && CHART.geo==='state') return RUST;
     return isHL(r)?GOLD:BLUE;
   }
   function hlClass(r){
@@ -1268,6 +1393,7 @@ const FIND=FIND_JSON;
   function chartRowsFor(){
     var fr=filteredRows();
     if(CHART.geo!=='state'){
+      if(CHART.compare==='hist' || CHART.compare==='dots' || CHART.compare==='town') return fr;
       var n=CHART.n_chart||12;
       var cr=fr.slice(0,n);
       hlList().forEach(function(h){
@@ -1283,11 +1409,14 @@ const FIND=FIND_JSON;
   function sizeRankPlot(n){
     var plot=document.querySelector('#view-rank .plot');
     if(!plot || plot.classList.contains('plot-map')) return;
-    plot.style.height=Math.max(280, Math.min(1200, n*20+48))+'px';
+    plot.style.height=Math.max(240, Math.min(420, n*18+40))+'px';
   }
   function rankTitleText(){
     var view=currentMapView();
-    if(view && !view.primary && view.title) return view.title;
+    if(view && view.title){
+      if(CHART.geo==='state' && region!=='all') return view.title+' in '+REGION_NAMES[region];
+      return view.title;
+    }
     var base=CHART.title||CHART.label||'';
     if(CHART.geo!=='state' || region==='all') return base;
     return (CHART.label||base)+' in '+REGION_NAMES[region];
@@ -1324,6 +1453,8 @@ const FIND=FIND_JSON;
     writeMapChrome();
     var viewFmt=view.format||fmt;
     window.dlStateMap(el,{
+      mode: view.mode || CHART.map_mode || el.getAttribute('data-mode') || 'geo',
+      highlightFlorida: false,
       rows:base,
       format:function(v){
         return view.primary?fmtVal(v,true):fmtInsight(viewFmt,v,true);
@@ -1343,8 +1474,79 @@ const FIND=FIND_JSON;
       }
     });
   }
+  function drawHist(){
+    var el=document.getElementById('chRank');
+    if(!el||!window.Chart) return;
+    var vals=rows.map(function(r){return Number(r.v);}).filter(isFinite);
+    if(!vals.length) return;
+    var lo=Math.min.apply(null,vals), hi=Math.max.apply(null,vals);
+    var nbin=10;
+    var width=hi===lo?1:(hi-lo)/nbin;
+    var counts=Array(nbin).fill(0);
+    vals.forEach(function(v){
+      var i=Math.min(Math.floor((v-lo)/width), nbin-1);
+      counts[i]++;
+    });
+    var labels=[];
+    for(var i=0;i<nbin;i++){
+      var a=lo+i*width, b=(i===nbin-1)?hi:lo+(i+1)*width;
+      labels.push(fmtVal(a,true)+' to '+fmtVal(b,true));
+    }
+    var titleEl=document.getElementById('rankTitle');
+    if(titleEl) titleEl.textContent=CHART.trend_title||CHART.title||'Distribution';
+    new Chart(el,{type:'bar',
+      data:{labels:labels,datasets:[{data:counts,backgroundColor:BLUE}]},
+      options:{indexAxis:'x',responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{x:{ticks:{color:GREY,maxRotation:60,minRotation:0,font:{size:10}}},
+          y:fitScale({ticks:{color:GREY},grid:{color:'rgba(34,34,34,.08)'}}, counts)}}});
+  }
+  function drawDots(){
+    var el=document.getElementById('chRank');
+    if(!el||!window.Chart) return;
+    chartRows=chartRowsFor();
+    var pts=chartRows.map(function(r,i){
+      return {x:Number(r.v), y:-(r.rank||i+1), name:r.name, st:r.st, rank:r.rank};
+    });
+    var xs=pts.map(function(p){return p.x;});
+    new Chart(el,{type:'scatter',
+      data:{datasets:[{data:pts,backgroundColor:chartRows.map(hlColor),pointRadius:5}]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{
+            title:function(items){var p=items[0]&&items[0].raw; return (p&&p.name)||'';},
+            label:function(c){var p=c.raw||{}; return ' '+fmtVal(p.x)+' \u00b7 rank '+(p.rank||'');}
+          }}},
+        scales:{
+          x:fitScale({title:{display:!!axisUnit,text:axisUnit,color:GREY,font:{size:11}},
+            ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'rgba(34,34,34,.08)'}}, xs),
+          y:{reverse:false,ticks:{color:GREY,callback:function(v){return String(Math.abs(v));}},
+            title:{display:true,text:'Rank',color:GREY,font:{size:11}},grid:{color:'rgba(34,34,34,.08)'}}
+        }}});
+  }
   function drawRank(){
     if(CHART.geo==='state'){ drawRankMap(); return; }
+    if(CHART.compare==='town' && window.dlTownMap){
+      var el=document.getElementById('chRank');
+      if(!el) return;
+      window.dlTownMap(el,{
+        rows:rows.map(function(r){ return {name:r.name, st:r.st||r.name, v:r.v, rank:r.rank}; }),
+        format:function(v){ return fmtVal(v,true); },
+        selected: selectedSt || (FIND && FIND.default_q) || '',
+        onSelect:function(r){
+          selectedSt=r.name||r.st||'';
+          var find=document.getElementById('tblFind');
+          if(find) find.value=r.name||'';
+          var pf=document.getElementById('proofFind');
+          if(pf) pf.value=r.name||'';
+          applyFind();
+        }
+      });
+      return;
+    }
+    if(CHART.compare==='hist'){ drawHist(); return; }
+    if(CHART.compare==='dots'){ drawDots(); return; }
+    if(CHART.compare==='finder') return;
     var el=document.getElementById('chRank');
     if(!el||!window.Chart) return;
     chartRows=chartRowsFor();
@@ -1518,7 +1720,6 @@ const FIND=FIND_JSON;
   }
   function trendColor(k){
     if(k==='MA') return GOLD;
-    if(k==='FL') return RUST;
     if(k==='Boston') return BLUE;
     if(k==='US') return INK;
     return BLUE;
@@ -1726,6 +1927,24 @@ const FIND=FIND_JSON;
       scales:scales
     };
     var lbl=dataLabels(function(v){return fmtInsight(ifmt,v,true);}, fig.type==='line'&&nLab>8?'end':'all');
+    if(fig.type==='slope'){
+      new Chart(el,{type:'line',
+        data:{labels:fig.labels,datasets:fig.series.map(function(s){
+          return {label:s.label||fig.title,data:s.data,borderColor:s.color||INK,
+            backgroundColor:'transparent',spanGaps:true,tension:0,pointRadius:5,pointHoverRadius:6,borderWidth:2};
+        })},
+        options:Object.assign({},opts,{indexAxis:'x',layout:{padding:{top:16,right:96}}}),
+        plugins:[lbl]});
+      return;
+    }
+    if(fig.type==='hist'){
+      var s0=fig.series[0]||{};
+      new Chart(el,{type:'bar',
+        data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||BLUE}]},
+        options:Object.assign({},opts,{indexAxis:'x',layout:{padding:{top:8,right:16}}}),
+        plugins:[lbl]});
+      return;
+    }
     if(fig.type==='line'){
       new Chart(el,{type:'line',
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
@@ -1852,6 +2071,21 @@ const FIND=FIND_JSON;
     var params=new URLSearchParams(location.search);
     var startQ=params.get('q')||params.get('st')||'';
     if(find && startQ && !find.value) find.value=startQ;
+    if(find && !find.value && FIND && FIND.default_q) find.value=FIND.default_q;
+    var proofFind=document.getElementById('proofFind');
+    if(proofFind){
+      if(!proofFind.value && find) proofFind.value=find.value||'';
+      proofFind.addEventListener('input', function(){
+        if(find) find.value=proofFind.value;
+        applyFind();
+        writeQuery();
+      });
+    }
+    if(find) find.addEventListener('input', function(){
+      if(proofFind) proofFind.value=find.value;
+      applyFind();
+      writeQuery();
+    });
     writeQuery=function(){
       var qv=(find&&find.value||'').replace(/^\\s+|\\s+$/g,'');
       var params=new URLSearchParams();
@@ -1863,9 +2097,9 @@ const FIND=FIND_JSON;
       history.replaceState(null,'',location.pathname+(qs?('?'+qs):'')+location.hash);
     };
     var card=document.getElementById('findCard');
+    var proofCard=document.getElementById('proofCard');
     function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\\b(city|town|the)\\b/g,' ').replace(/^\\s+|\\s+$/g,'').replace(/\\s+/g,' '); }
-    function renderCard(row, extra){
-      if(!card) return;
+    function cardMarkup(row, extra){
       extra=extra||{};
       var facts=extra.facts||[];
       var yoy=row && row.yoy_pct!=null ? ((row.yoy_pct>0?'+':'')+row.yoy_pct+'%') : (extra.yoy!=null?((extra.yoy>0?'+':'')+extra.yoy+'%'):'');
@@ -1874,15 +2108,23 @@ const FIND=FIND_JSON;
       var val=extra.value || (row?fmtVal(row.v):'');
       var name=extra.name || (row && row.name) || '';
       var metric=(FIND&&FIND.metric)||'Value';
-      card.hidden=false;
-      card.innerHTML='<div class="fc-k">'+metric+'</div>'+
+      return '<div class="fc-k">'+metric+'</div>'+
         '<h3>'+name.replace(/</g,'')+'</h3>'+
         '<div class="fc-val">'+val+'</div>'+
         (rank?'<div class="fc-rank">Rank '+rank+(n?(' of '+n):'')+(yoy?(' \\u00b7 '+yoy):'')+'</div>':'')+
         (facts.length?'<ul class="fc-facts">'+facts.map(function(f){return '<li>'+String(f).replace(/</g,'')+'</li>';}).join('')+'</ul>':'')+
         '<div class="fc-src">Share this row: add ?q='+encodeURIComponent(name)+' to the URL.</div>';
     }
-    function hideCard(){ if(card){ card.hidden=true; card.innerHTML=''; } }
+    function renderCard(row, extra){
+      extra=extra||{};
+      var html=cardMarkup(row, extra);
+      if(card){ card.hidden=false; card.innerHTML=html; }
+      if(proofCard){ proofCard.hidden=false; proofCard.innerHTML=html; }
+    }
+    function hideCard(){
+      if(card){ card.hidden=true; card.innerHTML=''; }
+      if(proofCard && !(FIND && FIND.default_q)){ proofCard.hidden=true; proofCard.innerHTML=''; }
+    }
     function matchCard(q){
       if(!q || !FIND || !FIND.cards) return null;
       var nq=norm(q);
@@ -1923,7 +2165,6 @@ const FIND=FIND_JSON;
         hideCard();
       }
     };
-    if(find) find.addEventListener('input', function(){ applyFind(); writeQuery(); });
     applyFind();
     applyDeepLink();
   }
@@ -1978,7 +2219,7 @@ EXTRA_TOOL_JS})();
 <!-- DATA:END {slug}-dateline -->
   </div>
 </header>
-{starters_html(app["id"])}{jump}
+{jump}
 {latest_section}
 {table_section}{extra_section}
 {related_section}
@@ -2049,7 +2290,7 @@ def main():
         dest.write_text(page_html(app, ledger, apps), encoding="utf-8")
         n += 1
         print(f"render {app['id']} -> {dest.relative_to(ROOT)}")
-        if ledger.get("status") == "live" and not insight_figures(app, ledger):
+        if ledger.get("status") == "live" and not insight_figures(app, ledger) and app["id"] not in FINDER_TOOLS | TOWN_TOOLS | HIST_TOOLS | {"DL-07"}:
             missing.append(app["id"])
     if missing:
         sys.exit("FATAL: no insight figures for " + ", ".join(missing))

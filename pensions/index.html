@@ -27,183 +27,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
+<link rel="stylesheet" href="/assets/suite.css">
 <link rel="stylesheet" href="/assets/ask-widget.css">
 <style>
-  :root{ --bleed:clamp(18px,2.6vw,48px); }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{width:100%}
-  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
-  a{color:var(--navy);text-decoration:none}
-  a:hover{color:var(--ink);text-decoration:underline}
-  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
-  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
-  .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
-
-  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);border-bottom:none;
-           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
-  .sitebar .sbleft{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .sitebar .piword{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none}
-  .sitebar .piword:hover{color:#fff;text-decoration:none}
-  .sitebar .backlink{font:400 13px/1 var(--sans);color:#fff;text-decoration:none}
-  .sitebar .backlink:hover{color:#fff;text-decoration:underline}
-  .sitebar a:focus-visible{outline:2px solid #fff;outline-offset:3px}
-
-  header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:36px var(--bleed) 28px;border-bottom:1px solid var(--rule)}
-  h1{font:700 clamp(28px,3.6vw,40px)/1.12 var(--serif);color:var(--ink);letter-spacing:-.02em}
-  .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
-  .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
-  .dateline{margin-top:6px;font:400 13.5px/1.5 var(--sans);color:var(--grey)}
-
-
-  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
-  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
-                 font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
-  .toggle button.on{color:var(--ink);border-bottom-color:var(--navy)}
-  .toggle button:not(.on):hover{color:var(--navy)}
-  .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
-  .toggle button.on .who{color:var(--grey)}
-  @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
-  .jump{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}
-  .jump a{font:400 13px/1.5 var(--sans);color:var(--navy);text-decoration:none}
-  .jump a:hover{color:var(--ink);text-decoration:underline}
-  .plot-mid{height:clamp(420px,52vh,640px)}
-
-  section{margin-top:56px}
-  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
-     border-bottom:none;padding-bottom:0;margin-bottom:6px}
-  .lede{font-size:16px;color:var(--ink);margin:10px 0 22px;max-width:42em;line-height:1.55}
-  .lede.lead-graf{font-size:17px;max-width:44em}
-  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
-
-  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);background:#fff}
-  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule)}
-  .cell:last-child{border-right:0;padding-right:0}
-  .cl{font:400 13px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);
-      margin-bottom:4px;min-height:0}
-  .cv{font:600 16px/1.35 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
-  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
-  .cd .up{color:var(--neg);font-weight:600} .cd .dn{color:var(--pos);font-weight:600}
-  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
-
-  .metrics{/* chrome lives on .strip; this class only tweaks cell type */}
-  .metrics .cell{text-align:left;padding:14px 20px 14px 0}
-  .metrics .cl{min-height:0;margin-bottom:4px;color:var(--grey)}
-  .metrics .cv{font-size:16px;line-height:1.35}
-  .metrics .cd{margin-top:6px;max-width:none;margin-left:0;margin-right:0}
-  .metrics .csrc{border-top:0;margin-top:8px}
-  .cell.kpi-src{grid-column:1/-1;border-right:0;padding-top:8px}
-
-  .exhibit{margin-top:30px}
-  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
-  .ex-n{font:400 13px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);white-space:nowrap}
-  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
-  .plot{height:clamp(300px,34vh,460px)}
-  .plot-ranks{height:clamp(980px,140vh,1680px)}
-  .plot-sm{height:clamp(240px,28vh,360px)}
-
-  .findrow{margin-top:8px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .sel-lab{font:600 10.5px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
-  .findrow select,.findrow input{font:600 13px/1.4 var(--sans);color:var(--ink);border:1px solid #D8DDE3;border-radius:3px;padding:9px 12px;background:#fff;min-width:220px}
+  .findrow input{font:15px/1.3 var(--sans);border:1px solid var(--rule);border-radius:2px;padding:9px 12px;background:#fff;min-width:220px}
   .findrow input#retSearch{min-width:min(420px,100%)}
   #retSearchStatus{margin-top:4px;border-top:0;padding-top:0}
-  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;
-        border-top:1px solid var(--rule-lt);max-width:none}
-  .note b{color:var(--g1);font-weight:700}
-  .note a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .note a:hover{border-bottom-color:var(--ink)}
-
-  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
-  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
-     text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
-  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
-  td.m{font-weight:600}
-  tr.hl td{background:var(--wash);font-weight:600}
-  tr.hl-ma td{background:var(--wash)}
-  .neg{color:var(--neg)} .pos{color:var(--pos)}
-
-  details{margin-top:18px;border-top:1px solid var(--rule-lt)}
-  summary{cursor:pointer;font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
-          list-style:none;padding:11px 0}
-  summary::-webkit-details-marker{display:none}
-  summary:after{content:"\25B6";font-size:9px;color:var(--navy);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
-  details[open]>summary:after{transform:translateY(-1px) rotate(90deg)}
-  summary:hover{color:var(--ink)}
-
-  details.math{margin-top:12px;border-top:1px solid var(--rule-lt)}
-  details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
-    font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
-  details.math > summary::-webkit-details-marker{display:none}
-  .mathbox{background:var(--hover);border:none;border-left:2px solid var(--navy);
-    padding:13px 15px;margin-bottom:10px}
-  .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
-  .mathbox .lbl{font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
-  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--navy)}
-  .mathsrc{font-size:11px;color:var(--faint);line-height:1.55;margin-top:2px}
-
-  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
-  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
-  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .srcline a:hover{border-bottom-color:var(--ink)}
-
-  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:none;
-         padding:36px var(--bleed) 28px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
-  footer b{color:#fff}
-  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
-  footer a:hover{color:#fff;border-bottom-color:#fff}
-  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
-  .disclaimer b{color:#C9D2E0}
-  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
-  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
-  .fbrand a{color:#fff;border-bottom:1px solid rgba(255,255,255,.25)}
-  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
-
-  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:10px}
-  .simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
-                    font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
-  .simplify summary::-webkit-details-marker{display:none}
-  .simplify summary:after{content:none}
-  .simplify summary:hover{background:var(--hover);color:var(--navy)}
-  .simplify summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
-  .simplify[open] summary .car{transform:rotate(90deg)}
-  .simplify[open] summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
-  .simplify .dt-body{padding:14px 18px 16px}
-  .simplify .dt-body > :first-child{margin-top:0}
-
-  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
-  details.srcfold{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
-  details.srcfold>summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
-                          font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
-  details.srcfold>summary::-webkit-details-marker{display:none}
-  details.srcfold>summary:after{content:none}
-  details.srcfold>summary:hover{background:var(--hover);color:var(--navy)}
-  details.srcfold>summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
-  details.srcfold[open]>summary .car{transform:rotate(90deg)}
-  details.srcfold[open]>summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
-  details.srcfold .fold-body{padding:14px 18px 16px}
-  details.srcfold .fold-body>:first-child{margin-top:0}
-  table.reg{font-size:11.5px;line-height:1.55}
-  table.reg th{width:20%}
-  table.reg th:first-child{width:26%}
-  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
-  table.reg td.src{color:var(--ink);font-weight:600}
-  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  table.reg td.src a:hover{border-bottom-color:var(--ink)}
-  table.reg tr.grp td{background:var(--hover);font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--rule)}
-  .scroll{overflow-x:auto;max-width:100%}
-  [hidden]{display:none !important}
-  .exhibit.hl{outline:2px solid var(--goldlt);outline-offset:10px;transition:outline-color 1s}
-
   body.embed{background:#fff;padding:0}
   body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
-  body.embed .sitebar,body.embed footer .fbrand{display:none}
   body.embed header,body.embed footer{margin-left:0;margin-right:0}
   body.embed header{padding:22px var(--bleed) 20px}
-  body.embed .org{margin-bottom:10px}
   body.embed h1{font-size:clamp(25px,3.1vw,36px)}
   body.embed .standfirst{margin-top:9px;font-size:14.5px}
   body.embed .dateline{margin-top:14px}
 </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -212,7 +50,8 @@
   <div class="sbleft">
     <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
     <a class="backlink" href="/">DataLabs catalog</a>
-    <a class="backlink" href="/#about">About</a>
+    <a class="nav" href="/#about">About</a>
+    <a class="nav" href="/status/">Status</a>
   </div>
 </div>
 
@@ -227,18 +66,9 @@ Board valuations through 1 January 2023 · Retiree payroll through 2025 · Name 
   </div>
 </header>
 
-<section class="ask-starters" id="ask-starters" data-tool="DL-05">
-  <div class="ask-k">Ask this page</div>
-  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="How funded is the Massachusetts Teachers retirement system?"><span class="ask-who">General public</span><span class="ask-q">How funded is the Massachusetts Teachers retirement system?</span></button><button type="button" class="ask-chip" data-q="Which Massachusetts retirement boards are the least funded?"><span class="ask-who">Journalist</span><span class="ask-q">Which Massachusetts retirement boards are the least funded?</span></button><button type="button" class="ask-chip" data-q="What valuation year is the funded ratio for each Massachusetts retirement board?"><span class="ask-who">Researcher</span><span class="ask-q">What valuation year is the funded ratio for each Massachusetts retirement board?</span></button><button type="button" class="ask-chip" data-q="How has the State and Teacher retiree payroll changed since 2011?"><span class="ask-who">Policymaker</span><span class="ask-q">How has the State and Teacher retiree payroll changed since 2011?</span></button></div>
-  <div class="askbar">
-    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
-    <button id="toolAskBtn" type="button">Ask</button>
-  </div>
-  <div class="ask-resp" id="toolAskResp" hidden></div>
-</section>
-
 <nav class="jump" aria-label="On this page">
-  <a href="#view-boards">Boards</a>
+  <a href="#answer">The finding</a>
+  <a href="#view-funded_rank">Boards</a>
   <a href="#view-returns_rank">Returns</a>
   <a href="#view-retirees">Retirees</a>
   <a href="#view-retiree-search">Name search</a>
@@ -247,10 +77,15 @@ Board valuations through 1 January 2023 · Retiree payroll through 2025 · Name 
 
 <div id="view-boards">
 
-  <section style="margin-top:28px">
-    <p class="lede lead-graf">
+  <section id="answer" class="answer-block">
+<!-- DATA:BEGIN pensions-answer (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <h2>How funded is the Massachusetts Teachers retirement system?</h2>
+    <div class="answer-num">58.7%</div>
+    <p class="answer-ctx">January 1, 2023 valuation, rank 93 of 105 (SRC-501).</p>
+<!-- DATA:END pensions-answer -->
+    <p class="lede lead-graf" hidden>
 <!-- DATA:BEGIN pensions-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
-The State Retirement Board was <b>71.3 percent</b> funded on its January 1, 2023 valuation (SRC-501). Mass Teachers (MTRS) was <b>58.7 percent</b> funded (SRC-501). Across 105 boards the dollar-weighted funded ratio was 66.4 percent (derived, SRC-501). State and Teacher retirees were paid <b>$6.63 billion</b> in calendar 2025 (SRC-503).
+Mass Teachers (MTRS) was <b>58.7 percent</b> funded on its January 1, 2023 valuation, rank 93 of 105 (SRC-501). The State Retirement Board was <b>71.3 percent</b> funded (SRC-501). Across 105 boards the dollar-weighted funded ratio was 66.4 percent (derived, SRC-501). State and Teacher retirees were paid <b>$6.63 billion</b> in calendar 2025 (SRC-503).
 <!-- DATA:END pensions-lead -->
     </p>
     <div class="strip metrics">
@@ -278,18 +113,28 @@ The State Retirement Board was <b>71.3 percent</b> funded on its January 1, 2023
   </section>
 
   <section id="view-funded_rank">
-    <h2>Which boards are best funded?</h2>
-    <div class="lede">Each bar is a retirement board's latest PERAC funded ratio. The State Retirement Board and Mass Teachers are marked in gold. Four boards sit at or above 100 percent; thirteen sit below 60 percent.</div>
+    <h2>How do the 105 boards sit?</h2>
+    <div class="lede">Each bar is a count of boards in a funded-ratio band. The State Retirement Board and Mass Teachers sit in the table, not as a wall of 105 bars. Four boards sit at or above 100 percent; thirteen sit below 60 percent.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
-        <span class="ex-t" id="fig1t">Funded ratio by Massachusetts retirement board</span></div>
-      <div class="plot plot-mid"><canvas id="chFunded"></canvas></div>
+        <span class="ex-t" id="fig1t">Funded ratio across Massachusetts retirement boards</span></div>
+      <div class="plot"><canvas id="chFunded"></canvas></div>
       <div class="note">Funded ratio is actuarial assets divided by actuarial accrued liability, as of each board's latest valuation date (SRC-501). Most boards in this file are January 1, 2022 or January 1, 2023. A ratio of 100 percent is fully funded. The dollar-weighted ratio across all 105 boards is not the unweighted mean of the bars: the State and Teacher systems dominate the dollars.<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">Funded ratio (PERAC, checked by Pioneer)</div><code>funded ratio = 1 - unfunded actuarial liability / actuarial accrued liability
 
 The published PERAC ratio and this recompute match within 0.6 percentage points on every board. UAL and AAL in the extract are rounded, so a tenth of a point of gap is expected on small boards.</code><div class="out">Result: the percentages on this page are PERAC's published funded ratios, with the recompute as the verification path.</div></div><div class="mathsrc">Inputs: compiled PERAC board valuations in the Performance extract (SRC-501). Calculation of ranks and the dollar-weighted ratio: Pioneer Institute.</div></details></div>
       <div class="srcline"><b>Source:</b> <a href="https://www.mass.gov/info-details/funded-ratios" target="_blank" rel="noopener">PERAC funded ratios and board valuation reports</a> (SRC-501). <b>Calculation:</b> Pioneer Institute (ranks and the dollar-weighted ratio).</div>
     </div>
   </section>
+
+<section class="ask-starters" id="ask-starters" data-tool="DL-05">
+  <div class="ask-k">Ask this page</div>
+  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="How funded is the Massachusetts Teachers retirement system?"><span class="ask-who">General public</span><span class="ask-q">How funded is the Massachusetts Teachers retirement system?</span></button><button type="button" class="ask-chip" data-q="Which Massachusetts retirement boards are the least funded?"><span class="ask-who">Journalist</span><span class="ask-q">Which Massachusetts retirement boards are the least funded?</span></button><button type="button" class="ask-chip" data-q="What valuation year is the funded ratio for each Massachusetts retirement board?"><span class="ask-who">Researcher</span><span class="ask-q">What valuation year is the funded ratio for each Massachusetts retirement board?</span></button><button type="button" class="ask-chip" data-q="How has the State and Teacher retiree payroll changed since 2011?"><span class="ask-who">Policymaker</span><span class="ask-q">How has the State and Teacher retiree payroll changed since 2011?</span></button></div>
+  <div class="askbar">
+    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
+    <button id="toolAskBtn" type="button">Ask</button>
+  </div>
+  <div class="ask-resp" id="toolAskResp" hidden></div>
+</section>
 
   <section id="view-funded_trend">
     <h2>How has funded status moved?</h2>
@@ -317,7 +162,7 @@ The published PERAC ratio and this recompute match within 0.6 percentage points 
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 3</span>
         <span class="ex-t" id="fig3t">One-year investment return by board, calendar 2023</span></div>
-      <div class="plot plot-mid"><canvas id="chReturns"></canvas></div>
+      <div class="plot"><canvas id="chReturns"></canvas></div>
       <div class="note">Returns are time-weighted investment performance as compiled by PERAC (SRC-502). They are not the assumed rate of return used in the valuation (that assumption is in the table, typically 7.00 percent for the large systems). Five-year, ten-year, and since-inception returns are in the table.</div>
       <div class="srcline"><b>Source:</b> <a href="https://www.mass.gov/lists/perac-investment-schedule-7-fee-reports" target="_blank" rel="noopener">PERAC compiled investment returns</a> (SRC-502), calendar 2023. <b>Calculation:</b> Pioneer Institute (ranks only).</div>
     </div>
@@ -561,22 +406,37 @@ function boardSlice(rows, key, n){
   });
   return top;
 }
+function histBins(vals, nbin, fmt){
+  nbin = nbin || 10;
+  var nums = vals.filter(function(v){ return v!=null && isFinite(v); });
+  var lo = Math.min.apply(null, nums), hi = Math.max.apply(null, nums);
+  var width = hi===lo ? 1 : (hi-lo)/nbin;
+  var counts = Array(nbin).fill(0);
+  nums.forEach(function(v){
+    var i = Math.min(Math.floor((v-lo)/width), nbin-1);
+    counts[i]++;
+  });
+  var labels = [];
+  for(var i=0;i<nbin;i++){
+    var a = lo+i*width, b = (i===nbin-1)?hi:lo+(i+1)*width;
+    labels.push(fmt(a)+' to '+fmt(b));
+  }
+  return {labels:labels, counts:counts};
+}
 function renderBoards(){
   if(!rendered.b){
-    var rows=boardSlice(DL05.boards,'funded_pct',12);
-    document.getElementById('fig1t').textContent='Funded ratio by Massachusetts retirement board, latest valuation';
+    var bins=histBins(DL05.boards.map(function(r){return r.funded_pct;}),10,function(v){return v.toFixed(0)+'%';});
+    document.getElementById('fig1t').textContent='Funded ratio across Massachusetts retirement boards';
     new Chart(document.getElementById('chFunded'),{type:'bar',
-      data:{labels:rows.map(function(r){return r.name;}),
-        datasets:[{data:rows.map(function(r){return r.funded_pct;}),
-          backgroundColor:rows.map(function(r){return barColor(r.id);})}]},
-      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
-        layout:{padding:{top:6,right:64}},
+      data:{labels:bins.labels,
+        datasets:[{data:bins.counts, backgroundColor:BLUE}]},
+      options:{indexAxis:'x',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{top:6,right:16}},
         plugins:{legend:{display:false},
-          tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(1)+' percent funded';}}}},
-        scales:{x:window.dlApplyScale(Object.assign({},AY,{max:120,title:axisTitle('Funded ratio, percent'),
-            ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}), rows.map(function(r){return r.funded_pct;})),
-          y:catY()}},
-      plugins:[valueLabels(function(v){return v.toFixed(1)+'%';})]});
+          tooltip:{callbacks:{label:function(c){return ' '+c.parsed.y+' boards';}}}},
+        scales:{x:{ticks:{color:G3,maxRotation:45,minRotation:0,font:{size:10}},grid:{display:false}},
+          y:window.dlApplyScale(Object.assign({},AY,{title:axisTitle('Boards'),
+            ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}), bins.counts)}}});
     rendered.b=true;
   }
   fillSelect();
@@ -631,19 +491,17 @@ function drawTrend(){
 
 function renderReturns(){
   if(rendered.r) return; rendered.r=true;
-  var rows=boardSlice(DL05.boards,'return_1y_pct',12);
-  document.getElementById('fig3t').textContent='One-year investment return by board, calendar '+DL05.returns_year;
+  var bins=histBins(DL05.boards.map(function(r){return r.return_1y_pct;}),10,function(v){return v.toFixed(1)+'%';});
+  document.getElementById('fig3t').textContent='One-year investment return across boards, calendar '+DL05.returns_year;
   new Chart(document.getElementById('chReturns'),{type:'bar',
-    data:{labels:rows.map(function(r){return r.name;}),
-      datasets:[{data:rows.map(function(r){return r.return_1y_pct;}),
-        backgroundColor:rows.map(function(r){return barColor(r.id);})}]},
-    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,layout:{padding:{right:72}},
+    data:{labels:bins.labels,
+      datasets:[{data:bins.counts, backgroundColor:BLUE}]},
+    options:{indexAxis:'x',responsive:true,maintainAspectRatio:false,layout:{padding:{right:16}},
       plugins:{legend:{display:false},
-        tooltip:{callbacks:{label:function(c){return ' '+c.parsed.x.toFixed(2)+' percent';}}}},
-      scales:{x:window.dlApplyScale(Object.assign({},AY,{grace:'14%',title:axisTitle('One-year return, percent'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v+'%';}})}),
-          rows.map(function(r){return r.return_1y_pct;})),
-        y:catY()}},
-    plugins:[valueLabels(function(v){return v.toFixed(1)+'%';})]});
+        tooltip:{callbacks:{label:function(c){return ' '+c.parsed.y+' boards';}}}},
+      scales:{x:{ticks:{color:G3,maxRotation:45,minRotation:0,font:{size:10}},grid:{display:false}},
+        y:window.dlApplyScale(Object.assign({},AY,{title:axisTitle('Boards'),ticks:Object.assign({},AY.ticks,{callback:function(v){return v;}})}),
+          bins.counts)}}});
 }
 
 function renderRetirees(){

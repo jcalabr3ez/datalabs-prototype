@@ -222,11 +222,13 @@ def inject_electricity(dl04, text, path):
     dateline = paper_dateline(f"Calendar year {year}", page.get("revised", ""))
     text = replace_block(text, "electricity-dateline", dateline, path, style="html")
     sys.path.insert(0, str(ROOT / "scripts"))
-    from page_voice import flagship_voice, takeaways_html  # noqa: E402
+    from page_voice import flagship_voice, takeaways_html, answer_inner_html  # noqa: E402
     from render_suite_pages import kpi_html  # noqa: E402
     voice = flagship_voice("DL-04", dl04)
     if has_block(text, "electricity-takeaways", style="html") and voice.get("takeaways"):
         text = replace_block(text, "electricity-takeaways", takeaways_html(voice["takeaways"]), path, style="html")
+    if has_block(text, "electricity-answer", style="html") and voice.get("answer"):
+        text = replace_block(text, "electricity-answer", answer_inner_html(voice["answer"]), path, style="html")
     kpis = kpi_html(voice.get("kpis") or [])
     text = replace_block(text, "electricity-kpis", kpis, path, style="html")
     text = replace_block(text, "electricity-lead", voice.get("lead") or "", path, style="html")
@@ -334,11 +336,13 @@ def inject_pensions(dl05, text, path):
     ret = latest["retirees"]
     n = derived["n_boards"]
     sys.path.insert(0, str(ROOT / "scripts"))
-    from page_voice import flagship_voice, takeaways_html  # noqa: E402
+    from page_voice import flagship_voice, takeaways_html, answer_inner_html  # noqa: E402
     from render_suite_pages import kpi_html  # noqa: E402
     voice = flagship_voice("DL-05", dl05)
     if has_block(text, "pensions-takeaways", style="html") and voice.get("takeaways"):
         text = replace_block(text, "pensions-takeaways", takeaways_html(voice["takeaways"]), path, style="html")
+    if has_block(text, "pensions-answer", style="html") and voice.get("answer"):
+        text = replace_block(text, "pensions-answer", answer_inner_html(voice["answer"]), path, style="html")
     text = replace_block(text, "pensions-kpis", kpi_html(voice.get("kpis") or []), path, style="html")
     text = replace_block(text, "pensions-lead", voice.get("lead") or "", path, style="html")
     if has_block(text, "pensions-cite", style="html") and voice.get("cite"):
@@ -475,6 +479,12 @@ def main():
     p = ROOT / "mbta/index.html"
     text = p.read_text(encoding="utf-8")
     new = replace_block(text, "mbta-data", "const ANSWERS=" + jdump(dl03) + ";", p)
+    from page_voice import flagship_voice, answer_inner_html  # noqa: E402
+    mbta_voice = flagship_voice("DL-03", dl03)
+    if has_block(new, "mbta-answer", style="html") and mbta_voice.get("answer"):
+        new = replace_block(new, "mbta-answer", answer_inner_html(mbta_voice["answer"]), p, style="html")
+    if has_block(new, "mbta-lead", style="html") and mbta_voice.get("lead"):
+        new = replace_block(new, "mbta-lead", mbta_voice["lead"], p, style="html")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("mbta/index.html")

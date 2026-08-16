@@ -29,198 +29,19 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/datalabs.css">
+<link rel="stylesheet" href="/assets/suite.css">
 <link rel="stylesheet" href="/assets/ask-widget.css">
 <style>
-  :root{ --bleed:clamp(18px,2.6vw,48px); }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{width:100%}
-  body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
-  a{color:var(--navy);text-decoration:none}
-  a:hover{color:var(--ink);text-decoration:underline}
-  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
-  .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
-  .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
-
-  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);border-bottom:none;
-           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
-  .sitebar .sbleft{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-  .sitebar .piword{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none}
-  .sitebar .piword:hover{color:#fff;text-decoration:none}
-  .sitebar .backlink{font:400 13px/1 var(--sans);color:#fff;text-decoration:none}
-  .sitebar .backlink:hover{color:#fff;text-decoration:underline}
-  .sitebar a:focus-visible{outline:2px solid #fff;outline-offset:3px}
-
-  header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:36px var(--bleed) 28px;border-bottom:1px solid var(--rule)}
-  h1{font:700 clamp(28px,3.6vw,40px)/1.12 var(--serif);color:var(--ink);letter-spacing:-.02em}
-  .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
-  .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
-  .dateline{margin-top:6px;font:400 13.5px/1.5 var(--sans);color:var(--grey)}
-
-
-  .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
-  .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
-                 font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
-  .toggle button.on{color:var(--ink);border-bottom-color:var(--navy)}
-  .toggle button:not(.on):hover{color:var(--navy)}
-  .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
-  .toggle button.on .who{color:var(--grey)}
-  @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
-  .jump{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}
-  .jump a{font:400 13px/1.5 var(--sans);color:var(--navy);text-decoration:none}
-  .jump a:hover{color:var(--ink);text-decoration:underline}
-  .map-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
-  .map-tab{border:1px solid var(--rule);background:#fff;color:var(--ink);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer}
-  .map-tab:hover{border-color:var(--navy)}
-  .map-tab.is-on{border-color:var(--navy);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
-
-  section{margin-top:56px}
-  h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
-     border-bottom:none;padding-bottom:0;margin-bottom:6px}
-  .lede{font-size:16px;color:var(--ink);margin:10px 0 22px;max-width:42em;line-height:1.55}
-  .lede.lead-graf{font-size:17px;max-width:44em}
-  .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
-
-  .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);background:#fff}
-  .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule)}
-  .cell:last-child{border-right:0;padding-right:0}
-  .cl{font:400 13px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);
-      margin-bottom:4px;min-height:0}
-  .cv{font:600 16px/1.35 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
-  .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
-  .cd .up{color:var(--neg);font-weight:600} .cd .dn{color:var(--pos);font-weight:600}
-  @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
-
-  .metrics{/* chrome lives on .strip; this class only tweaks cell type */}
-  .metrics .cell{text-align:left;padding:14px 20px 14px 0}
-  .metrics .cl{min-height:0;margin-bottom:4px;color:var(--grey)}
-  .metrics .cv{font-size:16px;line-height:1.35}
-  .metrics .cd{margin-top:6px;max-width:none;margin-left:0;margin-right:0}
-  .metrics .csrc{border-top:0;margin-top:8px}
-  .cell.kpi-src{grid-column:1/-1;border-right:0;padding-top:8px}
-
-  .exhibit{margin-top:30px}
-  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
-  .ex-n{font:400 13px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);white-space:nowrap}
-  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
-  .plot{height:clamp(300px,34vh,460px)}
-  .plot-ranks{height:clamp(720px,92vh,1180px)}
-  .region-bar,.explore-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 16px}
-  .explore-bar{margin-top:-6px}
-  .region-chips{display:flex;flex-wrap:wrap;gap:6px}
-  .region-chips button{border:1px solid var(--rule);background:#fff;color:var(--ink);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer}
-  .region-chips button:hover{border-color:var(--navy)}
-  .region-chips button.on{border-color:var(--navy);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
-  th[data-key]{cursor:pointer;user-select:none}
-  th .th-sort{all:unset;cursor:pointer;font:inherit;color:inherit;letter-spacing:inherit;text-transform:inherit}
-  th[aria-sort="ascending"] .th-sort:after{content:" \2191";color:var(--navy)}
-  th[aria-sort="descending"] .th-sort:after{content:" \2193";color:var(--navy)}
-  .findcount{font:12px/1.3 var(--sans);color:var(--faint)}
-  .plot-mid{height:clamp(420px,52vh,640px)}
-  .plot-sm{height:clamp(240px,28vh,360px)}
-
-  .findrow{margin-top:8px;margin-bottom:16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-  .sel-lab{font:600 10.5px/1.4 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey)}
-  .findrow select{font:600 13px/1.4 var(--sans);color:var(--ink);border:1px solid #D8DDE3;border-radius:3px;padding:9px 12px;background:#fff;min-width:220px}
-  .note{font-size:11.5px;line-height:1.7;color:var(--grey);margin-top:13px;padding-top:10px;
-        border-top:1px solid var(--rule-lt);max-width:none}
-  .note b{color:var(--g1);font-weight:700}
-  .note a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .note a:hover{border-bottom-color:var(--ink)}
-
-  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
-  th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
-     text-align:left;padding:0 14px 8px 0;border-bottom:1px solid var(--rule-dk);vertical-align:bottom}
-  td{padding:11px 14px 11px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-  th.n,td.n{text-align:right;padding-right:0;white-space:nowrap}
-  td.m{font-weight:600}
-  tr.hl td{background:var(--wash);font-weight:600}
-  tr.hl-ma td{background:var(--wash);box-shadow:inset 3px 0 0 var(--gold)}
-  tr.hl-fl td{background:var(--wash);box-shadow:inset 3px 0 0 var(--fl)}
-  tr.is-on td{background:var(--wash);box-shadow:inset 3px 0 0 var(--ink)}
-  .neg{color:var(--neg)} .pos{color:var(--pos)}
-
-  details{margin-top:18px;border-top:1px solid var(--rule-lt)}
-  summary{cursor:pointer;font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
-          list-style:none;padding:11px 0}
-  summary::-webkit-details-marker{display:none}
-  summary:after{content:"\25B6";font-size:9px;color:var(--navy);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
-  details[open]>summary:after{transform:translateY(-1px) rotate(90deg)}
-  summary:hover{color:var(--ink)}
-
-  details.math{margin-top:12px;border-top:1px solid var(--rule-lt)}
-  details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
-    font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
-  details.math > summary::-webkit-details-marker{display:none}
-  .mathbox{background:var(--hover);border:none;border-left:2px solid var(--navy);
-    padding:13px 15px;margin-bottom:10px}
-  .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
-  .mathbox .lbl{font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
-  .mathbox .out{margin-top:9px;padding-top:8px;border-top:1px solid var(--rule-lt);font:700 13px/1.5 var(--sans);color:var(--navy)}
-  .mathsrc{font-size:11px;color:var(--faint);line-height:1.55;margin-top:2px}
-
-  .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
-  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
-  .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .srcline a:hover{border-bottom-color:var(--ink)}
-
-  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:none;
-         padding:36px var(--bleed) 28px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
-  footer b{color:#fff}
-  footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
-  footer a:hover{color:#fff;border-bottom-color:#fff}
-  .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
-  .disclaimer b{color:#C9D2E0}
-  .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
-  .fbrand .pi{font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#fff}
-  .fbrand a{color:#fff;border-bottom:1px solid rgba(255,255,255,.25)}
-  .frow{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px;color:#8DA0B5;font-size:12px}
-
-  .simplify{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:10px}
-  .simplify summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
-                    font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
-  .simplify summary::-webkit-details-marker{display:none}
-  .simplify summary:after{content:none}
-  .simplify summary:hover{background:var(--hover);color:var(--navy)}
-  .simplify summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
-  .simplify[open] summary .car{transform:rotate(90deg)}
-  .simplify[open] summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
-  .simplify .dt-body{padding:14px 18px 16px}
-  .simplify .dt-body > :first-child{margin-top:0}
-
-  .subhead{font-size:14.5px;line-height:1.6;color:var(--grey);margin:10px 0 22px;max-width:72em}
-  details.srcfold{border:1px solid var(--rule);border-radius:4px;background:#fff;margin-top:14px}
-  details.srcfold>summary{cursor:pointer;list-style:none;padding:14px 18px;display:flex;align-items:baseline;gap:14px;
-                          font:600 14.5px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);transition:background .12s}
-  details.srcfold>summary::-webkit-details-marker{display:none}
-  details.srcfold>summary:after{content:none}
-  details.srcfold>summary:hover{background:var(--hover);color:var(--navy)}
-  details.srcfold>summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
-  details.srcfold[open]>summary .car{transform:rotate(90deg)}
-  details.srcfold[open]>summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
-  details.srcfold .fold-body{padding:14px 18px 16px}
-  details.srcfold .fold-body>:first-child{margin-top:0}
-  table.reg{font-size:11.5px;line-height:1.55}
-  table.reg th{width:20%}
-  table.reg th:first-child{width:26%}
-  table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
-  table.reg td.src{color:var(--ink);font-weight:600}
-  table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  table.reg td.src a:hover{border-bottom-color:var(--ink)}
-  table.reg tr.grp td{background:var(--hover);font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--rule)}
-  .scroll{overflow-x:auto;max-width:100%}
-  [hidden]{display:none !important}
-  .exhibit.hl{outline:2px solid var(--goldlt);outline-offset:10px;transition:outline-color 1s}
-
+  .findrow input{font:15px/1.3 var(--sans);border:1px solid var(--rule);border-radius:2px;padding:9px 12px;background:#fff;min-width:220px}
   body.embed{background:#fff;padding:0}
   body.embed .wrap{max-width:none;border:0;padding-left:0;padding-right:0}
-  body.embed .sitebar,body.embed footer .fbrand{display:none}
   body.embed header,body.embed footer{margin-left:0;margin-right:0}
   body.embed header{padding:22px var(--bleed) 20px}
-  body.embed .org{margin-bottom:10px}
   body.embed h1{font-size:clamp(25px,3.1vw,36px)}
   body.embed .standfirst{margin-top:9px;font-size:14.5px}
   body.embed .dateline{margin-top:14px}
 </style>
+
 </head>
 <body>
 <div class="wrap">
@@ -229,7 +50,8 @@
   <div class="sbleft">
     <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
     <a class="backlink" href="/">DataLabs catalog</a>
-    <a class="backlink" href="/#about">About</a>
+    <a class="nav" href="/#about">About</a>
+    <a class="nav" href="/status/">Status</a>
   </div>
 </div>
 
@@ -244,52 +66,47 @@ Calendar year 2024 · Revised 16 August 2026
   </div>
 </header>
 
-<section class="ask-starters" id="ask-starters" data-tool="DL-04">
-  <div class="ask-k">Ask this page</div>
-  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="What does a household pay for electricity in Massachusetts?"><span class="ask-who">General public</span><span class="ask-q">What does a household pay for electricity in Massachusetts?</span></button><button type="button" class="ask-chip" data-q="Which state has the highest residential electricity price?"><span class="ask-who">Journalist</span><span class="ask-q">Which state has the highest residential electricity price?</span></button><button type="button" class="ask-chip" data-q="Is the U.S. electricity price sales-weighted, and is it all-sector or residential?"><span class="ask-who">Researcher</span><span class="ask-q">Is the U.S. electricity price sales-weighted, and is it all-sector or residential?</span></button><button type="button" class="ask-chip" data-q="How do Massachusetts household electricity prices compare with the other New England states?"><span class="ask-who">Policymaker</span><span class="ask-q">How do Massachusetts household electricity prices compare with the other New England states?</span></button></div>
-  <div class="askbar">
-    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
-    <button id="toolAskBtn" type="button">Ask</button>
-  </div>
-  <div class="ask-resp" id="toolAskResp" hidden></div>
-</section>
-
 <nav class="jump" aria-label="On this page">
+  <a href="#answer">The finding</a>
+  <a href="#view-price_rank">Households</a>
   <a href="#view-price_trend">Trend</a>
-  <a href="#view-price_rank">Across the fifty states</a>
-  <a href="#view-households">Households</a>
   <a href="#view-table">Table</a>
 </nav>
 
 <div id="view-prices">
 
-  <section style="margin-top:28px">
-    <p class="lede lead-graf">
+  <section id="answer" class="answer-block">
+<!-- DATA:BEGIN electricity-answer (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
+    <h2>What does a household pay for electricity in Massachusetts?</h2>
+    <div class="answer-num">29.35¢</div>
+    <p class="answer-ctx">Rank 3 of 51 on the residential average (SRC-401). The all-sector United States average was 12.94 cents (SRC-401).</p>
+<!-- DATA:END electricity-answer -->
+    <p class="lede lead-graf" hidden>
 <!-- DATA:BEGIN electricity-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
-The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 2024, up 2.1 percent from 2023 (SRC-401). Massachusetts paid <b>23.94 cents</b>, rank 5 of 51 (derived, SRC-401). Florida paid <b>12.53 cents</b>, rank 18 of 51 (derived, SRC-401). Households paid <b>29.35 cents</b> in Massachusetts, rank 3 of 51 on the residential series (SRC-401). Hawaii was highest at 38.00 cents and North Dakota lowest at 7.93 cents (SRC-401).
+Massachusetts households paid <b>29.35 cents</b> per kilowatthour in 2024, rank 3 of 51 on the residential series (SRC-401). The U.S. residential average was 16.48 cents (SRC-401). The all-sector Massachusetts average was 23.94 cents, rank 5 of 51 (derived, SRC-401).
 <!-- DATA:END electricity-lead -->
     </p>
     <div class="strip metrics">
 <!-- DATA:BEGIN electricity-kpis (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
       <div class="cell">
-        <div class="cl">United States, 2024</div>
-        <div class="cv">12.94¢</div>
-        <div class="cd">EIA U.S. Total row (SRC-401). +2.1 percent from 2023.</div>
+        <div class="cl">Massachusetts households, 2024</div>
+        <div class="cv">29.35¢</div>
+        <div class="cd">Rank 3 of 51 on the residential series (SRC-401).</div>
       </div>
       <div class="cell">
-        <div class="cl">Highest / lowest</div>
-        <div class="cv">HI 38.00</div>
-        <div class="cd">Hawaii is highest; North Dakota is lowest at 7.93 cents (SRC-401).</div>
+        <div class="cl">U.S. households, 2024</div>
+        <div class="cv">16.48¢</div>
+        <div class="cd">EIA residential U.S. Total row (SRC-401).</div>
       </div>
       <div class="cell">
-        <div class="cl">Massachusetts, 2024</div>
+        <div class="cl">Massachusetts all-sector, 2024</div>
         <div class="cv">23.94¢</div>
-        <div class="cd">Rank 5 of 51 states and D.C. (derived, SRC-401). +3.1 percent from 2023.</div>
+        <div class="cd">Rank 5 of 51 states and D.C. (derived, SRC-401).</div>
       </div>
       <div class="cell">
-        <div class="cl">Florida, 2024</div>
-        <div class="cv">12.53¢</div>
-        <div class="cd">Rank 18 of 51 states and D.C. (derived, SRC-401). -7.4 percent from 2023.</div>
+        <div class="cl">Highest residential</div>
+        <div class="cv">HI 42.86</div>
+        <div class="cd">Hawaii is highest on the household series (SRC-401).</div>
       </div>
       <div class="cell kpi-src">
         <div class="csrc">Source: EIA Form EIA-861 (SRC-401)</div>
@@ -298,33 +115,17 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
     </div>
   </section>
 
-  <section style="margin-top:30px" id="view-price_trend">
-    <h2>How have prices moved since 2012?</h2>
-    <div class="lede">The United States line shows whether the all-sector average has risen or fallen. Massachusetts and Florida stay on the chart. Select another state to add it.</div>
-    <div class="findrow">
-      <label class="sel-lab" for="stSel">Add a state</label>
-      <select id="stSel"></select>
-    </div>
-    <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 1</span>
-        <span class="ex-t" id="fig2t">All-sector average retail price, United States and selected state</span></div>
-      <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="note">Massachusetts rose from 13.79 cents in 2012 to more than 23 cents in the latest years, a steeper climb than the national line (derived, SRC-401). The U.S. Total stayed in the low-to-mid teens across the same window. Florida is the rust line. Select another state to add it.</div>
-      <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total Electric Industry (SRC-401), 2012 through the latest annual year. <b>Calculation:</b> Pioneer Institute.</div>
-    </div>
-  </section>
-
   <section id="view-price_rank">
     <div id="view-households"></div>
-    <h2>Across the fifty states</h2>
+    <h2>What households pay, state by state</h2>
     <div class="map-tabs" id="mapTabs" role="tablist" aria-label="Map view">
-      <button type="button" class="map-tab is-on" data-view="price">Price</button>
-      <button type="button" class="map-tab" data-view="res">Households</button>
+      <button type="button" class="map-tab is-on" data-view="res">Households</button>
+      <button type="button" class="map-tab" data-view="price">All-sector</button>
       <button type="button" class="map-tab" data-view="sales">Sales</button>
       <button type="button" class="map-tab" data-view="gen">Generation</button>
       <button type="button" class="map-tab" data-pane="table">Table</button>
     </div>
-    <div class="lede" id="mapLede">Every state and the District of Columbia. Color is a fifth of the ranking: the darkest navy is the highest fifth. Hover a state for its figure and rank. Click a state to open the table tab. Massachusetts has a gold outline; Florida a rust outline.</div>
+    <div class="lede" id="mapLede">Every state and the District of Columbia. Darker navy is higher. Hover a state to update the readout. Click a state to open the table. Massachusetts has a gold outline.</div>
     <div class="region-bar">
       <span class="sel-lab">Census region</span>
       <div class="region-chips" role="group" aria-label="Filter by Census region">
@@ -347,8 +148,8 @@ The United States all-sector average was <b>12.94 cents</b> per kilowatthour in 
     </div>
     <div id="mapPane">
     <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 2</span>
-        <span class="ex-t" id="fig1t">All-sector average retail electricity price by state</span></div>
+      <div class="ex-head"><span class="ex-n">Figure 1</span>
+        <span class="ex-t" id="fig1t">Residential average retail electricity price by state</span></div>
       <div class="plot plot-map" id="chRank"></div>
       <div class="note" id="mapNote">Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).<details class="math"><summary>How this is calculated</summary><div class="mathbox"><div class="lbl">All-sector average (EIA, not Pioneer)</div><code>price = total retail revenue / total retail sales
 
@@ -383,6 +184,32 @@ It is not the unweighted mean of the 51 state-and-D.C. prices.</code><div class=
       </table>
     </div>
     <div class="srcline"><b>Source:</b> price and sales, EIA Form EIA-861 (SRC-401); generation, EIA-923 (SRC-403); capacity, EIA-860 (SRC-404); population, Census Bureau (SRC-402). Ranks and per-capita figures are Pioneer calculations (derived).</div>
+    </div>
+  </section>
+
+<section class="ask-starters" id="ask-starters" data-tool="DL-04">
+  <div class="ask-k">Ask this page</div>
+  <div class="ask-chips" role="list"><button type="button" class="ask-chip" data-q="What does a household pay for electricity in Massachusetts?"><span class="ask-who">General public</span><span class="ask-q">What does a household pay for electricity in Massachusetts?</span></button><button type="button" class="ask-chip" data-q="Which state has the highest residential electricity price?"><span class="ask-who">Journalist</span><span class="ask-q">Which state has the highest residential electricity price?</span></button><button type="button" class="ask-chip" data-q="Is the U.S. electricity price sales-weighted, and is it all-sector or residential?"><span class="ask-who">Researcher</span><span class="ask-q">Is the U.S. electricity price sales-weighted, and is it all-sector or residential?</span></button><button type="button" class="ask-chip" data-q="How do Massachusetts household electricity prices compare with the other New England states?"><span class="ask-who">Policymaker</span><span class="ask-q">How do Massachusetts household electricity prices compare with the other New England states?</span></button></div>
+  <div class="askbar">
+    <input id="toolAskQ" type="text" maxlength="400" placeholder="Ask in your own words" aria-label="Ask a question">
+    <button id="toolAskBtn" type="button">Ask</button>
+  </div>
+  <div class="ask-resp" id="toolAskResp" hidden></div>
+</section>
+
+  <section id="view-price_trend">
+    <h2>How have prices moved since 2012?</h2>
+    <div class="lede">The United States line shows whether the all-sector average has risen or fallen. Massachusetts and Florida stay on the chart. Select another state to add it.</div>
+    <div class="findrow">
+      <label class="sel-lab" for="stSel">Add a state</label>
+      <select id="stSel"></select>
+    </div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure 2</span>
+        <span class="ex-t" id="fig2t">All-sector average retail price, United States and selected state</span></div>
+      <div class="plot"><canvas id="chTrend"></canvas></div>
+      <div class="note">Massachusetts rose from 13.79 cents in 2012 to more than 23 cents in the latest years, a steeper climb than the national line (derived, SRC-401). The U.S. Total stayed in the low-to-mid teens across the same window. Florida is the rust line. Select another state to add it.</div>
+      <div class="srcline"><b>Source:</b> EIA Form EIA-861 historical state file, Total Electric Industry (SRC-401), 2012 through the latest annual year. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
 
@@ -561,6 +388,8 @@ function paintStateMap(id, rows, fmt, extra, ref){
   var el=document.getElementById(id);
   if(!el||!window.dlStateMap) return;
   window.dlStateMap(el,{
+    mode: (mapView==='res' || mapView==='price') ? 'tile' : 'geo',
+    highlightFlorida: false,
     rows:rows,
     format:fmt,
     extra:extra||function(){return '';},
@@ -591,10 +420,10 @@ function syncRegionButtons(){
   });
 }
 var priceRows=[], salesRows=[], genRows=[];
-var mapView='price';
+var mapView='res';
 var MAP_NOTES={
   price:'Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).',
-  res:'Residential average retail price, cents per kilowatthour sold to households. This is still an average, not a bill. The all-sector map mixes homes, businesses, and industry. Massachusetts has a gold outline; Florida a rust outline.',
+  res:'Residential average retail price, cents per kilowatthour sold to households. This is still an average, not a bill. The all-sector map mixes homes, businesses, and industry. Massachusetts has a gold outline.',
   sales:'Sales are megawatthours delivered to residential, commercial, industrial, and transportation customers combined (SRC-401). Large states lead because they have more customers, not because prices are higher. Per-capita sales, in the table, divide this volume by the Census July 1 resident population (derived, SRC-401, SRC-402).',
   gen:'Net generation, Total Electric Power Industry, all energy sources (SRC-403). A state can sell more than it generates, or the reverse. Net summer capacity, in the table, is the EIA-860 all-sources total (SRC-404).'
 };

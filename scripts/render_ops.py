@@ -62,6 +62,22 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Mismatched overlays use an index, first year = 100",
+        "body": (
+            "When United States, Massachusetts, and Florida cannot share "
+            "one count axis, the headline trend now plots an index of each "
+            "series' first year, set to 100, instead of percent change from "
+            "that year. Lines start at 100. Hover still shows the raw "
+            "figure. Charter enrollment, college, 340B sites, business "
+            "applications, housing units, real GDP, energy CO2, "
+            "Massachusetts vs Boston population, and Massachusetts tax "
+            "collections by type take this path. Comparable "
+            "series stay on their native scale. State Wealth Taxes and "
+            "Florida Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Education pages follow one namesake",
         "body": (
             "Massachusetts Schools now opens on Fall 2024 public-school "

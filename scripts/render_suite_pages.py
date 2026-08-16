@@ -433,7 +433,13 @@ def related_html(app, apps):
 
 TREND_NAMES = {"US": "United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
 TREND_LEDE_NAMES = {"US": "the United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
+TREND_CORE_KEYS = ("US", "MA", "FL", "Boston")
 TREND_INDEX_RATIO = 2.5
+TREND_INDEX_UNIT = "index, first year = 100"
+TREND_INDEX_NOTE = (
+    "Each line is an index of its first year on file, set to 100, "
+    "so series of different sizes can be compared. Hover a point for the raw figure."
+)
 JUMP_SHORT = {
     "ch74-seats": "Chapter 74",
     "ch74-programs": "CTE programs",
@@ -551,9 +557,14 @@ HEADLINE = {
 }
 
 
-def trend_compare_mode(ledger):
-    """Use percent-from-start when two strictly positive series cannot share one level axis."""
-    series = [(k, v) for k, v in (ledger.get("trend") or {}).items() if v]
+def trend_compare_mode(trend, keys=None):
+    """Index to 100 when two strictly positive series cannot share one level axis."""
+    trend = trend or {}
+    if keys is None:
+        keys = [k for k in TREND_CORE_KEYS if trend.get(k)]
+    if len(keys) < 2:
+        keys = [k for k, v in trend.items() if v]
+    series = [(k, trend.get(k)) for k in keys if trend.get(k)]
     if len(series) < 2:
         return "level"
     maxs = []
@@ -571,7 +582,7 @@ def trend_compare_mode(ledger):
             maxs.append(max(vs))
     if not all_pos or len(maxs) < 2 or min(maxs) == 0:
         return "level"
-    return "pct_from_start" if max(maxs) / min(maxs) >= TREND_INDEX_RATIO else "level"
+    return "index_100" if max(maxs) / min(maxs) >= TREND_INDEX_RATIO else "level"
 
 
 def chart_spec(app, ledger):
@@ -690,7 +701,7 @@ def chart_spec(app, ledger):
         trend_source = {}
     trend_keys = [k for k, v in trend_source.items() if v]
     has_trend = any(len(v) >= 2 for v in trend_source.values() if v)
-    trend_mode = trend_compare_mode(ledger)
+    trend_mode = trend_compare_mode(trend_source)
     trend_names = [TREND_NAMES.get(k, k) for k in trend_keys]
     lede_names = [TREND_LEDE_NAMES.get(k, k) for k in trend_keys]
     if len(trend_names) == 2:
@@ -717,14 +728,10 @@ def chart_spec(app, ledger):
             "Select a state to add it when that series is on file."
         )
         trend_unit = unit
-    elif trend_mode == "pct_from_start":
-        trend_title = "Change since the first year" + (", " + trend_named if trend_named else "")
-        trend_lede = (
-            "Each line is the percent change from its first year so "
-            + (trend_lede_named or "the series")
-            + " can be compared. Hover a point for the raw count."
-        )
-        trend_unit = "percent change from first year"
+    elif trend_mode == "index_100":
+        trend_title = (label or "The figure") + " over time"
+        trend_lede = TREND_INDEX_NOTE
+        trend_unit = TREND_INDEX_UNIT
     else:
         trend_title = label + " over time"
         trend_lede = ""
@@ -836,6 +843,10 @@ def chart_spec(app, ledger):
         table_note = (
             "Ranks and year-over-year changes are Pioneer calculations (derived)."
         )
+    if trend_mode == "index_100":
+        trend_unit = TREND_INDEX_UNIT
+        if "set to 100" not in (trend_lede or ""):
+            trend_lede = ((trend_lede.rstrip() + " ") if trend_lede else "") + TREND_INDEX_NOTE
     if tid == "DL-11":
         compare_title = "Program growth"
         table_noun = "Every state"
@@ -2062,11 +2073,6 @@ const FIND=FIND_JSON;
     if(k==='US') return INK;
     return BLUE;
   }
-  function fmtPct(v){
-    if(v==null||v==='') return '';
-    var n=Number(v), sign=n<0?'\u2212':(n>0?'+':'');
-    return sign+Math.abs(n).toFixed(1)+'%';
-  }
   function trendKey(p){
     if(!p) return '';
     if(p.m) return String(p.m);
@@ -2099,7 +2105,14 @@ const FIND=FIND_JSON;
       if(vs.length) maxs.push(Math.max.apply(null, vs));
     });
     if(!allPos || maxs.length<2 || Math.min.apply(null,maxs)===0) return 'level';
-    return (Math.max.apply(null,maxs)/Math.min.apply(null,maxs)>=2.5)?'pct_from_start':'level';
+    return (Math.max.apply(null,maxs)/Math.min.apply(null,maxs)>=2.5)?'index_100':'level';
+  }
+  function fmtIndex(v){
+    if(v==null||v==='') return '';
+    var n=Number(v);
+    if(!isFinite(n)) return '';
+    if(Math.abs(n-Math.round(n))<0.05) return String(Math.round(n));
+    return n.toFixed(1);
   }
   function drawHeadline(){
     if(!chTrend || !window.Chart || !allTrendKeys.length) return;
@@ -2127,7 +2140,7 @@ const FIND=FIND_JSON;
         if(!p || p.v==null || !isFinite(Number(p.v))){ raws.push(null); nums.push(null); return; }
         var raw=Number(p.v);
         raws.push(raw);
-        if(trendMode==='pct_from_start' && first) nums.push(((raw/first)-1)*100);
+        if(trendMode==='index_100' && first) nums.push((raw/first)*100);
         else nums.push(raw);
       });
       rawByKey[k]=raws;
@@ -2141,8 +2154,8 @@ const FIND=FIND_JSON;
         pointHoverRadius:4,
         borderWidth:(k==='MA'||k==='FL'||k===pickedSt)?2:1.75};
     });
-    var yTitle=trendMode==='pct_from_start'?'percent change from first year':axisUnit;
-    var yFmt=trendMode==='pct_from_start'?fmtPct:function(v){return fmtVal(v,true);};
+    var yTitle=trendMode==='index_100'?'index, first year = 100':axisUnit;
+    var yFmt=trendMode==='index_100'?fmtIndex:function(v){return fmtVal(v,true);};
     var yNums=[];
     datasets.forEach(function(d){ (d.data||[]).forEach(function(v){ if(v!=null&&v!=='') yNums.push(v); }); });
     function tickLab(v){
@@ -2164,8 +2177,8 @@ const FIND=FIND_JSON;
           },
           label:function(c){
           var di=c.dataIndex, key=c.dataset.key, raw=rawByKey[key]?rawByKey[key][di]:null;
-          if(trendMode==='pct_from_start'){
-            return ' '+c.dataset.label+': '+fmtPct(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
+          if(trendMode==='index_100'){
+            return ' '+c.dataset.label+': '+fmtIndex(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
           }
           var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
           return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;

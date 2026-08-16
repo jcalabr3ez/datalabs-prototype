@@ -62,6 +62,19 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "One namesake, fewer bars",
+        "body": (
+            "Live pages outside State Wealth Taxes and Florida Homeowners "
+            "Insurance now open on one namesake. Companion series stay as "
+            "later views. Bars that only repeated the fifty-state map, or "
+            "that mixed unlike units on one axis, are gone. Remaining "
+            "state-comparison bars take a Compare a state control built "
+            "from published cells only. Boston City Payroll opens on the "
+            "citywide earnings total. Ledgers were not rebuilt."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Mismatched overlays use an index, first year = 100",
         "body": (
             "When United States, Massachusetts, and Florida cannot share "

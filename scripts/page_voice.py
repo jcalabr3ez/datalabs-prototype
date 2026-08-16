@@ -2331,17 +2331,10 @@ def build_answer(tid, ledger, ma_line=""):
         )
         src_id = "SRC-631-01"
     elif tid == "DL-27":
-        earn = sec(ledger, "boston_top_earners_2025").get("highest") or {}
-        value = money(earn.get("v"))
-        name = (earn.get("name") or "").replace(",", ", ")
-        bits = [name]
-        if earn.get("title"):
-            bits.append(earn.get("title"))
-        if earn.get("department"):
-            bits.append(earn.get("department"))
+        value = money(latest.get("total"))
         context = (
-            ", ".join(b for b in bits if b)
-            + ", calendar 2025 (SRC-627-01)."
+            f"across {commify(latest.get('employees'))} employees in "
+            "calendar 2025 (SRC-627-01)."
         )
         src_id = "SRC-627-01"
     else:

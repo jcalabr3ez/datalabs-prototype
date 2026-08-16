@@ -170,7 +170,7 @@
  {
   "id": "DL-10",
   "t": "Massachusetts Hospitals",
-  "q": "CMS star ratings and CHIA commercial relative prices for Massachusetts hospitals.",
+  "q": "CMS overall star ratings for Massachusetts hospitals, with CHIA commercial relative prices as a later view.",
   "g": [
    "MA"
   ],
@@ -184,7 +184,7 @@
  {
   "id": "DL-11",
   "t": "340B Drug Discounts",
-  "q": "Participating 340B sites, contract pharmacies, and hospital charity care.",
+  "q": "Participating 340B sites by state, with contract pharmacies and hospital charity care as later views.",
   "g": [
    "US",
    "FL"
@@ -199,7 +199,7 @@
  {
   "id": "DL-12",
   "t": "State Medicaid Spending",
-  "q": "Medicaid expenditures and fraud recoveries by state.",
+  "q": "Medicaid expenditures by state, with fraud recoveries as a later view.",
   "g": [
    "US",
    "FL"
@@ -214,7 +214,7 @@
  {
   "id": "DL-13",
   "t": "Business Formation",
-  "q": "New business applications from Census BFS, and private-sector establishment births and deaths from BLS BED.",
+  "q": "New business applications from Census BFS, with establishment births and deaths as later views.",
   "g": [
    "US",
    "MA",
@@ -278,7 +278,7 @@
  {
   "id": "DL-17",
   "t": "State Migration",
-  "q": "Domestic and international migration, births, deaths, population change, and age and race shares by state.",
+  "q": "Domestic migration by state, with age, metro share, and international migration as later views.",
   "g": [
    "US",
    "MA",
@@ -332,7 +332,7 @@
  {
   "id": "DL-20",
   "t": "Taxpayer Migration",
-  "q": "IRS state-to-state and county-to-county taxpayer flows.",
+  "q": "IRS net taxpayer migration by state, with origin-destination and county flows as later views.",
   "g": [
    "US",
    "MA",
@@ -348,7 +348,7 @@
  {
   "id": "DL-21",
   "t": "Taxpayer Income",
-  "q": "IRS adjusted gross income and income-tax returns by state.",
+  "q": "IRS adjusted gross income by state, with county AGI and size-of-AGI stubs as later views.",
   "g": [
    "US",
    "MA",
@@ -439,7 +439,7 @@
  {
   "id": "DL-27",
   "t": "Boston City Payroll",
-  "q": "Boston department payroll, named top earners, and the adopted operating budget.",
+  "q": "Boston city payroll in calendar 2025, with named top earners and the adopted operating budget as later views.",
   "g": [
    "Boston"
   ],
@@ -467,7 +467,7 @@
  {
   "id": "DL-29",
   "t": "State Tax Collections",
-  "q": "State tax collections by type.",
+  "q": "State tax collections last quarter, with employment, income-tax share, and public-pension holdings as later views.",
   "g": [
    "US",
    "FL"
@@ -482,7 +482,7 @@
  {
   "id": "DL-30",
   "t": "Massachusetts State Payroll",
-  "q": "Commonwealth, campus, and quasi-public payroll.",
+  "q": "Commonwealth payroll in calendar 2025, with campus, quasi-public, and vendor payments as later views.",
   "g": [
    "MA"
   ],
@@ -496,7 +496,7 @@
  {
   "id": "DL-31",
   "t": "State Imprisonment",
-  "q": "BJS prisoners and imprisonment rates by state.",
+  "q": "Prisoners under jurisdiction by state, with imprisonment rates and youth in adult prisons as later views.",
   "g": [
    "US",
    "FL"

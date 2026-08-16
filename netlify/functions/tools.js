@@ -516,7 +516,7 @@ module.exports = [
     id: 'DL-08',
     label: 'College Enrollment: fall enrollment in degree-granting institutions by state',
     src: 'SRC-608-01',
-    extraViews: ['he-faculty', 'ipeds-6yr-state', 'he-tuition'],
+    extraViews: ['ipeds-6yr-state', 'he-tuition'],
     triggers: [
       'college', 'college enrollment', 'higher education', 'postsecondary',
       'fall enrollment', 'degree-granting', 'university enrollment',
@@ -775,7 +775,7 @@ module.exports = [
     id: 'DL-29',
     label: 'State government tax collections by state, Census QTAX latest quarter',
     src: 'SRC-629-01',
-    extraViews: ['aslg-rev', 'aspp-hold', 'gov-units'],
+    extraViews: ['aspp-hold'],
     triggers: [
       'state tax collections', 'state tax', 'which state collected', 'qtax',
       'quarterly tax revenue', 'state government taxes',

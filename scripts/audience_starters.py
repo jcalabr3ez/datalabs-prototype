@@ -170,7 +170,7 @@ STARTERS = {
         "policymaker": "Which Massachusetts towns have the highest school spending per pupil?",
     },
     "DL-27": {
-        "public": "Who is the highest paid Boston city employee?",
+        "public": "How much is Boston city payroll?",
         "journalist": "How much is Boston Police Department payroll?",
         "researcher": "Is Boston payroll a calendar year and the operating budget a fiscal year?",
         "policymaker": "How much is the City of Boston FY26 operating appropriation?",
@@ -210,7 +210,7 @@ STARTERS = {
 # Place-lens questions for fifty-state tools. {name} is the jurisdiction.
 STATE_Q = {
     "DL-04": "What does a household pay for electricity in {name}?",
-    "DL-06": "What does {name} spend per pupil?",
+    "DL-06": "How many students are enrolled in {name} public schools?",
     "DL-07": "What is the {name} NAEP grade 4 reading score?",
     "DL-08": "How many students are enrolled in {name} colleges?",
     "DL-09": "How many students are in charter schools in {name}?",
@@ -240,7 +240,6 @@ COMPANION_JUMPS = {
     ),
     "DL-14": (
         ("Wages", "#insight-qcew-wage"),
-        ("UI claims", "#insight-ui-claims"),
         ("Participation", "#insight-lfpr"),
     ),
     "DL-15": (
@@ -248,9 +247,9 @@ COMPANION_JUMPS = {
         ("Income per person", "#insight-pcpi"),
     ),
     "DL-17": (
-        ("Births", "#insight-births"),
-        ("Deaths", "#insight-deaths"),
         ("Age 65 and over", "#insight-age65"),
+        ("Metro share", "#insight-rucc"),
+        ("International", "#insight-intl-mig"),
     ),
     "DL-20": (
         ("Who left Massachusetts", "#insight-ma-destinations"),

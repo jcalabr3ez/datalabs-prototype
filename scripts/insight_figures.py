@@ -104,7 +104,44 @@ def _snap_val(node):
     return node
 
 
-def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1):
+def _filter_states(snap, extra_rows=None):
+    """Published state cells only. Never invents a missing rank."""
+    cells = []
+    seen = set()
+
+    def add(st, name, v):
+        if v is None or not st or st in seen:
+            return
+        seen.add(st)
+        cells.append({"st": str(st), "name": name or str(st), "v": v})
+
+    add("US", "United States", _snap_val(snap.get("us")))
+    add("MA", "Massachusetts", _snap_val(snap.get("ma")))
+    fl = snap.get("fl")
+    if isinstance(fl, dict):
+        add(fl.get("st") or "FL", fl.get("name") or "Florida", _snap_val(fl))
+    elif fl is not None:
+        add("FL", "Florida", fl)
+    for key in ("highest", "lowest"):
+        row = snap.get(key) or {}
+        if isinstance(row, dict):
+            add(row.get("st"), row.get("name"), row.get("v"))
+    for row in list(extra_rows or []) + list(snap.get("rows") or []):
+        if isinstance(row, dict):
+            add(row.get("st"), row.get("name"), row.get("v"))
+    return cells
+
+
+def _with_filter(fig, snap, extra_rows=None):
+    if not fig:
+        return fig
+    states = _filter_states(snap, extra_rows)
+    if len(states) >= 3:
+        fig["filter_states"] = states
+    return fig
+
+
+def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1, extra_rows=None):
     if not snap:
         return None
     ma = snap.get("ma") if isinstance(snap.get("ma"), dict) else None
@@ -155,12 +192,13 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
     fmt = "percent" if "percent" in unit.lower() else (
         "usd" if "dollar" in unit.lower() else "number"
     )
-    return _fig(
+    fig = _fig(
         fid, title, lede, src, "bar", fmt, unit,
         [p[0] for p in pairs],
         _bars([p[0] for p in pairs], [p[1] for p in pairs]),
         note, span=span,
     )
+    return _with_filter(fig, snap, extra_rows)
 
 
 def from_latest(ledger, fid="latest-compare", title=None, lede=None, note=None, skip_us=None):
@@ -180,7 +218,10 @@ def from_latest(ledger, fid="latest-compare", title=None, lede=None, note=None, 
         "unit": ledger.get("unit") or "",
         "note": note,
     }
-    return from_snap(snap, fid, title=title, lede=lede, note=note, skip_us=skip_us)
+    return from_snap(
+        snap, fid, title=title, lede=lede, note=note, skip_us=skip_us,
+        extra_rows=ledger.get("rows") or [],
+    )
 
 
 def state_map(rows, fid, title, lede, src, fmt, unit, note, name_key="name", val_key="v", span=2):
@@ -392,41 +433,6 @@ def figs_dl06(ledger):
             labels, _bars(labels, values),
             mcas.get("note") or "Statewide All Students, Next Generation MCAS 2025.",
         ))
-    att = sec.get("attendance_2025") or {}
-    if att.get("attend_rate_pct") is not None and att.get("chronic_absent_10_pct") is not None:
-        labels = ["Attendance rate", "Chronically absent"]
-        values = [att["attend_rate_pct"], att["chronic_absent_10_pct"]]
-        out.append(_fig(
-            "attendance-2025",
-            "Massachusetts attendance, 2024-25",
-            (
-                f"The attendance rate was {att['attend_rate_pct']} percent. "
-                f"{att['chronic_absent_10_pct']} percent of students were "
-                f"chronically absent."
-            ),
-            att.get("src") or "SRC-606-05",
-            "bar", "percent", "percent",
-            labels, _bars(labels, values),
-            "Statewide end-of-year attendance. Chronic absence is 10 percent or more of days.",
-        ))
-    drop = sec.get("dropouts_2025") or {}
-    if drop.get("dropout_count") is not None and drop.get("enroll_count") is not None:
-        labels = ["High-school enrollment", "Dropouts"]
-        values = [drop["enroll_count"], drop["dropout_count"]]
-        rate = drop.get("dropout_pct")
-        rate_bit = f", {rate} percent" if rate is not None else ""
-        out.append(_fig(
-            "dropouts-2025",
-            "Massachusetts high-school dropouts, 2024-25",
-            (
-                f"{drop['dropout_count']:,} students dropped out{rate_bit} "
-                f"of {drop['enroll_count']:,} enrolled."
-            ),
-            drop.get("src") or "SRC-606-06",
-            "bar", "number", "students",
-            labels, _bars(labels, values),
-            "DESE / E2C high-school dropouts. Both counts are published cells.",
-        ))
     fin = sec.get("district_finance_fy2025") or {}
     fig = named_list(
         fin.get("top_five"), "dist-ppe-ma",
@@ -477,26 +483,6 @@ def figs_dl06(ledger):
             "bar", "percent", "percent",
             labels, _bars(labels, values),
             "DESE / E2C selected populations. Shares are of statewide enrollment.",
-            span=2,
-        ))
-    grades = [r for r in (demo.get("grades") or []) if r.get("v") is not None]
-    if grades:
-        labels = [r["name"] for r in grades]
-        values = [r["v"] for r in grades]
-        k = next((r for r in grades if r["name"] == "Kindergarten"), {})
-        g9 = next((r for r in grades if r["name"] == "Grade 9"), {})
-        out.append(_fig(
-            "ma-grades",
-            "Massachusetts public-school enrollment by grade, 2025-26",
-            (
-                f"Kindergarten {k.get('v'):,} students; grade 9 "
-                f"{g9.get('v'):,}. Statewide total {demo.get('total'):,}."
-            ) if k.get("v") is not None and g9.get("v") is not None else
-            f"Statewide total {demo.get('total'):,} students.",
-            demo.get("src") or "SRC-606-08",
-            "bar", "number", "students",
-            labels, _bars(labels, values),
-            "DESE / E2C statewide All Students. Grade counts are published cells on the same enrollment file as race and selected populations.",
             span=2,
         ))
     latest = ledger.get("latest") or {}
@@ -581,32 +567,6 @@ def figs_dl08(ledger):
     )
     if fig:
         out.append(fig)
-    fac = sec.get("faculty_composition_fall_2023") or {}
-    if fac.get("us") and fac.get("professors") and fac.get("female") is not None:
-        labels = ["All full-time faculty", "Professors", "Women"]
-        values = [fac["us"], fac["professors"], fac["female"]]
-        out.append(_fig(
-            "faculty-ft",
-            "Full-time faculty, Fall 2023 (national)",
-            (
-                f"{fac['us']:,} full-time faculty. Professors were "
-                f"{fac.get('professor_share_pct')} percent; women were "
-                f"{fac.get('female_share_pct')} percent."
-            ),
-            fac.get("src") or "SRC-608-05",
-            "bar", "number", "faculty",
-            labels, _bars(labels, values),
-            fac.get("note") or "Digest 315.20 is national and has no state column.",
-            span=2,
-        ))
-    fig = from_snap(
-        sec.get("public_fte_faculty_fall_2023"), "he-faculty",
-        title="Public FTE faculty, Fall 2023",
-        skip_us=True,
-        note="NCES Digest table 314.50. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
     ratio = sec.get("students_per_faculty_fall_2023") or {}
     fig = from_snap(
         ratio, "he-ratio",
@@ -633,30 +593,6 @@ def figs_dl08(ledger):
     )
     if fig:
         out.append(fig)
-    fig = from_snap(
-        sec.get("he_state_appropriations_2020_21"), "he-approp",
-        title="State appropriations to public higher education, 2020-21",
-        skip_us=True,
-        note="NCES Digest table 333.30. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("he_expenditures_2020_21"), "he-exp",
-        title="Public higher-education expenditures, 2020-21",
-        skip_us=True,
-        note="NCES Digest table 334.20. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("bachelors_conferred_2020_21"), "he-ba",
-        title="Bachelor's degrees conferred, 2020-21",
-        skip_us=True,
-        note="NCES Digest table 319.20. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
     return out
 
 
@@ -668,22 +604,6 @@ def figs_dl09(ledger):
         title="Public-school teachers (FTE), Fall 2022",
         skip_us=True,
         note="NCES Digest table 208.30. These are all public-school teachers, not charter staff only.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("k12_staff_fte_fall_2022"), "k12-staff",
-        title="Public-school staff (FTE), Fall 2022",
-        skip_us=True,
-        note="NCES Digest table 213.20. These are all public-school staff, not charter staff only. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("k12_aides_fte_fall_2022"), "k12-aides",
-        title="Instructional aides (FTE), Fall 2022",
-        skip_us=True,
-        note="NCES Digest table 213.20. These are all public-school instructional aides, not charter staff only.",
     )
     if fig:
         out.append(fig)
@@ -782,13 +702,6 @@ def figs_dl12(ledger):
     )
     if fig:
         out.append(fig)
-    latest = from_latest(
-        ledger, "medicaid-spend",
-        title="Medicaid net expenditures, FY 2024",
-        skip_us=True,
-    )
-    if latest:
-        out.append(latest)
     return out
 
 
@@ -937,14 +850,6 @@ def figs_dl13(ledger):
             ),
             span=2,
         ))
-    latest = from_latest(
-        ledger, "bfs",
-        title="Business applications, latest month",
-        skip_us=True,
-        note="Census Business Formation Statistics. The U.S. total is omitted so state bars remain readable.",
-    )
-    if latest:
-        out.append(latest)
     return out
 
 
@@ -1059,27 +964,12 @@ def figs_dl16(ledger):
     )
     if fig:
         out.append(fig)
-    latest = from_latest(
-        ledger, "permits",
-        title="Building permits, latest year-to-date",
-        skip_us=True,
-    )
-    if latest:
-        out.append(latest)
     return out
 
 
 def figs_dl17(ledger):
     sec = _sec(ledger)
     out = []
-    latest = from_latest(
-        ledger, "mig-2025",
-        title="Domestic migration, 2025",
-        skip_us=True,
-        note="Census vintage 2025 DOMESTICMIG. The U.S. total is omitted because domestic flows sum to zero.",
-    )
-    if latest:
-        out.append(latest)
     fig = from_snap(
         sec.get("rucc_2023"), "rucc",
         title="Share of 2020 population in metro RUCC 1-3 counties",
@@ -1094,51 +984,18 @@ def figs_dl17(ledger):
     if fig:
         out.append(fig)
     fig = from_snap(
-        sec.get("pop_hispanic_share_2025"), "hisp",
-        title="Hispanic or Latino share of population, 2025",
+        sec.get("international_mig_2025"), "intl-mig",
+        title="International migration, 2025",
+        skip_us=True,
     )
     if fig:
         out.append(fig)
-    ma_age = sec.get("pop_age_race_ma_2025") or {}
-    if ma_age.get("age_0_17") and ma_age.get("age_65plus"):
-        labels = ["Age 17 and under", "Age 18 to 64", "Age 65 and over"]
-        values = [ma_age["age_0_17"], ma_age["age_18_64"], ma_age["age_65plus"]]
-        out.append(_fig(
-            "ma-age",
-            "Massachusetts population by age, 2025",
-            (
-                f"{ma_age['age_65plus']:,} residents were 65 and over "
-                f"({(sec.get('pop_age_65plus_share_2025') or {}).get('ma', {}).get('v')} percent)."
-            ),
-            ma_age.get("src") or "SRC-617-03",
-            "bar", "number", "people",
-            labels, _bars(labels, values),
-            ma_age.get("note") or "Census vintage 2025 state characteristics.",
-        ))
-    for key, fid, title, skip in (
-        ("births_2025", "births", "Births, 2025", True),
-        ("deaths_2025", "deaths", "Deaths, 2025", True),
-        ("international_mig_2025", "intl-mig", "International migration, 2025", True),
-        ("pop_change_2025", "pop-chg", "Population change, 2025", True),
-    ):
-        fig = from_snap(sec.get(key), fid, title=title, skip_us=skip)
-        if fig:
-            out.append(fig)
     return out
 
 
 def figs_dl19(ledger):
     sec = _sec(ledger)
     out = []
-    fig = from_latest(
-        ledger, "rpp",
-        title="Regional price parities, all items, 2024",
-        lede="Massachusetts 105.8 versus a U.S. index of 100. California is highest.",
-        note="BEA SARPP. United States equals 100.",
-        skip_us=False,
-    )
-    if fig:
-        out.append(fig)
     comps = ((sec.get("rpp_components_2024") or {}).get("components")) or {}
     order = [
         ("goods", "Goods"),
@@ -1210,8 +1067,11 @@ def figs_dl20(ledger):
         if fig:
             out.append(fig)
     us = sec.get("us_county_taxpayer_migration_2022_23") or {}
+    us_chart = list(us.get("chart") or [])
+    if len(us_chart) > 10:
+        us_chart = us_chart[:5] + us_chart[-5:]
     fig = named_list(
-        us.get("chart"), "us-county-mig",
+        us_chart, "us-county-mig",
         "Largest U.S. county taxpayer gains and losses, 2022-23",
         (
             f"{(us.get('highest') or {}).get('name')} had the largest net "
@@ -1223,10 +1083,10 @@ def figs_dl20(ledger):
         us.get("src") or "SRC-620-02",
         "number", "returns",
         us.get("note") or (
-            "The 15 largest net gains and the 15 largest net losses. "
+            "The five largest net gains and the five largest net losses. "
             "Net equals Total Migration-US inflow minus outflow."
         ),
-        n=30, span=2,
+        n=10, span=2,
         highlight_names=[
             r["name"] for r in (us.get("chart") or [])
             if r.get("st") in ("MA", "FL")
@@ -1236,8 +1096,11 @@ def figs_dl20(ledger):
         fig["height"] = "ranks"
         out.append(fig)
     mig = sec.get("ma_county_taxpayer_migration_2022_23") or {}
+    ma_counties = list(mig.get("counties") or [])
+    if len(ma_counties) > 10:
+        ma_counties = ma_counties[:5] + ma_counties[-5:]
     fig = named_list(
-        mig.get("counties"), "county-mig",
+        ma_counties, "county-mig",
         "Massachusetts county net domestic taxpayer migration, 2022-23",
         (
             f"{(mig.get('highest') or {}).get('name')} had the largest net "
@@ -1248,37 +1111,10 @@ def figs_dl20(ledger):
         mig.get("src") or "SRC-620-02",
         "number", "returns",
         mig.get("note") or "Net equals Total Migration-US inflow minus outflow. Same-state and foreign rows are excluded.",
-        n=14, span=2,
+        n=10, span=2,
     )
     if fig:
         out.append(fig)
-    fl = sec.get("fl_county_taxpayer_migration_2022_23") or {}
-    fig = named_list(
-        fl.get("counties"), "fl-county-mig",
-        "Florida county net domestic taxpayer migration, 2022-23",
-        (
-            f"{(fl.get('highest') or {}).get('name')} had the largest net "
-            f"inflow; {(fl.get('lowest') or {}).get('name')} the largest "
-            "net outflow."
-        ) if fl.get("highest") else
-        "Florida county net domestic taxpayer migration.",
-        fl.get("src") or "SRC-620-02",
-        "number", "returns",
-        fl.get("note") or "Net equals Total Migration-US inflow minus outflow. Same-state and foreign rows are excluded.",
-        n=67, span=2,
-    )
-    if fig:
-        fig["height"] = "ranks"
-        if fig.get("series"):
-            fig["series"][0]["colors"] = [RUST] * len(fig["labels"])
-        out.append(fig)
-    latest = from_latest(
-        ledger, "state-mig",
-        title="State-to-state taxpayer migration, 2022-23",
-        skip_us=True,
-    )
-    if latest:
-        out.append(latest)
     return out
 
 
@@ -1295,31 +1131,6 @@ def figs_dl21(ledger):
         n=5, span=2,
     )
     out = [fig] if fig else []
-    fl_agi = sec.get("fl_county_agi_2022") or {}
-    fig = named_list(
-        fl_agi.get("top_five"), "fl-county-agi",
-        "Florida county adjusted gross income, tax year 2022",
-        (
-            f"{(fl_agi.get('highest') or {}).get('name')} is highest at "
-            f"${(fl_agi.get('highest') or {}).get('v'):,}."
-        ) if (fl_agi.get("highest") or {}).get("v") is not None else
-        "Florida county adjusted gross income.",
-        fl_agi.get("src") or "SRC-621-02",
-        "usd", "dollars",
-        fl_agi.get("note") or "County AGI is the sum of SOI size-of-AGI stubs.",
-        n=5, span=2,
-    )
-    if fig:
-        if fig.get("series"):
-            fig["series"][0]["colors"] = [RUST] * len(fig["labels"])
-        out.append(fig)
-    latest = from_latest(
-        ledger, "state-agi",
-        title="State adjusted gross income, tax year 2022",
-        skip_us=True,
-    )
-    if latest:
-        out.append(latest)
     stubs = ((sec.get("agi_stubs_2022") or {}).get("ma") or {}).get("stubs") or []
     if stubs:
         labels = [s["name"].replace("adjusted gross income", "AGI") for s in stubs]
@@ -1338,26 +1149,6 @@ def figs_dl21(ledger):
             "IRS SOI Historic Table 2 size-of-AGI stubs. This is not a dedicated percentile file.",
             span=2,
         ))
-    fl_stubs = ((sec.get("agi_stubs_2022") or {}).get("fl") or {}).get("stubs") or []
-    if fl_stubs:
-        labels = [s["name"].replace("adjusted gross income", "AGI") for s in fl_stubs]
-        values = [s["agi_share_pct"] for s in fl_stubs]
-        mp = (sec.get("agi_stubs_2022") or {}).get("fl", {}).get("million_plus") or {}
-        out.append(_fig(
-            "fl-agi-stubs",
-            "Florida AGI by size-of-AGI stub, tax year 2022",
-            (
-                f"Returns with $1 million or more held {mp.get('agi_share_pct')} "
-                "percent of Florida AGI."
-            ),
-            "SRC-621-03",
-            "bar", "percent", "percent of AGI",
-            labels, _bars(labels, values, highlight_names=[]),
-            "IRS SOI Historic Table 2 size-of-AGI stubs. This is not a dedicated percentile file.",
-            span=2,
-        ))
-        if out[-1].get("series"):
-            out[-1]["series"][0]["colors"] = [RUST] * len(labels)
     fig = from_snap(
         (sec.get("agi_stubs_2022") or {}).get("million_plus_agi_share"),
         "agi-million",
@@ -1558,26 +1349,6 @@ def figs_dl28(ledger):
     )
     out = [fig] if fig else []
     sec = _sec(ledger)
-    q = sec.get("qtax_type_shares_2026q1") or {}
-    types = [t for t in (q.get("types") or []) if t.get("ma_share_pct") and t["ma_share_pct"] >= 3]
-    types = sorted(types, key=lambda t: -t["ma_share_pct"])[:8]
-    if types:
-        labels = [t["name"] for t in types]
-        values = [t["ma_share_pct"] for t in types]
-        inc = q.get("individual_income") or {}
-        out.append(_fig(
-            "tax-shares",
-            "Massachusetts tax-type shares, 2026 Q1",
-            (
-                f"Individual income was {inc.get('ma_share_pct')} percent of "
-                "Commonwealth collections."
-            ),
-            q.get("src") or "SRC-628-01",
-            "bar", "percent", "percent of total taxes",
-            labels, _bars(labels, values),
-            "Census QTAX 2026 Q1. Types under 3 percent are omitted.",
-            span=2,
-        ))
     stc = ((sec.get("stc_ma_2023") or {}).get("ma_types")) or []
     fig = named_list(
         [t for t in stc if t.get("name") and t["name"] != "Total Taxes"],
@@ -1595,14 +1366,8 @@ def figs_dl28(ledger):
 
 
 def figs_dl29(ledger):
-    fig = from_latest(
-        ledger, "state-taxes",
-        title="State tax collections, 2026 Q1",
-        skip_us=True,
-        note="Census QTAX 2026 Q1 table 3. The U.S. total is omitted so state bars remain readable. NASBO rainy-day figures remain pending.",
-    )
-    out = [fig] if fig else []
     sec = _sec(ledger)
+    out = []
     fig = from_snap(
         sec.get("aspep_fte_2023"), "aspep",
         title="State government FTE employment, 2023",
@@ -1613,40 +1378,8 @@ def figs_dl29(ledger):
         out.append(fig)
     stc = sec.get("stc_2023") or {}
     fig = from_snap(
-        stc.get("total"), "stc-total",
-        title="State tax collections, FY 2023",
-        skip_us=True,
-        note="Census STC FY 2023. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
         stc.get("income_share"), "stc-income-share",
         title="Individual income tax share of state collections, FY 2023",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("aslg_revenue_2022"), "aslg-rev",
-        title="State and local revenue, 2022",
-        skip_us=True,
-        note="Census of Governments Finance 2022 table 1. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("aslg_expenditure_2022"), "aslg-exp",
-        title="State and local expenditure, 2022",
-        skip_us=True,
-        note="Census of Governments Finance 2022 table 1. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        sec.get("gov_units_2022"), "gov-units",
-        title="Government units, 2022",
-        skip_us=True,
-        note="Census of Governments organization table CG2200ORG01. The U.S. total is omitted so state bars remain readable.",
     )
     if fig:
         out.append(fig)
@@ -1717,34 +1450,12 @@ def figs_dl30(ledger):
 
 
 def figs_dl31(ledger):
-    fig = from_latest(
-        ledger, "prisoners",
-        title="Prisoners under jurisdiction, year-end 2023",
-        skip_us=True,
-        note="BJS Prisoners in 2023, table 2. The U.S. total is omitted so state bars remain readable. FBI crime rates are not a stable machine file on this page.",
-    )
-    out = [fig] if fig else []
     sec = _sec(ledger)
+    out = []
     b = sec.get("bjs_depth_2023") or {}
     fig = from_snap(
         b.get("imprisonment_rate"), "prison-rate",
         title="Imprisonment rate per 100,000 residents, 2023",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        b.get("admissions"), "admissions",
-        title="Admissions of sentenced prisoners, 2023",
-        skip_us=True,
-        note="BJS Prisoners in 2023, table 8. The U.S. total is omitted so state bars remain readable.",
-    )
-    if fig:
-        out.append(fig)
-    fig = from_snap(
-        b.get("releases"), "releases",
-        title="Releases of sentenced prisoners, 2023",
-        skip_us=True,
-        note="BJS Prisoners in 2023, table 9. The U.S. total is omitted so state bars remain readable.",
     )
     if fig:
         out.append(fig)

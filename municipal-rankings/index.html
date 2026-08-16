@@ -103,6 +103,7 @@
     <div class="exhibit span2" id="insight-town-change-hist">
       <div class="ex-head"><span class="ex-n">Figure 2</span>
         <span class="ex-t">Distribution of city and town population change, 2020 to 2025</span></div>
+      <div class="lede">Every Census subcounty row. The map is the geography; the table lists every place.</div>
       <div class="plot"><canvas id="chInsight0"></canvas></div>
       <div class="srcline"><b>Source:</b> SRC-626-01. <b>Unit:</b> people.</div>
     </div>
@@ -993,6 +994,7 @@ const FIND={"kind": "town", "cards": {"amherst": {"name": "Amherst", "value": "1
   function valTitle(unit){
     return unit?{display:true,text:unit,color:GREY,font:{size:11}}:{display:false};
   }
+  var insightCharts={};
   (INSIGHTS||[]).forEach(function(fig, i){
     var el=document.getElementById('chInsight'+i);
     if(!el||!fig) return;
@@ -1076,7 +1078,69 @@ const FIND={"kind": "town", "cards": {"amherst": {"name": "Amherst", "value": "1
       return;
     }
     var s0=fig.series[0]||{};
-    new Chart(el,{type:'bar',
+    function barColors(labs){
+      return (labs||[]).map(function(lab){
+        var t=String(lab);
+        return (lab==='Massachusetts'||lab==='Boston'||t.indexOf(', MA')>=0)?GOLD:NAVY;
+      });
+    }
+    function insightPicks(src){
+      var cells=src.filter_states||[];
+      var by={}; cells.forEach(function(c){ by[c.st]=c; });
+      var picks=[];
+      if(by.US) picks.push('US');
+      if(by.MA) picks.push('MA');
+      var extra=null;
+      if(by.FL && picks.indexOf('FL')<0) extra='FL';
+      else {
+        for(var ci=0;ci<cells.length;ci++){
+          if(picks.indexOf(cells[ci].st)<0){ extra=cells[ci].st; break; }
+        }
+      }
+      if(extra) picks.push(extra);
+      return picks;
+    }
+    function applyInsightStates(src, picks){
+      var by={}; (src.filter_states||[]).forEach(function(c){ by[c.st]=c; });
+      var labels=[], values=[];
+      picks.forEach(function(st){
+        var c=by[st];
+        if(!c) return;
+        labels.push(c.name);
+        values.push(c.v);
+      });
+      if(labels.length<2) return false;
+      src.labels=labels;
+      src.series=[{label:'',data:values,colors:barColors(labels)}];
+      return true;
+    }
+    var pickSel=document.getElementById('insightSel'+i);
+    if(fig.type==='bar' && fig.filter_states && fig.filter_states.length>=3 && pickSel){
+      var picks=insightPicks(fig);
+      var extras=(fig.filter_states||[]).filter(function(c){ return c.st!=='US' && c.st!=='MA'; });
+      if(extras.length<2){
+        if(pickSel.parentNode) pickSel.parentNode.hidden=true;
+      } else {
+      pickSel.innerHTML=extras.map(function(c){
+        var on=picks.indexOf(c.st)>=0 && c.st!=='US' && c.st!=='MA';
+        return '<option value="'+c.st+'"'+(on?' selected':'')+'>'+c.name+'</option>';
+      }).join('');
+      }
+      applyInsightStates(fig, picks);
+      s0=fig.series[0]||s0;
+      pickSel.addEventListener('change', function(){
+        var next=insightPicks(fig);
+        if(next.length) next[next.length-1]=pickSel.value;
+        if(!applyInsightStates(fig, next)) return;
+        if(insightCharts[i]){
+          insightCharts[i].data.labels=fig.labels;
+          insightCharts[i].data.datasets[0].data=fig.series[0].data;
+          insightCharts[i].data.datasets[0].backgroundColor=fig.series[0].colors;
+          insightCharts[i].update();
+        }
+      });
+    }
+    insightCharts[i]=new Chart(el,{type:'bar',
       data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||BLUE}]},
       options:Object.assign({},opts,{indexAxis:'y'}),
       plugins:[lbl]});

@@ -297,12 +297,32 @@ def insight_html(insights, start=1):
         note_html = (
             "      <div class=\"note\">" + esc(note) + "</div>\n" if note else ""
         )
+        lede_html = (
+            "      <div class=\"lede\">" + esc(fig.get("lede")) + "</div>\n"
+            if fig.get("lede") else ""
+        )
         fid = fig.get("id") or ("fig" + str(start + i))
+        pick = ""
+        if fig.get("type") == "bar" and len(fig.get("filter_states") or []) >= 3:
+            pick = (
+                '      <div class="findrow insight-pick" id="insightPick'
+                + str(i)
+                + '">\n'
+                '        <label class="sel-lab" for="insightSel'
+                + str(i)
+                + '">Compare a state</label>\n'
+                '        <select id="insightSel'
+                + str(i)
+                + '" aria-label="Compare a state"></select>\n'
+                "      </div>\n"
+            )
         blocks.append(
             "    <div class=\"exhibit" + span + "\" id=\"insight-" + esc(fid) + "\">\n"
             "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + str(start + i) + "</span>\n"
             "        <span class=\"ex-t\">" + esc(fig["title"]) + "</span></div>\n"
-            "      <div class=\"" + hclass + "\""
+            + lede_html
+            + pick
+            + "      <div class=\"" + hclass + "\""
             + (" id=\"chInsight" + str(i) + "\"" if fig.get("type") == "map" else "")
             + ">"
             + ("" if fig.get("type") == "map" else "<canvas id=\"chInsight" + str(i) + "\"></canvas>")
@@ -332,15 +352,36 @@ def later_view_html(later, start_fig, canvas_start):
         note_html = (
             "      <div class=\"note\">" + esc(note) + "</div>\n" if note else ""
         )
+        pick = ""
+        idx = canvas_start + i
+        if fig.get("type") == "bar" and len(fig.get("filter_states") or []) >= 3:
+            pick = (
+                '    <div class="findrow insight-pick" id="insightPick'
+                + str(idx)
+                + '">\n'
+                '      <label class="sel-lab" for="insightSel'
+                + str(idx)
+                + '">Compare a state</label>\n'
+                '      <select id="insightSel'
+                + str(idx)
+                + '" aria-label="Compare a state"></select>\n'
+                "    </div>\n"
+            )
+        lede = (
+            ('    <div class="lede">' + esc(fig.get("lede")) + "</div>\n")
+            if fig.get("lede") else ""
+        )
         blocks.append(
             "  <section id=\"view-" + esc(fid) + "\">\n"
             "    <h2>" + esc(fig.get("title") or fid) + "</h2>\n"
-            "    <div class=\"exhibit span2\">\n"
+            + lede
+            + pick
+            + "    <div class=\"exhibit span2\">\n"
             "      <div class=\"ex-head\"><span class=\"ex-n\">Figure "
             + str(start_fig + i) + "</span>\n"
             "        <span class=\"ex-t\">" + esc(fig.get("title") or fid) + "</span></div>\n"
             "      <div class=\"plot\"><canvas id=\"chInsight"
-            + str(canvas_start + i) + "\"></canvas></div>\n"
+            + str(idx) + "\"></canvas></div>\n"
             + note_html
             + "      <div class=\"srcline\"><b>Source:</b> "
             + esc(fig.get("src") or "see the register")
@@ -2233,6 +2274,7 @@ const FIND=FIND_JSON;
   function valTitle(unit){
     return unit?{display:true,text:unit,color:GREY,font:{size:11}}:{display:false};
   }
+  var insightCharts={};
   (INSIGHTS||[]).forEach(function(fig, i){
     var el=document.getElementById('chInsight'+i);
     if(!el||!fig) return;
@@ -2316,7 +2358,69 @@ const FIND=FIND_JSON;
       return;
     }
     var s0=fig.series[0]||{};
-    new Chart(el,{type:'bar',
+    function barColors(labs){
+      return (labs||[]).map(function(lab){
+        var t=String(lab);
+        return (lab==='Massachusetts'||lab==='Boston'||t.indexOf(', MA')>=0)?GOLD:NAVY;
+      });
+    }
+    function insightPicks(src){
+      var cells=src.filter_states||[];
+      var by={}; cells.forEach(function(c){ by[c.st]=c; });
+      var picks=[];
+      if(by.US) picks.push('US');
+      if(by.MA) picks.push('MA');
+      var extra=null;
+      if(by.FL && picks.indexOf('FL')<0) extra='FL';
+      else {
+        for(var ci=0;ci<cells.length;ci++){
+          if(picks.indexOf(cells[ci].st)<0){ extra=cells[ci].st; break; }
+        }
+      }
+      if(extra) picks.push(extra);
+      return picks;
+    }
+    function applyInsightStates(src, picks){
+      var by={}; (src.filter_states||[]).forEach(function(c){ by[c.st]=c; });
+      var labels=[], values=[];
+      picks.forEach(function(st){
+        var c=by[st];
+        if(!c) return;
+        labels.push(c.name);
+        values.push(c.v);
+      });
+      if(labels.length<2) return false;
+      src.labels=labels;
+      src.series=[{label:'',data:values,colors:barColors(labels)}];
+      return true;
+    }
+    var pickSel=document.getElementById('insightSel'+i);
+    if(fig.type==='bar' && fig.filter_states && fig.filter_states.length>=3 && pickSel){
+      var picks=insightPicks(fig);
+      var extras=(fig.filter_states||[]).filter(function(c){ return c.st!=='US' && c.st!=='MA'; });
+      if(extras.length<2){
+        if(pickSel.parentNode) pickSel.parentNode.hidden=true;
+      } else {
+      pickSel.innerHTML=extras.map(function(c){
+        var on=picks.indexOf(c.st)>=0 && c.st!=='US' && c.st!=='MA';
+        return '<option value=\"'+c.st+'\"'+(on?' selected':'')+'>'+c.name+'</option>';
+      }).join('');
+      }
+      applyInsightStates(fig, picks);
+      s0=fig.series[0]||s0;
+      pickSel.addEventListener('change', function(){
+        var next=insightPicks(fig);
+        if(next.length) next[next.length-1]=pickSel.value;
+        if(!applyInsightStates(fig, next)) return;
+        if(insightCharts[i]){
+          insightCharts[i].data.labels=fig.labels;
+          insightCharts[i].data.datasets[0].data=fig.series[0].data;
+          insightCharts[i].data.datasets[0].backgroundColor=fig.series[0].colors;
+          insightCharts[i].update();
+        }
+      });
+    }
+    insightCharts[i]=new Chart(el,{type:'bar',
       data:{labels:fig.labels,datasets:[{data:s0.data,backgroundColor:s0.colors||BLUE}]},
       options:Object.assign({},opts,{indexAxis:'y'}),
       plugins:[lbl]});

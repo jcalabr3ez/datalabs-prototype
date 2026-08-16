@@ -109,3 +109,24 @@
     if (e.key === "Enter") ask();
   });
 })();
+
+(function () {
+  document.addEventListener("click", function (ev) {
+    var btn = ev.target && ev.target.closest && ev.target.closest(".cite-copy");
+    if (!btn) return;
+    var text = btn.getAttribute("data-cite") || "";
+    if (!text) return;
+    var done = function () {
+      var prev = btn.textContent;
+      btn.textContent = "Copied";
+      setTimeout(function () { btn.textContent = prev || "Copy citation"; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () {
+        window.prompt("Copy this citation", text);
+      });
+    } else {
+      window.prompt("Copy this citation", text);
+    }
+  });
+})();

@@ -121,6 +121,7 @@ def table_value_label(unit, metric_label=""):
         "index (us = 100)": "Index (US=100)",
         "millions of chained 2017 dollars": "$ millions",
         "star rating (1-5)": "Stars",
+        "scale score": "Scale score",
     }
     if ulow in named:
         return named[ulow]
@@ -348,6 +349,224 @@ def rank_txt(cell):
     if r and n:
         return f"rank {r} of {n}"
     return ""
+
+
+def jurisdiction_phrase(n):
+    """Rank-file geography: 51 includes D.C., 50 does not, else a count."""
+    try:
+        n = int(n)
+    except (TypeError, ValueError):
+        return "the published jurisdictions"
+    if n == 51:
+        return "the 50 states and the District of Columbia"
+    if n == 50:
+        return "the 50 states (the District of Columbia is not in this file)"
+    if n == 46:
+        return "46 jurisdictions (not every state is in this file)"
+    return f"{n} jurisdictions"
+
+
+def split_ma_line(ma_line):
+    """Keep comma-grouped numbers intact. Split only on a trailing rank clause."""
+    text = (ma_line or "").strip()
+    if not text:
+        return "", ""
+    m = re.search(r"^(.*?)(?:,\s*)(rank\s+\d+\s+of\s+\d+)\s*$", text, re.I)
+    if m:
+        return m.group(1).strip(), m.group(2).strip().rstrip(".") + "."
+    return text, ""
+
+
+def unit_already_in_value(val, metric_label):
+    v = (val or "").lower()
+    ml = (metric_label or "").lower()
+    if not ml:
+        return True
+    if "billion" in v and "million" in ml:
+        return True
+    if "million" in v and "million" in ml:
+        return True
+    if "trillion" in v and "trillion" in ml:
+        return True
+    if "\u00a2" in (val or "") or "¢" in (val or "") or "/kwh" in v:
+        return True
+    if "%" in (val or "") and "percent" in ml:
+        return True
+    return False
+
+
+def leadership_clause(hi):
+    parts = []
+    for rec in hi[:2]:
+        if not isinstance(rec, dict):
+            continue
+        name = rec.get("name") or ""
+        ch = (rec.get("chamber") or "").lower()
+        if ch == "senate":
+            office = "Senate President"
+        elif ch == "house":
+            office = "House Speaker"
+        else:
+            office = rec.get("title") or ""
+        if name and office:
+            parts.append(f"{name} ({office})")
+        elif name:
+            parts.append(name)
+    return " and ".join(parts)
+
+
+def naep_read4_by_st(ledger):
+    rec = sec(ledger, "naep_2024", "history", "read4", "change_2019_2024")
+    items = []
+    for row in rec.get("rows") or []:
+        if not row.get("st") or row.get("to") is None:
+            continue
+        items.append({
+            "st": row["st"],
+            "name": row.get("name") or row["st"],
+            "v": row["to"],
+        })
+    items.sort(key=lambda x: -float(x["v"]))
+    n = len(items)
+    by = {}
+    for i, rec in enumerate(items, 1):
+        rec["rank"] = i
+        rec["n"] = n
+        by[rec["st"]] = rec
+    return by
+
+
+YEAR_IN_NAME = re.compile(
+    r"(Fall \d{4}|FY \d{4}|fiscal year \d{4}|school year \d{4}-\d{2}|"
+    r"calendar year \d{4}|CY \d{4}|\d{4} Q[1-4]|January 1, \d{4}|"
+    r"20\d{2}-\d{2}|20\d{2})",
+    re.I,
+)
+
+
+def secondary_vintages(obj, acc=None):
+    """Map source id -> as_of_label from nested secondary cells."""
+    acc = acc if acc is not None else {}
+    if isinstance(obj, dict):
+        sid = obj.get("src")
+        lab = obj.get("as_of_label")
+        if sid and lab and sid not in acc:
+            acc[sid] = lab
+        for v in obj.values():
+            secondary_vintages(v, acc)
+    elif isinstance(obj, list):
+        for v in obj:
+            secondary_vintages(v, acc)
+    return acc
+
+
+def source_vintage(ledger, sid, src=None):
+    """Vintage for one register row. Never stamp the page as_of onto another series."""
+    src = src or {}
+    for key in ("vintage", "as_of_label", "data_month_label"):
+        val = src.get(key)
+        if val:
+            return str(val)
+    vint_map = secondary_vintages((ledger.get("derived") or {}).get("secondary") or {})
+    if sid in vint_map:
+        return vint_map[sid]
+    name = src.get("name") or ""
+    m = YEAR_IN_NAME.search(name)
+    if m:
+        token = m.group(0)
+        if re.fullmatch(r"20\d{2}", token) and "FY" in name.upper():
+            return f"FY {token}"
+        return token
+    return "See source"
+
+
+def mixed_vintage_lines(ledger, limit=6):
+    """Distinct series vintages on this page, for a mixed-date banner."""
+    seen = []
+    seen_l = set()
+
+    def add(name, lab):
+        lab = (lab or "").strip()
+        name = (name or "").strip()
+        if not lab:
+            return
+        key = lab.lower()
+        if key in seen_l:
+            return
+        seen_l.add(key)
+        seen.append((name, lab))
+
+    add(ledger.get("metric_label") or "Headline series", ledger.get("data_month_label"))
+    sec_root = (ledger.get("derived") or {}).get("secondary") or {}
+
+    def walk(obj):
+        if isinstance(obj, dict):
+            lab = obj.get("as_of_label")
+            name = obj.get("label") or obj.get("metric_label") or ""
+            if lab and name:
+                add(name, lab)
+            elif lab:
+                add(obj.get("src") or "", lab)
+            for v in obj.values():
+                walk(v)
+        elif isinstance(obj, list):
+            for v in obj:
+                walk(v)
+
+    walk(sec_root)
+    if len(seen_l) < 2:
+        return []
+    return seen[:limit]
+
+
+def cite_card_text(answer):
+    title = (answer.get("title") or "").strip()
+    vintage = (answer.get("vintage") or "").strip()
+    q = (answer.get("q") or "").strip()
+    value = str(answer.get("value") or "").strip()
+    context = (answer.get("context") or "").strip().rstrip(".")
+    src_id = (answer.get("src_id") or "").strip()
+    bits = ["Pioneer Institute DataLabs"]
+    if title:
+        bits.append(title)
+    head = ", ".join(bits)
+    if vintage:
+        head += f", {vintage}"
+    head += ":"
+    body = " ".join(p for p in (q, value) if p)
+    if context:
+        if body and context[:1].isupper() and not body.endswith((".", "?", "!")):
+            body = f"{body}. {context}."
+        else:
+            body = f"{body} {context}." if body else f"{context}."
+    else:
+        body = f"{body}." if body else ""
+    if src_id and src_id not in body:
+        body = f"{body} ({src_id})" if body else f"({src_id})"
+    return f"{head} {body}".strip()
+
+
+def enrich_answer(answer, tid, ledger, src_id, title, as_of):
+    if not answer:
+        return answer
+    answer.setdefault("metric", ledger.get("metric_label") or "")
+    answer.setdefault("geo", "Massachusetts")
+    answer.setdefault("unit", ledger.get("unit") or "")
+    if tid == "DL-07":
+        answer["vintage"] = "2024 NAEP"
+        answer["metric"] = "NAEP grade 4 reading"
+        answer["src_id"] = "SRC-607-05"
+    elif tid == "DL-04":
+        answer["vintage"] = str((ledger.get("latest") or {}).get("year") or as_of or "")
+        answer["metric"] = "Residential average retail price"
+        answer["src_id"] = "SRC-401"
+    else:
+        answer.setdefault("vintage", ledger.get("data_month_label") or as_of or "")
+        answer.setdefault("src_id", src_id or "")
+    answer["title"] = title
+    answer["derived"] = bool(answer.get("src_id", "").startswith("SRC-") and "derived" in (answer.get("context") or "").lower())
+    answer["cite"] = cite_card_text(answer)
+    return answer
 
 
 def money(n):
@@ -1281,7 +1500,7 @@ def voice_dl30(ledger):
             "Spending next to payroll, not a vendor-only extract.",
             src_name(ledger, "SRC-630-02")),
     ]
-    return take, kpis, f"{hi.get('name')} {money(hi.get('v'))}", "SRC-630-01"
+    return take, kpis, f"{money(latest.get('total'))} across {commify(latest.get('employees'))} employee rows", "SRC-630-01"
 
 
 def voice_dl31(ledger):
@@ -1489,6 +1708,7 @@ def find_bundle(app, ledger):
         fmt = "stars"
     chia = _chia_lookup(sec(ledger, "chia_srp_2023")) if tid == "DL-10" else {}
     acs = _acs_lookup(sec(ledger, "acs_towns_2024") or sec(ledger, "acs_rankings_2024")) if tid in ("DL-25", "DL-26") else {}
+    naep_by_st = naep_read4_by_st(ledger) if tid == "DL-07" else {}
     qtax_types = {}
     if tid == "DL-28":
         for rec in sec(ledger, "qtax_type_shares_2026q1").get("types") or []:
@@ -1547,14 +1767,16 @@ def find_bundle(app, ledger):
             hist = (sec(ledger, "naep_2024") or {}).get("history") or {}
             st = r.get("st")
             for key, label in (("read4", "Grade 4 reading"), ("math8", "Grade 8 math")):
-                rows = ((hist.get(key) or {}).get("change_2019_2024") or {}).get("rows") or []
-                hit = next((x for x in rows if x.get("st") == st), None)
+                rows_n = ((hist.get(key) or {}).get("change_2019_2024") or {}).get("rows") or []
+                hit = next((x for x in rows_n if x.get("st") == st), None)
                 if not hit:
                     continue
                 sign = "+" if hit.get("v", 0) > 0 else ("\u2212" if hit.get("v", 0) < 0 else "")
                 facts.append(
                     f"{label} {hit.get('to')} in 2024, {sign}{abs(float(hit.get('v') or 0)):.1f} from 2019 (SRC-607-05)"
                 )
+            if r.get("v") is not None:
+                facts.append(f"Fall 2024 enrollment {commify(r.get('v'))} (SRC-607-02)")
         elif kind == "tax_type":
             qt = qtax_types.get(norm_key(name))
             if qt:
@@ -1584,12 +1806,21 @@ def find_bundle(app, ledger):
         if r.get("first") and r.get("last"):
             aliases.append(norm_key(f"{r['first']} {r['last']}"))
             aliases.append(norm_key(f"{r['last']} {r['first']}"))
+        find_value = money_cents(r.get("v")) if kind == "legislator" else format_find_value(r.get("v"), unit_raw)
+        find_rank = r.get("rank")
+        find_n = r.get("n")
+        if tid == "DL-07":
+            naep_hit = naep_by_st.get(r.get("st"))
+            if naep_hit:
+                find_value = format_find_value(naep_hit.get("v"), "scale score")
+                find_rank = naep_hit.get("rank")
+                find_n = naep_hit.get("n")
         cards[norm_key(name)] = {
             "name": shown,
-            "value": money_cents(r.get("v")) if kind == "legislator" else format_find_value(r.get("v"), unit_raw),
-            "rank": r.get("rank"),
-            "n": r.get("n"),
-            "yoy": r.get("yoy_pct"),
+            "value": find_value,
+            "rank": find_rank,
+            "n": find_n,
+            "yoy": r.get("yoy_pct") if tid != "DL-07" else None,
             "facts": facts,
             "kind": kind,
             "aliases": aliases,
@@ -1608,10 +1839,13 @@ def find_bundle(app, ledger):
         default_q = "Massachusetts General Hospital"
     elif kind == "town":
         default_q = "Boston"
+    metric = ledger.get("metric_label") or "Value"
+    if tid == "DL-07":
+        metric = "NAEP grade 4 reading, 2024"
     return {
         "kind": kind,
         "cards": cards,
-        "metric": ledger.get("metric_label") or "Value",
+        "metric": metric,
         "default_q": default_q,
     }
 
@@ -1630,6 +1864,7 @@ def build_answer(tid, ledger, ma_line=""):
     unit = ledger.get("unit") or ""
     value = ""
     context = ""
+    src_id = first_src(ledger)
     if tid == "DL-07":
         naep = sec(ledger, "naep_2024", "series", "read4")
         ma_r = ma_of(naep)
@@ -1638,6 +1873,7 @@ def build_answer(tid, ledger, ma_line=""):
             f"Massachusetts ranks {ma_r.get('rank') or 1} of {ma_r.get('n') or 51} "
             "on the 2024 NAEP grade-4 reading scale (SRC-607-05)."
         )
+        src_id = "SRC-607-05"
     elif tid == "DL-10":
         mgh = next(
             (
@@ -1652,22 +1888,54 @@ def build_answer(tid, ledger, ma_line=""):
             f"Massachusetts General Hospital, {rank_txt(mgh) or 'rank 2 of 54'} "
             "on CMS overall (SRC-610-02)."
         )
+        src_id = "SRC-610-02"
     elif tid == "DL-14":
         value = f"{ma.get('v')}%"
         context = (
             f"{rank_txt(ma).capitalize()} on the seasonally adjusted statewide "
             "unemployment rate (derived, SRC-614-01)."
         )
+        src_id = "SRC-614-01"
+    elif tid == "DL-15":
+        if ma.get("v") is not None:
+            value = format_metric_value(ma.get("v"), unit)
+            rk = rank_txt(ma)
+            context = (
+                (rk.capitalize() + " on real GDP, chained 2017 dollars (SRC-615-01).")
+                if rk else
+                "Massachusetts real GDP in chained 2017 dollars (SRC-615-01)."
+            )
+        src_id = "SRC-615-01"
     elif tid == "DL-25":
         bos = latest.get("boston") or latest.get("highest") or {}
         value = commify(bos.get("v"))
         context = "Boston resident population on the Census vintage 2025 subcounty estimates (SRC-625-01)."
+        src_id = "SRC-625-01"
+    elif tid == "DL-26":
+        value, rest = split_ma_line(ma_line)
+        context = rest or "Largest population gain from 2020 to 2025 on the Census vintage 2025 subcounty estimates (SRC-626-01)."
+        src_id = "SRC-626-01"
+    elif tid == "DL-28":
+        if ma.get("v") is not None:
+            value = money(ma.get("v"))
+            yoy = ma.get("yoy_pct")
+            extra = f", {yoy:+.1f}% from 2025 Q1" if yoy is not None else ""
+            context = f"Census QTAX statewide collections in 2026 Q1{extra} (SRC-628-01)."
+        src_id = "SRC-628-01"
+    elif tid == "DL-30":
+        value = money(latest.get("total"))
+        context = (
+            f"across {commify(latest.get('employees'))} employee rows in "
+            "calendar 2025 (SRC-630-01)."
+        )
+        src_id = "SRC-630-01"
     elif tid == "DL-32":
         hi = latest.get("highest") or []
         hi_v = hi[0].get("v") if hi else None
-        names = " and ".join(r.get("name") or "" for r in hi[:2] if r.get("name"))
+        names = leadership_clause(hi)
         value = money(hi_v)
         context = f"{names} each, calendar 2025 (SRC-632-01)."
+        src_id = "SRC-632-01"
     elif tid == "DL-31":
         value = commify(ma.get("v"))
         rate = sec(ledger, "bjs_depth_2023", "imprisonment_rate")
@@ -1682,6 +1950,7 @@ def build_answer(tid, ledger, ma_line=""):
             f"{rank_txt(ma).capitalize()} on year-end headcount (derived, SRC-631-01)."
             + extra
         )
+        src_id = "SRC-631-01"
     elif tid == "DL-27":
         earn = sec(ledger, "boston_top_earners_2025").get("highest") or {}
         value = money(earn.get("v"))
@@ -1695,20 +1964,20 @@ def build_answer(tid, ledger, ma_line=""):
             ", ".join(b for b in bits if b)
             + ", calendar 2025 (SRC-627-01)."
         )
+        src_id = "SRC-627-01"
     else:
         if ma.get("v") is not None:
             value = format_metric_value(ma.get("v"), unit)
             rk = rank_txt(ma)
             label = ledger.get("metric_label") or ""
             bits = [rk.capitalize() if rk else "Massachusetts"]
-            if label:
+            if label and not unit_already_in_value(value, label):
                 bits.append(label[0].lower() + label[1:] if label else label)
             context = ", ".join(b for b in bits if b) + "."
         elif ma_line:
-            parts = [p.strip() for p in ma_line.split(",") if p.strip()]
-            value = parts[0] if parts else ma_line
-            context = ", ".join(parts[1:]) + ("." if parts[1:] else "")
-    return {"q": q, "value": value or "", "context": context.strip()}
+            value, rest = split_ma_line(ma_line)
+            context = rest
+    return {"q": q, "value": value or "", "context": context.strip(), "src_id": src_id}
 
 
 def answer_inner_html(answer):
@@ -1718,9 +1987,27 @@ def answer_inner_html(answer):
     q = html.escape(answer.get("q") or "The finding")
     val = html.escape(str(answer["value"]))
     ctx = html.escape(answer.get("context") or "")
+    cite = html.escape(answer.get("cite") or "")
+    meta_bits = [b for b in (
+        answer.get("geo"),
+        answer.get("vintage"),
+        answer.get("src_id"),
+    ) if b]
     out = f"    <h2>{q}</h2>\n    <div class=\"answer-num\">{val}</div>\n"
     if ctx:
         out += f'    <p class="answer-ctx">{ctx}</p>\n'
+    if meta_bits:
+        out += (
+            '    <p class="answer-meta">'
+            + html.escape(" · ".join(str(b) for b in meta_bits))
+            + "</p>\n"
+        )
+    if cite:
+        out += (
+            '    <button type="button" class="cite-copy" data-cite="'
+            + cite
+            + '">Copy citation</button>\n'
+        )
     return out.rstrip()
 
 
@@ -1760,6 +2047,14 @@ def voice_for(app, ledger):
         take, kpis, ma_line, src_id = packed
     take = [t for t in take if t][:3]
     kpis = with_florida_kpi(kpis, ledger)
+    answer = enrich_answer(
+        build_answer(tid, ledger, ma_line),
+        tid,
+        ledger,
+        src_id,
+        title,
+        as_of,
+    )
     return {
         "takeaways": take,
         "kpis": kpis,
@@ -1769,7 +2064,8 @@ def voice_for(app, ledger):
         "src_id": src_id,
         "lead_extra": lead_extra,
         "page_lead": page_lead,
-        "answer": build_answer(tid, ledger, ma_line),
+        "answer": answer,
+        "vintages": mixed_vintage_lines(ledger),
     }
 
 
@@ -1836,7 +2132,7 @@ def flagship_voice(tid, ledger):
         if res_hi.get("price_cents") is not None:
             kpis_html_data.append(kpi(
                 "Highest residential",
-                f"{res_hi.get('st')} {res_hi['price_cents']:.2f}",
+                f"{res_hi.get('st')} {res_hi['price_cents']:.2f}\u00a2",
                 f"{res_hi.get('name')} is highest on the household series (SRC-401).",
                 "The top of the residential ranking.",
                 "EIA Form EIA-861 (SRC-401)",
@@ -1863,17 +2159,25 @@ def flagship_voice(tid, ledger):
             ),
             "src_id": "SRC-401",
             "lead": lead,
-            "answer": {
+            "answer": enrich_answer({
                 "q": "What does a household pay for electricity in Massachusetts?",
                 "value": f"{res_val:.2f}\u00a2" if res_val is not None else f"{ma_p:.2f}\u00a2",
                 "context": (
                     f"{rank_txt(res_ma).capitalize()} on the residential average (SRC-401). "
-                    f"The all-sector United States average was {us_p:.2f} cents (SRC-401)."
-                    if res_val is not None else
-                    f"{rank_txt(ma).capitalize()} on the all-sector average (derived, SRC-401). "
-                    f"The United States all-sector average was {us_p:.2f} cents (SRC-401)."
+                    f"The U.S. residential average was {res_us.get('price_cents'):.2f} cents (SRC-401)."
+                    if res_val is not None and res_us.get("price_cents") is not None else
+                    (
+                        f"{rank_txt(res_ma).capitalize()} on the residential average (SRC-401)."
+                        if res_val is not None else
+                        f"{rank_txt(ma).capitalize()} on the all-sector average (derived, SRC-401). "
+                        f"The United States all-sector average was {us_p:.2f} cents (SRC-401)."
+                    )
                 ),
-            },
+                "geo": "Massachusetts",
+                "metric": "Residential average retail price",
+                "unit": "cents per kilowatthour",
+            }, "DL-04", ledger, "SRC-401", "Retail Electricity Prices", str(year or "")),
+            "vintages": [],
         }
     if tid == "DL-05":
         latest = ledger.get("latest") or {}
@@ -1919,14 +2223,24 @@ def flagship_voice(tid, ledger):
                     if ret.get("annual_amount") else ""
                 )
             ),
-            "answer": {
+            "answer": enrich_answer({
                 "q": "How funded is the Massachusetts Teachers retirement system?",
                 "value": f"{mt.get('funded_pct')}%",
                 "context": (
                     f"January 1, {mt.get('valuation_year')} valuation, rank "
                     f"{mt.get('rank')} of {n} (SRC-501)."
                 ),
-            },
+                "geo": "Massachusetts",
+                "vintage": f"January 1, {mt.get('valuation_year')} valuation",
+                "src_id": "SRC-501",
+                "metric": "MTRS funded ratio",
+            }, "DL-05", ledger, "SRC-501", "Massachusetts Public Pensions", f"board valuations through January 1, {ledger.get('board_valuation_through')}"),
+            "vintages": [
+                ("Board valuations", f"January 1, {ledger.get('board_valuation_through')}"),
+                ("Compiled returns", str(ledger.get("returns_year") or "2023")),
+                ("Retiree payroll", str((ret.get("year") or ledger.get("retiree_year") or ""))),
+                ("Name search", str(ledger.get("search_year") or "")),
+            ],
         }
     if tid == "DL-03":
         take = [
@@ -1951,11 +2265,16 @@ def flagship_voice(tid, ledger):
                 "The T carried <b>26,288,869</b> unlinked passenger trips in June 2026, "
                 "<b>88.1 percent</b> of the same month in 2019 (derived, SRC-301)."
             ),
-            "answer": {
+            "answer": enrich_answer({
                 "q": "Is the T back to pre-pandemic ridership?",
                 "value": "88.1%",
                 "context": "of June 2019 ridership, on 26,288,869 unlinked passenger trips (derived, SRC-301).",
-            },
+                "geo": "Massachusetts",
+                "vintage": "June 2026",
+                "src_id": "SRC-301",
+                "metric": "Ridership vs June 2019",
+            }, "DL-03", ledger, "SRC-301", "Transportation and MBTA", "June 2026"),
+            "vintages": [],
         }
     return None
 
@@ -1972,6 +2291,26 @@ def apply_catalog_q(catalog):
         app = apps.get(row.get("id"))
         if app and app.get("q"):
             row["q"] = app["q"]
+    return catalog
+
+
+def apply_catalog_g(catalog):
+    """Copy suite geo tags onto catalog rows. Leave DL-01 and DL-02 as authored."""
+    apps = {a["id"]: a for a in load_apps()}
+    for row in catalog:
+        if not isinstance(row, dict):
+            continue
+        tid = row.get("id")
+        if tid in ("DL-01", "DL-02"):
+            continue
+        app = apps.get(tid)
+        if app and app.get("g"):
+            row["g"] = list(app["g"])
+        if tid == "DL-04":
+            g = list(row.get("g") or ["US"])
+            if "FL" not in g:
+                g.append("FL")
+            row["g"] = g
     return catalog
 
 

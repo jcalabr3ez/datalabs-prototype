@@ -50,10 +50,10 @@ STARTERS = {
         "policymaker": "How has the State and Teacher retiree payroll changed since 2011?",
     },
     "DL-06": {
-        "public": "What share of Massachusetts students met expectations on MCAS?",
-        "journalist": "Which Massachusetts districts spend the most per pupil?",
+        "public": "What does Massachusetts spend per pupil?",
+        "journalist": "How many Massachusetts students are in Chapter 74 vocational programs?",
         "researcher": "Is the MCAS figure the 2025 meeting-or-exceeding share for All Students?",
-        "policymaker": "How many Massachusetts students are in Chapter 74 vocational programs?",
+        "policymaker": "What share of Massachusetts students met expectations on MCAS?",
     },
     "DL-07": {
         "public": "What is the Massachusetts NAEP grade 4 reading score?",
@@ -62,7 +62,7 @@ STARTERS = {
         "policymaker": "How does Massachusetts per-pupil spending compare with its NAEP rank?",
     },
     "DL-08": {
-        "public": "What is public 4-year in-state tuition in Massachusetts?",
+        "public": "How many students are enrolled in Massachusetts colleges?",
         "journalist": "Which states have the highest public 4-year in-state tuition?",
         "researcher": "What share of Massachusetts graduates took the SAT, and is that the same as the national share?",
         "policymaker": "How do Massachusetts higher-education appropriations compare with in-state tuition?",
@@ -99,7 +99,7 @@ STARTERS = {
     },
     "DL-14": {
         "public": "What is the unemployment rate in Massachusetts?",
-        "journalist": "How many UI initial claims did Massachusetts file last week?",
+        "journalist": "What is the Massachusetts average weekly wage?",
         "researcher": "Is the unemployment rate seasonally adjusted, and is the wage figure from the same month?",
         "policymaker": "What is the Massachusetts labor-force participation rate?",
     },
@@ -117,7 +117,7 @@ STARTERS = {
     },
     "DL-17": {
         "public": "Is Massachusetts gaining or losing people?",
-        "journalist": "How many Census-estimated births and deaths did Massachusetts have in 2025?",
+        "journalist": "What share of the Massachusetts population lives in metro counties?",
         "researcher": "Is domestic migration on this page the Census estimate or IRS taxpayer returns?",
         "policymaker": "What share of Massachusetts residents are age 65 and over?",
     },
@@ -182,8 +182,8 @@ STARTERS = {
         "policymaker": "How did Massachusetts tax collections change from a year earlier?",
     },
     "DL-29": {
-        "public": "Which state collected the most tax last quarter?",
-        "journalist": "What share of Massachusetts state tax is the individual income tax?",
+        "public": "How much state tax did Massachusetts collect last quarter?",
+        "journalist": "Which state collected the most tax last quarter?",
         "researcher": "Are rainy-day fund totals on this page?",
         "policymaker": "How many state government employees does Massachusetts have, and how much public pension cash does Census ASPP show?",
     },
@@ -200,7 +200,7 @@ STARTERS = {
         "policymaker": "What is the Massachusetts imprisonment rate compared with the United States?",
     },
     "DL-32": {
-        "public": "How much is the Massachusetts House Speaker paid?",
+        "public": "How much are the Massachusetts House Speaker and Senate President paid?",
         "journalist": "How much did Massachusetts legislators earn in 2025?",
         "researcher": "Does this file include GIC health costs or the office-expense allowance?",
         "policymaker": "What is the leadership premium over base legislator pay?",
@@ -209,14 +209,11 @@ STARTERS = {
 
 COMPANION_JUMPS = {
     "DL-06": (
-        ("MCAS", "#insight-mcas-2025"),
         ("Chapter 74", "#insight-ch74-seats"),
-        ("District spending", "#insight-dist-ppe-ma"),
     ),
     "DL-07": (
-        ("NAEP change", "#view-rank"),
-        ("Graduation", "#insight-acgr"),
-        ("Suspension", "#insight-oss"),
+        ("NAEP change", "#insight-naep-read4-slope"),
+        ("Per-pupil spending", "#insight-npefs-ppe"),
     ),
     "DL-14": (
         ("Wages", "#insight-qcew-wage"),

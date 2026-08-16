@@ -23,7 +23,19 @@
   .jump a{font:400 13px/1.5 var(--sans);color:var(--navy);text-decoration:none}
   .jump a:hover{color:var(--ink);text-decoration:underline}
   .jump a::before{content:"· ";color:var(--faint)}
-  .jump a:first-of-type::before{content:none}
+  .jump a:first-of-type::before,.jump-links a:first-child::before{content:none}
+  .jump-fold{border:0;background:transparent;width:100%}
+  .jump-fold>summary{cursor:pointer;list-style:none;font:400 13px/1.5 var(--sans);color:var(--grey)}
+  .jump-fold>summary::-webkit-details-marker{display:none}
+  .jump-links{display:flex;flex-wrap:wrap;gap:6px 4px;margin-top:8px}
+  @media(min-width:720px){
+    .jump-fold>summary{display:none}
+    .jump-links{margin-top:0}
+    .jump-fold:not([open]) .jump-links{display:flex}
+  }
+  @media(max-width:719px){
+    .jump-fold:not([open]) .jump-links{display:none}
+  }
   .map-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:4px 0 14px}
   .map-tabs[hidden]{display:none}
   .map-tab{border:1px solid var(--rule);background:#fff;color:var(--ink);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer}
@@ -86,7 +98,13 @@
   .answer-block{margin-top:32px}
   .answer-block h2{margin-bottom:8px}
   .answer-num{font:700 clamp(36px,5vw,52px)/1.05 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin:4px 0 8px}
-  .answer-ctx{font:400 16px/1.5 var(--sans);color:var(--grey);max-width:40em;margin:0 0 22px}
+  .answer-ctx{font:400 16px/1.5 var(--sans);color:var(--grey);max-width:40em;margin:0 0 10px}
+  .answer-meta{font:400 12px/1.5 var(--sans);color:var(--faint);margin:0 0 10px}
+  .cite-copy{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--navy);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer;margin:0 0 16px}
+  .cite-copy:hover{border-color:var(--navy)}
+  .vintage-mix{font:400 13.5px/1.5 var(--sans);color:var(--grey);max-width:46em;margin:0 0 18px;padding:10px 12px;border:1px solid var(--rule);background:var(--hover)}
+  .compare-bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 0 16px}
+  .compare-bar select{border:1px solid var(--rule);border-radius:2px;padding:7px 11px;font:15px/1.3 var(--sans);background:#fff;min-width:180px}
   .proof-find{margin-top:8px}
   .exhibit{margin-top:30px}
   .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule);padding-bottom:7px;margin-bottom:16px}

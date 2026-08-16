@@ -16,7 +16,7 @@
     "K-12 School Finance",
     "Reading/Math Achievement"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2025 table 203.20. U.S. Fall 2024 enrollment equals 49,387,403. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2025 table 203.20. U.S. Fall 2024 enrollment equals 49,387,403. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-607-01": {
       "name": "NCES NAEP state results",

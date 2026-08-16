@@ -16,7 +16,7 @@
     "US Economic Profile",
     "Personal Income"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SAGDP1__ALL_AREAS_1997_2025, LineCode 1 (real GDP, millions of chained 2017 dollars). U.S. 2025 equals 23,850,442. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BEA SAGDP1__ALL_AREAS_1997_2025, LineCode 1 (real GDP, millions of chained 2017 dollars). U.S. 2025 equals 23,850,442. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-615-01": {
       "name": "BEA SAGDP1 real GDP by state, 1997-2025",

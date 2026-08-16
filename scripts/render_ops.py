@@ -62,6 +62,21 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Suite refresh unblocked, and close-of-day hygiene",
+        "body": (
+            "The monthly suite rebuild now expects all 27 suite apps, "
+            "including Legislature Pay. Unused one-off migration scripts "
+            "are gone. The landing page no longer embeds an unused "
+            "all-sector electricity blob. Legislature Pay no longer prints "
+            "an empty Tableau heritage line. Repeated later-view vintage "
+            "notes are collapsed. 340B now names the mixed HRSA and CMS "
+            "vintages. The ask-engine goldens include the national public "
+            "starters. State Wealth Taxes and Florida Homeowners Insurance "
+            "were not edited."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Fifty-state tools open on a national question",
         "body": (
             "Live fifty-state tools, including Retail Electricity Prices, "

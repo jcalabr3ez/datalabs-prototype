@@ -15,7 +15,7 @@
     "Population Change",
     "Rural to Urban"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census vintage 2025 NST-EST2025-ALLDATA. Population is POPESTIMATE2025 (July 1). The ranking is DOMESTICMIG2025, not total population. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census vintage 2025 NST-EST2025-ALLDATA. Population is POPESTIMATE2025 (July 1). The ranking is DOMESTICMIG2025, not total population. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-617-01": {
       "name": "Census Bureau vintage 2025 state population estimates",

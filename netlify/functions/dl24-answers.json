@@ -14,7 +14,7 @@
     "Energy Consumption",
     "Energy Production"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from EIA SEDS complete 1960-2024 (released June 26, 2026), series TETCE, million metric tons. U.S. 4780.661 and Massachusetts 58.072 match both fuel_te.csv and Complete_SEDS.csv. The retired environment/emissions/state table 1 file still ends at 2022. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from EIA SEDS complete 1960-2024 (released June 26, 2026), series TETCE, million metric tons. U.S. 4780.661 and Massachusetts 58.072 match both fuel_te.csv and Complete_SEDS.csv. The retired environment/emissions/state table 1 file still ends at 2022. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-624-01": {
       "name": "EIA SEDS total energy CO2 emissions (TETCE), 2024",

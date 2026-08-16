@@ -1194,7 +1194,8 @@
             "rank": 22,
             "n": 22
           }
-        ]
+        ],
+        "as_of_label": "August 15, 2026"
       },
       "pharmacies_by_state": {
         "label": "Unique active 340B contract pharmacies",
@@ -1586,7 +1587,8 @@
           "name": "Alaska",
           "v": 52
         },
-        "note": "Unique pharmacyId values on an active contract with a participating covered entity. One pharmacy can contract with many entities."
+        "note": "Unique pharmacyId values on an active contract with a participating covered entity. One pharmacy can contract with many entities.",
+        "as_of_label": "August 15, 2026"
       },
       "charity_care": {
         "label": "Hospital charity-care share of total costs, 2023",
@@ -2266,7 +2268,8 @@
             "costs": 398770947694.0
           }
         },
-        "note": "CMS Hospital Provider Cost Report PUF, Worksheet S-10 cost of charity care divided by total costs. That is the public file behind RAND TL-303. One row per provider CCN, latest fiscal-year end in that PUF year. 340B hospitals are participating DSH, CAH, RRC, SCH, PED, and CAN sites matched on the six-digit CCN inside the 340B ID."
+        "note": "CMS Hospital Provider Cost Report PUF, Worksheet S-10 cost of charity care divided by total costs. That is the public file behind RAND TL-303. One row per provider CCN, latest fiscal-year end in that PUF year. 340B hospitals are participating DSH, CAH, RRC, SCH, PED, and CAN sites matched on the six-digit CCN inside the 340B ID.",
+        "as_of_label": "Fiscal year 2023"
       },
       "legislative": {
         "label": "Unique 340B pharmacies by 2024 state house district",
@@ -39124,7 +39127,8 @@
           "v": 119,
           "pharmacies": 2481
         },
-        "note": "The 2023 Pioneer mapping geocoded pharmacy addresses onto state legislative districts. This rebuild assigns each pharmacy ZIP to the 2024 state house district that holds the majority of that ZCTA's land area. A ZIP can cross district lines. Unmapped ZIPs have no 2020 ZCTA in the Census file (post-office boxes and some unique ZIPs)."
+        "note": "The 2023 Pioneer mapping geocoded pharmacy addresses onto state legislative districts. This rebuild assigns each pharmacy ZIP to the 2024 state house district that holds the majority of that ZCTA's land area. A ZIP can cross district lines. Unmapped ZIPs have no 2020 ZCTA in the Census file (post-office boxes and some unique ZIPs).",
+        "as_of_label": "2024 state house districts"
       }
     }
   },

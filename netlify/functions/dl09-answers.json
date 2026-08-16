@@ -13,7 +13,7 @@
     "School Districts-Charter Schools",
     "School Districts-Education Staff"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-609-01": {
       "name": "NCES Digest table 216.90, charter schools and enrollment",

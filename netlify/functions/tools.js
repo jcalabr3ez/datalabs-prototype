@@ -649,7 +649,8 @@ module.exports = [
     triggers: [
       'taxpayer migration', 'taxpayers leaving', 'filers leaving',
       'irs migration', 'state-to-state migration', 'returns in and out',
-      'where did massachusetts taxpayers', 'taxpayers move', 'went to florida'
+      'where did massachusetts taxpayers', 'taxpayers move', 'went to florida',
+      'taxpayer returns'
     ],
     extra: 'Census domestic migration sits on DL-17. Massachusetts county nets sit in derived.secondary.ma_county_taxpayer_migration_2022_23. Origin-destination pairs, including Massachusetts to Florida, sit in derived.secondary.state_pair_flows_2022_23. Decline relocation advice.'
   }),
@@ -760,7 +761,7 @@ module.exports = [
     src: 'SRC-629-01',
     extraViews: ['aslg-rev', 'aspp-hold', 'gov-units'],
     triggers: [
-      'state tax collections', 'which state collected', 'qtax',
+      'state tax collections', 'state tax', 'which state collected', 'qtax',
       'quarterly tax revenue', 'state government taxes',
       'state employees', 'public employment', 'aspep',
       'government units', 'government organizations',

@@ -21,7 +21,7 @@
     "State Finance-State Only Revenues",
     "State Finance-State Rainy Day Funds"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-629-01": {
       "name": "Census QTAX 2026 Q1 table 3, total state taxes",

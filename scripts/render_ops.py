@@ -62,6 +62,26 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "New Releases cards",
+        "body": (
+            "The two New Releases cards at the top of the front door are now "
+            "equal cream tiles with a gold rule, a larger finding, and a short "
+            "spark or fifty-state count. Status is the vintage in words, not a "
+            "live-or-preview badge."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
+        "title": "A clearer catalog",
+        "body": (
+            "The front-door catalog is now four open verticals with one "
+            "application per row: name, finding, place, and vintage. The "
+            "nested accordion, dotted leaders, and color-coded vintage dots "
+            "are gone. Search and place filters still work."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "NAEP scores over time",
         "body": (
             "National K-12 now charts NAEP reading and math for every state "

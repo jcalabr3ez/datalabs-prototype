@@ -20,7 +20,7 @@ cites a primary source. The ask box may only answer from those ledgers.
    match the question. Click a state on a fifty-state map if there is one.
 4. Open two tools from your vertical in the catalog. Check the source register
    and the how-to-cite line in the footer.
-5. Write [datalabs@pioneerinstitute.org](mailto:datalabs@pioneerinstitute.org)
+5. Write [jcalabrese@pioneerinstitute.org](mailto:jcalabrese@pioneerinstitute.org)
    if something is wrong.
 
 ## What to report
@@ -58,5 +58,5 @@ Retail Electricity Prices, data through Dec 31, 2024 (SRC-401).
 Pioneer staff: DataLabs is open for an internal beta at
 https://datalabsai.netlify.app. Ask a question you would use in a brief,
 open the tool it names, and check the number against the source register.
-Write datalabs@pioneerinstitute.org if a figure is wrong or a page is hard
+Write jcalabrese@pioneerinstitute.org if a figure is wrong or a page is hard
 to read. This is not a public launch.

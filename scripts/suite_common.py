@@ -9,7 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SUITE = ROOT / "suite" / "apps.json"
 LEDGER_DIR = ROOT / "netlify" / "functions"
-UA = "PioneerDataLabs/1.0 (datalabs@pioneerinstitute.org)"
+UA = "PioneerDataLabs/1.0 (jcalabrese@pioneerinstitute.org)"
 
 STATE_NAMES = {
     "AL": "Alabama", "AK": "Alaska", "AZ": "Arizona", "AR": "Arkansas",

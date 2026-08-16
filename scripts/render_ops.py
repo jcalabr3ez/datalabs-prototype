@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Open for Pioneer staff beta",
+        "body": (
+            "The front door now reads Internal beta for Pioneer staff. "
+            "About says what to try and where to write. This is not a "
+            "public launch. Patents by State stays in build."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Corrections go to Jim Calabrese",
         "body": (
             "Every tool and the front door now list "
@@ -729,7 +738,7 @@ def status_body(rows):
   <h2>What this page reports</h2>
   <p class="lede">Vintage and refresh cadence for every DataLabs application. The vintage on each catalog row is the vintage of the data inside. This table adds the freshness gate and the job that is supposed to move it.</p>
   <p class="body-p">{live} applications are live. {build} {"is" if build == 1 else "are"} in build. {stale} {"is" if stale == 1 else "are"} past {"its" if stale == 1 else "their"} freshness gate. Table generated {TODAY_LABEL} from the ledgers in this repository.</p>
-  <p class="body-p">Questions asked at the front door are written to the site question log so the next tool can come from demand, not from a bigger catalog. Individual questions are not published here. The ask box is on at the front door. Use ?ai=0 to hide it.</p>
+  <p class="body-p">The catalog is in internal beta for Pioneer staff. Questions asked at the front door are written to the site question log so the next tool can come from demand, not from a bigger catalog. Individual questions are not published here. The ask box is on at the front door. Use ?ai=0 to hide it.</p>
   <div class="scroll"><table>
     <thead><tr><th>Application</th><th>Status</th><th>Vintage</th><th>Freshness gate</th><th>Refresh</th></tr></thead>
     <tbody>

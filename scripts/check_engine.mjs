@@ -145,6 +145,14 @@ for (const t of tools) {
   check(core.length <= full.length, t.id + " coreSlice (" + core.length + ") <= modelSlice (" + full.length + ")");
 }
 
+const dl14 = tools.find(function (t) { return t.id === "DL-14"; });
+const lfprCore = ((((dl14.coreSlice(dl14.dataset).derived || {}).secondary || {}).laus_labor_2026 || {}).lfpr || {});
+check(lfprCore.by_st && lfprCore.by_st.WY && lfprCore.by_st.WY.v != null,
+  "DL-14 coreSlice has Wyoming labor-force participation in by_st");
+const lfprFull = ((((dl14.modelSlice(dl14.dataset).derived || {}).secondary || {}).laus_labor_2026 || {}).lfpr || {});
+check(Array.isArray(lfprFull.rows) && lfprFull.rows.some(function (r) { return r.st === "WY"; }),
+  "DL-14 modelSlice keeps Wyoming in lfpr.rows");
+
 for (const [q, tool] of GOLDEN_HITS) {
   const hits = ask.toolsMatching(q).map(function (t) { return t.id; });
   check(hits.includes(tool), "golden hit " + tool + " for: " + q + "  (hits: " + hits.join(",") + ")");

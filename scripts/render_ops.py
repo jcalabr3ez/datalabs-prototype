@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Ask can answer a named-state participation rate",
+        "body": (
+            "The front-door ask box now keeps a compact state map for "
+            "labor-force participation and the other companion rankings, "
+            "so a Wyoming participation question can answer from the core "
+            "slice. The full monthly unemployment cube is no longer sent "
+            "on every labor question."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Fifty-one jurisdiction rows on companion snaps",
         "body": (
             "Labor-force participation, employment-population ratio, "

@@ -67,6 +67,16 @@ var CORE_HEAVY = {
 function slimSnap(snap) {
   if (!snap || typeof snap !== 'object' || Array.isArray(snap)) return snap;
   var out = {};
+  // Compact every-jurisdiction map so a named-state question can answer
+  // from the core. Do not copy `rows` (those stay on the full slice).
+  // Window snaps already keep `ranked`; skip those.
+  if (Array.isArray(snap.rows) && snap.rows.length && snap.rows.length <= 60 && !snap.ranked) {
+    var by = {};
+    snap.rows.forEach(function (r) {
+      if (r && r.st) by[r.st] = { v: r.v, rank: r.rank, name: r.name };
+    });
+    if (Object.keys(by).length) out.by_st = by;
+  }
   Object.keys(snap).forEach(function (k) {
     if (CORE_HEAVY[k]) return;
     var v = snap[k];
@@ -75,6 +85,19 @@ function slimSnap(snap) {
     } else {
       out[k] = v;
     }
+  });
+  return out;
+}
+
+function slimTrend(trend) {
+  if (!trend || typeof trend !== 'object') return trend;
+  if (Array.isArray(trend)) return trend.slice(-36);
+  var keep = { US: 1, MA: 1, FL: 1 };
+  var out = {};
+  Object.keys(trend).forEach(function (st) {
+    if (!keep[st]) return;
+    var series = trend[st];
+    out[st] = Array.isArray(series) ? series.slice(-36) : series;
   });
   return out;
 }
@@ -135,7 +158,7 @@ function suiteModel(d) {
     vintage_note: d.vintage_note, metric: d.metric,
     metric_label: d.metric_label, unit: d.unit,
     data_month_label: d.data_month_label,
-    latest: d.latest, derived: d.derived, rows: d.rows, trend: d.trend,
+    latest: d.latest, derived: d.derived, rows: d.rows, trend: slimTrend(d.trend),
     source_id_map: d.source_id_map, pending: d.pending
   };
 }
@@ -167,7 +190,7 @@ function suiteRules(id, src, extra, hasTrend, hasTable) {
       ? 'View and chart selection: latest = the current ranking; trend = change over time; table = every row. '
       : 'View and chart selection: latest = the current ranking; table = every row. This page has no trend view. ';
   }
-  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks, year-over-year changes, and trailing-window means cite (derived, ' + src + '). Prefer the precomputed values in latest, derived.windows, and derived.secondary over your own arithmetic. Do not average unpublished state-periods. Unscoped questions use the published United States cell in latest.us when that cell exists; never average the fifty states to invent a U.S. figure. If latest.us is missing, answer with the published highest state, not an invented national total. A named-state question uses that state\'s row. Answer the metric named in metric_label and any series stored under derived.secondary or derived.windows; cite the source id on each figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. ' + pick + 'When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
+  return id + ' rules. Every figure cites its source in parentheses, e.g. (' + src + '). Ranks, year-over-year changes, and trailing-window means cite (derived, ' + src + '). Prefer the precomputed values in latest, derived.windows, and derived.secondary over your own arithmetic. Do not average unpublished state-periods. Unscoped questions use the published United States cell in latest.us when that cell exists; never average the fifty states to invent a U.S. figure. If latest.us is missing, answer with the published highest state, not an invented national total. A named-state question uses that state\'s row, or by_st[ST] on a companion snap when rows are not in this slice. Answer the metric named in metric_label and any series stored under derived.secondary or derived.windows; cite the source id on each figure. Topics named as pending or listed in exclusions are unanswerable: say so plainly and do not invent a figure. Decline advice, forecasts, and individual lookups the ledger does not hold. ' + pick + 'When the question names a state or municipality present in entities, set highlight to that key. ' + (extra || '');
 }
 
 function suiteLink(slug, opts) {
@@ -625,7 +648,7 @@ module.exports = [
       'labor force participation', 'labor-force participation',
       'employment-population', 'epop'
     ],
-    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026; each of those snaps has a rows array for every state and D.C. A named-state participation question uses that row. CPS age-sex-race detail is not posted: decline those.'
+    extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. A named-state question uses by_st[ST] on that snap (for example by_st.WY), or rows when the full slice is present. Do not decline a state that appears in by_st. CPS age-sex-race detail is not posted: decline those.'
   }),
   suiteTool(DL15, {
     id: 'DL-15',

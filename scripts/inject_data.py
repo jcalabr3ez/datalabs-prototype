@@ -3,7 +3,7 @@
 
 Canonical data lives in:
     catalog.json                          (site root)
-    suite/apps.json                       (26-app registry)
+    suite/apps.json                       (suite registry)
     netlify/functions/dl03-answers.json   (MBTA ledger)
     netlify/functions/dl01-answers.json   (State Tax Atlas ledger)
     netlify/functions/dl02-answers.json   (Florida ledger)

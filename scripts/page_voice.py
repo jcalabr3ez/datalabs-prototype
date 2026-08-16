@@ -882,6 +882,42 @@ def voice_dl31(ledger):
     return take, kpis, f"imprisonment rate {int(rma.get('v')) if rma.get('v') is not None else rma.get('v')}, {rank_txt(rma)}", "SRC-631-03"
 
 
+def money_cents(n):
+    if n is None:
+        return ""
+    sign = "\u2212" if n < 0 else ""
+    return f"{sign}${abs(float(n)):,.2f}"
+
+
+def voice_dl32(ledger):
+    latest = ledger.get("latest") or {}
+    house = latest.get("house") or {}
+    senate = latest.get("senate") or {}
+    hi = latest.get("highest") or []
+    hi_names = " and ".join(r.get("name") or "" for r in hi[:2] if r.get("name"))
+    hi_v = hi[0].get("v") if hi else None
+    take = [
+        f"<b>{hi_names}</b> each received <b>{money_cents(hi_v)}</b> in calendar 2025, the House Speaker and Senate President totals (SRC-632-01).",
+        f"The House median was <b>{money_cents(house.get('median'))}</b> across <b>{commify(house.get('n'))}</b> Representative rows; the Senate median was <b>{money_cents(senate.get('median'))}</b> across <b>{commify(senate.get('n'))}</b> Senator rows (SRC-632-01).",
+        f"Combined pay was <b>{money(latest.get('total'))}</b>: <b>{money(latest.get('base'))}</b> base, <b>{money(latest.get('aa1'))}</b> supplemental (AA1), and <b>{money(latest.get('a14'))}</b> stipends (A14) (SRC-632-01).",
+    ]
+    kpis = [
+        kpi("Highest 2025 pay", money(hi_v),
+            f"{hi_names}, Speaker and Senate President (SRC-632-01).",
+            "Leadership extras sit in the Comptroller supplemental bucket.",
+            src_name(ledger, "SRC-632-01")),
+        kpi("House median, 2025", money(house.get("median")),
+            f"{commify(house.get('n'))} Representative rows (SRC-632-01).",
+            "The typical House check, including partial-year replacements.",
+            src_name(ledger, "SRC-632-01")),
+        kpi("Senate median, 2025", money(senate.get("median")),
+            f"{commify(senate.get('n'))} Senator rows (SRC-632-01).",
+            "The typical Senate check, including partial-year replacements.",
+            src_name(ledger, "SRC-632-01")),
+    ]
+    return take, kpis, f"Speaker and Senate President {money(hi_v)} each", "SRC-632-01"
+
+
 VOICES = {
     "DL-06": voice_dl06,
     "DL-07": voice_dl07,
@@ -907,6 +943,7 @@ VOICES = {
     "DL-29": voice_dl29,
     "DL-30": voice_dl30,
     "DL-31": voice_dl31,
+    "DL-32": voice_dl32,
 }
 
 
@@ -1001,6 +1038,8 @@ def find_bundle(app, ledger):
         kind = "hospital"
     elif tid == "DL-28":
         kind = "tax_type"
+    elif tid == "DL-32":
+        kind = "legislator"
     else:
         kind = "row"
     cards = {}
@@ -1077,16 +1116,42 @@ def find_bundle(app, ledger):
                     facts.append(f"U.S. share {qt['us_share_pct']}%")
                 if qt.get("yoy_pct") is not None:
                     facts.append(f"{qt['yoy_pct']:+.1f}% from 2025 Q1")
+        elif kind == "legislator":
+            if r.get("title") or r.get("chamber"):
+                facts.append(f"{r.get('title') or r.get('chamber')}" + (f", {r['chamber']}" if r.get("title") and r.get("chamber") and r.get("title") != r.get("chamber") else ""))
+            if r.get("base") is not None:
+                facts.append(f"Base salary {money_cents(r['base'])}")
+            if r.get("aa1") is not None:
+                facts.append(f"Supplemental (AA1) {money_cents(r['aa1'])}")
+            if r.get("a14") is not None:
+                facts.append(f"Stipends (A14) {money_cents(r['a14'])}")
+            if r.get("n_stints") and r["n_stints"] > 1:
+                facts.append(f"{r['n_stints']} payroll stints in 2025, added together")
+        aliases = [norm_key(name), (name or "").lower()]
+        if r.get("last"):
+            aliases.append(norm_key(r["last"]))
+        if r.get("first") and r.get("last"):
+            aliases.append(norm_key(f"{r['first']} {r['last']}"))
+            aliases.append(norm_key(f"{r['last']} {r['first']}"))
         cards[norm_key(name)] = {
             "name": name,
-            "value": _fmt_row_value(r.get("v"), fmt),
+            "value": money_cents(r.get("v")) if kind == "legislator" else _fmt_row_value(r.get("v"), fmt),
             "rank": r.get("rank"),
             "n": r.get("n"),
             "yoy": r.get("yoy_pct"),
             "facts": facts,
             "kind": kind,
-            "aliases": [norm_key(name), (name or "").lower()],
+            "aliases": aliases,
         }
+    if kind == "legislator":
+        last_hits = {}
+        for rec in cards.values():
+            last = norm_key((rec.get("name") or "").split(" ")[-1] if rec.get("name") else "")
+            if last:
+                last_hits.setdefault(last, []).append(rec)
+        for last, recs in last_hits.items():
+            if len(recs) == 1 and last not in cards:
+                cards[last] = recs[0]
     return {"kind": kind, "cards": cards, "metric": ledger.get("metric_label") or "Value"}
 
 

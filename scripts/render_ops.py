@@ -61,6 +61,17 @@ FLAGSHIPS = [
 
 CHANGELOG = [
     {
+        "date": "August 16, 2026",
+        "title": "Legislature Pay",
+        "body": (
+            "A new American Citizenship tool lists every person paid as a "
+            "Massachusetts Representative or Senator in calendar 2025, with "
+            "base salary, Comptroller supplemental pay, stipends, and total. "
+            "Employer-paid health and pension contributions are not on the "
+            "CTHRU named payroll file and are not invented here."
+        ),
+    },
+    {
         "date": "August 15, 2026",
         "title": "Public production pass",
         "body": (

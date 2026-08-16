@@ -101,6 +101,9 @@ RULES = {
     "netlify/functions/dl30-answers.json": (
         "YYYY-MM", 400, "CTHRU calendar-year payroll is complete after year-end"
     ),
+    "netlify/functions/dl32-answers.json": (
+        "YYYY-MM", 400, "CTHRU calendar-year legislator payroll is complete after year-end"
+    ),
 }
 
 

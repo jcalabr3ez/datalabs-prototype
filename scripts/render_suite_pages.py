@@ -9,8 +9,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from insight_figures import insight_figures
-from page_voice import census_place_names, short_place_text, takeaways_html, voice_for
-from suite_common import ROOT, catalog_dashboards, load_apps, ledger_path
+from page_voice import census_place_names, short_place_text, voice_for
+from suite_common import ROOT, catalog_dashboards, load_apps, ledger_path, paper_dateline
 
 def esc(s):
     return html.escape("" if s is None else str(s), quote=True)
@@ -33,15 +33,22 @@ def src_rows(ledger):
 
 def kpi_html(kpis):
     blocks = []
+    srcs = []
     for k in kpis:
+        src = (k.get("src") or "").strip()
+        if src and src not in srcs:
+            srcs.append(src)
         blocks.append(
             "      <div class=\"cell\">\n"
             "        <div class=\"cl\">" + esc(k["label"]) + "</div>\n"
             "        <div class=\"cv\">" + esc(k["value"]) + "</div>\n"
             "        <div class=\"cd\">" + k["detail"] + "</div>\n"
-            "        <div class=\"cd\" style=\"margin-top:8px\"><b>Why it matters:</b> "
-            + esc(k["why"]) + "</div>\n"
-            "        <div class=\"csrc\">Source: " + esc(k["src"]) + "</div>\n"
+            "      </div>"
+        )
+    if srcs:
+        blocks.append(
+            "      <div class=\"cell kpi-src\">\n"
+            "        <div class=\"csrc\">Source: " + esc("; ".join(srcs)) + "</div>\n"
             "      </div>"
         )
     return "\n".join(blocks)
@@ -110,8 +117,6 @@ def insight_html(insights):
         )
     return (
         "  <section id=\"insights\">\n"
-        "    <h2>A closer look</h2>\n"
-        "    <p class=\"lede\">More published series on this page.</p>\n"
         "    <div class=\"insight-grid\">\n"
         + "\n".join(blocks)
         + "\n    </div>\n"
@@ -193,7 +198,7 @@ def related_html(app, apps):
     return (
         '  <section id="related">\n'
         "    <h2>Related applications</h2>\n"
-        '    <p class="lede">Other DataLabs tools on the same desk.</p>\n'
+        '    <p class="lede">Other applications on the same subject.</p>\n'
         '    <div class="related">' + links + "</div>\n"
         "  </section>\n"
     )
@@ -297,6 +302,15 @@ def chart_spec(app, ledger):
         trend_title = label + " over time"
         trend_lede = trend_title + ". Empty periods are omitted."
         trend_unit = unit
+    compare_title = {
+        "state": "Compared with other states",
+        "hospital": "Compared with other hospitals",
+        "transit agency": "Compared with other agencies",
+        "city or town": "Compared with other cities and towns",
+        "department": "Compared with other departments",
+        "tax type": "Compared by tax type",
+        "legislator": "Pay by person",
+    }.get(geo, "Compared")
     table_noun = {
         "state": "Every state",
         "hospital": "Every hospital",
@@ -355,6 +369,7 @@ def chart_spec(app, ledger):
         "axis_unit": axis_unit,
         "label": label,
         "title": title,
+        "compare_title": compare_title,
         "lede": lede,
         "has_trend": has_trend,
         "table_noun": table_noun,
@@ -373,8 +388,6 @@ def page_html(app, ledger, apps=None):
     live = ledger.get("status") == "live"
     title = app["title"]
     slug = app["slug"]
-    vertical = app["vertical"]
-    topic = app["group"]
     standfirst = app["q"]
     apps = apps or []
     as_of_label = ledger.get("data_month_label") or "pending"
@@ -395,7 +408,6 @@ def page_html(app, ledger, apps=None):
     voice = voice_for(app, ledger) if app.get("id") not in ("DL-01", "DL-02") else None
     finding_kpis = (voice or {}).get("kpis") or []
     kpis = kpi_html(finding_kpis or ledger.get("kpis") or [])
-    takes = takeaways_html((voice or {}).get("takeaways") or [])
     cite = (voice or {}).get("cite") or (
         f"Pioneer Institute DataLabs, {title}, {as_of_label and ('data through ' + as_of_label + '. ') or ''}"
         f"Name the source id next to the figure. The vintage in the masthead belongs in the citation."
@@ -406,16 +418,18 @@ def page_html(app, ledger, apps=None):
     has_trend = bool(spec.get("has_trend"))
     find_noun = (spec.get("geo") or "name").replace("_", " ")
     jump = ""
+    compare_h2 = spec.get("compare_title") or spec.get("title") or "Compared"
+    table_h2 = spec.get("table_noun") or "Every row"
     if live:
         jump_links = [
-            '<a href="#takeaways">Takeaways</a>',
-            '<a href="#view-rank">Compare</a>',
+            '<a href="#view-rank">' + esc(compare_h2) + "</a>",
         ]
         if has_trend:
-            jump_links.append('<a href="#view-trend">Trend</a>')
-        jump_links.append('<a href="#view-table">Table</a>')
+            jump_links.append('<a href="#view-trend">The trend</a>')
+        jump_links.append('<a href="#view-table">' + esc(table_h2) + "</a>")
         jump = (
             '<nav class="jump" aria-label="On this page">'
+            '<span class="onlab">On this page</span>'
             + "".join(jump_links)
             + "</nav>\n"
         )
@@ -423,12 +437,8 @@ def page_html(app, ledger, apps=None):
     n_fig = len(insights) if live else 0
     if live:
         latest_section = f"""
-<section id="takeaways" style="margin-top:30px">
-    <h2>What are the key takeaways?</h2>
-<!-- DATA:BEGIN {slug}-takeaways -->
-{takes}
-<!-- DATA:END {slug}-takeaways -->
-    <p class="lede">
+<section id="finding" style="margin-top:28px">
+    <p class="lede lead-graf">
 <!-- DATA:BEGIN {slug}-lead -->
 {lead}
 <!-- DATA:END {slug}-lead -->
@@ -441,7 +451,7 @@ def page_html(app, ledger, apps=None):
   </section>
 {insight_html(insights)}
   <section id="view-rank">
-    <h2>{esc(spec.get("title") or metric_label)}</h2>
+    <h2>{esc(compare_h2)}</h2>
     <div class="lede">{esc(spec.get("lede") or metric_label)} The full list is in the table below.</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 1}</span>
@@ -463,7 +473,7 @@ def page_html(app, ledger, apps=None):
             else jump
         )
         latest_section = f"""
-<section id="takeaways" style="margin-top:30px">
+<section id="finding" style="margin-top:28px">
   <h2>What this application will cover</h2>
   <p class="lede">{esc(app['scope'])}</p>
   <p class="body-p">{esc(app['exclusions'])}</p>
@@ -473,7 +483,7 @@ def page_html(app, ledger, apps=None):
     if live and has_trend:
         trend_section = f"""
 <section id="view-trend">
-    <h2>How has the series moved?</h2>
+    <h2>{esc(spec.get("trend_title") or "The trend")}</h2>
     <div class="lede">{esc(spec.get("trend_lede") or spec.get("trend_title"))}</div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 2}</span>
@@ -900,23 +910,19 @@ const FIND=FIND_JSON;
 <div class="wrap">
 <div class="sitebar">
   <div class="sbleft">
-    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
-    <a class="backlink" href="/">&#8592; All of DataLabs</a>
-    <a class="nav" href="/#directory">Catalog</a>
+    <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
+    <a class="backlink" href="/">DataLabs catalog</a>
     <a class="nav" href="/#about">About</a>
     <a class="nav" href="/status/">Status</a>
   </div>
-  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; {esc(title)}</span>
 </div>
 <header>
-  <div class="dots" aria-hidden="true"></div>
-  <div class="org">{esc(vertical)} <span class="sub">/ {esc(topic)}</span></div>
   <h1>{esc(title)}</h1>
   <div class="standfirst">{esc(standfirst)}</div>
+  <div class="byline">Pioneer Institute DataLabs</div>
   <div class="dateline">
 <!-- DATA:BEGIN {slug}-dateline -->
-    <span>Data through <b>{esc(as_of_label)}</b></span>
-    <span>Revised <b>{esc(revised)}</b></span>
+    {esc(paper_dateline(as_of_label, revised))}
 <!-- DATA:END {slug}-dateline -->
   </div>
 </header>

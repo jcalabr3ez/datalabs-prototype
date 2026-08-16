@@ -338,3 +338,35 @@ def finish_live(app, *, as_of, as_of_label, vintage_note, metric, metric_label,
             derived.update(extra["derived"])
             payload["derived"] = derived
     return base_ledger(app, "live", as_of, vintage_note, payload)
+
+
+MONTH_FULL = {
+    "jan": "January", "feb": "February", "mar": "March", "apr": "April",
+    "may": "May", "jun": "June", "jul": "July", "aug": "August",
+    "sep": "September", "oct": "October", "nov": "November", "dec": "December",
+}
+
+
+def paper_date(s):
+    """Turn 'Aug 15, 2026' or 'August 15, 2026' into '15 August 2026'."""
+    s = (s or "").strip()
+    if not s:
+        return ""
+    m = re.match(r"([A-Za-z]+)\.?\s+(\d{1,2}),\s*(\d{4})$", s)
+    if m:
+        mon, day, year = m.group(1), m.group(2), m.group(3)
+        full = MONTH_FULL.get(mon[:3].lower())
+        if full:
+            return f"{int(day)} {full} {year}"
+    return s
+
+
+def paper_dateline(as_of_label, revised):
+    """One line: vintage · Revised 15 August 2026."""
+    parts = []
+    if as_of_label:
+        parts.append(as_of_label)
+    rd = paper_date(revised)
+    if rd:
+        parts.append("Revised " + rd)
+    return " · ".join(parts)

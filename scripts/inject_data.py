@@ -32,6 +32,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "scripts"))
+from suite_common import paper_date, paper_dateline  # noqa: E402
 
 
 def load(rel):
@@ -217,10 +219,7 @@ def inject_electricity(dl04, text, path):
         },
     }
     text = replace_block(text, "electricity-data", "const DL04=" + jdump(payload) + ";", path)
-    dateline = (
-        f'    <span>Data through <b>Dec 31, {year}</b></span>\n'
-        f'    <span>Revised <b>{page.get("revised", "")}</b></span>'
-    )
+    dateline = paper_dateline(f"Calendar year {year}", page.get("revised", ""))
     text = replace_block(text, "electricity-dateline", dateline, path, style="html")
     sys.path.insert(0, str(ROOT / "scripts"))
     from page_voice import flagship_voice, takeaways_html  # noqa: E402
@@ -324,10 +323,10 @@ def inject_pensions(dl05, text, path):
     search_year = dl05.get("search_year") or dl05["retirees"].get("search_year")
     search = (dl05["retirees"] or {}).get("search") or {}
     dateline = (
-        f'    <span>Board valuations through <b>Jan 1, {dl05["board_valuation_through"]}</b></span>\n'
-        f'    <span>Retiree payroll through <b>{dl05["retiree_year"]}</b></span>\n'
-        f'    <span>Name search through <b>{search_year}</b></span>\n'
-        f'    <span>Revised <b>{page.get("revised", "")}</b></span>'
+        f"Board valuations through 1 January {dl05['board_valuation_through']}"
+        f" · Retiree payroll through {dl05['retiree_year']}"
+        f" · Name search through {search_year}"
+        + (f" · Revised {paper_date(page.get('revised', ''))}" if page.get("revised") else "")
     )
     text = replace_block(text, "pensions-dateline", dateline, path, style="html")
     st = latest["state"]
@@ -570,8 +569,7 @@ def main():
             new = replace_block(
                 new,
                 slug + "-dateline",
-                f"    <span>Data through <b>{as_of_label}</b></span>\n"
-                f"    <span>Revised <b>{revised}</b></span>",
+                paper_dateline(as_of_label, revised),
                 p,
                 style="html",
             )

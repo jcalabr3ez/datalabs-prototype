@@ -31,79 +31,68 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{width:100%}
   body{background:#fff;color:var(--ink);font:15px/1.6 var(--sans);-webkit-font-smoothing:antialiased;padding:0}
-  a{color:var(--navy)}
-  a:hover{color:var(--gold)}
-  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+  a{color:var(--navy);text-decoration:none}
+  a:hover{color:var(--ink);text-decoration:underline}
+  input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible,select:focus-visible{outline:2px solid var(--navy);outline-offset:3px}
   .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
   .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
 
-  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);
-           padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
-  .sitebar img{height:24px;width:auto;display:block}
-  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
-  .sitebar .backlink{font:600 12px/1 var(--sans);color:#C9D2E0;text-decoration:none;
-    border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
-  .sitebar .backlink:hover{color:var(--goldlt)}
-  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#C9D2E0}
-  .sitebar .tag b{color:var(--goldlt);font-weight:700}
-  @media(max-width:520px){.sitebar .tag{display:none}}
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:#fff;border-bottom:2px solid var(--gold);
+           padding:14px var(--bleed);margin:0 calc(-1 * var(--bleed))}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .sitebar .piword{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--navy);text-decoration:none}
+  .sitebar .piword:hover{color:var(--navy);text-decoration:none}
+  .sitebar .backlink{font:400 13px/1 var(--sans);color:var(--navy);text-decoration:none}
+  .sitebar .backlink:hover{color:var(--ink);text-decoration:underline}
 
-  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);
-         margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
-  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
-    background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;
-    -webkit-mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%);
-    mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%)}
-  header>*:not(.dots){position:relative}
-  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
-  .org .sub{color:#8DA0B5}
-  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
-  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
-  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
-  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
-  .dateline span:first-child{padding-left:0;border-left:none}
-  .dateline b{color:var(--goldlt);font-weight:500}
+  header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:28px var(--bleed) 22px;border-bottom:1px solid var(--rule)}
+  h1{font:700 clamp(28px,3.6vw,40px)/1.15 var(--serif);color:var(--ink);letter-spacing:-.015em}
+  .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
+  .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
+  .dateline{margin-top:6px;font:400 13.5px/1.5 var(--sans);color:var(--grey)}
 
 
   .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:22px}
   .toggle button{background:none;border:none;text-align:left;cursor:pointer;padding:10px 18px 13px 0;margin-right:14px;margin-bottom:-1px;
                  font:700 13.5px/1.3 var(--sans);color:var(--grey);border-bottom:2px solid transparent;white-space:normal}
-  .toggle button.on{color:var(--ink);border-bottom-color:var(--gold)}
+  .toggle button.on{color:var(--ink);border-bottom-color:var(--navy)}
   .toggle button:not(.on):hover{color:var(--navy)}
   .toggle .who{display:block;font:400 11px/1.35 var(--sans);letter-spacing:0;text-transform:none;margin-top:3px;color:var(--faint)}
   .toggle button.on .who{color:var(--grey)}
   @media(max-width:520px){.toggle{width:100%}.toggle button{flex:1}}
   .jump{display:flex;flex-wrap:wrap;gap:8px 18px;border-bottom:1px solid var(--rule);padding:16px 0 14px;margin-top:8px}
-  .jump a{font:600 13px/1.3 var(--sans);color:var(--navy);text-decoration:none}
-  .jump a:hover{color:var(--gold)}
+  .jump a{font:400 13px/1.5 var(--sans);color:var(--navy);text-decoration:none}
+  .jump a:hover{color:var(--ink);text-decoration:underline}
   .plot-mid{height:clamp(420px,52vh,640px)}
 
   section{margin-top:56px}
   h2{font:500 clamp(22px,2.6vw,28px)/1.25 var(--serif);letter-spacing:-.015em;color:var(--ink);
      border-bottom:none;padding-bottom:0;margin-bottom:6px}
-  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .lede{font-size:16px;color:var(--ink);margin:10px 0 22px;max-width:42em;line-height:1.55}
+  .lede.lead-graf{font-size:17px;max-width:44em}
   .body-p{font-size:15px;margin-bottom:14px;max-width:72em}
 
   .strip{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
   .cell{padding:22px 20px 22px 0;border-right:1px solid var(--rule-lt)}
   .cell:last-child{border-right:0;padding-right:0}
-  .cl{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
-      margin-bottom:10px;min-height:30px}
-  .cv{font:600 27px/1 var(--serif);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
+  .cl{font:400 13px/1.4 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);
+      margin-bottom:4px;min-height:0}
+  .cv{font:600 16px/1.35 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums lining-nums}
   .cd{font-size:11.5px;color:var(--g1);margin-top:9px;line-height:1.5}
   .cd .up{color:var(--neg);font-weight:600} .cd .dn{color:var(--pos);font-weight:600}
   @media(max-width:900px){.strip{grid-template-columns:1fr}.cell{border-right:0;border-bottom:1px solid var(--rule-lt)}}
 
-  .metrics{border-top:1px solid var(--rule-dk);border-bottom:1px solid var(--rule)}
-  .metrics .cell{text-align:center;padding:20px 16px}
-  .metrics .cl{min-height:26px;margin-bottom:10px;color:var(--grey)}
-  .metrics .cv{font-size:clamp(22px,2vw,28px);line-height:1.05}
-  .metrics .cd{margin-top:12px;max-width:36ch;margin-left:auto;margin-right:auto}
-  .metrics .csrc{border-top:0;margin-top:10px}
+  .metrics{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .metrics .cell{text-align:left;padding:14px 20px 14px 0}
+  .metrics .cl{min-height:0;margin-bottom:4px;color:var(--grey)}
+  .metrics .cv{font-size:16px;line-height:1.35}
+  .metrics .cd{margin-top:6px;max-width:none;margin-left:0;margin-right:0}
+  .metrics .csrc{border-top:0;margin-top:8px}
+  .cell.kpi-src{grid-column:1/-1;border-right:0;padding-top:8px}
 
   .exhibit{margin-top:30px}
   .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
-  .ex-n{font:500 10px/1.5 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gold);white-space:nowrap}
+  .ex-n{font:400 13px/1.5 var(--sans);letter-spacing:0;text-transform:none;color:var(--grey);white-space:nowrap}
   .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
   .plot{height:clamp(300px,34vh,460px)}
   .plot-ranks{height:clamp(980px,140vh,1680px)}
@@ -118,7 +107,7 @@
         border-top:1px solid var(--rule-lt);max-width:none}
   .note b{color:var(--g1);font-weight:700}
   .note a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .note a:hover{border-bottom-color:var(--gold)}
+  .note a:hover{border-bottom-color:var(--ink)}
 
   table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:20px;font-variant-numeric:tabular-nums lining-nums}
   th{font:600 10.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);
@@ -134,7 +123,7 @@
   summary{cursor:pointer;font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);
           list-style:none;padding:11px 0}
   summary::-webkit-details-marker{display:none}
-  summary:after{content:"\25B6";font-size:9px;color:var(--gold);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
+  summary:after{content:"\25B6";font-size:9px;color:var(--navy);display:inline-block;margin-left:9px;transition:transform .15s;transform:translateY(-1px)}
   details[open]>summary:after{transform:translateY(-1px) rotate(90deg)}
   summary:hover{color:var(--ink)}
 
@@ -142,7 +131,7 @@
   details.math > summary{cursor:pointer;list-style:none;padding:9px 0;
     font:600 11px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy)}
   details.math > summary::-webkit-details-marker{display:none}
-  .mathbox{background:var(--wash);border:none;border-left:3px solid var(--gold);
+  .mathbox{background:var(--hover);border:none;border-left:2px solid var(--navy);
     padding:13px 15px;margin-bottom:10px}
   .mathbox code{display:block;font:12px/1.75 var(--mono);color:var(--ink);white-space:pre-wrap}
   .mathbox .lbl{font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--grey);margin-bottom:7px}
@@ -152,13 +141,13 @@
   .csrc{font-size:10px;color:var(--faint);margin-top:9px;padding-top:7px;border-top:1px dotted var(--rule-lt);line-height:1.45}
   .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
   .srcline a{color:var(--grey);text-decoration:none;border-bottom:1px solid var(--rule)}
-  .srcline a:hover{border-bottom-color:var(--gold)}
+  .srcline a:hover{border-bottom-color:var(--ink)}
 
-  footer{margin:96px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:3px solid var(--gold);
+  footer{margin:72px calc(-1 * var(--bleed)) 0;background:var(--bar);border-top:none;
          padding:32px var(--bleed) 26px;font-size:12.5px;line-height:1.8;color:#C9D2E0}
   footer b{color:#fff}
   footer a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.25)}
-  footer a:hover{color:var(--goldlt);border-bottom-color:var(--goldlt)}
+  footer a:hover{color:#fff;border-bottom-color:#fff}
   .disclaimer{margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,.1);color:#8DA0B5;line-height:1.75;font-size:12px}
   .disclaimer b{color:#C9D2E0}
   .fbrand{margin-bottom:16px;font-size:12px;line-height:1.7;color:#8DA0B5}
@@ -172,7 +161,7 @@
   .simplify summary::-webkit-details-marker{display:none}
   .simplify summary:after{content:none}
   .simplify summary:hover{background:var(--hover);color:var(--navy)}
-  .simplify summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  .simplify summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
   .simplify[open] summary .car{transform:rotate(90deg)}
   .simplify[open] summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
   .simplify .dt-body{padding:14px 18px 16px}
@@ -185,7 +174,7 @@
   details.srcfold>summary::-webkit-details-marker{display:none}
   details.srcfold>summary:after{content:none}
   details.srcfold>summary:hover{background:var(--hover);color:var(--navy)}
-  details.srcfold>summary .car{color:var(--gold);font-size:11px;transition:transform .15s;flex:none}
+  details.srcfold>summary .car{color:var(--navy);font-size:11px;transition:transform .15s;flex:none}
   details.srcfold[open]>summary .car{transform:rotate(90deg)}
   details.srcfold[open]>summary{background:var(--hover);border-bottom:1px solid var(--rule);border-radius:4px 4px 0 0}
   details.srcfold .fold-body{padding:14px 18px 16px}
@@ -196,7 +185,7 @@
   table.reg td{padding:9px 14px 9px 0;color:var(--g1)}
   table.reg td.src{color:var(--ink);font-weight:600}
   table.reg td.src a{color:var(--navy);text-decoration:none;border-bottom:1px solid var(--rule)}
-  table.reg td.src a:hover{border-bottom-color:var(--gold)}
+  table.reg td.src a:hover{border-bottom-color:var(--ink)}
   table.reg tr.grp td{background:var(--hover);font:600 10px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--navy);padding:8px 10px;border-bottom:1px solid var(--rule)}
   .scroll{overflow-x:auto;max-width:100%}
   [hidden]{display:none !important}
@@ -218,25 +207,19 @@
 
 <div class="sitebar">
   <div class="sbleft">
-    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
-    <a class="backlink" href="/">&#8592; All of DataLabs</a>
-    <a class="backlink" href="/#directory">Catalog</a>
+    <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
+    <a class="backlink" href="/">DataLabs catalog</a>
     <a class="backlink" href="/#about">About</a>
   </div>
-  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; Massachusetts Public Pensions</span>
 </div>
 
 <header>
-  <div class="dots" aria-hidden="true"></div>
-  <div class="org">American Citizenship <span class="sub">/ Public Pensions</span></div>
   <h1>Massachusetts Public Pensions</h1>
   <div class="standfirst" id="standfirst">Every public retirement board's latest funded ratio, and the State and Teacher retiree payroll. Rebuilt from PERAC valuations and CTHRU, verified against the partner extracts.</div>
+  <div class="byline">Pioneer Institute DataLabs</div>
   <div class="dateline">
 <!-- DATA:BEGIN pensions-dateline (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
-    <span>Board valuations through <b>Jan 1, 2023</b></span>
-    <span>Retiree payroll through <b>2025</b></span>
-    <span>Name search through <b>2026</b></span>
-    <span>Revised <b>Aug 15, 2026</b></span>
+Board valuations through 1 January 2023 · Retiree payroll through 2025 · Name search through 2026 · Revised 15 August 2026
 <!-- DATA:END pensions-dateline -->
   </div>
 </header>
@@ -252,16 +235,8 @@
 
 <div id="view-boards">
 
-  <section style="margin-top:30px">
-    <h2>What are the key takeaways?</h2>
-<!-- DATA:BEGIN pensions-takeaways (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
-    <ol class="takeaways">
-      <li>Mass Teachers (MTRS) was <b>58.7 percent</b> funded on its January 1, 2023 valuation, rank 93 of 105 (SRC-501).</li>
-      <li>The State Retirement Board was <b>71.3 percent</b> funded, rank 61 of 105 (SRC-501).</li>
-      <li>Across 105 boards the dollar-weighted funded ratio was <b>66.4 percent</b> (derived, SRC-501).</li>
-    </ol>
-<!-- DATA:END pensions-takeaways -->
-    <p class="lede">
+  <section style="margin-top:28px">
+    <p class="lede lead-graf">
 <!-- DATA:BEGIN pensions-lead (generated by scripts/inject_data.py; edit the canonical JSON, not this block) -->
 The State Retirement Board was <b>71.3 percent</b> funded on its January 1, 2023 valuation (SRC-501). Mass Teachers (MTRS) was <b>58.7 percent</b> funded (SRC-501). Across 105 boards the dollar-weighted funded ratio was 66.4 percent (derived, SRC-501). State and Teacher retirees were paid <b>$6.63 billion</b> in calendar 2025 (SRC-503).
 <!-- DATA:END pensions-lead -->
@@ -272,22 +247,19 @@ The State Retirement Board was <b>71.3 percent</b> funded on its January 1, 2023
         <div class="cl">Mass Teachers (MTRS)</div>
         <div class="cv">58.7%</div>
         <div class="cd">January 1, 2023 valuation, rank 93 of 105 (SRC-501). Unfunded liability $25.70 billion.</div>
-        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> Teachers are the furthest from full funding among the large systems.</div>
-        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>
       </div>
       <div class="cell">
         <div class="cl">State Retirement Board</div>
         <div class="cv">71.3%</div>
         <div class="cd">January 1, 2023 valuation, rank 61 of 105 (SRC-501). Unfunded liability $14.10 billion.</div>
-        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The Commonwealth&#x27;s own employee system.</div>
-        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501)</div>
       </div>
       <div class="cell">
         <div class="cl">Dollar-weighted funded ratio</div>
         <div class="cv">66.4%</div>
         <div class="cd">Across 105 boards (derived, SRC-501). 13 boards below 60 percent.</div>
-        <div class="cd" style="margin-top:8px"><b>Why it matters:</b> The system-wide funded picture, not one board.</div>
-        <div class="csrc">Source: PERAC board actuarial valuations (SRC-501)</div>
+      </div>
+      <div class="cell kpi-src">
+        <div class="csrc">Source: PERAC board actuarial valuation (SRC-501); PERAC board actuarial valuations (SRC-501)</div>
       </div>
 <!-- DATA:END pensions-kpis -->
     </div>

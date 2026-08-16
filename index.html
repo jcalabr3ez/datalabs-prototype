@@ -3,21 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pioneer DataLabs · Numbers that show their work</title>
+<title>Pioneer Institute DataLabs</title>
 <meta name="description" content="Explore Pioneer Institute's DataLabs: verified applications on Massachusetts, the fifty states, and Florida covering taxes, schools, transit, public spending, and more. Every figure cites its primary source.">
 <link rel="canonical" href="https://datalabsai.netlify.app/">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Pioneer DataLabs">
-<meta property="og:title" content="Pioneer DataLabs · Numbers that show their work">
+<meta property="og:title" content="Pioneer Institute DataLabs">
 <meta property="og:description" content="Explore Pioneer Institute's DataLabs: verified applications on Massachusetts, the fifty states, and Florida. Every figure compiled here cites its primary source.">
 <meta property="og:url" content="https://datalabsai.netlify.app/">
 <meta property="og:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Pioneer DataLabs · Numbers that show their work">
+<meta name="twitter:title" content="Pioneer Institute DataLabs">
 <meta name="twitter:description" content="Explore Pioneer Institute's DataLabs: verified applications on Massachusetts, the fifty states, and Florida. Every figure compiled here cites its primary source.">
 <meta name="twitter:image" content="https://datalabsai.netlify.app/assets/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,38 +30,27 @@
   body { background:#fff; color:var(--ink); font-family:var(--sans);
     font-size:15px; line-height:1.6; -webkit-font-smoothing:antialiased; }
   button { font-family:inherit; cursor:pointer; background:none; border:none; }
-  a { color:inherit; text-decoration:none; }
-  a:hover { color:var(--gold); }
-  input:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline:2px solid var(--gold); outline-offset:3px; }
+  a { color:var(--navy); text-decoration:none; }
+  a:hover { color:var(--ink); text-decoration:underline; }
+  input:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline:2px solid var(--navy); outline-offset:3px; }
   .mono { font-family:var(--mono); }
   .frame { max-width:960px; margin:0 auto; padding:0 24px; }
 
-  /* ---------- Pioneer header (merged into hero) ---------- */
-  .pibar { background:var(--bar); }
-  .pibar-in { display:flex; align-items:center; justify-content:space-between; padding-top:16px; padding-bottom:16px; gap:18px; }
-  .pilogo { color:#fff; font-weight:700; font-size:13.5px; letter-spacing:.14em; }
-  .pilogo:hover { opacity:.9; color:#fff; }
-  .pinav { display:flex; align-items:center; gap:18px; font-size:12.5px; font-weight:600; }
-  .pinav a { color:#C9D2E0; }
-  .pinav a:hover { color:var(--gold); }
+  /* ---------- Pioneer masthead ---------- */
+  .pibar { background:#fff; border-bottom:2px solid var(--gold); }
+  .pibar-in { display:flex; align-items:flex-end; justify-content:space-between; padding-top:18px; padding-bottom:16px; gap:18px; flex-wrap:wrap; }
+  .pilogo { color:var(--navy); font-weight:700; font-size:13px; letter-spacing:.12em; text-transform:uppercase; text-decoration:none; }
+  .pilogo:hover { color:var(--navy); text-decoration:none; }
+  .pimast { display:flex; flex-direction:column; gap:4px; }
+  .pidl { font-family:var(--serif); font-weight:700; font-size:22px; letter-spacing:-.01em; color:var(--ink); line-height:1.2; }
+  .pideck { font-size:13.5px; color:var(--grey); }
+  .pinav { display:flex; align-items:center; gap:18px; font-size:13px; font-weight:400; }
+  .pinav a { color:var(--navy); text-decoration:none; }
+  .pinav a:hover { color:var(--ink); text-decoration:underline; }
 
-  /* ---------- hero: The Atlas ---------- */
-  .heroA { position:relative; overflow:hidden; color:#fff;
-    background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%); }
-  .dots { position:absolute; inset:0; opacity:.14; pointer-events:none;
-    background-image:radial-gradient(rgba(139,160,190,.5) 1px, transparent 1px); background-size:26px 26px;
-    -webkit-mask-image:radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 65%);
-    mask-image:radial-gradient(ellipse 90% 90% at 50% 0%, #000 0%, transparent 65%); }
-  .heroA-in { position:relative; padding-top:40px; padding-bottom:0; text-align:center; }
-  .heroAsk { padding-bottom:52px; }
-  .kick { font-size:11.5px; font-weight:700; letter-spacing:.18em; color:var(--gold); }
-  .heroA h1 { font-family:var(--serif); font-weight:700; font-size:clamp(30px,4.4vw,45px);
-    line-height:1.12; letter-spacing:-.01em; margin-top:16px; max-width:860px; margin-left:auto; margin-right:auto; }
-  .heroA .heroL { display:contents; }
-  .heroA h1 em { font-style:normal; color:var(--gold); }
-  .heroA .dek { margin-top:12px; color:#AEBDD2; font-size:15.5px; max-width:480px; margin-left:auto; margin-right:auto; }
-  /* Google-style search bar: white rounded pill on the dark hero */
-  .askpanel { margin:30px auto 0; max-width:600px; }
+  /* Ask preview (?ai=1 only): injected, not in the default document */
+  .askDock { padding:22px 0 8px; border-bottom:1px solid var(--rule); }
+  .askpanel { margin:0 auto; max-width:600px; }
   .askbar { display:flex; align-items:center; gap:12px; background:#fff; border:1px solid #DFE1E5;
     border-radius:999px; padding:5px 8px 5px 18px; box-shadow:0 1px 6px rgba(17,35,55,.20);
     transition:box-shadow .18s ease, border-color .18s ease; }
@@ -81,7 +70,7 @@
   .resp { padding-top:0; }
   .respbar { max-width:720px; margin:30px auto 0; text-align:right; }
   .clearans { border:none; background:none; font-size:12px; font-weight:600; color:var(--faint); padding:2px 0; }
-  .clearans:hover { color:var(--gold); }
+  .clearans:hover { color:var(--ink); }
   .entry { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:18px; animation:up .3s ease both; position:relative; }
   .dismiss { position:absolute; top:12px; right:0; border:none; background:none; font-size:17px;
     line-height:1; color:#C9CED4; padding:4px 6px; opacity:0; transition:opacity .15s; cursor:pointer; }
@@ -101,10 +90,10 @@
   .goline a:hover { color:var(--ink); text-decoration:underline; }
   .seealso { margin-top:10px; font-size:12.5px; color:var(--grey); }
   .seealso a { color:var(--navy); font-weight:600; }
-  .seealso a:hover { color:var(--gold); }
+  .seealso a:hover { color:var(--ink); text-decoration:underline; }
   .fups { margin-top:16px; font-size:13px; color:var(--grey); }
   .fups a { border-bottom:1px solid var(--rule); margin-right:16px; }
-  .fups a:hover { border-color:var(--gold); color:var(--ink); }
+  .fups a:hover { border-color:var(--navy); color:var(--ink); }
   .routes .rt { border:none; border-top:1px solid var(--rule); padding:13px 0; }
   .routes .rt:first-child { border-top:none; padding-top:2px; }
   .routes .rt .name { font-weight:700; font-size:14.5px; }
@@ -112,17 +101,17 @@
   .dashlinks { margin-top:10px; display:flex; flex-direction:column; gap:6px; }
   .dashlink { font-size:13.5px; font-weight:600; color:var(--navy); }
   .dashlink .site { font-family:var(--mono); font-size:9.5px; color:var(--grey); margin-right:8px; }
-  .dashlink:hover { color:var(--gold); }
+  .dashlink:hover { color:var(--ink); text-decoration:underline; }
   .noans { max-width:720px; margin:42px auto 10px; border-top:1px solid var(--rule-dk); padding-top:16px; font-size:14px; color:var(--grey); position:relative; }
   .noans b { color:var(--ink); }
   .load { max-width:720px; margin:0 auto; padding:46px 0 42px; font-family:var(--serif); font-size:20px; color:var(--grey); text-align:center; }
   .load .slow { font-family:var(--mono); font-size:12.5px; color:var(--faint); margin-top:10px; }
-  .load::after { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; border:2px solid var(--gold); border-top-color:transparent; margin-left:10px; vertical-align:middle; animation:spin .8s linear infinite; }
+  .load::after { content:''; display:inline-block; width:8px; height:8px; border-radius:50%; border:2px solid var(--navy); border-top-color:transparent; margin-left:10px; vertical-align:middle; animation:spin .8s linear infinite; }
   @keyframes spin { to { transform:rotate(360deg); } }
 
   /* ---------- sections ---------- */
-  .sec { padding-top:48px; }
-  .sec .lab { font-size:12px; font-weight:600; color:var(--faint); }
+  .sec { padding-top:36px; }
+  .sec .lab { font-size:13px; font-weight:400; color:var(--faint); }
   .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(24px,3.6vw,34px); letter-spacing:-.01em; margin-top:8px; color:var(--navy); }
   .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
@@ -131,19 +120,19 @@
   .lead { padding:18px 28px 22px 0; border-right:1px solid var(--rule); cursor:pointer; }
   .lead:last-child { border-right:none; padding-right:0; padding-left:28px; }
   .lead .place { display:flex; align-items:center; justify-content:space-between; gap:8px;
-    font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); }
+    font-size:13px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--grey); }
   .lead .askbadge { flex:none; font-size:10px; font-weight:700; letter-spacing:.08em;
     color:var(--navy); border:1px solid var(--rule); padding:2px 7px; }
   .lead h3 { margin:8px 0 0; line-height:1.25; }
   .lead h3 a { font-family:var(--serif); font-size:22px; font-weight:700;
     letter-spacing:-.01em; color:var(--navy); }
-  .lead:hover h3 a { color:var(--gold); }
+  .lead:hover h3 a { color:var(--ink); text-decoration:underline; }
   .lead .statline { margin-top:12px; font-size:15px; color:var(--ink); line-height:1.5; }
   .lead .statline b { font-variant-numeric:tabular-nums; font-weight:700; }
   .lead .status { margin-top:14px; font-size:12px; color:var(--faint); line-height:1.45; }
   .lead .askex { margin-top:12px; font-size:13px; font-weight:600; color:var(--navy); padding:0; }
   .lead .askex i { font-family:var(--serif); font-weight:500; }
-  .lead .askex:hover { color:var(--gold); }
+  .lead .askex:hover { color:var(--ink); text-decoration:underline; }
   @media (max-width:640px){
     .desk { grid-template-columns:1fr; }
     .lead, .lead:last-child { border-right:none; border-bottom:1px solid var(--rule); padding:16px 0; }
@@ -156,7 +145,7 @@
   .srchwrap { position:relative; flex:1 1 240px; min-width:200px; max-width:320px; }
   .srchwrap .srch { width:100%; border:1px solid var(--rule); border-radius:2px; padding:11px 34px 11px 12px;
     font-family:inherit; font-size:14px; color:var(--ink); outline:none; background:#fff; }
-  .srchwrap .srch:focus { border-color:var(--gold); }
+  .srchwrap .srch:focus { border-color:var(--navy); }
   .srchx { position:absolute; right:6px; top:50%; transform:translateY(-50%); border:none; background:none;
     font-size:17px; color:var(--faint); padding:4px 7px; line-height:1; cursor:pointer; }
   .srchx:hover { color:var(--ink); }
@@ -167,7 +156,7 @@
   .chip:hover { color:var(--ink); border-color:#C9CED4; }
   .chip.on { background:var(--navy); border-color:var(--navy); color:#fff; }
   .chip span { font-family:var(--mono); font-size:11px; color:var(--faint); font-variant-numeric:tabular-nums; }
-  .chip.on span { color:var(--gold); }
+  .chip.on span { color:#fff; }
   .rcount { font-size:13px; color:var(--faint); padding:14px 0 6px; }
 
   .cab { border-top:2px solid var(--ink); }
@@ -179,7 +168,7 @@
   .areahead .asum { font-size:13px; color:var(--grey); font-variant-numeric:tabular-nums; white-space:nowrap; }
   .topic { margin-top:18px; }
   .topic.hide { display:none; }
-  .topic .nm { font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); margin-bottom:4px; }
+  .topic .nm { font-size:13px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--faint); margin-bottom:4px; }
   .topic.solo { margin-top:10px; }
   .topic.solo .nm { display:none; }
 
@@ -189,7 +178,7 @@
   .cr.hide { display:none; }
   .cr-main { min-width:0; flex:1; }
   .cr-name { font-size:16px; font-weight:700; color:var(--navy); line-height:1.3; }
-  .cr:hover .cr-name { color:var(--gold); }
+  .cr:hover .cr-name { color:var(--ink); text-decoration:underline; }
   .cr .flag { font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:.04em;
     color:var(--grey); margin-left:8px; }
   .cr-side { flex:none; text-align:right; font-size:12.5px; color:var(--grey); line-height:1.45; padding-top:2px; }
@@ -205,30 +194,19 @@
   }
 
   footer { margin-top:48px; }
-  .pifoot { background:var(--bar); color:#C9D2E0; border-top:3px solid var(--gold); }
+  .pifoot { background:var(--bar); color:#C9D2E0; border-top:none; }
   .pifoot-in { display:grid; grid-template-columns:1.2fr auto 1fr; gap:28px 48px; padding-top:36px; padding-bottom:26px; align-items:start; }
   @media (max-width:820px){ .pifoot-in { grid-template-columns:1fr; } }
   .pf-logo { color:#fff; font-weight:700; font-size:13px; letter-spacing:.14em; }
-  .pf-tag { margin-top:8px; font-size:12.5px; color:var(--gold); font-style:italic; font-family:var(--serif); }
+  .pf-tag { margin-top:8px; font-size:12.5px; color:#8DA0B5; }
   .pf-addr { margin-top:10px; font-size:12.5px; color:#8DA0B5; }
   .pf-links { display:flex; flex-direction:column; gap:9px; font-size:13.5px; font-weight:600; }
   .pf-links a { color:#fff; }
-  .pf-links a:hover { color:var(--gold); }
+  .pf-links a:hover { color:#fff; text-decoration:underline; }
   .pf-credo { font-size:12.5px; line-height:1.7; color:#8DA0B5; max-width:320px; }
   .pf-legal { padding-top:14px; padding-bottom:26px; font-size:11px; color:#6E8093; border-top:1px solid rgba(255,255,255,.1); }
 
-  /* ---------- Front-door mode: browse (AI off) vs ask (AI on) ---------- */
-  .heroBrowse { display:none; }
-  body.ai-off .heroAsk { display:none; }
-  body.ai-off .heroBrowse { display:block; }
   body.ai-off #respBar, body.ai-off #resp { display:none; }
-  .herocta { margin-top:24px; margin-bottom:28px; display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
-  .btn-primary { background:var(--gold); color:var(--bar); font-weight:700; font-size:12.5px;
-    letter-spacing:.09em; text-transform:uppercase; padding:13px 24px; border-radius:2px; transition:background .16s ease; }
-  .btn-primary:hover { background:var(--gold); color:var(--bar); }
-  .btn-ghost { color:#fff; font-weight:600; font-size:12.5px; letter-spacing:.09em; text-transform:uppercase; padding:13px 22px;
-    border:1px solid rgba(255,255,255,.4); border-radius:2px; transition:border-color .16s ease, color .16s ease; }
-  .btn-ghost:hover { border-color:var(--gold); color:var(--gold); }
 
   .about-sec { padding-bottom:0; }
   .about-sec .sub { max-width:none; margin-top:10px; line-height:1.55; }
@@ -239,51 +217,26 @@
     color:var(--navy); margin:26px 0 8px; }
   .about-sec h3:first-child { margin-top:0; }
   .about-sec .body a { color:var(--navy); font-weight:600; }
-  .about-sec .body a:hover { color:var(--gold); }
+  .about-sec .body a:hover { color:var(--ink); text-decoration:underline; }
 </style>
 </head>
 <body class="ai-off">
 
 <header class="pibar"><div class="frame pibar-in">
-    <a class="pilogo" href="https://pioneerinstitute.org">PIONEER INSTITUTE</a>
+    <div class="pimast">
+      <a class="pilogo" href="https://pioneerinstitute.org">Pioneer Institute</a>
+      <div class="pidl">DataLabs</div>
+      <div class="pideck">Public-data applications · Massachusetts, the fifty states, and Florida</div>
+    </div>
     <nav class="pinav" aria-label="DataLabs">
-      <a href="#answers">New Releases</a>
       <a href="#directory">Catalog</a>
+      <a href="#answers">New Releases</a>
       <a href="#about">About</a>
       <a href="/status/">Status</a>
     </nav>
 </div></header>
 
 <main>
-  <section class="heroA" id="ask">
-    <div class="dots" aria-hidden="true"></div>
-    <div class="frame heroA-in">
-      <div class="heroL">
-        <div class="heroAsk">
-          <div class="kick">PIONEER DATALABS</div>
-          <h1>From city hall to all fifty states, <em>ask a question.</em></h1>
-          <div class="askpanel">
-            <div class="askbar">
-              <svg class="gmag" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19 15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-              <input id="q" type="text" placeholder="Is the T back to pre-pandemic ridership?" aria-label="Ask a question" maxlength="400">
-              <button id="askBtn" type="button">Ask</button>
-            </div>
-          </div>
-          <div class="credo">Questions we cannot answer are logged and inform what we build next.</div>
-        </div>
-        <div class="heroBrowse">
-          <div class="kick">PIONEER DATALABS</div>
-          <h1>From city hall to all fifty states, <em>traced to the source.</em></h1>
-          <p class="dek">Browse every DataLabs application across Massachusetts, the fifty states, and Florida.</p>
-          <div class="herocta">
-            <a class="btn-primary" href="#directory">Browse the catalog</a>
-            <a class="btn-ghost" href="#answers">See new releases</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <div class="respbar frame" id="respBar" hidden>
     <button class="clearans" id="clearAns" type="button">Clear answer</button>
   </div>
@@ -295,7 +248,6 @@
   </section>
 
   <section class="sec frame dir-sec" id="directory">
-    <div class="lab">The catalog</div>
     <h2>Every application</h2>
     <p class="sub">Browse by Pioneer vertical. Each row is an application, the place it covers, and the vintage of the data inside.</p>
     <div class="cabtop">
@@ -338,7 +290,7 @@
 <div class="frame pifoot-in">
   <div class="pf-brand">
     <div class="pf-logo">PIONEER INSTITUTE</div>
-    <div class="pf-tag">DataLabs · Numbers that show their work</div>
+    <div class="pf-tag">DataLabs · Public-data applications</div>
     <div class="pf-addr">185 Devonshire Street, Suite 1101, Boston, MA 02110</div>
   </div>
   <div class="pf-links">
@@ -370,10 +322,8 @@ function safeUrl(u){u=u==null?'':String(u).trim();return (u.indexOf('/')===0&&u.
 
 /* ---------- Front-door mode: AI question engine on or off ----------
    AI_DEFAULT is the public default; flip this one line to switch it.
-   Nothing is removed when off: the ask hero, the desk "ask" affordances,
-   and the /functions/ask engine are simply gated behind AI_ENABLED, so
-   turning AI back on is a one-line change. A ?ai=1 (or ?ai=0) query string
-   overrides per visit, for private preview without redeploying. */
+   The ask box is not in the default HTML. ?ai=1 injects a preview.
+   A ?ai=0 query string forces it off. */
 var AI_DEFAULT = false;
 var AI_ENABLED = AI_DEFAULT;
 try { var _ai = new URLSearchParams(location.search).get('ai');
@@ -381,15 +331,21 @@ try { var _ai = new URLSearchParams(location.search).get('ai');
 document.body.classList.toggle('ai-off', !AI_ENABLED);
 document.body.classList.toggle('ai-on', AI_ENABLED);
 if (AI_ENABLED) {
-  var _cr = document.getElementById('pfCredo');
-  if (_cr) _cr.textContent = 'Every figure compiled here traces to a public record. Questions we cannot answer are logged and inform what Pioneer builds next.';
+  var mainEl = document.querySelector('main');
+  if (mainEl && !document.getElementById('ask')) {
+    var dock = document.createElement('section');
+    dock.className = 'askDock';
+    dock.id = 'ask';
+    dock.innerHTML = '<div class="frame"><div class="askpanel"><div class="askbar">' +
+      '<svg class="gmag" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19 15.5 14zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>' +
+      '<input id="q" type="text" placeholder="Is the T back to pre-pandemic ridership?" aria-label="Ask a question" maxlength="400">' +
+      '<button id="askBtn" type="button">Ask</button></div></div></div>';
+    mainEl.insertBefore(dock, mainEl.firstChild);
+  }
 }
 (function(){
-  /* Browse-mode copy that drops any promise of a question engine. */
-  if (!AI_ENABLED) {
-    var cr=document.getElementById('pfCredo');
-    if (cr) cr.textContent = 'Every figure compiled here traces to a public record.';
-  }
+  var cr=document.getElementById('pfCredo');
+  if (cr) cr.textContent = 'Every figure compiled here traces to a public record.';
 })();
 
 /* ---------- The desk: rendered below, after the data constants it draws from ---------- */
@@ -765,9 +721,12 @@ let inflight=false;
 var HISTORY=[]; /* last answered exchanges; lets the engine resolve follow-ups */
 async function ask(){
   if(inflight) return;
-  const q=document.getElementById('q').value.trim();
+  var box=document.getElementById('q');
+  var b=document.getElementById('askBtn');
+  if(!box||!b) return;
+  const q=box.value.trim();
   if(!q) return;
-  const b=document.getElementById('askBtn'); b.disabled=true;
+  b.disabled=true;
   inflight=true;
   resp.innerHTML='<div class="load">Checking the sources&#8230;</div>';
   /* Live asks run 6-15s; abort well past that so a hung function can never
@@ -789,7 +748,7 @@ async function ask(){
         (p.detail?'<div class="det">'+esc(p.detail)+'</div>':'') +
         (fig?'<div class="figure"><div class="cap">'+esc(CHART_TITLES[kind]||'')+'</div>'+fig+'</div>':'') +
         (p.src?'<div class="srcline"><b>Source:</b> '+esc(p.src)+'</div>':'') +
-        (link?'<div class="goline"><a href="'+esc(link)+'">The full briefing: charts, story, and every source &#8594;</a></div>':'') +
+        (link?'<div class="goline"><a href="'+esc(link)+'">Open the application &#8594;</a></div>':'') +
         (p.see_also&&p.see_also.length?'<div class="seealso">Also relevant: '+
           p.see_also.filter(s=>safeUrl(s.url)).map(s=>'<a href="'+esc(safeUrl(s.url))+'" title="'+esc(s.reason||'')+'">'+esc(s.title)+' &#8594;</a>').join(' &#183; ')+'</div>':'') +
         (p.followups&&p.followups.length?'<div class="fups">Related: '+
@@ -825,8 +784,12 @@ async function ask(){
     resp.innerHTML='<div class="noans">'+DISMISS+'<b>Something went wrong.</b> Try again in a moment. Every tool in the catalog still works.</div>';
   }finally{ clearTimeout(timer); b.disabled=false; inflight=false; respChrome(); }
 }
-document.getElementById('askBtn').addEventListener('click',ask);
-document.getElementById('q').addEventListener('keydown',e=>{if(e.key==='Enter')ask();});
+(function(){
+  var btn=document.getElementById('askBtn');
+  var box=document.getElementById('q');
+  if(btn) btn.addEventListener('click',ask);
+  if(box) box.addEventListener('keydown',function(e){if(e.key==='Enter')ask();});
+})();
 </script>
 </body>
 </html>

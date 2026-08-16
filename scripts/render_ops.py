@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Pages read as papers",
+        "body": (
+            "The front door and the tools other than Florida Insurance Watch "
+            "and the State Tax Atlas now open as white pages: a Pioneer "
+            "masthead, one finding, then the table and charts. Gold is reserved "
+            "for the wordmark rule. The ask box is not on the public page."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Version labels off the tools",
         "body": (
             "Tool pages no longer show a version number in the masthead, "
@@ -225,20 +235,17 @@ def ops_page(title, description, standfirst, body):
 <div class="wrap">
 <div class="sitebar">
   <div class="sbleft">
-    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
-    <a class="backlink" href="/">&#8592; All of DataLabs</a>
-    <a class="nav" href="/#directory">Catalog</a>
+    <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
+    <a class="backlink" href="/">DataLabs catalog</a>
     <a class="nav" href="/#about">About</a>
     <a class="nav" href="/status/">Status</a>
     <a class="nav" href="/changelog/">Changelog</a>
   </div>
-  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; {esc(title)}</span>
 </div>
 <header>
-  <div class="dots" aria-hidden="true"></div>
-  <div class="org">Pioneer Institute <span class="sub">/ DataLabs</span></div>
   <h1>{esc(title)}</h1>
   <div class="standfirst">{esc(standfirst)}</div>
+  <div class="byline">Pioneer Institute DataLabs</div>
 </header>
 {body}
 <footer>

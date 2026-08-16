@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "A quieter front door",
+        "body": (
+            "Catalog rows now show the application name, place, and vintage. "
+            "The DL codes and one-line comments are gone. The two New Releases "
+            "entries are ruled columns, not cards."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Two-line trends on a shared scale",
         "body": (
             "When a trend chart overlays series of very different size, "

@@ -126,38 +126,28 @@
   .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(24px,3.6vw,34px); letter-spacing:-.01em; margin-top:8px; color:var(--navy); }
   .sec .sub { margin-top:8px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
-  /* New Releases: two equal cream tiles */
-  .desk { margin-top:22px; display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
-  .lead { display:flex; flex-direction:column; min-height:100%;
-    padding:26px 26px 22px; background:var(--wash); border:1px solid var(--rule);
-    border-top:3px solid var(--gold); cursor:pointer;
-    transition:border-color .16s ease, background .16s ease; }
-  .lead:hover { background:#fff; border-color:#C9CED4; border-top-color:var(--navy); }
+  /* New Releases: two ruled columns, no card chrome */
+  .desk { margin-top:20px; border-top:2px solid var(--ink); display:grid; grid-template-columns:1fr 1fr; }
+  .lead { padding:18px 28px 22px 0; border-right:1px solid var(--rule); cursor:pointer; }
+  .lead:last-child { border-right:none; padding-right:0; padding-left:28px; }
   .lead .place { display:flex; align-items:center; justify-content:space-between; gap:8px;
     font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); }
   .lead .askbadge { flex:none; font-size:10px; font-weight:700; letter-spacing:.08em;
-    color:var(--navy); border:1px solid var(--rule); border-radius:2px; padding:2px 7px; }
-  .lead h3 { margin:10px 0 0; line-height:1.2; }
-  .lead h3 a { font-family:var(--serif); font-size:clamp(20px,2.4vw,26px); font-weight:700;
-    letter-spacing:-.015em; color:var(--navy); }
-  .lead:hover h3 a { color:var(--navy); }
-  .lead .stat { font-family:var(--serif); font-size:clamp(34px,4.2vw,44px); font-weight:700;
-    color:var(--navy); margin-top:18px; line-height:1; font-variant-numeric:tabular-nums; }
-  .lead .unit { margin-top:6px; font-size:12px; font-weight:600; letter-spacing:.04em;
-    text-transform:uppercase; color:var(--navy); }
-  .lead .statsub { font-size:14.5px; color:var(--grey); margin-top:10px; line-height:1.45; }
-  .lead .spark { margin-top:18px; }
-  .lead .spark svg { width:100%; height:56px; display:block; }
-  .lead .meter { margin-top:18px; }
-  .lead .meter svg { width:100%; height:28px; display:block; }
-  .lead .askex { margin-top:20px; align-self:flex-start; font-size:13px; font-weight:700;
-    letter-spacing:.02em; color:var(--navy); padding:0; }
+    color:var(--navy); border:1px solid var(--rule); padding:2px 7px; }
+  .lead h3 { margin:8px 0 0; line-height:1.25; }
+  .lead h3 a { font-family:var(--serif); font-size:22px; font-weight:700;
+    letter-spacing:-.01em; color:var(--navy); }
+  .lead:hover h3 a { color:var(--gold); }
+  .lead .statline { margin-top:12px; font-size:15px; color:var(--ink); line-height:1.5; }
+  .lead .statline b { font-variant-numeric:tabular-nums; font-weight:700; }
+  .lead .status { margin-top:14px; font-size:12px; color:var(--faint); line-height:1.45; }
+  .lead .askex { margin-top:12px; font-size:13px; font-weight:600; color:var(--navy); padding:0; }
   .lead .askex i { font-family:var(--serif); font-weight:500; }
   .lead .askex:hover { color:var(--gold); }
-  .lead .status { margin-top:auto; padding-top:16px; border-top:1px solid var(--rule);
-    font-size:12px; color:var(--faint); line-height:1.45; }
   @media (max-width:640px){
-    .desk { grid-template-columns:1fr; gap:14px; }
+    .desk { grid-template-columns:1fr; }
+    .lead, .lead:last-child { border-right:none; border-bottom:1px solid var(--rule); padding:16px 0; }
+    .lead:last-child { border-bottom:none; }
   }
 
   /* catalog: four open verticals, one tool per row */
@@ -200,10 +190,8 @@
   .cr-main { min-width:0; flex:1; }
   .cr-name { font-size:16px; font-weight:700; color:var(--navy); line-height:1.3; }
   .cr:hover .cr-name { color:var(--gold); }
-  .cr .id { font-family:var(--mono); font-size:11px; font-weight:600; color:var(--gold); letter-spacing:.04em; margin-right:6px; }
   .cr .flag { font-family:var(--sans); font-size:11px; font-weight:700; letter-spacing:.04em;
     color:var(--grey); margin-left:8px; }
-  .cr-find { margin-top:4px; font-size:13.5px; color:var(--grey); line-height:1.45; }
   .cr-side { flex:none; text-align:right; font-size:12.5px; color:var(--grey); line-height:1.45; padding-top:2px; }
   .cr-place { display:block; font-weight:600; color:var(--ink); }
   .cr-vint { display:block; color:var(--faint); }
@@ -302,16 +290,15 @@
   <div class="resp frame" id="resp" aria-live="polite"></div>
 
   <section class="sec frame" id="answers">
-    <div class="lab">Featured</div>
     <h2 id="ansH2">New Releases</h2>
-    <p class="sub" id="ansSub">Florida homeowners insurance and the fifty-state tax atlas. Open either for the full briefing: charts, story, and every source.</p>
+    <p class="sub" id="ansSub">Florida homeowners insurance and the fifty-state tax atlas.</p>
     <div id="deskList"></div>
   </section>
 
   <section class="sec frame dir-sec" id="directory">
     <div class="lab">The catalog</div>
     <h2>Every application</h2>
-    <p class="sub">Browse by Pioneer vertical. Each row is one application: what it covers, where it applies, and the vintage of the data inside.</p>
+    <p class="sub">Browse by Pioneer vertical. Each row is an application, the place it covers, and the vintage of the data inside.</p>
     <div class="cabtop">
       <div class="srchwrap">
         <input id="srch" class="srch" type="search" placeholder="Search by name or topic" aria-label="Search the catalog" autocomplete="off">
@@ -403,12 +390,12 @@ if (AI_ENABLED) {
   var h2=document.getElementById('ansH2'), sub=document.getElementById('ansSub');
   if (!AI_ENABLED) {
     if (h2)  h2.textContent  = 'New Releases';
-    if (sub) sub.textContent = 'Florida homeowners insurance and the fifty-state tax atlas. Open either for the full briefing: charts, story, and every source.';
+    if (sub) sub.textContent = 'Florida homeowners insurance and the fifty-state tax atlas.';
     var cr=document.getElementById('pfCredo');
     if (cr) cr.textContent = 'Every figure compiled here traces to a public record.';
   } else {
     if (h2)  h2.textContent  = 'New Releases';
-    if (sub) sub.textContent = 'Two applications answer questions from data Pioneer has verified, each led by a live number. Every figure cites its primary source, and what the data cannot support they decline.';
+    if (sub) sub.textContent = 'Florida homeowners insurance and the fifty-state tax atlas.';
   }
 })();
 
@@ -488,9 +475,8 @@ if (AI_ENABLED) {
     return '<a class="cr" href="'+esc(r.u)+'"'+ext+(r.host?' title="Opens on '+esc(r.host)+'"':'')+
       ' data-g="'+esc(r.s)+'" data-q="'+esc(q)+'">' +
       '<span class="cr-main">' +
-        '<span class="cr-name">'+(r.dlid?'<span class="id">'+esc(r.dlid)+'</span>':'')+esc(r.n)+
+        '<span class="cr-name">'+esc(r.n)+
           (flag?'<span class="flag">'+esc(flag)+'</span>':'')+'</span>' +
-        (r.ma?'<span class="cr-find">'+esc(r.ma)+'</span>':'') +
       '</span>' +
       '<span class="cr-side">' +
         '<span class="cr-place">'+esc(GEO[r.s]||r.s)+(r.host?' <span class="ext">'+esc(r.host)+'</span>':'')+'</span>' +
@@ -578,58 +564,28 @@ const CHART_TITLES = {
   takeouts:'Net policies flowing into Citizens per 100 taken out'
 };
 
-/* ---------- The desk: New Releases lead cards, each led by a live number ---------- */
+/* ---------- The desk: New Releases, two ruled columns ---------- */
 (function(){
-  function spark(sr, getV){
-    var W=360,H=56,vals=sr.map(getV),max=Math.max.apply(null,vals),min=Math.min.apply(null,vals);
-    var x=function(i){return 2+i*((W-6)/(sr.length-1));}, y=function(v){return 6+(1-(v-min)/(max-min||1))*(H-14);};
-    var pts=sr.map(function(d,i){return x(i)+','+y(getV(d)).toFixed(1);}).join(' ');
-    var lastX=x(sr.length-1), lastY=y(getV(sr[sr.length-1])).toFixed(1);
-    var area='2,'+H+' '+pts+' '+lastX+','+H;
-    return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true">' +
-      '<polygon fill="#293C5C" fill-opacity=".08" points="'+area+'"/>' +
-      '<polyline fill="none" stroke="#293C5C" stroke-width="2.2" points="'+pts+'"/>' +
-      '<circle cx="'+lastX+'" cy="'+lastY+'" r="3.5" fill="#CCB26D"/></svg>';
-  }
-  // 50 ticks, n filled. Uses only the ledger count already on the card.
-  function meter(n, of){
-    var W=360,H=28,gap=2.2,w=(W-(of-1)*gap)/of, i, x, fills='';
-    for(i=0;i<of;i++){
-      x=i*(w+gap);
-      fills+='<rect x="'+x.toFixed(1)+'" y="8" width="'+w.toFixed(1)+'" height="12" rx="1" fill="'+(i<n?'#CCB26D':'#E4E6E9')+'"/>';
-    }
-    return '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" aria-hidden="true">'+fills+'</svg>';
-  }
   var flLast = FLPIF[FLPIF.length-1][1], flPeak = Math.max.apply(null, FLPIF.map(function(r){return r[1];}));
   var cards = [
-    { place:'FLORIDA', id:'DL-02', ask:true, url:'/florida-insurance/',
-      stat:flLast.toLocaleString('en-US'),
-      unit:'Citizens policies in force',
-      sub:'Homes still on the state insurer of last resort, down '+Math.round((1-flLast/flPeak)*100)+'% from the 2023 peak.',
-      spark:spark(FLPIF, function(r){return r[1];}),
+    { place:'Florida', id:'DL-02', ask:true, url:'/florida-insurance/',
+      line:'<b>'+flLast.toLocaleString('en-US')+'</b> homes still on Citizens, the state insurer of last resort, down '+Math.round((1-flLast/flPeak)*100)+'% from the 2023 peak.',
       q:'What does homeowners insurance cost in Miami-Dade?', qshort:'What does Miami-Dade pay?',
-      status:'Through June 2026 · FL OIR, Citizens, NAIC' },
+      status:'Through June 2026. FL OIR, Citizens, NAIC.' },
     // Stats come from DL01D, generated from the atlas ledger at build time,
-    // so this card cannot drift from the data. No time series to spark.
-    { place:'UNITED STATES', id:'DL-01', ask:true, url:'/tax-atlas/',
-      stat:String(DL01D.active_or_ballot),
-      unit:'of 50 states',
-      sub:'States with a wealth-tax or high-income surtax vehicle in play for 2026, from California Prop 40 to active bills in '+(DL01D.active_or_ballot-DL01D.ballot)+' more.',
-      spark:meter(DL01D.active_or_ballot, 50),
+    // so this column cannot drift from the data.
+    { place:'United States', id:'DL-01', ask:true, url:'/tax-atlas/',
+      line:'<b>'+String(DL01D.active_or_ballot)+'</b> states with a wealth-tax or high-income surtax vehicle in play for 2026, from California Prop 40 to active bills in '+(DL01D.active_or_ballot-DL01D.ballot)+' more.',
       q:'Which states are considering a wealth tax?', qshort:'Which states have a wealth tax?',
-      status:'Law as of '+(function(d){var p=d.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+', '+p[0];})(DL01D.as_of)+' · state records and Pioneer analysis' }
+      status:'Law as of '+(function(d){var p=d.split('-');return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+p[1]-1]+' '+(+p[2])+', '+p[0];})(DL01D.as_of)+'. State records and Pioneer analysis.' }
   ];
   document.getElementById('deskList').innerHTML = '<div class="desk">' + cards.map(function(c){
     var t = TOOLMAP[c.id] || {};
     return '<article class="lead" data-url="'+c.url+'">' +
       '<div class="place"><span>'+c.place+'</span>'+((c.ask&&AI_ENABLED)?'<span class="askbadge">ASK</span>':'')+'</div>' +
       '<h3><a href="'+c.url+'">'+esc(t.t||c.id)+'</a></h3>' +
-      '<div class="stat">'+c.stat+'</div>' +
-      (c.unit?'<div class="unit">'+c.unit+'</div>':'') +
-      '<div class="statsub">'+c.sub+'</div>' +
-      (c.spark?'<div class="'+(c.id==='DL-01'?'meter':'spark')+'">'+c.spark+'</div>':'') +
-      ((c.q&&AI_ENABLED)?'<button class="askex" type="button" data-q="'+esc(c.q)+'">Ask: <i>&#8220;'+esc(c.qshort)+'&#8221;</i> &#8594;</button>'
-          :'<a class="askex" href="'+c.url+'">Open the application &#8594;</a>') +
+      '<div class="statline">'+c.line+'</div>' +
+      ((c.q&&AI_ENABLED)?'<button class="askex" type="button" data-q="'+esc(c.q)+'">Ask: <i>&#8220;'+esc(c.qshort)+'&#8221;</i></button>':'') +
       '<div class="status">'+c.status+'</div></article>';
   }).join('') + '</div>';
   [].slice.call(document.querySelectorAll('.lead')).forEach(function(el){

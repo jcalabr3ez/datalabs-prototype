@@ -17,8 +17,6 @@ NAVY = "#293C5C"
 INK = "#222222"
 GREY = "#8DA0B5"
 
-LETTERS = "ABCDEFGH"
-
 
 def _sec(ledger):
     return ((ledger.get("derived") or {}).get("secondary")) or {}

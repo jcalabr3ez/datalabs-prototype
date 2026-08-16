@@ -62,6 +62,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Figures numbered in one sequence",
+        "body": (
+            "Every suite page now numbers its charts 1, 2, 3 in the order "
+            "they appear. The closer-look charts no longer use letters, "
+            "and the compare and trend charts continue the same count."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Place names without city or town",
         "body": (
             "Municipal Atlas and Municipal Rankings now drop the Census "

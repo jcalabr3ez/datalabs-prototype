@@ -86,10 +86,8 @@ def dashboards_html(app):
 def insight_html(insights):
     if not insights:
         return ""
-    letters = "ABCDEFGH"
     blocks = []
     for i, fig in enumerate(insights):
-        letter = letters[i] if i < len(letters) else str(i + 1)
         span = " span2" if fig.get("span") == 2 or len(insights) == 1 else ""
         if fig.get("height") == "mid":
             hclass = "plot-mid"
@@ -101,7 +99,7 @@ def insight_html(insights):
             hclass = "plot-sm"
         blocks.append(
             "    <div class=\"exhibit" + span + "\">\n"
-            "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + letter + "</span>\n"
+            "      <div class=\"ex-head\"><span class=\"ex-n\">Figure " + str(i + 1) + "</span>\n"
             "        <span class=\"ex-t\">" + esc(fig["title"]) + "</span></div>\n"
             "      <div class=\"lede\">" + esc(fig["lede"]) + "</div>\n"
             "      <div class=\"" + hclass + "\"><canvas id=\"chInsight" + str(i) + "\"></canvas></div>\n"
@@ -342,6 +340,7 @@ def page_html(app, ledger, apps=None):
             + "</nav>\n"
         )
     latest_section = ""
+    n_fig = len(insights) if live else 0
     if live:
         latest_section = f"""
 <section id="takeaways" style="margin-top:30px">
@@ -365,7 +364,7 @@ def page_html(app, ledger, apps=None):
     <h2>{esc(spec.get("title") or metric_label)}</h2>
     <div class="lede">{esc(spec.get("lede") or metric_label)} The full list is in the table below.</div>
     <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 1</span>
+      <div class="ex-head"><span class="ex-n">Figure {n_fig + 1}</span>
         <span class="ex-t">{esc(spec.get("title") or metric_label)}</span></div>
       <div class="plot plot-mid"><canvas id="chRank"></canvas></div>
       <div class="note">Ranks are Pioneer calculations from the published source file (derived). Values are labeled on each bar.</div>
@@ -397,7 +396,7 @@ def page_html(app, ledger, apps=None):
     <h2>How has the series moved?</h2>
     <div class="lede">{esc(spec.get("trend_title"))}. Empty periods are omitted.</div>
     <div class="exhibit">
-      <div class="ex-head"><span class="ex-n">Figure 2</span>
+      <div class="ex-head"><span class="ex-n">Figure {n_fig + 2}</span>
         <span class="ex-t">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
       <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>

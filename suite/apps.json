@@ -6,13 +6,13 @@
       "id": "DL-06",
       "slug": "ma-k12",
       "title": "Massachusetts Schools",
-      "q": "Enrollment, MCAS, attendance, dropouts, school finances, and Chapter 74 vocational-technical programs for Massachusetts districts.",
+      "q": "Enrollment by grade, demographics, MCAS, attendance, dropouts, school finances, and Chapter 74 vocational-technical programs for Massachusetts districts.",
       "vertical": "Education",
       "group": "Education",
       "g": ["MA"],
       "heritage": "Formerly Education Fast Facts, Enrollment by Grade, MCAS NEXTGEN, School Attendance, Dropouts & Graduates, MA Demographics, and School Finances",
       "replaces": ["Dropouts & Graduates", "Education Fast Facts", "Enrollment by Grade", "MA Demographics", "MCAS NEXTGEN", "School Attendance", "School Finances"],
-      "scope": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025.",
+      "scope": "This ledger ranks states on NCES NPEFS current expenditures per pupil for fiscal year 2024 (school year 2023-24), reports Massachusetts Fall 2024 public K-12 enrollment, DESE / E2C 2025-26 enrollment by grade, race, and selected populations (low income, English learners, high needs, students with disabilities), DESE Chapter 74 career technical education enrollment for 2025-26, Next Generation MCAS 2025 meeting-or-exceeding shares, 2024-25 attendance and dropout rates, and DESE district total expenditures per pupil for FY 2025.",
       "exclusions": "Does not cover national NAEP, higher education, charter-only national files, waitlists, lottery outcomes, or advice about a school choice. Waitlists and lottery outcomes are not a published statewide table.",
       "wave": "live",
       "sources": [
@@ -22,21 +22,22 @@
         {"id": "SRC-606-04", "name": "DESE / E2C Next Generation MCAS, meeting or exceeding", "cadence": "Annual school year", "url": "https://educationtocareer.data.mass.gov/resource/i9w6-niyt.json"},
         {"id": "SRC-606-05", "name": "DESE / E2C attendance, end of year", "cadence": "Annual school year", "url": "https://educationtocareer.data.mass.gov/resource/ak6h-9k7x.json"},
         {"id": "SRC-606-06", "name": "DESE / E2C high-school dropouts", "cadence": "Annual school year", "url": "https://educationtocareer.data.mass.gov/resource/cmm7-ttbg.json"},
-        {"id": "SRC-606-07", "name": "DESE / E2C district finance, total expenditures per pupil", "cadence": "Annual fiscal year", "url": "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json"}
+        {"id": "SRC-606-07", "name": "DESE / E2C district finance, total expenditures per pupil", "cadence": "Annual fiscal year", "url": "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json"},
+        {"id": "SRC-606-08", "name": "DESE / E2C enrollment by grade, race/ethnicity, gender, and selected populations", "cadence": "Annual school year", "url": "https://educationtocareer.data.mass.gov/resource/t8td-gens.json"}
       ]
     },
     {
       "id": "DL-07",
       "slug": "national-k12",
       "title": "State School Scores",
-      "q": "NAEP scores, enrollment, and school finance across the fifty states.",
+      "q": "NAEP scores, enrollment, school finance, graduation, and discipline, including suspension by race, across the fifty states.",
       "vertical": "Education",
       "group": "Education",
       "g": ["US", "FL"],
       "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
       "replaces": ["Discipline & Security", "High School Completion", "K-12 Enrollment", "K-12 School Finance", "Reading/Math Achievement"],
-      "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil.",
-      "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts Schools) or higher education.",
+      "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension and expulsion shares (including the published race and ethnicity columns), NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil.",
+      "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts Schools) or higher education. In-school suspension is not a column on Digest table 233.40.",
       "wave": "live",
       "sources": [
         {"id": "SRC-607-01", "name": "NCES NAEP state results", "cadence": "Biennial", "url": "https://nces.ed.gov/nationsreportcard/"},
@@ -44,46 +45,55 @@
         {"id": "SRC-607-03", "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx"},
         {"id": "SRC-607-04", "name": "NCES Digest table 233.40, out-of-school suspension share", "cadence": "Periodic", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx"},
         {"id": "SRC-607-05", "name": "NAEP state reading and math average scale scores, 1990-2024", "cadence": "Biennial", "url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx"},
-        {"id": "SRC-607-06", "name": "NCES NPEFS current expenditures per pupil, FY 2024", "cadence": "Annual", "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt"}
+        {"id": "SRC-607-06", "name": "NCES NPEFS current expenditures per pupil, FY 2024", "cadence": "Annual", "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt"},
+        {"id": "SRC-607-07", "name": "NCES Digest table 233.40, expulsion share", "cadence": "Periodic", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx"}
       ]
     },
     {
       "id": "DL-08",
       "slug": "higher-education",
       "title": "College Enrollment",
-      "q": "Fall college enrollment by state, with SAT scores as a later view.",
+      "q": "Fall college enrollment, SAT scores, faculty and staff, graduation, tuition, and higher-education finance by state.",
       "vertical": "Education",
       "group": "Education",
       "g": ["US", "MA", "FL"],
       "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
       "replaces": ["Higher Education-College Admissions", "Higher Education-College Enrollment", "Higher Education-Faculty and Staff", "Higher Education-Student Data"],
-      "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 all-faculty count, the national Fall 2023 full-time faculty composition (rank and sex), and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort.",
-      "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. State-level faculty counts are not in the current Digest xlsx set. Digest 315.20 and 326.10 have no state column.",
+      "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20.",
+      "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. ACT state means are not in the current Digest xlsx set.",
       "wave": "live",
       "sources": [
         {"id": "SRC-608-01", "name": "NCES Digest table 304.10, fall postsecondary enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx"},
         {"id": "SRC-608-02", "name": "NCES Digest table 226.40, SAT mean scores by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx"},
         {"id": "SRC-608-03", "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.10.xlsx"},
         {"id": "SRC-608-04", "name": "NCES Digest table 326.10, IPEDS 6-year bachelor's graduation rate (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn326.10.xlsx"},
-        {"id": "SRC-608-05", "name": "NCES Digest table 315.20, full-time faculty by rank and sex (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.20.xlsx"}
+        {"id": "SRC-608-05", "name": "NCES Digest table 315.20, full-time faculty by rank and sex (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.20.xlsx"},
+        {"id": "SRC-608-06", "name": "NCES Digest table 314.50, public FTE staff and faculty by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn314.50.xlsx"},
+        {"id": "SRC-608-07", "name": "NCES Digest table 333.30, state and local appropriations for public higher education", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn333.30.xlsx"},
+        {"id": "SRC-608-08", "name": "NCES Digest table 334.20, public higher-education expenditures by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn334.20.xlsx"},
+        {"id": "SRC-608-09", "name": "NCES Digest table 330.20, public 4-year in-state tuition and fees", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn330.20.xlsx"},
+        {"id": "SRC-608-10", "name": "NCES Digest table 319.20, degrees conferred by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn319.20.xlsx"},
+        {"id": "SRC-608-11", "name": "NCES Digest table 317.20, degree-granting institutions by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn317.20.xlsx"},
+        {"id": "SRC-608-12", "name": "IPEDS GR2023 and HD2023, 6-year bachelor's graduation rate by state", "cadence": "Annual", "url": "https://nces.ed.gov/ipeds/datacenter/data/GR2023.zip"}
       ]
     },
     {
       "id": "DL-09",
       "slug": "charters-staff",
       "title": "Charter Enrollment",
-      "q": "Charter-school enrollment by state. Teacher counts are a secondary table.",
+      "q": "Charter-school enrollment by state, with public-school teachers, staff, and instructional aides.",
       "vertical": "Education",
       "group": "Education",
       "g": ["US", "MA", "FL"],
       "heritage": "Formerly School Districts Charter Schools and Education Staff",
       "replaces": ["School Districts-Charter Schools", "School Districts-Education Staff"],
-      "scope": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022.",
+      "scope": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher, total staff, and instructional-aide full-time-equivalent counts for Fall 2022.",
       "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter.",
       "wave": "live",
       "sources": [
         {"id": "SRC-609-01", "name": "NCES Digest table 216.90, charter schools and enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn216.90.xlsx"},
-        {"id": "SRC-609-02", "name": "NCES Digest table 208.30, public-school teachers (FTE)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx"}
+        {"id": "SRC-609-02", "name": "NCES Digest table 208.30, public-school teachers (FTE)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx"},
+        {"id": "SRC-609-03", "name": "NCES Digest table 213.20, public-school staff by assignment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn213.20.xlsx"}
       ]
     },
     {
@@ -172,7 +182,7 @@
       "g": ["US", "MA", "FL"],
       "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
       "replaces": ["Employment and Wages", "Labor Demographics", "Labor Market", "Monthly Employment", "Total Labor Force", "Unemployment Insurance", "Weekly Wages"],
-      "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims.",
+      "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages and average monthly employment for 2025 Q4 and ETA 539 weekly UI initial and continued claims.",
       "exclusions": "Does not cover occupational wages, CPS age-sex-race detail, or advice about a job search.",
       "wave": "live",
       "sources": [
@@ -224,18 +234,19 @@
       "id": "DL-17",
       "slug": "population-migration",
       "title": "State Migration",
-      "q": "Domestic migration by state, not headcount.",
+      "q": "Domestic and international migration, births, deaths, population change, and age and race shares by state.",
       "vertical": "Economic Opportunity",
       "group": "Economy & Jobs",
       "g": ["US", "MA", "FL"],
       "heritage": "Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban",
       "replaces": ["US Demographics", "Domestic Migration", "Population Change", "Rural to Urban"],
-      "scope": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, and USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties).",
+      "scope": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties), and Census vintage 2025 age and race shares (including age 65 and over, age 17 and under, Hispanic or Latino, and White non-Hispanic).",
       "exclusions": "Does not cover IRS taxpayer migration (that is Taxpayer Migration) or municipal populations (that is Massachusetts Town Profiles).",
       "wave": "live",
       "sources": [
         {"id": "SRC-617-01", "name": "Census Bureau vintage 2025 state population estimates", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/totals/NST-EST2025-ALLDATA.csv"},
-        {"id": "SRC-617-02", "name": "USDA ERS rural-urban continuum codes, 2023", "cadence": "Periodic", "url": "https://www.ers.usda.gov/media/5768/2023-rural-urban-continuum-codes.csv?v=23323"}
+        {"id": "SRC-617-02", "name": "USDA ERS rural-urban continuum codes, 2023", "cadence": "Periodic", "url": "https://www.ers.usda.gov/media/5768/2023-rural-urban-continuum-codes.csv?v=23323"},
+        {"id": "SRC-617-03", "name": "Census vintage 2025 state population by age, sex, and race", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/asrh/sc-est2025-alldata6.csv"}
       ]
     },
     {
@@ -413,13 +424,13 @@
       "id": "DL-27",
       "slug": "boston",
       "title": "Boston City Payroll",
-      "q": "Boston department payroll.",
+      "q": "Boston department payroll, named top earners, and the adopted operating budget.",
       "vertical": "American Citizenship",
       "group": "Your City & Town",
       "g": ["Boston"],
       "heritage": "Formerly Boston Data Labs",
       "replaces": ["Boston Data Labs"],
-      "scope": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department.",
+      "scope": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), lists the highest named employee earnings from the same file, reports the citywide earnings total for 2015 through 2025, and also reports the FY26 adopted operating appropriation by department.",
       "exclusions": "Does not cover other municipalities (Massachusetts Town Profiles) or statewide payroll (Massachusetts State Payroll).",
       "wave": "live",
       "sources": [
@@ -455,14 +466,17 @@
       "g": ["US", "FL"],
       "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
       "replaces": ["Financial Transparency", "Government Organizations", "Party Dominance", "Public Pensions", "State Employees", "State Finance-State & Local Expenses", "State Finance-State & Local Revenues", "State Finance-State Only Expenses", "State Finance-State Only Revenues", "State Finance-State Rainy Day Funds"],
-      "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views.",
-      "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts Tax Collections), or party-registration advice. NASBO rainy-day figures are pending: decline those.",
+      "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views.",
+      "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts Tax Collections), or party-registration advice. NASBO rainy-day figures and party-dominance files are pending: decline those.",
       "wave": "live",
       "sources": [
         {"id": "SRC-629-01", "name": "Census QTAX 2026 Q1 table 3, total state taxes", "cadence": "Quarterly", "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx"},
         {"id": "SRC-629-02", "name": "NASBO Fiscal Survey of the States, rainy-day funds", "cadence": "Twice yearly", "url": "https://www.nasbo.org/"},
         {"id": "SRC-629-03", "name": "Census ASPEP 2023 state government full-time-equivalent employment", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/apes/datasets/2023/2023_state.xlsx"},
-        {"id": "SRC-629-04", "name": "Census Annual Survey of State Government Tax Collections, FY 2023", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/stc/tables/2023/FY2023-STC-Detailed-Table-Transposed.xlsx"}
+        {"id": "SRC-629-04", "name": "Census Annual Survey of State Government Tax Collections, FY 2023", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/stc/tables/2023/FY2023-STC-Detailed-Table-Transposed.xlsx"},
+        {"id": "SRC-629-05", "name": "Census of Governments Finance 2022, state and local revenue and expenditure", "cadence": "Every five years / annual estimate", "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx"},
+        {"id": "SRC-629-06", "name": "Census of Governments 2022 organization counts (CG2200ORG01)", "cadence": "Every five years", "url": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org01.zip"},
+        {"id": "SRC-629-07", "name": "Census Annual Survey of Public Pensions 2025 unit file", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/aspp/datasets/2025/aspp-historical-datasets/ASPP_Unit_File_2025.csv"}
       ]
     },
     {

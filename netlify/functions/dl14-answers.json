@@ -6,7 +6,7 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2026-06",
-  "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims.",
+  "scope": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages and average monthly employment for 2025 Q4 and ETA 539 weekly UI initial and continued claims.",
   "exclusions": "Does not cover occupational wages, CPS age-sex-race detail, or advice about a job search.",
   "heritage": "Formerly Labor Market, Monthly Employment, Employment and Wages, Total Labor Force, Weekly Wages, Labor Demographics, and Unemployment Insurance",
   "replaces": [
@@ -18,31 +18,31 @@
     "Unemployment Insurance",
     "Weekly Wages"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from BLS LAUS statewide seasonally adjusted file la.data.3.AllStatesS. Measure 03 is the unemployment rate. The U.S. civilian rate is not in this file and is not invented here. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from BLS LAUS statewide seasonally adjusted file la.data.3.AllStatesS. Measure 03 is the unemployment rate. The U.S. civilian rate is not in this file and is not invented here. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-614-01": {
       "name": "BLS Local Area Unemployment Statistics, statewide seasonally adjusted",
       "cadence": "Monthly",
       "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages and average monthly employment for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
     },
     "SRC-614-02": {
       "name": "BLS QCEW average weekly wage, all industries, statewide",
       "cadence": "Quarterly",
       "url": "https://data.bls.gov/cew/data/api/2025/4/industry/10.csv",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages and average monthly employment for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
     },
     "SRC-614-03": {
       "name": "DOL ETA 539 weekly UI claims by state",
       "cadence": "Weekly",
       "url": "https://oui.doleta.gov/unemploy/csv/ar539.csv",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages and average monthly employment for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
     },
     "SRC-614-04": {
       "name": "BLS LAUS statewide employment, labor force, employment-population ratio, and labor-force participation rate",
       "cadence": "Monthly",
       "url": "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS",
-      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
+      "supports": "Covers BLS Local Area Unemployment Statistics: seasonally adjusted unemployment rate, employment, labor force, labor-force participation rate, and employment-population ratio for every state and D.C. Also reports QCEW average weekly wages and average monthly employment for 2025 Q4 and ETA 539 weekly UI initial and continued claims."
     }
   },
   "page": {
@@ -54,7 +54,7 @@
     "MA",
     "FL"
   ],
-  "q": "Unemployment, employment, and labor force by state from BLS LAUS.",
+  "q": "The unemployment rate by state, from BLS LAUS.",
   "pending": false,
   "metric": "unemployment_rate_sa",
   "metric_label": "Unemployment rate (seasonally adjusted)",
@@ -21489,6 +21489,35 @@
         },
         "ma_unemployment": 170985,
         "note": "BLS LAUS statewide seasonally adjusted file. Measures 05 employment, 06 labor force, 07 employment-population ratio, 08 labor-force participation rate. The U.S. civilian series is not in this file."
+      },
+      "qcew_employment_2025q4": {
+        "us": 156854844,
+        "ma": {
+          "v": 3636257,
+          "rank": 13,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 18413900
+        },
+        "lowest": {
+          "st": "WY",
+          "name": "Wyoming",
+          "v": 279821
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 9984612,
+          "rank": 3,
+          "n": 51
+        },
+        "label": "Average monthly employment, all industries, 2025 Q4",
+        "src": "SRC-614-02",
+        "unit": "jobs",
+        "as_of_label": "2025 Q4",
+        "note": "BLS QCEW statewide all-ownership, all industries. The U.S. total is the sum of published state cells (derived, SRC-614-02)."
       }
     }
   },

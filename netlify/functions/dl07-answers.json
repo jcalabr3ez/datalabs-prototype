@@ -6,8 +6,8 @@
   "group": "Education",
   "status": "live",
   "as_of": "2024-10",
-  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil.",
-  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts Schools) or higher education.",
+  "scope": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension and expulsion shares (including the published race and ethnicity columns), NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil.",
+  "exclusions": "Does not cover Massachusetts-only DESE files (those sit on Massachusetts Schools) or higher education. In-school suspension is not a column on Digest table 233.40.",
   "heritage": "Formerly Reading/Math Achievement, K-12 Enrollment, K-12 School Finance, High School Completion, and Discipline & Security",
   "replaces": [
     "Discipline & Security",
@@ -16,43 +16,49 @@
     "K-12 School Finance",
     "Reading/Math Achievement"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2025 table 203.20. U.S. Fall 2024 enrollment equals 49,387,403. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2025 table 203.20. U.S. Fall 2024 enrollment equals 49,387,403. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-607-01": {
       "name": "NCES NAEP state results",
       "cadence": "Biennial",
       "url": "https://nces.ed.gov/nationsreportcard/",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, the 2020-21 expulsion share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-02": {
       "name": "NCES Digest table 203.20, public K-12 enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d25/tables/xls/tabn203.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, the 2020-21 expulsion share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-03": {
       "name": "NCES Digest table 219.46, 4-year adjusted cohort graduation rate",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, the 2020-21 expulsion share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-04": {
       "name": "NCES Digest table 233.40, out-of-school suspension share",
       "cadence": "Periodic",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, the 2020-21 expulsion share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-05": {
       "name": "NAEP state reading and math average scale scores, 1990-2024",
       "cadence": "Biennial",
       "url": "https://www.nationsreportcard.gov/Dataservice/GetAdhocData.aspx",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, the 2020-21 expulsion share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     },
     "SRC-607-06": {
       "name": "NCES NPEFS current expenditures per pupil, FY 2024",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/ccd/data/txt/stfis24_1a.txt",
-      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension share, the 2020-21 expulsion share, NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
+    },
+    "SRC-607-07": {
+      "name": "NCES Digest table 233.40, expulsion share",
+      "cadence": "Periodic",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn233.40.xlsx",
+      "supports": "This ledger ranks states on NCES Digest public K-12 enrollment for Fall 2024, and also reports the 2021-22 adjusted cohort graduation rate, the 2020-21 out-of-school suspension and expulsion shares (including the published race and ethnicity columns), NAEP state reading and math average scale scores for grades 4 and 8 from the first state assessment through 2024 (including 2019-to-2024 and 2022-to-2024 change), and NCES NPEFS FY 2024 current expenditures per pupil."
     }
   },
   "page": {
@@ -63,14 +69,14 @@
     "US",
     "FL"
   ],
-  "q": "NAEP reading and math, enrollment, finance, completion, and discipline across the 50 states.",
+  "q": "NAEP scores, enrollment, school finance, graduation, and discipline, including suspension by race, across the fifty states.",
   "pending": false,
   "metric": "public_k12_enrollment_fall_2024",
   "metric_label": "Public K-12 enrollment, Fall 2024",
   "unit": "students",
   "data_month": "2024-10",
   "data_month_label": "Fall 2024",
-  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). On the 2024 NAEP, grade-4 reading averaged <b>214.3</b> in the national public sample; Massachusetts scored <b>224.8</b>, rank 1 of 51 (SRC-607-05). Grade-4 math was <b>237.3</b> nationally and <b>246.5</b> in Massachusetts (SRC-607-05). Grade-8 reading was <b>256.7</b> / <b>268.0</b>; grade-8 math was <b>272.2</b> / <b>283.5</b> (SRC-607-05). From 2019 to 2024, national public grade-4 reading changed <b>-5.2</b> points; <b>2</b> of 51 states rose and <b>49</b> fell (SRC-607-05). <b>Louisiana</b> had the largest grade-4 reading gain at <b>+6.1</b> (SRC-607-05). Grade-8 math changed <b>-8.8</b> nationally; <b>0</b> states rose (SRC-607-05). NCES NPEFS current expenditures per pupil were <b>$17,644</b> in the United States in FY 2024 (SRC-607-06). Massachusetts was <b>$27,008</b>, rank 5 of 51 (derived, SRC-607-06).",
+  "lead": "Public elementary and secondary enrollment was <b>49,387,403</b> in the United States in Fall 2024 (SRC-607-02). Massachusetts enrolled <b>915,932</b>, rank 17 of 51 (derived, SRC-607-02). The public high school 4-year graduation rate was <b>86.6%</b> in 2021-22 (SRC-607-03). Massachusetts was <b>90.1%</b>, rank 5 of 48 (derived, SRC-607-03). Out-of-school suspensions reached <b>1.32%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.59%</b> (SRC-607-04). On the 2024 NAEP, grade-4 reading averaged <b>214.3</b> in the national public sample; Massachusetts scored <b>224.8</b>, rank 1 of 51 (SRC-607-05). Grade-4 math was <b>237.3</b> nationally and <b>246.5</b> in Massachusetts (SRC-607-05). Grade-8 reading was <b>256.7</b> / <b>268.0</b>; grade-8 math was <b>272.2</b> / <b>283.5</b> (SRC-607-05). From 2019 to 2024, national public grade-4 reading changed <b>-5.2</b> points; <b>2</b> of 51 states rose and <b>49</b> fell (SRC-607-05). <b>Louisiana</b> had the largest grade-4 reading gain at <b>+6.1</b> (SRC-607-05). Grade-8 math changed <b>-8.8</b> nationally; <b>0</b> states rose (SRC-607-05). Expulsions reached <b>0.06%</b> of U.S. public-school students in 2020-21; Massachusetts was <b>0.01%</b> (SRC-607-07). NCES NPEFS current expenditures per pupil were <b>$17,644</b> in the United States in FY 2024 (SRC-607-06). Massachusetts was <b>$27,008</b>, rank 5 of 51 (derived, SRC-607-06). Among Black students, the out-of-school suspension share was <b>2.32%</b> nationally and <b>0.79%</b> in Massachusetts (SRC-607-04).",
   "kpis": [
     {
       "label": "U.S. public K-12, Fall 2024",
@@ -6398,6 +6404,162 @@
         "unit": "dollars per pupil",
         "as_of_label": "Fiscal year 2024 (school year 2023-24)",
         "note": "NCES NPEFS TE5 divided by membership. The U.S. figure is the First Look 2026-008 Table 4 average."
+      },
+      "expulsion_2020_21": {
+        "us": 0.06,
+        "ma": {
+          "v": 0.01,
+          "rank": 6,
+          "n": 45
+        },
+        "highest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 0.0
+        },
+        "lowest": {
+          "st": "LA",
+          "name": "Louisiana",
+          "v": 0.26
+        },
+        "n_ranked": 45,
+        "fl": {
+          "v": 0.1,
+          "rank": 34,
+          "n": 45
+        },
+        "label": "Share of public-school students expelled, 2020-21",
+        "src": "SRC-607-07",
+        "unit": "percent",
+        "as_of_label": "School year 2020-21",
+        "note": "NCES Digest table 233.40. Higher is more students expelled, not a performance ranking."
+      },
+      "discipline_race_2020_21": {
+        "label": "Out-of-school suspension and expulsion share by race, 2020-21",
+        "src": "SRC-607-04",
+        "unit": "percent",
+        "as_of_label": "School year 2020-21",
+        "oss": {
+          "us": [
+            {
+              "name": "American Indian/Alaska Native",
+              "v": 1.84
+            },
+            {
+              "name": "Asian",
+              "v": 0.18
+            },
+            {
+              "name": "Black",
+              "v": 2.32
+            },
+            {
+              "name": "Hispanic",
+              "v": 0.8
+            },
+            {
+              "name": "Pacific Islander",
+              "v": 0.85
+            },
+            {
+              "name": "White",
+              "v": 1.42
+            },
+            {
+              "name": "Two or more races",
+              "v": 1.13
+            }
+          ],
+          "ma": [
+            {
+              "name": "American Indian/Alaska Native",
+              "v": 0.89
+            },
+            {
+              "name": "Asian",
+              "v": 0.2
+            },
+            {
+              "name": "Black",
+              "v": 0.79
+            },
+            {
+              "name": "Hispanic",
+              "v": 0.6
+            },
+            {
+              "name": "Pacific Islander",
+              "v": 0.12
+            },
+            {
+              "name": "White",
+              "v": 0.57
+            },
+            {
+              "name": "Two or more races",
+              "v": 0.72
+            }
+          ]
+        },
+        "expulsion": {
+          "us": [
+            {
+              "name": "American Indian/Alaska Native",
+              "v": 0.07
+            },
+            {
+              "name": "Asian",
+              "v": 0.01
+            },
+            {
+              "name": "Black",
+              "v": 0.1
+            },
+            {
+              "name": "Hispanic",
+              "v": 0.04
+            },
+            {
+              "name": "Pacific Islander",
+              "v": 0.04
+            },
+            {
+              "name": "White",
+              "v": 0.06
+            },
+            {
+              "name": "Two or more races",
+              "v": 0.06
+            }
+          ],
+          "ma": [
+            {
+              "name": "American Indian/Alaska Native",
+              "v": 0.0
+            },
+            {
+              "name": "Asian",
+              "v": 0.0
+            },
+            {
+              "name": "Hispanic",
+              "v": 0.01
+            },
+            {
+              "name": "Pacific Islander",
+              "v": 0.0
+            },
+            {
+              "name": "White",
+              "v": 0.01
+            },
+            {
+              "name": "Two or more races",
+              "v": 0.01
+            }
+          ]
+        },
+        "note": "NCES Digest table 233.40. Shares are of students in that racial or ethnic group. In-school suspension is not a column on this table."
       }
     }
   },

@@ -1037,8 +1037,7 @@ def hollow_lead(tool_id, sec):
         parts.append(
             f"Full-time faculty numbered <b>{commify(f.get('us') or 0)}</b> in "
             f"Fall 2023; <b>{commify(f.get('professors') or 0)}</b> were professors "
-            f"and <b>{f.get('female_share_pct')}%</b> were women (SRC-608-05). "
-            f"That Digest table is national and has no state column."
+            f"and <b>{f.get('female_share_pct')}%</b> were women (SRC-608-05)."
         )
     if tool_id == "DL-10":
         c = sec.get("chia_srp_2023") or {}

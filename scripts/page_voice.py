@@ -439,6 +439,10 @@ def voice_dl06(ledger):
         f"Massachusetts spent <b>{money(ma.get('v'))}</b> per pupil in fiscal year 2024, {rank_txt(ma)} (derived, SRC-606-01).",
         f"On the 2025 Next Generation MCAS, <b>{mcas.get('ela_3_8_pct')}%</b> of grades 3-8 students met or exceeded expectations in English language arts and <b>{mcas.get('math_3_8_pct')}%</b> in mathematics (SRC-606-04).",
         f"Chapter 74 career technical education enrolled <b>{commify(ch74.get('v'))}</b> high-school students in 2025-26, {ch74.get('share') and round(ch74['share']*100, 1)} percent of high-school enrollment (SRC-606-03).",
+        (
+            f"Kindergarten enrolled <b>{commify(next((r.get('v') for r in (sec(ledger, 'ma_enrollment_demographics_2026').get('grades') or []) if r.get('name')=='Kindergarten'), 0))}</b> "
+            f"students in 2025-26 (SRC-606-08)."
+        ),
     ]
     kpis = [
         kpi("Massachusetts per-pupil, FY 2024", money(ma.get("v")),
@@ -505,29 +509,32 @@ def voice_dl08(ledger):
     latest = ledger.get("latest") or {}
     ma = latest.get("ma") or {}
     sat = sec(ledger, "sat_2023")
-    fac = sec(ledger, "faculty_composition_fall_2023")
+    fac = sec(ledger, "public_fte_faculty_fall_2023")
+    grad = sec(ledger, "ipeds_6yr_grad_by_state_2017")
+    fma = ma_of(fac)
+    gma = ma_of(grad)
     sat_ma = ma_of(sat)
     sat_v = sat_ma.get("v")
     if isinstance(sat_v, float) and sat_v.is_integer():
         sat_v = int(sat_v)
     take = [
         f"Massachusetts SAT mean total score was <b>{sat_v}</b> for 2023 graduates (SRC-608-02).",
-        f"Fall 2022 postsecondary enrollment in Massachusetts was <b>{commify(ma.get('v'))}</b>, {rank_txt(ma)} (derived, SRC-608-01).",
-        f"Nationally, <b>{commify(fac.get('us'))}</b> full-time faculty in Fall 2023; <b>{fac.get('female_share_pct')}%</b> were women (SRC-608-05).",
+        f"The 6-year bachelor's graduation rate was <b>{gma.get('v')}%</b> in Massachusetts, {rank_txt(gma)} (derived, SRC-608-12).",
+        f"Public institutions employed <b>{commify(fma.get('v'))}</b> FTE faculty in Massachusetts in Fall 2023, {rank_txt(fma)} (derived, SRC-608-06).",
     ]
     kpis = [
         kpi("Massachusetts SAT, 2023", str(sat_v),
             f"{(sat.get('label') or 'SAT mean total')}. U.S. mean {int(sat['us']) if isinstance(sat.get('us'), float) and sat['us'].is_integer() else sat.get('us')} (SRC-608-02).",
             "The admissions-test finding, not the enrollment stock.",
             src_name(ledger, "SRC-608-02")),
-        kpi("Massachusetts enrollment, 2022", commify(ma.get("v")),
-            f"{rank_txt(ma).capitalize()} (derived, SRC-608-01).",
-            "The state's share of the national postsecondary file.",
-            src_name(ledger, "SRC-608-01")),
-        kpi("U.S. full-time faculty, Fall 2023", commify(fac.get("us")),
-            f"{fac.get('professor_share_pct')}% professors; {fac.get('female_share_pct')}% women (SRC-608-05). No state column.",
-            "The composition table the faculty page can support.",
-            src_name(ledger, "SRC-608-05")),
+        kpi("6-year graduation rate", f"{gma.get('v')}%",
+            f"{rank_txt(gma).capitalize()}. U.S. {grad.get('us')}% (derived, SRC-608-12).",
+            "The student-outcomes finding the old Student Data page held.",
+            src_name(ledger, "SRC-608-12")),
+        kpi("Massachusetts public faculty", commify(fma.get("v")),
+            f"{rank_txt(fma).capitalize()} on Digest 314.50 (derived, SRC-608-06).",
+            "The state faculty count, not the national composition table.",
+            src_name(ledger, "SRC-608-06")),
     ]
     return take, kpis, f"SAT mean {sat_v}", "SRC-608-02"
 
@@ -818,6 +825,8 @@ def voice_dl17(ledger):
         f"Massachusetts domestic migration was <b>{minus(ma.get('v'))}</b> from 2024 to 2025, {rank_txt(ma)} (derived, SRC-617-01).",
         f"The July 1, 2025 population estimate was <b>{commify(ma.get('pop'))}</b> (SRC-617-01).",
         f"<b>{rma.get('v')}%</b> of 2020 county population lived in metro counties, {rank_txt(rma)} (derived, SRC-617-02).",
+        f"<b>{ma_of(sec(ledger, 'pop_age_65plus_share_2025')).get('v')}%</b> of residents were 65 and over in 2025, {rank_txt(ma_of(sec(ledger, 'pop_age_65plus_share_2025')))} (derived, SRC-617-03).",
+        f"Census estimated <b>{commify(ma_of(sec(ledger, 'births_2025')).get('v'))}</b> births and <b>{commify(ma_of(sec(ledger, 'deaths_2025')).get('v'))}</b> deaths in Massachusetts in 2025 (SRC-617-01).",
     ]
     kpis = [
         kpi("Domestic migration, 2024-25", minus(ma.get("v")),
@@ -1094,7 +1103,7 @@ def voice_dl27(ledger):
     take = [
         f"<b>{hi.get('name')}</b> was the largest payroll department at <b>{money(hi.get('v'))}</b> in calendar 2025 (SRC-627-01).",
         f"City earnings totaled <b>{money(latest.get('total'))}</b> across <b>{commify(latest.get('employees'))}</b> employees (SRC-627-01).",
-        f"The FY26 adopted operating appropriation was <b>{money(bud.get('fy26_appropriation') or bud.get('total') or bud.get('v'))}</b>; <b>{bhi.get('name')}</b> was the largest department at <b>{money(bhi.get('v'))}</b> (SRC-627-02).",
+        f"{(sec(ledger, 'boston_top_earners_2025').get('highest') or {}).get('name')} was the highest named earner at <b>{money((sec(ledger, 'boston_top_earners_2025').get('highest') or {}).get('v'))}</b> (SRC-627-01).",
     ]
     kpis = [
         kpi("Largest payroll department", money(hi.get("v")),
@@ -1155,8 +1164,7 @@ def voice_dl29(ledger):
     take = [
         f"Massachusetts collected <b>{money(ma.get('v'))}</b> in 2026 Q1 state taxes, {rank_txt(ma)} (derived, SRC-629-01).",
         f"State government FTE employment was <b>{commify(fma.get('v'))}</b> in 2023, {rank_txt(fma)} (derived, SRC-629-03).",
-        f"Individual income taxes were <b>{shma.get('v')}%</b> of FY 2023 collections, {rank_txt(shma)} (derived, SRC-629-04)." if shma.get("v") is not None else
-        f"FY 2023 annual collections were <b>{money(sma.get('v'))}</b>, {rank_txt(sma)} (derived, SRC-629-04).",
+        f"State and local revenue was <b>{money(ma_of(sec(ledger, 'aslg_revenue_2022')).get('v'))}</b> in 2022, {rank_txt(ma_of(sec(ledger, 'aslg_revenue_2022')))} (derived, SRC-629-05).",
     ]
     kpis = [
         kpi("Massachusetts taxes, 2026 Q1", money(ma.get("v")),

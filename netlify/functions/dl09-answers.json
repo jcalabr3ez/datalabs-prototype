@@ -6,26 +6,32 @@
   "group": "Education",
   "status": "live",
   "as_of": "2023-06",
-  "scope": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022.",
+  "scope": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher, total staff, and instructional-aide full-time-equivalent counts for Fall 2022.",
   "exclusions": "Does not cover a directory of every U.S. district or advice about opening a charter.",
   "heritage": "Formerly School Districts Charter Schools and Education Staff",
   "replaces": [
     "School Districts-Charter Schools",
     "School Districts-Education Staff"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 216.90, 2022-23 charter fall enrollment. States with a suppressed or blank cell are omitted. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-609-01": {
       "name": "NCES Digest table 216.90, charter schools and enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn216.90.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022."
+      "supports": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher, total staff, and instructional-aide full-time-equivalent counts for Fall 2022."
     },
     "SRC-609-02": {
       "name": "NCES Digest table 208.30, public-school teachers (FTE)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx",
-      "supports": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher full-time-equivalent counts for Fall 2022."
+      "supports": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher, total staff, and instructional-aide full-time-equivalent counts for Fall 2022."
+    },
+    "SRC-609-03": {
+      "name": "NCES Digest table 213.20, public-school staff by assignment",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn213.20.xlsx",
+      "supports": "This ledger ranks states on NCES Digest public charter fall enrollment for 2022-23, and also reports public-school teacher, total staff, and instructional-aide full-time-equivalent counts for Fall 2022."
     }
   },
   "page": {
@@ -37,7 +43,7 @@
     "MA",
     "FL"
   ],
-  "q": "Charter school enrollment and public-school teachers by state.",
+  "q": "Charter-school enrollment by state, with public-school teachers, staff, and instructional aides.",
   "pending": false,
   "metric": "charter_enrollment_2022_23",
   "metric_label": "Charter school fall enrollment, 2022-23",
@@ -1342,6 +1348,64 @@
         "src": "SRC-609-02",
         "unit": "full-time-equivalent teachers",
         "as_of_label": "Fall 2022"
+      },
+      "k12_staff_fte_fall_2022": {
+        "us": 6795470,
+        "ma": {
+          "v": 144719,
+          "rank": 13,
+          "n": 50
+        },
+        "highest": {
+          "st": "TX",
+          "name": "Texas",
+          "v": 768028
+        },
+        "lowest": {
+          "st": "WY",
+          "name": "Wyoming",
+          "v": 16620
+        },
+        "n_ranked": 50,
+        "fl": {
+          "v": 332653,
+          "rank": 4,
+          "n": 50
+        },
+        "label": "Public elementary and secondary staff (FTE), Fall 2022",
+        "src": "SRC-609-03",
+        "unit": "full-time-equivalent staff",
+        "as_of_label": "Fall 2022",
+        "note": "NCES Digest table 213.20. Teachers remain on the companion teacher table."
+      },
+      "k12_aides_fte_fall_2022": {
+        "us": 905181,
+        "ma": {
+          "v": 27449,
+          "rank": 9,
+          "n": 50
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 90822
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 2190
+        },
+        "n_ranked": 50,
+        "fl": {
+          "v": 35481,
+          "rank": 6,
+          "n": 50
+        },
+        "label": "Public-school instructional aides (FTE), Fall 2022",
+        "src": "SRC-609-03",
+        "unit": "full-time-equivalent aides",
+        "as_of_label": "Fall 2022",
+        "note": "NCES Digest table 213.20."
       }
     }
   },

@@ -6,42 +6,42 @@
   "group": "Your City & Town",
   "status": "live",
   "as_of": "2025-12",
-  "scope": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department.",
+  "scope": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), lists the highest named employee earnings from the same file, reports the citywide earnings total for 2015 through 2025, and also reports the FY26 adopted operating appropriation by department.",
   "exclusions": "Does not cover other municipalities (Massachusetts Town Profiles) or statewide payroll (Massachusetts State Payroll).",
   "heritage": "Formerly Boston Data Labs",
   "replaces": [
     "Boston Data Labs"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from the City of Boston CKAN datastore dump of employee-earnings-report-2025. TOTAL GROSS is summed by DEPARTMENT_NAME. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from the City of Boston CKAN datastore dump of employee-earnings-report-2025. TOTAL GROSS is summed by DEPARTMENT_NAME. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-627-01": {
       "name": "City of Boston employee earnings report 2025",
       "cadence": "Annual",
       "url": "https://data.boston.gov/datastore/dump/29b3544f-752a-4cb1-a6af-a1de153d20a0",
-      "supports": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department."
+      "supports": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), lists the highest named employee earnings from the same file, reports the citywide earnings total for 2015 through 2025, and also reports the FY26 adopted operating appropriation by department."
     },
     "SRC-627-02": {
       "name": "City of Boston operating budget, FY26 appropriation",
       "cadence": "Annual",
       "url": "https://data.boston.gov/datastore/dump/8f2971f0-7a0d-401d-8376-0289e3b810ba",
-      "supports": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), and also reports the FY26 adopted operating appropriation by department."
+      "supports": "This ledger ranks City of Boston departments on calendar year 2025 earnings (TOTAL GROSS), lists the highest named employee earnings from the same file, reports the citywide earnings total for 2015 through 2025, and also reports the FY26 adopted operating appropriation by department."
     }
   },
   "page": {
-    "revised": "Aug 15, 2026",
+    "revised": "Aug 16, 2026",
     "version": "0.1"
   },
   "geo": [
     "Boston"
   ],
-  "q": "Boston city budget and payroll.",
+  "q": "Boston department payroll, named top earners, and the adopted operating budget.",
   "pending": false,
   "metric": "boston_department_earnings_2025",
   "metric_label": "Department earnings, calendar year 2025",
   "unit": "dollars",
   "data_month": "2025-12",
   "data_month_label": "Calendar year 2025",
-  "lead": "City of Boston earnings totaled <b>$2.46 billion</b> in calendar year 2025 across <b>25,397</b> employees (SRC-627-01). <b>Boston Police Department</b> was the largest department at <b>$534.48 million</b> (SRC-627-01). The FY26 adopted operating appropriation was <b>$4.91 billion</b> (SRC-627-02). <b>Boston Public Schools</b> was the largest department at <b>$1.66 billion</b> (SRC-627-02).",
+  "lead": "City of Boston earnings totaled <b>$2.46 billion</b> in calendar year 2025 across <b>25,397</b> employees (SRC-627-01). <b>Boston Police Department</b> was the largest department at <b>$534.48 million</b> (SRC-627-01). The FY26 adopted operating appropriation was <b>$4.91 billion</b> (SRC-627-02). <b>Boston Public Schools</b> was the largest department at <b>$1.66 billion</b> (SRC-627-02). <b>Connolly,Timothy</b> was the highest named City of Boston earner in 2025 at <b>$498,145</b> (SRC-627-01).",
   "kpis": [
     {
       "label": "City payroll, 2025",
@@ -2025,6 +2025,156 @@
             "v": 310005047.0
           }
         ]
+      },
+      "boston_top_earners_2025": {
+        "label": "Highest City of Boston earnings, calendar 2025",
+        "src": "SRC-627-01",
+        "unit": "dollars",
+        "as_of_label": "Calendar year 2025",
+        "top": [
+          {
+            "name": "Connolly,Timothy",
+            "department": "Boston Police Department",
+            "title": "Police Captain/DDC",
+            "v": 498144.66
+          },
+          {
+            "name": "Demesmin,Stanley",
+            "department": "Boston Police Department",
+            "title": "Police Lieutenant (Det)",
+            "v": 490238.99
+          },
+          {
+            "name": "Hegarty,Michael J",
+            "department": "Boston Police Department",
+            "title": "Police Captain/DDC",
+            "v": 488433.64
+          },
+          {
+            "name": "Danilecki,John H",
+            "department": "Boston Police Department",
+            "title": "Police Captain",
+            "v": 485534.24
+          },
+          {
+            "name": "Lanchester,Wayne",
+            "department": "Boston Police Department",
+            "title": "Police Captain/DDC",
+            "v": 479062.03
+          },
+          {
+            "name": "Gero,Jarrod A",
+            "department": "Boston Police Department",
+            "title": "Police Sergeant",
+            "v": 463528.75
+          },
+          {
+            "name": "Kervin,Timothy M.",
+            "department": "Boston Police Department",
+            "title": "Lieut-Hackney Carriage Inves.",
+            "v": 463528.75
+          },
+          {
+            "name": "Almeida,Ismael Lopes",
+            "department": "Boston Police Department",
+            "title": "Police Sergeant",
+            "v": 456362.86
+          },
+          {
+            "name": "Barrett,Thomas E.",
+            "department": "Boston Police Department",
+            "title": "Police Lieutenant",
+            "v": 445804.7
+          },
+          {
+            "name": "Gould,John J",
+            "department": "Boston Police Department",
+            "title": "Police Sergeant",
+            "v": 439387.72
+          },
+          {
+            "name": "Smith,Sean P",
+            "department": "Boston Police Department",
+            "title": "Police Lieutenant",
+            "v": 435391.26
+          },
+          {
+            "name": "Pusey,Daniel C.",
+            "department": "Boston Police Department",
+            "title": "Police Lieutenant",
+            "v": 434956.39
+          }
+        ],
+        "highest": {
+          "name": "Connolly,Timothy",
+          "v": 498144.66,
+          "department": "Boston Police Department",
+          "title": "Police Captain/DDC"
+        },
+        "note": "City of Boston employee earnings report 2025. TOTAL GROSS, named employees."
+      },
+      "boston_payroll_trend": {
+        "label": "City of Boston total earnings, 2015 to 2025",
+        "src": "SRC-627-01",
+        "unit": "dollars",
+        "trend": [
+          {
+            "y": 2015,
+            "v": 1487852769,
+            "employees": 22233
+          },
+          {
+            "y": 2016,
+            "v": 1551892383,
+            "employees": 21902
+          },
+          {
+            "y": 2017,
+            "v": 1580210286,
+            "employees": 22046
+          },
+          {
+            "y": 2018,
+            "v": 1590905618,
+            "employees": 22245
+          },
+          {
+            "y": 2019,
+            "v": 1720567517,
+            "employees": 23603
+          },
+          {
+            "y": 2020,
+            "v": 1796738086,
+            "employees": 23312
+          },
+          {
+            "y": 2021,
+            "v": 1819949527,
+            "employees": 21858
+          },
+          {
+            "y": 2022,
+            "v": 1866643384,
+            "employees": 22546
+          },
+          {
+            "y": 2023,
+            "v": 1930625176,
+            "employees": 23204
+          },
+          {
+            "y": 2024,
+            "v": 2142748110,
+            "employees": 25812
+          },
+          {
+            "y": 2025,
+            "v": 2455548219,
+            "employees": 25397
+          }
+        ],
+        "note": "Yearly CKAN dumps of the employee earnings report. TOTAL GROSS (or the year's total-earnings column) summed across named rows."
       }
     }
   },

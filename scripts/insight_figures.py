@@ -391,6 +391,63 @@ def figs_dl06(ledger):
     )
     if fig:
         out.append(fig)
+    demo = sec.get("ma_enrollment_demographics_2026") or {}
+    race = [r for r in (demo.get("race") or []) if r.get("v") is not None]
+    if race:
+        labels = [r["name"] for r in race]
+        values = [r["v"] for r in race]
+        out.append(_fig(
+            "ma-race",
+            "Massachusetts public-school enrollment by race, 2025-26",
+            (
+                f"{demo.get('total'):,} students. White {race[0]['v']} percent; "
+                f"Hispanic or Latino {next((r['v'] for r in race if 'Hispanic' in r['name']), None)} percent."
+            ),
+            demo.get("src") or "SRC-606-08",
+            "bar", "percent", "percent",
+            labels, _bars(labels, values),
+            demo.get("note") or "DESE / E2C statewide All Students.",
+            span=2,
+        ))
+    selected = [r for r in (demo.get("selected") or []) if r.get("v") is not None]
+    if selected:
+        labels = [r["name"] for r in selected]
+        values = [r["v"] for r in selected]
+        li = next((r for r in selected if r["name"] == "Low income"), {})
+        el = next((r for r in selected if r["name"] == "English learners"), {})
+        out.append(_fig(
+            "ma-selected",
+            "Massachusetts selected populations, 2025-26",
+            (
+                f"Low income {li.get('v')} percent; English learners "
+                f"{el.get('v')} percent."
+            ),
+            demo.get("src") or "SRC-606-08",
+            "bar", "percent", "percent",
+            labels, _bars(labels, values),
+            "DESE / E2C selected populations. Shares are of statewide enrollment.",
+            span=2,
+        ))
+    grades = [r for r in (demo.get("grades") or []) if r.get("v") is not None]
+    if grades:
+        labels = [r["name"] for r in grades]
+        values = [r["v"] for r in grades]
+        k = next((r for r in grades if r["name"] == "Kindergarten"), {})
+        g9 = next((r for r in grades if r["name"] == "Grade 9"), {})
+        out.append(_fig(
+            "ma-grades",
+            "Massachusetts public-school enrollment by grade, 2025-26",
+            (
+                f"Kindergarten {k.get('v'):,} students; grade 9 "
+                f"{g9.get('v'):,}. Statewide total {demo.get('total'):,}."
+            ) if k.get("v") is not None and g9.get("v") is not None else
+            f"Statewide total {demo.get('total'):,} students.",
+            demo.get("src") or "SRC-606-08",
+            "bar", "number", "students",
+            labels, _bars(labels, values),
+            "DESE / E2C statewide All Students. Grade counts are published cells on the same enrollment file as race and selected populations.",
+            span=2,
+        ))
     latest = ledger.get("latest") or {}
     ma_ppe = (latest.get("ma") or {}).get("v")
     us_ppe = (latest.get("us") or {}).get("v")
@@ -521,10 +578,34 @@ def figs_dl07(ledger):
     for key, fid, title in (
         ("acgr_2021_22", "acgr", "Four-year adjusted cohort graduation rate, 2021-22"),
         ("oss_suspension_2020_21", "oss", "Out-of-school suspension share, 2020-21"),
+        ("expulsion_2020_21", "expel", "Expulsion share, 2020-21"),
     ):
         fig = from_snap(sec.get(key), fid, title=title)
         if fig:
             out.append(fig)
+    race = sec.get("discipline_race_2020_21") or {}
+    oss_us = (race.get("oss") or {}).get("us") or []
+    oss_ma = (race.get("oss") or {}).get("ma") or []
+    if len(oss_us) >= 4 and len(oss_ma) >= 4:
+        names = [r["name"] for r in oss_us]
+        ma_map = {r["name"]: r["v"] for r in oss_ma}
+        out.append(_fig(
+            "oss-race",
+            "Out-of-school suspension share by race, 2020-21",
+            (
+                f"Black students: United States {next((r['v'] for r in oss_us if r['name']=='Black'), None)} "
+                f"percent; Massachusetts {ma_map.get('Black')} percent."
+            ),
+            race.get("src") or "SRC-607-04",
+            "grouped", "percent", "percent",
+            names,
+            _grouped([
+                {"label": "United States", "data": [r["v"] for r in oss_us], "color": INK},
+                {"label": "Massachusetts", "data": [ma_map.get(n) for n in names], "color": GOLD},
+            ]),
+            race.get("note") or "NCES Digest table 233.40. Shares are of students in that group.",
+            span=2,
+        ))
     fig = from_snap(
         sec.get("npefs_ppe_fy2024"), "npefs-ppe",
         title="Current expenditures per pupil, FY 2024",
@@ -577,23 +658,64 @@ def figs_dl08(ledger):
             fac.get("note") or "Digest 315.20 is national and has no state column.",
             span=2,
         ))
-    ipeds = sec.get("ipeds_6yr_grad_2017") or {}
-    if ipeds.get("us") is not None:
-        labels = ["All 4-year institutions"]
-        values = [ipeds["us"]]
-        out.append(_fig(
-            "ipeds-6yr",
-            "IPEDS 6-year bachelor's graduation rate, 2017 cohort",
-            (
-                f"{ipeds['us']} percent of the 2017 bachelor's cohort finished "
-                "within six years at all 4-year institutions. Digest 326.10 "
-                "has no state column."
-            ),
-            ipeds.get("src") or "SRC-608-04",
-            "bar", "percent", "percent",
-            labels, _bars(labels, values),
-            ipeds.get("note") or "National table. Digest 326.10 has no state column.",
-        ))
+    fig = from_snap(
+        sec.get("public_fte_faculty_fall_2023"), "he-faculty",
+        title="Public FTE faculty, Fall 2023",
+        skip_us=True,
+        note="NCES Digest table 314.50. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    ratio = sec.get("students_per_faculty_fall_2023") or {}
+    fig = from_snap(
+        ratio, "he-ratio",
+        title="FTE students per FTE faculty, Fall 2023",
+        lede=(
+            f"Massachusetts {ratio['ma']['v']} students per faculty, rank "
+            f"{ratio['ma']['rank']} of {ratio['ma']['n']}. Florida is "
+            f"{(ratio.get('fl') or {}).get('v')}. The U.S. ratio is {ratio.get('us')}."
+        ) if ratio.get("ma") else None,
+        note="NCES Digest table 314.50. A lower ratio is fewer students per faculty member.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("ipeds_6yr_grad_by_state_2017"), "ipeds-6yr-state",
+        title="IPEDS 6-year bachelor's graduation rate, 2017 cohort",
+        note="IPEDS GR2023 joined to HD2023. Completers within 150% of normal time (GRTYPE 12) divided by the adjusted bachelor's cohort (GRTYPE 8).",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("he_public4_tuition_2022_23"), "he-tuition",
+        title="Public 4-year in-state tuition and fees, 2022-23",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("he_state_appropriations_2020_21"), "he-approp",
+        title="State appropriations to public higher education, 2020-21",
+        skip_us=True,
+        note="NCES Digest table 333.30. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("he_expenditures_2020_21"), "he-exp",
+        title="Public higher-education expenditures, 2020-21",
+        skip_us=True,
+        note="NCES Digest table 334.20. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("bachelors_conferred_2020_21"), "he-ba",
+        title="Bachelor's degrees conferred, 2020-21",
+        skip_us=True,
+        note="NCES Digest table 319.20. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -611,6 +733,21 @@ def figs_dl09(ledger):
     fig = from_snap(
         sec.get("teachers_fte_fall_2022"), "teachers-fte",
         title="Public-school teachers (FTE), Fall 2022",
+        skip_us=True,
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("k12_staff_fte_fall_2022"), "k12-staff",
+        title="Public-school staff (FTE), Fall 2022",
+        skip_us=True,
+        note="NCES Digest table 213.20. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("k12_aides_fte_fall_2022"), "k12-aides",
+        title="Instructional aides (FTE), Fall 2022",
         skip_us=True,
     )
     if fig:
@@ -970,6 +1107,14 @@ def figs_dl14(ledger):
     )
     if fig:
         out.append(fig)
+    fig = from_snap(
+        sec.get("qcew_employment_2025q4"), "qcew-emp",
+        title="Average monthly employment, all industries, 2025 Q4",
+        skip_us=True,
+        note="BLS QCEW statewide all-ownership. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -1088,6 +1233,43 @@ def figs_dl17(ledger):
     )
     if fig:
         out.append(fig)
+    fig = from_snap(
+        sec.get("pop_age_65plus_share_2025"), "age65",
+        title="Share of population age 65 and over, 2025",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("pop_hispanic_share_2025"), "hisp",
+        title="Hispanic or Latino share of population, 2025",
+    )
+    if fig:
+        out.append(fig)
+    ma_age = sec.get("pop_age_race_ma_2025") or {}
+    if ma_age.get("age_0_17") and ma_age.get("age_65plus"):
+        labels = ["Age 17 and under", "Age 18 to 64", "Age 65 and over"]
+        values = [ma_age["age_0_17"], ma_age["age_18_64"], ma_age["age_65plus"]]
+        out.append(_fig(
+            "ma-age",
+            "Massachusetts population by age, 2025",
+            (
+                f"{ma_age['age_65plus']:,} residents were 65 and over "
+                f"({(sec.get('pop_age_65plus_share_2025') or {}).get('ma', {}).get('v')} percent)."
+            ),
+            ma_age.get("src") or "SRC-617-03",
+            "bar", "number", "people",
+            labels, _bars(labels, values),
+            ma_age.get("note") or "Census vintage 2025 state characteristics.",
+        ))
+    for key, fid, title, skip in (
+        ("births_2025", "births", "Births, 2025", True),
+        ("deaths_2025", "deaths", "Deaths, 2025", True),
+        ("international_mig_2025", "intl-mig", "International migration, 2025", True),
+        ("pop_change_2025", "pop-chg", "Population change, 2025", True),
+    ):
+        fig = from_snap(sec.get(key), fid, title=title, skip_us=skip)
+        if fig:
+            out.append(fig)
     return out
 
 
@@ -1359,6 +1541,26 @@ def figs_dl23(ledger):
     )
     if fig:
         out.append(fig)
+    dd = sec.get("noaa_degree_days_2024") or {}
+    if dd.get("ma_hdd") is not None and dd.get("us_hdd") is not None:
+        labels = ["Heating degree days", "Cooling degree days"]
+        out.append(_fig(
+            "degree-days",
+            "Heating and cooling degree days, 2024",
+            (
+                f"Massachusetts had {dd['ma_hdd']:,.0f} heating degree days and "
+                f"{dd['ma_cdd']:,.0f} cooling degree days. The contiguous U.S. "
+                f"was {dd['us_hdd']:,.0f} and {dd['us_cdd']:,.0f}."
+            ),
+            dd.get("src") or "SRC-623-05",
+            "grouped", "number", "degree days",
+            labels,
+            _grouped([
+                {"label": "United States", "data": [dd["us_hdd"], dd["us_cdd"]], "color": INK},
+                {"label": "Massachusetts", "data": [dd["ma_hdd"], dd["ma_cdd"]], "color": GOLD},
+            ]),
+            "NOAA climate-at-a-glance annual totals, 2024.",
+        ))
     return out
 
 
@@ -1562,6 +1764,39 @@ def figs_dl27(ledger):
                 labels, _bars(labels, values),
                 "City of Boston operating budget file.",
             ))
+    earn = sec.get("boston_top_earners_2025") or {}
+    fig = named_list(
+        earn.get("top"), "bos-earners",
+        "Highest City of Boston earnings, calendar 2025",
+        (
+            f"{(earn.get('highest') or {}).get('name')} of "
+            f"{(earn.get('highest') or {}).get('department')} was highest at "
+            f"${(earn.get('highest') or {}).get('v'):,.0f}."
+        ) if earn.get("highest") else "Named City of Boston earnings.",
+        earn.get("src") or "SRC-627-01",
+        "usd", "dollars",
+        earn.get("note") or "City of Boston employee earnings report 2025, TOTAL GROSS.",
+        n=10, span=2,
+    )
+    if fig:
+        out.append(fig)
+    trend = (sec.get("boston_payroll_trend") or {}).get("trend") or []
+    if len(trend) >= 3:
+        labels = [str(p["y"]) for p in trend]
+        values = [p["v"] for p in trend]
+        out.append(_fig(
+            "bos-pay-trend",
+            "City of Boston total earnings, 2015 to 2025",
+            (
+                f"Earnings rose from ${values[0] / 1e9:.2f} billion in {labels[0]} "
+                f"to ${values[-1] / 1e9:.2f} billion in {labels[-1]}."
+            ),
+            "SRC-627-01",
+            "line", "usd", "dollars",
+            labels, _line(values, "Total earnings"),
+            "Yearly CKAN dumps of the employee earnings report.",
+            span=2,
+        ))
     return out
 
 
@@ -1646,6 +1881,38 @@ def figs_dl29(ledger):
     fig = from_snap(
         stc.get("income_share"), "stc-income-share",
         title="Individual income tax share of state collections, FY 2023",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("aslg_revenue_2022"), "aslg-rev",
+        title="State and local revenue, 2022",
+        skip_us=True,
+        note="Census of Governments Finance 2022 table 1. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("aslg_expenditure_2022"), "aslg-exp",
+        title="State and local expenditure, 2022",
+        skip_us=True,
+        note="Census of Governments Finance 2022 table 1. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("gov_units_2022"), "gov-units",
+        title="Government units, 2022",
+        skip_us=True,
+        note="Census of Governments organization table CG2200ORG01. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("aspp_holdings_2025"), "aspp-hold",
+        title="Public pension cash and investments, 2025",
+        skip_us=True,
+        note="Census ASPP 2025 unit file, item RZ01, weighted by FINAL_WEIGHT. The U.S. total is omitted so state bars remain readable.",
     )
     if fig:
         out.append(fig)

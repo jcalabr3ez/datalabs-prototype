@@ -6,7 +6,7 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2025-07",
-  "scope": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, and USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties).",
+  "scope": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties), and Census vintage 2025 age and race shares (including age 65 and over, age 17 and under, Hispanic or Latino, and White non-Hispanic).",
   "exclusions": "Does not cover IRS taxpayer migration (that is Taxpayer Migration) or municipal populations (that is Massachusetts Town Profiles).",
   "heritage": "Formerly Population Change, Domestic Migration, US Demographics, and Rural to Urban",
   "replaces": [
@@ -15,19 +15,25 @@
     "Population Change",
     "Rural to Urban"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census vintage 2025 NST-EST2025-ALLDATA. Population is POPESTIMATE2025 (July 1). The ranking is DOMESTICMIG2025, not total population. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census vintage 2025 NST-EST2025-ALLDATA. Population is POPESTIMATE2025 (July 1). The ranking is DOMESTICMIG2025, not total population. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-617-01": {
       "name": "Census Bureau vintage 2025 state population estimates",
       "cadence": "Annual",
       "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/totals/NST-EST2025-ALLDATA.csv",
-      "supports": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, and USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties)."
+      "supports": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties), and Census vintage 2025 age and race shares (including age 65 and over, age 17 and under, Hispanic or Latino, and White non-Hispanic)."
     },
     "SRC-617-02": {
       "name": "USDA ERS rural-urban continuum codes, 2023",
       "cadence": "Periodic",
       "url": "https://www.ers.usda.gov/media/5768/2023-rural-urban-continuum-codes.csv?v=23323",
-      "supports": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, and USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties)."
+      "supports": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties), and Census vintage 2025 age and race shares (including age 65 and over, age 17 and under, Hispanic or Latino, and White non-Hispanic)."
+    },
+    "SRC-617-03": {
+      "name": "Census vintage 2025 state population by age, sex, and race",
+      "cadence": "Annual",
+      "url": "https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/state/asrh/sc-est2025-alldata6.csv",
+      "supports": "Covers Census vintage state population estimates, domestic and international migration, births, and deaths, USDA 2023 rural-urban continuum codes (share of 2020 county population in metro RUCC 1-3 counties), and Census vintage 2025 age and race shares (including age 65 and over, age 17 and under, Hispanic or Latino, and White non-Hispanic)."
     }
   },
   "page": {
@@ -39,14 +45,14 @@
     "MA",
     "FL"
   ],
-  "q": "State population, domestic migration, and the rural-urban continuum.",
+  "q": "Domestic and international migration, births, deaths, population change, and age and race shares by state.",
   "pending": false,
   "metric": "domestic_migration_2025",
   "metric_label": "Domestic migration, 2025",
   "unit": "people",
   "data_month": "2025-07",
   "data_month_label": "July 1, 2025",
-  "lead": "The Census vintage 2025 estimate put the United States at <b>341,784,857</b> on July 1, 2025 (SRC-617-01). Massachusetts was <b>7,154,084</b>, with domestic migration of <b>-33,340</b>, rank 47 of 51 (derived, SRC-617-01). Under the 2023 USDA rural-urban continuum codes, <b>98.5%</b> of Massachusetts 2020 county population lived in metro (RUCC 1-3) counties (SRC-617-02). The state has <b>11</b> metro counties and <b>3</b> nonmetro counties (SRC-617-02).",
+  "lead": "The Census vintage 2025 estimate put the United States at <b>341,784,857</b> on July 1, 2025 (SRC-617-01). Massachusetts was <b>7,154,084</b>, with domestic migration of <b>-33,340</b>, rank 47 of 51 (derived, SRC-617-01). Under the 2023 USDA rural-urban continuum codes, <b>98.5%</b> of Massachusetts 2020 county population lived in metro (RUCC 1-3) counties (SRC-617-02). The state has <b>11</b> metro counties and <b>3</b> nonmetro counties (SRC-617-02). <b>19.9%</b> of Massachusetts residents were 65 and over in 2025, rank 21 of 51 (derived, SRC-617-03). Census estimated <b>68,055</b> births and <b>59,636</b> deaths in Massachusetts in 2025 (SRC-617-01).",
   "kpis": [
     {
       "label": "U.S. population, July 1, 2025",
@@ -2011,6 +2017,279 @@
         "ma_metro_counties": 11,
         "ma_nonmetro_counties": 3,
         "note": "Codes are county-level. Massachusetts has no nonmetro county under the 2023 codes."
+      },
+      "pop_age_65plus_share_2025": {
+        "us": null,
+        "ma": {
+          "v": 19.9,
+          "rank": 21,
+          "n": 51
+        },
+        "highest": {
+          "st": "ME",
+          "name": "Maine",
+          "v": 24.6
+        },
+        "lowest": {
+          "st": "UT",
+          "name": "Utah",
+          "v": 13.0
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 22.8,
+          "rank": 5,
+          "n": 51
+        },
+        "label": "Share of population age 65 and over, 2025",
+        "src": "SRC-617-03",
+        "unit": "percent",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 state characteristics (SC-EST2025-ALLDATA6). Shares are derived from published age-sex-race cells."
+      },
+      "pop_age_0_17_share_2025": {
+        "us": null,
+        "ma": {
+          "v": 18.6,
+          "rank": 46,
+          "n": 51
+        },
+        "highest": {
+          "st": "UT",
+          "name": "Utah",
+          "v": 26.1
+        },
+        "lowest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 17.0
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 18.9,
+          "rank": 45,
+          "n": 51
+        },
+        "label": "Share of population age 17 and under, 2025",
+        "src": "SRC-617-03",
+        "unit": "percent",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 state characteristics (SC-EST2025-ALLDATA6). Shares are derived from published age-sex-race cells."
+      },
+      "pop_hispanic_share_2025": {
+        "us": null,
+        "ma": {
+          "v": 14.5,
+          "rank": 18,
+          "n": 51
+        },
+        "highest": {
+          "st": "NM",
+          "name": "New Mexico",
+          "v": 49.4
+        },
+        "lowest": {
+          "st": "WV",
+          "name": "West Virginia",
+          "v": 2.6
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 29.2,
+          "rank": 6,
+          "n": 51
+        },
+        "label": "Hispanic or Latino share of population, 2025",
+        "src": "SRC-617-03",
+        "unit": "percent",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 state characteristics (SC-EST2025-ALLDATA6). Shares are derived from published age-sex-race cells."
+      },
+      "pop_white_nh_share_2025": {
+        "us": null,
+        "ma": {
+          "v": 66.3,
+          "rank": 26,
+          "n": 51
+        },
+        "highest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 89.4
+        },
+        "lowest": {
+          "st": "HI",
+          "name": "Hawaii",
+          "v": 21.5
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 49.9,
+          "rank": 42,
+          "n": 51
+        },
+        "label": "White non-Hispanic share of population, 2025",
+        "src": "SRC-617-03",
+        "unit": "percent",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 state characteristics (SC-EST2025-ALLDATA6). Shares are derived from published age-sex-race cells."
+      },
+      "pop_age_race_ma_2025": {
+        "label": "Massachusetts population by age, 2025",
+        "src": "SRC-617-03",
+        "as_of_label": "July 1, 2025",
+        "total": 7154084,
+        "age_0_17": 1327574,
+        "age_18_64": 4404717,
+        "age_65plus": 1421793,
+        "hispanic_pct": 14.5,
+        "white_nh_pct": 66.3,
+        "note": "Census vintage 2025 state characteristics (SC-EST2025-ALLDATA6). Shares are derived from published age-sex-race cells."
+      },
+      "births_2025": {
+        "us": 3620461,
+        "ma": {
+          "v": 68055,
+          "rank": 18,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 398632
+        },
+        "lowest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 4979
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 225971,
+          "rank": 3,
+          "n": 51
+        },
+        "label": "Births, 2025",
+        "src": "SRC-617-01",
+        "unit": "people",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 NST-EST2025-ALLDATA. Births, deaths, natural change, international migration, and NPOPCHG_2025 are published cells."
+      },
+      "deaths_2025": {
+        "us": 3101603,
+        "ma": {
+          "v": 59636,
+          "rank": 19,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 288917
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 4820
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 227304,
+          "rank": 3,
+          "n": 51
+        },
+        "label": "Deaths, 2025",
+        "src": "SRC-617-01",
+        "unit": "people",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 NST-EST2025-ALLDATA. Births, deaths, natural change, international migration, and NPOPCHG_2025 are published cells."
+      },
+      "natural_change_2025": {
+        "us": 518858,
+        "ma": {
+          "v": 8419,
+          "rank": 15,
+          "n": 51
+        },
+        "highest": {
+          "st": "TX",
+          "name": "Texas",
+          "v": 157711
+        },
+        "lowest": {
+          "st": "PA",
+          "name": "Pennsylvania",
+          "v": -10708
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": -1333,
+          "rank": 41,
+          "n": 51
+        },
+        "label": "Natural change, 2025",
+        "src": "SRC-617-01",
+        "unit": "people",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 NST-EST2025-ALLDATA. Births, deaths, natural change, international migration, and NPOPCHG_2025 are published cells."
+      },
+      "international_mig_2025": {
+        "us": 1262202,
+        "ma": {
+          "v": 40240,
+          "rank": 11,
+          "n": 51
+        },
+        "highest": {
+          "st": "FL",
+          "name": "Florida",
+          "v": 178674
+        },
+        "lowest": {
+          "st": "WV",
+          "name": "West Virginia",
+          "v": 244
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 178674,
+          "rank": 1,
+          "n": 51
+        },
+        "label": "International migration, 2025",
+        "src": "SRC-617-01",
+        "unit": "people",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 NST-EST2025-ALLDATA. Births, deaths, natural change, international migration, and NPOPCHG_2025 are published cells."
+      },
+      "pop_change_2025": {
+        "us": 1781060,
+        "ma": {
+          "v": 15524,
+          "rank": 27,
+          "n": 51
+        },
+        "highest": {
+          "st": "TX",
+          "name": "Texas",
+          "v": 391243
+        },
+        "lowest": {
+          "st": "CA",
+          "name": "California",
+          "v": -9465
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 196680,
+          "rank": 2,
+          "n": 51
+        },
+        "label": "Population change, 2025",
+        "src": "SRC-617-01",
+        "unit": "people",
+        "as_of_label": "July 1, 2025",
+        "note": "Census vintage 2025 NST-EST2025-ALLDATA. Births, deaths, natural change, international migration, and NPOPCHG_2025 are published cells."
       }
     }
   },

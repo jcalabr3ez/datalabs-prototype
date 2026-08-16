@@ -18,6 +18,23 @@ from collections import defaultdict
 from openpyxl import load_workbook
 
 from suite_hollow import hollow_lead, hollow_secondary
+from suite_substance import (
+    sec_aslg_2022,
+    sec_aspp_2025,
+    sec_boston_earners,
+    sec_discipline_race,
+    sec_expulsion,
+    sec_gov_orgs,
+    sec_he_finance,
+    sec_he_students,
+    sec_ipeds_grad_by_state,
+    sec_k12_staff,
+    sec_ma_demographics,
+    sec_pop_age_race,
+    sec_pop_components,
+    sec_public_he_faculty,
+    sec_qcew_employment,
+)
 from suite_common import (
     LEDGER_DIR,
     RANKED,
@@ -1354,18 +1371,26 @@ MORE_SECONDARY = {
             "attendance_2025": sec_attendance(),
             "dropouts_2025": sec_dropouts(),
             "district_finance_fy2025": sec_district_finance(),
+            **sec_ma_demographics(),
         }.items() if v
     },
-    "DL-07": lambda: {"naep_2024": sec_naep(), **hollow_secondary("DL-07")},
-    "DL-08": lambda: {"ipeds_6yr_grad_2017": sec_ipeds_outcomes(), **hollow_secondary("DL-08")},
+    "DL-07": lambda: {"naep_2024": sec_naep(), **hollow_secondary("DL-07"), **sec_expulsion(), **sec_discipline_race()},
+    "DL-08": lambda: {
+        "ipeds_6yr_grad_2017": sec_ipeds_outcomes(),
+        **hollow_secondary("DL-08"),
+        **sec_public_he_faculty(),
+        **sec_he_finance(),
+        **sec_he_students(),
+        **sec_ipeds_grad_by_state(),
+    },
     "DL-10": lambda: hollow_secondary("DL-10"),
     "DL-12": lambda: {"mfcu_recoveries_fy2025": sec_mfcu()},
     "DL-13": lambda: {"bed_births_deaths": sec_bed_births_deaths()},
-    "DL-14": lambda: {"ui_initial_claims": sec_ui_claims(), **hollow_secondary("DL-14")},
+    "DL-14": lambda: {"ui_initial_claims": sec_ui_claims(), **hollow_secondary("DL-14"), **sec_qcew_employment()},
     "DL-19": lambda: hollow_secondary("DL-19"),
     "DL-15": lambda: {"sagdp2_naics_2025": sec_sagdp2()},
     "DL-16": lambda: {"case_shiller_boston": sec_case_shiller()},
-    "DL-17": lambda: {"rucc_2023": sec_rucc()},
+    "DL-17": lambda: {"rucc_2023": sec_rucc(), **sec_pop_age_race(), **sec_pop_components()},
     "DL-21": lambda: {**sec_irs_county_bundle(), **hollow_secondary("DL-21")},
     "DL-22": lambda: {"ntd_annual_2024": sec_ntd_annual()},
     "DL-23": lambda: {
@@ -1379,7 +1404,12 @@ MORE_SECONDARY = {
     "DL-25": lambda: {"population_peers_2025": sec_pop_peers(), **hollow_secondary("DL-25")},
     "DL-26": lambda: {"district_ppe_fy2025": sec_district_finance(), **hollow_secondary("DL-26")},
     "DL-28": lambda: hollow_secondary("DL-28"),
-    "DL-29": lambda: hollow_secondary("DL-29"),
+    "DL-29": lambda: {
+        **hollow_secondary("DL-29"),
+        **sec_aslg_2022(),
+        **sec_gov_orgs(),
+        **sec_aspp_2025(),
+    },
     "DL-31": lambda: hollow_secondary("DL-31"),
     "DL-30": lambda: {
         "quasi_payroll_2025": sec_quasi_payroll(),
@@ -1410,6 +1440,21 @@ def more_lead(tool_id, sec):
             f"<b>${commify(f.get('highest', {}).get('v') or 0)}</b> (SRC-606-07). "
             f"Waitlists and lottery outcomes are not a published statewide table."
         )
+        demo = sec.get("ma_enrollment_demographics_2026") or {}
+        li = next((r for r in (demo.get("selected") or []) if r.get("name") == "Low income"), {})
+        el = next((r for r in (demo.get("selected") or []) if r.get("name") == "English learners"), {})
+        if li.get("v") is not None:
+            parts.append(
+                f"In 2025-26, <b>{li.get('v')}%</b> of Massachusetts public-school "
+                f"students were low income and <b>{el.get('v')}%</b> were English "
+                f"learners (SRC-606-08)."
+            )
+        k = next((r for r in (demo.get("grades") or []) if r.get("name") == "Kindergarten"), {})
+        if k.get("v") is not None:
+            parts.append(
+                f"Kindergarten enrolled <b>{commify(k.get('v'))}</b> students "
+                f"(SRC-606-08)."
+            )
     if tool_id == "DL-07":
         n = (sec.get("naep_2024") or {}).get("series") or {}
         r4, m4 = n.get("read4") or {}, n.get("math4") or {}
@@ -1441,14 +1486,47 @@ def more_lead(tool_id, sec):
                 f"Grade-8 math changed <b>{m8c.get('us'):+.1f}</b> nationally; "
                 f"<b>{m8c.get('n_up')}</b> states rose (SRC-607-05)."
             )
+        ex = sec.get("expulsion_2020_21") or {}
+        if (ex.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"Expulsions reached <b>{ex.get('us')}%</b> of U.S. public-school "
+                f"students in 2020-21; Massachusetts was <b>{(ex.get('ma') or {}).get('v')}%</b> "
+                f"(SRC-607-07)."
+            )
+        race = ((sec.get("discipline_race_2020_21") or {}).get("oss") or {})
+        us_b = next((r for r in (race.get("us") or []) if r.get("name") == "Black"), {})
+        ma_b = next((r for r in (race.get("ma") or []) if r.get("name") == "Black"), {})
+        if us_b.get("v") is not None and ma_b.get("v") is not None:
+            parts.append(
+                f"Among Black students, the out-of-school suspension share was "
+                f"<b>{us_b.get('v')}%</b> nationally and <b>{ma_b.get('v')}%</b> "
+                f"in Massachusetts (SRC-607-04)."
+            )
     if tool_id == "DL-08":
-        i = sec.get("ipeds_6yr_grad_2017") or {}
-        parts.append(
-            f"The IPEDS 6-year bachelor's graduation rate for the 2017 entry "
-            f"cohort was <b>{i.get('us')}%</b> at all 4-year institutions "
-            f"(SRC-608-04). That Digest table is national; it has no state column. "
-            f"A state-level faculty table is not in the current Digest xlsx set."
-        )
+        g = sec.get("ipeds_6yr_grad_by_state_2017") or {}
+        fac = sec.get("public_fte_faculty_fall_2023") or {}
+        tui = sec.get("he_public4_tuition_2022_23") or {}
+        if g.get("us") is not None:
+            parts.append(
+                f"The IPEDS 6-year bachelor's graduation rate for the 2017 entry "
+                f"cohort was <b>{g.get('us')}%</b> nationally; Massachusetts was "
+                f"<b>{(g.get('ma') or {}).get('v')}%</b>, rank "
+                f"{(g.get('ma') or {}).get('rank')} of {(g.get('ma') or {}).get('n')} "
+                f"(derived, SRC-608-12)."
+            )
+        if (fac.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"Public institutions employed <b>{commify((fac.get('ma') or {}).get('v') or 0)}</b> "
+                f"FTE faculty in Massachusetts in Fall 2023, rank "
+                f"{(fac.get('ma') or {}).get('rank')} of {(fac.get('ma') or {}).get('n')} "
+                f"(derived, SRC-608-06)."
+            )
+        if (tui.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"Public 4-year in-state tuition and fees were "
+                f"<b>${commify((tui.get('ma') or {}).get('v') or 0)}</b> in "
+                f"Massachusetts in 2022-23 (SRC-608-09)."
+            )
     if tool_id == "DL-12":
         m = sec.get("mfcu_recoveries_fy2025") or {}
         parts.append(
@@ -1492,6 +1570,14 @@ def more_lead(tool_id, sec):
             f"and <b>{commify(u.get('ma_continued') or 0)}</b> continued weeks "
             f"(SRC-614-03)."
         )
+        qe = sec.get("qcew_employment_2025q4") or {}
+        if (qe.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"QCEW average monthly employment was "
+                f"<b>{commify((qe.get('ma') or {}).get('v') or 0)}</b> in "
+                f"Massachusetts in 2025 Q4, rank {(qe.get('ma') or {}).get('rank')} of "
+                f"{(qe.get('ma') or {}).get('n')} (derived, SRC-614-02)."
+            )
     if tool_id == "DL-15":
         s = ((sec.get("sagdp2_naics_2025") or {}).get("industries") or {})
         a = s.get("all_industry") or {}
@@ -1528,6 +1614,22 @@ def more_lead(tool_id, sec):
             f"metro counties and <b>{r.get('ma_nonmetro_counties')}</b> "
             f"nonmetro counties (SRC-617-02)."
         )
+        a65 = sec.get("pop_age_65plus_share_2025") or {}
+        if (a65.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"<b>{(a65.get('ma') or {}).get('v')}%</b> of Massachusetts "
+                f"residents were 65 and over in 2025, rank "
+                f"{(a65.get('ma') or {}).get('rank')} of {(a65.get('ma') or {}).get('n')} "
+                f"(derived, SRC-617-03)."
+            )
+        b = sec.get("births_2025") or {}
+        d = sec.get("deaths_2025") or {}
+        if (b.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"Census estimated <b>{commify((b.get('ma') or {}).get('v') or 0)}</b> "
+                f"births and <b>{commify((d.get('ma') or {}).get('v') or 0)}</b> deaths "
+                f"in Massachusetts in 2025 (SRC-617-01)."
+            )
     if tool_id == "DL-21":
         c = sec.get("ma_county_agi_2022") or {}
         parts.append(
@@ -1615,6 +1717,37 @@ def more_lead(tool_id, sec):
             f"<b>{usd_prose(v.get('highest', {}).get('v') or 0)}</b> "
             f"(SRC-630-04)."
         )
+    if tool_id == "DL-27":
+        e = (sec.get("boston_top_earners_2025") or {}).get("highest") or {}
+        if e.get("name"):
+            parts.append(
+                f"<b>{e.get('name')}</b> was the highest named City of Boston "
+                f"earner in 2025 at <b>{usd_prose(e.get('v') or 0)}</b> "
+                f"(SRC-627-01)."
+            )
+    if tool_id == "DL-29":
+        r = sec.get("aslg_revenue_2022") or {}
+        p = sec.get("aspp_holdings_2025") or {}
+        g = sec.get("gov_units_2022") or {}
+        if (r.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"State and local revenue was "
+                f"<b>{usd_prose((r.get('ma') or {}).get('v') or 0)}</b> in "
+                f"Massachusetts in 2022, rank {(r.get('ma') or {}).get('rank')} of "
+                f"{(r.get('ma') or {}).get('n')} (derived, SRC-629-05)."
+            )
+        if (p.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"Public pension systems held "
+                f"<b>{usd_prose((p.get('ma') or {}).get('v') or 0)}</b> in cash "
+                f"and investments (derived, SRC-629-07)."
+            )
+        if (g.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"The 2022 Census of Governments counted "
+                f"<b>{commify((g.get('ma') or {}).get('v') or 0)}</b> government "
+                f"units in Massachusetts (SRC-629-06)."
+            )
     extra = hollow_lead(tool_id, sec)
     if extra:
         parts.append(extra)
@@ -1635,6 +1768,10 @@ MORE_STRIP = {
     "DL-08": [
         "Admissions-test and faculty files are pending.",
         "Admissions tests, faculty, and IPEDS outcomes remain pending.",
+        "State faculty counts are not in that national table.",
+        "A state-level faculty table is not in the current Digest xlsx set.",
+        "That Digest table is national; it has no state column.",
+        "That Digest table is national and has no state column.",
     ],
     "DL-10": [
         "CHIA relative prices remain pending on this page.",

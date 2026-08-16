@@ -394,9 +394,11 @@ module.exports = [
       'k-12 spending', 'k12 spending', 'current expenditures per pupil',
       'vocational', 'voc-tech', 'voc tech', 'chapter 74', 'career technical',
       'cte enrollment', 'vocational technical', 'mcas', 'next generation mcas',
-      'attendance rate', 'chronic absentee', 'dropout', 'district finance'
+      'attendance rate', 'chronic absentee', 'dropout', 'district finance',
+      'low income', 'english learner', 'selected populations', 'enrollment by race',
+      'enrollment by grade', 'kindergarten'
     ],
-    extra: 'Chapter 74 CTE sits in derived.secondary.ma_chapter74_cte. Next Generation MCAS 2025 sits in derived.secondary.mcas_2025; attendance in attendance_2025; dropouts in dropouts_2025; district per-pupil finance in district_finance_fy2025. Waitlists, lottery outcomes, and a 30,000-seat target are pending: decline those.'
+    extra: 'Chapter 74 CTE sits in derived.secondary.ma_chapter74_cte. Next Generation MCAS 2025 sits in derived.secondary.mcas_2025; attendance in attendance_2025; dropouts in dropouts_2025; district per-pupil finance in district_finance_fy2025. Race, selected-population, and grade counts sit in derived.secondary.ma_enrollment_demographics_2026. Waitlists, lottery outcomes, and a 30,000-seat target are pending: decline those.'
   }),
   suiteTool(DL07, {
     id: 'DL-07',
@@ -406,9 +408,11 @@ module.exports = [
       'k-12 enrollment', 'k12 enrollment', 'public school enrollment',
       'public k-12', 'national k-12', 'fall 2023 enrollment',
       'fall 2024 enrollment',
-      'elementary and secondary enrollment', 'naep', 'nations report card'
+      'elementary and secondary enrollment', 'naep', 'nations report card',
+      'expulsion', 'expelled', 'out-of-school suspension',
+      'suspension by race'
     ],
-    extra: 'Graduation rates and out-of-school suspension shares sit in derived.secondary. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.'
+    extra: 'Graduation rates, out-of-school suspension shares, and expulsion shares sit in derived.secondary. Suspension and expulsion shares by race sit in derived.secondary.discipline_race_2020_21. In-school suspension is not a column on Digest 233.40: decline those. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.'
   }),
   suiteTool(DL08, {
     id: 'DL-08',
@@ -416,9 +420,11 @@ module.exports = [
     src: 'SRC-608-01',
     triggers: [
       'college', 'college enrollment', 'higher education', 'postsecondary',
-      'fall enrollment', 'degree-granting', 'university enrollment'
+      'fall enrollment', 'degree-granting', 'university enrollment',
+      'college faculty', 'students per faculty', 'college tuition',
+      'in-state tuition', 'higher-education finance', 'college graduation'
     ],
-    extra: 'SAT mean scores sit in derived.secondary.sat_2023; the national faculty count sits in derived.secondary.faculty_fall_2023_us; the national IPEDS 6-year graduation rate sits in derived.secondary.ipeds_6yr_grad_2017; full-time faculty composition (rank and sex, national) sits in derived.secondary.faculty_composition_fall_2023. State faculty counts are not in the current Digest xlsx set: decline those. Digest 315.20 and 326.10 have no state column.'
+    extra: 'SAT mean scores sit in derived.secondary.sat_2023. Public FTE faculty, staff, and students-per-faculty sit in derived.secondary.public_fte_faculty_fall_2023, public_fte_staff_fall_2023, and students_per_faculty_fall_2023. State 6-year bachelor\'s graduation rates sit in derived.secondary.ipeds_6yr_grad_by_state_2017. Tuition, appropriations, expenditures, degrees, and institution counts sit under derived.secondary with he_ and bachelors_ / degree_granting_ keys. National full-time faculty composition remains in faculty_composition_fall_2023. ACT state means are not in the current Digest xlsx set: decline those.'
   }),
   suiteTool(DL09, {
     id: 'DL-09',
@@ -427,7 +433,7 @@ module.exports = [
     triggers: [
       'charter', 'charters', 'charter school', 'charter enrollment'
     ],
-    extra: 'Teacher FTE counts sit in derived.secondary.teachers_fte_fall_2022.'
+    extra: 'Teacher FTE counts sit in derived.secondary.teachers_fte_fall_2022. Total staff and instructional aides sit in derived.secondary.k12_staff_fte_fall_2022 and k12_aides_fte_fall_2022.'
   }),
   suiteTool(DL10, {
     id: 'DL-10',
@@ -543,9 +549,10 @@ module.exports = [
     triggers: [
       'domestic migration', 'state population', 'population estimate',
       'vintage 2025', 'who is moving', 'rural-urban', 'rural urban continuum',
-      'rucc'
+      'rucc', 'census births', 'census-estimated births', 'census deaths',
+      'international migration', 'population change', 'age 65', 'hispanic share'
     ],
-    extra: 'The ranking is DOMESTICMIG, not total population. IRS taxpayer migration sits on DL-20. Municipal populations sit on DL-25. USDA rural-urban continuum codes sit in derived.secondary.rucc_2023.'
+    extra: 'The ranking is DOMESTICMIG, not total population. Births, deaths, natural change, international migration, and NPOPCHG sit in derived.secondary.births_2025, deaths_2025, natural_change_2025, international_mig_2025, and pop_change_2025. IRS taxpayer migration sits on DL-20. Municipal populations sit on DL-25. USDA rural-urban continuum codes sit in derived.secondary.rucc_2023. Age and race shares sit in derived.secondary.pop_age_65plus_share_2025, pop_age_0_17_share_2025, pop_hispanic_share_2025, and pop_white_nh_share_2025.'
   }),
   suiteTool(DL19, {
     id: 'DL-19',
@@ -648,9 +655,10 @@ module.exports = [
     hl: 'the exact department name as written in entities if the question focuses on one department, else null',
     triggers: [
       'boston payroll', 'boston city payroll', 'boston earnings',
-      'city of boston payroll', 'boston police department', 'boston departments'
+      'city of boston payroll', 'boston police department', 'boston departments',
+      'boston employee', 'highest paid boston', 'boston top earner'
     ],
-    extra: 'The FY26 operating budget sits in derived.secondary.boston_operating_budget_fy26. Statewide payroll sits on DL-30. Decline named-employee lookups.'
+    extra: 'The FY26 operating budget sits in derived.secondary.boston_operating_budget_fy26. Named top earners sit in derived.secondary.boston_top_earners_2025; answer those names. The 2015-2025 citywide earnings trend sits in derived.secondary.boston_payroll_trend. Statewide payroll sits on DL-30. Decline a named-employee lookup that is not on the published top list.'
   }),
   suiteTool(DL28, {
     id: 'DL-28',
@@ -671,9 +679,12 @@ module.exports = [
     triggers: [
       'state tax collections', 'which state collected', 'qtax',
       'quarterly tax revenue', 'state government taxes',
-      'state employees', 'public employment', 'aspep'
+      'state employees', 'public employment', 'aspep',
+      'government units', 'government organizations',
+      'state and local revenue', 'state and local expenditure',
+      'aspp', 'public pension cash', 'public pension holdings'
     ],
-    extra: 'The Massachusetts type-of-tax split sits on DL-28. ASPEP 2023 state FTE employment sits in derived.secondary.aspep_fte_2023. Census STC FY 2023 totals and income-tax shares sit in derived.secondary.stc_2023. NASBO rainy-day funds are pending. Excludes D.C.'
+    extra: 'The Massachusetts type-of-tax split sits on DL-28. ASPEP 2023 state FTE employment sits in derived.secondary.aspep_fte_2023. Census STC FY 2023 totals and income-tax shares sit in derived.secondary.stc_2023. State-and-local revenue and expenditure sit in derived.secondary.aslg_revenue_2022 and aslg_expenditure_2022. Government-unit counts sit in derived.secondary.gov_units_2022. Public pension cash and investments sit in derived.secondary.aspp_holdings_2025. NASBO rainy-day funds and party dominance are pending. Massachusetts retirement boards sit on DL-05. Excludes D.C.'
   }),
   suiteTool(DL30, {
     id: 'DL-30',

@@ -6,8 +6,8 @@
   "group": "Education",
   "status": "live",
   "as_of": "2022-10",
-  "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 all-faculty count, the national Fall 2023 full-time faculty composition (rank and sex), and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort.",
-  "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. State-level faculty counts are not in the current Digest xlsx set. Digest 315.20 and 326.10 have no state column.",
+  "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20.",
+  "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. ACT state means are not in the current Digest xlsx set.",
   "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
   "replaces": [
     "Higher Education-College Admissions",
@@ -15,37 +15,79 @@
     "Higher Education-Faculty and Staff",
     "Higher Education-Student Data"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 304.10, Fall 2022 total enrollment. A state-level faculty table is not in the current Digest xlsx set. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 304.10, Fall 2022 total enrollment.  Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-608-01": {
       "name": "NCES Digest table 304.10, fall postsecondary enrollment",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 all-faculty count, the national Fall 2023 full-time faculty composition (rank and sex), and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-02": {
       "name": "NCES Digest table 226.40, SAT mean scores by state",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 all-faculty count, the national Fall 2023 full-time faculty composition (rank and sex), and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-03": {
       "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 all-faculty count, the national Fall 2023 full-time faculty composition (rank and sex), and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-04": {
       "name": "NCES Digest table 326.10, IPEDS 6-year bachelor's graduation rate (national)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn326.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 all-faculty count, the national Fall 2023 full-time faculty composition (rank and sex), and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-05": {
       "name": "NCES Digest table 315.20, full-time faculty by rank and sex (national)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, the national Fall 2023 all-faculty count, the national Fall 2023 full-time faculty composition (rank and sex), and the national IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort."
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+    },
+    "SRC-608-06": {
+      "name": "NCES Digest table 314.50, public FTE staff and faculty by state",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn314.50.xlsx",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+    },
+    "SRC-608-07": {
+      "name": "NCES Digest table 333.30, state and local appropriations for public higher education",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn333.30.xlsx",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+    },
+    "SRC-608-08": {
+      "name": "NCES Digest table 334.20, public higher-education expenditures by state",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn334.20.xlsx",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+    },
+    "SRC-608-09": {
+      "name": "NCES Digest table 330.20, public 4-year in-state tuition and fees",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn330.20.xlsx",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+    },
+    "SRC-608-10": {
+      "name": "NCES Digest table 319.20, degrees conferred by state",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn319.20.xlsx",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+    },
+    "SRC-608-11": {
+      "name": "NCES Digest table 317.20, degree-granting institutions by state",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn317.20.xlsx",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+    },
+    "SRC-608-12": {
+      "name": "IPEDS GR2023 and HD2023, 6-year bachelor's graduation rate by state",
+      "cadence": "Annual",
+      "url": "https://nces.ed.gov/ipeds/datacenter/data/GR2023.zip",
+      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     }
   },
   "page": {
@@ -57,14 +99,14 @@
     "MA",
     "FL"
   ],
-  "q": "College admissions tests, enrollment, faculty, and student outcomes.",
+  "q": "Fall college enrollment, SAT scores, faculty and staff, graduation, tuition, and higher-education finance by state.",
   "pending": false,
   "metric": "higher_ed_fall_enrollment_2022",
   "metric_label": "Fall enrollment in degree-granting institutions, 2022",
   "unit": "students",
   "data_month": "2022-10",
   "data_month_label": "Fall 2022",
-  "lead": "Fall enrollment in degree-granting postsecondary institutions was <b>18,580,026</b> in 2022 (SRC-608-01). Massachusetts enrolled <b>468,960</b>, rank 12 of 51 (derived, SRC-608-01). The SAT mean total score for 2023 graduates was <b>1028</b> in the United States, with 51.2% of graduates taking the test (SRC-608-02). Massachusetts scored <b>1112</b> (57.0% taking the test) (SRC-608-02). Degree-granting institutions employed <b>1,530,513</b> faculty in Fall 2023 (SRC-608-03). State faculty counts are not in that national table. The IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort was <b>64.5%</b> at all 4-year institutions (SRC-608-04). That Digest table is national; it has no state column. A state-level faculty table is not in the current Digest xlsx set. Full-time faculty numbered <b>859,825</b> in Fall 2023; <b>192,300</b> were professors and <b>48.8%</b> were women (SRC-608-05). That Digest table is national and has no state column.",
+  "lead": "Fall enrollment in degree-granting postsecondary institutions was <b>18,580,026</b> in 2022 (SRC-608-01). Massachusetts enrolled <b>468,960</b>, rank 12 of 51 (derived, SRC-608-01). The SAT mean total score for 2023 graduates was <b>1028</b> in the United States, with 51.2% of graduates taking the test (SRC-608-02). Massachusetts scored <b>1112</b> (57.0% taking the test) (SRC-608-02). Degree-granting institutions employed <b>1,530,513</b> faculty in Fall 2023 (SRC-608-03). The IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort was <b>64.5%</b> nationally; Massachusetts was <b>75.0%</b>, rank 2 of 51 (derived, SRC-608-12). Public institutions employed <b>11,022</b> FTE faculty in Massachusetts in Fall 2023, rank 24 of 51 (derived, SRC-608-06). Public 4-year in-state tuition and fees were <b>$14,345</b> in Massachusetts in 2022-23 (SRC-608-09). Full-time faculty numbered <b>859,825</b> in Fall 2023; <b>192,300</b> were professors and <b>48.8%</b> were women (SRC-608-05).",
   "kpis": [
     {
       "label": "U.S. fall enrollment, 2022",
@@ -2795,6 +2837,296 @@
         "professor_share_pct": 22.4,
         "female_share_pct": 48.8,
         "note": "Digest 315.20 is full-time faculty only and has no state column. Digest 315.10 remains the all-faculty national count."
+      },
+      "public_fte_staff_fall_2023": {
+        "us": 2023852,
+        "ma": {
+          "v": 31276,
+          "rank": 23,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 233058
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 778
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 85560,
+          "rank": 3,
+          "n": 51
+        },
+        "src": "SRC-608-06",
+        "as_of_label": "Fall 2023",
+        "note": "NCES Digest table 314.50, public degree-granting institutions.",
+        "label": "Public FTE staff, Fall 2023",
+        "unit": "full-time-equivalent staff"
+      },
+      "public_fte_faculty_fall_2023": {
+        "us": 694542,
+        "ma": {
+          "v": 11022,
+          "rank": 24,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 84538
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 388
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 28775,
+          "rank": 5,
+          "n": 51
+        },
+        "src": "SRC-608-06",
+        "as_of_label": "Fall 2023",
+        "note": "NCES Digest table 314.50, public degree-granting institutions.",
+        "label": "Public FTE faculty, Fall 2023",
+        "unit": "full-time-equivalent faculty"
+      },
+      "students_per_faculty_fall_2023": {
+        "us": 14.4,
+        "ma": {
+          "v": 12.0,
+          "rank": 15,
+          "n": 51
+        },
+        "highest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 6.3
+        },
+        "lowest": {
+          "st": "FL",
+          "name": "Florida",
+          "v": 18.5
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 18.5,
+          "rank": 51,
+          "n": 51
+        },
+        "src": "SRC-608-06",
+        "as_of_label": "Fall 2023",
+        "note": "NCES Digest table 314.50. A lower ratio is fewer students per faculty member.",
+        "label": "FTE students per FTE faculty, public institutions, Fall 2023",
+        "unit": "students per faculty"
+      },
+      "he_state_appropriations_2020_21": {
+        "us": 75516740741,
+        "ma": {
+          "v": 1670574122,
+          "rank": 14,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 11244569434
+        },
+        "lowest": {
+          "st": "CO",
+          "name": "Colorado",
+          "v": 42486097
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 4518224699,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "State appropriations to public higher education, 2020-21",
+        "src": "SRC-608-07",
+        "unit": "dollars",
+        "as_of_label": "Academic year 2020-21",
+        "note": "NCES Digest table 333.30. Published in thousands of dollars; shown in dollars."
+      },
+      "he_state_local_appropriations_2020_21": {
+        "us": 90779593055,
+        "ma": {
+          "v": 1670574122,
+          "rank": 16,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 15993832788
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 91083335
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 4518224699,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "State and local appropriations to public higher education, 2020-21",
+        "src": "SRC-608-07",
+        "unit": "dollars",
+        "as_of_label": "Academic year 2020-21",
+        "note": "NCES Digest table 333.30. State plus local appropriations. Published in thousands of dollars; shown in dollars."
+      },
+      "he_expenditures_2020_21": {
+        "us": 419696081648,
+        "ma": {
+          "v": 5400543825,
+          "rank": 28,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 73531602166
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 172491542
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 14724301824,
+          "rank": 6,
+          "n": 51
+        },
+        "label": "Public higher-education expenditures, 2020-21",
+        "src": "SRC-608-08",
+        "unit": "dollars",
+        "as_of_label": "Academic year 2020-21",
+        "note": "NCES Digest table 334.20, all public institutions. Published in thousands of dollars; shown in dollars."
+      },
+      "he_public4_tuition_2022_23": {
+        "us": 9750,
+        "ma": {
+          "v": 14345,
+          "rank": 10,
+          "n": 51
+        },
+        "highest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 17600
+        },
+        "lowest": {
+          "st": "FL",
+          "name": "Florida",
+          "v": 4540
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 4540,
+          "rank": 51,
+          "n": 51
+        },
+        "label": "Public 4-year in-state tuition and required fees, 2022-23",
+        "src": "SRC-608-09",
+        "unit": "dollars",
+        "as_of_label": "Academic year 2022-23",
+        "note": "NCES Digest table 330.20. In-state tuition and required fees at public 4-year institutions."
+      },
+      "bachelors_conferred_2020_21": {
+        "us": 2066445,
+        "ma": {
+          "v": 60801,
+          "rank": 10,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 233473
+        },
+        "lowest": {
+          "st": "AK",
+          "name": "Alaska",
+          "v": 1812
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 114202,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "Bachelor's degrees conferred, 2020-21",
+        "src": "SRC-608-10",
+        "unit": "degrees",
+        "as_of_label": "Academic year 2020-21",
+        "note": "NCES Digest table 319.20."
+      },
+      "degree_granting_institutions_2022_23": {
+        "us": 3722,
+        "ma": {
+          "v": 104,
+          "rank": 10,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 403
+        },
+        "lowest": {
+          "st": "DE",
+          "name": "Delaware",
+          "v": 7
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 158,
+          "rank": 5,
+          "n": 51
+        },
+        "label": "Degree-granting postsecondary institutions, 2022-23",
+        "src": "SRC-608-11",
+        "unit": "institutions",
+        "as_of_label": "Academic year 2022-23",
+        "note": "NCES Digest table 317.20."
+      },
+      "ipeds_6yr_grad_by_state_2017": {
+        "us": 64.5,
+        "ma": {
+          "v": 75.0,
+          "rank": 2,
+          "n": 51
+        },
+        "highest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 78.6
+        },
+        "lowest": {
+          "st": "AK",
+          "name": "Alaska",
+          "v": 13.9
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 67.4,
+          "rank": 16,
+          "n": 51
+        },
+        "label": "IPEDS 6-year bachelor's graduation rate, 2017 cohort",
+        "src": "SRC-608-12",
+        "unit": "percent",
+        "as_of_label": "2017 cohort, completing by 2023",
+        "note": "IPEDS GR2023 joined to HD2023 on UNITID. Bachelor's or equivalent subcohort at degree-granting 4-year institutions: completers within 150% of normal time (GRTYPE 12) divided by the adjusted cohort (GRTYPE 8). The national rollup is 64.5 percent, matching Digest 326.10."
       }
     }
   },

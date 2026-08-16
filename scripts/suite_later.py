@@ -36,6 +36,7 @@ from suite_common import (
     yoy_pct,
 )
 from suite_public_later import MORE_SECONDARY, MORE_STRIP, more_lead
+from suite_substance import sec_boston_earners, sec_k12_staff
 
 DIGEST_219 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn219.46.xlsx"
 DIGEST_208 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn208.30.xlsx"
@@ -831,13 +832,13 @@ SECONDARY = {
     "DL-06": lambda: {"ma_chapter74_cte": sec_ma_voctech()},
     "DL-07": lambda: {"acgr_2021_22": sec_acgr(), "oss_suspension_2020_21": sec_discipline()},
     "DL-08": lambda: {"sat_2023": sec_sat(), "faculty_fall_2023_us": sec_faculty_us()},
-    "DL-09": lambda: {"teachers_fte_fall_2022": sec_teachers()},
+    "DL-09": lambda: {"teachers_fte_fall_2022": sec_teachers(), **sec_k12_staff()},
     "DL-14": lambda: {"qcew_avg_weekly_wage_2025q4": sec_qcew()},
     "DL-15": lambda: {"personal_income_2025": sec_personal_income()},
     "DL-16": lambda: {"fhfa_hpi_annual_change_2025": sec_fhfa()},
     "DL-20": sec_county_migration_bundle,
     "DL-24": lambda: {"seds_consumption_2024": sec_seds()},
-    "DL-27": lambda: {"boston_operating_budget_fy26": sec_boston_budget()},
+    "DL-27": lambda: {"boston_operating_budget_fy26": sec_boston_budget(), **sec_boston_earners()},
 }
 
 
@@ -891,7 +892,7 @@ def lead_appendix(tool_id, sec):
             f"(SRC-608-02). Massachusetts scored <b>{int(s['ma']['v'])}</b> "
             f"({part['ma']}% taking the test) (SRC-608-02). Degree-granting "
             f"institutions employed <b>{commify(f['us'])}</b> faculty in Fall 2023 "
-            f"(SRC-608-03). State faculty counts are not in that national table."
+            f"(SRC-608-03)."
         )
     if tool_id == "DL-09":
         t = sec["teachers_fte_fall_2022"]
@@ -989,6 +990,9 @@ STRIP_PHRASES = {
     "DL-08": [
         "Admissions-test and faculty files are pending.",
         "Admissions tests, faculty, and IPEDS outcomes remain pending.",
+        "State faculty counts are not in that national table.",
+        "A state-level faculty table is not in the current Digest xlsx set.",
+        "That Digest table is national; it has no state column.",
     ],
     "DL-09": [
         "Staff counts are pending on this page.",

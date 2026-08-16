@@ -6,8 +6,8 @@
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2026-03",
-  "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views.",
-  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts Tax Collections), or party-registration advice. NASBO rainy-day figures are pending: decline those.",
+  "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views.",
+  "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts Tax Collections), or party-registration advice. NASBO rainy-day figures and party-dominance files are pending: decline those.",
   "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
   "replaces": [
     "Financial Transparency",
@@ -21,31 +21,49 @@
     "State Finance-State Only Revenues",
     "State Finance-State Rainy Day Funds"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Total Taxes, 2026 Q1. U.S. equals 393,072,675 thousand dollars. Later views compiled Aug 15, 2026 are stored under derived.secondary. Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-629-01": {
       "name": "Census QTAX 2026 Q1 table 3, total state taxes",
       "cadence": "Quarterly",
       "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx",
-      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views."
     },
     "SRC-629-02": {
       "name": "NASBO Fiscal Survey of the States, rainy-day funds",
       "cadence": "Twice yearly",
       "url": "https://www.nasbo.org/",
-      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views."
     },
     "SRC-629-03": {
       "name": "Census ASPEP 2023 state government full-time-equivalent employment",
       "cadence": "Annual",
       "url": "https://www2.census.gov/programs-surveys/apes/datasets/2023/2023_state.xlsx",
-      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views."
     },
     "SRC-629-04": {
       "name": "Census Annual Survey of State Government Tax Collections, FY 2023",
       "cadence": "Annual",
       "url": "https://www2.census.gov/programs-surveys/stc/tables/2023/FY2023-STC-Detailed-Table-Transposed.xlsx",
-      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), and Census ASPEP 2023 state government full-time-equivalent employment. NASBO rainy-day funds and party-dominance files remain later views."
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views."
+    },
+    "SRC-629-05": {
+      "name": "Census of Governments Finance 2022, state and local revenue and expenditure",
+      "cadence": "Every five years / annual estimate",
+      "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx",
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views."
+    },
+    "SRC-629-06": {
+      "name": "Census of Governments 2022 organization counts (CG2200ORG01)",
+      "cadence": "Every five years",
+      "url": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org01.zip",
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views."
+    },
+    "SRC-629-07": {
+      "name": "Census Annual Survey of Public Pensions 2025 unit file",
+      "cadence": "Annual",
+      "url": "https://www2.census.gov/programs-surveys/aspp/datasets/2025/aspp-historical-datasets/ASPP_Unit_File_2025.csv",
+      "supports": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views."
     }
   },
   "page": {
@@ -56,14 +74,14 @@
     "US",
     "FL"
   ],
-  "q": "State tax collections, annual tax mix, and state government employment.",
+  "q": "State tax collections by type.",
   "pending": false,
   "metric": "state_tax_collections_2026q1",
   "metric_label": "State government tax collections, 2026 Q1",
   "unit": "dollars",
   "data_month": "2026-03",
   "data_month_label": "2026 Q1",
-  "lead": "State government tax collections were <b>$393.07 billion</b> in the first quarter of 2026, +5.7% from a year earlier, excluding D.C. (SRC-629-01). Massachusetts collected <b>$11.62 billion</b>, rank 8 of 50 (derived, SRC-629-01). State governments employed <b>4,441,091</b> full-time-equivalent workers in 2023; Massachusetts employed <b>105,348</b>, rank 14 of 50 (derived, SRC-629-03). Individual income taxes were <b>47.8%</b> of Massachusetts FY 2023 state tax collections, rank 5 of 44 (derived, SRC-629-04). NASBO rainy-day figures remain pending.",
+  "lead": "State government tax collections were <b>$393.07 billion</b> in the first quarter of 2026, +5.7% from a year earlier, excluding D.C. (SRC-629-01). Massachusetts collected <b>$11.62 billion</b>, rank 8 of 50 (derived, SRC-629-01). State governments employed <b>4,441,091</b> full-time-equivalent workers in 2023; Massachusetts employed <b>105,348</b>, rank 14 of 50 (derived, SRC-629-03). Individual income taxes were <b>47.8%</b> of Massachusetts FY 2023 state tax collections, rank 5 of 44 (derived, SRC-629-04). State and local revenue was <b>$115.53 billion</b> in Massachusetts in 2022, rank 12 of 51 (derived, SRC-629-05). Public pension systems held <b>$127.85 billion</b> in cash and investments (derived, SRC-629-07). The 2022 Census of Governments counted <b>857</b> government units in Massachusetts (SRC-629-06). State governments employed <b>4,441,091</b> full-time-equivalent workers in 2023; Massachusetts employed <b>105,348</b>, rank 14 of 50 (derived, SRC-629-03). Individual income taxes were <b>47.8%</b> of Massachusetts FY 2023 state tax collections, rank 5 of 44 (derived, SRC-629-04). NASBO rainy-day figures remain pending.",
   "kpis": [
     {
       "label": "U.S. state taxes, 2026 Q1",
@@ -759,6 +777,151 @@
         ],
         "us_sales": 459121588000.0,
         "note": "Census STC detailed table, FY 2023. Amounts are published in thousands of dollars. Excludes D.C."
+      },
+      "aslg_revenue_2022": {
+        "us": 4737986304000,
+        "ma": {
+          "v": 115529854000,
+          "rank": 12,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 739308929000
+        },
+        "lowest": {
+          "st": "SD",
+          "name": "South Dakota",
+          "v": 10549378000
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 242920560000,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "State and local general-plus-utility revenue, 2022",
+        "src": "SRC-629-05",
+        "unit": "dollars",
+        "as_of_label": "Fiscal year 2022",
+        "note": "Census of Governments Finance 2022 table 1, state-and-local amount. Published in thousands of dollars; shown in dollars."
+      },
+      "aslg_expenditure_2022": {
+        "us": 4300036702000,
+        "ma": {
+          "v": 107038060000,
+          "rank": 12,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 691595242000
+        },
+        "lowest": {
+          "st": "SD",
+          "name": "South Dakota",
+          "v": 9304711000
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 216297139000,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "State and local expenditure, 2022",
+        "src": "SRC-629-05",
+        "unit": "dollars",
+        "as_of_label": "Fiscal year 2022",
+        "note": "Census of Governments Finance 2022 table 1, state-and-local amount. Published in thousands of dollars; shown in dollars."
+      },
+      "gov_units_2022": {
+        "us": 90888,
+        "ma": {
+          "v": 857,
+          "rank": 33,
+          "n": 51
+        },
+        "highest": {
+          "st": "IL",
+          "name": "Illinois",
+          "v": 6931
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 2
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 1948,
+          "rank": 16,
+          "n": 51
+        },
+        "label": "Federal, state, and local government units, 2022",
+        "src": "SRC-629-06",
+        "unit": "governments",
+        "as_of_label": "2022 Census of Governments",
+        "note": "Census of Governments organization table CG2200ORG01, AGG_DESC GO0001."
+      },
+      "aspp_holdings_2025": {
+        "us": 6490183498620,
+        "ma": {
+          "v": 127852274257,
+          "rank": 14,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 1554793586664
+        },
+        "lowest": {
+          "st": "VT",
+          "name": "Vermont",
+          "v": 7797477673
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 263305266755,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "Public pension cash and investments, 2025",
+        "src": "SRC-629-07",
+        "unit": "dollars",
+        "as_of_label": "2025",
+        "note": "Census Annual Survey of Public Pensions 2025 unit file. RZ01 is total cash and investments; RJ01 is total membership. 2025 is a sample year; published FINAL_WEIGHT is applied (derived, SRC-629-07)."
+      },
+      "aspp_membership_2025": {
+        "us": 37174561,
+        "ma": {
+          "v": 720951,
+          "rank": 19,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 4767955
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 44751
+        },
+        "n_ranked": 51,
+        "fl": {
+          "v": 1434580,
+          "rank": 6,
+          "n": 51
+        },
+        "label": "Public pension membership, 2025",
+        "src": "SRC-629-07",
+        "unit": "members",
+        "as_of_label": "2025",
+        "note": "Census Annual Survey of Public Pensions 2025 unit file. RZ01 is total cash and investments; RJ01 is total membership. 2025 is a sample year; published FINAL_WEIGHT is applied (derived, SRC-629-07)."
       }
     }
   },

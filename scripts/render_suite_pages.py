@@ -30,6 +30,19 @@ def src_rows(ledger):
     return "\n          ".join(lines)
 
 
+REGION_BAR = """    <div class="region-bar" hidden>
+      <span class="sel-lab">Census region</span>
+      <div class="region-chips" role="group" aria-label="Filter by Census region">
+        <button type="button" data-region="all" class="on">All states</button>
+        <button type="button" data-region="northeast">Northeast</button>
+        <button type="button" data-region="midwest">Midwest</button>
+        <button type="button" data-region="south">South</button>
+        <button type="button" data-region="west">West</button>
+      </div>
+    </div>
+"""
+
+
 def kpi_html(kpis):
     blocks = []
     srcs = []
@@ -263,7 +276,7 @@ def chart_spec(app, ledger):
         geo, n_chart, highlight = named[tid]
         n_chart = min(n_chart, n_rows) if n_rows else n_chart
     else:
-        geo, n_chart, highlight = "state", min(12, n_rows) if n_rows else 12, "MA"
+        geo, n_chart, highlight = "state", (n_rows or 51), "MA"
     ulow = unit.lower()
     if "percent" in ulow:
         fmt = "percent"
@@ -282,9 +295,15 @@ def chart_spec(app, ledger):
         title = label + " by " + geo
     else:
         title = label
-    if n_rows and n_chart < n_rows:
+    if n_rows and n_chart < n_rows and geo != "state":
         title += f" (largest {n_chart} of {n_rows})"
     lede = ""
+    if geo == "state":
+        lede = (
+            "Every state and the District of Columbia on the same ranking. "
+            "Use the region chips to slice the chart and the table. "
+            "Massachusetts is marked in gold; Florida in rust."
+        )
     trend_keys = [k for k, v in (ledger.get("trend") or {}).items() if v]
     has_trend = bool(trend_keys)
     trend_mode = trend_compare_mode(ledger)
@@ -320,7 +339,7 @@ def chart_spec(app, ledger):
         trend_lede = ""
         trend_unit = unit
     compare_title = {
-        "state": "Compared with other states",
+        "state": "Across the fifty states",
         "hospital": "Compared with other hospitals",
         "transit agency": "Compared with other agencies",
         "city or town": "Compared with other cities and towns",
@@ -368,7 +387,11 @@ def chart_spec(app, ledger):
             {"key": "rank", "label": "Rank", "align": "n"},
             {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"},
         ]
-        table_lede = "Type a name to jump to a row."
+        table_lede = (
+            "Filter by Census region or type a name. Massachusetts is marked in gold; Florida in rust."
+            if geo == "state"
+            else "Type a name to jump to a row."
+        )
         table_note = (
             "Ranks and year-over-year changes are Pioneer calculations (derived)."
         )
@@ -465,10 +488,10 @@ def page_html(app, ledger, apps=None):
 {insight_html(insights)}
   <section id="view-rank">
     <h2>{esc(compare_h2)}</h2>
-    <div class="exhibit">
+{('    <div class="lede">' + esc(spec["lede"]) + "</div>\n") if spec.get("lede") else ""}{REGION_BAR if spec.get("geo") == "state" else ""}    <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {n_fig + 1}</span>
-        <span class="ex-t">{esc(spec.get("title") or metric_label)}</span></div>
-      <div class="plot plot-mid"><canvas id="chRank"></canvas></div>
+        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>
+      <div class="plot {"plot-ranks" if spec.get("geo") == "state" else "plot-mid"}"><canvas id="chRank"></canvas></div>
       <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> {esc(unit or 'see the register')}.</div>
     </div>
   </section>
@@ -523,7 +546,7 @@ def page_html(app, ledger, apps=None):
 <section id="view-table">
     <h2>{esc(spec.get("table_noun") or "Every row")}</h2>
     <div class="lede">{table_lede}</div>
-    <div class="findrow">
+{REGION_BAR if spec.get("geo") == "state" else ""}    <div class="findrow">
       <label class="sel-lab" for="tblFind">Find a {esc(find_noun)}</label>
       <input id="tblFind" type="search" placeholder="Type a name" autocomplete="off">
       <span id="tblCount" class="findcount"></span>
@@ -611,21 +634,71 @@ const FIND=FIND_JSON;
   }
   function dataLabels(fmt, mode){ return window.dlChartLabels(fmt, mode); }
   var rows=(DL&&DL.rows)||[];
-  var nChart=CHART.n_chart||12;
-  var chartRows=rows.slice(0,nChart);
-  hlList().forEach(function(h){
-    if(chartRows.some(function(r){ return r.name===h || r.st===h; })) return;
-    for(var hi=0;hi<rows.length;hi++){
-      if(rows[hi].name===h || rows[hi].st===h){ chartRows=chartRows.concat([rows[hi]]); break; }
+  var REGIONS={
+    all:null,
+    northeast:['CT','ME','MA','NH','RI','VT','NJ','NY','PA'],
+    midwest:['IL','IN','MI','OH','WI','IA','KS','MN','MO','NE','ND','SD'],
+    south:['DE','FL','GA','MD','NC','SC','VA','DC','WV','AL','KY','MS','TN','AR','LA','OK','TX'],
+    west:['AZ','CO','ID','MT','NV','NM','UT','WY','AK','CA','HI','OR','WA']
+  };
+  var REGION_NAMES={all:'all states',northeast:'the Northeast',midwest:'the Midwest',south:'the South',west:'the West'};
+  var region='all';
+  var rankChart=null;
+  var chartRows=[];
+  var applyFind=function(){};
+  var writeQuery=function(){};
+  function regionList(){
+    return REGIONS[region]||null;
+  }
+  function filteredRows(){
+    var list=regionList();
+    if(!list) return rows.slice();
+    return rows.filter(function(r){ return list.indexOf(r.st)>=0; });
+  }
+  function chartRowsFor(){
+    var fr=filteredRows();
+    if(CHART.geo!=='state'){
+      var n=CHART.n_chart||12;
+      var cr=fr.slice(0,n);
+      hlList().forEach(function(h){
+        if(cr.some(function(r){ return r.name===h || r.st===h; })) return;
+        for(var hi=0;hi<rows.length;hi++){
+          if(rows[hi].name===h || rows[hi].st===h){ cr=cr.concat([rows[hi]]); break; }
+        }
+      });
+      return cr;
     }
-  });
-  var chRank=document.getElementById('chRank');
-  if(chRank && chartRows.length && window.Chart){
-    var labels=chartRows.map(rowLabel);
-    var data=chartRows.map(function(r){return r.v;});
-    var colors=chartRows.map(hlColor);
-    new Chart(chRank,{type:'bar',
-      data:{labels:labels,datasets:[{data:data,backgroundColor:colors}]},
+    return fr;
+  }
+  function sizeRankPlot(n){
+    var plot=document.querySelector('#view-rank .plot');
+    if(!plot) return;
+    plot.style.height=Math.max(280, Math.min(1200, n*20+48))+'px';
+  }
+  function rankTitleText(){
+    var base=CHART.title||CHART.label||'';
+    if(CHART.geo!=='state' || region==='all') return base;
+    return (CHART.label||base)+' in '+REGION_NAMES[region];
+  }
+  function drawRank(){
+    var el=document.getElementById('chRank');
+    if(!el||!window.Chart) return;
+    chartRows=chartRowsFor();
+    if(!chartRows.length) return;
+    sizeRankPlot(chartRows.length);
+    var titleEl=document.getElementById('rankTitle');
+    if(titleEl) titleEl.textContent=rankTitleText();
+    var payload={
+      labels:chartRows.map(rowLabel),
+      datasets:[{data:chartRows.map(function(r){return r.v;}),backgroundColor:chartRows.map(hlColor)}]
+    };
+    if(rankChart){
+      rankChart.data=payload;
+      rankChart.update();
+      return;
+    }
+    rankChart=new Chart(el,{type:'bar',
+      data:payload,
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
         layout:{padding:{right:64,top:6}},
         plugins:{legend:{display:false},
@@ -642,6 +715,28 @@ const FIND=FIND_JSON;
         }},
       plugins:[dataLabels(function(v){return fmtVal(v,true);},'all')]});
   }
+  function setRegion(next){
+    region=(next && REGIONS.hasOwnProperty(next))?next:'all';
+    [].slice.call(document.querySelectorAll('[data-region]')).forEach(function(btn){
+      btn.classList.toggle('on', btn.getAttribute('data-region')===region);
+    });
+    drawRank();
+    applyFind();
+    writeQuery();
+  }
+  [].slice.call(document.querySelectorAll('.region-bar')).forEach(function(bar){
+    if(CHART.geo!=='state') return;
+    bar.hidden=false;
+    [].slice.call(bar.querySelectorAll('[data-region]')).forEach(function(btn){
+      btn.addEventListener('click', function(){ setRegion(btn.getAttribute('data-region')); });
+    });
+  });
+  var startRegion=(q.get('region')||'').toLowerCase();
+  if(startRegion && REGIONS.hasOwnProperty(startRegion)) region=startRegion;
+  [].slice.call(document.querySelectorAll('[data-region]')).forEach(function(btn){
+    btn.classList.toggle('on', btn.getAttribute('data-region')===region);
+  });
+  drawRank();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
   var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
@@ -818,30 +913,41 @@ const FIND=FIND_JSON;
         var cls=c.cls||(c.align==='n'?'n':'');
         return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
       }).join('');
-      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'">'+cells+'</tr>';
+      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'">'+cells+'</tr>';
     }).join('');
     var find=document.getElementById('tblFind');
     var countEl=document.getElementById('tblCount');
-    function applyFind(){
+    applyFind=function(){
       var q=(find&&find.value||'').toLowerCase().replace(/^\\s+|\\s+$/g,'');
+      var list=regionList();
       var n=0, shown=0, first=null;
       [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){
-        var ok=!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0;
+        var st=tr.getAttribute('data-st')||'';
+        var inRegion=!list || list.indexOf(st)>=0;
+        var ok=inRegion && (!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0);
         tr.hidden=!ok;
         n++;
         if(ok){ shown++; if(!first) first=tr; }
       });
-      if(countEl) countEl.textContent = q ? (shown+' of '+n) : (n+' '+(n===1?'row':'rows'));
+      var total=list?filteredRows().length:n;
+      if(countEl){
+        if(q) countEl.textContent=shown+' of '+total+(region!=='all'?' in '+REGION_NAMES[region]:'');
+        else if(region!=='all') countEl.textContent=shown+' '+REGION_NAMES[region];
+        else countEl.textContent=n+' '+(n===1?'row':'rows');
+      }
       if(q && shown===1 && first) first.scrollIntoView({block:'nearest'});
-    }
+    };
     var params=new URLSearchParams(location.search);
     var startQ=params.get('q')||params.get('st')||'';
     if(find && startQ && !find.value) find.value=startQ;
-    function writeQuery(){
-      var q=(find&&find.value||'').replace(/^\\s+|\\s+$/g,'');
-      var next=location.pathname+(q?('?q='+encodeURIComponent(q)):'')+location.hash;
-      history.replaceState(null,'',next);
-    }
+    writeQuery=function(){
+      var qv=(find&&find.value||'').replace(/^\\s+|\\s+$/g,'');
+      var params=new URLSearchParams();
+      if(region && region!=='all') params.set('region', region);
+      if(qv) params.set('q', qv);
+      var qs=params.toString();
+      history.replaceState(null,'',location.pathname+(qs?('?'+qs):'')+location.hash);
+    };
     var card=document.getElementById('findCard');
     function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\\b(city|town|the)\\b/g,' ').replace(/^\\s+|\\s+$/g,'').replace(/\\s+/g,' '); }
     function renderCard(row, extra){

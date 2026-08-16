@@ -108,7 +108,7 @@ From 2020 to 2025 the largest population gain was <b>Amherst</b> at <b>+13,117</
     <h2>Compared with other cities and towns</h2>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 5</span>
-        <span class="ex-t">Population change, 2020 to 2025 by city or town (largest 12 of 351)</span></div>
+        <span class="ex-t" id="rankTitle">Population change, 2020 to 2025 by city or town (largest 12 of 351)</span></div>
       <div class="plot plot-mid"><canvas id="chRank"></canvas></div>
       <div class="srcline"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> people.</div>
     </div>
@@ -254,21 +254,71 @@ const FIND={"kind": "town", "cards": {"amherst": {"name": "Amherst", "value": "1
   }
   function dataLabels(fmt, mode){ return window.dlChartLabels(fmt, mode); }
   var rows=(DL&&DL.rows)||[];
-  var nChart=CHART.n_chart||12;
-  var chartRows=rows.slice(0,nChart);
-  hlList().forEach(function(h){
-    if(chartRows.some(function(r){ return r.name===h || r.st===h; })) return;
-    for(var hi=0;hi<rows.length;hi++){
-      if(rows[hi].name===h || rows[hi].st===h){ chartRows=chartRows.concat([rows[hi]]); break; }
+  var REGIONS={
+    all:null,
+    northeast:['CT','ME','MA','NH','RI','VT','NJ','NY','PA'],
+    midwest:['IL','IN','MI','OH','WI','IA','KS','MN','MO','NE','ND','SD'],
+    south:['DE','FL','GA','MD','NC','SC','VA','DC','WV','AL','KY','MS','TN','AR','LA','OK','TX'],
+    west:['AZ','CO','ID','MT','NV','NM','UT','WY','AK','CA','HI','OR','WA']
+  };
+  var REGION_NAMES={all:'all states',northeast:'the Northeast',midwest:'the Midwest',south:'the South',west:'the West'};
+  var region='all';
+  var rankChart=null;
+  var chartRows=[];
+  var applyFind=function(){};
+  var writeQuery=function(){};
+  function regionList(){
+    return REGIONS[region]||null;
+  }
+  function filteredRows(){
+    var list=regionList();
+    if(!list) return rows.slice();
+    return rows.filter(function(r){ return list.indexOf(r.st)>=0; });
+  }
+  function chartRowsFor(){
+    var fr=filteredRows();
+    if(CHART.geo!=='state'){
+      var n=CHART.n_chart||12;
+      var cr=fr.slice(0,n);
+      hlList().forEach(function(h){
+        if(cr.some(function(r){ return r.name===h || r.st===h; })) return;
+        for(var hi=0;hi<rows.length;hi++){
+          if(rows[hi].name===h || rows[hi].st===h){ cr=cr.concat([rows[hi]]); break; }
+        }
+      });
+      return cr;
     }
-  });
-  var chRank=document.getElementById('chRank');
-  if(chRank && chartRows.length && window.Chart){
-    var labels=chartRows.map(rowLabel);
-    var data=chartRows.map(function(r){return r.v;});
-    var colors=chartRows.map(hlColor);
-    new Chart(chRank,{type:'bar',
-      data:{labels:labels,datasets:[{data:data,backgroundColor:colors}]},
+    return fr;
+  }
+  function sizeRankPlot(n){
+    var plot=document.querySelector('#view-rank .plot');
+    if(!plot) return;
+    plot.style.height=Math.max(280, Math.min(1200, n*20+48))+'px';
+  }
+  function rankTitleText(){
+    var base=CHART.title||CHART.label||'';
+    if(CHART.geo!=='state' || region==='all') return base;
+    return (CHART.label||base)+' in '+REGION_NAMES[region];
+  }
+  function drawRank(){
+    var el=document.getElementById('chRank');
+    if(!el||!window.Chart) return;
+    chartRows=chartRowsFor();
+    if(!chartRows.length) return;
+    sizeRankPlot(chartRows.length);
+    var titleEl=document.getElementById('rankTitle');
+    if(titleEl) titleEl.textContent=rankTitleText();
+    var payload={
+      labels:chartRows.map(rowLabel),
+      datasets:[{data:chartRows.map(function(r){return r.v;}),backgroundColor:chartRows.map(hlColor)}]
+    };
+    if(rankChart){
+      rankChart.data=payload;
+      rankChart.update();
+      return;
+    }
+    rankChart=new Chart(el,{type:'bar',
+      data:payload,
       options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
         layout:{padding:{right:64,top:6}},
         plugins:{legend:{display:false},
@@ -285,6 +335,28 @@ const FIND={"kind": "town", "cards": {"amherst": {"name": "Amherst", "value": "1
         }},
       plugins:[dataLabels(function(v){return fmtVal(v,true);},'all')]});
   }
+  function setRegion(next){
+    region=(next && REGIONS.hasOwnProperty(next))?next:'all';
+    [].slice.call(document.querySelectorAll('[data-region]')).forEach(function(btn){
+      btn.classList.toggle('on', btn.getAttribute('data-region')===region);
+    });
+    drawRank();
+    applyFind();
+    writeQuery();
+  }
+  [].slice.call(document.querySelectorAll('.region-bar')).forEach(function(bar){
+    if(CHART.geo!=='state') return;
+    bar.hidden=false;
+    [].slice.call(bar.querySelectorAll('[data-region]')).forEach(function(btn){
+      btn.addEventListener('click', function(){ setRegion(btn.getAttribute('data-region')); });
+    });
+  });
+  var startRegion=(q.get('region')||'').toLowerCase();
+  if(startRegion && REGIONS.hasOwnProperty(startRegion)) region=startRegion;
+  [].slice.call(document.querySelectorAll('[data-region]')).forEach(function(btn){
+    btn.classList.toggle('on', btn.getAttribute('data-region')===region);
+  });
+  drawRank();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
   var keys=Object.keys(trend).filter(function(k){return trend[k]&&trend[k].length;});
@@ -461,30 +533,41 @@ const FIND={"kind": "town", "cards": {"amherst": {"name": "Amherst", "value": "1
         var cls=c.cls||(c.align==='n'?'n':'');
         return '<td'+(cls?' class="'+cls+'"':'')+'>'+fmtCell(c,r)+'</td>';
       }).join('');
-      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'">'+cells+'</tr>';
+      return '<tr'+hl+' data-q="'+key.replace(/"/g,'')+'" data-st="'+(r.st||'')+'">'+cells+'</tr>';
     }).join('');
     var find=document.getElementById('tblFind');
     var countEl=document.getElementById('tblCount');
-    function applyFind(){
+    applyFind=function(){
       var q=(find&&find.value||'').toLowerCase().replace(/^\s+|\s+$/g,'');
+      var list=regionList();
       var n=0, shown=0, first=null;
       [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){
-        var ok=!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0;
+        var st=tr.getAttribute('data-st')||'';
+        var inRegion=!list || list.indexOf(st)>=0;
+        var ok=inRegion && (!q || (tr.getAttribute('data-q')||'').indexOf(q)>=0);
         tr.hidden=!ok;
         n++;
         if(ok){ shown++; if(!first) first=tr; }
       });
-      if(countEl) countEl.textContent = q ? (shown+' of '+n) : (n+' '+(n===1?'row':'rows'));
+      var total=list?filteredRows().length:n;
+      if(countEl){
+        if(q) countEl.textContent=shown+' of '+total+(region!=='all'?' in '+REGION_NAMES[region]:'');
+        else if(region!=='all') countEl.textContent=shown+' '+REGION_NAMES[region];
+        else countEl.textContent=n+' '+(n===1?'row':'rows');
+      }
       if(q && shown===1 && first) first.scrollIntoView({block:'nearest'});
-    }
+    };
     var params=new URLSearchParams(location.search);
     var startQ=params.get('q')||params.get('st')||'';
     if(find && startQ && !find.value) find.value=startQ;
-    function writeQuery(){
-      var q=(find&&find.value||'').replace(/^\s+|\s+$/g,'');
-      var next=location.pathname+(q?('?q='+encodeURIComponent(q)):'')+location.hash;
-      history.replaceState(null,'',next);
-    }
+    writeQuery=function(){
+      var qv=(find&&find.value||'').replace(/^\s+|\s+$/g,'');
+      var params=new URLSearchParams();
+      if(region && region!=='all') params.set('region', region);
+      if(qv) params.set('q', qv);
+      var qs=params.toString();
+      history.replaceState(null,'',location.pathname+(qs?('?'+qs):'')+location.hash);
+    };
     var card=document.getElementById('findCard');
     function norm(s){ return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\b(city|town|the)\b/g,' ').replace(/^\s+|\s+$/g,'').replace(/\s+/g,' '); }
     function renderCard(row, extra){

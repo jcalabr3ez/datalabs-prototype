@@ -142,10 +142,15 @@ def from_snap(snap, fid, title=None, lede=None, note=None, skip_us=None, span=1)
     title = title or snap.get("label") or "Comparison"
     if lede is None:
         lede = snap.get("label") or title
+        bits = []
+        if hi.get("name") and hi.get("st") not in ("MA", "FL"):
+            bits.append(f"{hi['name']} is highest")
         if ma and ma.get("rank") and ma.get("n"):
-            lede += f". Massachusetts ranks {ma['rank']} of {ma['n']} (derived)."
+            bits.append(f"Massachusetts ranks {ma['rank']} of {ma['n']}")
         if fl and fl.get("rank") and fl.get("n"):
-            lede += f" Florida ranks {fl['rank']} of {fl['n']} (derived)."
+            bits.append(f"Florida ranks {fl['rank']} of {fl['n']}")
+        if bits:
+            lede += ". " + "; ".join(bits) + " (derived)."
     note = note or snap.get("note") or "Published cells only. Ranks are Pioneer calculations (derived)."
     fmt = "percent" if "percent" in unit.lower() else (
         "usd" if "dollar" in unit.lower() else "number"

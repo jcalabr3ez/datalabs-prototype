@@ -162,10 +162,7 @@ def inject_florida(dl02, text, path):
         "const FL=" + jdump(fl) + ";",
     ])
     text = replace_block(text, "florida-charts", charts, path)
-    dateline = (
-        f'    <span>Data through <b>{fl["data_through"]}</b></span>\n'
-        f'    <span>Revised <b>{fl["revised"]}</b></span>'
-    )
+    dateline = paper_dateline(f"Data through {fl['data_through']}", fl["revised"])
     text = replace_block(text, "florida-dateline", dateline, path, style="html")
     text = replace_block(text, "florida-pif", fl["pif_fmt"], path, style="html")
     decl = fl_county_list(ranks["largest_declines_since_2025_09"][:4])

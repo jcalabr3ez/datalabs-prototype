@@ -37,36 +37,23 @@
   a:hover{color:var(--gold)}
   button{font-family:var(--sans);cursor:pointer}
   input:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);
+  .sitebar{display:flex;align-items:center;justify-content:space-between;gap:18px;background:var(--bar);border-bottom:none;
            padding:16px var(--bleed);margin:0 calc(-1 * var(--bleed))}
-  .sitebar img{height:24px;display:block}
-  .sitebar .sbleft{display:flex;align-items:center;gap:16px}
-  .sitebar .backlink{font:600 12px/1 var(--sans);color:#fff;text-decoration:none;
-    border-left:1px solid rgba(255,255,255,.25);padding-left:16px;white-space:nowrap}
+  .sitebar .sbleft{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+  .sitebar .piword{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#fff;text-decoration:none}
+  .sitebar .piword:hover{color:#fff;text-decoration:none}
+  .sitebar .backlink{font:400 13px/1 var(--sans);color:#fff;text-decoration:none}
   .sitebar .backlink:hover{color:#fff;text-decoration:underline}
-  .sitebar .tag{font:600 11px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#8DA0B5}
-  .sitebar .tag b{color:#fff;font-weight:700}
   .sitebar a:focus-visible{outline:2px solid #fff;outline-offset:3px}
-  @media(max-width:520px){.sitebar .tag{display:none}}
   .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
   /* shared DataLabs content column: everything below the hero sits in one measure */
   .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
 
-  header{position:relative;overflow:hidden;background:linear-gradient(178deg,var(--bar) 0%,var(--hero2) 70%,var(--bar) 100%);
-         margin:0 calc(-1 * var(--bleed));padding:34px var(--bleed) 30px}
-  .dots{position:absolute;inset:0;opacity:.35;pointer-events:none;
-    background-image:radial-gradient(rgba(139,160,190,.5) 1.1px, transparent 1.1px);background-size:26px 26px;
-    -webkit-mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%);
-    mask-image:radial-gradient(ellipse 75% 90% at 80% 12%, #000 0%, transparent 68%)}
-  header>*:not(.dots){position:relative}
-  .org{font:700 11.5px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--goldlt);margin-bottom:14px}
-  .org .sub{color:#8DA0B5}
-  h1{font:700 clamp(29px,3.8vw,44px)/1.1 var(--serif);color:#fff;letter-spacing:-.015em}
-  .standfirst{font:400 15.5px/1.6 var(--sans);color:#AEBDD2;margin-top:12px;max-width:62em}
-  .dateline{display:flex;flex-wrap:wrap;margin-top:20px;font:500 10.5px/2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8DA0B5}
-  .dateline span{padding:0 18px;border-left:1px solid rgba(174,189,210,.3)}
-  .dateline span:first-child{padding-left:0;border-left:none}
-  .dateline b{color:var(--goldlt);font-weight:500}
+  header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:36px var(--bleed) 28px;border-bottom:1px solid var(--rule)}
+  h1{font:700 clamp(28px,3.6vw,40px)/1.12 var(--serif);color:var(--ink);letter-spacing:-.02em}
+  .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
+  .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
+  .dateline{margin-top:6px;font:400 13.5px/1.5 var(--sans);color:var(--grey)}
 
 
   .toggle{display:flex;flex-wrap:wrap;border-bottom:1px solid var(--rule);width:min(1120px,100%);margin-top:var(--s3)}
@@ -232,20 +219,17 @@
 
 <div class="sitebar">
   <div class="sbleft">
-    <a href="https://pioneerinstitute.org" aria-label="Pioneer Institute"><img src="https://pioneerinstitute.org/wp-content/uploads/2025/11/Pioneer_Negative_SVG.svg" alt="Pioneer Institute"></a>
-    <a class="backlink" href="/">&#8592; All of DataLabs</a>
-    <a class="backlink" href="/#directory">Catalog</a>
+    <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
+    <a class="backlink" href="/">DataLabs catalog</a>
     <a class="backlink" href="/#about">About</a>
   </div>
-  <span class="tag"><b>DataLabs</b> &nbsp;&middot;&nbsp; State Wealth Taxes</span>
 </div>
 
   <header>
-    <div class="dots" aria-hidden="true"></div>
-    <div class="org">Economic Opportunity <span class="sub">/ State Tax Policy</span></div>
     <h1>State Wealth Taxes</h1>
     <div class="standfirst">A 51-jurisdiction record of state income surtaxes as enacted, the wealth tax and surtax vehicles now in play, the ballot pathways they travel, and a forward-looking view of near-term enactment risk.</div>
-    <div class="dateline"><span>Verified <b>Aug 14, 2026</b></span><span>Jurisdictions <b>51</b></span><span>Sources <b>48</b></span><span>Events tracked <b>26</b></span></div>
+    <div class="byline">Pioneer Institute DataLabs</div>
+    <div class="dateline">Verified 14 August 2026 · 51 jurisdictions · 48 sources · 26 events tracked</div>
   </header>
 
   

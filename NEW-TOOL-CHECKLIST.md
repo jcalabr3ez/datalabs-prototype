@@ -50,7 +50,7 @@ Conventions every ledger follows:
       srclines, "How this is calculated" folds, the source register as a
       table.reg with cadence / vintage / next release columns, dark footer
       with a how-to-cite line, a link to /changelog/, corrections email
-      datalabs@pioneerinstitute.org. Self-host Chart.js from
+      jcalabrese@pioneerinstitute.org. Self-host Chart.js from
       /assets/chart.umd.min.js. Do not add downloads.
 - [ ] No em dashes anywhere (CI enforces this).
 - [ ] Embedded data lives between `/* DATA:BEGIN name */ ... /* DATA:END

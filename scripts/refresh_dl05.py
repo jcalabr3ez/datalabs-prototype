@@ -34,7 +34,7 @@ ROOT = Path(__file__).resolve().parent.parent
 LEDGER = ROOT / "netlify/functions/dl05-answers.json"
 SEARCH_DIR = ROOT / "pensions/search"
 API = "https://cthru.data.socrata.com/resource/pni4-392n.json"
-UA = "PioneerDataLabs/1.0 (datalabs@pioneerinstitute.org)"
+UA = "PioneerDataLabs/1.0 (jcalabrese@pioneerinstitute.org)"
 PAGE = 50000
 
 # 2024 extract cells, used as a two-path check against the live API.

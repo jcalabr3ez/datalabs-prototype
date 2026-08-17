@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Catalog verticals show a drop-down mark",
+        "body": (
+            "Education, Healthcare, Economic Opportunity, and American "
+            "Citizenship now carry a navy chevron next to the heading, "
+            "so the four catalog verticals read as drop-downs. State "
+            "Wealth Taxes and Florida Homeowners Insurance were not "
+            "edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Place chips count a fifty-state tool once",
         "body": (
             "The catalog place filters now count a fifty-state application "

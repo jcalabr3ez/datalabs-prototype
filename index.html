@@ -175,12 +175,14 @@
   .area.hide { display:none; }
   .area[open] { background:#fff; }
   .area[open] > summary.areahead { border-bottom:1px solid var(--rule); }
-  .area > summary.areahead { display:grid; grid-template-columns:minmax(0,1fr) 16ch auto;
+  .area > summary.areahead { display:grid; grid-template-columns:minmax(0,1fr) 16ch;
     align-items:baseline; column-gap:16px; padding:16px 0; cursor:pointer; list-style:none; }
   .area > summary.areahead::-webkit-details-marker { display:none; }
-  .area > summary.areahead:after { content:"\25BE"; font-size:13px; color:var(--grey); align-self:center; }
-  .area[open] > summary.areahead:after { content:"\25B4"; }
   .areahead .anm { margin:0; font-family:var(--serif); font-size:24px; font-weight:700; letter-spacing:-.02em; color:var(--ink); line-height:1.2; }
+  .areahead .achevron { display:inline-block; width:0.42em; height:0.42em; margin-left:0.4em;
+    border-right:2.5px solid var(--navy); border-bottom:2.5px solid var(--navy);
+    transform:translateY(-0.18em) rotate(45deg); vertical-align:middle; }
+  .area[open] .achevron { transform:translateY(0.08em) rotate(-135deg); }
   .areahead .asum { font-size:12.5px; color:var(--grey); font-variant-numeric:tabular-nums; white-space:nowrap;
     text-align:right; }
   .topic { margin-top:18px; }
@@ -212,7 +214,7 @@
     .srchwrap { max-width:none; flex-basis:100%; }
     .chips { width:100%; }
     .cr { flex-direction:column; gap:6px; padding:14px 16px; }
-    .area > summary.areahead { grid-template-columns:minmax(0,1fr) auto auto; column-gap:10px; }
+    .area > summary.areahead { grid-template-columns:minmax(0,1fr) auto; column-gap:10px; }
     .areahead .asum { min-width:0; }
     .cr-side { text-align:left; }
   }
@@ -498,7 +500,7 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
     var anchors = ids.map(function(id){ return '<span id="dir-'+esc(id)+'"></span>'; }).join('');
     return '<details class="area" id="area-'+esc(a.id)+'">' +
       anchors +
-      '<summary class="areahead"><span class="anm">'+esc(a.name)+'</span><span class="asum" data-asum></span></summary>' +
+      '<summary class="areahead"><span class="anm">'+esc(a.name)+'<span class="achevron" aria-hidden="true"></span></span><span class="asum" data-asum></span></summary>' +
       topicHtml({ id:a.id+'-apps', name:a.name, rows:rows }, true) + '</details>';
   }
   document.getElementById('dirList').innerHTML = AREAS.map(areaHtml).join('');

@@ -646,6 +646,8 @@ module.exports = [
       'labor force', 'labor-force', 'seasonally adjusted unemployment',
       'ui claims', 'initial claims', 'unemployment insurance claims',
       'labor force participation', 'labor-force participation',
+      'labor participation', 'labour participation',
+      'participation rate', 'lfpr',
       'employment-population', 'epop'
     ],
     extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. A named-state question uses by_st[ST] on that snap (for example by_st.WY), or rows when the full slice is present. Do not decline a state that appears in by_st. CPS age-sex-race detail is not posted: decline those.'

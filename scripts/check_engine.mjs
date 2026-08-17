@@ -59,6 +59,8 @@ const GOLDEN_HITS = [
   ["Which state has the highest unemployment rate?", "DL-14"],
   ["What is the labor force participation rate in WY?", "DL-14"],
   ["What is the labor-force participation rate in Wyoming?", "DL-14"],
+  ["what is the labor participation rate in WY?", "DL-14"],
+  ["What is the LFPR in Wyoming?", "DL-14"],
   ["What is the U.S. public NAEP grade 4 reading score?", "DL-07"],
   ["How many students are enrolled in U.S. colleges?", "DL-08"],
   ["How much were state tax collections in the United States last quarter?", "DL-29"],

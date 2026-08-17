@@ -61,6 +61,16 @@ FLAGSHIPS = [
 
 CHANGELOG = [
     {
+        "date": "August 17, 2026",
+        "title": "Ask hears labor participation without force",
+        "body": (
+            "A Wyoming labor participation question now hits State "
+            "Unemployment even when the visitor omits force. The same "
+            "path covers LFPR. The published June 2026 Wyoming rate is "
+            "unchanged at 60.5 percent, rank 36 of 51."
+        ),
+    },
+    {
         "date": "August 16, 2026",
         "title": "Per capita income compare uses every state",
         "body": (

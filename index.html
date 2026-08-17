@@ -804,7 +804,9 @@ async function ask(){
     const r=await fetch('/.netlify/functions/ask',{method:'POST',
       headers:{'Content-Type':'application/json'}, body:JSON.stringify({question:q, history:HISTORY.slice(-2)}), signal:ctl.signal});
     const p=await r.json();
-    if(p.type==='answer'){
+    if(!r.ok || p.error){
+      resp.innerHTML='<div class="noans">'+DISMISS+'<b>The engine is unavailable.</b> Try again in a moment. Every tool in the catalog still works.</div>';
+    } else if(p.type==='answer'){
       const kind=p.chart&&p.chart!=='none'?p.chart:null;
       /* Only render the figure when this page actually has a renderer for the
          kind; otherwise the deep link below still opens the full chart. */

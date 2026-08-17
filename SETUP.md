@@ -211,7 +211,7 @@ Part C, connect the site:
    Within a few seconds the question appears on AllQuestions, and the
    flow's run history shows a green run.
 
-Notes: the spreadsheet POST is awaited up to 8 seconds so the
+Notes: the spreadsheet POST is awaited up to 2 seconds so the
 function does not freeze before Power Automate accepts the run. Empty
 run history means the POST never arrived: hook will read skip if the
 variable is missing. To revoke, turn the flow off or remove the

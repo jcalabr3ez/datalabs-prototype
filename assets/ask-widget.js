@@ -54,7 +54,9 @@
         signal: ctl.signal
       });
       var p = await r.json();
-      if (p.type === "answer") {
+      if (!r.ok || p.error) {
+        resp.innerHTML = '<div class="noans"><b>The engine is unavailable.</b> Try again in a moment. Every tool in the catalog still works.</div>';
+      } else if (p.type === "answer") {
         resp.innerHTML =
           '<div class="k">Answer</div>' +
           '<div class="ans">' + esc(p.text) + "</div>" +

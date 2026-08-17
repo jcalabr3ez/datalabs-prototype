@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Ask names an engine failure as a failure",
+        "body": (
+            "A 502 from the ask box no longer reads as We do not cover "
+            "this yet. The page says the engine is unavailable and "
+            "leaves the catalog in place. A subway cost question still "
+            "hits MBTA Performance. State Wealth Taxes and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Family Healthcare Costs from the CHIA survey",
         "body": (
             "A new Healthcare tool publishes the 2025 Massachusetts "

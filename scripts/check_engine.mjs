@@ -21,6 +21,7 @@ const GOLDEN_HITS = [
   ["Is the T back to pre-pandemic ridership?", "DL-03"],
   ["What share of costs do fares cover on the subway?", "DL-03"],
   ["Did the cost of a subway ride in MA go up or down?", "DL-03"],
+  ["how much does a subway ride cost in MA?", "DL-03"],
   ["What does homeowners insurance cost in Miami-Dade?", "DL-02"],
   ["Which states are considering a wealth tax?", "DL-01"],
   ["What is California's top income tax rate?", "DL-01"],

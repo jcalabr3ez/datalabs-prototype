@@ -133,29 +133,45 @@ const ENGINE_RULES = 'You are the engine behind Pioneer Institute DataLabs\' que
 async function callModel(model, systemBlocks, messages, schema, maxTokens, effort) {
   const outputConfig = { format: { type: 'json_schema', schema: schema } };
   if (effort) outputConfig.effort = effort;
-  const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: model,
-      max_tokens: maxTokens,
-      system: systemBlocks,
-      messages: messages,
-      output_config: outputConfig
-    })
+  const body = JSON.stringify({
+    model: model,
+    max_tokens: maxTokens,
+    system: systemBlocks,
+    messages: messages,
+    output_config: outputConfig
   });
-  const data = await apiRes.json();
-  if (!apiRes.ok) {
-    console.error('Anthropic API error (' + model + '):', JSON.stringify(data).slice(0, 500));
-    throw new Error('model call failed');
+  let lastErr = 'model call failed';
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: body
+    });
+    const data = await apiRes.json();
+    if (!apiRes.ok) {
+      const kind = (data && data.error && data.error.type) || apiRes.status;
+      console.error('Anthropic API error (' + model + '):', JSON.stringify(data).slice(0, 500));
+      lastErr = 'model call failed: ' + kind;
+      if (attempt === 0 && (apiRes.status === 429 || apiRes.status === 529 || kind === 'overloaded_error')) {
+        await new Promise(function (res) { setTimeout(res, 800); });
+        continue;
+      }
+      throw new Error(lastErr);
+    }
+    const text = (data.content || []).filter(function (b) { return b.type === 'text'; })
+      .map(function (b) { return b.text; }).join('');
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      console.error('engine JSON parse failed:', String(text).slice(0, 200));
+      throw new Error('model output was not JSON');
+    }
   }
-  const text = (data.content || []).filter(function (b) { return b.type === 'text'; })
-    .map(function (b) { return b.text; }).join('');
-  return JSON.parse(text);
+  throw new Error(lastErr);
 }
 
 // History arrives as [{q, a}] pairs; render as prior turns ahead of the question.
@@ -217,7 +233,7 @@ exports.handler = async function (event) {
       { type: 'text', text: 'DATASETS_CORE:\n' + JSON.stringify(selected.cores), cache_control: { type: 'ephemeral' } },
       { type: 'text', text: 'CATALOG:\n' + JSON.stringify(catalog), cache_control: { type: 'ephemeral' } },
       { type: 'text', text: 'DATASETS_FULL (prefer over CORE for the same id):\n' + JSON.stringify(selected.full) }
-    ], messages, ENGINE_SCHEMA, 6000, ANSWER_EFFORT);
+    ], messages, ENGINE_SCHEMA, 10000, ANSWER_EFFORT);
 
     const catalogIds = new Set();
     (Array.isArray(catalog) ? catalog : []).forEach(function (t) { if (t && t.id) catalogIds.add(t.id); });
@@ -291,7 +307,7 @@ async function postSpreadsheet(logEntry) {
     return 'skip';
   }
   const ctl = new AbortController();
-  const timer = setTimeout(function () { ctl.abort(); }, 8000);
+  const timer = setTimeout(function () { ctl.abort(); }, 2000);
   try {
     const r = await fetch(url, {
       method: 'POST',

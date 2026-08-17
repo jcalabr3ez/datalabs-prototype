@@ -3,6 +3,9 @@
   command = "python3 scripts/inject_data.py"
   functions = "netlify/functions"
 
+[functions]
+  timeout = 26
+
 # The public site is indexable. robots.txt Allow plus the absence of a
 # site-wide noindex is what lets search engines list the catalog.
 # Pension name-search shards stay out of results: they are gzip payloads.

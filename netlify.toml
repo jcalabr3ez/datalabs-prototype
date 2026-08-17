@@ -3,7 +3,9 @@
   command = "python3 scripts/inject_data.py"
   functions = "netlify/functions"
 
-[functions]
+# Ask's 26-second window is per-function. A number on [functions] itself
+# fails parse: @netlify/config treats every functions.* key as an object.
+[functions.ask]
   timeout = 26
 
 # The public site is indexable. robots.txt Allow plus the absence of a

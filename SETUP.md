@@ -111,7 +111,9 @@ Command line path:
 1. app.netlify.com > Add new site > Import an existing project > GitHub.
    Authorize Netlify to see the repository and select datalabs-prototype.
 2. Build settings: leave the build command EMPTY; publish directory "." .
-   netlify.toml handles the rest. Deploy.
+   netlify.toml handles the rest. Deploy. Ask's timeout is 26 seconds on
+   [functions.ask] in that file (the Pro ceiling). A number on [functions]
+   itself fails Netlify's parse: every functions.* key must be an object.
 3. Site configuration > Environment variables > Add a variable:
       Key:   ANTHROPIC_API_KEY
       Value: (paste the key from Step 1)

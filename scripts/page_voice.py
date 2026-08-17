@@ -2645,7 +2645,11 @@ def apply_catalog_q(catalog):
 
 
 def apply_catalog_g(catalog):
-    """Copy suite geo tags onto catalog rows. Leave DL-01 and DL-02 as authored."""
+    """Copy suite geo tags onto catalog rows. Leave DL-01 and DL-02 as authored.
+
+    A fifty-state tool is tagged US only. Massachusetts and Florida tags
+    are for place-specific tools, not a second count of the national set.
+    """
     apps = {a["id"]: a for a in load_apps()}
     for row in catalog:
         if not isinstance(row, dict):
@@ -2656,11 +2660,6 @@ def apply_catalog_g(catalog):
         app = apps.get(tid)
         if app and app.get("g"):
             row["g"] = list(app["g"])
-        if tid == "DL-04":
-            g = list(row.get("g") or ["US"])
-            if "FL" not in g:
-                g.append("FL")
-            row["g"] = g
     return catalog
 
 

@@ -71,8 +71,7 @@
   "t": "MBTA Performance",
   "q": "MBTA ridership, reliability, and cost. U.S. agencies sit on Transit Systems.",
   "g": [
-   "MA",
-   "US"
+   "MA"
   ],
   "st": "live",
   "url": "/mbta/",
@@ -84,8 +83,7 @@
   "t": "Retail Electricity Prices",
   "q": "What every state pays for a kilowatthour, including the household (residential) average, from EIA's annual record.",
   "g": [
-   "US",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/electricity/",
@@ -125,8 +123,7 @@
   "t": "State School Scores",
   "q": "NAEP grade 4 reading across the fifty states, with enrollment, school finance, graduation, and discipline as later views.",
   "g": [
-   "US",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/national-k12/",
@@ -140,9 +137,7 @@
   "t": "College Enrollment",
   "q": "Fall college enrollment by state, with SAT scores, faculty, graduation, tuition, and higher-education finance as later views.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/higher-education/",
@@ -156,9 +151,7 @@
   "t": "Charter Enrollment",
   "q": "Charter-school enrollment by state. Public-school teachers, staff, and instructional aides are later views of all public schools, not charter staff only.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/charters-staff/",
@@ -186,8 +179,7 @@
   "t": "340B Drug Discounts",
   "q": "Participating 340B sites by state, with contract pharmacies and hospital charity care as later views.",
   "g": [
-   "US",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/340b/",
@@ -201,8 +193,7 @@
   "t": "State Medicaid Spending",
   "q": "Medicaid expenditures by state, with fraud recoveries as a later view.",
   "g": [
-   "US",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/medicaid-health/",
@@ -216,9 +207,7 @@
   "t": "Business Formation",
   "q": "New business applications from Census BFS, with establishment births and deaths as later views.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/business-formation/",
@@ -232,9 +221,7 @@
   "t": "State Unemployment",
   "q": "The unemployment rate by state, from BLS LAUS.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/labor-market/",
@@ -248,9 +235,7 @@
   "t": "State GDP",
   "q": "Real GDP by state. Personal income is the companion series.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/gdp-profiles/",
@@ -264,9 +249,7 @@
   "t": "Housing Permits",
   "q": "Housing units authorized to build.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/housing-market/",
@@ -280,9 +263,7 @@
   "t": "State Migration",
   "q": "Domestic migration by state, with age, metro share, and international migration as later views.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/population-migration/",
@@ -296,8 +277,7 @@
   "t": "Patents by State",
   "q": "USPTO utility patents by state.",
   "g": [
-   "US",
-   "MA"
+   "US"
   ],
   "st": "build",
   "url": "/patents-innovation/",
@@ -318,9 +298,7 @@
   "t": "Cost of Living",
   "q": "Regional price parities by state from the Bureau of Economic Analysis.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/cost-of-living/",
@@ -334,9 +312,7 @@
   "t": "Taxpayer Migration",
   "q": "IRS net taxpayer migration by state, with origin-destination and county flows as later views.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/taxpayer-migration/",
@@ -350,9 +326,7 @@
   "t": "Taxpayer Income",
   "q": "IRS adjusted gross income by state, with county AGI and size-of-AGI stubs as later views.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/tax-statistics/",
@@ -366,9 +340,7 @@
   "t": "Transit Systems",
   "q": "Compare U.S. transit agencies on ridership, cost, and recovery. Not the MBTA-only page.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/transit-systems/",
@@ -382,8 +354,7 @@
   "t": "Vehicle-Miles Traveled",
   "q": "Miles driven by state. FEMA, the National Risk Index, and degree days are later views.",
   "g": [
-   "US",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/roads-risk/",
@@ -397,9 +368,7 @@
   "t": "State Energy Emissions",
   "q": "CO2 from energy by state, with consumption and production as companions.",
   "g": [
-   "US",
-   "MA",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/energy-supply/",
@@ -469,8 +438,7 @@
   "t": "State Tax Collections",
   "q": "State tax collections last quarter, with employment, income-tax share, and public-pension holdings as later views.",
   "g": [
-   "US",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/us-state-finances/",
@@ -498,8 +466,7 @@
   "t": "State Imprisonment",
   "q": "Prisoners under jurisdiction by state, with imprisonment rates and youth in adult prisons as later views.",
   "g": [
-   "US",
-   "FL"
+   "US"
   ],
   "st": "live",
   "url": "/crime-justice/",

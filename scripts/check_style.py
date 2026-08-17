@@ -279,6 +279,12 @@ for row in catalog:
         print(f"catalog g: MISS {tid}")
     else:
         print(f"catalog g: ok   {tid}")
+    g = row.get("g") or []
+    if isinstance(g, list) and "US" in g and any(x in g for x in ("MA", "FL")):
+        failures.append(
+            f"catalog.json {tid} g {g!r} counts a 50-state tool under MA or FL"
+        )
+        print(f"catalog g place: MISS {tid}")
     if tid in SKIP_VOICE:
         continue
     led_path = ledger_path(tid)

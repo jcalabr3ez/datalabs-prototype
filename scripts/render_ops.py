@@ -61,6 +61,16 @@ FLAGSHIPS = [
 
 CHANGELOG = [
     {
+        "date": "August 17, 2026",
+        "title": "Place chips count a fifty-state tool once",
+        "body": (
+            "The catalog place filters now count a fifty-state application "
+            "only under 50 States. Massachusetts and Florida list only the "
+            "tools that are specific to those places. State Wealth Taxes "
+            "and Florida Homeowners Insurance were not rewritten."
+        ),
+    },
+    {
         "date": "August 16, 2026",
         "title": "Per capita income compare uses every state",
         "body": (

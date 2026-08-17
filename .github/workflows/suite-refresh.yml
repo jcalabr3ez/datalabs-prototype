@@ -32,7 +32,7 @@ jobs:
           title: "Suite: monthly refresh of public-file ledgers"
           commit-message: "Suite: monthly refresh of public-file ledgers"
           body: |
-            Automated monthly refresh of the 27-app suite:
+            Automated monthly refresh of the 28-app suite:
 
             - First-wave live builders (Business Formation, Labor Market,
               Housing Market, Population and Migration) via

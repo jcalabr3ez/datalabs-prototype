@@ -52,7 +52,7 @@ flowchart TB
     DL04["DL-04 /electricity/ · Retail Electricity Prices"]
     DL05["DL-05 /pensions/ · Massachusetts Public Pensions"]
   end
-  subgraph Suite [27-app suite]
+  subgraph Suite [28-app suite]
     Live["DL-06 to DL-33 live pages"]
     Stub["DL-18 Patents by State · in build"]
   end
@@ -201,7 +201,7 @@ flowchart TB
     A03["Monthly · refresh_dl03.py · FTA NTD API"]
     A04["Yearly October · refresh_dl04.py · EIA + Census"]
     A05["Monthly · refresh_dl05.py · CTHRU retirees + name shards"]
-    A06["Monthly · refresh_suite.py · 27 suite apps"]
+    A06["Monthly · refresh_suite.py · 28 suite apps"]
   end
   subgraph special [Special builders]
     B11["build_dl11.py · local OPAIS JSON + CMS HCRIS + Census SLDL"]

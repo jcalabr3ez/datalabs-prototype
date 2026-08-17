@@ -9,10 +9,10 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     AGENTS.md                      Hard rules for cloud agents (draft PR, no main)
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic headings plus the
-                                   five flagships and the 27-app suite
+                                   five flagships and the 28-app suite
                                    (DL-01 through DL-33). Public
                                    production site.
-    suite/apps.json                CANONICAL registry of the 27 suite applications
+    suite/apps.json                CANONICAL registry of the 28 suite applications
     mbta/index.html                DL-03 MBTA Performance flagship page
     florida-insurance/index.html   DL-02 Florida Homeowners Insurance flagship page
     tax-atlas/index.html           DL-01 State Wealth Taxes flagship page
@@ -44,7 +44,7 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    Census files; run by the yearly workflow
     scripts/refresh_suite.py       Suite fetch (BFS, LAUS, BPS, PEP, plus later
                                    public-file builders) and page render for
-                                   DL-06 to DL-31; run by the monthly workflow
+                                   DL-06 to DL-33; run by the monthly workflow
     scripts/refresh_dl05.py        Rebuilds DL-05 retiree totals and the
                                    last-name search shards from CTHRU;
                                    run by the monthly workflow

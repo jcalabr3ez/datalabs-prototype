@@ -818,7 +818,7 @@ def upsert_catalog(apps):
 
 def main():
     apps = load_apps()
-    if len(apps) != 27:
+    if len(apps) != 28:
         sys.exit(f"FATAL: suite/apps.json has {len(apps)} apps, expected 28")
     for app in apps:
         tool = app["id"]

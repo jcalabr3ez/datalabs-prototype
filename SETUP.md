@@ -152,19 +152,19 @@ set and a redeploy happened after setting it.
 
 ## Step 6: Question log (built-in, spreadsheet optional)
 
-Ask writes each question in-process to a Netlify Blob store. It does
-not POST back to the public site URL. Visitor password protection on
-the site would block that call and leave the count at zero. GET
+Ask writes each question to a Netlify Blob store using the blobs
+context on the function event. It does not POST back to the public
+site URL, and it does not call getStore() (that call has no
+environment in these Lambda-style handlers). GET
 `/.netlify/functions/log-question` (after signing into the site) for
-counts. To read the recent rows (the demand evidence for
-NEW-TOOL-CHECKLIST.md), set a Netlify environment variable
-QUESTION_LOG_KEY and call the function with `?key=` or
-`Authorization: Bearer ...`. Individual questions are not published
-on the status page. A count of zero means no question has been asked
-since this write path shipped, or the engine never reached a result.
-Ask one question on the live site after deploy, then reload the
-function URL. Engine failures are stored as type `error` (counted
-under `other`).
+counts. The JSON includes `store: ok` when the blob is reachable, or
+`store: error` with a short reason when it is not. To read the recent
+rows (the demand evidence for NEW-TOOL-CHECKLIST.md), set a Netlify
+environment variable QUESTION_LOG_KEY and call the function with
+`?key=` or `Authorization: Bearer ...`. Individual questions are not
+published on the status page. A count of zero with `store: ok` means
+no question has been asked since the store started working. Engine
+failures are stored as type `error` (counted under `other`).
 
 A spreadsheet copy is optional. Power Automate can receive the site's
 webhook; the flow's HTTP trigger requires a Power Automate premium

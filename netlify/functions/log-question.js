@@ -35,17 +35,17 @@ exports.handler = async function (event) {
   if (event.httpMethod === 'POST') {
     let body = {};
     try { body = JSON.parse(event.body || '{}'); } catch (e) { body = {}; }
-    const result = await store.appendQuestion(body);
+    const result = await store.appendQuestion(body, event);
     if (result.error === 'missing q') return json(400, { error: 'missing q' });
     return { statusCode: 204, headers: CORS, body: '' };
   }
 
   if (event.httpMethod === 'GET') {
-    const data = await store.loadStore();
-    if (authorized(event)) {
-      return json(200, { counts: data.counts, recent: data.recent });
-    }
-    return json(200, { counts: data.counts });
+    const loaded = await store.loadStore(event);
+    const body = { counts: loaded.data.counts, store: loaded.error ? 'error' : 'ok' };
+    if (loaded.error) body.error = loaded.error;
+    if (authorized(event)) body.recent = loaded.data.recent;
+    return json(200, body);
   }
 
   return json(405, { error: 'method not allowed' });

@@ -271,7 +271,7 @@ exports.handler = async function (event) {
           : parsed.type === 'route' ? (parsed.matches || []).map(function (m) { return m.id; }).join('|')
           : '',
       note: parsed.type === 'none' ? (parsed.note || '') : ''
-    });
+    }, event);
 
     return { statusCode: 200, headers, body: JSON.stringify(parsed) };
   } catch (err) {
@@ -282,17 +282,18 @@ exports.handler = async function (event) {
       type: 'error',
       tool: '',
       note: 'engine unavailable'
-    });
+    }, event);
     return { statusCode: 502, headers, body: JSON.stringify({ error: 'engine unavailable' }) };
   }
 };
 
-// Write the row in-process. A POST back to the public site URL would hit
-// visitor password protection and leave the count at zero. The optional
-// spreadsheet webhook still uses QUESTION_LOG_URL (SETUP.md Step 6).
-async function recordQuestion(logEntry) {
+// Write the row from the Lambda event. getStore() has no environment in
+// this handler style unless connectLambda runs; event.blobs already has
+// the URL and token. The optional spreadsheet webhook still uses
+// QUESTION_LOG_URL (SETUP.md Step 6).
+async function recordQuestion(logEntry, event) {
   try {
-    await require('./question-log-store').appendQuestion(logEntry);
+    await require('./question-log-store').appendQuestion(logEntry, event);
   } catch (e) {
     console.error('question log store failed:', e.message);
   }

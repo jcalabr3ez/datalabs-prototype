@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Question log uses the function blobs context",
+        "body": (
+            "Ask now writes the question log with the blobs context "
+            "Netlify already puts on the function event. The earlier "
+            "getStore call had no environment in these handlers, so "
+            "the count stayed at zero. State Wealth Taxes and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Question log writes behind the site password",
         "body": (
             "Ask now records each question inside the function, so the "

@@ -263,7 +263,7 @@ exports.handler = async function (event) {
 
     // Question log: every question, its outcome, and destination.
     // Declines carry the engine's note; they are the research agenda input.
-    const logEntry = {
+    await recordQuestion({
       at: new Date().toISOString(),
       q: question,
       type: parsed.type,
@@ -271,34 +271,43 @@ exports.handler = async function (event) {
           : parsed.type === 'route' ? (parsed.matches || []).map(function (m) { return m.id; }).join('|')
           : '',
       note: parsed.type === 'none' ? (parsed.note || '') : ''
-    };
-    console.log(JSON.stringify(logEntry));
-
-    // Durable log: built-in function, plus an optional spreadsheet webhook
-    // (SETUP.md Step 6). Fire-and-forget; logging can never break the ask box.
-    const logTargets = [];
-    if (process.env.QUESTION_LOG_URL) logTargets.push(process.env.QUESTION_LOG_URL);
-    const siteBase = process.env.URL || process.env.DEPLOY_URL;
-    if (siteBase) logTargets.push(siteBase.replace(/\/$/, '') + '/.netlify/functions/log-question');
-    for (const logUrl of logTargets) {
-      try {
-        await Promise.race([
-          fetch(logUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(logEntry)
-          }),
-          new Promise(function (res) { setTimeout(res, 1500); })
-        ]);
-      } catch (e) { console.error('question log webhook failed:', e.message); }
-    }
+    });
 
     return { statusCode: 200, headers, body: JSON.stringify(parsed) };
   } catch (err) {
     console.error('engine error:', err.message);
+    await recordQuestion({
+      at: new Date().toISOString(),
+      q: question,
+      type: 'error',
+      tool: '',
+      note: 'engine unavailable'
+    });
     return { statusCode: 502, headers, body: JSON.stringify({ error: 'engine unavailable' }) };
   }
 };
+
+// Write the row in-process. A POST back to the public site URL would hit
+// visitor password protection and leave the count at zero. The optional
+// spreadsheet webhook still uses QUESTION_LOG_URL (SETUP.md Step 6).
+async function recordQuestion(logEntry) {
+  try {
+    await require('./question-log-store').appendQuestion(logEntry);
+  } catch (e) {
+    console.error('question log store failed:', e.message);
+  }
+  if (!process.env.QUESTION_LOG_URL) return;
+  try {
+    await Promise.race([
+      fetch(process.env.QUESTION_LOG_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(logEntry)
+      }),
+      new Promise(function (res) { setTimeout(res, 1500); })
+    ]);
+  } catch (e) { console.error('question log webhook failed:', e.message); }
+}
 
 exports.selectDatasets = selectDatasets;
 exports.toolsMatching = toolsMatching;

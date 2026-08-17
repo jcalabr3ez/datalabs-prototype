@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Question log writes behind the site password",
+        "body": (
+            "Ask now records each question inside the function, so the "
+            "visitor password on the site no longer blocks the count. "
+            "Engine failures are stored too. Individual questions stay "
+            "off the status page. State Wealth Taxes and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Catalog verticals show a drop-down mark",
         "body": (
             "Education, Healthcare, Economic Opportunity, and American "

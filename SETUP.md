@@ -145,19 +145,26 @@ set and a redeploy happened after setting it.
   limit from Step 1 is the ceiling.
 - Netlify > Usage: the free plan is credit-capped; know that exceeding
   the cap pauses the site until the next month rather than billing you.
-- Coverage gaps: every question is written to the built-in log-question
-  function (and to a spreadsheet if you complete Step 6). Declines are
-  the research agenda input. Questions also appear in the ask function
-  log (Netlify > Logs > Functions > ask).
+- Coverage gaps: every question is written to the built-in question log
+  (and to a spreadsheet if you complete Step 6). Declines are the
+  research agenda input. Questions also appear in the ask function log
+  (Netlify > Logs > Functions > ask).
 
 ## Step 6: Question log (built-in, spreadsheet optional)
 
-Every question is already written to `/.netlify/functions/log-question`
-and to the ask function log. GET that function for counts. To read the
-recent rows (the demand evidence for NEW-TOOL-CHECKLIST.md), set a
-Netlify environment variable QUESTION_LOG_KEY and call the function
-with `?key=` or `Authorization: Bearer ...`. Individual questions are
-not published on the status page.
+Ask writes each question in-process to a Netlify Blob store. It does
+not POST back to the public site URL. Visitor password protection on
+the site would block that call and leave the count at zero. GET
+`/.netlify/functions/log-question` (after signing into the site) for
+counts. To read the recent rows (the demand evidence for
+NEW-TOOL-CHECKLIST.md), set a Netlify environment variable
+QUESTION_LOG_KEY and call the function with `?key=` or
+`Authorization: Bearer ...`. Individual questions are not published
+on the status page. A count of zero means no question has been asked
+since this write path shipped, or the engine never reached a result.
+Ask one question on the live site after deploy, then reload the
+function URL. Engine failures are stored as type `error` (counted
+under `other`).
 
 A spreadsheet copy is optional. Power Automate can receive the site's
 webhook; the flow's HTTP trigger requires a Power Automate premium

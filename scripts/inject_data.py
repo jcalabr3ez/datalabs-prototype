@@ -249,7 +249,13 @@ def inject_electricity(dl04, text, path):
     if has_block(text, "electricity-takeaways", style="html") and voice.get("takeaways"):
         text = replace_block(text, "electricity-takeaways", takeaways_html(voice["takeaways"]), path, style="html")
     if has_block(text, "electricity-answer", style="html") and voice.get("answer"):
-        text = replace_block(text, "electricity-answer", answer_inner_html(voice["answer"]), path, style="html")
+        text = replace_block(
+            text,
+            "electricity-answer",
+            answer_inner_html(voice["answer"], voice.get("answers")),
+            path,
+            style="html",
+        )
     kpis = kpi_html(voice.get("kpis") or [])
     text = replace_block(text, "electricity-kpis", kpis, path, style="html")
     text = replace_block(text, "electricity-lead", voice.get("lead") or "", path, style="html")

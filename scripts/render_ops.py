@@ -62,6 +62,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Florida is in the HTML under the namesake number",
+        "body": (
+            "The rust place-strip is now written into the page under "
+            "the hero figure, so Florida is visible without waiting "
+            "on the chart script. The earlier pass only added a KPI "
+            "cell after the vintage note. Massachusetts-only pages "
+            "are unchanged. State Wealth Taxes and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Florida sits under the hero on fifty-state tools",
         "body": (
             "The cells under the namesake number now include the "

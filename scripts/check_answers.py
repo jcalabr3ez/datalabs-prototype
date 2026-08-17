@@ -174,7 +174,51 @@ for app in apps:
     else:
         ok(f"{app['id']} jump hrefs")
 
-# ---- 4. Frozen pages were not restyled by this pass ----
+# ---- 4. Florida place-strip is visible HTML under the hero ----
+for app in apps:
+    tid = app["id"]
+    if tid in SKIP_VOICE or app.get("wave") != "live":
+        continue
+    path = ledger_path(tid)
+    if not path.exists():
+        continue
+    ledger = json.loads(path.read_text(encoding="utf-8"))
+    if ledger.get("status") != "live" or not uses_national_lens(tid, ledger):
+        continue
+    slug = app.get("slug")
+    page = ROOT / slug / "index.html"
+    if not page.exists():
+        fail(f"{tid} missing page for hero place-strip check")
+        continue
+    html = page.read_text(encoding="utf-8")
+    if not re.search(
+        r'id="answerNum">[^<]*</div>\s*<div class="place-strip" id="placeStrip">',
+        html,
+    ):
+        fail(f"{tid} ({slug}) place-strip is not immediately under the hero number")
+        continue
+    m = re.search(
+        r'<div class="place-strip" id="placeStrip">(.*?)<p class="answer-',
+        html,
+        re.S,
+    )
+    if not m or "ps-fl" not in m.group(1) or "Florida" not in m.group(1):
+        fail(f"{tid} ({slug}) hero place-strip is missing the published Florida cell")
+    else:
+        ok(f"{tid} hero Florida strip")
+
+elec_html = (ROOT / "electricity/index.html").read_text(encoding="utf-8")
+if not re.search(
+    r'id="answerNum">[^<]*</div>\s*<div class="place-strip" id="placeStrip">',
+    elec_html,
+):
+    fail("DL-04 place-strip is not immediately under the hero number")
+elif "ps-fl" not in elec_html.split('id="placeStrip">', 1)[1][:800]:
+    fail("DL-04 hero place-strip is missing the published Florida cell")
+else:
+    ok("DL-04 hero Florida strip")
+
+# ---- 5. Frozen pages were not restyled by this pass ----
 for rel in ("tax-atlas/index.html", "florida-insurance/index.html"):
     page = ROOT / rel
     if not page.exists():

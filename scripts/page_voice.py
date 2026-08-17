@@ -2494,7 +2494,36 @@ def build_answer(tid, ledger, ma_line=""):
     return {"q": q, "value": value or "", "context": context.strip(), "src_id": src_id}
 
 
-def answer_inner_html(answer):
+def place_strip_html(answers):
+    """U.S. / Massachusetts / Florida under the hero. Published cells only."""
+    if not answers:
+        return '    <div class="place-strip" id="placeStrip" hidden></div>\n'
+
+    def cell(cls, label, rec):
+        rec = rec or {}
+        v = rec.get("value")
+        if not v:
+            return ""
+        return (
+            f'<div class="ps {cls}"><div class="ps-k">{esc(label)}</div>'
+            f'<div class="ps-v">{esc(v)}</div></div>'
+        )
+
+    us = answers.get("US") or {}
+    ma = answers.get("MA") or {}
+    fl = answers.get("FL") or {}
+    us_lab = us.get("geo") if us.get("kind") == "rank" else (us.get("geo") or "United States")
+    html = (
+        cell("ps-us", us_lab or "United States", us)
+        + cell("ps-ma", "Massachusetts", ma)
+        + cell("ps-fl", "Florida", fl)
+    )
+    if not html:
+        return '    <div class="place-strip" id="placeStrip" hidden></div>\n'
+    return f'    <div class="place-strip" id="placeStrip">{html}</div>\n'
+
+
+def answer_inner_html(answer, answers=None):
     """Inner markup for a flagship or suite answer block. No invented figures."""
     if not answer or not answer.get("value"):
         return ""
@@ -2508,6 +2537,8 @@ def answer_inner_html(answer):
         answer.get("src_id"),
     ) if b]
     out = f"    <h2 id=\"answerQ\">{q}</h2>\n    <div class=\"answer-num\" id=\"answerNum\">{val}</div>\n"
+    if answers is not None:
+        out += place_strip_html(answers)
     if ctx:
         out += f'    <p class="answer-ctx" id="answerCtx">{ctx}</p>\n'
     if meta_bits:

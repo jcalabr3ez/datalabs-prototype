@@ -14,6 +14,7 @@ from page_voice import (
     census_place_names,
     display_lead,
     mixed_vintage_lines,
+    place_strip_html,
     short_place_text,
     source_vintage,
     table_value_label,
@@ -178,11 +179,11 @@ def answer_html(answer, kpis_markup="", slug="", vintages=None, answers=None):
         + lens_html(answers)
         + "    <h2 id=\"answerQ\">" + esc(answer.get("q") or "The finding") + "</h2>\n"
         '    <div class="answer-num" id="answerNum">' + esc(answer["value"]) + "</div>\n"
+        + place_strip_html(answers)
         + ('    <p class="answer-ctx" id="answerCtx">' + esc(ctx) + "</p>\n" if ctx else "")
         + meta_html
         + cite_btn
         + vintage_block
-        + '    <div class="place-strip" id="placeStrip" hidden></div>\n'
         + kpi_block
         + "  </section>\n"
     )
@@ -1810,15 +1811,16 @@ const FIND=FIND_JSON;
       html+=cell('ps-us','Statewide commercial average', cmpH.statewide_srp&&cmpH.statewide_srp.value);
     } else if(hasLens){
       var us=ANSWERS.US||{};
-      var ma=ANSWERS.MA||ANSWERS[selectedSt]||{};
-      var fl=ANSWERS[compareSt]||ANSWERS.FL||{};
-      var mid=ANSWERS[answerKey(selectedSt)]||ma;
-      html+=cell('ps-us', us.geo||'United States', us.value, us.context);
-      html+=cell('ps-ma', (mid.geo||'Massachusetts'), mid.value, mid.context);
-      html+=cell('ps-fl', fl.geo||'Florida', fl.value, fl.context);
+      var ma=ANSWERS.MA||{};
+      var fl=ANSWERS.FL||{};
+      var usLab=(us.kind==='rank'&&us.geo)?us.geo:(us.geo||'United States');
+      html+=cell('ps-us', usLab, us.value);
+      html+=cell('ps-ma', 'Massachusetts', ma.value);
+      html+=cell('ps-fl', 'Florida', fl.value);
     }
+    if(!html) return;
     el.innerHTML=html;
-    el.hidden=!html;
+    el.hidden=false;
   }
   function answerKey(st){
     if(!st || st==='US') return 'US';

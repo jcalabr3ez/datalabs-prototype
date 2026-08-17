@@ -138,6 +138,10 @@ def attach_entities(obj: dict) -> dict:
                     "v": r.get("v"),
                     "rank": r.get("rank"),
                 }
+    extra = (obj.get("derived") or {}).get("highlight_entities") or {}
+    for key, rec in extra.items():
+        if key and key not in ent and isinstance(rec, dict):
+            ent[key] = rec
     obj["entities"] = ent
     return obj
 

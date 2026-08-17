@@ -107,6 +107,9 @@ RULES = {
     "netlify/functions/dl32-answers.json": (
         "YYYY-MM", 400, "CTHRU calendar-year legislator payroll is complete after year-end"
     ),
+    "netlify/functions/dl33-answers.json": (
+        "YYYY-MM", 900, "CHIA MHIS is biennial; the 2025 survey published in December 2025"
+    ),
 }
 
 

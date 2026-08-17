@@ -1490,7 +1490,7 @@ def insight_figures(app, ledger):
     figs = fn(ledger) if fn else []
     figs = [f for f in figs if f]
     figs = [f for f in figs if f.get("type") != "map"]
-    if not figs and tid not in ("DL-07", "DL-10", "DL-14", "DL-16", "DL-25", "DL-26", "DL-32"):
+    if not figs and tid not in ("DL-07", "DL-10", "DL-14", "DL-16", "DL-25", "DL-26", "DL-32", "DL-33"):
         fallback = from_latest(ledger)
         if fallback:
             figs = [fallback]

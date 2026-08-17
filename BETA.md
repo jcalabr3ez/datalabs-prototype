@@ -5,7 +5,7 @@ Live site: [https://datalabsai.netlify.app](https://datalabsai.netlify.app)
 Window: August 16 through September 16, 2026.
 
 This catalog is open for Pioneer staff to try. It is not a public
-launch. Thirty-one applications are live. Patents by State is in
+launch. Thirty-two applications are live. Patents by State is in
 build. Every figure cites a primary source. The ask box may only
 answer from those ledgers.
 

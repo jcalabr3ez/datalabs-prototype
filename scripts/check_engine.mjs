@@ -115,6 +115,8 @@ const GOLDEN_HITS = [
   ["How much is Massachusetts quasi-public payroll?", "DL-30"],
   ["How much is the Massachusetts House Speaker paid?", "DL-32"],
   ["How much did Massachusetts legislators earn in 2025?", "DL-32"],
+  ["what is the average out of pocket healthcare cost for families in massachusetts?", "DL-33"],
+  ["What share of Massachusetts residents are in families with a high out-of-pocket healthcare burden?", "DL-33"],
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context

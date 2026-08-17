@@ -1,6 +1,6 @@
 {
-  "as_of": "2026-08-16",
-  "note": "The 27 new applications that replace the Tableau suite, plus Legislature Pay. The five flagships (DL-01 to DL-05) stay frozen. Each app sits in one of the four Pioneer verticals.",
+  "as_of": "2026-08-17",
+  "note": "The 28 suite applications after the five flagships (DL-01 to DL-05). Family Healthcare Costs is new. Each app sits in one of the four Pioneer verticals.",
   "apps": [
     {
       "id": "DL-06",
@@ -533,6 +533,25 @@
       "wave": "live",
       "sources": [
         {"id": "SRC-632-01", "name": "CTHRU Commonwealth of Massachusetts payroll v4, named House and Senate rows", "cadence": "Annual / monthly", "url": "https://cthru.data.socrata.com/resource/9ttk-7vz6.json"}
+      ]
+    },
+    {
+      "id": "DL-33",
+      "slug": "healthcare-costs",
+      "title": "Family Healthcare Costs",
+      "q": "CHIA high out-of-pocket burden for Massachusetts families, with affordability, medical debt, and unmet need as later views.",
+      "vertical": "Healthcare",
+      "group": "Healthcare",
+      "g": ["MA"],
+      "heritage": "New. The Tableau suite did not publish the Massachusetts Health Insurance Survey as a namesake.",
+      "replaces": [],
+      "scope": "This ledger reports the 2025 Massachusetts Health Insurance Survey for residents and their families: the CHIA high out-of-pocket-to-income ratio, the published share-of-income distribution, any family affordability issue, problems paying medical bills, family medical debt, unmet need due to cost, insurance coverage at the time of the survey, and the high-deductible share among the privately insured. Cuts are the published family-income and race or ethnicity tables. The survey was fielded January through April 2025 and published in December 2025.",
+      "exclusions": "Does not publish an average dollar out-of-pocket cost; MHIS does not print that cell. Does not cover hospital relative prices, 340B, Medicaid program expenditures, MEPS Insurance Component family premiums, CMS National Health Expenditure per-capita out-of-pocket spending, other states, or advice about a plan or provider.",
+      "wave": "live",
+      "sources": [
+        {"id": "SRC-633-01", "name": "CHIA 2025 Massachusetts Health Insurance Survey report", "cadence": "Biennial", "url": "https://www.chiamass.gov/wp-content/uploads/docs/r/survey/MHIS-2025/2025-MHIS-Report.pdf"},
+        {"id": "SRC-633-02", "name": "CHIA 2025 MHIS detailed data tables", "cadence": "Biennial", "url": "https://www.chiamass.gov/wp-content/uploads/docs/r/survey/MHIS-2025/2025-MHIS-Detailed-Tables.xlsx"},
+        {"id": "SRC-633-03", "name": "CHIA 2025 MHIS methodology", "cadence": "Biennial", "url": "https://www.chiamass.gov/wp-content/uploads/docs/r/survey/MHIS-2025/2025-MHIS-Methodology.pdf"}
       ]
     }
   ]

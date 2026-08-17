@@ -1,0 +1,945 @@
+{
+  "tool_id": "DL-33",
+  "title": "Family Healthcare Costs",
+  "slug": "healthcare-costs",
+  "vertical": "Healthcare",
+  "group": "Healthcare",
+  "status": "live",
+  "as_of": "2025-12",
+  "scope": "This ledger reports the 2025 Massachusetts Health Insurance Survey for residents and their families: the CHIA high out-of-pocket-to-income ratio, the published share-of-income distribution, any family affordability issue, problems paying medical bills, family medical debt, unmet need due to cost, insurance coverage at the time of the survey, and the high-deductible share among the privately insured. Cuts are the published family-income and race or ethnicity tables. The survey was fielded January through April 2025 and published in December 2025.",
+  "exclusions": "Does not publish an average dollar out-of-pocket cost; MHIS does not print that cell. Does not cover hospital relative prices, 340B, Medicaid program expenditures, MEPS Insurance Component family premiums, CMS National Health Expenditure per-capita out-of-pocket spending, other states, or advice about a plan or provider.",
+  "heritage": "New. The Tableau suite did not publish the Massachusetts Health Insurance Survey as a namesake.",
+  "replaces": [],
+  "vintage_note": "Compiled Aug 17, 2026 from the CHIA 2025 MHIS detailed data tables (December 2025). Percents are the published Total and group columns. The high out-of-pocket ratio uses CHIA's threshold: above 5 percent of income below 200 percent FPL, or above 10 percent at or above 200 percent FPL. Two-path check: Excel Total cells match the printed 2025 report shares for coverage, affordability, bills, debt, and unmet need. Ranks among income or race groups are Pioneer calculations (derived).",
+  "source_id_map": {
+    "SRC-633-01": {
+      "name": "CHIA 2025 Massachusetts Health Insurance Survey report",
+      "cadence": "Biennial",
+      "url": "https://www.chiamass.gov/wp-content/uploads/docs/r/survey/MHIS-2025/2025-MHIS-Report.pdf",
+      "supports": "This ledger reports the 2025 Massachusetts Health Insurance Survey for residents and their families: the CHIA high out-of-pocket-to-income ratio, the published share-of-income distribution, any family affordability issue, problems paying medical bills, family medical debt, unmet need due to cost, insurance coverage at the time of the survey, and the high-deductible share among the privately insured. Cuts are the published family-income and race or ethnicity tables. The survey was fielded January through April 2025 and published in December 2025."
+    },
+    "SRC-633-02": {
+      "name": "CHIA 2025 MHIS detailed data tables",
+      "cadence": "Biennial",
+      "url": "https://www.chiamass.gov/wp-content/uploads/docs/r/survey/MHIS-2025/2025-MHIS-Detailed-Tables.xlsx",
+      "supports": "This ledger reports the 2025 Massachusetts Health Insurance Survey for residents and their families: the CHIA high out-of-pocket-to-income ratio, the published share-of-income distribution, any family affordability issue, problems paying medical bills, family medical debt, unmet need due to cost, insurance coverage at the time of the survey, and the high-deductible share among the privately insured. Cuts are the published family-income and race or ethnicity tables. The survey was fielded January through April 2025 and published in December 2025."
+    },
+    "SRC-633-03": {
+      "name": "CHIA 2025 MHIS methodology",
+      "cadence": "Biennial",
+      "url": "https://www.chiamass.gov/wp-content/uploads/docs/r/survey/MHIS-2025/2025-MHIS-Methodology.pdf",
+      "supports": "This ledger reports the 2025 Massachusetts Health Insurance Survey for residents and their families: the CHIA high out-of-pocket-to-income ratio, the published share-of-income distribution, any family affordability issue, problems paying medical bills, family medical debt, unmet need due to cost, insurance coverage at the time of the survey, and the high-deductible share among the privately insured. Cuts are the published family-income and race or ethnicity tables. The survey was fielded January through April 2025 and published in December 2025."
+    }
+  },
+  "page": {
+    "revised": "Aug 17, 2026",
+    "version": "0.1"
+  },
+  "geo": [
+    "MA"
+  ],
+  "q": "CHIA high out-of-pocket burden for Massachusetts families, with affordability, medical debt, and unmet need as later views.",
+  "pending": false,
+  "metric": "chia_mhis_high_oop_ratio_2025",
+  "metric_label": "High out-of-pocket-to-income ratio, Massachusetts residents",
+  "unit": "percent of residents",
+  "data_month": "2025-12",
+  "data_month_label": "2025 MHIS, fielded January to April 2025",
+  "lead": "<b>8.6 percent</b> of Massachusetts residents were in families with a high out-of-pocket healthcare burden in 2025 (SRC-633-02). CHIA counts out-of-pocket costs above 5 percent of income for families below 200 percent of the federal poverty level, or above 10 percent at or above 200 percent. The share was <b>19.2 percent</b> below 139 percent of poverty and <b>2.9 percent</b> at 500 percent or more (SRC-633-02). The survey does not publish an average dollar out-of-pocket cost.",
+  "kpis": [
+    {
+      "label": "High out-of-pocket burden",
+      "value": "8.6%",
+      "detail": "95% CI 7.5 to 9.8 percent. About 582,589 residents (SRC-633-02).",
+      "why": "The CHIA high out-of-pocket-to-income ratio is the namesake cell.",
+      "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)"
+    },
+    {
+      "label": "Any family affordability issue",
+      "value": "40.3%",
+      "detail": "Black residents 54.1 percent; Hispanic residents 47.3 percent (SRC-633-02).",
+      "why": "Affordability is the family composite, not the dollar average.",
+      "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)"
+    },
+    {
+      "label": "Unmet need due to cost",
+      "value": "28.4%",
+      "detail": "13.7 percent had problems paying medical bills; 13.5 percent carried family medical debt (SRC-633-02).",
+      "why": "Cost skipped care and medical bills sit next to the burden ratio.",
+      "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)"
+    },
+    {
+      "label": "Insured at the survey",
+      "value": "97.9%",
+      "detail": "46.4 percent of the privately insured had a high-deductible plan (SRC-633-02).",
+      "why": "Coverage is near-universal; the cost burden is not.",
+      "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)"
+    }
+  ],
+  "latest": {
+    "v": 8.62,
+    "n_sample": 5365,
+    "pop": 582589,
+    "ci_low": 7.47,
+    "ci_high": 9.76,
+    "definition": "Have a high out-of-pocket to income ratio (out-of-pocket costs are >5% of income for families below 200% FPL or >10% of income for families at or above 200% FPL)",
+    "ma": {
+      "v": 8.62
+    },
+    "highest": {
+      "st": "Less than 139% FPL",
+      "name": "Less than 139% FPL",
+      "v": 19.16
+    },
+    "lowest": {
+      "st": "500% FPL or more",
+      "name": "500% FPL or more",
+      "v": 2.85
+    },
+    "insured_pct": 97.93,
+    "affordability_pct": 40.33,
+    "unmet_need_pct": 28.44,
+    "bills_pct": 13.72,
+    "debt_pct": 13.46,
+    "hdhp_privately_insured_pct": 46.42,
+    "bh_visit_all_oop_pct": 17.19,
+    "dollar_average": null,
+    "dollar_average_note": "MHIS does not publish an average dollar out-of-pocket cost for families. Answer with the high out-of-pocket-to-income ratio and the share-of-income distribution."
+  },
+  "rows": [
+    {
+      "st": "Less than 139% FPL",
+      "name": "Less than 139% FPL",
+      "v": 19.16,
+      "rank": 1,
+      "n": 5,
+      "n_sample": 780,
+      "pop": 238454,
+      "ci_low": 15.17,
+      "ci_high": 23.16
+    },
+    {
+      "st": "139 to 299% FPL",
+      "name": "139 to 299% FPL",
+      "v": 13.55,
+      "rank": 2,
+      "n": 5,
+      "n_sample": 868,
+      "pop": 159961,
+      "ci_low": 10.34,
+      "ci_high": 16.76
+    },
+    {
+      "st": "300 to 399% FPL",
+      "name": "300 to 399% FPL",
+      "v": 8.02,
+      "rank": 3,
+      "n": 5,
+      "n_sample": 565,
+      "pop": 54965,
+      "ci_low": 4.93,
+      "ci_high": 11.11
+    },
+    {
+      "st": "400 to 499% FPL",
+      "name": "400 to 499% FPL",
+      "v": 6.73,
+      "rank": 4,
+      "n": 5,
+      "n_sample": 563,
+      "pop": 43890,
+      "ci_low": 3.35,
+      "ci_high": 10.1
+    },
+    {
+      "st": "500% FPL or more",
+      "name": "500% FPL or more",
+      "v": 2.85,
+      "rank": 5,
+      "n": 5,
+      "n_sample": 2589,
+      "pop": 85318,
+      "ci_low": 1.8,
+      "ci_high": 3.89
+    }
+  ],
+  "trend": {},
+  "derived": {
+    "note": "Prefer these over recomputing. Ranks cite (derived, SRC-633-02).",
+    "highest_five": [
+      {
+        "st": "Less than 139% FPL",
+        "name": "Less than 139% FPL",
+        "v": 19.16,
+        "rank": 1,
+        "n": 5,
+        "n_sample": 780,
+        "pop": 238454,
+        "ci_low": 15.17,
+        "ci_high": 23.16
+      },
+      {
+        "st": "139 to 299% FPL",
+        "name": "139 to 299% FPL",
+        "v": 13.55,
+        "rank": 2,
+        "n": 5,
+        "n_sample": 868,
+        "pop": 159961,
+        "ci_low": 10.34,
+        "ci_high": 16.76
+      },
+      {
+        "st": "300 to 399% FPL",
+        "name": "300 to 399% FPL",
+        "v": 8.02,
+        "rank": 3,
+        "n": 5,
+        "n_sample": 565,
+        "pop": 54965,
+        "ci_low": 4.93,
+        "ci_high": 11.11
+      },
+      {
+        "st": "400 to 499% FPL",
+        "name": "400 to 499% FPL",
+        "v": 6.73,
+        "rank": 4,
+        "n": 5,
+        "n_sample": 563,
+        "pop": 43890,
+        "ci_low": 3.35,
+        "ci_high": 10.1
+      },
+      {
+        "st": "500% FPL or more",
+        "name": "500% FPL or more",
+        "v": 2.85,
+        "rank": 5,
+        "n": 5,
+        "n_sample": 2589,
+        "pop": 85318,
+        "ci_low": 1.8,
+        "ci_high": 3.89
+      }
+    ],
+    "lowest_five": [
+      {
+        "st": "500% FPL or more",
+        "name": "500% FPL or more",
+        "v": 2.85,
+        "rank": 5,
+        "n": 5,
+        "n_sample": 2589,
+        "pop": 85318,
+        "ci_low": 1.8,
+        "ci_high": 3.89
+      },
+      {
+        "st": "400 to 499% FPL",
+        "name": "400 to 499% FPL",
+        "v": 6.73,
+        "rank": 4,
+        "n": 5,
+        "n_sample": 563,
+        "pop": 43890,
+        "ci_low": 3.35,
+        "ci_high": 10.1
+      },
+      {
+        "st": "300 to 399% FPL",
+        "name": "300 to 399% FPL",
+        "v": 8.02,
+        "rank": 3,
+        "n": 5,
+        "n_sample": 565,
+        "pop": 54965,
+        "ci_low": 4.93,
+        "ci_high": 11.11
+      },
+      {
+        "st": "139 to 299% FPL",
+        "name": "139 to 299% FPL",
+        "v": 13.55,
+        "rank": 2,
+        "n": 5,
+        "n_sample": 868,
+        "pop": 159961,
+        "ci_low": 10.34,
+        "ci_high": 16.76
+      },
+      {
+        "st": "Less than 139% FPL",
+        "name": "Less than 139% FPL",
+        "v": 19.16,
+        "rank": 1,
+        "n": 5,
+        "n_sample": 780,
+        "pop": 238454,
+        "ci_low": 15.17,
+        "ci_high": 23.16
+      }
+    ],
+    "n_ranked": 5,
+    "secondary": {
+      "high_oop_income": {
+        "label": "High out-of-pocket burden by family income",
+        "src": "SRC-633-02",
+        "sheet": "E.4-5",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "st": "Less than 139% FPL",
+            "name": "Less than 139% FPL",
+            "v": 19.16,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 780,
+            "pop": 238454,
+            "ci_low": 15.17,
+            "ci_high": 23.16
+          },
+          {
+            "st": "139 to 299% FPL",
+            "name": "139 to 299% FPL",
+            "v": 13.55,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 868,
+            "pop": 159961,
+            "ci_low": 10.34,
+            "ci_high": 16.76
+          },
+          {
+            "st": "300 to 399% FPL",
+            "name": "300 to 399% FPL",
+            "v": 8.02,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 565,
+            "pop": 54965,
+            "ci_low": 4.93,
+            "ci_high": 11.11
+          },
+          {
+            "st": "400 to 499% FPL",
+            "name": "400 to 499% FPL",
+            "v": 6.73,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 563,
+            "pop": 43890,
+            "ci_low": 3.35,
+            "ci_high": 10.1
+          },
+          {
+            "st": "500% FPL or more",
+            "name": "500% FPL or more",
+            "v": 2.85,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 2589,
+            "pop": 85318,
+            "ci_low": 1.8,
+            "ci_high": 3.89
+          }
+        ]
+      },
+      "high_oop_race": {
+        "label": "High out-of-pocket burden by race or ethnicity",
+        "src": "SRC-633-02",
+        "sheet": "E.4-3",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "st": "Multiracial or a group not listed",
+            "name": "Multiracial or a group not listed",
+            "v": 11.06,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 137,
+            "pop": 45477,
+            "ci_low": 4.24,
+            "ci_high": 17.88
+          },
+          {
+            "st": "Black",
+            "name": "Black",
+            "v": 9.01,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 245,
+            "pop": 36263,
+            "ci_low": 4.0,
+            "ci_high": 14.02
+          },
+          {
+            "st": "White",
+            "name": "White",
+            "v": 8.67,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 4172,
+            "pop": 396794,
+            "ci_low": 7.43,
+            "ci_high": 9.91
+          },
+          {
+            "st": "Hispanic",
+            "name": "Hispanic",
+            "v": 7.77,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 512,
+            "pop": 68274,
+            "ci_low": 4.34,
+            "ci_high": 11.19
+          },
+          {
+            "st": "Asian",
+            "name": "Asian",
+            "v": 7.28,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 299,
+            "pop": 35781,
+            "ci_low": 2.04,
+            "ci_high": 12.52
+          }
+        ]
+      },
+      "affordability_income": {
+        "label": "Any family affordability issue by family income",
+        "src": "SRC-633-02",
+        "sheet": "D.1-5",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "st": "139 to 299% FPL",
+            "name": "139 to 299% FPL",
+            "v": 56.64,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 868,
+            "pop": 668640,
+            "ci_low": 51.53,
+            "ci_high": 61.75
+          },
+          {
+            "st": "Less than 139% FPL",
+            "name": "Less than 139% FPL",
+            "v": 49.76,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 780,
+            "pop": 619112,
+            "ci_low": 44.37,
+            "ci_high": 55.14
+          },
+          {
+            "st": "300 to 399% FPL",
+            "name": "300 to 399% FPL",
+            "v": 45.25,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 565,
+            "pop": 310037,
+            "ci_low": 38.57,
+            "ci_high": 51.92
+          },
+          {
+            "st": "400 to 499% FPL",
+            "name": "400 to 499% FPL",
+            "v": 38.83,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 563,
+            "pop": 253374,
+            "ci_low": 32.24,
+            "ci_high": 45.42
+          },
+          {
+            "st": "500% FPL or more",
+            "name": "500% FPL or more",
+            "v": 29.21,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 2589,
+            "pop": 875632,
+            "ci_low": 26.42,
+            "ci_high": 32.0
+          }
+        ]
+      },
+      "affordability_race": {
+        "label": "Any family affordability issue by race or ethnicity",
+        "src": "SRC-633-02",
+        "sheet": "D.1-3",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "st": "Black",
+            "name": "Black",
+            "v": 54.07,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 245,
+            "pop": 217686,
+            "ci_low": 44.79,
+            "ci_high": 63.36
+          },
+          {
+            "st": "Multiracial or a group not listed",
+            "name": "Multiracial or a group not listed",
+            "v": 49.83,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 137,
+            "pop": 204964,
+            "ci_low": 38.97,
+            "ci_high": 60.69
+          },
+          {
+            "st": "Hispanic",
+            "name": "Hispanic",
+            "v": 47.27,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 512,
+            "pop": 415525,
+            "ci_low": 40.74,
+            "ci_high": 53.81
+          },
+          {
+            "st": "White",
+            "name": "White",
+            "v": 37.35,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 4172,
+            "pop": 1709132,
+            "ci_low": 35.02,
+            "ci_high": 39.67
+          },
+          {
+            "st": "Asian",
+            "name": "Asian",
+            "v": 36.53,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 299,
+            "pop": 179486,
+            "ci_low": 28.39,
+            "ci_high": 44.68
+          }
+        ]
+      },
+      "unmet_need_income": {
+        "label": "Any family unmet need due to cost by family income",
+        "src": "SRC-633-02",
+        "sheet": "D.2-5",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "st": "139 to 299% FPL",
+            "name": "139 to 299% FPL",
+            "v": 39.73,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 868,
+            "pop": 468951,
+            "ci_low": 34.6,
+            "ci_high": 44.85
+          },
+          {
+            "st": "Less than 139% FPL",
+            "name": "Less than 139% FPL",
+            "v": 34.32,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 780,
+            "pop": 426984,
+            "ci_low": 29.27,
+            "ci_high": 39.37
+          },
+          {
+            "st": "400 to 499% FPL",
+            "name": "400 to 499% FPL",
+            "v": 30.5,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 563,
+            "pop": 199014,
+            "ci_low": 24.19,
+            "ci_high": 36.8
+          },
+          {
+            "st": "300 to 399% FPL",
+            "name": "300 to 399% FPL",
+            "v": 29.05,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 565,
+            "pop": 199057,
+            "ci_low": 23.0,
+            "ci_high": 35.1
+          },
+          {
+            "st": "500% FPL or more",
+            "name": "500% FPL or more",
+            "v": 20.97,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 2589,
+            "pop": 628678,
+            "ci_low": 18.47,
+            "ci_high": 23.47
+          }
+        ]
+      },
+      "unmet_need_race": {
+        "label": "Any family unmet need due to cost by race or ethnicity",
+        "src": "SRC-633-02",
+        "sheet": "D.2-3",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "st": "Hispanic",
+            "name": "Hispanic",
+            "v": 37.78,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 512,
+            "pop": 332067,
+            "ci_low": 31.52,
+            "ci_high": 44.04
+          },
+          {
+            "st": "Black",
+            "name": "Black",
+            "v": 35.77,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 245,
+            "pop": 143980,
+            "ci_low": 26.78,
+            "ci_high": 44.75
+          },
+          {
+            "st": "Multiracial or a group not listed",
+            "name": "Multiracial or a group not listed",
+            "v": 33.07,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 137,
+            "pop": 136009,
+            "ci_low": 22.91,
+            "ci_high": 43.22
+          },
+          {
+            "st": "White",
+            "name": "White",
+            "v": 25.93,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 4172,
+            "pop": 1186693,
+            "ci_low": 23.8,
+            "ci_high": 28.06
+          },
+          {
+            "st": "Asian",
+            "name": "Asian",
+            "v": 25.23,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 299,
+            "pop": 123935,
+            "ci_low": 17.86,
+            "ci_high": 32.59
+          }
+        ]
+      },
+      "unmet_need_types": {
+        "label": "Family unmet need due to cost, selected types",
+        "src": "SRC-633-02",
+        "sheet": "D.2-1",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "name": "Any care",
+            "v": 28.44
+          },
+          {
+            "name": "Dental care",
+            "v": 14.16
+          },
+          {
+            "name": "Prescription drugs",
+            "v": 9.87
+          }
+        ]
+      },
+      "medical_bills_income": {
+        "label": "Problems paying family medical bills by family income",
+        "src": "SRC-633-02",
+        "sheet": "E.1-5",
+        "unit": "percent of residents",
+        "rows": [
+          {
+            "st": "139 to 299% FPL",
+            "name": "139 to 299% FPL",
+            "v": 23.3,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 868,
+            "pop": 275105,
+            "ci_low": 18.85,
+            "ci_high": 27.76
+          },
+          {
+            "st": "300 to 399% FPL",
+            "name": "300 to 399% FPL",
+            "v": 19.99,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 565,
+            "pop": 136987,
+            "ci_low": 14.6,
+            "ci_high": 25.38
+          },
+          {
+            "st": "Less than 139% FPL",
+            "name": "Less than 139% FPL",
+            "v": 17.38,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 780,
+            "pop": 216191,
+            "ci_low": 13.15,
+            "ci_high": 21.6
+          },
+          {
+            "st": "400 to 499% FPL",
+            "name": "400 to 499% FPL",
+            "v": 14.64,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 563,
+            "pop": 95520,
+            "ci_low": 9.91,
+            "ci_high": 19.37
+          },
+          {
+            "st": "500% FPL or more",
+            "name": "500% FPL or more",
+            "v": 6.8,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 2589,
+            "pop": 203972,
+            "ci_low": 5.23,
+            "ci_high": 8.38
+          }
+        ]
+      },
+      "oop_share_distribution": {
+        "label": "Family out-of-pocket spending as a share of income",
+        "src": "SRC-633-02",
+        "sheet": "F.1-1",
+        "unit": "percent of residents",
+        "note": "These are the published income-share buckets. They are not a dollar average. 5 percent or more is the sum of the 5-to-10 and 10-or-more buckets (derived).",
+        "five_or_more_pct": 18.53,
+        "ten_or_more_by_income": [
+          {
+            "st": "Less than 139% FPL",
+            "name": "Less than 139% FPL",
+            "v": 12.13,
+            "rank": 1,
+            "n": 5,
+            "n_sample": 780,
+            "pop": 150985,
+            "ci_low": 8.9,
+            "ci_high": 15.37
+          },
+          {
+            "st": "300 to 399% FPL",
+            "name": "300 to 399% FPL",
+            "v": 8.02,
+            "rank": 2,
+            "n": 5,
+            "n_sample": 565,
+            "pop": 54965,
+            "ci_low": 4.93,
+            "ci_high": 11.11
+          },
+          {
+            "st": "139 to 299% FPL",
+            "name": "139 to 299% FPL",
+            "v": 7.55,
+            "rank": 3,
+            "n": 5,
+            "n_sample": 868,
+            "pop": 89145,
+            "ci_low": 5.12,
+            "ci_high": 9.98
+          },
+          {
+            "st": "400 to 499% FPL",
+            "name": "400 to 499% FPL",
+            "v": 6.73,
+            "rank": 4,
+            "n": 5,
+            "n_sample": 563,
+            "pop": 43890,
+            "ci_low": 3.35,
+            "ci_high": 10.1
+          },
+          {
+            "st": "500% FPL or more",
+            "name": "500% FPL or more",
+            "v": 2.85,
+            "rank": 5,
+            "n": 5,
+            "n_sample": 2589,
+            "pop": 85318,
+            "ci_low": 1.8,
+            "ci_high": 3.89
+          }
+        ],
+        "rows": [
+          {
+            "name": "Less than 5% of income",
+            "v": 77.09
+          },
+          {
+            "name": "5 to 10% of income",
+            "v": 12.25
+          },
+          {
+            "name": "10% or more of income",
+            "v": 6.28
+          },
+          {
+            "name": "Did not use care",
+            "v": 4.39
+          }
+        ]
+      },
+      "coverage_2025": {
+        "label": "Insurance coverage and high-deductible plans",
+        "src": "SRC-633-02",
+        "insured_pct": 97.93,
+        "hdhp_privately_insured_pct": 46.42,
+        "hdhp_definition": "Among the privately insured at the time of survey, had a high-deductible health insurance plan (deductible of at least $1,400 for single coverage or $2,800 for family coverage)",
+        "bh_visit_all_oop_pct": 17.19
+      }
+    },
+    "highlight_entities": {
+      "Massachusetts": {
+        "st": "MA",
+        "name": "Massachusetts",
+        "v": 8.62
+      },
+      "Multiracial or a group not listed": {
+        "st": "Multiracial or a group not listed",
+        "name": "Multiracial or a group not listed",
+        "v": 11.06,
+        "rank": 1
+      },
+      "Black": {
+        "st": "Black",
+        "name": "Black",
+        "v": 9.01,
+        "rank": 2
+      },
+      "White": {
+        "st": "White",
+        "name": "White",
+        "v": 8.67,
+        "rank": 3
+      },
+      "Hispanic": {
+        "st": "Hispanic",
+        "name": "Hispanic",
+        "v": 7.77,
+        "rank": 4
+      },
+      "Asian": {
+        "st": "Asian",
+        "name": "Asian",
+        "v": 7.28,
+        "rank": 5
+      }
+    },
+    "n_sample": 5365,
+    "definition": "Have a high out-of-pocket to income ratio (out-of-pocket costs are >5% of income for families below 200% FPL or >10% of income for families at or above 200% FPL)"
+  },
+  "entities": {
+    "Less than 139% FPL": {
+      "st": "Less than 139% FPL",
+      "name": "Less than 139% FPL",
+      "v": 19.16,
+      "rank": 1
+    },
+    "139 to 299% FPL": {
+      "st": "139 to 299% FPL",
+      "name": "139 to 299% FPL",
+      "v": 13.55,
+      "rank": 2
+    },
+    "300 to 399% FPL": {
+      "st": "300 to 399% FPL",
+      "name": "300 to 399% FPL",
+      "v": 8.02,
+      "rank": 3
+    },
+    "400 to 499% FPL": {
+      "st": "400 to 499% FPL",
+      "name": "400 to 499% FPL",
+      "v": 6.73,
+      "rank": 4
+    },
+    "500% FPL or more": {
+      "st": "500% FPL or more",
+      "name": "500% FPL or more",
+      "v": 2.85,
+      "rank": 5
+    },
+    "Massachusetts": {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 8.62
+    },
+    "Multiracial or a group not listed": {
+      "st": "Multiracial or a group not listed",
+      "name": "Multiracial or a group not listed",
+      "v": 11.06,
+      "rank": 1
+    },
+    "Black": {
+      "st": "Black",
+      "name": "Black",
+      "v": 9.01,
+      "rank": 2
+    },
+    "White": {
+      "st": "White",
+      "name": "White",
+      "v": 8.67,
+      "rank": 3
+    },
+    "Hispanic": {
+      "st": "Hispanic",
+      "name": "Hispanic",
+      "v": 7.77,
+      "rank": 4
+    },
+    "Asian": {
+      "st": "Asian",
+      "name": "Asian",
+      "v": 7.28,
+      "rank": 5
+    }
+  }
+}

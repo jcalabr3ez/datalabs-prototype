@@ -115,6 +115,7 @@ Do not rebuild these. They are stale, duplicated by a flagship, or not a series.
 | State Wealth Taxes is new | DL-01 (not a Tableau successor) |
 | Florida Homeowners Insurance is new | DL-02 |
 | Legislature Pay is new | DL-32 |
+| Family Healthcare Costs is new | DL-33 |
 
 ## What not to do
 

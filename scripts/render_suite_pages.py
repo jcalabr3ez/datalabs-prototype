@@ -397,9 +397,10 @@ RELATED_PAIRS = {
     "DL-07": ["DL-06", "DL-08", "DL-09"],
     "DL-08": ["DL-07", "DL-06"],
     "DL-09": ["DL-06", "DL-07"],
-    "DL-10": ["DL-11", "DL-12"],
+    "DL-10": ["DL-11", "DL-12", "DL-33"],
     "DL-11": ["DL-10", "DL-12"],
     "DL-12": ["DL-10", "DL-11"],
+    "DL-33": ["DL-10", "DL-12"],
     "DL-13": ["DL-14", "DL-15"],
     "DL-14": ["DL-13", "DL-15"],
     "DL-15": ["DL-14", "DL-19"],
@@ -641,6 +642,7 @@ def chart_spec(app, ledger):
         "DL-28": ("tax type", n_rows or 12, "Total Taxes"),
         "DL-30": ("department", 12, None),
         "DL-32": ("legislator", 12, None),
+        "DL-33": ("income group", 5, "Less than 139% FPL"),
     }
     if tid in named:
         geo, n_chart, highlight = named[tid]
@@ -798,6 +800,7 @@ def chart_spec(app, ledger):
         "department": "Every department",
         "tax type": "Every tax type",
         "legislator": "Every legislator",
+        "income group": "Every income group",
     }.get(geo, "Every row")
     col_name = {
         "state": "State",
@@ -807,6 +810,7 @@ def chart_spec(app, ledger):
         "department": "Department",
         "tax type": "Tax type",
         "legislator": "Legislator",
+        "income group": "Income group",
     }.get(geo, "Name")
     if tid == "DL-11":
         table_columns = [
@@ -863,6 +867,22 @@ def chart_spec(app, ledger):
         table_note = (
             "Ranks are Pioneer calculations (derived, SRC-607-05). "
             "The table is the 2024 grade 4 reading scale, not enrollment."
+        )
+    elif tid == "DL-33":
+        table_columns = [
+            {"key": "name", "label": "Income group", "cls": "m"},
+            {"key": "v", "label": "High OOP burden", "align": "n", "fmt": "percent"},
+            {"key": "rank", "label": "Rank", "align": "n"},
+        ]
+        table_lede = (
+            "Family income as a percent of the federal poverty level. "
+            "The share is residents in families with a high out-of-pocket "
+            "burden, not a dollar average."
+        )
+        table_note = (
+            "CHIA counts out-of-pocket costs above 5 percent of income below "
+            "200 percent FPL, or above 10 percent at or above 200 percent FPL. "
+            "Ranks are Pioneer calculations (derived, SRC-633-02)."
         )
     else:
         table_columns = [
@@ -929,8 +949,79 @@ def chart_spec(app, ledger):
     }
 
 
+def _pct_rows_table(rows, value_label="Share"):
+    body = []
+    for r in rows or []:
+        name = esc(r.get("name") or "")
+        v = r.get("v")
+        val = f"{v:.1f}%" if isinstance(v, (int, float)) else ""
+        rank = r.get("rank") or ""
+        body.append(
+            f"<tr><td class=\"m\">{name}</td>"
+            f"<td class=\"n\">{val}</td>"
+            f"<td class=\"n\">{esc(rank)}</td></tr>"
+        )
+    return (
+        "<table><thead><tr><th>Group</th>"
+        f"<th class=\"n\">{esc(value_label)}</th>"
+        "<th class=\"n\">Rank</th></tr></thead><tbody>"
+        + "".join(body)
+        + "</tbody></table>"
+    )
+
+
 def extra_tool_sections(app, ledger, n_fig, has_trend):
     """Stacked later tools that do not fit the single ranking table."""
+    if app["id"] == "DL-33":
+        sec = ((ledger.get("derived") or {}).get("secondary") or {})
+        fig = n_fig + (2 if has_trend else 1) + 1
+        afford_i = sec.get("affordability_income") or {}
+        afford_r = sec.get("affordability_race") or {}
+        unmet = sec.get("unmet_need_types") or {}
+        unmet_i = sec.get("unmet_need_income") or {}
+        bills = sec.get("medical_bills_income") or {}
+        latest = ledger.get("latest") or {}
+        dist = sec.get("oop_share_distribution") or {}
+        cov = sec.get("coverage_2025") or {}
+        return f"""
+<section id="view-afford">
+    <h2>Family affordability</h2>
+    <div class="lede">Two in five residents reported any family healthcare affordability issue in the past 12 months. The burden is higher below 400 percent of poverty and for Black and Hispanic residents.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure {fig}</span>
+        <span class="ex-t">Any family affordability issue by income</span></div>
+      <div class="scroll">{_pct_rows_table(afford_i.get("rows"), "Share")}</div>
+      <div class="srcline"><b>Source:</b> CHIA 2025 MHIS table D.1-5 (SRC-633-02). Ranks are Pioneer calculations (derived).</div>
+    </div>
+    <div class="scroll">{_pct_rows_table(afford_r.get("rows"), "Share")}</div>
+    <div class="srcline"><b>Source:</b> CHIA 2025 MHIS table D.1-3 (SRC-633-02).</div>
+  </section>
+<section id="view-unmet">
+    <h2>Unmet need due to cost</h2>
+    <div class="lede">{latest.get("unmet_need_pct"):.1f} percent of residents were in families that went without needed care because of cost. Dental care and prescription drugs are the published type cuts on this page.</div>
+    <div class="scroll">{_pct_rows_table(unmet.get("rows"), "Share")}</div>
+    <div class="srcline"><b>Source:</b> CHIA 2025 MHIS table D.2-1 (SRC-633-02).</div>
+    <div class="scroll">{_pct_rows_table(unmet_i.get("rows"), "Share")}</div>
+    <div class="srcline"><b>Source:</b> CHIA 2025 MHIS table D.2-5 (SRC-633-02). Ranks are Pioneer calculations (derived).</div>
+  </section>
+<section id="view-debt">
+    <h2>Medical bills and debt</h2>
+    <div class="lede">{latest.get("bills_pct"):.1f} percent had problems paying family medical bills. {latest.get("debt_pct"):.1f} percent were paying medical bills over time.</div>
+    <div class="scroll">{_pct_rows_table(bills.get("rows"), "Share")}</div>
+    <div class="srcline"><b>Source:</b> CHIA 2025 MHIS table E.1-5 (SRC-633-02). Ranks are Pioneer calculations (derived).</div>
+  </section>
+<section id="view-oopshare">
+    <h2>Out-of-pocket as a share of income</h2>
+    <div class="lede">MHIS does not publish an average dollar out-of-pocket cost. It publishes the share of family income spent out of pocket. {dist.get("five_or_more_pct"):.1f} percent of residents were in families that spent 5 percent or more of income (derived, SRC-633-02).</div>
+    <div class="scroll">{_pct_rows_table(dist.get("rows"), "Share")}</div>
+    <div class="srcline"><b>Source:</b> CHIA 2025 MHIS table F.1-1 (SRC-633-02). The 5 percent or more figure adds the published 5-to-10 and 10-or-more buckets (derived).</div>
+  </section>
+<section id="view-coverage">
+    <h2>Coverage and high-deductible plans</h2>
+    <div class="lede">{cov.get("insured_pct"):.1f} percent of residents were insured at the time of the survey. {cov.get("hdhp_privately_insured_pct"):.1f} percent of the privately insured had a high-deductible plan (at least $1,400 single or $2,800 family). Among residents with a behavioral health visit, {cov.get("bh_visit_all_oop_pct"):.1f} percent paid entirely out of pocket.</div>
+    <div class="srcline"><b>Source:</b> CHIA 2025 MHIS tables B.1-1, B.3-1, and G.2-1 (SRC-633-02).</div>
+  </section>
+"""
     if app["id"] != "DL-11":
         return ""
     sec = ((ledger.get("derived") or {}).get("secondary") or {})
@@ -1206,6 +1297,12 @@ def page_html(app, ledger, apps=None):
         if app["id"] == "DL-11":
             jump_links.append('<a href="#view-charity">Charity care</a>')
             jump_links.append('<a href="#view-districts">Legislative mapping</a>')
+        if app["id"] == "DL-33":
+            jump_links.append('<a href="#view-afford">Affordability</a>')
+            jump_links.append('<a href="#view-unmet">Unmet need</a>')
+            jump_links.append('<a href="#view-debt">Medical bills</a>')
+            jump_links.append('<a href="#view-oopshare">Share of income</a>')
+            jump_links.append('<a href="#view-coverage">Coverage</a>')
         for fig in insights:
             fid = fig.get("id")
             if not fid:
@@ -2784,7 +2881,7 @@ def main():
         dest.write_text(page_html(app, ledger, apps), encoding="utf-8")
         n += 1
         print(f"render {app['id']} -> {dest.relative_to(ROOT)}")
-        if ledger.get("status") == "live" and not insight_figures(app, ledger) and app["id"] not in FINDER_TOOLS | TOWN_TOOLS | HIST_TOOLS | {"DL-07", "DL-16"}:
+        if ledger.get("status") == "live" and not insight_figures(app, ledger) and app["id"] not in FINDER_TOOLS | TOWN_TOOLS | HIST_TOOLS | {"DL-07", "DL-16", "DL-33"}:
             missing.append(app["id"])
     if missing:
         sys.exit("FATAL: no insight figures for " + ", ".join(missing))

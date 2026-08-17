@@ -10,7 +10,7 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic headings plus the
                                    five flagships and the 27-app suite
-                                   (DL-01 through DL-32). Public
+                                   (DL-01 through DL-33). Public
                                    production site.
     suite/apps.json                CANONICAL registry of the 27 suite applications
     mbta/index.html                DL-03 MBTA Performance flagship page

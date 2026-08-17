@@ -90,6 +90,7 @@ const GOLDEN = [
   ["How much is Commonwealth payroll?", ["answer"], "DL-30"],
   ["How many prisoners does Massachusetts hold?", ["answer"], "DL-31"],
   ["How much is the Massachusetts House Speaker paid?", ["answer"], "DL-32"],
+  ["what is the average out of pocket healthcare cost for families in massachusetts?", ["answer"], "DL-33"],
 ];
 
 let failures = 0;

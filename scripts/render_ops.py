@@ -62,6 +62,21 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Family Healthcare Costs from the CHIA survey",
+        "body": (
+            "A new Healthcare tool publishes the 2025 Massachusetts "
+            "Health Insurance Survey. The namesake cell is CHIA's high "
+            "out-of-pocket-to-income ratio: 8.6 percent of residents. "
+            "The survey does not print an average dollar out-of-pocket "
+            "cost, and the page does not invent one. Later views cover "
+            "family affordability, unmet need due to cost, medical bills "
+            "and debt, the share-of-income distribution, and "
+            "high-deductible plans. State Wealth Taxes and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Ask ships a slimmer hit ledger",
         "body": (
             "A trigger hit no longer reattaches ZIP-scale 340B rows or "

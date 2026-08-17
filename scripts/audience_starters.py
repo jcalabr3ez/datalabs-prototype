@@ -205,6 +205,12 @@ STARTERS = {
         "researcher": "Does this file include GIC health costs or the office-expense allowance?",
         "policymaker": "What is the leadership premium over base legislator pay?",
     },
+    "DL-33": {
+        "public": "What is the average out of pocket healthcare cost for families in Massachusetts?",
+        "journalist": "What share of Massachusetts residents are in families with a high out-of-pocket healthcare burden?",
+        "researcher": "Does the Massachusetts Health Insurance Survey publish an average dollar out-of-pocket cost?",
+        "policymaker": "How does the high out-of-pocket burden change with family income?",
+    },
 }
 
 # Place-lens questions for fifty-state tools. {name} is the jurisdiction.

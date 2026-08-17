@@ -1885,9 +1885,385 @@ def build_legislature_pay(app):
     return ledger
 
 
+MHIS_XLSX = (
+    "https://www.chiamass.gov/wp-content/uploads/docs/r/survey/MHIS-2025/"
+    "2025-MHIS-Detailed-Tables.xlsx"
+)
+MHIS_INCOME = {
+    "Less than 139%": "Less than 139% FPL",
+    "139-299%": "139 to 299% FPL",
+    "300-399%": "300 to 399% FPL",
+    "400-499%": "400 to 499% FPL",
+    "500%+": "500% FPL or more",
+}
+MHIS_RACE = {
+    "White": "White",
+    "Black": "Black",
+    "Asian": "Asian",
+    "Multiracial or a group not listed": "Multiracial or a group not listed",
+    "Hispanic": "Hispanic",
+}
+# Printed cells from the December 2025 detailed tables (two-path check).
+VERIFY_MHIS = {
+    "high_oop": 8.62,
+    "insured": 97.93,
+    "afford": 40.33,
+    "bills": 13.72,
+    "debt": 13.46,
+    "unmet": 28.44,
+    "hdhp": 46.42,
+    "black_afford": 54.07,
+    "lt139_oop": 19.16,
+}
+
+
+def _mhis_pct(v):
+    if v is None or v == "":
+        return None
+    x = float(v)
+    if x > 1.5:
+        return round(x, 2)
+    return round(x * 100, 2)
+
+
+def _mhis_parse(ws, outcome_sub):
+    """Map group label -> {v, n, pop, ci_low, ci_high} for one outcome.
+
+    The first outcome whose text contains outcome_sub is locked so a later
+    row that only shares a prefix cannot overwrite the Total.
+    """
+    want = outcome_sub.lower()
+    cur = None
+    locked = None
+    out = {}
+    for row in ws.iter_rows(min_row=4, max_col=7, values_only=True):
+        a, b, c, d, e, f, g = (list(row) + [None] * 7)[:7]
+        if a and str(a).startswith("Source"):
+            break
+        if a:
+            cur = " ".join(str(a).split())
+        if not cur:
+            continue
+        if locked is None:
+            if want not in cur.lower():
+                continue
+            locked = cur
+        elif cur != locked:
+            continue
+        if not b or str(b) in ("Age", "Race", "Family Income", "Outcome"):
+            continue
+        label = " ".join(str(b).split())
+        out[label] = {
+            "v": _mhis_pct(e),
+            "n": int(c) if c is not None else None,
+            "pop": None if d is None else round(float(d)),
+            "ci_low": _mhis_pct(f),
+            "ci_high": _mhis_pct(g),
+            "outcome": cur,
+        }
+    if "Total" not in out or out["Total"]["v"] is None:
+        raise SystemExit(f"FATAL: MHIS {ws.title} missing {outcome_sub}")
+    return out
+
+
+def _mhis_cut(block, labels):
+    rows = []
+    for raw, name in labels.items():
+        rec = block.get(raw)
+        if not rec or rec.get("v") is None:
+            raise SystemExit(f"FATAL: MHIS missing group {raw}")
+        rows.append({
+            "st": name,
+            "name": name,
+            "v": rec["v"],
+            "n_sample": rec["n"],
+            "pop": rec["pop"],
+            "ci_low": rec["ci_low"],
+            "ci_high": rec["ci_high"],
+        })
+    ranked = rank_named(
+        {r["name"]: r["v"] for r in rows},
+        higher_is_better=True,
+        st_key=lambda k: k,
+    )
+    by_name = {r["name"]: r for r in rows}
+    for rec in ranked:
+        src = by_name[rec["name"]]
+        rec.update({
+            "n_sample": src["n_sample"],
+            "pop": src["pop"],
+            "ci_low": src["ci_low"],
+            "ci_high": src["ci_high"],
+        })
+    return ranked
+
+
+def _mhis_check(label, got, expect, tol=0.02):
+    if got is None or abs(got - expect) > tol:
+        raise SystemExit(f"FATAL: MHIS {label}={got}, expected {expect}")
+
+
+def build_healthcare_costs(app):
+    """DL-33: CHIA 2025 Massachusetts Health Insurance Survey family costs."""
+    wb = _wb(MHIS_XLSX, timeout=120)
+    high = _mhis_parse(
+        wb["E.4-1"],
+        "high out-of-pocket to income ratio",
+    )
+    high_inc = _mhis_parse(wb["E.4-5"], "high out-of-pocket to income ratio")
+    high_race = _mhis_parse(wb["E.4-3"], "high out-of-pocket to income ratio")
+    afford = _mhis_parse(wb["D.1-1"], "Any affordability issues")
+    afford_inc = _mhis_parse(wb["D.1-5"], "Any affordability issues")
+    afford_race = _mhis_parse(wb["D.1-3"], "Any affordability issues")
+    unmet = _mhis_parse(wb["D.2-1"], "Any family unmet need for health care")
+    unmet_inc = _mhis_parse(wb["D.2-5"], "Any family unmet need for health care")
+    unmet_race = _mhis_parse(wb["D.2-3"], "Any family unmet need for health care")
+    bills = _mhis_parse(wb["E.1-1"], "Had problems paying medical bills in the past 12 months")
+    bills_inc = _mhis_parse(wb["E.1-5"], "Had problems paying medical bills in the past 12 months")
+    debt = _mhis_parse(wb["E.2-1"], "Have medical bills that are being paid off over time")
+    insured = _mhis_parse(wb["B.1-1"], "Insured at the time of the survey")
+    hdhp = _mhis_parse(wb["B.3-1"], "high-deductible health insurance plan")
+    oop_lt5 = _mhis_parse(wb["F.1-1"], "Less than 5%")
+    oop_5_10 = _mhis_parse(wb["F.1-1"], "Between 5% and 10%")
+    oop_10 = _mhis_parse(wb["F.1-1"], "10% or more")
+    oop_none = _mhis_parse(wb["F.1-1"], "Did not use care")
+    oop_10_inc = _mhis_parse(wb["F.1-5"], "10% or more")
+    bh_oop = _mhis_parse(wb["G.2-1"], "Paid for mental health care visit entirely out-of-pocket")
+    dental = _mhis_parse(wb["D.2-1"], "Any family unmet need for dental care")
+    rx = _mhis_parse(wb["D.2-1"], "Any family unmet need for prescription drugs")
+
+    tot = high["Total"]
+    _mhis_check("high_oop", tot["v"], VERIFY_MHIS["high_oop"])
+    _mhis_check("insured", insured["Total"]["v"], VERIFY_MHIS["insured"])
+    _mhis_check("afford", afford["Total"]["v"], VERIFY_MHIS["afford"])
+    _mhis_check("bills", bills["Total"]["v"], VERIFY_MHIS["bills"])
+    _mhis_check("debt", debt["Total"]["v"], VERIFY_MHIS["debt"])
+    _mhis_check("unmet", unmet["Total"]["v"], VERIFY_MHIS["unmet"])
+    _mhis_check("hdhp", hdhp["Total"]["v"], VERIFY_MHIS["hdhp"])
+    _mhis_check("black_afford", afford_race["Black"]["v"], VERIFY_MHIS["black_afford"])
+    _mhis_check("lt139_oop", high_inc["Less than 139%"]["v"], VERIFY_MHIS["lt139_oop"])
+
+    income_rows = _mhis_cut(high_inc, MHIS_INCOME)
+    race_rows = _mhis_cut(high_race, MHIS_RACE)
+    hi = income_rows[0]
+    lo = income_rows[-1]
+    definition = tot["outcome"]
+    oop_share = [
+        {"name": "Less than 5% of income", "v": oop_lt5["Total"]["v"]},
+        {"name": "5 to 10% of income", "v": oop_5_10["Total"]["v"]},
+        {"name": "10% or more of income", "v": oop_10["Total"]["v"]},
+        {"name": "Did not use care", "v": oop_none["Total"]["v"]},
+    ]
+    unmet_types = [
+        {"name": "Any care", "v": unmet["Total"]["v"]},
+        {"name": "Dental care", "v": dental["Total"]["v"]},
+        {"name": "Prescription drugs", "v": rx["Total"]["v"]},
+    ]
+    lead = (
+        f"<b>{tot['v']:.1f} percent</b> of Massachusetts residents were in "
+        f"families with a high out-of-pocket healthcare burden in 2025 "
+        f"(SRC-633-02). CHIA counts out-of-pocket costs above 5 percent of "
+        f"income for families below 200 percent of the federal poverty level, "
+        f"or above 10 percent at or above 200 percent. The share was "
+        f"<b>{hi['v']:.1f} percent</b> below 139 percent of poverty and "
+        f"<b>{lo['v']:.1f} percent</b> at 500 percent or more (SRC-633-02). "
+        f"The survey does not publish an average dollar out-of-pocket cost."
+    )
+    kpis = [
+        {
+            "label": "High out-of-pocket burden",
+            "value": f"{tot['v']:.1f}%",
+            "detail": (
+                f"95% CI {tot['ci_low']:.1f} to {tot['ci_high']:.1f} percent. "
+                f"About {commify(tot['pop'])} residents (SRC-633-02)."
+            ),
+            "why": "The CHIA high out-of-pocket-to-income ratio is the namesake cell.",
+            "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)",
+        },
+        {
+            "label": "Any family affordability issue",
+            "value": f"{afford['Total']['v']:.1f}%",
+            "detail": (
+                f"Black residents {afford_race['Black']['v']:.1f} percent; "
+                f"Hispanic residents {afford_race['Hispanic']['v']:.1f} percent "
+                f"(SRC-633-02)."
+            ),
+            "why": "Affordability is the family composite, not the dollar average.",
+            "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)",
+        },
+        {
+            "label": "Unmet need due to cost",
+            "value": f"{unmet['Total']['v']:.1f}%",
+            "detail": (
+                f"{bills['Total']['v']:.1f} percent had problems paying medical "
+                f"bills; {debt['Total']['v']:.1f} percent carried family medical "
+                f"debt (SRC-633-02)."
+            ),
+            "why": "Cost skipped care and medical bills sit next to the burden ratio.",
+            "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)",
+        },
+        {
+            "label": "Insured at the survey",
+            "value": f"{insured['Total']['v']:.1f}%",
+            "detail": (
+                f"{hdhp['Total']['v']:.1f} percent of the privately insured had "
+                f"a high-deductible plan (SRC-633-02)."
+            ),
+            "why": "Coverage is near-universal; the cost burden is not.",
+            "src": "CHIA 2025 MHIS detailed tables (SRC-633-02)",
+        },
+    ]
+    latest = {
+        "v": tot["v"],
+        "n_sample": tot["n"],
+        "pop": tot["pop"],
+        "ci_low": tot["ci_low"],
+        "ci_high": tot["ci_high"],
+        "definition": definition,
+        "ma": {"v": tot["v"]},
+        "highest": {"st": hi["st"], "name": hi["name"], "v": hi["v"]},
+        "lowest": {"st": lo["st"], "name": lo["name"], "v": lo["v"]},
+        "insured_pct": insured["Total"]["v"],
+        "affordability_pct": afford["Total"]["v"],
+        "unmet_need_pct": unmet["Total"]["v"],
+        "bills_pct": bills["Total"]["v"],
+        "debt_pct": debt["Total"]["v"],
+        "hdhp_privately_insured_pct": hdhp["Total"]["v"],
+        "bh_visit_all_oop_pct": bh_oop["Total"]["v"],
+        "dollar_average": None,
+        "dollar_average_note": (
+            "MHIS does not publish an average dollar out-of-pocket cost for "
+            "families. Answer with the high out-of-pocket-to-income ratio and "
+            "the share-of-income distribution."
+        ),
+    }
+    secondary = {
+        "high_oop_income": {
+            "label": "High out-of-pocket burden by family income",
+            "src": "SRC-633-02",
+            "sheet": "E.4-5",
+            "unit": "percent of residents",
+            "rows": income_rows,
+        },
+        "high_oop_race": {
+            "label": "High out-of-pocket burden by race or ethnicity",
+            "src": "SRC-633-02",
+            "sheet": "E.4-3",
+            "unit": "percent of residents",
+            "rows": race_rows,
+        },
+        "affordability_income": {
+            "label": "Any family affordability issue by family income",
+            "src": "SRC-633-02",
+            "sheet": "D.1-5",
+            "unit": "percent of residents",
+            "rows": _mhis_cut(afford_inc, MHIS_INCOME),
+        },
+        "affordability_race": {
+            "label": "Any family affordability issue by race or ethnicity",
+            "src": "SRC-633-02",
+            "sheet": "D.1-3",
+            "unit": "percent of residents",
+            "rows": _mhis_cut(afford_race, MHIS_RACE),
+        },
+        "unmet_need_income": {
+            "label": "Any family unmet need due to cost by family income",
+            "src": "SRC-633-02",
+            "sheet": "D.2-5",
+            "unit": "percent of residents",
+            "rows": _mhis_cut(unmet_inc, MHIS_INCOME),
+        },
+        "unmet_need_race": {
+            "label": "Any family unmet need due to cost by race or ethnicity",
+            "src": "SRC-633-02",
+            "sheet": "D.2-3",
+            "unit": "percent of residents",
+            "rows": _mhis_cut(unmet_race, MHIS_RACE),
+        },
+        "unmet_need_types": {
+            "label": "Family unmet need due to cost, selected types",
+            "src": "SRC-633-02",
+            "sheet": "D.2-1",
+            "unit": "percent of residents",
+            "rows": unmet_types,
+        },
+        "medical_bills_income": {
+            "label": "Problems paying family medical bills by family income",
+            "src": "SRC-633-02",
+            "sheet": "E.1-5",
+            "unit": "percent of residents",
+            "rows": _mhis_cut(bills_inc, MHIS_INCOME),
+        },
+        "oop_share_distribution": {
+            "label": "Family out-of-pocket spending as a share of income",
+            "src": "SRC-633-02",
+            "sheet": "F.1-1",
+            "unit": "percent of residents",
+            "note": (
+                "These are the published income-share buckets. They are not a "
+                "dollar average. 5 percent or more is the sum of the 5-to-10 "
+                "and 10-or-more buckets (derived)."
+            ),
+            "five_or_more_pct": round(
+                oop_5_10["Total"]["v"] + oop_10["Total"]["v"], 2
+            ),
+            "ten_or_more_by_income": _mhis_cut(oop_10_inc, MHIS_INCOME),
+            "rows": oop_share,
+        },
+        "coverage_2025": {
+            "label": "Insurance coverage and high-deductible plans",
+            "src": "SRC-633-02",
+            "insured_pct": insured["Total"]["v"],
+            "hdhp_privately_insured_pct": hdhp["Total"]["v"],
+            "hdhp_definition": hdhp["Total"]["outcome"],
+            "bh_visit_all_oop_pct": bh_oop["Total"]["v"],
+        },
+    }
+    highlights = {
+        "Massachusetts": {"st": "MA", "name": "Massachusetts", "v": tot["v"]},
+    }
+    for r in race_rows:
+        highlights[r["name"]] = {
+            "st": r["st"], "name": r["name"], "v": r["v"], "rank": r.get("rank"),
+        }
+    ledger = finish_live(
+        app,
+        as_of="2025-12",
+        as_of_label="2025 MHIS, fielded January to April 2025",
+        vintage_note=(
+            "Compiled Aug 17, 2026 from the CHIA 2025 MHIS detailed data "
+            "tables (December 2025). Percents are the published Total and "
+            "group columns. The high out-of-pocket ratio uses CHIA's "
+            "threshold: above 5 percent of income below 200 percent FPL, or "
+            "above 10 percent at or above 200 percent FPL. Two-path check: "
+            "Excel Total cells match the printed 2025 report shares for "
+            "coverage, affordability, bills, debt, and unmet need. Ranks "
+            "among income or race groups are Pioneer calculations (derived)."
+        ),
+        metric="chia_mhis_high_oop_ratio_2025",
+        metric_label="High out-of-pocket-to-income ratio, Massachusetts residents",
+        unit="percent of residents",
+        lead=lead,
+        kpis=kpis,
+        ranked=income_rows,
+        trend={},
+        latest=latest,
+        src_note="SRC-633-02",
+        extra={"derived": {
+            "secondary": secondary,
+            "highlight_entities": highlights,
+            "n_sample": tot["n"],
+            "definition": definition,
+        }},
+    )
+    ledger["page"]["revised"] = "Aug 17, 2026"
+    return ledger
+
+
 BUILDERS = {
     "DL-10": build_hospitals,
     "DL-22": build_transit,
     "DL-30": build_payroll,
     "DL-32": build_legislature_pay,
+    "DL-33": build_healthcare_costs,
 }

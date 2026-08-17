@@ -174,7 +174,7 @@ def fifty_state_ledger(ledger):
 # DL-01 and DL-02 are already in SKIP_VOICE.
 LENS_SKIP = SKIP_VOICE | {
     "DL-03", "DL-05", "DL-06", "DL-10", "DL-18", "DL-22",
-    "DL-25", "DL-26", "DL-27", "DL-28", "DL-30", "DL-32",
+    "DL-25", "DL-26", "DL-27", "DL-28", "DL-30", "DL-32", "DL-33",
 }
 
 
@@ -1691,6 +1691,61 @@ def voice_dl32(ledger):
     return take, kpis, f"Speaker and Senate President {money(hi_v)} each", "SRC-632-01"
 
 
+def voice_dl33(ledger):
+    latest = ledger.get("latest") or {}
+    v = latest.get("v")
+    hi = latest.get("highest") or {}
+    lo = latest.get("lowest") or {}
+    afford = latest.get("affordability_pct")
+    unmet = latest.get("unmet_need_pct")
+    bills = latest.get("bills_pct")
+    debt = latest.get("debt_pct")
+    insured = latest.get("insured_pct")
+    take = [
+        (
+            f"<b>{v:.1f} percent</b> of Massachusetts residents were in families "
+            f"with a high out-of-pocket healthcare burden in 2025 (SRC-633-02). "
+            f"CHIA counts out-of-pocket costs above 5 percent of income below "
+            f"200 percent of poverty, or above 10 percent at or above 200 percent."
+        ),
+        (
+            f"The share was <b>{hi.get('v'):.1f} percent</b> for residents below "
+            f"139 percent of poverty and <b>{lo.get('v'):.1f} percent</b> at "
+            f"500 percent or more (SRC-633-02)."
+        ),
+        (
+            f"<b>{afford:.1f} percent</b> reported any family affordability issue. "
+            f"{unmet:.1f} percent went without needed care because of cost. "
+            f"{bills:.1f} percent had problems paying medical bills; "
+            f"{debt:.1f} percent carried family medical debt (SRC-633-02)."
+        ),
+    ]
+    kpis = [
+        kpi("High out-of-pocket burden", f"{v:.1f}%",
+            f"95% CI {latest.get('ci_low'):.1f} to {latest.get('ci_high'):.1f} percent (SRC-633-02).",
+            "The CHIA high out-of-pocket-to-income ratio is the namesake cell.",
+            src_name(ledger, "SRC-633-02")),
+        kpi("Any family affordability issue", f"{afford:.1f}%",
+            f"{unmet:.1f} percent skipped needed care because of cost (SRC-633-02).",
+            "Affordability is the family composite, not a dollar average.",
+            src_name(ledger, "SRC-633-02")),
+        kpi("Problems paying medical bills", f"{bills:.1f}%",
+            f"{debt:.1f} percent carried family medical debt (SRC-633-02).",
+            "Bills and debt are later views of the same survey.",
+            src_name(ledger, "SRC-633-02")),
+        kpi("Insured at the survey", f"{insured:.1f}%",
+            f"{latest.get('hdhp_privately_insured_pct'):.1f} percent of the privately insured had a high-deductible plan (SRC-633-02).",
+            "Coverage is near-universal; the cost burden is not.",
+            src_name(ledger, "SRC-633-02")),
+    ]
+    page_lead = (
+        f"<b>{v:.1f} percent</b> of Massachusetts residents were in families "
+        f"with a high out-of-pocket healthcare burden in 2025 (SRC-633-02). "
+        f"The survey does not publish an average dollar out-of-pocket cost."
+    )
+    return take, kpis, f"{v:.1f}% high out-of-pocket burden", "SRC-633-02", "", page_lead
+
+
 VOICES = {
     "DL-06": voice_dl06,
     "DL-07": voice_dl07,
@@ -1718,6 +1773,7 @@ VOICES = {
     "DL-30": voice_dl30,
     "DL-31": voice_dl31,
     "DL-32": voice_dl32,
+    "DL-33": voice_dl33,
 }
 
 
@@ -2306,6 +2362,14 @@ def build_answer(tid, ledger, ma_line=""):
         value = money(hi_v)
         context = f"{names} each, calendar 2025 (SRC-632-01)."
         src_id = "SRC-632-01"
+    elif tid == "DL-33":
+        value = f"{latest.get('v'):.1f}%"
+        context = (
+            "of Massachusetts residents were in families with a high "
+            "out-of-pocket healthcare burden in 2025 (SRC-633-02). CHIA "
+            "does not publish an average dollar out-of-pocket cost."
+        )
+        src_id = "SRC-633-02"
     elif tid == "DL-31":
         value = commify(ma.get("v"))
         rate = sec(ledger, "bjs_depth_2023", "imprisonment_rate")

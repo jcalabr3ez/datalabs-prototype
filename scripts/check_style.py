@@ -211,6 +211,19 @@ for app in load_apps():
                 print(f"suite {slug}: MISS {label}")
             else:
                 print(f"suite {slug}: ok   {label}")
+    if app["id"] == "DL-33":
+        for needle, label in (
+            ("view-afford", "affordability view"),
+            ("view-unmet", "unmet-need view"),
+            ("view-debt", "medical-bills view"),
+            ("view-oopshare", "share-of-income view"),
+            ("does not publish an average dollar", "no-dollar-average line"),
+        ):
+            if needle not in page:
+                failures.append(f"healthcare-costs/index.html is missing the {label}")
+                print(f"suite {slug}: MISS {label}")
+            else:
+                print(f"suite {slug}: ok   {label}")
 
 # ---- 6. Catalog is native DataLabs applications only ----
 catalog = json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))

@@ -56,6 +56,7 @@ const DL29 = require('./dl29-answers.json');
 const DL30 = require('./dl30-answers.json');
 const DL31 = require('./dl31-answers.json');
 const DL32 = require('./dl32-answers.json');
+const DL33 = require('./dl33-answers.json');
 
 var CORE_HEAVY = {
   trend: 1, rows: 1, district_rows: 1, states: 1, cube: 1,
@@ -930,5 +931,22 @@ module.exports = [
       'gic health', 'office-expense', 'leadership premium'
     ],
     extra: 'Answer named Representative and Senator pay from the rows. Total pay is base plus AA1 (Comptroller supplemental) plus A14 (stipends). Employer-paid GIC health and MSERS pension contributions are not in this file: decline those as unpublished and do not invent them. The office-expense allowance is not a named column here. Calendar 2026 is year-to-date and is not the headline. Decline advice about a member. Statewide department payroll sits on DL-30. Retiree pensions sit on DL-05.'
+  }),
+  suiteTool(DL33, {
+    id: 'DL-33',
+    label: 'Massachusetts family healthcare costs from the CHIA Health Insurance Survey',
+    src: 'SRC-633-02',
+    extraViews: ['afford', 'unmet', 'debt', 'oopshare', 'coverage'],
+    uppercase: false,
+    hl: 'the exact income-group or race label as written in entities if the question focuses on one group, else null',
+    triggers: [
+      'out of pocket', 'out-of-pocket', 'oop', 'healthcare cost',
+      'health care cost', 'family healthcare', 'family health care',
+      'affordability', 'medical debt', 'medical bills', 'unmet need',
+      'high deductible', 'hdhp', 'mhis', 'chia survey',
+      'health insurance survey', 'underinsured', 'forgone care',
+      'forgo care', 'cost of care', 'family income on health'
+    ],
+    extra: 'The namesake cell is the CHIA high out-of-pocket-to-income ratio in latest.v: above 5 percent of income below 200 percent FPL, or above 10 percent at or above 200 percent FPL. Income-group rows are that ratio. Race cuts sit in derived.secondary.high_oop_race. Affordability, unmet need, medical bills, medical debt, the share-of-income distribution, coverage, and high-deductible plans sit under derived.secondary. MHIS does not publish an average dollar out-of-pocket cost: say so and answer with the ratio and the F.1 distribution, never a guessed dollar figure. Hospital relative prices sit on DL-10. 340B sits on DL-11. Medicaid program spend sits on DL-12. Decline plan or provider advice.'
   })
 ];

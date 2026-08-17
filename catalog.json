@@ -488,5 +488,19 @@
   "group": "State Government & Spending",
   "vint": "Calendar year 2025",
   "ma": "Speaker and Senate President $223,720 each"
+ },
+ {
+  "id": "DL-33",
+  "t": "Family Healthcare Costs",
+  "q": "CHIA high out-of-pocket burden for Massachusetts families, with affordability, medical debt, and unmet need as later views.",
+  "g": [
+   "MA"
+  ],
+  "st": "live",
+  "url": "/healthcare-costs/",
+  "ai": true,
+  "group": "Healthcare",
+  "vint": "2025 MHIS, fielded January to April 2025",
+  "ma": "8.6% high out-of-pocket burden"
  }
 ]

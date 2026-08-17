@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Question log waits for the spreadsheet webhook",
+        "body": (
+            "Ask now waits for the optional Power Automate POST "
+            "instead of abandoning it after 1.5 seconds, which left "
+            "the flow with no run history. The log URL reports hook "
+            "skip when QUESTION_LOG_URL is unset. State Wealth Taxes "
+            "and Florida Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Question log uses the function blobs context",
         "body": (
             "Ask now writes the question log with the blobs context "

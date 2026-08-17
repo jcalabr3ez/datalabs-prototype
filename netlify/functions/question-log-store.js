@@ -13,7 +13,8 @@ function cleanEntry(raw) {
     q: String(src.q || '').slice(0, 2000),
     type: String(src.type || '').slice(0, 20),
     tool: String(src.tool || '').slice(0, 80),
-    note: String(src.note || '').slice(0, 2000)
+    note: String(src.note || '').slice(0, 2000),
+    hook: String(src.hook || '').slice(0, 80)
   };
 }
 

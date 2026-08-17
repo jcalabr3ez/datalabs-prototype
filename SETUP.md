@@ -158,8 +158,11 @@ site URL, and it does not call getStore() (that call has no
 environment in these Lambda-style handlers). GET
 `/.netlify/functions/log-question` (after signing into the site) for
 counts. The JSON includes `store: ok` when the blob is reachable, or
-`store: error` with a short reason when it is not. To read the recent
-rows (the demand evidence for NEW-TOOL-CHECKLIST.md), set a Netlify
+`store: error` with a short reason when it is not. `hook` is `skip`
+when QUESTION_LOG_URL is unset (Power Automate will have no run
+history), a status code when the spreadsheet POST returned, or
+`timeout` when that call did not finish. To read the recent rows
+(the demand evidence for NEW-TOOL-CHECKLIST.md), set a Netlify
 environment variable QUESTION_LOG_KEY and call the function with
 `?key=` or `Authorization: Bearer ...`. Individual questions are not
 published on the status page. A count of zero with `store: ok` means
@@ -177,8 +180,8 @@ Part A, the workbook:
 2. On Sheet1, enter headers in row 1: When (UTC), Question, Outcome,
    Tool, Engine note. Select them, Insert > Table (my table has
    headers). On the Table Design tab, name the table: AllQuestions
-3. Add a second sheet. Headers: When (UTC), Question, Engine note.
-   Insert > Table, and name it: Unanswered
+   One sheet is enough. Filter Outcome in Excel if you want only
+   declines.
 
 Part B, the flow:
 1. Go to make.powerautomate.com > Create > Instant cloud flow >
@@ -194,12 +197,10 @@ Part B, the flow:
 3. Add a step: Excel Online (Business) > "Add a row into a table".
    Pick the workbook and the AllQuestions table, and map the columns
    to the trigger's dynamic content: at, q, type, tool, note.
-4. Add a Condition: type is equal to none. In the If yes branch, add
-   another "Add a row into a table" for the Unanswered table, mapping
-   at, q, and note.
-5. Save. Open the trigger step and copy the HTTP POST URL it
+4. Save. Open the trigger step and copy the HTTP POST URL it
    generated. The URL contains its own signature, so treat it like a
-   key.
+   key. Who can trigger must be Anyone. A tenant-only trigger
+   returns 401 and creates no run.
 
 Part C, connect the site:
 1. Netlify > Site configuration > Environment variables > Add:
@@ -207,11 +208,13 @@ Part C, connect the site:
       Value: (the HTTP POST URL from Part B)
    Scope: all. Save, then Deploys > Trigger deploy.
 2. Test: ask the site "Is the Red Line safe?" (a scripted decline).
-   Within a few seconds the question appears on both tables, and the
+   Within a few seconds the question appears on AllQuestions, and the
    flow's run history shows a green run.
 
-Notes: logging is fire-and-forget with a short timeout and can never
-break the ask box; to revoke, turn the flow off or remove the
+Notes: the spreadsheet POST is awaited up to 8 seconds so the
+function does not freeze before Power Automate accepts the run. Empty
+run history means the POST never arrived: hook will read skip if the
+variable is missing. To revoke, turn the flow off or remove the
 variable.
 
 ## Step 7: The automation (5 minutes, no secrets on GitHub)

@@ -42,7 +42,12 @@ exports.handler = async function (event) {
 
   if (event.httpMethod === 'GET') {
     const loaded = await store.loadStore(event);
-    const body = { counts: loaded.data.counts, store: loaded.error ? 'error' : 'ok' };
+    const last = (loaded.data.recent || [])[0] || {};
+    const body = {
+      counts: loaded.data.counts,
+      store: loaded.error ? 'error' : 'ok',
+      hook: last.hook || (process.env.QUESTION_LOG_URL ? 'set' : 'skip')
+    };
     if (loaded.error) body.error = loaded.error;
     if (authorized(event)) body.recent = loaded.data.recent;
     return json(200, body);

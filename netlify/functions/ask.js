@@ -290,24 +290,48 @@ exports.handler = async function (event) {
 // Write the row from the Lambda event. getStore() has no environment in
 // this handler style unless connectLambda runs; event.blobs already has
 // the URL and token. The optional spreadsheet webhook still uses
-// QUESTION_LOG_URL (SETUP.md Step 6).
+// QUESTION_LOG_URL (SETUP.md Step 6). Await that POST before returning
+// or the runtime freezes and Power Automate never starts a run.
+async function postSpreadsheet(logEntry) {
+  const url = process.env.QUESTION_LOG_URL;
+  if (!url) {
+    console.log(JSON.stringify({ kind: 'question-hook', hook: 'skip' }));
+    return 'skip';
+  }
+  const ctl = new AbortController();
+  const timer = setTimeout(function () { ctl.abort(); }, 8000);
+  try {
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        at: logEntry.at,
+        q: logEntry.q,
+        type: logEntry.type,
+        tool: logEntry.tool,
+        note: logEntry.note
+      }),
+      signal: ctl.signal
+    });
+    const hook = String(r.status);
+    console.log(JSON.stringify({ kind: 'question-hook', hook: hook }));
+    return hook;
+  } catch (e) {
+    const hook = e && e.name === 'AbortError' ? 'timeout' : String((e && e.message) || 'fail');
+    console.error('question log webhook failed:', hook);
+    return hook;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 async function recordQuestion(logEntry, event) {
+  logEntry.hook = await postSpreadsheet(logEntry);
   try {
     await require('./question-log-store').appendQuestion(logEntry, event);
   } catch (e) {
     console.error('question log store failed:', e.message);
   }
-  if (!process.env.QUESTION_LOG_URL) return;
-  try {
-    await Promise.race([
-      fetch(process.env.QUESTION_LOG_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(logEntry)
-      }),
-      new Promise(function (res) { setTimeout(res, 1500); })
-    ]);
-  } catch (e) { console.error('question log webhook failed:', e.message); }
 }
 
 exports.selectDatasets = selectDatasets;

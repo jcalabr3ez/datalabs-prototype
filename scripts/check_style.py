@@ -311,19 +311,23 @@ for path in sorted((ROOT / "netlify" / "functions").glob("dl*-answers.json")):
     if tid in ("DL-01", "DL-02"):
         continue
 
-    def walk(node, trail):
+    def walk(node, trail, use_ma_n=False):
         if not isinstance(node, dict):
             return
         n = node.get("n_ranked")
-        if isinstance(n, int) and n >= 40 and (node.get("ma") or node.get("highest")):
+        ma = node.get("ma")
+        ma_n = ma.get("n") if isinstance(ma, dict) else None
+        n_eff = n if isinstance(n, int) else (ma_n if use_ma_n else None)
+        if isinstance(n_eff, int) and n_eff >= 40 and (node.get("ma") or node.get("highest")):
             if _snap_row_count(node) < 40:
                 missing_rows.append(f"{tid} {trail}")
         for k, v in node.items():
             if k in ("rows", "trend", "cube", "series", "points", "history"):
                 continue
-            walk(v, f"{trail}.{k}" if trail else k)
+            walk(v, f"{trail}.{k}" if trail else k, use_ma_n=use_ma_n)
 
     walk(led, "")
+    walk((led.get("derived") or {}).get("secondary") or {}, "derived.secondary", use_ma_n=True)
 
 if missing_rows:
     failures.append("companion snaps missing jurisdiction rows: " + "; ".join(missing_rows[:8]))

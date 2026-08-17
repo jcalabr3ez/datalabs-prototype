@@ -159,7 +159,18 @@ def sec_public_k12_enrollment():
     latest = dl07.get("latest") or {}
     ma = latest.get("ma") or {}
     trend = (dl07.get("trend") or {}).get("MA") or []
-    fl = next((r for r in (dl07.get("rows") or []) if r.get("st") == "FL"), None)
+    rows = [
+        {
+            "st": r["st"],
+            "name": r.get("name") or r["st"],
+            "v": r["v"],
+            "rank": r.get("rank"),
+            "n": r.get("n") or ma.get("n"),
+        }
+        for r in (dl07.get("rows") or [])
+        if r.get("st") and r.get("v") is not None
+    ]
+    fl = next((r for r in rows if r.get("st") == "FL"), None)
     if not ma.get("v") or len(trend) < 2:
         return None
     return {
@@ -180,6 +191,8 @@ def sec_public_k12_enrollment():
         ),
         "highest": latest.get("highest"),
         "lowest": latest.get("lowest"),
+        "n_ranked": ma.get("n") or len(rows),
+        "rows": rows,
         "trend": trend,
         "note": (
             "NCES Digest table 203.20, public elementary and secondary "

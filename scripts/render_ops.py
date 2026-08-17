@@ -67,6 +67,9 @@ CHANGELOG = [
             "The Per capita personal income, 2025 bar on State GDP now "
             "keeps every state and D.C. from the same BEA SAINC4 file, "
             "so Compare a state is not limited to the highlight four. "
+            "The same published-row attach covers Fall 2024 public K-12 "
+            "enrollment on Massachusetts Schools and the 9-quarter "
+            "establishment birth-rate window on Business Formation. "
             "State Wealth Taxes and Florida Homeowners Insurance were "
             "not edited."
         ),

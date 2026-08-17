@@ -1269,6 +1269,9 @@ def enrich(app, ledger):
                 "ma": w9.get("ma"), "us": w9.get("us"), "fl": w9.get("fl"),
                 "highest": w9.get("highest"), "lowest": w9.get("lowest"),
                 "end": w9.get("end"), "n_periods": 9,
+                "n_ranked": w9.get("n_ranked"),
+                "ranked": w9.get("ranked") or [],
+                "rows": w9.get("rows") or [],
             }
     extra_note = (
         f" Later views compiled {REVISED} are stored under derived.secondary."

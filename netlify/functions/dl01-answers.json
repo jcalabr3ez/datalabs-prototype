@@ -1,7 +1,7 @@
 {
  "tool_id": "DL-01",
  "title": "State Wealth Taxes",
- "as_of": "2026-08-14",
+ "as_of": "2026-08-17",
  "horizon": "Near-Term Risk is scored on a rolling 24-month horizon; ratings as of July 28, 2026.",
  "scope": "All 51 jurisdictions (50 states plus DC): enacted top marginal rates and surtaxes, slated changes already in law, active wealth-tax and surtax proposals, citizen-initiative ballot pathways, and Pioneer's Near-Term Risk tier for new action beyond current law.",
  "views": {
@@ -429,7 +429,7 @@
   },
   "states_by_proposal_status": {
    "No proposal tracked": {
-    "count": 40,
+    "count": 37,
     "states": [
      "AK",
      "WA",
@@ -446,7 +446,6 @@
      "KS",
      "OK",
      "TX",
-     "MN",
      "IA",
      "MO",
      "AR",
@@ -464,21 +463,20 @@
      "ME",
      "NH",
      "PA",
-     "NJ",
      "CT",
      "DE",
      "SC",
-     "DC",
      "GA",
      "FL"
     ]
    },
    "Exploratory, dormant, or failed this cycle": {
-    "count": 3,
+    "count": 4,
     "states": [
      "HI",
      "OR",
-     "MA"
+     "MA",
+     "MN"
     ]
    },
    "Certified for the 2026 ballot": {
@@ -488,7 +486,7 @@
     ]
    },
    "Active vehicle (bill or initiative)": {
-    "count": 7,
+    "count": 9,
     "states": [
      "CO",
      "IL",
@@ -496,7 +494,9 @@
      "NY",
      "RI",
      "VA",
-     "MD"
+     "MD",
+     "NJ",
+     "DC"
     ]
    }
   },
@@ -508,7 +508,9 @@
    "New York",
    "Rhode Island",
    "Virginia",
-   "Maryland"
+   "Maryland",
+   "New Jersey",
+   "District of Columbia"
   ],
   "states_with_any_tracked_proposal": [
    "Hawaii",
@@ -521,7 +523,10 @@
    "Massachusetts",
    "Rhode Island",
    "Virginia",
-   "Maryland"
+   "Maryland",
+   "Minnesota",
+   "New Jersey",
+   "District of Columbia"
   ],
   "states_with_slated_changes_in_law": [
    "Hawaii",
@@ -556,7 +561,7 @@
        "NY"
       ],
       "title": "Pied-a-terre owner notices due; first compliance deadline of the new tax.",
-      "detail": "New York enacted an annual surcharge on NYC residences that are not the owner\u2019s primary home, effective July 1, 2026 through June 30, 2031, projected at roughly $500 million per year from about 10,000 to 13,000 properties. Condos and co-ops assessed at $1 million or more pay 4%, 5.25%, or 6.5% by tier; one-to-three-family homes at $5 million or more pay 0.8% to 1.3%. Owners must file notices establishing primary-residence status by Aug. 30; the Department of Finance finalized its implementation rules on July 14, 2026, covering residency determinations and audits, and exemption application deadlines were extended to Sept. 18. Why it matters: this is the first big-city tax keyed to property ownership rather than income, a template other cities are watching, and its rollout will show whether valuation and residency disputes make wealth-adjacent taxes administrable. Legal exposure is now live: on Aug. 7, 2026, three homeowners represented by former Deputy Mayor Randy Mastro sued in Richmond County Supreme Court over the rollout, and on Aug. 10 Justice Wayne M. Ozzi issued a temporary restraining order halting the published supplemental roll of about 900,000 properties, further notices to roughly 17,000 homeowners, and collection steps; the city\u2019s appeal stays the order, and a hearing is set for Aug. 31, one day after the notice deadline."
+      "detail": "New York enacted an annual surcharge on NYC residences that are not the owner\u2019s primary home, effective July 1, 2026 through June 30, 2031, projected at roughly $500 million per year from about 10,000 to 13,000 properties. Condos and co-ops assessed at $1 million or more pay 4%, 5.25%, or 6.5% by tier; one-to-three-family homes at $5 million or more pay 0.8% to 1.3%. Owners must file notices establishing primary-residence status by Aug. 30; the Department of Finance finalized its implementation rules on July 14, 2026, covering residency determinations and audits, and exemption application deadlines were extended to Sept. 18. Why it matters: this is the first big-city tax keyed to property ownership rather than income, a template other cities are watching, and its rollout will show whether valuation and residency disputes make wealth-adjacent taxes administrable. Legal exposure is now live: on Aug. 7, 2026, three homeowners represented by former Deputy Mayor Randy Mastro sued in Richmond County Supreme Court over the rollout, and on Aug. 10 Justice Wayne M. Ozzi issued a temporary restraining order halting the published supplemental roll of about 900,000 properties, further notices to roughly 17,000 homeowners, and collection steps; the city filed a notice of appeal the same day, and on Aug. 13, 2026 an Appellate Division, Second Department justice confirmed the stay so the Department of Finance may continue notices and enforce the Sept. 18 exemption deadline (CNBC, Aug. 13). A hearing is set for Aug. 31, one day after the notice deadline. No further order was reported as of Aug. 17."
      },
      {
       "date": "Wed., Sept. 9, 2026",
@@ -580,7 +585,7 @@
        "WA"
       ],
       "title": "Petter v. Dept. of Revenue trial ruling, Klickitat County Superior Court.",
-      "detail": "The issue: whether Washington\u2019s new 9.9% tax on income over $1M (SB 6346, effective 2028) violates the state constitution. Under Culliton v. Chase (1933), income is property in Washington, and the constitution requires property to be taxed uniformly and caps it at 1%, which is why the state has never had a graduated income tax. Plaintiffs (business owners and trade associations, represented by former Attorney General Rob McKenna and former Justice Phil Talmadge) seek a declaratory judgment voiding the tax; the state will argue it is an excise, the theory that saved the capital gains tax in 2023. Potential impact: if struck down, the Department of Revenue's revised projection of $3.1 billion in the first fiscal year from an estimated 25,000 households (up from $2.7 billion and 21,000 filers in the original fiscal note) disappears and the 90-year wall against graduated income taxation holds, chilling copycats in Oregon and beyond. If upheld, the wall falls in the state that built it. No ruling reported as of August 14, 2026; final resolution expected at the state Supreme Court in early 2027."
+      "detail": "The issue: whether Washington\u2019s new 9.9% tax on income over $1M (SB 6346, effective 2028) violates the state constitution. Under Culliton v. Chase (1933), income is property in Washington, and the constitution requires property to be taxed uniformly and caps it at 1%, which is why the state has never had a graduated income tax. Plaintiffs (business owners and trade associations, represented by former Attorney General Rob McKenna and former Justice Phil Talmadge) seek a declaratory judgment voiding the tax; the state will argue it is an excise, the theory that saved the capital gains tax in 2023. Potential impact: if struck down, the Department of Revenue's revised projection of $3.1 billion in the first fiscal year from an estimated 25,000 households (up from $2.7 billion and 21,000 filers in the original fiscal note) disappears and the 90-year wall against graduated income taxation holds, chilling copycats in Oregon and beyond. If upheld, the wall falls in the state that built it. No ruling and no posted hearing as of August 17, 2026 (Klickitat County case 26-2-00073-20, Judge Randall C. Krog; county case page last updated May 1, 2026); final resolution expected at the state Supreme Court in early 2027."
      }
     ]
    },
@@ -601,7 +606,7 @@
        "WA"
       ],
       "title": "Initiative 645: repeal of the millionaires tax.",
-      "detail": "Certified for the ballot on July 15, 2026 with more than 500,000 signatures against a 308,911 requirement, I-645 (Let\u2019s Go Washington) would repeal SB 6346 and prohibit state and local taxes on individual income. Why it matters: this is the direct democratic verdict on the tax, running in parallel with the Petter litigation; repeal moots the court fight, while a failed repeal strengthens the state\u2019s position and the national contagion argument. The ballot-language fight is already in court: on Aug. 7, 2026 a Thurston County judge upheld the government-drafted fiscal-impact disclosure that will appear beside the measure, and an emergency appeal reached the state Supreme Court on Aug. 10, racing the Aug. 21 county ballot-finalization deadline. No Supreme Court action had been reported as of Aug. 14. Separately, a Department of Revenue analysis in the I-645 fiscal-impact statement (Washington State Standard, Aug. 12, 2026) raised the first-year collection estimate to $3.1 billion from $2.7 billion and the household count to 25,000 from 21,000; the September official forecast is the first that may incorporate the higher figures."
+      "detail": "Certified for the ballot on July 15, 2026 with more than 500,000 signatures against a 308,911 requirement, I-645 (Let\u2019s Go Washington) would repeal SB 6346 and prohibit state and local taxes on individual income. Why it matters: this is the direct democratic verdict on the tax, running in parallel with the Petter litigation; repeal moots the court fight, while a failed repeal strengthens the state\u2019s position and the national contagion argument. The ballot-language fight is already in court: on Aug. 7, 2026 a Thurston County judge upheld the government-drafted fiscal-impact disclosure that will appear beside the measure, and an emergency appeal reached the state Supreme Court on Aug. 10, racing the Aug. 21 county ballot-finalization deadline. No Supreme Court action had been reported as of Aug. 17. Separately, a Department of Revenue analysis in the I-645 fiscal-impact statement (Washington State Standard, Aug. 12, 2026) raised the first-year collection estimate to $3.1 billion from $2.7 billion and the household count to 25,000 from 21,000; the September official forecast (ERFC Revenue Review scheduled Sept. 25, 2026) is the first that may incorporate the higher figures."
      },
      {
       "date": "Nov. 3, 2026",
@@ -609,7 +614,7 @@
        "MA"
       ],
       "title": "The 62F tax-cap question (Question 5).",
-      "detail": "Chapter 62F is the 1986 law that refunds taxpayers when state tax collections grow faster than wages; it triggered in 2022, returning about $3 billion. The ballot question rewrites the formula two ways: it rebases the cap to actual collections and pulls Fair Share surtax revenue into the capped base. Modeled effect (MTF): the cap would have triggered in four of the last ten years, with refunds of roughly $269 to $1,095 per filer. Potential impact: passage converts the surtax\u2019s over-performance into automatic refund pressure, effectively a second round of the Fair Share fight; defeat leaves the surtax revenue fully outside the cap and removes the main structural check on its growth. A second front opened in late July: the state Senate voted 31\u20138 on July 23, 2026 to fold a 62F rewrite into the economic development bill, replacing the cap formula with a trigger at 7.5% of statewide personal income; the provision sits in a six-member House-Senate conference as of Aug. 14, and new legislative rules allow that conference to run as late as early January (MassINC, Aug. 14, 2026), so it may not resolve before Election Day; if enacted it would complicate or moot the ballot question."
+      "detail": "Chapter 62F is the 1986 law that refunds taxpayers when state tax collections grow faster than wages; it triggered in 2022, returning about $3 billion. The ballot question rewrites the formula two ways: it rebases the cap to actual collections and pulls Fair Share surtax revenue into the capped base. Modeled effect (MTF): the cap would have triggered in four of the last ten years, with refunds of roughly $269 to $1,095 per filer. Potential impact: passage converts the surtax\u2019s over-performance into automatic refund pressure, effectively a second round of the Fair Share fight; defeat leaves the surtax revenue fully outside the cap and removes the main structural check on its growth. A second front opened in late July: the state Senate voted 31\u20138 on July 23, 2026 to fold a 62F rewrite into the economic development bill, replacing the cap formula with a trigger at 7.5% of statewide personal income; the provision sits in a six-member House-Senate conference as of Aug. 17, and new legislative rules allow that conference to run as late as early January (MassINC, Aug. 14, 2026), so it may not resolve before Election Day; if enacted it would complicate or moot the ballot question."
      },
      {
       "date": "Nov. 3, 2026",
@@ -708,7 +713,7 @@
        "MN"
       ],
       "title": "First high-income vehicle from the trifecta, or another quiet session.",
-      "detail": "Minnesota already taxes net investment income over $1M at 1% (enacted 2023, effective tax year 2024) and has the political composition to go further, but no bill has been filed. A filed vehicle moves it up the risk board immediately; another quiet session confirms the 2023 measure as the ceiling for now."
+      "detail": "Minnesota already taxes net investment income over $1M at 1% (enacted 2023, effective tax year 2024) and has the political composition to go further. HF 4616 (Rep. Gomez), a 1% annual tax on taxable wealth over $10 million, was introduced March 25, 2026, heard April 7, and laid over; it was not enacted. A filed 2027 refile would keep the vehicle live; another quiet session would confirm the 2023 measure as the ceiling for now."
      },
      {
       "date": "Early 2027",
@@ -732,7 +737,7 @@
        "MA"
       ],
       "title": "Initiative filing deadline with the Attorney General (first Wednesday of August).",
-      "detail": "The gateway for the 2028 ballot. Watch for: a refiled income tax cut, which Republican gubernatorial candidate Brian Shortsleeve has publicly vowed to lead for 2028 after the SJC removed the 2026 version (State House News, June 2026; under the Article 48 calendar no 2028 petition can be filed before this 2027 window, and none had been filed as of Aug. 14, 2026); and any statutory filing on capital gains rates or the estate tax, the two expansion routes that remain open without a constitutional amendment (the surtax itself cannot be expanded before a 2030 amendment ballot at the earliest). Potential impact: what gets filed here defines the entire 2028 Massachusetts fight."
+      "detail": "The gateway for the 2028 ballot. Watch for: a refiled income tax cut, which Republican gubernatorial candidate Brian Shortsleeve has publicly vowed to lead for 2028 after the SJC removed the 2026 version (State House News, June 2026; under the Article 48 calendar no 2028 petition can be filed before this 2027 window, and none had been filed as of Aug. 17, 2026); and any statutory filing on capital gains rates or the estate tax, the two expansion routes that remain open without a constitutional amendment (the surtax itself cannot be expanded before a 2030 amendment ballot at the earliest). Potential impact: what gets filed here defines the entire 2028 Massachusetts fight."
      },
      {
       "date": "Oct. 2027",
@@ -853,7 +858,7 @@
    "incomeSurtax": "none",
    "slated": "9.9% tax on income over $1M takes effect Jan. 1, 2028, with first collections in 2029 (SB 6346); implementation is contingent on the pending Petter v. Dept. of Revenue litigation and on Initiative 645, the repeal measure certified for the Nov. 3, 2026 ballot on July 15, 2026.",
    "currentNote": "SB 6346 signed March 30, 2026: 9.9% on income above $1M, effective Jan 1, 2028, first collections 2029. No general wage income tax until then, but WA already taxes capital gains: 7%, plus an additional 2.9% on gains over $1M for a 9.9% top tier (ESSB 5813, signed May 20, 2025, retroactive to Jan 1, 2025; WA DOR special notice). Initiative 645, which would repeal the 9.9% income tax and bar income taxes generally, was certified for the Nov. 3, 2026 ballot on July 15, 2026.",
-   "futureNote": "The enacted 9.9% tax (effective Jan. 1, 2028) is recorded as a slated change contingent on litigation, not as risk. Petter v. Dept. of Revenue (filed April 9, 2026, Klickitat County; counsel includes former AG Rob McKenna and former Justice Phil Talmadge) challenges it on Culliton v. Chase (1933) uniformity grounds; no ruling reported as of August 14, 2026. In Heywood v. Hobbs (order filed May 4, 2026), the WA Supreme Court unanimously held ESSB 6346 falls within Art. II Sec. 1's support-of-state-government exception to the referendum power; constitutionality was expressly not addressed. Initiative 645 (Let's Go Washington), which would repeal SB 6346 and prohibit state and local taxes on individual income, was certified for the Nov. 3, 2026 ballot on July 15, 2026: more than 500,000 signatures were submitted by the July 2 deadline against a 308,911 requirement, and the Secretary of State validated the measure on a 3% sample. The I-645 ballot-language fight moved in August: on Aug. 7, 2026 a Thurston County judge upheld the public-investment-impact disclosure that will appear beside the measure, and an emergency appeal was filed with the state Supreme Court on Aug. 10, ahead of the Aug. 21 county ballot-finalization deadline. No Supreme Court action had been reported as of Aug. 14. A Department of Revenue analysis in the I-645 fiscal-impact statement (Washington State Standard, Aug. 12, 2026) raised first-year collections to $3.1 billion from $2.7 billion and the household count to 25,000 from 21,000; the September official forecast is the first that may incorporate the higher figures. Five of nine Supreme Court seats are on the Nov. 2026 ballot. Forward risk scored here covers expansion beyond the enacted law; no such vehicle is filed, and the certified repeal initiative cuts risk the other way. Composite 57.",
+   "futureNote": "The enacted 9.9% tax (effective Jan. 1, 2028) is recorded as a slated change contingent on litigation, not as risk. Petter v. Dept. of Revenue (filed April 9, 2026, Klickitat County; counsel includes former AG Rob McKenna and former Justice Phil Talmadge) challenges it on Culliton v. Chase (1933) uniformity grounds; no ruling reported as of August 17, 2026 (Klickitat County case 26-2-00073-20, Judge Randall C. Krog; county case page last updated May 1, 2026). In Heywood v. Hobbs (order filed May 4, 2026), the WA Supreme Court unanimously held ESSB 6346 falls within Art. II Sec. 1's support-of-state-government exception to the referendum power; constitutionality was expressly not addressed. Initiative 645 (Let's Go Washington), which would repeal SB 6346 and prohibit state and local taxes on individual income, was certified for the Nov. 3, 2026 ballot on July 15, 2026: more than 500,000 signatures were submitted by the July 2 deadline against a 308,911 requirement, and the Secretary of State validated the measure on a 3% sample. The I-645 ballot-language fight moved in August: on Aug. 7, 2026 a Thurston County judge upheld the public-investment-impact disclosure that will appear beside the measure, and an emergency appeal was filed with the state Supreme Court on Aug. 10, ahead of the Aug. 21 county ballot-finalization deadline. No Supreme Court action had been reported as of Aug. 17. A Department of Revenue analysis in the I-645 fiscal-impact statement (Washington State Standard, Aug. 12, 2026) raised first-year collections to $3.1 billion from $2.7 billion and the household count to 25,000 from 21,000; the September official forecast (ERFC Revenue Review scheduled Sept. 25, 2026) is the first that may incorporate the higher figures. Five of nine Supreme Court seats are on the Nov. 2026 ballot. Forward risk scored here covers expansion beyond the enacted law; no such vehicle is filed, and the certified repeal initiative cuts risk the other way. Composite 57.",
    "proposals": []
   },
   "OR": {
@@ -959,15 +964,15 @@
    "name": "Utah",
    "row": 4,
    "col": 3,
-   "topRate": 4.5,
+   "topRate": 4.45,
    "currentStatus": "flat_low",
    "futureRisk": "very_low",
    "ballot": "statute",
    "ballotNote": "Initiative for statutes only (direct and indirect paths). SJR 2, on the November 2026 ballot, would require 60% approval for any initiative that raises taxes, and 2025 laws added funding-disclosure and publication-cost burdens.",
    "wealthTax": "none",
    "incomeSurtax": "none",
-   "currentNote": "4.5% flat rate (HB 106, retroactive to Jan 1, 2025).",
-   "futureNote": "Republican trifecta. Rate 4.5% for 2026 (Tax Foundation). No increase proposal tracked. SJR 2, raising the initiative threshold for tax measures, is on the Nov. 2026 ballot.",
+   "currentNote": "4.45% flat rate (S.B. 60, signed March 23, 2026, retroactive to Jan 1, 2026; effective May 6, 2026). The prior 4.5% rate was HB 106, retroactive to Jan 1, 2025.",
+   "futureNote": "Republican trifecta. Rate 4.45% for 2026 (S.B. 60). No increase proposal tracked. SJR 2, raising the initiative threshold for tax measures, is on the Nov. 2026 ballot.",
    "proposals": []
   },
   "AZ": {
@@ -1036,7 +1041,7 @@
    "wealthTax": "none",
    "incomeSurtax": "proposed",
    "currentNote": "4.4% flat rate (TABOR-constrained).",
-   "futureNote": "TABOR (Colo. Const. Art. X, Sec. 20) requires statewide voter approval for any tax rate increase. Initiative 195 (six brackets, 3.7% to 8.4%, amending TABOR's uniform-rate rule) submitted signatures on Aug. 3, 2026; Secretary of State verification is pending as of Aug. 14, 2026 (about 157,000 signatures submitted against a 124,238 valid-signature requirement, plus 2% in each senate district; sufficiency due no later than Sept. 2), and the competing Initiative 232 (about 190,000 signatures submitted) would cap rates at 4.4%. Because a qualified initiative is itself the statewide vote TABOR requires, the Low ceiling would no longer bind if the measure certifies, and the rating will be re-underwritten on that documented event.",
+   "futureNote": "TABOR (Colo. Const. Art. X, Sec. 20) requires statewide voter approval for any tax rate increase. Initiative 195 (six brackets, 3.7% to 8.4%, amending TABOR's uniform-rate rule) submitted signatures on Aug. 3, 2026; Secretary of State verification is pending as of Aug. 17, 2026 (about 157,000 signatures submitted against a 124,238 valid-signature requirement, plus 2% in each senate district; sufficiency due no later than Sept. 2), and the competing Initiative 232 (about 190,000 signatures submitted) would cap rates at 4.4%. Because a qualified initiative is itself the statewide vote TABOR requires, the Low ceiling would no longer bind if the measure certifies, and the rating will be re-underwritten on that documented event.",
    "proposals": [
     {
      "bill": "Initiative 195",
@@ -1045,7 +1050,7 @@
      "onBallot": false,
      "sponsor": "Citizen initiative (proponents)",
      "structure": "Replaces the 4.4% flat rate with six brackets from 3.7% to 8.4%, amending TABOR's uniform-rate requirement. Conflicts with the pending Initiative 232, which would cap the income tax rate at 4.4%.",
-     "status": "Signatures submitted Aug. 3, 2026 (about 157,000); Secretary of State verification pending as of Aug. 14, 2026, with a sufficiency determination due no later than Sept. 2 (Colorado Newsline; Colorado SOS title board). Not yet certified for the ballot."
+     "status": "Signatures submitted Aug. 3, 2026 (about 157,000); Secretary of State verification pending as of Aug. 17, 2026, with a sufficiency determination due no later than Sept. 2 (Colorado Newsline; Colorado SOS title board). Not yet certified for the ballot."
     }
    ]
   },
@@ -1076,7 +1081,7 @@
    "currentStatus": "flat_low",
    "futureRisk": "very_low",
    "ballot": "open",
-   "ballotNote": "Direct initiative for statutes (2% of population) and amendments (4%), among the lowest signature bars in the country. A 2026 legislatively referred measure would raise the amendment threshold to 60%.",
+   "ballotNote": "Direct initiative for statutes (2% of population) and amendments (4%), among the lowest signature bars in the country. November Constitutional Measure 1 (HCR 3003) would raise the amendment threshold to 60%.",
    "wealthTax": "none",
    "incomeSurtax": "none",
    "currentNote": "2.5% top rate.",
@@ -1171,7 +1176,7 @@
   },
   "MN": {
    "abbr": "MN",
-   "proposalStatus": "none",
+   "proposalStatus": "dormant",
    "name": "Minnesota",
    "row": 3,
    "col": 6,
@@ -1180,11 +1185,21 @@
    "futureRisk": "moderate",
    "ballot": "none",
    "ballotNote": "No statewide citizen initiative or referendum process. Tax changes require legislative action; constitutional amendments reach voters only by legislative referral.",
-   "wealthTax": "none",
+   "wealthTax": "proposed",
    "incomeSurtax": "none",
    "currentNote": "9.85% top rate. 1% net investment income tax on NII over $1M (enacted 2023, effective tax year 2024).",
-   "futureNote": "Democratic trifecta. A 1% tax on net investment income over $1M was enacted in 2023, effective tax year 2024, and is treated here as an active surtax. No further high-income bill filed as of August 14, 2026. The 2027 and 2028 regular sessions fall inside the window. Composite 48.",
-   "proposals": []
+   "futureNote": "Democratic trifecta. A 1% tax on net investment income over $1M was enacted in 2023, effective tax year 2024, and is treated here as an active surtax. HF 4616 (Rep. Gomez), a 1% annual tax on taxable wealth over $10 million, was introduced March 25, 2026, heard by House Taxes on April 7, and laid over; it was not enacted (Minnesota House Session Daily; Minnesota DOR fiscal note, April 6, 2026). The 2027 and 2028 regular sessions fall inside the window. Composite 48.",
+   "proposals": [
+    {
+     "bill": "HF 4616",
+     "title": "1% Annual Wealth Tax on $10M+",
+     "type": "wealth",
+     "onBallot": false,
+     "sponsor": "Rep. Aisha Gomez (DFL-Minneapolis) and others",
+     "structure": "1% annual tax on the taxable wealth of an individual or trust in excess of $10 million, limited to Minnesota-situs assets minus debts. Minnesota DOR estimated about 5,600 taxpayers and $288.3 million in FY2027.",
+     "status": "Introduced March 25, 2026; referred to House Taxes; heard April 7 and laid over. Not enacted in the 2026 session."
+    }
+   ]
   },
   "IA": {
    "abbr": "IA",
@@ -1285,7 +1300,7 @@
    "wealthTax": "proposed",
    "incomeSurtax": "proposed",
    "currentNote": "4.95% flat rate (constitutional requirement).",
-   "futureNote": "BARRIER CAP. The constitution's flat-tax clause (Art. IX, Sec. 3) requires an amendment for graduated rates. HJRCA 21 (3% surtax over $1M) did not receive the votes required by the May 3, 2026 deadline for the November ballot; the next amendment election is Nov. 2028, outside this horizon. The Buckner-Delgado Extremely High Wealth Mark-to-Market Tax Act (SB 2111 HA2) stalled in the October 2025 veto session after Gov. Pritzker's opposition. Composite 58, capped at Low.",
+   "futureNote": "BARRIER CAP. The constitution's flat-tax clause (Art. IX, Sec. 3) requires an amendment for graduated rates. HJRCA 21 (3% surtax over $1M) did not receive the votes required by the May 3, 2026 deadline for the November ballot (last action July 1, 2026, Rule 19(b) re-referred to Rules); the next amendment election is Nov. 2028, outside this horizon. SB 3376 (2026 Extremely High Wealth Mark-to-Market Tax Act) was referred to Assignments on Feb. 4 and did not advance. The Buckner-Delgado Extremely High Wealth Mark-to-Market Tax Act (SB 2111 HA2) stalled in the October 2025 veto session after Gov. Pritzker's opposition. Composite 58, capped at Low.",
    "proposals": [
     {
      "bill": "HJRCA 21",
@@ -1294,7 +1309,7 @@
      "onBallot": false,
      "sponsor": "Rep. La Shawn Ford (D-8)",
      "structure": "Constitutional amendment to permit a 3% surtax on income over $1M alongside the existing 4.95% flat rate. Revenue split 50% property-tax relief, 50% schools.",
-     "status": "Blocked from Nov 2026 ballot; Speaker Welch confirmed (April 2026) it lacked the votes before the May 3 deadline. Punted to 2028."
+     "status": "Blocked from Nov 2026 ballot; Speaker Welch confirmed (April 2026) it lacked the votes before the May 3 deadline. Last action July 1, 2026: Rule 19(b), re-referred to Rules. Punted to 2028."
     },
     {
      "bill": "SB 2111 HA2 (2025)",
@@ -1304,6 +1319,15 @@
      "sponsor": "Reps. Kam Buckner (D-26) and Eva-Dina Delgado (D-3)",
      "structure": "4.95% annual mark-to-market tax on the unrealized gains of Illinois residents with net worth above $1 billion, covering stocks, bonds, business interests, art, and trust-held assets; floated to raise roughly $300M to $1.5B for transit.",
      "status": "Introduced Oct. 28, 2025 as House Amendment 2 to SB 2111 in the fall veto session; advanced from a House panel, then stalled after Gov. Pritzker's opposition. Faces the same flat-tax clause and personal-property-tax constitutional questions."
+    },
+    {
+     "bill": "SB 3376 (2026)",
+     "title": "Extremely High Wealth Mark-to-Market Tax Act",
+     "type": "unrealized",
+     "onBallot": false,
+     "sponsor": "Sen. Karina Villa",
+     "structure": "2026 refile of a mark-to-market tax on Illinois residents with net worth above $1 billion, related to the 2025 SB 2111 HA2 vehicle.",
+     "status": "Introduced Feb. 4, 2026; referred to Assignments. Did not advance. Faces the same flat-tax clause as HJRCA 21."
     }
    ]
   },
@@ -1477,7 +1501,7 @@
    "wealthTax": "none",
    "incomeSurtax": "none",
    "currentNote": "2% surtax on income over $1M single / $1.5M joint, raising the top rate to 9.15%. Enacted via the supplemental budget (LD 2212, built on LD 1089), signed by Gov. Mills on April 10, 2026, retroactive to Jan 1, 2026. Affects roughly 2,600 returns.",
-   "futureNote": "The 2% surtax is in effect (enacted April 10, 2026, LD 2212, retroactive to Jan. 1) and is current policy, not risk. Democratic trifecta. No further expansion bill filed as of August 14, 2026. Composite 52.",
+   "futureNote": "The 2% surtax is in effect (enacted April 10, 2026, LD 2212, retroactive to Jan. 1) and is current policy, not risk. Democratic trifecta. No further expansion bill filed as of August 17, 2026. Composite 52.",
    "proposals": []
   },
   "VT": {
@@ -1546,8 +1570,8 @@
    "ballotNote": "No statewide citizen initiative or referendum process. Tax changes require legislative action; constitutional amendments reach voters only by legislative referral.",
    "wealthTax": "proposed",
    "incomeSurtax": "proposed",
-   "currentNote": "9.65% on $1M+, 10.9% on $25M+ (high brackets extended through 2032). NYC adds up to 3.876%. NEW: the pied-a-terre tax on non-primary NYC residences was enacted in the FY2026-27 state budget (passed by the Legislature May 27, 2026; final budget bills signed May 28, 2026) and took effect July 1, 2026, running through 2031: annual surcharge on non-primary residences in two schedules: condominiums and co-ops assessed at $1M+ pay 4% ($1-3M), 5.25% ($3-5M), or 6.5% ($5M+), while one-to-three-family homes assessed at $5M+ pay 0.8% to 1.3%. Roughly 10,000 to 13,000 properties, ~$500M/year projected. The Department of Finance finalized implementation rules July 14, 2026; owner notices are due Aug. 30, with exemption application deadlines extended to Sept. 18. The rollout is now in court: a Richmond County justice issued a temporary restraining order on Aug. 10, 2026, halting the published supplemental roll of about 900,000 properties and further notices to roughly 17,000 homeowners (The Real Deal); the city's appeal has stayed the order, and a hearing is set for Aug. 31.",
-   "futureNote": "The pied-a-terre tax is enacted law in effect since July 1, 2026, and is recorded under current policy, not risk, though its rollout is under a stayed temporary restraining order (Aug. 10, 2026) with a hearing set for Aug. 31. Remaining forward risk is the income-side package: Mamdani's $5.5B proposal, including a 2% NYC surtax on high earners, was not adopted in the FY2026-27 state budget. City budget documents project gaps in FY2028-29. Gov. Hochul has publicly opposed raising income tax rates. Composite 64.",
+   "currentNote": "9.65% on $1M+, 10.9% on $25M+ (high brackets extended through 2032). NYC adds up to 3.876%. NEW: the pied-a-terre tax on non-primary NYC residences was enacted in the FY2026-27 state budget (passed by the Legislature May 27, 2026; final budget bills signed May 28, 2026) and took effect July 1, 2026, running through 2031: annual surcharge on non-primary residences in two schedules: condominiums and co-ops assessed at $1M+ pay 4% ($1-3M), 5.25% ($3-5M), or 6.5% ($5M+), while one-to-three-family homes assessed at $5M+ pay 0.8% to 1.3%. Roughly 10,000 to 13,000 properties, ~$500M/year projected. The Department of Finance finalized implementation rules July 14, 2026; owner notices are due Aug. 30, with exemption application deadlines extended to Sept. 18. The rollout is now in court: a Richmond County justice issued a temporary restraining order on Aug. 10, 2026, halting the published supplemental roll of about 900,000 properties and further notices to roughly 17,000 homeowners (The Real Deal); the city's appeal stayed the order, and on Aug. 13 an Appellate Division, Second Department justice confirmed the stay (CNBC); a hearing is set for Aug. 31.",
+   "futureNote": "The pied-a-terre tax is enacted law in effect since July 1, 2026, and is recorded under current policy, not risk, though its rollout is under a stayed temporary restraining order (Aug. 10, 2026; stay confirmed Aug. 13) with a hearing set for Aug. 31. Remaining forward risk is the income-side package: Mamdani's $5.5B proposal, including a 2% NYC surtax on high earners, was not adopted in the FY2026-27 state budget. City budget documents project gaps in FY2028-29. Gov. Hochul has publicly opposed raising income tax rates. Composite 64.",
    "proposals": [
     {
      "bill": "Mamdani Proposal",
@@ -1565,7 +1589,7 @@
      "onBallot": false,
      "sponsor": "Gov. Hochul / Mayor Mamdani (joint, April 15, 2026)",
      "structure": "Annual surcharge on NYC residential property that is not a primary residence (Tax Law Secs. 1350-1356). Phase 1 (from July 1, 2026): condos and co-ops assessed at $1M+ pay 4% ($1-3M), 5.25% ($3-5M), or 6.5% ($5M+); one-to-three-family homes at $5M+ pay 0.8%, 1.05%, or 1.3% by tier. Phase 2 (from July 1, 2028) applies a unified $5M threshold under rebuilt co-op/condo valuations. ~$500M/year from roughly 10,000-13,000 properties.",
-     "status": "ENACTED in the FY2026-27 state budget (passed May 27, 2026; final budget bills signed May 28, 2026); in effect since July 1, 2026, through June 30, 2031. NYC Dept. of Finance finalized implementation rules July 14, 2026, covering primary-residence determinations and audits; owner notices due by Aug. 30, 2026, with exemption deadlines extended to Sept. 18. NOW CHALLENGED: three homeowners represented by former Deputy Mayor Randy Mastro sued in Richmond County Supreme Court on Aug. 7, 2026, and Justice Wayne M. Ozzi issued a temporary restraining order on Aug. 10 halting the published supplemental roll of about 900,000 properties, further notices to roughly 17,000 homeowners, and collection steps; the city's appeal stays the order, and a hearing is set for Aug. 31."
+     "status": "ENACTED in the FY2026-27 state budget (passed May 27, 2026; final budget bills signed May 28, 2026); in effect since July 1, 2026, through June 30, 2031. NYC Dept. of Finance finalized implementation rules July 14, 2026, covering primary-residence determinations and audits; owner notices due by Aug. 30, 2026, with exemption deadlines extended to Sept. 18. NOW CHALLENGED: three homeowners represented by former Deputy Mayor Randy Mastro sued in Richmond County Supreme Court on Aug. 7, 2026, and Justice Wayne M. Ozzi issued a temporary restraining order on Aug. 10 halting the published supplemental roll of about 900,000 properties, further notices to roughly 17,000 homeowners, and collection steps; the city's appeal stayed the order, and on Aug. 13 an Appellate Division, Second Department justice confirmed the stay (CNBC); a hearing is set for Aug. 31. No further order as of Aug. 17."
     }
    ]
   },
@@ -1582,8 +1606,8 @@
    "ballotNote": "Indirect process only, under Article 48. Initiative amendments need signatures (3% of the gubernatorial vote, 74,574 this cycle) plus approval of 25% of legislators (50 of 200) in two successive joint sessions, a minimum four-year runway. Citizen petitions also face subject-matter limits: the original citizen Fair Share amendment was struck from the 2018 ballot by the SJC (Anderson v. Attorney General, 2018) for combining the tax with spending earmarks. The version enacted in 2022 was a legislatively referred amendment, which needs a majority of two joint sessions and is exempt from those exclusions. A statutory wealth tax would conflict with the proportionality requirement as construed by the SJC, and the constitution's uniformity and proportionality requirements, leaving the amendment path as the remaining route. SJC gatekeeping cuts both ways: in June 2026 the court removed the 5%-to-4% income tax CUT initiative from the ballot in Finfer v. Attorney General (SJC-13885, June 18, 2026) over a significantly misleading AG summary of the capital-gains effect. The statute track is in active use this cycle: the Chapter 62F tax-cap question was certified for the Nov. 3, 2026 ballot as Question 5 (State Revenue Limit and Rebate), one of nine statewide questions, tying the modern record set in 1972, 1976, and 1994, with numbers assigned by the Elections Division of the Secretary of the Commonwealth.",
    "wealthTax": "proposed",
    "incomeSurtax": "none",
-   "currentNote": "4% Fair Share surtax on income over $1,107,750 (2026 threshold, indexed; Mass.gov). Top combined 9%. DOR reported final FY2026 collections of $3.38B (July 2026), up 13% year over year and more than twice the original $1.2B estimate for the third straight year, against the $2.4B the budget planned to use (actuals certify Oct. 2026). Prior years: ~$2.2B FY2024, ~$2.99B FY2025.",
-   "futureNote": "Press reports state that union leaders are exploring a CA-style billionaire wealth tax for the Commonwealth; no petition has been filed as of August 14, 2026. The countervailing measure, a ballot initiative cutting the 5% base rate to 4%, was REMOVED from the November ballot by the SJC on June 18, 2026 (the AG's summary was ruled significantly misleading for omitting the capital gains cut). Republican gubernatorial candidate Brian Shortsleeve has publicly vowed to lead a 2028 refiling of the cut (State House News, June 2026); under the Article 48 calendar no 2028 petition can be filed before the August 2027 window, and none has been filed as of Aug. 14, 2026. Structural note: expanding the surtax itself requires a constitutional amendment, since Article 121 authorizes exactly 4% above the indexed threshold, and the earliest amendment ballot is 2030, outside this window. Statutory routes do remain open inside it: Article 44 permits different rates on different classes of income, so a long-term capital gains increase is available by ordinary legislation, as is estate tax expansion (an excise). No such bill is filed. The model computes Massachusetts at 68 points, the second-highest composite after California: budget pressure scores 12 of 15 on the documented growth in structural one-time reliance from roughly $1.1B to $1.9B across the FY2025-FY2027 budgets (MTF analysis), and contagion scores the maximum 10 on two adjacent 2026 enactments (Rhode Island and Maine) that cited the Fair Share results, plus the Vermont package modeled on it. The published tier is the computed tier. The same coalition's Chapter 62F tax-cap question was certified for the November ballot in July 2026 (second-round signatures submitted by the early-July deadline): it would rebase the cap to actual prior-year collections and bring Fair Share surtax revenue inside the calculation, making refunds far more frequent. MTF modeling finds the revised cap would have triggered in four of the last ten years, with equal refunds of $269 to $1,095 per filer. Because it pulls surtax revenue into the cap, its outcome directly shapes the Fair Share expansion fight. A second 62F front opened in late July: the Senate voted 31-8 on July 23, 2026 to fold a rewrite into the economic development bill, replacing the cap formula with a trigger at 7.5% of statewide personal income; the provision sits in a six-member House-Senate conference as of Aug. 14, 2026, and new legislative rules allow that conference to run as late as early January (MassINC, Aug. 14, 2026), so it may not resolve before Election Day; if enacted it would complicate or moot the ballot question (CommonWealth Beacon).",
+   "currentNote": "4% Fair Share surtax on income over $1,107,750 (2026 threshold, indexed; Mass.gov). Top combined 9%. DOR certified a preliminary FY2026 surtax of $3.380 billion on July 20, 2026 (exact figure $3,380,320,213 via State House News / WBUR), up 13% year over year and more than twice the original $1.2 billion estimate for the third straight year, against the $2.4 billion the budget planned to use. The official DOR FY2026 year-end release (Aug. 13, 2026) restated the $3.380 billion preliminary and said any revision appears in the December 2026 final surtax report. Prior years: about $2.2 billion FY2024, $2.987 billion FY2025.",
+   "futureNote": "Press reports state that union leaders are exploring a CA-style billionaire wealth tax for the Commonwealth; no petition has been filed as of August 17, 2026. The countervailing measure, a ballot initiative cutting the 5% base rate to 4%, was REMOVED from the November ballot by the SJC on June 18, 2026 (the AG's summary was ruled significantly misleading for omitting the capital gains cut). Republican gubernatorial candidate Brian Shortsleeve has publicly vowed to lead a 2028 refiling of the cut (State House News, June 2026); under the Article 48 calendar no 2028 petition can be filed before the August 2027 window, and none has been filed as of Aug. 17, 2026. Structural note: expanding the surtax itself requires a constitutional amendment, since Article 121 authorizes exactly 4% above the indexed threshold, and the earliest amendment ballot is 2030, outside this window. Statutory routes do remain open inside it: Article 44 permits different rates on different classes of income, so a long-term capital gains increase is available by ordinary legislation, as is estate tax expansion (an excise). No such bill is filed. The model computes Massachusetts at 68 points, the second-highest composite after California: budget pressure scores 12 of 15 on the documented growth in structural one-time reliance from roughly $1.1B to $1.9B across the FY2025-FY2027 budgets (MTF analysis), and contagion scores the maximum 10 on two adjacent 2026 enactments (Rhode Island and Maine) that cited the Fair Share results, plus the Vermont package modeled on it. The published tier is the computed tier. The same coalition's Chapter 62F tax-cap question was certified for the November ballot in July 2026 (second-round signatures submitted by the early-July deadline): it would rebase the cap to actual prior-year collections and bring Fair Share surtax revenue inside the calculation, making refunds far more frequent. MTF modeling finds the revised cap would have triggered in four of the last ten years, with equal refunds of $269 to $1,095 per filer. Because it pulls surtax revenue into the cap, its outcome directly shapes the Fair Share expansion fight. A second 62F front opened in late July: the Senate voted 31-8 on July 23, 2026 to fold a rewrite into the economic development bill, replacing the cap formula with a trigger at 7.5% of statewide personal income; the provision sits in a six-member House-Senate conference as of Aug. 17, 2026, and new legislative rules allow that conference to run as late as early January (MassINC, Aug. 14, 2026), so it may not resolve before Election Day; if enacted it would complicate or moot the ballot question (CommonWealth Beacon).",
    "proposals": [
     {
      "bill": "Ballot exploration",
@@ -1592,7 +1616,7 @@
      "onBallot": false,
      "sponsor": "Union coalition (reported)",
      "structure": "Massachusetts union leaders are reported to be exploring a ballot measure modeled on California's 2026 Billionaire Tax Act, a one-time levy on net worth above $1B.",
-     "status": "No formal filing confirmed as of August 14, 2026. Reported by Mass Opportunity Alliance (Feb 2026). A constitutional amendment route would require legislative votes in successive sessions; earliest amendment ballot under the Article 48 calendar is 2030."
+     "status": "No formal filing confirmed as of August 17, 2026. Reported by Mass Opportunity Alliance (Feb 2026). A constitutional amendment route would require legislative votes in successive sessions; earliest amendment ballot under the Article 48 calendar is 2030."
     }
    ]
   },
@@ -1610,8 +1634,8 @@
    "wealthTax": "proposed",
    "incomeSurtax": "none",
    "slated": "Surtax phase-in under enacted H 7127: 1% on income over $1M in tax year 2027, 2% in 2028 (the 3% step arrives 2029, outside the window). The 0.5% second-home surcharge has been in effect since July 1, 2026.",
-   "currentNote": "SIGNED INTO LAW June 12, 2026. Gov. McKee signed the FY27 budget (H 7127) containing a phased millionaires surtax: 1% on income over $1M in tax year 2027, rising to 3% by 2029, lifting the top rate from 5.99% to 8.99% (~$142M/year fully phased). Current top rate remains 5.99% until 2027. The same budget enacted a statewide surcharge on second homes: 0.5% annually on assessed value above $1M for non-owner-occupied residences used fewer than 183 days a year, effective July 1, 2026.",
-   "futureNote": "Enacted phase-ins are recorded as slated changes, not risk. Remaining forward risk is the broader Fair Share package (H 7313 / S 2238: 3% on income over $640K plus a 1% tax on financial assets over $25M), which was not included in the enacted budget and remains tracked. Counsel for affected second-home owners has said it expects to bring a constitutional challenge to the 0.5% surcharge; no suit had been filed as of Aug. 14, 2026. The Democratic gubernatorial primary is Wednesday, Sept. 9, 2026. Composite 65.",
+   "currentNote": "SIGNED INTO LAW June 12, 2026. Gov. McKee signed the FY27 budget (H 7127) containing a phased millionaires surtax: 1% on income over $1M in tax year 2027, rising to 3% by 2029, lifting the top rate from 5.99% to 8.99% (~$142M/year fully phased). Current top rate remains 5.99% until 2027. A statewide surcharge on second homes, 0.5% annually on assessed value above $1M for non-owner-occupied residences used fewer than 183 days a year, took effect July 1, 2026 (enacted in FY2026 H 5076, Art. 5; RI DOR).",
+   "futureNote": "Enacted phase-ins are recorded as slated changes, not risk. Remaining forward risk is the broader Fair Share package (H 7313 / S 2238: 3% on income over $640K plus a 1% tax on financial assets over $25M), which was not included in the enacted budget and remains tracked. Counsel for affected second-home owners has said it expects to bring a constitutional challenge to the 0.5% surcharge; no suit had been filed as of Aug. 17, 2026. The Democratic gubernatorial primary is Wednesday, Sept. 9, 2026. Composite 65.",
    "proposals": [
     {
      "bill": "H 7313 / S 2238",
@@ -1652,7 +1676,7 @@
   },
   "NJ": {
    "abbr": "NJ",
-   "proposalStatus": "none",
+   "proposalStatus": "active",
    "name": "New Jersey",
    "row": 4,
    "col": 11,
@@ -1662,10 +1686,20 @@
    "ballot": "none",
    "ballotNote": "No statewide citizen initiative or referendum process. Tax changes require legislative action; constitutional amendments reach voters only by legislative referral.",
    "wealthTax": "none",
-   "incomeSurtax": "none",
+   "incomeSurtax": "proposed",
    "currentNote": "10.75% on $1M+ since 2020.",
-   "futureNote": "The 10.75% rate has applied to income over $1M since 2020 (extended from the 2018 act's $5M threshold). Democratic trifecta. No expansion bill filed as of August 14, 2026. Composite 44.",
-   "proposals": []
+   "futureNote": "The 10.75% rate has applied to income over $1M since 2020 (extended from the 2018 act's $5M threshold). Democratic trifecta. A5121 (Assemblywoman Katie Brennan, introduced May 18, 2026) would add 12%, 13%, and 14% brackets on taxable income over $2 million, $5 million, and $10 million beginning tax year 2027. It was referred to Assembly State and Local Government and was not included in the June 30 FY2027 budget; the 2026-2027 session remains open. Composite 44.",
+   "proposals": [
+    {
+     "bill": "A5121",
+     "title": "12% / 13% / 14% Brackets over $2M / $5M / $10M",
+     "type": "income",
+     "onBallot": false,
+     "sponsor": "Assemblywoman Katie Brennan (D-32)",
+     "structure": "Keeps the 10.75% rate on income over $1 million but not over $2 million, then adds 12% over $2 million, 13% over $5 million, and 14% over $10 million, effective tax years beginning on or after Jan. 1, 2027.",
+     "status": "Introduced May 18, 2026; referred to Assembly State and Local Government. Not included in the June 30 FY2027 budget. Still a live bill in the 2026-2027 session."
+    }
+   ]
   },
   "CT": {
    "abbr": "CT",
@@ -1681,7 +1715,7 @@
    "wealthTax": "none",
    "incomeSurtax": "none",
    "currentNote": "6.99% top rate over $500K.",
-   "futureNote": "Gov. Lamont has publicly opposed income tax rate increases; no high-income bill advanced in the 2026 session. A proposed statewide mansion tax was listed among 2026 developments by Foley's Wealth Tax Watch (July 2026). The governorship and both chambers are on the Nov. 2026 ballot. Composite 47.",
+   "futureNote": "Gov. Lamont has publicly opposed income tax rate increases; no high-income bill advanced in the 2026 session. Proposed S.B. 101 (Sen. Looney), a statewide mansion tax on residential real property assessed above $3 million, had a Feb. 27 public hearing and did not advance before the May 6 adjournment (Foley Wealth Tax Watch listed it among 2026 developments). The governorship and both chambers are on the Nov. 2026 ballot. Composite 47.",
    "proposals": []
   },
   "VA": {
@@ -1707,7 +1741,7 @@
      "onBallot": false,
      "sponsor": "Rep. Vivian Watts (D-14)",
      "structure": "Two new tax brackets: 8% on income between $600K and $1M, 10% on income over $1M. Revenue directed to public schools.",
-     "status": "Did not pass before the March 14, 2026 adjournment. Democratic trifecta as of Jan. 2026; press fact-checks record the governor neither endorsed nor pledged to sign the bills."
+     "status": "Continued to 2027 in House Finance on Feb. 11, 2026; did not pass before the March 14 adjournment. Democratic trifecta as of Jan. 2026; press fact-checks record the governor neither endorsed nor pledged to sign the bills."
     },
     {
      "bill": "HB 378",
@@ -1716,7 +1750,7 @@
      "onBallot": false,
      "sponsor": "Rep. Elizabeth Bennett-Parker (D-5)",
      "structure": "3.8% tax on net investment income (capital gains, dividends, interest). Mirrors the federal NIIT.",
-     "status": "Pending. Same political constraints as HB 979."
+     "status": "Left in House Finance on Feb. 18, 2026 after a subcommittee laid it on the table 10-0; did not pass before the March 14 adjournment. Same political constraints as HB 979."
     }
    ]
   },
@@ -1761,7 +1795,7 @@
    "wealthTax": "none",
    "incomeSurtax": "none",
    "currentNote": "6.6% top rate over $60K.",
-   "futureNote": "Democratic trifecta. Top rate 6.6%, unchanged since 2014. No high-income or wealth tax bill filed as of August 14, 2026. Composite 37.",
+   "futureNote": "Democratic trifecta. Top rate 6.6%, unchanged since 2014. No high-income or wealth tax bill filed as of August 17, 2026. Composite 37.",
    "proposals": []
   },
   "SC": {
@@ -1783,7 +1817,7 @@
   },
   "DC": {
    "abbr": "DC",
-   "proposalStatus": "none",
+   "proposalStatus": "active",
    "name": "District of Columbia",
    "row": 6,
    "col": 10,
@@ -1793,10 +1827,20 @@
    "ballot": "none",
    "ballotNote": "Initiative process exists but measures may not appropriate funds, which effectively bars tax-and-spend initiatives. Tax changes run through the Council.",
    "wealthTax": "none",
-   "incomeSurtax": "none",
+   "incomeSurtax": "proposed",
    "currentNote": "10.75% bracket on income over $1M (enacted 2021, effective tax year 2022), among the highest millionaire brackets in the country.",
-   "futureNote": "One of five jurisdictions to raise top rates since 2021 (Tax Foundation); the 10.75% bracket was enacted in 2021, effective tax year 2022, and is current policy. No new high-income vehicle is pending before the Council. Council-only legislative pathway; no initiative process for tax measures. Composite 57.",
-   "proposals": []
+   "futureNote": "One of five jurisdictions to raise top rates since 2021 (Tax Foundation); the 10.75% bracket was enacted in 2021, effective tax year 2022, and is current policy. B26-0749, the Wealth Proceeds Tax Amendment Act of 2026 (Councilmember Brianne Nadeau), was introduced July 8, 2026: a 3% surcharge on passive income (capital gains, dividends, interest, and similar) for individuals over $400,000 and married filers over $500,000, applying only to the passive amount above the threshold. Referred to the Committee of the Whole July 14; Notice of Intent published July 17. Hearings are expected after the mid-September recess. Council-only legislative pathway; no initiative process for tax measures. Composite 57.",
+   "proposals": [
+    {
+     "bill": "B26-0749",
+     "title": "Wealth Proceeds Tax Amendment Act of 2026",
+     "type": "income",
+     "onBallot": false,
+     "sponsor": "Councilmember Brianne Nadeau (D-Ward 1)",
+     "structure": "3% surcharge on passive income (capital gains, dividends, interest, annuities, and similar) for individuals over $400,000 and married couples over $500,000, applying only to the passive amount above the threshold. Sponsor estimate about $200 million in year one.",
+     "status": "Introduced July 8, 2026; referred to the Committee of the Whole July 14; Notice of Intent in the D.C. Register July 17. Not enacted. Hearings expected after mid-September recess."
+    }
+   ]
   },
   "GA": {
    "abbr": "GA",
@@ -1868,8 +1912,8 @@
     "url": "https://www.wwlp.com/news/massachusetts/surtax-fueling-early-ed-expansion-but-will-it-last/"
    },
    {
-    "label": "WBUR / State House News, FY2026 Fair Share final: $3.38B, +13% (July 22, 2026)",
-    "url": "https://www.wbur.org/news/2026/07/22/massachusetts-wealthier-households-revenue-rich-taxes"
+    "label": "PRIMARY: Massachusetts DOR, Fiscal Year 2026 Revenue Collections Totaled $45.542 Billion (Aug. 13, 2026): restates the July 20 preliminary surtax of $3.380 billion; final surtax report due December 2026",
+    "url": "https://www.mass.gov/news/fiscal-year-2026-revenue-collections-totaled-45542-billion"
    },
    {
     "label": "PRIMARY: Secretary of the Commonwealth, Elections Division, ballot question numbers assigned for the Nov. 3, 2026 State Election (nine certified questions)",
@@ -1895,7 +1939,7 @@
     "url": "https://www.statehousenews.com/news/economy/taxation/reactions-pour-in-to-sjcs-ruling-on-income-tax-cut-ballot-question/article_bb43ddd3-f26f-4a73-95b4-9fce955c4bf9.html"
    },
    {
-    "label": "CommonWealth Beacon, Senate folds a 62F rewrite into the economic development bill, 31-8 (July 23, 2026); still in conference as of Aug. 14, with new rules allowing work into early January (MassINC)",
+    "label": "CommonWealth Beacon, Senate folds a 62F rewrite into the economic development bill, 31-8 (July 23, 2026); still in conference as of Aug. 17, with new rules allowing work into early January (MassINC)",
     "url": "https://commonwealthbeacon.org/politics/eleventh-hour-senate-move-could-upend-tax-rebate-ballot-question/"
    },
    {
@@ -1952,6 +1996,10 @@
    {
     "label": "The Real Deal / NY State of Politics, Richmond County TRO halts pied-a-terre rollout; city appeal stays order; hearing Aug. 31 (Aug. 10, 2026)",
     "url": "https://therealdeal.com/new-york/2026/08/10/court-order-temporarily-halts-nycs-pied-a-terre-tax-rollout/"
+   },
+   {
+    "label": "CNBC, Appellate Division stay lets NYC continue the pied-a-terre rollout pending the Aug. 31 hearing (Aug. 13, 2026)",
+    "url": "https://www.cnbc.com/2026/08/13/mamdani-nyc-pied-a-terre-tax-lawsuit.html"
    }
   ],
   "CA": [
@@ -2023,6 +2071,14 @@
    {
     "label": "Washington State Standard, DOR revises SB 6346 first-year collections to $3.1B and 25,000 households from $2.7B and 21,000 (Aug. 12, 2026); September official forecast is the first that may incorporate the higher figures",
     "url": "https://washingtonstatestandard.com/2026/08/12/wa-revenue-officials-income-tax-will-bring-in-more-money-than-first-expected/"
+   },
+   {
+    "label": "PRIMARY: Klickitat County Superior Court case page, Petter v. Dept. of Revenue, No. 26-2-00073-20 (Judge Randall C. Krog); last content update May 1, 2026; no posted ruling as of Aug. 17, 2026",
+    "url": "https://klickitatcounty.gov/1699/Case-Information"
+   },
+   {
+    "label": "Washington ERFC meetings: next Revenue Review Sept. 25, 2026 (September official forecast not yet posted as of Aug. 17)",
+    "url": "https://erfc.wa.gov/meetings"
    }
   ],
   "OR": [
@@ -2080,12 +2136,32 @@
   ],
   "MN": [
    {
+    "label": "PRIMARY: Minnesota HF 4616 (Gomez), 1% annual wealth tax on taxable wealth over $10 million; introduced March 25, 2026",
+    "url": "https://www.revisor.mn.gov/bills/bill.php?b=House&f=HF4616&ssn=0&y=2026"
+   },
+   {
+    "label": "Minnesota House Session Daily, House Taxes hears HF 4616 and lays it over (April 7, 2026)",
+    "url": "https://www.house.mn.gov/SessionDaily/Story/19051"
+   },
+   {
+    "label": "Minnesota DOR, analysis of HF 4616: about 5,600 taxpayers, $288.3 million in FY2027 (April 6, 2026)",
+    "url": "https://www.revenue.state.mn.us/sites/default/files/2026-04/hf4616-wealth-tax-10m.pdf"
+   },
+   {
     "label": "Minnesota DOR: 1% net investment income tax over $1M, tax years after Dec. 31, 2023"
    }
   ],
   "IL": [
    {
+    "label": "PRIMARY: Illinois General Assembly, HJRCA 21 bill status; last action July 1, 2026, Rule 19(b) re-referred to Rules",
+    "url": "https://ilga.gov/Legislation/BillStatus?DocNum=21&DocTypeID=HJRCA&GAID=18&LegId=164450&Print=1&SessionID=114"
+   },
+   {
     "label": "HJRCA 21 (Rep. Ford); Speaker Welch statement, April 23, 2026 (measure lacked votes before May 3 ballot deadline)"
+   },
+   {
+    "label": "Illinois General Assembly, SB 3376 Extremely High Wealth Mark-to-Market Tax Act (2026); referred to Assignments Feb. 4",
+    "url": "https://www.ilga.gov/Legislation/BillStatus?DocNum=3376&DocTypeID=SB&GAID=18&LegId=166257&Print=1&SessionID=114"
    }
   ],
   "VT": [
@@ -2095,10 +2171,18 @@
   ],
   "NJ": [
    {
+    "label": "PRIMARY: New Jersey A5121 (Brennan), introduced May 18, 2026: 12%/13%/14% GIT brackets over $2M/$5M/$10M effective Jan. 1, 2027",
+    "url": "https://pub.njleg.state.nj.us/Bills/2026/A5500/5121_I1.PDF"
+   },
+   {
     "label": "N.J. millionaires tax: 10.75% bracket extended to income over $1M (2020)"
    }
   ],
   "DC": [
+   {
+    "label": "Councilmember Brianne Nadeau, Wealth Proceeds Tax Amendment Act of 2026 (B26-0749) introduced July 8, 2026: 3% surcharge on passive income over $400,000 / $500,000",
+    "url": "https://brianneknadeau.com/wealth-proceeds-tax/"
+   },
    {
     "label": "DC 10.75% bracket on income over $1M (2021 Council action)"
    }
@@ -2119,6 +2203,14 @@
    }
   ],
   "UT": [
+   {
+    "label": "PRIMARY: Utah S.B. 60, Income Tax Rate Amendments (enrolled); signed March 23, 2026; individual and corporate rate 4.45% retroactive to Jan. 1, 2026",
+    "url": "https://le.utah.gov/~2026/bills/static/SB0060.html"
+   },
+   {
+    "label": "EY Tax News, Utah law lowers state income tax rate retroactive to January 1, 2026 (April 21, 2026)",
+    "url": "https://taxnews.ey.com/news/2026-0913-utah-law-lowers-state-income-tax-rate-retroactive-to-january-1-2026"
+   },
    {
     "label": "SJR 2, on the Nov. 2026 ballot: 60% approval for initiatives that raise taxes"
    }
@@ -2153,7 +2245,7 @@
     "url": "https://news.ballotpedia.org/2026/08/04/signatures-submitted-for-colorado-graduated-income-tax-measure-that-competes-with-proposed-income-tax-cap-initiative/"
    },
    {
-    "label": "Colorado Newsline, Initiative 195 submitted about 157,000 signatures (124,238 required); SOS sufficiency due no later than Sept. 2, 2026; still in signature-line review as of Aug. 14",
+    "label": "Colorado Newsline, Initiative 195 submitted about 157,000 signatures (124,238 required); SOS sufficiency due no later than Sept. 2, 2026; still in signature-line review as of Aug. 17",
     "url": "https://coloradonewsline.com/briefs/colorado-graduated-income-tax-measure-signatures/"
    },
    {

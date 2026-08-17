@@ -182,6 +182,7 @@ def answer_html(answer, kpis_markup="", slug="", vintages=None, answers=None):
         + meta_html
         + cite_btn
         + vintage_block
+        + '    <div class="place-strip" id="placeStrip" hidden></div>\n'
         + kpi_block
         + "  </section>\n"
     )
@@ -219,6 +220,17 @@ def naep_score_rows(ledger):
     ).get("history") or {}
     rec = ((hist.get("read4") or {}).get("change_2019_2024") or {})
     return ranked_state_rows(rec.get("rows") or [], val_key="to")
+
+
+def src_cite(ledger, sid=None):
+    smap = ledger.get("source_id_map") or {}
+    if not sid:
+        sid = next(iter(smap), "")
+    rec = smap.get(sid) or {}
+    name = rec.get("name") or "see the register"
+    if sid:
+        return name + " (" + sid + ")"
+    return name
 
 
 def replaces_list(app, ledger):
@@ -286,13 +298,13 @@ def insight_html(insights, start=1):
         elif fig.get("type") in ("hist", "slope", "dots"):
             hclass = "plot"
         elif fig.get("height") == "mid":
-            hclass = "plot-mid"
+            hclass = "plot"
         elif fig.get("height") == "ranks":
             hclass = "plot-ranks"
         elif fig.get("span") == 2 or len(insights) == 1:
             hclass = "plot"
         else:
-            hclass = "plot-sm"
+            hclass = "plot"
         note = figure_limit(fig)
         note_html = (
             "      <div class=\"note\">" + esc(note) + "</div>\n" if note else ""
@@ -477,10 +489,10 @@ TREND_NAMES = {"US": "United States", "MA": "Massachusetts", "FL": "Florida", "B
 TREND_LEDE_NAMES = {"US": "the United States", "MA": "Massachusetts", "FL": "Florida", "Boston": "Boston"}
 TREND_CORE_KEYS = ("US", "MA", "FL", "Boston")
 TREND_INDEX_RATIO = 2.5
-TREND_INDEX_UNIT = "index, first year = 100"
+TREND_INDEX_UNIT = "Indexed to each series' first year (100 = starting level)"
 TREND_INDEX_NOTE = (
-    "Each line is an index of its first year on file, set to 100, "
-    "so series of different sizes can be compared. Hover a point for the raw figure."
+    "Indexed to each series' first year (100 = starting level). "
+    "The dashed line is the starting level. Hover a point for the raw figure, then the index."
 )
 JUMP_SHORT = {
     "ch74-seats": "Chapter 74",
@@ -708,30 +720,32 @@ def chart_spec(app, ledger):
         lede = (
             where_lede
             + "Darker navy is higher. "
-            "Gold outline is Massachusetts. Light gray is not in this file. "
-            "Hover a state to update the readout. Click a state to open the table. "
+            "Gold outline is Massachusetts. Rust outline is Florida. Light gray is not in this file. "
+            "Hover a state to pin the figure on the map. Click a state to open the table. "
+            "On a phone, the first tap pins; a second tap opens the table. "
             "Pin a second state to compare."
         )
         if tid == "DL-07":
             lede = (
                 "NAEP grade 4 reading, 2024. Darker navy is a higher scale score. "
                 "Equal-size cells so a small state is as readable as a large one. "
-                "Gold outline is Massachusetts. Hover a state to update the readout. "
+                "Gold outline is Massachusetts. Rust outline is Florida. "
+                "Hover a state to pin the figure on the map. "
                 "Click a state to open the table. Pin a second state to compare."
             )
         elif tid == "DL-08":
             lede = (
                 "Fall enrollment in degree-granting institutions, 2022. "
-                "Darker navy is more students. Gold outline is Massachusetts. "
-                "Hover a state to update the readout. Click a state to open the table. "
+                "Darker navy is more students. Gold outline is Massachusetts. Rust outline is Florida. "
+                "Hover a state to pin the figure on the map. Click a state to open the table. "
                 "Pin a second state to compare."
             )
         elif tid == "DL-09":
             lede = (
                 "Charter school fall enrollment, 2022-23. Darker navy is more students. "
-                "Gold outline is Massachusetts. Light gray is not in this file. "
-                "Hover a state to update the readout. Click a state to open the table. "
-                "Pin a second state to compare."
+                "Gold outline is Massachusetts. Rust outline is Florida. Light gray is not in this file. "
+                "Hover a state to pin the figure on the map. "
+                "Click a state to open the table. Pin a second state to compare."
             )
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
@@ -1129,7 +1143,7 @@ def extra_tool_js(app, ledger):
       var labels=Object.keys(years).map(Number).sort(function(a,b){return a-b;});
       var tsets=series.map(function(s){
         var by={}; (ctr[s.key]||[]).forEach(function(p){ by[p.y]=p.v; });
-        return {label:s.label,data:labels.map(function(y){return by[y];}),borderColor:s.color,backgroundColor:'transparent',spanGaps:true};
+        return {label:s.label,data:labels.map(function(y){return by[y];}),borderColor:s.color,backgroundColor:'transparent',spanGaps:false};
       });
       new Chart(tel,{type:'line',
         data:{labels:labels,datasets:tsets},
@@ -1223,6 +1237,8 @@ def page_html(app, ledger, apps=None):
     )
     find_spec = (voice or {}).get("find") or {"kind": None, "cards": {}, "metric": ""}
     spec = chart_spec(app, ledger) if live else {}
+    first_sid = next(iter((ledger.get("source_id_map") or {})), "")
+    fig1_src = src_cite(ledger, first_sid) if live else "see the register"
     all_insights = insight_figures(app, ledger) if live else []
     insights = all_insights
     if spec.get("headline_from") == "secondary.public_k12_enrollment":
@@ -1239,7 +1255,7 @@ def page_html(app, ledger, apps=None):
                 "tab": "Grade 4 reading",
                 "title": "NAEP grade 4 reading, 2024",
                 "lede": spec.get("lede") or "",
-                "src": "SRC-607-05",
+                "src": src_cite(ledger, "SRC-607-05"),
                 "unit": "scale score",
                 "format": "number",
                 "primary": True,
@@ -1252,7 +1268,7 @@ def page_html(app, ledger, apps=None):
                 "tab": spec.get("label") or "Latest",
                 "title": spec.get("title") or spec.get("label") or "",
                 "lede": spec.get("lede") or "",
-                "src": src_ids[0] if src_ids else "",
+                "src": src_cite(ledger, src_ids[0] if src_ids else ""),
                 "unit": spec.get("unit") or unit or "",
                 "format": spec.get("format") or "number",
                 "primary": True,
@@ -1276,6 +1292,10 @@ def page_html(app, ledger, apps=None):
         if spec.get("hero_finder"):
             noun = "hospital" if app["id"] == "DL-10" else "city or town"
             jump_links.append('<a href="#view-proof">Look up a ' + esc(noun) + "</a>")
+        if app["id"] in TOWN_TOOLS:
+            jump_links.append('<a href="#view-town-map">Town map</a>')
+        if app["id"] in HIST_TOOLS:
+            jump_links.append('<a href="#view-hist">Distribution</a>')
         has_compare = (
             spec.get("show_map") is not False
             and (
@@ -1343,11 +1363,16 @@ def page_html(app, ledger, apps=None):
       <label class="sel-lab" for="trendSel">Add a state</label>
       <select id="trendSel"></select>
     </div>
+    <div class="series-win" id="trendWindow" hidden>
+      <span class="sel-lab">Show</span>
+      <button type="button" data-win="recent" class="on">Last 36 months</button>
+      <button type="button" data-win="full">Full series</button>
+    </div>
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure {trend_n}</span>
         <span class="ex-t" id="trendTitle">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="srcline"><b>Source:</b> see the register. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
+      <div class="srcline"><b>Source:</b> {esc(fig1_src)}. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
 """
@@ -1449,7 +1474,9 @@ def page_html(app, ledger, apps=None):
                 + f'        <span class="ex-t" id="rankTitle">{esc(fig1_title)}</span></div>\n'
                 + f'      <div class="plot plot-map" id="chRank" data-mode="{esc(mode)}"></div>\n'
                 + '      <div class="note" id="mapNote" hidden></div>\n'
-                + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
+                + '      <div class="srcline" id="mapSrc"><b>Source:</b> '
+                + esc(fig1_src)
+                + '. <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
                 + esc(fig1_unit)
                 + ".</div>\n"
                 + "    </div>\n"
@@ -1465,29 +1492,33 @@ def page_html(app, ledger, apps=None):
                     if map_lede
                     else '    <div class="lede" id="mapLede" hidden></div>\n'
                 )
-                + '    <div class="exhibit">\n'
+                + '    <div class="exhibit" id="fig1">\n'
                 + '      <div class="ex-head"><span class="ex-n">Figure 1</span>\n'
                 + f'        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>\n'
-                + '      <div class="plot plot-map" id="chRank" data-mode="town"></div>\n'
+                + '      <div class="plot"><canvas id="chRank"></canvas></div>\n'
                 + '      <div class="note" id="mapNote" hidden></div>\n'
-                + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
+                + '      <div class="srcline" id="mapSrc"><b>Source:</b> '
+                + esc(fig1_src)
+                + '. <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
                 + esc(unit or "see the register")
                 + ".</div>\n"
                 + "    </div>\n"
             )
-        elif compare in ("hist", "dots"):
+        elif compare in ("hist", "dots", "finder"):
             rank_inner = (
                 (
                     f'    <div class="lede" id="mapLede">{esc(map_lede)}</div>\n'
                     if map_lede
                     else '    <div class="lede" id="mapLede" hidden></div>\n'
                 )
-                + '    <div class="exhibit">\n'
+                + '    <div class="exhibit" id="fig1">\n'
                 + '      <div class="ex-head"><span class="ex-n">Figure 1</span>\n'
                 + f'        <span class="ex-t" id="rankTitle">{esc(spec.get("title") or metric_label)}</span></div>\n'
                 + '      <div class="plot"><canvas id="chRank"></canvas></div>\n'
                 + '      <div class="note" id="mapNote" hidden></div>\n'
-                + '      <div class="srcline" id="mapSrc"><b>Source:</b> see the register (the first source id). <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
+                + '      <div class="srcline" id="mapSrc"><b>Source:</b> '
+                + esc(fig1_src)
+                + '. <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '
                 + esc(unit or "see the register")
                 + ".</div>\n"
                 + "    </div>\n"
@@ -1528,6 +1559,36 @@ def page_html(app, ledger, apps=None):
         has_map = bool(rank_inner)
         insight_start = (2 if has_map else 1) + (1 if has_trend else 0)
         later_start = insight_start + len(insights)
+        town_map_n = later_start + len(later_insights)
+        if live and compare == "town":
+            rank_section += f"""
+  <section id="view-town-map">
+    <h2>Every city and town</h2>
+    <div class="lede">The map is a later view. Figure 1 is the selected town versus its nearest Census peer and Boston.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure {town_map_n}</span>
+        <span class="ex-t">Massachusetts cities and towns</span></div>
+      <div class="plot plot-map" id="chTownMap" data-mode="town"></div>
+      <div class="srcline"><b>Source:</b> {esc(fig1_src)}. <b>Unit:</b> {esc(unit or "people")}.</div>
+    </div>
+  </section>
+"""
+            jump_links_town = True
+        else:
+            jump_links_town = False
+        if live and compare == "hist":
+            rank_section += f"""
+  <section id="view-hist">
+    <h2>How pay is distributed</h2>
+    <div class="lede">Each bar is a count of members in a pay band. Figure 1 is the selected member versus the House and Senate medians.</div>
+    <div class="exhibit">
+      <div class="ex-head"><span class="ex-n">Figure {town_map_n}</span>
+        <span class="ex-t">Pay across the file</span></div>
+      <div class="plot"><canvas id="chHist"></canvas></div>
+      <div class="srcline"><b>Source:</b> {esc(fig1_src)}. <b>Unit:</b> {esc(unit or "dollars")}.</div>
+    </div>
+  </section>
+"""
         latest_section = (
             answer_block
             + finder_block
@@ -1580,7 +1641,16 @@ const FIND=FIND_JSON;
 (function(){
   var q=new URLSearchParams(location.search);
   if(q.get('embed')==='1'||q.get('embed')==='true') document.body.classList.add('embed');
-  var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', NAVY='#293C5C', INK='#1A1A1A', GREY='#58575A';
+  var GOLD='#CCB26D', RUST='#C45C26', BLUE='#293C5C', NAVY='#293C5C', INK='#1A1A1A', GREY='#58575A', STEEL='#A9B8C8';
+  function roleColor(k, extra){
+    if(window.dlRoleColor) return window.dlRoleColor(k, {extra: extra||pickedSt||compareSt});
+    var key=String(k||'');
+    if(key==='US' || key==='United States') return INK;
+    if(key==='MA' || key==='Massachusetts') return GOLD;
+    if(key==='FL' || key==='Florida') return RUST;
+    if(extra && (key===extra || key===(pretty&&pretty[extra]))) return BLUE;
+    return STEEL;
+  }
   function parseHash(){
     var raw=(location.hash||'').replace(/^#/,'');
     var view='', st='';
@@ -1604,7 +1674,10 @@ const FIND=FIND_JSON;
     if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
   }
   window.addEventListener('hashchange', applyHash);
-  window.addEventListener('load', applyHash);
+  window.addEventListener('load', function(){
+    applyHash();
+    if(window.dlHighlightExhibit) window.dlHighlightExhibit(location.hash);
+  });
   var fmt=CHART.format||'number';
   var unit=CHART.unit||'';
   var axisUnit=CHART.axis_unit||unit;
@@ -1622,13 +1695,15 @@ const FIND=FIND_JSON;
     return false;
   }
   function hlColor(r){
-    if(isMA(r) || r.name==='Boston') return GOLD;
-    return isHL(r)?GOLD:BLUE;
+    if(isMA(r)) return GOLD;
+    if(isFL(r)) return RUST;
+    if(compareSt && r.st===compareSt && r.st!=='MA' && r.st!=='FL') return BLUE;
+    if(r.name==='Boston' && CHART.geo==='state') return BLUE;
+    return STEEL;
   }
   function hlClass(r){
-    if(isMA(r) || r.name==='Boston') return 'hl-ma';
-    if(compareSt && r.st===compareSt && r.st!=='MA') return 'hl-fl';
-    if(isHL(r)) return 'hl-ma';
+    if(isMA(r)) return 'hl-ma';
+    if(isFL(r) || (compareSt && r.st===compareSt && r.st!=='MA')) return 'hl-fl';
     return '';
   }
   function fmtVal(v, short){
@@ -1702,6 +1777,49 @@ const FIND=FIND_JSON;
   var compareSt='FL';
   var ANSWERS=(DL&&DL.answers)||{};
   var hasLens=!!(ANSWERS.US && ANSWERS.US.value);
+  function fillPlaceStrip(){
+    var el=document.getElementById('placeStrip');
+    if(!el) return;
+    function cell(cls, k, v, r){
+      if(v==null||v==='') return '';
+      return '<div class="ps '+cls+'"><div class="ps-k">'+k+'</div><div class="ps-v">'+String(v).replace(/</g,'')+'</div>'+(r?'<div class="ps-r">'+String(r).replace(/</g,'')+'</div>':'')+'</div>';
+    }
+    var html='';
+    var kind=(FIND&&FIND.kind)||'';
+    if(kind==='town'){
+      var bos=(FIND.compare&&FIND.compare.boston)||bostonRow();
+      var q=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||(FIND&&FIND.default_q)||'';
+      var card=typeof findCardFor==='function'?findCardFor(q):null;
+      var row=card?rowByName(card.name):rowByName(q);
+      var acs=((FIND.compare&&FIND.compare.acs_peers)||{})[normFind((row&&row.name)||q)];
+      html+=cell('ps-ma','Boston', bos&&(bos.value||fmtVal(bos.v)), bos&&bos.name);
+      html+=cell('ps-us','Selected', (card&&card.value)||(row&&fmtVal(row.v)), (row&&row.name)||(card&&card.name)||'A town');
+      html+=cell('ps-fl','ACS peer', acs&&(acs.value||fmtVal(acs.v)), acs&&acs.name);
+    } else if(kind==='legislator'){
+      var cmp=FIND.compare||{};
+      var q2=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||(document.getElementById('tblFind')&&document.getElementById('tblFind').value)||(FIND&&FIND.default_q)||'';
+      var card2=typeof findCardFor==='function'?findCardFor(q2):null;
+      html+=cell('ps-ma','House median', cmp.house_median&&cmp.house_median.value);
+      html+=cell('ps-us','Senate median', cmp.senate_median&&cmp.senate_median.value);
+      html+=cell('ps-fl','Selected', card2&&card2.value, card2&&card2.name);
+    } else if(kind==='hospital'){
+      var cmpH=FIND.compare||{};
+      var qH=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||(FIND&&FIND.default_q)||'';
+      var cardH=typeof findCardFor==='function'?findCardFor(qH):null;
+      html+=cell('ps-ma','Selected', cardH&&(cardH.srp!=null?String(cardH.srp):cardH.value), cardH&&cardH.name);
+      html+=cell('ps-us','Statewide commercial average', cmpH.statewide_srp&&cmpH.statewide_srp.value);
+    } else if(hasLens){
+      var us=ANSWERS.US||{};
+      var ma=ANSWERS.MA||ANSWERS[selectedSt]||{};
+      var fl=ANSWERS[compareSt]||ANSWERS.FL||{};
+      var mid=ANSWERS[answerKey(selectedSt)]||ma;
+      html+=cell('ps-us', us.geo||'United States', us.value, us.context);
+      html+=cell('ps-ma', (mid.geo||'Massachusetts'), mid.value, mid.context);
+      html+=cell('ps-fl', fl.geo||'Florida', fl.value, fl.context);
+    }
+    el.innerHTML=html;
+    el.hidden=!html;
+  }
   function answerKey(st){
     if(!st || st==='US') return 'US';
     return String(st).toUpperCase();
@@ -1723,6 +1841,7 @@ const FIND=FIND_JSON;
       meta.textContent=bits.join(' \\u00b7 ');
     }
     if(cite && a.cite) cite.setAttribute('data-cite', a.cite);
+    fillPlaceStrip();
     var sel=document.getElementById('lensSel');
     if(sel){
       var key=answerKey(st);
@@ -1878,7 +1997,7 @@ const FIND=FIND_JSON;
     }
     var srcEl=document.getElementById('mapSrc');
     if(srcEl){
-      var src=view.src||'see the register (the first source id)';
+      var src=view.src||'see the register';
       var u=view.unit||unit||'see the register';
       srcEl.innerHTML='<b>Source:</b> '+src+'. <b>Calculation:</b> Pioneer Institute (ranks only). <b>Unit:</b> '+u+'.';
     }
@@ -1895,7 +2014,7 @@ const FIND=FIND_JSON;
     var viewFmt=view.format||fmt;
     window.dlStateMap(el,{
       mode: view.mode || CHART.map_mode || el.getAttribute('data-mode') || 'geo',
-      highlightFlorida: compareSt==='FL',
+      highlightFlorida: true,
       compareSt: compareSt,
       rows:base,
       format:function(v){
@@ -1920,8 +2039,20 @@ const FIND=FIND_JSON;
       }
     });
   }
-  function drawHist(){
-    var el=document.getElementById('chRank');
+  function shortEdge(v){
+    if(v==null||v==='') return '';
+    var n=Number(v), a=Math.abs(n), sign=n<0?'\u2212':'';
+    if(fmt==='usd'||fmt==='usd_millions'){
+      var d=fmt==='usd_millions'?a*1e6:a;
+      if(d>=1e6) return sign+'$'+Math.round(d/1e6)+'M';
+      if(d>=1000) return sign+'$'+Math.round(d/1000)+'k';
+      return sign+'$'+Math.round(d);
+    }
+    if(fmt==='percent') return Math.round(n)+'%';
+    return fmtVal(v,true);
+  }
+  function drawHist(canvasId){
+    var el=document.getElementById(canvasId||'chRank');
     if(!el||!window.Chart) return;
     var vals=rows.map(function(r){return Number(r.v);}).filter(isFinite);
     if(!vals.length) return;
@@ -1935,17 +2066,29 @@ const FIND=FIND_JSON;
     });
     var labels=[];
     for(var i=0;i<nbin;i++){
-      var a=lo+i*width, b=(i===nbin-1)?hi:lo+(i+1)*width;
-      labels.push(fmtVal(a,true)+' to '+fmtVal(b,true));
+      var a=lo+i*width;
+      labels.push(shortEdge(a));
     }
-    var titleEl=document.getElementById('rankTitle');
-    if(titleEl) titleEl.textContent=CHART.trend_title||CHART.title||'Distribution';
-    new Chart(el,{type:'bar',
-      data:{labels:labels,datasets:[{data:counts,backgroundColor:BLUE}]},
+    var sorted=vals.slice().sort(function(a,b){return a-b;});
+    var mid=sorted[Math.floor(sorted.length/2)];
+    if(!canvasId || canvasId==='chRank'){
+      var titleEl=document.getElementById('rankTitle');
+      if(titleEl) titleEl.textContent=CHART.trend_title||CHART.title||'Distribution';
+    }
+    var plugins=[dataLabels(function(v){return v;}, counts.length>8?'none':'all')];
+    var midBin=Math.min(Math.floor((mid-lo)/width), nbin-1);
+    if(window.dlRefLineX && mid!=null) plugins.push(window.dlRefLineX(midBin, GOLD, 'median'));
+    if(histChart && el.id==='chHist'){ histChart.destroy(); histChart=null; }
+    var ch=new Chart(el,{type:'bar',
+      data:{labels:labels,datasets:[{data:counts,backgroundColor:STEEL}]},
       options:{indexAxis:'x',responsive:true,maintainAspectRatio:false,
         plugins:{legend:{display:false}},
-        scales:{x:{ticks:{color:GREY,maxRotation:60,minRotation:0,font:{size:10}}},
-          y:fitScale({ticks:{color:GREY},grid:{color:'rgba(34,34,34,.08)'}}, counts)}}});
+        layout:{padding:{top:18,right:16}},
+        scales:{x:{ticks:{color:GREY,maxRotation:0,minRotation:0,font:{size:10},autoSkip:false}},
+          y:fitScale({ticks:{color:GREY},grid:{color:'rgba(34,34,34,.08)'}}, counts)}},
+      plugins:plugins});
+    if(el.id==='chHist') histChart=ch;
+    else rankChart=ch;
   }
   function drawDots(){
     var el=document.getElementById('chRank');
@@ -1970,26 +2113,153 @@ const FIND=FIND_JSON;
             title:{display:true,text:'Rank',color:GREY,font:{size:11}},grid:{color:'rgba(34,34,34,.08)'}}
         }}});
   }
+  var lookupChart=null;
+  var histChart=null;
+  function normFind(s){
+    return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\\b(city|town|the)\\b/g,' ').replace(/^\\s+|\\s+$/g,'').replace(/\\s+/g,' ');
+  }
+  function findCardFor(q){
+    if(!FIND || !FIND.cards) return null;
+    var nq=normFind(q);
+    if(FIND.cards[nq]) return FIND.cards[nq];
+    var hits=[];
+    Object.keys(FIND.cards).forEach(function(k){
+      if(k.indexOf(nq)>=0 || nq.indexOf(k)>=0) hits.push(FIND.cards[k]);
+    });
+    return hits.length===1?hits[0]:null;
+  }
+  function rowByName(name){
+    var nq=normFind(name);
+    var hit=null;
+    rows.forEach(function(r){
+      if(normFind(r.name)===nq) hit=r;
+    });
+    return hit;
+  }
+  function nearestPeerRow(row){
+    if(!row) return null;
+    var best=null, bestD=Infinity;
+    rows.forEach(function(r){
+      if(!r || r.name===row.name) return;
+      var d=Math.abs(Number(r.v)-Number(row.v));
+      if(isFinite(d) && d<bestD){ bestD=d; best=r; }
+    });
+    return best;
+  }
+  function drawLookupBars(items, title, unitText){
+    var el=document.getElementById('chRank');
+    if(!el||!window.Chart||!items||items.length<2) return false;
+    var labels=items.map(function(it){return it.name;});
+    var vals=items.map(function(it){return it.v;});
+    var colors=items.map(function(it,i){
+      if(i===0) return GOLD;
+      if(/massachusetts|statewide|house median|senate median/i.test(it.name)) return INK;
+      return STEEL;
+    });
+    var titleEl=document.getElementById('rankTitle');
+    if(titleEl) titleEl.textContent=title||CHART.title||'Compared';
+    var right=window.dlRightPad?window.dlRightPad(vals.map(function(v){return fmtVal(v,true);}),72):72;
+    var payload={labels:labels,datasets:[{data:vals,backgroundColor:colors}]};
+    var xScale=fitScale({title:{display:!!(unitText||axisUnit),text:unitText||axisUnit,color:GREY,font:{size:11}},
+      ticks:{color:GREY,callback:function(v){return fmtVal(v,true);}},grid:{color:'rgba(34,34,34,.08)'},grace:'14%'}, vals);
+    if(lookupChart){ lookupChart.destroy(); lookupChart=null; }
+    lookupChart=new Chart(el,{type:'bar',
+      data:payload,
+      options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+        layout:{padding:{right:right,top:6}},
+        plugins:{legend:{display:false},
+          tooltip:{callbacks:{label:function(c){return ' '+fmtVal(c.parsed.x);}}}},
+        scales:{
+          x:xScale,
+          y:{ticks:{color:INK,font:{size:11,family:'Roboto,sans-serif'},autoSkip:false},
+            grid:{display:false},border:{display:false}}
+        }},
+      plugins:[dataLabels(function(v){return fmtVal(v,true);},'all')]});
+    rankChart=lookupChart;
+    return true;
+  }
+  function drawLookupFig(){
+    var cmp=FIND&&FIND.compare;
+    var kind=(FIND&&FIND.kind)||'';
+    var q=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||
+          (document.getElementById('tblFind')&&document.getElementById('tblFind').value)||
+          (FIND&&FIND.default_q)||'';
+    var card=findCardFor(q);
+    var row=card?rowByName(card.name):rowByName(q);
+    if(kind==='town'){
+      var sel=row||bostonRow()||rows[0];
+      if(!sel) return false;
+      var peer=null;
+      var peers=(cmp&&cmp.pop_peers)||{};
+      var p=peers[normFind(sel.name)];
+      if(p) peer={name:p.name,v:p.v};
+      if(!peer) peer=nearestPeerRow(sel);
+      var bos=(cmp&&cmp.boston)||bostonRow();
+      var items=[{name:sel.name,v:Number(sel.v)}];
+      if(peer && peer.name!==sel.name) items.push({name:peer.name,v:Number(peer.v)});
+      if(bos && bos.name && normFind(bos.name)!==normFind(sel.name) && (!peer || normFind(bos.name)!==normFind(peer.name))){
+        items.push({name:bos.name||'Boston',v:Number(bos.v)});
+      }
+      return drawLookupBars(items, (sel.name||'This town')+' versus its nearest Census peer and Boston', 'people');
+    }
+    if(kind==='hospital'){
+      var srp=card&&card.srp;
+      if(srp==null && row && row.v!=null && fmt==='stars') srp=null;
+      var avg=cmp&&cmp.statewide_srp;
+      if(srp==null || !avg) return false;
+      return drawLookupBars([
+        {name: (card&&card.name)||(row&&row.name)||'This hospital', v:Number(srp)},
+        {name: avg.name||'Statewide commercial average', v:Number(avg.v)}
+      ], 'Commercial relative price versus the statewide average', 'relative price (1.00 = statewide)');
+    }
+    if(kind==='legislator'){
+      var house=cmp&&cmp.house_median;
+      var senate=cmp&&cmp.senate_median;
+      var person=row||(card&&rowByName(card.name));
+      if(!person || !house || !senate) return false;
+      return drawLookupBars([
+        {name: person.name, v:Number(person.v)},
+        {name: house.name, v:Number(house.v)},
+        {name: senate.name, v:Number(senate.v)}
+      ], (person.name||'This member')+' versus House and Senate medians', 'dollars');
+    }
+    return false;
+  }
+  function bostonRow(){
+    for(var i=0;i<rows.length;i++){
+      if(/^boston/i.test(rows[i].name||'')) return rows[i];
+    }
+    return null;
+  }
+  function drawTownMapLater(){
+    var el=document.getElementById('chTownMap');
+    if(!el||!window.dlTownMap) return;
+    window.dlTownMap(el,{
+      rows:rows.map(function(r){ return {name:r.name, st:r.st||r.name, v:r.v, rank:r.rank}; }),
+      format:function(v){ return fmtVal(v,true); },
+      selected: selectedSt || (FIND && FIND.default_q) || '',
+      onSelect:function(r){
+        selectedSt=r.name||r.st||'';
+        var find=document.getElementById('tblFind');
+        if(find) find.value=r.name||'';
+        var pf=document.getElementById('proofFind');
+        if(pf) pf.value=r.name||'';
+        applyFind();
+        drawLookupFig();
+        fillPlaceStrip();
+      }
+    });
+  }
   function drawRank(){
     if(CHART.geo==='state'){ drawRankMap(); return; }
-    if(CHART.compare==='town' && window.dlTownMap){
-      var el=document.getElementById('chRank');
-      if(!el) return;
-      window.dlTownMap(el,{
-        rows:rows.map(function(r){ return {name:r.name, st:r.st||r.name, v:r.v, rank:r.rank}; }),
-        format:function(v){ return fmtVal(v,true); },
-        selected: selectedSt || (FIND && FIND.default_q) || '',
-        onSelect:function(r){
-          selectedSt=r.name||r.st||'';
-          var find=document.getElementById('tblFind');
-          if(find) find.value=r.name||'';
-          var pf=document.getElementById('proofFind');
-          if(pf) pf.value=r.name||'';
-          applyFind();
-        }
-      });
-      return;
+    if(CHART.compare==='town' || CHART.compare==='finder' || (FIND && (FIND.kind==='town'||FIND.kind==='hospital'||FIND.kind==='legislator'))){
+      if(drawLookupFig()){
+        drawTownMapLater();
+        if(document.getElementById('chHist')) drawHist('chHist');
+        return;
+      }
     }
+    if(CHART.compare==='town'){ drawTownMapLater(); return; }
     if(CHART.compare==='hist'){ drawHist(); return; }
     if(CHART.compare==='dots'){ drawDots(); return; }
     if(CHART.compare==='finder') return;
@@ -2099,6 +2369,7 @@ const FIND=FIND_JSON;
     sel.addEventListener('change', function(){
       compareSt=sel.value||'';
       drawRank();
+      fillPlaceStrip();
       if(typeof fillTableBody==='function') fillTableBody();
     });
   })();
@@ -2172,6 +2443,7 @@ const FIND=FIND_JSON;
   window.addEventListener('hashchange', applyDeepLink);
   drawRank();
   applyDeepLink();
+  fillPlaceStrip();
   var chTrend=document.getElementById('chTrend');
   var trend=(DL&&DL.trend)||{};
   if(CHART.headline_from==='secondary.public_k12_enrollment'){
@@ -2206,10 +2478,7 @@ const FIND=FIND_JSON;
     });
   }
   function trendColor(k){
-    if(k==='MA') return GOLD;
-    if(k==='Boston') return BLUE;
-    if(k==='US') return INK;
-    return BLUE;
+    return roleColor(k, pickedSt);
   }
   function trendKey(p){
     if(!p) return '';
@@ -2252,6 +2521,22 @@ const FIND=FIND_JSON;
     if(Math.abs(n-Math.round(n))<0.05) return String(Math.round(n));
     return n.toFixed(1);
   }
+  var trendWindow='recent';
+  var winBar=document.getElementById('trendWindow');
+  if(winBar){
+    [].slice.call(winBar.querySelectorAll('[data-win]')).forEach(function(btn){
+      btn.addEventListener('click', function(){
+        trendWindow=btn.getAttribute('data-win')||'recent';
+        [].slice.call(winBar.querySelectorAll('[data-win]')).forEach(function(b){
+          b.classList.toggle('on', b.getAttribute('data-win')===trendWindow);
+        });
+        drawHeadline();
+      });
+    });
+  }
+  function isMonthlyLabs(labs){
+    return !!(labs && labs.length && /^\\d{4}-\\d{2}$/.test(String(labs[0])));
+  }
   function drawHeadline(){
     if(!chTrend || !window.Chart || !allTrendKeys.length) return;
     var keys=visibleTrendKeys();
@@ -2264,7 +2549,11 @@ const FIND=FIND_JSON;
       pts.forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
     });
     var labels=Object.keys(labelSet).sort();
+    var monthly=isMonthlyLabs(labels);
+    if(winBar) winBar.hidden=!(monthly && labels.length>60);
+    if(monthly && labels.length>60 && trendWindow!=='full') labels=labels.slice(-36);
     var rawByKey={};
+    var endLabs=[];
     var datasets=keys.map(function(k){
       var pts=seriesPts[k]||[];
       var by={}, first=null;
@@ -2282,17 +2571,22 @@ const FIND=FIND_JSON;
         else nums.push(raw);
       });
       rawByKey[k]=raws;
+      var last=null;
+      for(var i=nums.length-1;i>=0;i--){ if(nums[i]!=null){ last=nums[i]; break; } }
+      var yFmtLab=trendMode==='index_100'?fmtIndex(last):fmtVal(last,true);
+      if(yFmtLab) endLabs.push(yFmtLab);
+      var col=trendColor(k);
       return {label:trendName(k), key:k,
         data:nums,
-        borderColor:trendColor(k),
-        backgroundColor:'transparent',
-        fill:false,
-        spanGaps:true,
+        borderColor:col,
+        backgroundColor:(keys.length===1?'rgba(41,60,92,.08)':'transparent'),
+        fill:keys.length===1,
+        spanGaps:false,
         pointRadius:labels.length>24?0:2,
         pointHoverRadius:4,
         borderWidth:(k==='MA'||k==='FL'||k===pickedSt)?2:1.75};
     });
-    var yTitle=trendMode==='index_100'?'index, first year = 100':axisUnit;
+    var yTitle=trendMode==='index_100'?"Indexed to each series' first year (100 = starting level)":axisUnit;
     var yFmt=trendMode==='index_100'?fmtIndex:function(v){return fmtVal(v,true);};
     var yNums=[];
     datasets.forEach(function(d){ (d.data||[]).forEach(function(v){ if(v!=null&&v!=='') yNums.push(v); }); });
@@ -2302,11 +2596,13 @@ const FIND=FIND_JSON;
       return lab;
     }
     var titleEl=document.getElementById('trendTitle');
-    if(titleEl && pickedSt) titleEl.textContent=(CHART.trend_title||CHART.label||'Trend')+', plus '+trendName(pickedSt);
-    else if(titleEl) titleEl.textContent=CHART.trend_title||CHART.label||'Trend';
+    var baseTitle=trendMode==='index_100'?"Indexed to each series' first year (100 = starting level)":(CHART.trend_title||CHART.label||'Trend');
+    if(titleEl && pickedSt) titleEl.textContent=baseTitle+', plus '+trendName(pickedSt);
+    else if(titleEl) titleEl.textContent=baseTitle;
     var payload={labels:labels,datasets:datasets};
+    var right=window.dlRightPad?window.dlRightPad(endLabs, 96):96;
     var opts={responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:12,right:96}},
+      layout:{padding:{top:12,right:right}},
       plugins:{legend:{display:true,position:'top',align:'end'},
         tooltip:{callbacks:{
           title:function(items){
@@ -2316,7 +2612,8 @@ const FIND=FIND_JSON;
           label:function(c){
           var di=c.dataIndex, key=c.dataset.key, raw=rawByKey[key]?rawByKey[key][di]:null;
           if(trendMode==='index_100'){
-            return ' '+c.dataset.label+': '+fmtIndex(c.parsed.y)+(raw==null?'':' \u00b7 '+fmtVal(raw));
+            var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
+            return ' '+c.dataset.label+': '+(raw==null?'':fmtVal(raw)+extra)+(raw==null?'':' \u00b7 index '+fmtIndex(c.parsed.y));
           }
           var extra=(fmt==='usd'||fmt==='usd_millions'||fmt==='percent'||fmt==='stars')?'':(unit?' '+unit:'');
           return ' '+c.dataset.label+': '+fmtVal(c.parsed.y)+extra;
@@ -2327,17 +2624,11 @@ const FIND=FIND_JSON;
         y:fitScale({grace:'10%',title:{display:!!yTitle,text:yTitle,color:GREY,font:{size:11}},
           ticks:{color:GREY,callback:function(v){return yFmt(v);}},grid:{color:'rgba(34,34,34,.08)'}}, yNums)
       }};
-    var lbl=dataLabels(yFmt, labels.length>18?'end':'all');
-    if(trendChart){
-      trendChart.data=payload;
-      trendChart.options.plugins.tooltip.callbacks=opts.plugins.tooltip.callbacks;
-      trendChart.options.scales.y.title=opts.scales.y.title;
-      trendChart.options.scales.y.ticks.callback=opts.scales.y.ticks.callback;
-      copyFit(trendChart.options.scales.y, opts.scales.y);
-      trendChart.update();
-      return;
-    }
-    trendChart=new Chart(chTrend,{type:'line',data:payload,options:opts,plugins:[lbl]});
+    var plugins=[dataLabels(yFmt, labels.length>18?'end':'all')];
+    if(window.dlEndDot) plugins.push(window.dlEndDot({prefer:'MA'}));
+    if(trendMode==='index_100' && window.dlRefLineY) plugins.push(window.dlRefLineY(100, GOLD, 'starting level'));
+    if(trendChart){ trendChart.destroy(); trendChart=null; }
+    trendChart=new Chart(chTrend,{type:'line',data:payload,options:opts,plugins:plugins});
   }
   drawHeadline();
   function fmtInsight(fmt, v, short){
@@ -2361,7 +2652,13 @@ const FIND=FIND_JSON;
         var lab=this.getLabelForValue(v);
         if(lab==null||lab==='') return '';
         lab=String(lab);
-        return lab.length>(maxLen||28)?lab.slice(0,(maxLen||28)-2)+'\u2026':lab;
+        var cap=maxLen||28;
+        if(lab.length<=cap) return lab;
+        var cut=lab.lastIndexOf(' ', cap);
+        if(cut<8) cut=cap;
+        var a=lab.slice(0,cut), b=lab.slice(cut).replace(/^\\s+/, '');
+        if(b.length>cap) b=b.slice(0,cap-1)+'\u2026';
+        return [a, b];
       }};
   }
   function valTick(fmt){
@@ -2399,9 +2696,10 @@ const FIND=FIND_JSON;
       y:fitScale({ticks:valTick(ifmt),title:valTitle(iunit),grid:{color:'rgba(34,34,34,.08)'},border:{display:false},grace:'12%'}, ivals)
     };
     var nLab=(fig.labels||[]).length;
+    var iRight=fig.type==='line'?(window.dlRightPad?window.dlRightPad((fig.labels||[]).map(function(){return '000';}),96):96):(horiz?72:16);
     var opts={
       responsive:true,maintainAspectRatio:false,
-      layout:{padding:{top:fig.type==='grouped'?36:(fig.type==='line'?16:8),right:fig.type==='line'?96:(horiz?72:16)}},
+      layout:{padding:{top:fig.type==='grouped'?36:(fig.type==='line'?16:8),right:iRight}},
       plugins:{legend:{display:fig.type==='grouped'||(fig.series.length>1 && fig.series[0].label),
         position:'top',align:'end'},
         tooltip:{callbacks:{
@@ -2422,7 +2720,7 @@ const FIND=FIND_JSON;
       new Chart(el,{type:'line',
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
           return {label:s.label||fig.title,data:s.data,borderColor:s.color||INK,
-            backgroundColor:'transparent',spanGaps:true,tension:0,pointRadius:5,pointHoverRadius:6,borderWidth:2};
+            backgroundColor:'transparent',spanGaps:false,tension:0,pointRadius:5,pointHoverRadius:6,borderWidth:2};
         })},
         options:Object.assign({},opts,{indexAxis:'x',layout:{padding:{top:16,right:96}}}),
         plugins:[lbl]});
@@ -2440,7 +2738,7 @@ const FIND=FIND_JSON;
       new Chart(el,{type:'line',
         data:{labels:fig.labels,datasets:fig.series.map(function(s){
           return {label:s.label||fig.title,data:s.data,borderColor:s.color||INK,
-            backgroundColor:'transparent',spanGaps:true};
+            backgroundColor:'transparent',spanGaps:false};
         })},
         options:Object.assign({},opts,{indexAxis:'x'}),
         plugins:[lbl]});
@@ -2458,8 +2756,7 @@ const FIND=FIND_JSON;
     var s0=fig.series[0]||{};
     function barColors(labs){
       return (labs||[]).map(function(lab){
-        var t=String(lab);
-        return (lab==='Massachusetts'||lab==='Boston'||t.indexOf(', MA')>=0)?GOLD:BLUE;
+        return roleColor(lab, compareSt);
       });
     }
     function insightPicks(src){
@@ -2754,6 +3051,8 @@ const FIND=FIND_JSON;
       } else {
         hideCard();
       }
+      if(typeof drawLookupFig==='function') drawLookupFig();
+      fillPlaceStrip();
     };
     applyFind();
     applyDeepLink();

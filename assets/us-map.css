@@ -1,10 +1,10 @@
 /* Fifty-state map: Census Albers USA SVG, or a 51-cell tile grid.
-   Gold outline is Massachusetts only. Florida outline is off unless .fl-on. */
+   Gold outline is Massachusetts. Rust outline is Florida. */
 .plot.plot-map{height:auto;min-height:0}
 .usmap{position:relative}
 .usmap-frame{display:block}
 .usmap-box{position:relative;min-width:0}
-.usmap-svg{width:100%;height:auto;display:block;max-height:400px;
+.usmap-svg{width:100%;height:auto;display:block;max-height:520px;
   shape-rendering:geometricPrecision}
 .usmap .st{cursor:pointer;fill:#EEF1F4;stroke:#fff;stroke-width:0.5;
   vector-effect:non-scaling-stroke;transition:fill .12s,stroke .12s,opacity .12s}
@@ -14,21 +14,30 @@
   text-anchor:middle;pointer-events:none}
 .usmap .st:hover,.usmap .st:focus,.usmap .st.is-hot{stroke:#1A1A1A;stroke-width:1.2;outline:none}
 .usmap .st.is-ma{stroke:#CCB26D;stroke-width:1.6}
-.usmap.fl-on .st.is-fl{stroke:#C45C26;stroke-width:1.6}
+.usmap .st.is-fl,.usmap.fl-on .st.is-fl{stroke:#C45C26;stroke-width:1.6}
 .usmap .st.is-on,.usmap .st.is-ma.is-hot{stroke:#1A1A1A;stroke-width:1.8}
-.usmap.fl-on .st.is-fl.is-hot{stroke:#1A1A1A;stroke-width:1.8}
+.usmap .st.is-fl.is-hot{stroke:#1A1A1A;stroke-width:1.8}
 .usmap .st.is-dim{opacity:.18;pointer-events:none}
 .usmap .st.is-empty{cursor:default;fill:#EEF1F4}
+.usmap-pin{position:absolute;top:8px;right:8px;max-width:min(240px,46%);
+  background:rgba(255,255,255,.94);border:1px solid #E6E8EB;padding:8px 10px;
+  box-shadow:0 1px 0 rgba(26,26,26,.04);pointer-events:none;z-index:2}
+.usmap-pin .k{font:12px/1.3 Roboto,system-ui,sans-serif;color:#58575A}
+.usmap-pin .v{font:600 13.5px/1.3 Roboto,system-ui,sans-serif;color:#1A1A1A;
+  font-variant-numeric:tabular-nums}
 .usmap-legend{margin-top:12px}
-.usmap-bins{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
+.usmap-bins{display:block}
+.usmap-ramp{max-width:420px}
+.usmap-ramp-bar{height:10px;width:100%;box-shadow:inset 0 0 0 1px rgba(26,26,26,.12)}
+.usmap-ramp-labs{display:flex;justify-content:space-between;gap:8px;margin-top:6px;
+  font:12px/1.4 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-bin{display:inline-flex;align-items:center;gap:6px;
   font:12px/1.4 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-bin i{display:block;width:14px;height:10px;box-shadow:inset 0 0 0 1px rgba(26,26,26,.12)}
 .usmap-key{margin-top:8px;font:12px/1.5 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-key i{display:inline-block;width:11px;height:8px;margin:0 6px 0 0;vertical-align:middle;
   box-shadow:inset 0 0 0 1.5px #CCB26D;background:transparent}
-.usmap.fl-on .usmap-key i.fl,.usmap.fl-on .usmap-key i.cmp{display:inline-block;box-shadow:inset 0 0 0 1.5px #C45C26;margin-left:14px}
-.usmap:not(.fl-on) .usmap-key i.fl,.usmap:not(.fl-on) .cmp-key{display:none}
+.usmap-key i.fl,.usmap-key i.cmp{display:inline-block;box-shadow:inset 0 0 0 1.5px #C45C26;margin-left:14px}
 .usmap .cmp-key{margin-left:8px}
 .usmap-hint{margin-top:8px;font:12px/1.5 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-read{display:grid;grid-template-columns:1fr 1fr;gap:10px 28px;margin-top:14px;
@@ -37,11 +46,12 @@
 .usmap-read .k{font:12px/1.4 Roboto,system-ui,sans-serif;color:#58575A}
 .usmap-read .v{font:600 14.5px/1.35 Roboto,system-ui,sans-serif;color:#1A1A1A;font-variant-numeric:tabular-nums}
 .usmap-read .ma{box-shadow:inset 3px 0 0 #CCB26D;padding-left:10px}
-.usmap.fl-on .usmap-read .fl{box-shadow:inset 3px 0 0 #C45C26;padding-left:10px}
+.usmap-read .fl{box-shadow:inset 3px 0 0 #C45C26;padding-left:10px}
 .usmap.is-compact .usmap-svg{max-height:280px}
+.usmap.is-compact .usmap-pin{max-width:42%;padding:6px 8px}
 
 /* Option B: 51-cell tile grid */
-.usmap.is-tile .tilegrid{display:grid;gap:3px;max-width:720px}
+.usmap.is-tile .tilegrid{display:grid;gap:4px;max-width:720px}
 .usmap.is-tile .tile{appearance:none;border:0;margin:0;padding:6px 4px 5px;min-height:44px;
   background:#EEF1F4;color:#1A1A1A;cursor:pointer;text-align:left;
   font:600 11px/1.15 Roboto,system-ui,sans-serif;display:flex;flex-direction:column;gap:2px}
@@ -49,7 +59,7 @@
 .usmap.is-tile .tile .r{font:400 10.5px/1.2 Roboto,system-ui,sans-serif;font-variant-numeric:tabular-nums;opacity:.9}
 .usmap.is-tile .tile-empty{min-height:44px;background:transparent;pointer-events:none}
 .usmap.is-tile .tile.is-ma{box-shadow:inset 0 0 0 2px #CCB26D}
-.usmap.fl-on.is-tile .tile.is-fl{box-shadow:inset 0 0 0 2px #C45C26}
+.usmap.is-tile .tile.is-fl{box-shadow:inset 0 0 0 2px #C45C26}
 .usmap.is-tile .tile.is-hot,.usmap.is-tile .tile:hover,.usmap.is-tile .tile:focus{
   box-shadow:inset 0 0 0 2px #1A1A1A;outline:none}
 .usmap.is-tile .tile.is-dim{opacity:.18;pointer-events:none}
@@ -65,8 +75,9 @@
 .townmap .usmap-key{display:none}
 
 @media(max-width:800px){
-  .usmap-svg,.townmap svg{max-height:320px}
+  .usmap-svg,.townmap svg{max-height:360px}
   .usmap.is-tile .tile{min-height:36px;padding:4px 3px}
   .usmap.is-tile .tile .r{font-size:9.5px}
+  .usmap-pin{max-width:52%}
 }
 @media(max-width:640px){.usmap-read{grid-template-columns:1fr}}

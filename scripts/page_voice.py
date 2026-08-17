@@ -2000,6 +2000,9 @@ def find_bundle(app, ledger):
             "facts": facts,
             "kind": kind,
             "aliases": aliases,
+            "v": r.get("v"),
+            "srp": extras.get("srp"),
+            "chamber": r.get("chamber"),
         }
     if kind == "legislator":
         last_hits = {}
@@ -2015,14 +2018,75 @@ def find_bundle(app, ledger):
         default_q = "Massachusetts General Hospital"
     elif kind == "town":
         default_q = "Boston"
+    elif kind == "legislator":
+        default_q = "Karen Spilka"
     metric = ledger.get("metric_label") or "Value"
     if tid == "DL-07":
         metric = "NAEP grade 4 reading, 2024"
+    compare = {"kind": kind}
+    latest = ledger.get("latest") or {}
+    if kind == "town":
+        ma = latest.get("ma") or {}
+        if ma.get("pop") is not None:
+            compare["ma"] = {"name": "Massachusetts", "v": ma.get("pop"), "value": commify(ma.get("pop"))}
+        bos = next(
+            (r for r in (ledger.get("rows") or []) if str(r.get("name") or "").lower().startswith("boston")),
+            None,
+        )
+        if bos:
+            compare["boston"] = {
+                "name": short_place(bos.get("name")),
+                "v": bos.get("v"),
+                "value": commify(bos.get("v")),
+            }
+        acs_sec = sec(ledger, "acs_towns_2024") or sec(ledger, "acs_rankings_2024") or {}
+        if acs_sec.get("ma_median_hh_income") is not None:
+            compare["ma_income"] = {
+                "name": "Massachusetts",
+                "v": acs_sec.get("ma_median_hh_income"),
+                "value": money(acs_sec.get("ma_median_hh_income")),
+            }
+        socio = acs_sec.get("socioeconomic_peers") or {}
+        acs_peers = {}
+        for pname, plist in socio.items():
+            if plist and plist[0].get("name"):
+                acs_peers[norm_key(pname)] = {
+                    "name": short_place(plist[0].get("name")),
+                    "v": plist[0].get("median_hh_income") or plist[0].get("pop") or plist[0].get("v"),
+                }
+        compare["acs_peers"] = acs_peers
+        pop_peers = {}
+        for pname, plist in (sec(ledger, "population_peers_2025").get("peers") or {}).items():
+            if plist and plist[0].get("name"):
+                pop_peers[norm_key(pname)] = {
+                    "name": short_place(plist[0].get("name")),
+                    "v": plist[0].get("pop") or plist[0].get("v"),
+                    "value": commify(plist[0].get("pop") or plist[0].get("v")),
+                }
+        compare["pop_peers"] = pop_peers
+    elif kind == "hospital":
+        compare["statewide_srp"] = {"name": "Statewide commercial average", "v": 1.0, "value": "1.00"}
+    elif kind == "legislator":
+        house = latest.get("house") or {}
+        senate = latest.get("senate") or {}
+        if house.get("median") is not None:
+            compare["house_median"] = {
+                "name": "House median",
+                "v": house.get("median"),
+                "value": money_cents(house.get("median")),
+            }
+        if senate.get("median") is not None:
+            compare["senate_median"] = {
+                "name": "Senate median",
+                "v": senate.get("median"),
+                "value": money_cents(senate.get("median")),
+            }
     return {
         "kind": kind,
         "cards": cards,
         "metric": metric,
         "default_q": default_q,
+        "compare": compare,
     }
 
 

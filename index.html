@@ -626,152 +626,6 @@ const CHART_TITLES = {
   });
 })();
 
-function chartSVG(kind, hot){
-  if(!DL03) return '';
-  if(kind==='monthly_trend'){
-    const sr=DL03.monthly_total_upt,W=660,H=170,pl=38,pr=10,pt=10,pb=24;
-    const max=Math.max(...sr.map(d=>d.v));
-    const x=i=>pl+i*((W-pl-pr)/(sr.length-1)),y=v=>pt+(1-v/max)*(H-pt-pb);
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    [10e6,20e6,30e6].forEach(v=>{if(v<max)g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="Roboto" fill="#9AA2AA">'+(v/1e6)+'M</text>';});
-    g+='<polyline fill="none" stroke="#293C5C" stroke-width="2" points="'+sr.map((d,i)=>x(i)+','+y(d.v)).join(' ')+'"/>';
-    g+='<circle cx="'+x(sr.length-1)+'" cy="'+y(sr[sr.length-1].v)+'" r="3.5" fill="#CCB26D"/>';
-    sr.forEach((d,i)=>{if(d.m.endsWith('-01')&&parseInt(d.m)%2===0)g+='<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#9AA2AA">'+d.m.slice(0,4)+'</text>';});
-    return g+'</svg>';
-  }
-  if(kind==='recovery_by_mode'){
-    const rec=DL03.recovery_vs_2019_same_month_pct;
-    const order=['CR','MB','RB','LR','FB','HR','DR'].filter(m=>rec[m]!=null);
-    const W=660,rh=25,H=order.length*rh+6;
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    order.forEach((m,i)=>{
-      const v=rec[m],yy=3+i*rh,w=(Math.min(v,115)/115)*(W-265);
-      const h=m===hot,full=v>=100;
-      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Roboto" fill="#222222" font-weight="'+(h?'700':'400')+'">'+DL03.mode_names[m].split(' (')[0]+'</text>';
-      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#CCB26D':(full?'#177245':'#293C5C'))+'"/>';
-      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" font-family="Roboto" fill="#666666">'+v+'%</text>';
-    });
-    const rx=155+(100/115)*(W-265);
-    g+='<line x1="'+rx+'" y1="0" x2="'+rx+'" y2="'+H+'" stroke="#CCB26D" stroke-dasharray="3,3"/>';
-    return g+'</svg>';
-  }
-  if(kind==='cost_per_trip'||kind==='farebox'){
-    let rows=DL03.annual_cost_and_farebox.filter(r=>r.mode!=='Demand Response'&&!(r.mode==='Bus'&&r.tos==='PT'));
-    const key=kind==='cost_per_trip'?'cost_per_trip':'recovery_ratio';
-    rows=rows.slice().sort((a,b)=>kind==='cost_per_trip'?a[key]-b[key]:b[key]-a[key]);
-    const max=Math.max(...rows.map(r=>r[key]));
-    const W=660,rh=25,H=rows.length*rh+6;
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    rows.forEach((r,i)=>{
-      const yy=3+i*rh,w=(r[key]/max)*(W-275);
-      const h=hot&&DL03.mode_names[hot]&&DL03.mode_names[hot].indexOf(r.mode)===0;
-      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Roboto" fill="#222222" font-weight="'+(h?'700':'400')+'">'+r.mode+'</text>';
-      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#CCB26D':'#293C5C')+'" opacity="0.92"/>';
-      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" font-family="Roboto" fill="#666666">'+(kind==='cost_per_trip'?'$'+r[key].toFixed(2):r[key]+'%')+'</text>';
-    });
-    return g+'</svg>';
-  }
-
-  /* ---- DL-02 Florida views (hot = county name) ---- */
-  if(kind==='citizens_trend'){
-    const sr=FLPIF,W=660,H=170,pl=42,pr=14,pt=14,pb=24;
-    const max=1500000;
-    const x=i=>pl+i*((W-pl-pr)/(sr.length-1)),y=v=>pt+(1-v/max)*(H-pt-pb);
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    [500000,1000000,1500000].forEach(v=>{g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="Roboto" fill="#9AA2AA">'+(v/1e6)+'M</text>';});
-    g+='<polyline fill="none" stroke="#293C5C" stroke-width="2" points="'+sr.map((d,i)=>x(i)+','+y(d[1])).join(' ')+'"/>';
-    let pi=0; sr.forEach((d,i)=>{if(d[1]>sr[pi][1])pi=i;});
-    g+='<circle cx="'+x(pi)+'" cy="'+y(sr[pi][1])+'" r="3" fill="#293C5C"/>';
-    g+='<text x="'+x(pi)+'" y="'+(y(sr[pi][1])-7)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#666666">peak '+(sr[pi][1]/1e6).toFixed(2)+'M</text>';
-    g+='<circle cx="'+x(sr.length-1)+'" cy="'+y(sr[sr.length-1][1])+'" r="3.5" fill="#CCB26D"/>';
-    g+='<text x="'+(x(sr.length-1)-7)+'" y="'+(y(sr[sr.length-1][1])+4)+'" text-anchor="end" font-size="9" font-family="Roboto" fill="#CCB26D">'+Math.round(sr[sr.length-1][1]/1000)+'k</text>';
-    sr.forEach((d,i)=>{if(d[0].endsWith('-01'))g+='<text x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#9AA2AA">'+d[0].slice(0,4)+'</text>';});
-    return g+'</svg>';
-  }
-  if(kind==='county_compare'){
-    const byHi=FLCTY.slice().sort((a,b)=>b[1]-a[1]);
-    let rows=byHi.slice(0,5).concat(byHi.slice(-5));
-    if(hot&&!rows.some(r=>r[0]===hot)){const h=FLCTY.find(r=>r[0]===hot);if(h)rows.push(h);}
-    rows=rows.slice().sort((a,b)=>b[1]-a[1]);
-    const max=byHi[0][1],W=660,rh=25,H=rows.length*rh+22;
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    rows.forEach((r,i)=>{
-      const yy=3+i*rh,w=(r[1]/max)*(W-275),h=r[0]===hot;
-      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Roboto" fill="#222222" font-weight="'+(h?'700':'400')+'">'+r[0]+'</text>';
-      g+='<rect x="155" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#CCB26D':'#293C5C')+'" opacity="0.92"/>';
-      g+='<text x="'+(161+w)+'" y="'+(yy+13)+'" font-size="10" font-family="Roboto" fill="#666666">$'+r[1].toLocaleString()+'</text>';
-    });
-    g+='<text x="0" y="'+(H-3)+'" font-size="9.5" font-family="Roboto" fill="#9AA2AA">The five highest and five lowest of 67 counties'+(hot&&!byHi.slice(0,5).concat(byHi.slice(-5)).some(r=>r[0]===hot)?', plus '+hot:'')+'.</text>';
-    return g+'</svg>';
-  }
-  if(kind==='premium_change'){
-    const ch=FLCTY.map(r=>[r[0],r[1]-r[3]]).sort((a,b)=>a[1]-b[1]);
-    let rows=ch.slice(0,5).concat(ch.slice(-5));
-    if(hot&&!rows.some(r=>r[0]===hot)){const h=ch.find(r=>r[0]===hot);if(h)rows.push(h);}
-    rows=rows.slice().sort((a,b)=>a[1]-b[1]);
-    const max=Math.max(...rows.map(r=>Math.abs(r[1])))||1;
-    const W=660,rh=25,H=rows.length*rh+22,cx=330,span=180;
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    g+='<line x1="'+cx+'" y1="0" x2="'+cx+'" y2="'+(H-18)+'" stroke="#9AA2AA"/>';
-    rows.forEach((r,i)=>{
-      const yy=3+i*rh,w=Math.max(Math.abs(r[1])/max*span,1),neg=r[1]<0,h=r[0]===hot;
-      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Roboto" fill="#222222" font-weight="'+(h?'700':'400')+'">'+r[0]+'</text>';
-      g+='<rect x="'+(neg?cx-w:cx)+'" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(h?'#CCB26D':(neg?'#177245':'#8C2532'))+'" opacity="0.92"/>';
-      g+='<text x="'+(neg?cx-w-6:cx+w+6)+'" y="'+(yy+13)+'" text-anchor="'+(neg?'end':'start')+'" font-size="10" font-family="Roboto" fill="#666666">'+(r[1]<0?'-$':'+$')+Math.abs(r[1])+'</text>';
-    });
-    g+='<text x="0" y="'+(H-3)+'" font-size="9.5" font-family="Roboto" fill="#9AA2AA">The five largest declines and increases of 67 counties; premiums fell in '+FLCTY.filter(r=>r[1]<r[3]).length+' of 67.</text>';
-    return g+'</svg>';
-  }
-  if(kind==='litigation'){
-    const W=660,H=195,pl=34,pr=8,pt=26,pb=22,n=FLLIT.length;
-    const gap=(W-pl-pr)/n,bw=Math.min(20,gap/2-4);
-    const y=v=>pt+(1-v/100)*(H-pt-pb);
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    [25,50,75].forEach(v=>{g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="Roboto" fill="#9AA2AA">'+v+'%</text>';});
-    FLLIT.forEach((r,i)=>{
-      const x0=pl+i*gap+gap/2;
-      g+='<rect x="'+(x0-bw-1.5)+'" y="'+y(r[1])+'" width="'+bw+'" height="'+(y(0)-y(r[1]))+'" fill="#293C5C"/>';
-      g+='<rect x="'+(x0+1.5)+'" y="'+y(r[2])+'" width="'+bw+'" height="'+(y(0)-y(r[2]))+'" fill="#8C2532"/>';
-      g+='<text x="'+x0+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#9AA2AA">'+r[0]+'</text>';
-    });
-    g+='<rect x="'+pl+'" y="4" width="9" height="9" fill="#293C5C"/><text x="'+(pl+14)+'" y="12" font-size="10" font-family="Roboto" fill="#666666">Share of US claims</text>';
-    g+='<rect x="'+(pl+140)+'" y="4" width="9" height="9" fill="#8C2532"/><text x="'+(pl+154)+'" y="12" font-size="10" font-family="Roboto" fill="#666666">Share of US lawsuits</text>';
-    return g+'</svg>';
-  }
-  if(kind==='risk_transfer'){
-    const W=660,H=195,pl=30,pr=8,pt=26,pb=22,n=FLRT.length,max=12;
-    const gap=(W-pl-pr)/n,bw=Math.min(34,gap-14);
-    const y=v=>pt+(1-v/max)*(H-pt-pb);
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    [4,8,12].forEach(v=>{g+='<line x1="'+pl+'" y1="'+y(v)+'" x2="'+(W-pr)+'" y2="'+y(v)+'" stroke="#EDEEF0"/><text x="2" y="'+(y(v)+4)+'" font-size="9" font-family="Roboto" fill="#9AA2AA">$'+v+'B</text>';});
-    FLRT.forEach((r,i)=>{
-      const x0=pl+i*gap+(gap-bw)/2,tot=r[1]+r[2];
-      g+='<rect x="'+x0+'" y="'+y(r[1])+'" width="'+bw+'" height="'+(y(0)-y(r[1]))+'" fill="#293C5C"/>';
-      g+='<rect x="'+x0+'" y="'+y(tot)+'" width="'+bw+'" height="'+(y(r[1])-y(tot))+'" fill="#CCB26D"/>';
-      if(tot<max*0.86) g+='<text x="'+(x0+bw/2)+'" y="'+(y(tot)-4)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#666666">'+tot.toFixed(1)+'</text>';
-      g+='<text x="'+(x0+bw/2)+'" y="'+(H-6)+'" text-anchor="middle" font-size="9" font-family="Roboto" fill="#9AA2AA">'+r[0]+'</text>';
-    });
-    g+='<rect x="'+pl+'" y="4" width="9" height="9" fill="#293C5C"/><text x="'+(pl+14)+'" y="12" font-size="10" font-family="Roboto" fill="#666666">FL Hurricane Cat Fund</text>';
-    g+='<rect x="'+(pl+160)+'" y="4" width="9" height="9" fill="#CCB26D"/><text x="'+(pl+174)+'" y="12" font-size="10" font-family="Roboto" fill="#666666">Private capital</text>';
-    return g+'</svg>';
-  }
-  if(kind==='takeouts'){
-    const rows=FLTK,max=Math.max(...rows.map(r=>Math.abs(r[1])))||1;
-    const W=660,rh=25,H=rows.length*rh+22,cx=330,span=200;
-    let g='<svg viewBox="0 0 '+W+' '+H+'">';
-    g+='<line x1="'+cx+'" y1="0" x2="'+cx+'" y2="'+(H-18)+'" stroke="#9AA2AA"/>';
-    rows.forEach((r,i)=>{
-      const yy=3+i*rh,w=Math.max(Math.abs(r[1])/max*span,1),neg=r[1]<0;
-      g+='<text x="0" y="'+(yy+13)+'" font-size="11" font-family="Roboto" fill="#222222">'+r[0]+'</text>';
-      g+='<rect x="'+(neg?cx-w:cx)+'" y="'+(yy+3)+'" width="'+w+'" height="12" fill="'+(neg?'#177245':'#8C2532')+'" opacity="0.92"/>';
-      g+='<text x="'+(neg?cx-w-6:cx+w+6)+'" y="'+(yy+13)+'" text-anchor="'+(neg?'end':'start')+'" font-size="10" font-family="Roboto" fill="#666666">'+(r[1]<0?'':'+')+r[1]+'</text>';
-    });
-    g+='<text x="0" y="'+(H-3)+'" font-size="9.5" font-family="Roboto" fill="#9AA2AA">Derived as an identity from Citizens counts and takeout totals; negative means net outflow.</text>';
-    return g+'</svg>';
-  }
-  return '';
-}
-
 /* ---------- Ask ---------- */
 const resp=document.getElementById('resp');
 var respBar=document.getElementById('respBar');
@@ -808,16 +662,13 @@ async function ask(){
       resp.innerHTML='<div class="noans">'+DISMISS+'<b>The engine is unavailable.</b> Try again in a moment. Every tool in the catalog still works.</div>';
     } else if(p.type==='answer'){
       const kind=p.chart&&p.chart!=='none'?p.chart:null;
-      /* Only render the figure when this page actually has a renderer for the
-         kind; otherwise the deep link below still opens the full chart. */
-      const fig=kind?chartSVG(kind,p.highlight||null):'';
       const link=safeUrl(p.link);
+      const cap=kind&&CHART_TITLES[kind]?CHART_TITLES[kind]:'';
       resp.innerHTML='<div class="entry">'+DISMISS+'<div class="k">Answer</div>' +
         '<div class="ans">'+esc(p.text)+'</div>' +
         (p.detail?'<div class="det">'+esc(p.detail)+'</div>':'') +
-        (fig?'<div class="figure"><div class="cap">'+esc(CHART_TITLES[kind]||'')+'</div>'+fig+'</div>':'') +
         (p.src?'<div class="srcline"><b>Source:</b> '+esc(p.src)+'</div>':'') +
-        (link?'<div class="goline"><a href="'+esc(link)+'">Open the application &#8594;</a></div>':'') +
+        (link?'<div class="goline"><a href="'+esc(link)+'">'+(cap?('Open '+cap+' &#8594;'):'Open the application &#8594;')+'</a></div>':'') +
         (p.see_also&&p.see_also.length?'<div class="seealso">Also relevant: '+
           p.see_also.filter(s=>safeUrl(s.url)).map(s=>'<a href="'+esc(safeUrl(s.url))+'" title="'+esc(s.reason||'')+'">'+esc(s.title)+' &#8594;</a>').join(' &#183; ')+'</div>':'') +
         (p.followups&&p.followups.length?'<div class="fups">Related: '+

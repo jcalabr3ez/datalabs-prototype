@@ -78,6 +78,14 @@
             ask();
           });
         });
+        if (p.link && window.dlHighlightExhibit) {
+          try {
+            var u = new URL(p.link, location.origin);
+            if (u.pathname.replace(/\/$/, "") === location.pathname.replace(/\/$/, "")) {
+              window.dlHighlightExhibit(u.hash || "#view-rank");
+            }
+          } catch (err) {}
+        }
       } else if (p.type === "route" && p.matches && p.matches.length) {
         resp.innerHTML =
           '<div class="k">Where to find this</div><div class="det">' +

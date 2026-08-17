@@ -61,18 +61,24 @@
     return Object.keys(m).map(function (k) { return m[k]; }).filter(Boolean);
   }
 
-  function pickMode(chart, mode) {
-    if (mode === 'all' || mode === 'end') return mode;
-    var isLine = chart.config.type === 'line';
+  function countBars(chart) {
     var n = 0;
-    var nDs = 0;
     (chart.data.datasets || []).forEach(function (ds) {
       if (!ds || !ds.data) return;
-      nDs += 1;
       if (ds.data.length > n) n = ds.data.length;
     });
-    if (isLine && (n > 6 || (nDs > 1 && n > 4))) return 'end';
+    return n;
+  }
+
+  function pickMode(chart, mode) {
+    if (mode === 'none') return 'none';
+    if (mode === 'all' || mode === 'end') return mode;
+    var isLine = chart.config.type === 'line';
+    var n = countBars(chart);
+    var nDs = (chart.data.datasets || []).length;
     var horiz = chart.options && chart.options.indexAxis === 'y';
+    if (!isLine && n > 8) return 'none';
+    if (isLine && (n > 6 || (nDs > 1 && n > 4))) return 'end';
     if (!isLine && !horiz && nDs > 1 && n > 6) return 'end';
     return 'all';
   }
@@ -242,7 +248,10 @@
         chosen.box = b;
         break;
       }
-      if (!chosen) return;
+      if (!chosen) {
+        chosen = { x: x0, y: y, align: 'left', baseline: 'middle' };
+        chosen.box = textBox(chosen.x, chosen.y, w, h, chosen.align, chosen.baseline);
+      }
       if (Math.abs(chosen.y - c.el.y) > 7 || chosen.x - c.el.x > 14) {
         ctx.save();
         ctx.strokeStyle = c.ds.borderColor || INK;
@@ -271,11 +280,13 @@
         var horiz = chart.options.indexAxis === 'y';
         var isLine = chart.config.type === 'line';
         var use = pickMode(chart, mode);
+        if (use === 'none') return;
         var reserved = reservedList(chart);
         ctx.save();
         ctx.font = '500 11px Roboto,system-ui,sans-serif';
         var placed = [];
         var cands = [];
+        var nBars = countBars(chart);
 
         chart.data.datasets.forEach(function (ds, di) {
           var meta = chart.getDatasetMeta(di);
@@ -318,8 +329,8 @@
           return Math.abs(b.nv || 0) - Math.abs(a.nv || 0);
         });
 
+        var leftovers = [];
         cands.forEach(function (c) {
-          if (!c.isLine && c.thick != null && c.thick < 10) return;
           var w = ctx.measureText(c.text).width;
           var h = 11;
           var el = c.el;
@@ -366,10 +377,14 @@
             chosen.box = b;
             break;
           }
-          if (!chosen) return;
+          if (!chosen) {
+            leftovers.push(c);
+            return;
+          }
           paint(ctx, c.text, chosen.x, chosen.y, chosen.align, chosen.baseline, chosen.fill);
           placed.push(chosen.box);
         });
+        if (leftovers.length) stackEnds(leftovers, ctx, chart, board, reserved.concat(placed));
         ctx.restore();
       }
     };

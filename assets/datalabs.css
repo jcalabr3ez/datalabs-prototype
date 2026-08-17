@@ -43,3 +43,11 @@
 .region-chips button{border:1px solid var(--rule);background:#fff;color:var(--ink);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer}
 .region-chips button:hover{border-color:var(--navy)}
 .region-chips button.on{border-color:var(--navy);color:var(--navy);box-shadow:inset 0 -2px 0 var(--navy)}
+@media print{
+  .sitebar,.jump,.ask-starters,.askbar,.ask-resp,.cite-copy,.fig-copy,.region-bar,
+  .explore-bar,.compare-bar,.lens-bar,.map-tabs,.findrow,nav,#sources,footer .disclaimer,
+  #view-table,section#sources{display:none !important}
+  .exhibit{break-inside:avoid}
+  .plot,.plot-sm,.plot-mid,.plot-ranks{height:320px}
+  body{background:#fff;color:#000}
+}

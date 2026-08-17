@@ -15,7 +15,8 @@ from page_voice import short_place, short_place_text
 GOLD = "#CCB26D"
 RUST = "#C45C26"
 NAVY = "#293C5C"
-INK = "#222222"
+INK = "#1A1A1A"
+STEEL = "#A9B8C8"
 GREY = "#8DA0B5"
 
 
@@ -61,9 +62,15 @@ def _fig(
 
 def _bar_color(lab, names):
     text = str(lab)
-    if lab in names or lab in ("Massachusetts", "Boston") or text.endswith(", MA"):
+    if lab in ("United States", "US") or text.startswith("United States"):
+        return INK
+    if lab in ("Massachusetts", "MA") or text == "Massachusetts":
         return GOLD
-    return NAVY
+    if lab in ("Florida", "FL") or text == "Florida":
+        return RUST
+    if lab in names:
+        return NAVY
+    return STEEL
 
 
 def _bars(labels, values, highlight=None, highlight_names=None):

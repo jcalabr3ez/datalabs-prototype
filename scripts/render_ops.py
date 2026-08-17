@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 16, 2026",
+        "title": "Per capita income compare uses every state",
+        "body": (
+            "The Per capita personal income, 2025 bar on State GDP now "
+            "keeps every state and D.C. from the same BEA SAINC4 file, "
+            "so Compare a state is not limited to the highlight four. "
+            "State Wealth Taxes and Florida Homeowners Insurance were "
+            "not edited."
+        ),
+    },
+    {
+        "date": "August 16, 2026",
         "title": "Ask can answer a named-state participation rate",
         "body": (
             "The front-door ask box now keeps a compact state map for "

@@ -25,9 +25,13 @@ def tool_id_from_path(path):
 
 
 def looks_like_snap(obj):
-    return isinstance(obj, dict) and "n_ranked" in obj and (
-        obj.get("ma") or obj.get("highest")
-    )
+    if not isinstance(obj, dict) or not (obj.get("ma") or obj.get("highest")):
+        return False
+    n = obj.get("n_ranked")
+    if isinstance(n, int) and n >= 40:
+        return True
+    ma = obj.get("ma")
+    return isinstance(ma, dict) and isinstance(ma.get("n"), int) and ma["n"] >= 40
 
 
 def cell_v(node):
@@ -72,10 +76,20 @@ def fill_from_local(obj, stats):
                     fill_from_local(item, stats)
 
 
+def snap_n(obj):
+    n = obj.get("n_ranked")
+    if isinstance(n, int):
+        return n
+    ma = obj.get("ma")
+    if isinstance(ma, dict) and isinstance(ma.get("n"), int):
+        return ma["n"]
+    return None
+
+
 def highlights_match(old, new):
     if not looks_like_snap(old) or not looks_like_snap(new):
         return False
-    if old.get("n_ranked") != new.get("n_ranked"):
+    if snap_n(old) != snap_n(new):
         return False
     if cell_v(old.get("ma")) != cell_v(new.get("ma")):
         return False
@@ -88,17 +102,19 @@ def highlights_match(old, new):
 
 def merge_rows(old, new, stats, path):
     if looks_like_snap(old) and looks_like_snap(new) and new.get("rows"):
-        if len(old.get("rows") or []) >= 40:
-            return
-        if highlights_match(old, new):
-            old["rows"] = new["rows"]
-            stats["merged"] += 1
-            stats["paths"].append(path)
-            return
-        stats["mismatch"].append(
-            f"{path} old_ma={cell_v(old.get('ma'))} new_ma={cell_v(new.get('ma'))}"
-        )
-        return
+        if len(old.get("rows") or []) < 40:
+            if highlights_match(old, new):
+                old["rows"] = new["rows"]
+                if old.get("n_ranked") is None and new.get("n_ranked") is not None:
+                    old["n_ranked"] = new["n_ranked"]
+                if old.get("fl") is None and new.get("fl") is not None:
+                    old["fl"] = new["fl"]
+                stats["merged"] += 1
+                stats["paths"].append(path)
+            else:
+                stats["mismatch"].append(
+                    f"{path} old_ma={cell_v(old.get('ma'))} new_ma={cell_v(new.get('ma'))}"
+                )
     if not isinstance(old, dict) or not isinstance(new, dict):
         return
     for k, nv in new.items():

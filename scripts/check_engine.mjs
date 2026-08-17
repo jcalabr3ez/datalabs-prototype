@@ -145,6 +145,14 @@ for (const t of tools) {
   check(core.length <= full.length, t.id + " coreSlice (" + core.length + ") <= modelSlice (" + full.length + ")");
 }
 
+const dl15 = tools.find(function (t) { return t.id === "DL-15"; });
+const pcpiCore = ((((dl15.coreSlice(dl15.dataset).derived || {}).secondary || {}).personal_income_2025 || {}).per_capita || {});
+check(pcpiCore.by_st && pcpiCore.by_st.WY && pcpiCore.by_st.WY.v != null,
+  "DL-15 coreSlice has Wyoming per capita personal income in by_st");
+const pcpiFull = ((((dl15.modelSlice(dl15.dataset).derived || {}).secondary || {}).personal_income_2025 || {}).per_capita || {});
+check(Array.isArray(pcpiFull.rows) && pcpiFull.rows.some(function (r) { return r.st === "WY"; }),
+  "DL-15 modelSlice keeps Wyoming in per_capita.rows");
+
 const dl14 = tools.find(function (t) { return t.id === "DL-14"; });
 const lfprCore = ((((dl14.coreSlice(dl14.dataset).derived || {}).secondary || {}).laus_labor_2026 || {}).lfpr || {});
 check(lfprCore.by_st && lfprCore.by_st.WY && lfprCore.by_st.WY.v != null,

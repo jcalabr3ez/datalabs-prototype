@@ -556,6 +556,7 @@ def sec_personal_income():
         "rows": snap.get("rows") or [],
         "per_capita": {
             "label": "Per capita personal income, 2025",
+            "src": "SRC-615-02",
             "us": us_pcpi,
             "ma": pc["ma"],
             "highest": pc["highest"],

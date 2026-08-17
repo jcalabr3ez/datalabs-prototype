@@ -331,6 +331,19 @@ if missing_rows:
 else:
     print("snap rows: ok   50-state companion snaps keep jurisdiction rows")
 
+pcpi = json.loads((ROOT / "netlify" / "functions" / "dl15-answers.json").read_text())
+pcpi_rows = (
+    ((pcpi.get("derived") or {}).get("secondary") or {})
+    .get("personal_income_2025", {})
+    .get("per_capita", {})
+    .get("rows") or []
+)
+if len(pcpi_rows) < 50:
+    failures.append("DL-15 per capita personal income must keep 51 jurisdiction rows")
+    print(f"pcpi rows: MISS {len(pcpi_rows)}")
+else:
+    print(f"pcpi rows: ok   {len(pcpi_rows)} jurisdictions")
+
 lfpr = json.loads((ROOT / "netlify" / "functions" / "dl14-answers.json").read_text())
 lfpr_rows = (
     ((lfpr.get("derived") or {}).get("secondary") or {})

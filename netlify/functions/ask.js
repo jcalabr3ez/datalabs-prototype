@@ -6,13 +6,14 @@
 // removed: routing without the ledger is where every eval misdecline lived.
 // Scaling to many tools is done by shrinking the payload, not by splitting
 // the decision. Every tool always ships a small coreSlice; a trigger hit
-// upgrades that tool to its full modelSlice. Prompt caching covers the
-// static rules on their own breakpoint (the catalog, which refreshes every
-// 5 minutes, sits behind a second), the visitor's recent exchanges ride
-// along, and no free-form model text is ever parsed.
+// upgrades that tool to a slim modelSlice (51-state rows and district
+// summaries, not ZIP files or raw state cubes). Prompt caching covers the
+// static rules and cores, then the bundled catalog, so a hit pattern never
+// invalidates the cached prefix. The visitor's recent exchanges ride along,
+// and no free-form model text is ever parsed.
 // Holds the Anthropic API key server-side (env var ANTHROPIC_API_KEY).
 
-const BUNDLED_CATALOG = require('./catalog.json'); // fallback only
+const BUNDLED_CATALOG = require('./catalog.json');
 const TOOLS = require('./tools.js');
 
 // ---------- payload selection (how 3 tools become 20 without a router) ----------
@@ -62,22 +63,15 @@ function selectDatasets(question, history) {
 const ANSWER_MODEL = 'claude-sonnet-5';
 const ANSWER_EFFORT = 'medium';
 
-let catalogCache = { data: null, at: 0 };
-async function getCatalog() {
-  // Single source of truth: the site's own catalog.json, cached 5 minutes.
-  const now = Date.now();
-  if (catalogCache.data && now - catalogCache.at < 300000) return catalogCache.data;
-  try {
-    const base = process.env.URL || process.env.DEPLOY_URL;
-    if (base) {
-      const r = await fetch(base + '/catalog.json');
-      if (r.ok) {
-        catalogCache = { data: await r.json(), at: now };
-        return catalogCache.data;
-      }
-    }
-  } catch (e) { console.error('catalog fetch failed, using bundled copy:', e.message); }
-  return BUNDLED_CATALOG;
+function catalogForModel(raw) {
+  // Bundled catalog only. A live fetch can change bytes and miss the
+  // second prompt-cache breakpoint. Route and see_also need id, title,
+  // coverage line, and url, not the rest of the catalog row.
+  return (Array.isArray(raw) ? raw : []).filter(function (t) {
+    return t && /^DL-\d+/.test(String(t.id || ''));
+  }).map(function (t) {
+    return { id: t.id, t: t.t, q: t.q, url: t.url, st: t.st, g: t.g };
+  });
 }
 
 // ---------- schema (structured outputs) ----------
@@ -210,9 +204,7 @@ exports.handler = async function (event) {
   }
 
   try {
-    const catalog = (await getCatalog()).filter(function (t) {
-      return t && /^DL-\d+/.test(String(t.id || ''));
-    });
+    const catalog = catalogForModel(BUNDLED_CATALOG);
     const messages = buildMessages(history, question);
 
     // One call. Rules, then every core (static per deploy) behind its own

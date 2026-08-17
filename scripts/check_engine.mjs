@@ -161,6 +161,33 @@ const lfprFull = ((((dl14.modelSlice(dl14.dataset).derived || {}).secondary || {
 check(Array.isArray(lfprFull.rows) && lfprFull.rows.some(function (r) { return r.st === "WY"; }),
   "DL-14 modelSlice keeps Wyoming in lfpr.rows");
 
+const dl11 = tools.find(function (t) { return t.id === "DL-11"; });
+const dl11Full = dl11.modelSlice(dl11.dataset);
+const dl11Leg = (((dl11Full.derived || {}).secondary || {}).legislative) || {};
+check(!dl11Leg.rows, "DL-11 modelSlice drops ZIP-scale legislative.rows");
+check(Array.isArray(dl11Leg.ma_districts) && dl11Leg.ma_districts.length > 0,
+  "DL-11 modelSlice keeps Massachusetts house districts");
+check(Array.isArray(dl11Leg.district_rows) && dl11Leg.district_rows.length > 0,
+  "DL-11 modelSlice keeps district_rows");
+check(JSON.stringify(dl11Full).length < 80000,
+  "DL-11 modelSlice is under 80 KB (" + JSON.stringify(dl11Full).length + " B)");
+
+const dl13 = tools.find(function (t) { return t.id === "DL-13"; });
+const dl13Full = dl13.modelSlice(dl13.dataset);
+const dl13Bed = (((dl13Full.derived || {}).secondary || {}).bed_births_deaths) || {};
+check(!dl13Bed.states, "DL-13 modelSlice drops the raw bed_births_deaths.states cube");
+check(dl13Bed.us != null && dl13Bed.ma != null,
+  "DL-13 modelSlice keeps US and Massachusetts birth-death cells");
+check(JSON.stringify(dl13Full).length < 120000,
+  "DL-13 modelSlice is under 120 KB (" + JSON.stringify(dl13Full).length + " B)");
+
+const dl11Core = JSON.stringify(dl11.coreSlice(dl11.dataset));
+const dl13Core = JSON.stringify(dl13.coreSlice(dl13.dataset));
+check(JSON.stringify(ask.selectDatasets("How many 340B sites are in the United States?", []).cores["DL-11"]) === dl11Core,
+  "DL-11 coreSlice is unchanged on a 340B hit");
+check(JSON.stringify(ask.selectDatasets("How many new business applications were filed in the United States last month?", []).cores["DL-13"]) === dl13Core,
+  "DL-13 coreSlice is unchanged on a BFS hit");
+
 for (const [q, tool] of GOLDEN_HITS) {
   const hits = ask.toolsMatching(q).map(function (t) { return t.id; });
   check(hits.includes(tool), "golden hit " + tool + " for: " + q + "  (hits: " + hits.join(",") + ")");

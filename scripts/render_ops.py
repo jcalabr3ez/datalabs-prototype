@@ -62,6 +62,20 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Ask ships a slimmer hit ledger",
+        "body": (
+            "A trigger hit no longer reattaches ZIP-scale 340B rows or "
+            "the raw business-formation state cube. Those cells stay "
+            "in the cached core as by_st. The hit still carries "
+            "fifty-state rows and Massachusetts and Florida district "
+            "summaries. The catalog block uses the bundled file so "
+            "the prompt cache does not miss on a live fetch. State "
+            "Wealth Taxes and Florida Homeowners Insurance were not "
+            "edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Question log waits for the spreadsheet webhook",
         "body": (
             "Ask now waits for the optional Power Automate POST "

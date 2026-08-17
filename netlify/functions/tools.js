@@ -64,6 +64,16 @@ var CORE_HEAVY = {
   types: 1, ma_types: 1, agencies: 1
 };
 
+// Hit upgrades may keep a 51-state rows list and MA/FL district
+// summaries. They must not reattach ZIP-scale rows or raw state cubes
+// that the core already replaced with by_st.
+var MODEL_HEAVY = {
+  states: 1, cube: 1, series: 1, points: 1,
+  top: 1, top_ten: 1, race: 1, selected: 1, grades: 1,
+  types: 1, ma_types: 1, agencies: 1
+};
+var MODEL_ROW_CAP = 60;
+
 function slimSnap(snap) {
   if (!snap || typeof snap !== 'object' || Array.isArray(snap)) return snap;
   var out = {};
@@ -86,6 +96,64 @@ function slimSnap(snap) {
       out[k] = v;
     }
   });
+  return out;
+}
+
+function slimModelSnap(snap) {
+  if (!snap || typeof snap !== 'object' || Array.isArray(snap)) return snap;
+  var out = {};
+  if (Array.isArray(snap.rows) && snap.rows.length && snap.rows[0] && snap.rows[0].st
+      && snap.rows.length <= MODEL_ROW_CAP) {
+    var by = {};
+    snap.rows.forEach(function (r) {
+      if (r && r.st) by[r.st] = { v: r.v, rank: r.rank, name: r.name };
+    });
+    if (Object.keys(by).length) out.by_st = by;
+    out.rows = snap.rows;
+  } else if (snap.by_st && typeof snap.by_st === 'object') {
+    out.by_st = snap.by_st;
+  }
+  Object.keys(snap).forEach(function (k) {
+    if (k === 'rows' || k === 'by_st') return;
+    if (MODEL_HEAVY[k]) return;
+    var v = snap[k];
+    if (k === 'trend') {
+      out[k] = slimTrend(v);
+    } else if (v && typeof v === 'object' && !Array.isArray(v) && (v.n_ranked || v.ma || v.highest || v.lfpr || v.rows || v.states || v.cube)) {
+      out[k] = slimModelSnap(v);
+    } else {
+      out[k] = v;
+    }
+  });
+  return out;
+}
+
+function slimModelDerived(derived) {
+  if (!derived || typeof derived !== 'object') return derived;
+  var out = {};
+  Object.keys(derived).forEach(function (k) {
+    if (k === 'secondary' || k === 'windows') return;
+    var v = derived[k];
+    if (v && typeof v === 'object' && !Array.isArray(v) && (v.ma || v.us || v.v != null || v.rows || v.n_ranked)) {
+      out[k] = slimModelSnap(v);
+    } else {
+      out[k] = v;
+    }
+  });
+  if (derived.windows) {
+    var win = {};
+    Object.keys(derived.windows).forEach(function (k) {
+      win[k] = slimModelSnap(derived.windows[k]);
+    });
+    out.windows = win;
+  }
+  if (derived.secondary) {
+    var sec = {};
+    Object.keys(derived.secondary).forEach(function (k) {
+      sec[k] = slimModelSnap(derived.secondary[k]);
+    });
+    out.secondary = sec;
+  }
   return out;
 }
 
@@ -158,7 +226,8 @@ function suiteModel(d) {
     vintage_note: d.vintage_note, metric: d.metric,
     metric_label: d.metric_label, unit: d.unit,
     data_month_label: d.data_month_label,
-    latest: d.latest, derived: d.derived, rows: d.rows, trend: slimTrend(d.trend),
+    latest: d.latest, derived: slimModelDerived(d.derived),
+    rows: d.rows, trend: slimTrend(d.trend),
     source_id_map: d.source_id_map, pending: d.pending
   };
 }

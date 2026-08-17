@@ -62,6 +62,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 17, 2026",
+        "title": "Florida sits under the hero on fifty-state tools",
+        "body": (
+            "The cells under the namesake number now include the "
+            "published Florida figure on every fifty-state ranking, "
+            "next to Massachusetts. The number is the same cell as "
+            "the rust outline on the map. Massachusetts-only pages "
+            "are unchanged. State Wealth Taxes and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 17, 2026",
         "title": "Ask names an engine failure as a failure",
         "body": (
             "A 502 from the ask box no longer reads as We do not cover "

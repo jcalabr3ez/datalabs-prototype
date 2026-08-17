@@ -286,20 +286,23 @@ def national_kpis(ledger):
 
 
 def supporting_kpis(tid, ledger, skip_highest=False):
-    """Range under a national hero: highest, lowest, Massachusetts. No second U.S. number."""
+    """Range under a national hero: highest, lowest, Massachusetts, Florida."""
     src = src_name(ledger, first_src(ledger))
     as_of = ledger.get("data_month_label") or ""
     unit = ledger.get("unit") or ""
-    hi, lo, ma = {}, {}, {}
-    hi_val = lo_val = ma_val = ""
+    hi, lo, ma, fl = {}, {}, {}, {}
+    hi_val = lo_val = ma_val = fl_val = ""
     if tid == "DL-07":
         naep = sec(ledger, "naep_2024", "series", "read4")
         hi = naep.get("highest") or {}
         lo = naep.get("lowest") or {}
         ma = ma_of(naep)
+        fl = naep.get("fl") if isinstance(naep.get("fl"), dict) else {}
         hi_val = str(hi.get("v") or "")
         lo_val = str(lo.get("v") or "")
         ma_val = str(ma.get("v") or "")
+        if fl.get("v") is not None:
+            fl_val = str(fl.get("v"))
         src = src_name(ledger, "SRC-607-05")
         as_of = "2024"
     elif tid == "DL-04":
@@ -307,6 +310,7 @@ def supporting_kpis(tid, ledger, skip_highest=False):
         hi = res.get("highest") or {}
         lo = res.get("lowest") or {}
         ma = res.get("ma") or {}
+        fl = res.get("fl") if isinstance(res.get("fl"), dict) else {}
         year = (ledger.get("latest") or {}).get("year") or ""
         as_of = str(year)
         src = "EIA Form EIA-861 (SRC-401)"
@@ -316,14 +320,19 @@ def supporting_kpis(tid, ledger, skip_highest=False):
             lo_val = f"{lo['price_cents']:.2f}\u00a2"
         if ma.get("price_cents") is not None:
             ma_val = f"{ma['price_cents']:.2f}\u00a2"
+        if fl.get("price_cents") is not None:
+            fl_val = f"{fl['price_cents']:.2f}\u00a2"
     else:
         latest = ledger.get("latest") or {}
         hi = latest.get("highest") or {}
         lo = latest.get("lowest") or {}
         ma = latest.get("ma") if isinstance(latest.get("ma"), dict) else {}
+        fl = fl_cell(ledger) or {}
         hi_val = format_metric_value(hi.get("v"), unit) if hi.get("v") is not None else ""
         lo_val = format_metric_value(lo.get("v"), unit) if lo.get("v") is not None else ""
         ma_val = format_metric_value(ma.get("v"), unit) if ma.get("v") is not None else ""
+        if fl.get("v") is not None:
+            fl_val = format_metric_value(fl.get("v"), unit)
         if tid == "DL-09" and lo.get("v") == 0:
             positive = [
                 r for r in (ledger.get("rows") or [])
@@ -378,15 +387,29 @@ def supporting_kpis(tid, ledger, skip_highest=False):
                 "The published national-public line, not a state.",
                 src,
             ))
-    return out[:3]
+    if fl_val and hi_st != "FL" and lo_st != "FL":
+        bits = [rank_txt(fl).capitalize() if rank_txt(fl) else "Florida"]
+        out.append(kpi(
+            "Florida" + (f", {as_of}" if as_of else ""),
+            fl_val,
+            ", ".join(bits) + ".",
+            "Florida on the same ranking as the map.",
+            src,
+        ))
+    return out[:4]
 
 
-def with_florida_kpi(kpis, ledger):
-    """Keep Massachusetts first. Cap at four cells. Do not insert Florida on this pass."""
+def with_florida_kpi(kpis, ledger, tid=None):
+    """Keep Massachusetts first. Add Florida on national-lens rankings. Cap at four."""
     kpis = [k for k in (kpis or []) if k and k.get("value") not in (None, "", "see register")]
+    labels = " ".join((k.get("label") or "") for k in kpis).lower()
+    if tid and uses_national_lens(tid, ledger) and "florida" not in labels:
+        fl = florida_kpi(ledger)
+        if fl:
+            kpis = list(kpis) + [fl]
     if kpis:
         return kpis[:4]
-    if fifty_state_ledger(ledger):
+    if uses_national_lens(tid, ledger) if tid else fifty_state_ledger(ledger):
         return national_kpis(ledger)[:4]
     return []
 
@@ -2537,7 +2560,7 @@ def voice_for(app, ledger):
     else:
         take, kpis, ma_line, src_id = packed
     take = [t for t in take if t][:3]
-    kpis = with_florida_kpi(kpis, ledger)
+    kpis = with_florida_kpi(kpis, ledger, tid)
     answers = {}
     if uses_national_lens(tid, ledger):
         answers = build_answers(tid, ledger)

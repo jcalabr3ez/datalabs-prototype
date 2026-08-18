@@ -23,6 +23,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<script src="/assets/us-map.js"></script>
+<link rel="stylesheet" href="/assets/us-map.css">
 <link rel="stylesheet" href="/assets/datalabs.css">
 <link rel="stylesheet" href="/assets/ask-widget.css">
 <style>
@@ -76,9 +78,40 @@
   .fchip{font:600 12px/1 var(--sans);color:var(--navy);background:none;
          border:1px solid var(--navy);border-radius:3px;padding:6px 11px;cursor:pointer}
   .fchip:hover{background:var(--bar);border-color:var(--bar);color:#fff}
-  .tile.dim{opacity:.14}
-  .tile.dim:hover{opacity:.55}
+  .answer-block{margin-top:28px}
+  .answer-block h2{margin-bottom:8px}
+  .answer-num{font:700 clamp(36px,5vw,52px)/1.05 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin:4px 0 8px}
+  .answer-ctx{font:400 16px/1.5 var(--sans);color:var(--grey);max-width:40em;margin:0 0 10px}
+  .answer-meta{font:400 12px/1.5 var(--sans);color:var(--faint);margin:0 0 10px}
+  .cite-copy{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--navy);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer;margin:0 0 16px}
+  .cite-copy:hover{border-color:var(--navy)}
+  .place-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--rule);margin:8px 0 18px}
+  .place-strip .ps{padding:10px 14px;border-right:1px solid var(--rule);min-width:0}
+  .place-strip .ps:last-child{border-right:0}
+  .place-strip .ps-k{font:12px/1.4 var(--sans);color:var(--grey)}
+  .place-strip .ps-v{font:600 18px/1.2 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums;margin-top:2px}
+  .place-strip .ps-us{box-shadow:inset 3px 0 0 var(--ink)}
+  .place-strip .ps-ma{box-shadow:inset 3px 0 0 var(--gold)}
+  .place-strip .ps-fl{box-shadow:inset 3px 0 0 var(--fl)}
+  @media(max-width:700px){.place-strip{grid-template-columns:1fr}.place-strip .ps{border-right:0;border-bottom:1px solid var(--rule)}}
+  .jump{margin:18px 0 8px}
+  .jump-fold{border:0;background:transparent;width:100%}
+  .jump-fold>summary{cursor:pointer;list-style:none;font:400 13px/1.5 var(--sans);color:var(--grey)}
+  .jump-fold>summary::-webkit-details-marker{display:none}
+  .jump-links{display:flex;flex-wrap:wrap;gap:10px 16px;margin-top:8px}
+  .jump-links a{font:500 13.5px/1.4 var(--sans);color:var(--navy)}
+  .findrow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:8px 0 14px}
+  .sel-lab{font:600 12px/1.3 var(--sans);color:var(--grey)}
+  .findrow select{border:1px solid var(--rule);border-radius:2px;padding:7px 11px;font:15px/1.3 var(--sans);background:#fff;min-width:200px}
   tr.fhide{display:none}
+  .events{display:block}
+  .lede{font-size:14.5px;color:var(--grey);margin:10px 0 22px;max-width:72em}
+  .exhibit{margin:18px 0 8px}
+  .ex-head{display:flex;gap:14px;align-items:baseline;border-bottom:1px solid var(--rule-dk);padding-bottom:7px;margin-bottom:16px}
+  .ex-n{font:400 13px/1.5 var(--sans);color:var(--grey);white-space:nowrap}
+  .ex-t{font:600 14.5px/1.4 var(--sans);flex:1}
+  .plot.plot-map{height:auto;min-height:0}
+  .srcline{font-size:11px;color:var(--faint);margin-top:12px;line-height:1.55}
 
   .layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(340px,400px);gap:28px;align-items:start;margin-top:var(--s1)}
   @media(max-width:1120px){.layout{grid-template-columns:1fr}}
@@ -173,7 +206,7 @@
   .meth p{font-size:13px;line-height:1.68;color:var(--g1);margin-bottom:var(--s2);break-inside:avoid}
   .meth b{color:var(--ink)}
 
-  .events{display:none}
+  .events{display:block}
   .ev-controls{display:flex;justify-content:flex-end;margin:2px 0 6px}
   .ev-ph{background:var(--wash);color:var(--navy);font:600 11.5px/1.5 var(--sans);letter-spacing:.06em;text-transform:uppercase;border-radius:3px;padding:8px 12px;margin-top:var(--s2)}
   .ev{border-bottom:1px solid var(--rule)}
@@ -223,6 +256,7 @@
     <a class="piword" href="https://pioneerinstitute.org">Pioneer Institute</a>
     <a class="backlink" href="/">DataLabs catalog</a>
     <a class="backlink" href="/#about">About</a>
+    <a class="backlink" href="/status/">Status</a>
   </div>
 </div>
 
@@ -232,6 +266,47 @@
     <div class="byline">Pioneer Institute DataLabs</div>
     <div class="dateline">Verified 14 August 2026 · 51 jurisdictions · 48 sources · 26 events tracked</div>
   </header>
+
+  <section id="answer" class="answer-block">
+    <h2 id="answerQ">What is the Massachusetts top income tax rate?</h2>
+    <div class="answer-num" id="answerNum">9%</div>
+    <div class="place-strip" id="placeStrip">
+      <div class="ps ps-ma"><div class="ps-k">Massachusetts</div><div class="ps-v">9%</div></div>
+      <div class="ps ps-fl"><div class="ps-k">Florida</div><div class="ps-v">No income tax</div></div>
+      <div class="ps ps-us"><div class="ps-k">California</div><div class="ps-v">13.3%</div></div>
+    </div>
+    <p class="answer-ctx" id="answerCtx">The 4 percent Fair Share surtax on income over $1,107,750 (2026 threshold, indexed) sits on the 5 percent base, for a combined top rate of 9 percent. Florida has no state income tax. California is the highest published top rate in this file, 13.3 percent.</p>
+    <p class="answer-meta" id="answerMeta">Massachusetts · Verified 14 August 2026 · Tax Foundation 2026 rate table; Mass.gov surtax schedule</p>
+    <button type="button" class="cite-copy" data-cite="Pioneer Institute DataLabs, State Wealth Taxes, Verified 14 August 2026: What is the Massachusetts top income tax rate? 9%. The 4 percent Fair Share surtax on income over $1,107,750 (2026 threshold, indexed) sits on the 5 percent base, for a combined top rate of 9 percent.">Copy citation</button>
+  </section>
+
+<nav class="jump" aria-label="On this page"><details class="jump-fold"><summary>On this page</summary><div class="jump-links"><a href="#answer">The finding</a><a href="#view-rank">Figure 1</a><a href="#view-events">Events</a><a href="#view-ledger">Full ledger</a><a href="#sources">Sources</a></div></details></nav>
+
+  <section id="view-rank">
+    <h2>Rates and vehicles, state by state</h2>
+    <p class="lede">Start with Current Policy for rates as enacted. Use Active Proposals and Near-Term Risk for vehicles still in play. Near-Term Risk is a Pioneer model last scored July 28, 2026, not a prediction of any bill. Equal hexes, so a small state is as readable as a large one. Click a state to open its profile. On a phone, the first tap pins; a second tap opens the profile.</p>
+    <div class="toggle" role="tablist" aria-label="Map view">
+      <button id="b-current" class="on" onclick="setView('current')">Current Policy <span class="who">Rates and surtaxes as enacted</span></button>
+      <button id="b-proposals" onclick="setView('proposals')">Active Proposals <span class="who">Wealth tax and surtax vehicles</span></button>
+      <button id="b-ballot" onclick="setView('ballot')">Ballot Access <span class="who">Citizen initiative pathways</span></button>
+      <button id="b-future" onclick="setView('future')">Near-Term Risk <span class="who">Model enactment outlook</span></button>
+    </div>
+    <div class="caption" id="caption"></div>
+    <div class="legend" id="legend"></div>
+    <div class="findrow">
+      <label class="sel-lab" for="placeSel">Find a state</label>
+      <select id="placeSel" aria-label="Find a state"></select>
+    </div>
+    <div class="layout">
+      <div class="exhibit">
+        <div class="ex-head"><span class="ex-n">Figure 1</span>
+          <span class="ex-t" id="rankTitle">Current policy by state</span></div>
+        <div class="plot plot-map" id="chRank" data-mode="hex"></div>
+        <div class="srcline" id="mapSrc"><b>Source:</b> Tax Foundation, State Individual Income Tax Rates and Brackets, 2026, with post-publication enactments from the source register. <b>Calculation:</b> Pioneer Institute (classifications and Near-Term Risk model). Name the source next to the figure when you cite it.</div>
+      </div>
+      <aside class="panel" id="panel"></aside>
+    </div>
+  </section>
 
 <section class="ask-starters" id="ask-starters" data-tool="DL-01">
   <div class="ask-k">Ask this page</div>
@@ -243,31 +318,8 @@
   <div class="ask-resp" id="toolAskResp" hidden></div>
 </section>
 
-  
 
-
-
-
-
-  <p class="lede" style="margin-top:18px">Start with Current Policy for rates as enacted. Use Active Proposals and Near-Term Risk for vehicles still in play. Near-Term Risk is a Pioneer model last scored July 28, 2026, not a prediction of any bill.</p>
-  <div class="toggle" role="tablist">
-    <button id="b-current" class="on" onclick="setView('current')">Current Policy <span class="who">Rates and surtaxes as enacted</span></button>
-    <button id="b-proposals" onclick="setView('proposals')">Active Proposals <span class="who">Wealth tax and surtax vehicles</span></button>
-    <button id="b-ballot" onclick="setView('ballot')">Ballot Access <span class="who">Citizen initiative pathways</span></button>
-    <button id="b-future" onclick="setView('future')">Near-Term Risk <span class="who">Model enactment outlook</span></button>
-    <button id="b-events" onclick="setView('events')">Events <span class="who">Upcoming watch list</span></button>
-  </div>
-  <div class="caption" id="caption"></div>
-
-  <div class="legend" id="legend"></div>
-
-  <div class="layout">
-    <div class="scroll"><div class="grid" id="grid"></div></div>
-    <aside class="panel" id="panel"></aside>
-  </div>
-
-
-  <div class="events" id="events">
+    <div class="events" id="view-events">
     <div class="ev-intro">
       <div class="lede">Twenty-six dates that will decide where this map goes next.</div>
       <div class="sub">If you only watch three: the <b>Petter</b> ruling in Washington, the <b>November&nbsp;3</b> election, and the <b>August&nbsp;2027</b> Massachusetts filing deadline. Click any row to expand it.</div>
@@ -307,7 +359,7 @@
 <!-- DATA:END tax-atlas-events -->
     <p class="caption" style="margin-top:14px">Sources: state elections authorities, court filings, enacting legislation, and press records as compiled in the source register below, verified through August 14, 2026. Characterizations of potential impact are analytical judgments from the Atlas draft model, not predictions of certainty. As items resolve they will be marked resolved, not deleted; the dated record is part of the model&rsquo;s graded track record.</p>
   </div>
-  <h2>Full Ledger</h2>
+  <h2 id="view-ledger">Full Ledger</h2>
   <details class="srcfold ledgerfold">
   <summary><span class="car">&#9654;</span><span class="name">All 51 jurisdictions: rates, status, proposals, ballot access, and risk</span></summary>
   <div class="fold-body">
@@ -329,13 +381,13 @@
     <p><b>Risk model.</b> The near-term outlook scores each jurisdiction&rsquo;s likelihood of new enactment or material expansion of a high-income or wealth tax beyond current enacted law within a 24-month window. Enacted law with a future effective date is certainty, not risk: those changes are recorded as slated changes in each state&rsquo;s Current Status panel and are excluded from the score. Five weighted factors: live legislative vehicles, political composition, activist infrastructure, budget pressure, and contagion, with constitutional barriers applied as a cap rather than a weight. Tiers map to probability bands (Very High above 70%, High 40&ndash;70%, Moderate 15&ndash;40%, Low 5&ndash;15%, Very Low below 5%). Ratings move only on documented events, and each call is timestamped so accuracy can be scored over time. These are analytical judgments, not verified facts.</p>
     <p><b>Active proposals.</b> The second view classifies each jurisdiction by the posture of its live vehicles rather than by whether a proposal exists on paper. Certified for the 2026 ballot applies to California alone. Active vehicle covers a filed bill or budget provision that is live or whose sponsors have signaled a return (New York, Vermont, Illinois, Maryland, Virginia, and Rhode Island) plus Colorado, where Initiative 195, a citizen initiative for graduated rates of 3.7% to 8.4%, submitted about 157,000 signatures on Aug. 3, 2026, still pending a Sept. 2 sufficiency determination. Exploratory, dormant, or failed this cycle covers Massachusetts (union exploration with no filing), Hawaii (a wealth tax refiled across sessions without advancing), and Oregon (IP 70, which failed to qualify in July 2026). The remaining forty jurisdictions have nothing tracked. The distinction matters because a measure that has died for the cycle is not a live threat.</p>
     <p><b>Ballot access.</b> The third view maps whether citizens can put tax measures on the ballot directly, bypassing the legislature. Twelve states allow direct initiative with simple-majority approval; six allow initiated statutes only; four maintain supermajority or legislative gates (including Florida&rsquo;s two-thirds rule for new taxes and Arizona&rsquo;s Prop 132); twenty-nine jurisdictions have no workable pathway for tax measures. Utah, North Dakota, and South Dakota vote in November 2026 on measures that would raise their own initiative thresholds; Missouri voters rejected Amendment 4, its version of the change, on August 4, 2026; and Florida and Arkansas enacted process restrictions in 2025.</p>
-    <p><b>Events.</b> The fifth view is a dated watch list of twenty-six events: compliance deadlines, elections, court rulings, effective dates, and filing windows, in chronological order with the anchoring background for each. Dates are verified to the sources in the register; items with no set date carry the best documented window. Impact characterizations are model judgments. Resolved items will be marked, not removed.</p>
+    <p><b>Events.</b> A later section is a dated watch list of twenty-six events: compliance deadlines, elections, court rulings, effective dates, and filing windows, in chronological order with the anchoring background for each. Dates are verified to the sources in the register; items with no set date carry the best documented window. Impact characterizations are model judgments. Resolved items will be marked, not removed.</p>
     <p><b>The mid-2026 state of play.</b> Rhode Island&rsquo;s phased surtax was signed June 12 alongside a second-home surcharge effective July 1; New York&rsquo;s pied-&agrave;-terre tax took effect July 1 with implementation rules finalized July 14; California&rsquo;s Proposition 40 qualified June 17 and survived the withdrawal deadline; Hawaii&rsquo;s 13% bracket arrives in 2027; Washington&rsquo;s Initiative 645, repealing the 9.9% tax, was certified for the November ballot on July 15. Not everything advances: Massachusetts&rsquo; income tax cut initiative was removed by the SJC on June 18 (its Chapter 62F tax-cap companion remains on the November ballot), and Oregon&rsquo;s IP 70 wealth tax failed to qualify. Massachusetts reported final FY2026 Fair Share collections of $3.38 billion, up 13%, more than twice the original estimate for a third straight year. On the cut side, North Carolina&rsquo;s budget (S.L. 2026-41, signed July 7) locked in date-certain reductions to 3.49% beginning in 2027 and referred a 3.5% constitutional income tax cap to the November ballot, and on August 4 Missouri voters rejected Amendment 4, which would have raised the bar for citizen-initiated constitutional amendments, 80.3% to 19.7%. Early August added three fronts: a Richmond County justice halted the pied-&agrave;-terre rollout with a temporary restraining order on Aug. 10 (stayed on the city&rsquo;s appeal, hearing Aug. 31); Washington&rsquo;s fight over the I-645 ballot disclosure reached the state Supreme Court on Aug. 10, with no ruling as of Aug. 14; and in Colorado, Initiative 195 submitted about 157,000 signatures on Aug. 3, still pending a Sept. 2 sufficiency determination. A Department of Revenue analysis published Aug. 12 raised Washington&rsquo;s first-year collection estimate to $3.1 billion from 25,000 households (Washington State Standard). California&rsquo;s Prop 40 fight has raised $140 million across the three competing measures, with Yes on 40 at $31.4 million (SF Examiner). Massachusetts&rsquo; 62F rewrite remains in a House-Senate conference that new rules allow to run as late as early January (MassINC, Aug. 14).</p>
   </div>
   </div>
   </details>
 
-  <h2>Risk Model <span style="font-weight:400;color:var(--g2);font-size:13px">(draft modeling)</span></h2>
+  <h2>Risk Model</h2>
   <details class="srcfold">
   <summary><span class="car">&#9654;</span><span class="name">How the near-term outlook is scored, and what the numbers are not</span></summary>
   <div class="fold-body">
@@ -540,13 +592,13 @@ function toggleFilter(k) {
   if (activeFilters.has(k)) activeFilters.delete(k);
   else activeFilters.add(k);
   renderLegend();
-  renderGrid();
+  renderMap();
   renderLedger();
 }
 function clearFilters() {
   activeFilters.clear();
   renderLegend();
-  renderGrid();
+  renderMap();
   renderLedger();
 }
 /* DATA:BEGIN tax-atlas-captions (generated by scripts/inject_data.py; edit the canonical JSON, not this block) */
@@ -591,30 +643,79 @@ function renderLegend() {
     box.appendChild(chip);
   }
 }
-function renderGrid() {
-  var g = document.getElementById("grid");
-  g.innerHTML = "";
-  Object.keys(STATES).forEach(function (k) {
-    var s = STATES[k], m = metaFor(s);
-    var b = el("button", "tile");
-    b.style.gridRow = s.row;
-    b.style.gridColumn = s.col;
-    b.style.background = m.color;
-    b.style.color = m.textColor;
-    b.setAttribute("aria-label", s.name);
-    b.setAttribute("data-abbr", k);
-    if (activeFilters.size > 0 && !activeFilters.has(catKey(s))) b.classList.add("dim");
-    if (k === selected) b.classList.add("sel");
-    b.appendChild(el("b", null, s.abbr));
-    b.appendChild(el("span", "r", rateLabel(s.topRate)));
-    b.onclick = function () {
-      selected = k;
-      var prev = g.querySelector(".tile.sel");
-      if (prev) prev.classList.remove("sel");
-      b.classList.add("sel");
+var RANK_TITLES = {
+  current: "Current policy by state",
+  proposals: "Active proposals by state",
+  ballot: "Ballot access by state",
+  future: "Near-term risk by state"
+};
+function mapRows() {
+  return Object.keys(STATES).map(function (k) {
+    return { st: k, name: STATES[k].name, v: STATES[k].topRate };
+  });
+}
+function mapActive() {
+  if (!activeFilters.size) return null;
+  return Object.keys(STATES).filter(function (k) {
+    return activeFilters.has(catKey(STATES[k]));
+  });
+}
+function syncFinder() {
+  var sel = document.getElementById("placeSel");
+  if (sel) sel.value = selected;
+}
+function fillPlaceSel() {
+  var sel = document.getElementById("placeSel");
+  if (!sel || sel.getAttribute("data-ready")) return;
+  Object.keys(STATES).sort(function (a, b) {
+    return STATES[a].name.localeCompare(STATES[b].name);
+  }).forEach(function (k) {
+    var o = document.createElement("option");
+    o.value = k;
+    o.textContent = STATES[k].name;
+    sel.appendChild(o);
+  });
+  sel.setAttribute("data-ready", "1");
+  sel.addEventListener("change", function () {
+    if (!STATES[sel.value]) return;
+    selected = sel.value;
+    renderMap();
+    renderPanel();
+  });
+}
+function renderMap() {
+  var box = document.getElementById("chRank");
+  if (!box || !window.dlStateMap) return;
+  var titleEl = document.getElementById("rankTitle");
+  if (titleEl) titleEl.textContent = RANK_TITLES[view] || RANK_TITLES.current;
+  syncFinder();
+  window.dlStateMap(box, {
+    roleOutlines: false,
+    legend: false,
+    highlightFlorida: false,
+    selected: selected,
+    active: mapActive(),
+    rows: mapRows(),
+    format: function (v) { return v > 0 ? v + "%" : "No income tax"; },
+    colors: function (row) {
+      var m = metaFor(STATES[row.st]);
+      return m && m.color;
+    },
+    darkLabels: function (row) {
+      var m = metaFor(STATES[row.st]);
+      return !!(m && m.textColor === "#FFFFFF");
+    },
+    onPin: function (r) {
+      if (!r || !r.st) return;
+      selected = r.st;
+      syncFinder();
+    },
+    onSelect: function (r) {
+      if (!r || !r.st) return;
+      selected = r.st;
+      syncFinder();
       renderPanel();
-    };
-    g.appendChild(b);
+    }
   });
 }
 function block(title, meta, note) {
@@ -757,31 +858,29 @@ function renderLedger() {
   });
 }
 function setView(v) {
+  if (["current", "proposals", "ballot", "future"].indexOf(v) < 0) v = "current";
   view = v;
-  ["current", "proposals", "ballot", "future", "events"].forEach(function (x) {
-    document.getElementById("b-" + x).classList.toggle("on", x === v);
+  ["current", "proposals", "ballot", "future"].forEach(function (x) {
+    var b = document.getElementById("b-" + x);
+    if (b) b.classList.toggle("on", x === v);
   });
   activeFilters.clear();
-  document.getElementById("caption").textContent = CAPTIONS[v];
-  var isEv = v === "events";
-  document.getElementById("legend").style.display = isEv ? "none" : "";
-  document.querySelector(".layout").style.display = isEv ? "none" : "";
-  document.getElementById("events").style.display = isEv ? "block" : "none";
-  if (!isEv) {
-    renderLegend();
-    renderGrid();
-    renderPanel();
-    renderLedger();
-  }
+  document.getElementById("caption").textContent = CAPTIONS[v] || "";
+  fillPlaceSel();
+  renderLegend();
+  renderMap();
+  renderPanel();
+  renderLedger();
 }
 function evToggleAll() {
-  var all = document.querySelectorAll("#events details");
+  var all = document.querySelectorAll("#view-events details");
   var anyClosed = Array.prototype.some.call(all, function (d) { return !d.open; });
   Array.prototype.forEach.call(all, function (d) { d.open = anyClosed; });
   document.getElementById("ev-toggle").textContent = anyClosed ? "Collapse all" : "Expand all";
 }
 // Deep links from the DataLabs ask box: #view-<view>&state=<AB> opens that view
 // with the named jurisdiction selected, for example #view-proposals&state=CA.
+// #view-events scrolls to the later Events section and leaves the map on Current Policy.
 function applyHash() {
   var h = (location.hash || "").replace(/^#/, "");
   var v = "current", st = null;
@@ -793,13 +892,18 @@ function applyHash() {
     var qs = new URLSearchParams(location.search);
     st = (qs.get("state") || qs.get("st") || "").toUpperCase() || null;
   }
-  if (["current", "proposals", "ballot", "future", "events"].indexOf(v) < 0) v = "current";
   if (st && STATES[st]) selected = st;
+  if (v === "events") {
+    setView("current");
+    var ev = document.getElementById("view-events");
+    if (ev && ev.scrollIntoView) ev.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+  if (["current", "proposals", "ballot", "future"].indexOf(v) < 0) v = "current";
   setView(v);
-  if (st && STATES[st] && v !== "events") {
-    var tile = document.querySelector('.tile[data-abbr="' + st + '"]');
-    if (tile && tile.scrollIntoView) tile.scrollIntoView({ block: "nearest", inline: "center" });
-    document.getElementById("panel").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  if (st && STATES[st]) {
+    var panel = document.getElementById("panel");
+    if (panel && panel.scrollIntoView) panel.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 }
 window.addEventListener("hashchange", applyHash);

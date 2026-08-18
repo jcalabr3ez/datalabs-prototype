@@ -62,6 +62,24 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Wealth Taxes hex map and Florida one-scroll chrome",
+        "body": (
+            "State Wealth Taxes now uses the same equal-hex cartogram as "
+            "the fifty-state suite. Category colors stay. Massachusetts "
+            "and Florida do not get gold or rust outlines on that map. "
+            "A Find a state picker sits above the hexes. Events is a "
+            "later section, not a tab that hides the map. Florida "
+            "Homeowners Insurance is one scroll: the finding, the county "
+            "map as Figure 1, then Ask, then the rest of the homeowners "
+            "record, then the policymaker and report-card views. The "
+            "three tabs no longer hide the page. Deep links to "
+            "#view-policy, #view-report, and ?view= still work as scroll "
+            "targets. The Florida map stays the 67-county drawing. "
+            "Neither page invents a statewide average premium."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "One Place picker on fifty-state tools",
         "body": (
             "Each fifty-state page already had a Place filter in the "

@@ -56,8 +56,11 @@
   text-anchor:middle;dominant-baseline:central;pointer-events:none;
   paint-order:stroke fill;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
 .usmap.is-hex .st.is-dark .st-lab{fill:#fff;stroke:#1A1A1A;stroke-width:2.4px}
+.usmap.no-role .usmap-key{display:none}
 .usmap.is-hex .st.is-ma polygon{stroke:#CCB26D;stroke-width:2.4}
 .usmap.is-hex .st.is-fl polygon,.usmap.fl-on .st.is-fl polygon{stroke:#C45C26;stroke-width:2.4}
+.usmap.no-role.is-hex .st.is-ma polygon,.usmap.no-role.is-hex .st.is-fl polygon{
+  stroke:#fff;stroke-width:1.3}
 .usmap.is-hex .st:hover polygon,.usmap.is-hex .st:focus polygon,.usmap.is-hex .st.is-hot polygon{
   stroke:#1A1A1A;stroke-width:2.2}
 .usmap.is-hex .st.is-on polygon,.usmap.is-hex .st.is-ma.is-hot polygon{stroke:#1A1A1A;stroke-width:2.4}

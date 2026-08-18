@@ -553,6 +553,17 @@
     return html;
   }
 
+  function isDarkFill(c) {
+    if (!c || c.charAt(0) !== '#') return false;
+    var hex = c.length === 4
+      ? c[1] + c[1] + c[2] + c[2] + c[3] + c[3]
+      : c.slice(1);
+    var n = parseInt(hex, 16);
+    if (!isFinite(n)) return false;
+    var r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
+    return (0.299 * r + 0.587 * g + 0.114 * b) < 150;
+  }
+
   function paintHex(el, opts) {
     var rows = opts.rows || [];
     var lookup = bySt(rows);
@@ -563,21 +574,31 @@
     var active = opts.active || null;
     var selected = opts.selected ? String(opts.selected).toUpperCase() : '';
     var compact = isCompact(el, opts);
-    var cmp = (opts.compareSt || 'FL' || '').toUpperCase();
+    var roleOn = opts.roleOutlines !== false;
+    var cmp = roleOn ? (opts.compareSt || 'FL' || '').toUpperCase() : '';
     var cmpOn = !!(cmp && cmp !== 'MA');
     el.classList.add('is-hex');
     el.classList.remove('is-tile');
     el.classList.toggle('is-compact', compact);
-    el.classList.toggle('fl-on', true);
     el.classList.toggle('cmp-on', cmpOn);
 
     var bins = el.querySelector('.usmap-bins');
-    if (bins) bins.innerHTML = legendHtml(sc, fmt, opts.ref);
+    if (bins && opts.legend !== false) bins.innerHTML = legendHtml(sc, fmt, opts.ref);
+    else if (bins) bins.innerHTML = '';
     var cmpLab = el.querySelector('[data-cmp-lab]');
     var cmpKey = el.querySelector('.cmp-key');
+    el.classList.toggle('fl-on', roleOn);
+    el.classList.toggle('no-role', !roleOn);
     if (cmpKey) {
-      cmpKey.hidden = false;
-      if (cmpLab) cmpLab.textContent = (lookup[cmp] && lookup[cmp].name) || cmp || 'Florida';
+      cmpKey.hidden = !roleOn;
+      if (cmpLab && roleOn) cmpLab.textContent = (lookup[cmp] && lookup[cmp].name) || cmp || 'Florida';
+    }
+    var keyEl = el.querySelector('.usmap-key');
+    if (opts.legend === false) {
+      if (bins) bins.innerHTML = '';
+      if (keyEl) keyEl.hidden = true;
+    } else if (keyEl) {
+      keyEl.hidden = !roleOn;
     }
 
     [].forEach.call(el.querySelectorAll('.st'), function (g) {
@@ -586,14 +607,22 @@
       var v = row ? num(row.v) : null;
       var poly = g.querySelector('polygon') || g;
       var b = (v == null) ? -1 : sc.bin(v);
-      poly.style.fill = (!row || v == null) ? '' : sc.fill(v);
-      g.classList.toggle('is-empty', !row || v == null);
-      g.classList.toggle('is-ma', st === 'MA');
-      g.classList.toggle('is-fl', st === 'FL' || (cmpOn && st === cmp));
+      var fill = '';
+      if (row && typeof opts.colors === 'function') fill = opts.colors(row) || '';
+      else if (row && v != null) fill = sc.fill(v);
+      poly.style.fill = fill;
+      g.classList.toggle('is-empty', !row || (typeof opts.colors !== 'function' && v == null));
+      g.classList.toggle('is-ma', roleOn && st === 'MA');
+      g.classList.toggle('is-fl', roleOn && (st === 'FL' || (cmpOn && st === cmp)));
       g.classList.toggle('is-on', st === selected);
       g.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
-      g.classList.toggle('is-dark', sc.diverging ? (b === 0 || b === 1 || b >= 3) : b >= 2);
-      g.setAttribute('tabindex', (!row || v == null || (active && active.indexOf(st) < 0)) ? '-1' : '0');
+      var dark = false;
+      if (typeof opts.darkLabels === 'function') dark = !!(row && opts.darkLabels(row));
+      else if (fill) dark = isDarkFill(fill);
+      else dark = sc.diverging ? (b === 0 || b === 1 || b >= 3) : b >= 2;
+      g.classList.toggle('is-dark', dark);
+      var empty = !row || (typeof opts.colors !== 'function' && v == null);
+      g.setAttribute('tabindex', (empty || (active && active.indexOf(st) < 0)) ? '-1' : '0');
     });
 
     writeRead(el, opts, lookup, ranked, fmt);
@@ -606,7 +635,7 @@
     el._dlSelected = selected;
     setHot(el, selected);
     bind(el);
-    var pinRow = selected ? lookup[selected] : lookup.MA;
+    var pinRow = selected ? lookup[selected] : (roleOn ? lookup.MA : null);
     var pin = el.querySelector('.usmap-pin');
     var pv = el.querySelector('[data-pin-v]');
     var pk = el.querySelector('[data-pin-k]');
@@ -615,6 +644,8 @@
       if (pk) pk.textContent = selected ? 'Selected' : 'Massachusetts';
       var more = compareLine(pinRow, ranked, opts.ref);
       pv.textContent = (pinRow.name || pinRow.st) + ' · ' + fmt(pinRow.v) + (more ? ' · ' + more : '');
+    } else if (pin) {
+      pin.hidden = true;
     }
   }
 

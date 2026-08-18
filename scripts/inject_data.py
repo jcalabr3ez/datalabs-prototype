@@ -184,6 +184,21 @@ def inject_florida(dl02, text, path):
     dateline = paper_dateline(f"Data through {fl['data_through']}", fl["revised"])
     text = replace_block(text, "florida-dateline", dateline, path, style="html")
     text = replace_block(text, "florida-pif", fl["pif_fmt"], path, style="html")
+    md = dl02["county_premiums"]["Miami-Dade"]
+    text = replace_block(
+        text,
+        "florida-miami-premium",
+        f"${md['incl_wind']:,}",
+        path,
+        style="html",
+    )
+    text = replace_block(
+        text,
+        "florida-miami-change",
+        fl_money_delta(md["incl_wind"] - md["incl_wind_2025_09"]),
+        path,
+        style="html",
+    )
     decl = fl_county_list(ranks["largest_declines_since_2025_09"][:4])
     inc = fl_county_list(ranks["largest_increases_since_2025_09"][:2])
     n_up_word = ONES.get(n_up, str(n_up))

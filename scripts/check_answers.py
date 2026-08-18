@@ -290,17 +290,34 @@ for app in apps:
     else:
         ok(f"{tid} one Place picker")
 
-# ---- 7. Frozen pages were not restyled by this pass ----
-for rel in ("tax-atlas/index.html", "florida-insurance/index.html"):
-    page = ROOT / rel
-    if not page.exists():
-        fail(f"missing frozen page {rel}")
-        continue
-    html = page.read_text(encoding="utf-8")
-    if "cite-copy" in html or 'id="compareSel"' in html:
-        fail(f"{rel} picked up cite/compare chrome from this pass")
-    else:
-        ok(f"frozen page untouched chrome {rel}")
+# ---- 7. Flagship pages share the finding chrome; atlas hex has no gold/rust ----
+atlas = (ROOT / "tax-atlas/index.html").read_text(encoding="utf-8")
+if 'id="compareSel"' in atlas:
+    fail("tax-atlas still has a second state Compare menu")
+else:
+    ok("tax-atlas has no Compare menu")
+if 'id="answerQ"' not in atlas or 'id="chRank"' not in atlas:
+    fail("tax-atlas is missing the finding hero or hex Figure 1")
+else:
+    ok("tax-atlas finding hero and hex Figure 1")
+if "roleOutlines: false" not in atlas and "roleOutlines:false" not in atlas:
+    fail("tax-atlas hex map still uses gold/rust role outlines")
+else:
+    ok("tax-atlas hex map has no gold/rust outlines")
+
+fl_html = (ROOT / "florida-insurance/index.html").read_text(encoding="utf-8")
+if 'id="compareSel"' in fl_html:
+    fail("florida-insurance still has a Compare menu")
+else:
+    ok("florida-insurance has no Compare menu")
+if 'id="answerQ"' not in fl_html:
+    fail("florida-insurance is missing the finding hero")
+else:
+    ok("florida-insurance finding hero")
+if "Policymaker Briefing Edition" in fl_html:
+    fail("florida-insurance title still says Policymaker Briefing Edition")
+else:
+    ok("florida-insurance title")
 
 if failures:
     print("\nANSWER CONTRACT FAILURES:")

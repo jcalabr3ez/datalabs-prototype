@@ -61,6 +61,7 @@ else:
 # and leaves the view tabs as no-ops (showView is never defined).
 for rel in (
     "florida-insurance/index.html",
+    "tax-atlas/index.html",
     "electricity/index.html",
     "pensions/index.html",
     "mbta/index.html",

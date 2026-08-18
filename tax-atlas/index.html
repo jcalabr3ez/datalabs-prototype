@@ -49,10 +49,11 @@
   .sitebar .backlink:hover{color:#fff;text-decoration:underline}
   .sitebar a:focus-visible{outline:2px solid #fff;outline-offset:3px}
   .wrap{width:100%;max-width:none;margin:0 auto;background:#fff;border:none;padding:0 var(--bleed)}
-  /* shared DataLabs content column: everything below the hero sits in one measure */
+  /* shared DataLabs content column: everything below the title sits in one measure */
   .wrap>*:not(.sitebar):not(header):not(footer){max-width:1120px;margin-left:auto;margin-right:auto}
 
   header{background:#fff;margin:0 calc(-1 * var(--bleed));padding:36px var(--bleed) 28px;border-bottom:1px solid var(--rule)}
+  #view-rank>h2{margin-top:28px}
   h1{font:700 clamp(28px,3.6vw,40px)/1.12 var(--serif);color:var(--ink);letter-spacing:-.02em}
   .standfirst{font:400 16px/1.55 var(--sans);color:var(--grey);margin-top:10px;max-width:40em}
   .byline{margin-top:14px;font:400 13.5px/1.5 var(--sans);color:var(--ink)}
@@ -78,22 +79,8 @@
   .fchip{font:600 12px/1 var(--sans);color:var(--navy);background:none;
          border:1px solid var(--navy);border-radius:3px;padding:6px 11px;cursor:pointer}
   .fchip:hover{background:var(--bar);border-color:var(--bar);color:#fff}
-  .answer-block{margin-top:28px}
-  .answer-block h2{margin-bottom:8px}
-  .answer-num{font:700 clamp(36px,5vw,52px)/1.05 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums;letter-spacing:-.03em;margin:4px 0 8px}
-  .answer-ctx{font:400 16px/1.5 var(--sans);color:var(--grey);max-width:40em;margin:0 0 10px}
-  .answer-meta{font:400 12px/1.5 var(--sans);color:var(--faint);margin:0 0 10px}
-  .cite-copy{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--navy);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer;margin:0 0 16px}
+  .cite-copy{appearance:none;border:1px solid var(--rule);background:#fff;color:var(--navy);font:500 13px/1 var(--sans);padding:7px 11px;border-radius:2px;cursor:pointer;margin:10px 0 0}
   .cite-copy:hover{border-color:var(--navy)}
-  .place-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;border:1px solid var(--rule);margin:8px 0 18px}
-  .place-strip .ps{padding:10px 14px;border-right:1px solid var(--rule);min-width:0}
-  .place-strip .ps:last-child{border-right:0}
-  .place-strip .ps-k{font:12px/1.4 var(--sans);color:var(--grey)}
-  .place-strip .ps-v{font:600 18px/1.2 var(--sans);color:var(--ink);font-variant-numeric:tabular-nums;margin-top:2px}
-  .place-strip .ps-us{box-shadow:inset 3px 0 0 var(--ink)}
-  .place-strip .ps-ma{box-shadow:inset 3px 0 0 var(--gold)}
-  .place-strip .ps-fl{box-shadow:inset 3px 0 0 var(--fl)}
-  @media(max-width:700px){.place-strip{grid-template-columns:1fr}.place-strip .ps{border-right:0;border-bottom:1px solid var(--rule)}}
   .jump{margin:18px 0 8px}
   .jump-fold{border:0;background:transparent;width:100%}
   .jump-fold>summary{cursor:pointer;list-style:none;font:400 13px/1.5 var(--sans);color:var(--grey)}
@@ -267,21 +254,6 @@
     <div class="dateline">Verified 14 August 2026 · 51 jurisdictions · 48 sources · 26 events tracked</div>
   </header>
 
-  <section id="answer" class="answer-block">
-    <h2 id="answerQ">What is the Massachusetts top income tax rate?</h2>
-    <div class="answer-num" id="answerNum">9%</div>
-    <div class="place-strip" id="placeStrip">
-      <div class="ps ps-ma"><div class="ps-k">Massachusetts</div><div class="ps-v">9%</div></div>
-      <div class="ps ps-fl"><div class="ps-k">Florida</div><div class="ps-v">No income tax</div></div>
-      <div class="ps ps-us"><div class="ps-k">California</div><div class="ps-v">13.3%</div></div>
-    </div>
-    <p class="answer-ctx" id="answerCtx">The 4 percent Fair Share surtax on income over $1,107,750 (2026 threshold, indexed) sits on the 5 percent base, for a combined top rate of 9 percent. Florida has no state income tax. California is the highest published top rate in this file, 13.3 percent.</p>
-    <p class="answer-meta" id="answerMeta">Massachusetts · Verified 14 August 2026 · Tax Foundation 2026 rate table; Mass.gov surtax schedule</p>
-    <button type="button" class="cite-copy" data-cite="Pioneer Institute DataLabs, State Wealth Taxes, Verified 14 August 2026: What is the Massachusetts top income tax rate? 9%. The 4 percent Fair Share surtax on income over $1,107,750 (2026 threshold, indexed) sits on the 5 percent base, for a combined top rate of 9 percent.">Copy citation</button>
-  </section>
-
-<nav class="jump" aria-label="On this page"><details class="jump-fold"><summary>On this page</summary><div class="jump-links"><a href="#answer">The finding</a><a href="#view-rank">Figure 1</a><a href="#view-events">Events</a><a href="#view-ledger">Full ledger</a><a href="#sources">Sources</a></div></details></nav>
-
   <section id="view-rank">
     <span id="view-current"></span>
     <span id="view-proposals"></span>
@@ -307,10 +279,13 @@
           <span class="ex-t" id="rankTitle">Current policy by state</span></div>
         <div class="plot plot-map" id="chRank" data-mode="hex"></div>
         <div class="srcline" id="mapSrc"><b>Source:</b> Tax Foundation, State Individual Income Tax Rates and Brackets, 2026, with post-publication enactments from the source register. <b>Calculation:</b> Pioneer Institute (classifications and Near-Term Risk model). Name the source next to the figure when you cite it.</div>
+        <button type="button" class="cite-copy" data-cite="Pioneer Institute DataLabs, State Wealth Taxes, Verified 14 August 2026, Figure 1. Tax Foundation, State Individual Income Tax Rates and Brackets, 2026, with post-publication enactments. Classifications and Near-Term Risk model: Pioneer Institute.">Copy citation</button>
       </div>
       <aside class="panel" id="panel"></aside>
     </div>
   </section>
+
+<nav class="jump" aria-label="On this page"><details class="jump-fold"><summary>On this page</summary><div class="jump-links"><a href="#view-rank">Figure 1</a><a href="#view-events">Events</a><a href="#view-ledger">Full ledger</a><a href="#sources">Sources</a></div></details></nav>
 
 <section class="ask-starters" id="ask-starters" data-tool="DL-01">
   <div class="ask-k">Ask this page</div>

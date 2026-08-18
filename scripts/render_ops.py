@@ -18,8 +18,8 @@ from check_freshness import RULES, parse_as_of
 from suite_common import ROOT, load_apps
 
 SITE = "https://datalabsai.netlify.app"
-TODAY = date(2026, 8, 16)
-TODAY_LABEL = "August 16, 2026"
+TODAY = date(2026, 8, 18)
+TODAY_LABEL = "August 18, 2026"
 
 FLAGSHIPS = [
     {
@@ -60,6 +60,20 @@ FLAGSHIPS = [
 ]
 
 CHANGELOG = [
+    {
+        "date": "August 18, 2026",
+        "title": "High-cadence ledgers match their publisher files",
+        "body": (
+            "A new latest-release check reads the live Census, BLS, FTA, "
+            "and DOL files and compares each one to the ledger. Business "
+            "Formation is through Jul 2026. State unemployment, housing "
+            "permits, and transit ridership are through Jun 2026, which "
+            "is the newest month on those files. Quarterly state tax "
+            "collections stay on 2026 Q1. Citizens' website shows an "
+            "August 14 weekly count; the Florida tool keeps the June 30 "
+            "month-end series. No historical cell moved."
+        ),
+    },
     {
         "date": "August 18, 2026",
         "title": "Cut the generated voice from the public pages",

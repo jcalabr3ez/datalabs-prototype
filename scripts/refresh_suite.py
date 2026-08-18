@@ -533,10 +533,29 @@ def parse_bps(text):
     return values
 
 
+def latest_bps_ytd():
+    """Return (year, month, text) for the newest reachable state YTD file."""
+    year, month = date.today().year, date.today().month
+    last_err = "no file tried"
+    for _ in range(8):
+        url = URL_BPS.format(yy=f"{year % 100:02d}", mm=f"{month:02d}")
+        try:
+            text = fetch_text(url, timeout=30)
+        except Exception as e:
+            last_err = f"{year}-{month:02d} {type(e).__name__}"
+        else:
+            if len(parse_bps(text)) >= 50:
+                return year, month, text
+            last_err = f"{year}-{month:02d} too few states"
+        month -= 1
+        if month == 0:
+            year -= 1
+            month = 12
+    sys.exit(f"FATAL: no reachable BPS state YTD file ({last_err})")
+
+
 def build_bps(app):
-    # Latest complete YTD month on disk around mid-August 2026 is June 2026.
-    year, month = 2026, 6
-    cur_text = fetch_text(URL_BPS.format(yy=f"{year % 100:02d}", mm=f"{month:02d}"))
+    year, month, cur_text = latest_bps_ytd()
     prev_text = fetch_text(URL_BPS.format(yy=f"{(year - 1) % 100:02d}", mm=f"{month:02d}"))
     values = parse_bps(cur_text)
     prev = parse_bps(prev_text)
@@ -817,11 +836,19 @@ def upsert_catalog(apps):
 
 
 def main():
+    only = None
+    args = sys.argv[1:]
+    if args and args[0] == "--only":
+        if len(args) < 2:
+            sys.exit("usage: refresh_suite.py [--only DL-13,DL-14]")
+        only = {t.strip() for t in args[1].split(",") if t.strip()}
     apps = load_apps()
     if len(apps) != 28:
         sys.exit(f"FATAL: suite/apps.json has {len(apps)} apps, expected 28")
     for app in apps:
         tool = app["id"]
+        if only and tool not in only:
+            continue
         if tool in BUILDERS:
             print(f"refresh {tool} {app['title']} ...")
             ledger = BUILDERS[tool](app)

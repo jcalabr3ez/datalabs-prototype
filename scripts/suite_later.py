@@ -9,6 +9,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import re
 import sys
 import urllib.parse
 import urllib.request
@@ -1414,15 +1415,18 @@ def build_transit(app):
     """DL-22: FTA NTD monthly unlinked passenger trips by agency, latest month."""
     latest = _soda(URL_NTD, {"$select": "max(date) as d"})
     date_s = (latest[0].get("d") or "")[:10]
-    if date_s != "2026-06-01":
-        sys.exit(f"FATAL: NTD latest month is {date_s}, expected 2026-06-01")
+    if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", date_s):
+        sys.exit(f"FATAL: NTD latest month is {date_s!r}")
     us = _soda(URL_NTD, {
         "$select": "sum(upt) as upt",
         "$where": f"date='{date_s}T00:00:00.000'",
     })
     us_val = parse_num(us[0].get("upt"))
-    if us_val is None or abs(us_val - VERIFY_NTD_US_JUN_2026) > 1:
-        sys.exit(f"FATAL: NTD US June 2026 UPT is {us_val}")
+    if date_s == "2026-06-01":
+        if us_val is None or abs(us_val - VERIFY_NTD_US_JUN_2026) > 1:
+            sys.exit(f"FATAL: NTD US June 2026 UPT is {us_val}")
+    elif us_val is None or us_val < 100_000_000:
+        sys.exit(f"FATAL: NTD US {date_s} UPT is {us_val}")
     rows = _soda(URL_NTD, {
         "$select": "agency,state,sum(upt) as upt",
         "$where": f"date='{date_s}T00:00:00.000'",
@@ -1448,14 +1452,18 @@ def build_transit(app):
         rec["state"] = states.get(rec["name"])
     ma_rows = [r for r in ranked if r.get("state") == "MA"]
     if not ma_rows:
-        sys.exit("FATAL: NTD June 2026 has no Massachusetts agency")
+        sys.exit(f"FATAL: NTD {date_s[:7]} has no Massachusetts agency")
     mbta = next((r for r in ma_rows if "Bay Transportation" in r["name"]), ma_rows[0])
     ma_total = sum(r["v"] for r in ma_rows)
-    as_of = "2026-06"
-    as_of_label = "June 2026"
+    as_of = date_s[:7]
+    month_names = (
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December",
+    )
+    as_of_label = f"{month_names[int(date_s[5:7]) - 1]} {date_s[:4]}"
     kpis = [
         _kpi(
-            "U.S. unlinked trips, June 2026",
+            f"U.S. unlinked trips, {as_of_label}",
             commify(us_val),
             f"{commify(len(ranked))} agencies reported trips (SRC-622-01).",
             "The national monthly ridership stock.",
@@ -1482,10 +1490,15 @@ def build_transit(app):
     ]
     lead = (
         f"U.S. transit agencies reported <b>{commify(us_val)}</b> unlinked "
-        f"passenger trips in June 2026 (SRC-622-01). The MBTA reported "
+        f"passenger trips in {as_of_label} (SRC-622-01). The MBTA reported "
         f"<b>{commify(mbta['v'])}</b>, rank {mbta['rank']} of {mbta['n']} "
         f"agencies (derived, SRC-622-01). <b>{ranked[0]['name']}</b> was "
         f"the largest agency (SRC-622-01)."
+    )
+    verify_note = (
+        f" U.S. total equals {VERIFY_NTD_US_JUN_2026:,}."
+        if date_s == "2026-06-01" else
+        f" U.S. total is {int(us_val):,}."
     )
     return finish_live(
         app,
@@ -1494,12 +1507,11 @@ def build_transit(app):
         vintage_note=(
             f"Rebuilt {REVISED} from FTA NTD Complete Monthly Ridership "
             f"(Socrata 8bui-9xvu). Headline is unlinked passenger trips "
-            f"summed by agency for {as_of_label}. U.S. total equals "
-            f"{VERIFY_NTD_US_JUN_2026:,}. Mode-by-mode MBTA reliability "
-            f"and cost stay on DL-03."
+            f"summed by agency for {as_of_label}.{verify_note} Mode-by-mode "
+            f"MBTA reliability and cost stay on DL-03."
         ),
         metric="ntd_agency_upt_latest_month",
-        metric_label="Unlinked passenger trips by transit agency, June 2026",
+        metric_label=f"Unlinked passenger trips by transit agency, {as_of_label}",
         unit="unlinked passenger trips",
         lead=lead,
         kpis=kpis,

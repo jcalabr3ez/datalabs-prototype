@@ -62,6 +62,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "The map pin sits below the hexes on a phone",
+        "body": (
+            "On a narrow screen the selected-state box no longer "
+            "covers New England on the hex cartogram, so Maine and "
+            "its neighbors stay tappable. The box sits under the "
+            "map, above the legend. Massachusetts-only pages, State "
+            "Wealth Taxes, and Florida Homeowners Insurance were not "
+            "edited."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Hex labels are larger and keep contrast",
         "body": (
             "State abbreviations on the fifty-state hex cartogram are "

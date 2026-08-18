@@ -181,11 +181,10 @@
     el.classList.add('usmap');
     el.innerHTML =
       '<div class="usmap-frame">' +
-        '<div class="usmap-box">' + inner +
-          '<div class="usmap-pin" hidden>' +
-            '<div class="k" data-pin-k>Selected</div>' +
-            '<div class="v" data-pin-v></div>' +
-          '</div>' +
+        '<div class="usmap-box">' + inner + '</div>' +
+        '<div class="usmap-pin" hidden>' +
+          '<div class="k" data-pin-k>Selected</div>' +
+          '<div class="v" data-pin-v></div>' +
         '</div>' +
       '</div>' +
       '<div class="usmap-legend">' +

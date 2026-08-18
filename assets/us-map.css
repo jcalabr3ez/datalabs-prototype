@@ -1,7 +1,7 @@
 /* Fifty-state map: one hex cartogram. Gold is Massachusetts. Rust is Florida. */
 .plot.plot-map{height:auto;min-height:0}
 .usmap{position:relative}
-.usmap-frame{display:block}
+.usmap-frame{display:block;position:relative}
 .usmap-box{position:relative;min-width:0}
 .usmap-svg{width:100%;height:auto;display:block;max-height:520px;
   shape-rendering:geometricPrecision}
@@ -92,6 +92,6 @@
   .usmap-svg,.townmap svg{max-height:360px}
   .usmap.is-tile .tile{min-height:36px;padding:4px 3px}
   .usmap.is-tile .tile .r{font-size:9.5px}
-  .usmap-pin{max-width:52%}
+  .usmap-pin{position:static;max-width:none;margin:10px 0 0;z-index:auto}
 }
 @media(max-width:640px){.usmap-read{grid-template-columns:1fr}}

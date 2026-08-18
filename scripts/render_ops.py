@@ -62,6 +62,20 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Wealth Taxes opens the map on California",
+        "body": (
+            "State Wealth Taxes now puts the hexes first. The heading "
+            "and how-to paragraph above Figure 1 are gone. The four "
+            "map tabs are one word each: Current, Proposals, Ballot, "
+            "and Risk. Find a state sits on the figure head. The "
+            "live-vehicle caption sits under the source line. The "
+            "state panel opens on California. Deep links that name "
+            "another state still win. Massachusetts and Florida still "
+            "do not get gold or rust outlines on those hexes."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Florida finding matches Figure 1; Wealth Taxes names live vehicles",
         "body": (
             "Florida Homeowners Insurance now opens the record with the "

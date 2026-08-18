@@ -308,6 +308,38 @@ if "roleOutlines: false" not in atlas and "roleOutlines:false" not in atlas:
     fail("tax-atlas hex map still uses gold/rust role outlines")
 else:
     ok("tax-atlas hex map has no gold/rust outlines")
+if "Rates and vehicles" in atlas or "Start with Current Policy" in atlas:
+    fail("tax-atlas still has the heading or how-to lede above the hexes")
+else:
+    ok("tax-atlas dropped the heading and how-to lede")
+toggle = re.search(r'<div class="toggle".*?</div>', atlas, re.S)
+if not toggle:
+    fail("tax-atlas is missing the map view tabs")
+else:
+    t = toggle.group(0)
+    if 'class="who"' in t or "Current Policy" in t or "Active Proposals" in t or "Ballot Access" in t or "Near-Term Risk" in t:
+        fail("tax-atlas map tabs are still two-line labels")
+    elif not all(word in t for word in ("Current", "Proposals", "Ballot", "Risk")):
+        fail("tax-atlas map tabs are missing a one-word label")
+    else:
+        ok("tax-atlas map tabs are one word")
+legend_i = atlas.find('id="legend"')
+layout_i = atlas.find('class="layout"')
+if legend_i < 0 or layout_i < 0 or "placeSel" in atlas[legend_i:layout_i]:
+    fail("tax-atlas Find a state still sits between the legend and the map")
+else:
+    ok("tax-atlas Find a state is off the map stack")
+src_i = atlas.find('id="mapSrc"')
+cap_i = atlas.find('id="caption"')
+map_i = atlas.find('id="chRank"')
+if cap_i < 0 or src_i < 0 or map_i < 0 or cap_i < src_i or cap_i < map_i:
+    fail("tax-atlas caption is still above the hexes")
+else:
+    ok("tax-atlas caption sits under the source line")
+if not re.search(r'var selected = "CA"', atlas):
+    fail("tax-atlas does not open on California")
+else:
+    ok("tax-atlas opens on California")
 
 fl_html = (ROOT / "florida-insurance/index.html").read_text(encoding="utf-8")
 if 'id="compareSel"' in fl_html:

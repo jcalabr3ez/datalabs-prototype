@@ -376,6 +376,10 @@ if cit_fig < 0 or cty_fig < 0 or cit_fig > cty_fig:
     fail("florida-insurance Figure 1 is not the Citizens series")
 else:
     ok("florida-insurance Figure 1 is the Citizens series")
+if "help you" in fl_html or "your county" in fl_html.lower() or "Both facts are accurate" in fl_html:
+    fail("florida-insurance still uses sales voice above the figures")
+else:
+    ok("florida-insurance dropped the sales voice")
 
 atlas_cap = (ROOT / "netlify/functions/dl01-answers.json")
 cap = json.loads(atlas_cap.read_text(encoding="utf-8")).get("captions", {})

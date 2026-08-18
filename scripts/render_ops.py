@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Florida Homeowners Insurance drops the sales voice",
+        "body": (
+            "The Florida page now leads with the finding and the figures. "
+            "The second-person headings, the household pitch above Figure 1, "
+            "and the constituent callout are gone. Ledes name the series. "
+            "The report card still grades the statute. The source register "
+            "now points the audited statements at Figure 5."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Wealth Taxes opens the map on California",
         "body": (
             "State Wealth Taxes now puts the hexes first. The heading "

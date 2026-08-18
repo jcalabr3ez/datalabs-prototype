@@ -69,6 +69,10 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    (Cursor Automation, Monday 9:00 AM ET)
     scripts/dl02-research-pass.md  Runbook: monthly DL-02 full research pass
                                    (Cursor Automation, 17th at 10:00 AM ET)
+    scripts/platform-audit-pass.md Runbook: overnight claim and chart audit
+                                   (Cursor Automation, 2:00 AM ET)
+    scripts/audit_platform.py      Deterministic inventory the overnight
+                                   audit runs first
     NEW-TOOL-CHECKLIST.md          The playbook for adding a DL-XX tool
     .github/workflows/             GitHub Actions (DL-03, DL-04, DL-05, suite,
                                    checks, eval; Step 7)
@@ -255,7 +259,8 @@ point it at another host, add a PUBLIC repository variable SITE_URL
     year. Do not invent a second retiree fetch.
     checks.yml         Weekly and on every PR. Fails when a ledger ages past
                        its publisher cadence, when a generated page block is
-                       out of sync with its canonical ledger, or when the
+                       out of sync with its canonical ledger, when a published
+                       claim does not recompute from its ledger, or when the
                        engine manifests do not load.
     eval.yml           Weekly. POSTs golden questions to the LIVE site's ask
                        endpoint and asserts each routes to the right tool
@@ -306,6 +311,20 @@ point it at another host, add a PUBLIC repository variable SITE_URL
     3. Same repo (main), most capable model, PR / Memories / Computer
        use on.
     4. Paste the prompt from the top of scripts/dl02-research-pass.md.
+    5. Save and activate. Review the draft PR; merge to deploy.
+
+    The overnight platform audit is a third Automation. It does not
+    fetch publisher files. It follows scripts/platform-audit-pass.md,
+    walks every live tool, and opens a draft PR whose title starts with
+    Platform audit.
+
+    1. Name: Platform overnight claim and chart audit
+    2. Cron: CRON_TZ=America/New_York 0 2 * * *
+       That is 2:00 AM Eastern every night. UTC fallback: 0 6 * * *
+       during EDT, 0 7 * * * during EST.
+    3. Same repo (main), most capable model, PR / Memories / Computer
+       use on.
+    4. Paste the prompt from the top of scripts/platform-audit-pass.md.
     5. Save and activate. Review the draft PR; merge to deploy.
 
 Nothing in the automation pushes to main; refreshes land as pull requests a

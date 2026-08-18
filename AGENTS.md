@@ -51,6 +51,12 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   invent figures. The five flagships stay frozen. 340B (DL-11) rebuilds
   from a local OPAIS Covered Entity Daily Export JSON plus CMS HCRIS and
   the Census SLDL-ZCTA file; see `scripts/build_dl11.py`.
+- **Platform audit (overnight):** follow `scripts/platform-audit-pass.md`.
+  Deterministic claim and chart inventory across every live tool, then
+  five parallel agents by Pioneer vertical. Update an existing PR only
+  if it is a draft whose title starts with `Platform audit`. Do not
+  refresh publisher files. Do not fold this into a DL-01, DL-02, DL-05,
+  or suite-refresh PR.
 
 ## House style
 
@@ -60,7 +66,8 @@ scored July 28, 2026).
 
 After ledger edits: `python3 scripts/inject_data.py`, then
 `python3 scripts/check_style.py`, `python3 scripts/check_freshness.py`,
-and `node --check scripts/check_engine.mjs`.
+`python3 scripts/audit_platform.py --strict`, and
+`node --check scripts/check_engine.mjs`.
 
 Any change to the Florida page or `dl02-answers.json` must set
 `page.revised` to today's date (`Mon D, YYYY`, e.g. `Aug 14, 2026`)

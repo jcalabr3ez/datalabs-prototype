@@ -196,6 +196,7 @@ flowchart TB
     R01["DL-01 Monday 9:00 AM ET · dl01-research-pass.md"]
     R02["DL-02 17th 10:00 AM ET · dl02-research-pass.md"]
     R05b["DL-05 boards when PERAC posts · dl05-research-pass.md"]
+    Rxx["Overnight platform audit · platform-audit-pass.md"]
   end
   subgraph actions [GitHub Actions · open a PR]
     A03["Monthly · refresh_dl03.py · FTA NTD API"]
@@ -227,12 +228,19 @@ flowchart TB
 Do not invent a second refresh next to these jobs. Do not mark a stub `live`
 or invent figures. The five flagships stay frozen during a suite refresh.
 
+The overnight platform audit (`scripts/platform-audit-pass.md`) is a
+verification pass, not a fetch. `scripts/audit_platform.py` recomputes
+ranks, matches hero and takeaway figures to ledger cells, and lists
+later-view series that already have numbers but no insight chart. It
+opens its own draft PR. It does not replace the weekly or monthly
+refreshes.
+
 ## 7. How a change goes live
 
 ```mermaid
 flowchart LR
   Edit[Edit a canonical file] --> Inject[Run inject_data.py]
-  Inject --> Checks["check_style · check_freshness · check_answers · check_engine · check_chart_scale"]
+  Inject --> Checks["check_style · check_freshness · check_answers · audit_platform · check_engine · check_chart_scale"]
   Checks --> PR[Draft PR against main]
   PR --> CI[GitHub Actions Checks + Engine eval]
   CI --> Review[Human says Deploy]
@@ -250,6 +258,7 @@ CI on every PR (`checks.yml`):
 - Ledger freshness versus publisher cadence
 - Inject is a no-op (generated blocks already committed)
 - Public question matches the hero number (`check_answers.py`)
+- Published claims and ranks recompute from the ledger (`audit_platform.py`)
 - Engine goldens and payload shape
 - Chart zero-baseline rules
 

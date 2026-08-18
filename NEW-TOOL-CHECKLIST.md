@@ -88,6 +88,9 @@ Conventions every ledger follows:
 
 - [ ] Add the ledger to RULES in scripts/check_freshness.py with a max age
       matched to the publisher cadence and one line of why.
+- [ ] The overnight platform audit (`scripts/audit_platform.py`) will
+      pick the new tool up from `catalog.json`. Give `insight_figures`
+      a dispatcher so later-view series are not reported as uncharted.
 
 ## 5. Update automation (pick the tier the sources allow)
 

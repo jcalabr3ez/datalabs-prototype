@@ -269,7 +269,28 @@ if "mode: 'hex'" not in elec_html and 'mode: "hex"' not in elec_html:
 else:
     ok("DL-04 hex Figure 1")
 
-# ---- 6. Frozen pages were not restyled by this pass ----
+# ---- 6. Fifty-state tools have one Place picker, not a second Compare menu ----
+for app in apps:
+    tid = app["id"]
+    if tid in SKIP_VOICE or app.get("wave") != "live":
+        continue
+    path = ledger_path(tid)
+    if not path.exists():
+        continue
+    ledger = json.loads(path.read_text(encoding="utf-8"))
+    if ledger.get("status") != "live" or not uses_national_lens(tid, ledger):
+        continue
+    slug = "electricity" if tid == "DL-04" else app.get("slug")
+    page = ROOT / slug / "index.html"
+    if not page.exists():
+        continue
+    html = page.read_text(encoding="utf-8")
+    if 'id="compareSel"' in html or "Pin a second state" in html:
+        fail(f"{tid} ({slug}) still has a second state Compare menu")
+    else:
+        ok(f"{tid} one Place picker")
+
+# ---- 7. Frozen pages were not restyled by this pass ----
 for rel in ("tax-atlas/index.html", "florida-insurance/index.html"):
     page = ROOT / rel
     if not page.exists():

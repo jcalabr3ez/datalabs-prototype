@@ -122,7 +122,7 @@ Households in the United States paid <b>16.48 cents</b> per kilowatthour in 2024
       <button type="button" class="map-tab" data-view="gen">Generation</button>
       <button type="button" class="map-tab" data-pane="table">Table</button>
     </div>
-    <div class="lede" id="mapLede">Every state and the District of Columbia. Darker navy is higher. Hover a state to update the readout. Click a state to open the table. Massachusetts has a gold outline.</div>
+    <div class="lede" id="mapLede">Every state and the District of Columbia. Equal hexes, so a small state is as readable as a large one. Darker navy is higher. Gold outline is Massachusetts. Rust outline is Florida. Hover a state to pin the figure. Click a state to set Place. On a phone, the first tap pins; a second tap sets Place.</div>
     <div class="region-bar">
       <span class="sel-lab">Census region</span>
       <div class="region-chips" role="group" aria-label="Filter by Census region">
@@ -132,10 +132,6 @@ Households in the United States paid <b>16.48 cents</b> per kilowatthour in 2024
         <button type="button" data-region="south">South</button>
         <button type="button" data-region="west">West</button>
       </div>
-    </div>
-    <div class="compare-bar" id="compareBar">
-      <label class="sel-lab" for="compareSel">Compare</label>
-      <select id="compareSel" aria-label="Pin a second state"></select>
     </div>
     <div class="explore-bar">
       <span class="sel-lab">Show</span>
@@ -152,7 +148,7 @@ Households in the United States paid <b>16.48 cents</b> per kilowatthour in 2024
       <div class="ex-head"><span class="ex-n">Figure 1</span>
         <span class="ex-t" id="fig1t">Residential average retail electricity price by state</span></div>
       <div class="plot plot-map" id="chRank" data-mode="hex"></div>
-      <div class="note" id="mapNote">Residential average retail price, cents per kilowatthour sold to households. This is still an average, not a bill. The all-sector map mixes homes, businesses, and industry. Massachusetts has a gold outline. Pin a second state to compare.</div>
+      <div class="note" id="mapNote">Residential average retail price, cents per kilowatthour sold to households. This is still an average, not a bill. The all-sector map mixes homes, businesses, and industry. Gold outline is Massachusetts. Rust outline is Florida.</div>
       <div class="srcline" id="mapSrc"><b>Source:</b> <a href="https://www.eia.gov/electricity/annual/html/epa_02_10.html" target="_blank" rel="noopener">EIA Electric Power Annual table 2.10</a> and <a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">Form EIA-861 historical state file</a> (SRC-401). <b>Calculation:</b> Pioneer Institute (ranks only).</div>
     </div>
     <div id="view-table" hidden>
@@ -481,7 +477,7 @@ var priceRows=[], salesRows=[], genRows=[];
 var mapView='res';
 var MAP_NOTES={
   price:'Price is cents per kilowatthour sold to ultimate customers, all sectors combined. Hawaii, Alaska, and the New England states sit at the top of the ranking because isolated or constrained grids and fuel mix show up in the all-sector average; the Plains and parts of the interior sit at the bottom. Rankings are among the 50 states and the District of Columbia (derived, SRC-401).',
-  res:'Residential average retail price, cents per kilowatthour sold to households. This is still an average, not a bill. The all-sector map mixes homes, businesses, and industry. Massachusetts has a gold outline. Pin a second state to compare.',
+  res:'Residential average retail price, cents per kilowatthour sold to households. This is still an average, not a bill. The all-sector map mixes homes, businesses, and industry. Gold outline is Massachusetts. Rust outline is Florida.',
   sales:'Sales are megawatthours delivered to residential, commercial, industrial, and transportation customers combined (SRC-401). Large states lead because they have more customers, not because prices are higher. Per-capita sales, in the table, divide this volume by the Census July 1 resident population (derived, SRC-401, SRC-402).',
   gen:'Net generation, Total Electric Power Industry, all energy sources (SRC-403). A state can sell more than it generates, or the reverse. Net summer capacity, in the table, is the EIA-860 all-sources total (SRC-404).'
 };
@@ -777,21 +773,6 @@ function setBand(next){
 });
 syncRegionButtons();
 syncBandButtons();
-(function initCompare(){
-  var sel=document.getElementById('compareSel');
-  if(!sel || !DL04 || !DL04.states) return;
-  var opts=DL04.states.slice().sort(function(a,b){
-    return String(a.name||a.st).localeCompare(String(b.name||b.st));
-  });
-  sel.innerHTML=opts.map(function(r){
-    return '<option value="'+r.st+'"'+(r.st===compareSt?' selected':'')+'>'+(r.name||r.st)+'</option>';
-  }).join('');
-  sel.addEventListener('change', function(){
-    compareSt=sel.value||'FL';
-    fillPlaceStrip();
-    if(typeof paintCurrentMap==='function') paintCurrentMap();
-  });
-})();
 fillLens();
 applyLens(lensSt);
 var tabs=document.getElementById('mapTabs');

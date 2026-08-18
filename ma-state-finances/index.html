@@ -932,33 +932,7 @@ const FIND={"kind": "tax_type", "cards": {"total taxes": {"name": "Total Taxes",
   [].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
     btn.classList.toggle('on', btn.getAttribute('data-band')===band);
   });
-  (function initCompare(){
-    var sel=document.getElementById('compareSel');
-    var bar=document.getElementById('compareBar');
-    if(!sel || CHART.geo!=='state'){
-      if(bar) bar.hidden=true;
-      return;
-    }
-    var opts=rows.filter(function(r){ return r && r.st && r.st.length===2 && r.st!=='US'; })
-      .slice().sort(function(a,b){ return String(a.name||a.st).localeCompare(String(b.name||b.st)); });
-    if(!opts.length){
-      bar.hidden=true;
-      return;
-    }
-    if(!opts.some(function(r){ return r.st===compareSt; })) compareSt=(opts[0]&&opts[0].st)||'';
-    sel.innerHTML=opts.map(function(r){
-      var st=r.st;
-      var lab=r.name||st;
-      if(st==='MA') lab=lab+' (gold)';
-      return '<option value="'+st+'"'+(st===compareSt?' selected':'')+'>'+lab+'</option>';
-    }).join('');
-    sel.addEventListener('change', function(){
-      compareSt=sel.value||'';
-      drawRank();
-      fillPlaceStrip();
-      if(typeof fillTableBody==='function') fillTableBody();
-    });
-  })();
+  compareSt='FL';
   (function(){
     var sel=document.getElementById('lensSel');
     if(!sel || !hasLens) return;

@@ -66,13 +66,6 @@ EXPLORE_BAR = """    <div class="explore-bar" hidden>
     </div>
 """
 
-COMPARE_BAR = """    <div class="compare-bar" id="compareBar">
-      <label class="sel-lab" for="compareSel">Compare</label>
-      <select id="compareSel" aria-label="Pin a second state"></select>
-    </div>
-"""
-
-
 def kpi_html(kpis):
     blocks = []
     srcs = []
@@ -726,12 +719,12 @@ def chart_spec(app, ledger):
         if uses_national_lens(tid, ledger):
             hex_how += (
                 "Click a state to set Place. On a phone, the first tap pins; "
-                "a second tap sets Place. Pin a second state to compare."
+                "a second tap sets Place."
             )
         else:
             hex_how += (
                 "Click a state to open the table. On a phone, the first tap pins; "
-                "a second tap opens the table. Pin a second state to compare."
+                "a second tap opens the table."
             )
         lede = where_lede + hex_how
         if tid == "DL-07":
@@ -1478,7 +1471,6 @@ def page_html(app, ledger, apps=None):
                 )
                 + REGION_BAR
                 + EXPLORE_BAR
-                + COMPARE_BAR
                 + '    <div id="mapPane">\n'
                 + '    <div class="exhibit">\n'
                 + '      <div class="ex-head"><span class="ex-n">Figure 1</span>\n'
@@ -2358,33 +2350,7 @@ const FIND=FIND_JSON;
   [].slice.call(document.querySelectorAll('[data-band]')).forEach(function(btn){
     btn.classList.toggle('on', btn.getAttribute('data-band')===band);
   });
-  (function initCompare(){
-    var sel=document.getElementById('compareSel');
-    var bar=document.getElementById('compareBar');
-    if(!sel || CHART.geo!=='state'){
-      if(bar) bar.hidden=true;
-      return;
-    }
-    var opts=rows.filter(function(r){ return r && r.st && r.st.length===2 && r.st!=='US'; })
-      .slice().sort(function(a,b){ return String(a.name||a.st).localeCompare(String(b.name||b.st)); });
-    if(!opts.length){
-      bar.hidden=true;
-      return;
-    }
-    if(!opts.some(function(r){ return r.st===compareSt; })) compareSt=(opts[0]&&opts[0].st)||'';
-    sel.innerHTML=opts.map(function(r){
-      var st=r.st;
-      var lab=r.name||st;
-      if(st==='MA') lab=lab+' (gold)';
-      return '<option value="'+st+'"'+(st===compareSt?' selected':'')+'>'+lab+'</option>';
-    }).join('');
-    sel.addEventListener('change', function(){
-      compareSt=sel.value||'';
-      drawRank();
-      fillPlaceStrip();
-      if(typeof fillTableBody==='function') fillTableBody();
-    });
-  })();
+  compareSt='FL';
   (function(){
     var sel=document.getElementById('lensSel');
     if(!sel || !hasLens) return;

@@ -194,8 +194,15 @@ def inject_florida(dl02, text, path):
     )
     text = replace_block(
         text,
-        "florida-miami-change",
-        fl_money_delta(md["incl_wind"] - md["incl_wind_2025_09"]),
+        "florida-peak-decline",
+        f"\u2212{fl['decline_pct']}%",
+        path,
+        style="html",
+    )
+    text = replace_block(
+        text,
+        "florida-peak-pif",
+        fl["peak_fmt"],
         path,
         style="html",
     )

@@ -62,6 +62,26 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Florida finding matches Figure 1; Wealth Taxes names live vehicles",
+        "body": (
+            "Florida Homeowners Insurance now opens the record with the "
+            "Citizens policies-in-force series as Figure 1, the chart "
+            "that proves 278,246 against the September 2023 peak. The "
+            "place strip keeps the Miami-Dade county average and adds "
+            "the peak contrast; it no longer repeats the hero count or "
+            "the $48 Miami-Dade change. The three view buttons under "
+            "the finding are gone. Jump links still reach policymakers "
+            "and the report card. The key-takeaways strip and the "
+            "county-pay reprint after Ask are gone. The county map is "
+            "Figure 2. State Wealth Taxes keeps Current Policy as the "
+            "default map view; the caption under it now names "
+            "California Proposition 40, Washington Initiative 645 and "
+            "the Petter suit, and the Rhode Island surtax that begins "
+            "collecting January 1, 2027."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Wealth Taxes hex map and Florida one-scroll chrome",
         "body": (
             "State Wealth Taxes now uses the same equal-hex cartogram as "

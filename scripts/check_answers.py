@@ -318,6 +318,36 @@ if "Policymaker Briefing Edition" in fl_html:
     fail("florida-insurance title still says Policymaker Briefing Edition")
 else:
     ok("florida-insurance title")
+if 'id="btn-home"' in fl_html:
+    fail("florida-insurance still has the three view buttons under the hero")
+else:
+    ok("florida-insurance has no view buttons under the hero")
+if "What are the key takeaways?" in fl_html:
+    fail("florida-insurance still reprints the key-takeaways strip")
+else:
+    ok("florida-insurance dropped the key-takeaways strip")
+if "What do Floridians actually pay?" in fl_html:
+    fail("florida-insurance still reprints the county-pay strip")
+else:
+    ok("florida-insurance dropped the county-pay strip")
+if "florida-miami-change" in fl_html:
+    fail("florida-insurance strip still leads with the Miami-Dade $48 change")
+else:
+    ok("florida-insurance strip dropped the $48 change")
+cit_fig = fl_html.find("Homes insured by Citizens")
+cty_fig = fl_html.find("County premiums the state publishes twice a year")
+if cit_fig < 0 or cty_fig < 0 or cit_fig > cty_fig:
+    fail("florida-insurance Figure 1 is not the Citizens series")
+else:
+    ok("florida-insurance Figure 1 is the Citizens series")
+
+atlas_cap = (ROOT / "netlify/functions/dl01-answers.json")
+cap = json.loads(atlas_cap.read_text(encoding="utf-8")).get("captions", {})
+cur = cap.get("current") or ""
+if "Proposition 40" not in cur or "Initiative 645" not in cur or "Rhode Island" not in cur:
+    fail("tax-atlas current caption does not name the live vehicles")
+else:
+    ok("tax-atlas current caption names the live vehicles")
 
 if failures:
     print("\nANSWER CONTRACT FAILURES:")

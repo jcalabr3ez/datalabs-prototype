@@ -206,6 +206,13 @@ for app in apps:
         fail(f"{tid} ({slug}) hero place-strip is missing the published Florida cell")
     else:
         ok(f"{tid} hero Florida strip")
+    strip = re.search(r'<div class="strip metrics">(.*?)</div>\s*</section>', html, re.S)
+    labels = re.findall(r'<div class="cl">([^<]+)</div>', strip.group(1)) if strip else []
+    dups = [lab for lab in labels if lab.lower().startswith(("massachusetts", "florida"))]
+    if dups:
+        fail(f"{tid} ({slug}) KPI row repeats the place-strip: {dups}")
+    else:
+        ok(f"{tid} KPI row does not repeat MA/FL")
 
 elec_html = (ROOT / "electricity/index.html").read_text(encoding="utf-8")
 if not re.search(
@@ -217,6 +224,13 @@ elif "ps-fl" not in elec_html.split('id="placeStrip">', 1)[1][:800]:
     fail("DL-04 hero place-strip is missing the published Florida cell")
 else:
     ok("DL-04 hero Florida strip")
+elec_strip = re.search(r'<div class="strip metrics">(.*?)</div>\s*</section>', elec_html, re.S)
+elec_labels = re.findall(r'<div class="cl">([^<]+)</div>', elec_strip.group(1)) if elec_strip else []
+elec_dups = [lab for lab in elec_labels if lab.lower().startswith(("massachusetts", "florida"))]
+if elec_dups:
+    fail(f"DL-04 KPI row repeats the place-strip: {elec_dups}")
+else:
+    ok("DL-04 KPI row does not repeat MA/FL")
 
 # ---- 5. Frozen pages were not restyled by this pass ----
 for rel in ("tax-atlas/index.html", "florida-insurance/index.html"):

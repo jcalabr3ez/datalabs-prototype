@@ -61,6 +61,18 @@ FLAGSHIPS = [
 
 CHANGELOG = [
     {
+        "date": "August 18, 2026",
+        "title": "Massachusetts and Florida appear once under the hero",
+        "body": (
+            "Fifty-state tools keep the rust place-strip under the "
+            "namesake number. The KPI row no longer repeats those "
+            "two figures. Highest and lowest stay when they add a "
+            "jurisdiction the strip does not already show. "
+            "Massachusetts-only pages are unchanged. State Wealth "
+            "Taxes and Florida Homeowners Insurance were not edited."
+        ),
+    },
+    {
         "date": "August 17, 2026",
         "title": "Florida is in the HTML under the namesake number",
         "body": (

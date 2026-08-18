@@ -252,6 +252,10 @@ if "var step =" in usmap:
     fail("hex cartogram still uses a paper gutter between cells")
 else:
     ok("hex cartogram is a packed plate")
+if "var pad = 20" in usmap or "minX - size" not in usmap:
+    fail("hex viewBox still pads from centers and clips edge cells")
+else:
+    ok("hex viewBox includes hex vertices")
 if not re.search(r"\.usmap\.is-hex \.st polygon\{[^}]*stroke:#293C5C", usmap_css):
     fail("hex plate is missing hairline navy rules")
 else:

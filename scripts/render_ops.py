@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Hex maps no longer clip Maine and Rhode Island",
+        "body": (
+            "The packed hex plate sized its frame from cell centers "
+            "with a pad smaller than the hex radius. Maine and Rhode "
+            "Island sit on the east edge, so their points were cut "
+            "off. The frame now includes the vertices."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Full-width hex maps are a figure, not a billboard",
         "body": (
             "Suite maps that sit alone in the column, such as Housing "

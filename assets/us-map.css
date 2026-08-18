@@ -54,7 +54,7 @@
 .usmap.is-compact .usmap-svg{max-height:280px}
 .usmap.is-compact .usmap-pin{margin-top:10px;padding-top:8px}
 
-.usmap.is-hex .hexgrid{width:100%;height:auto;display:block;max-height:none}
+.usmap.is-hex .hexgrid{width:100%;height:auto;display:block;max-height:none;overflow:visible}
 .usmap.is-hex .st polygon{fill:#EEF1F4;stroke:#293C5C;stroke-width:1;
   vector-effect:non-scaling-stroke;stroke-linejoin:miter}
 .usmap.is-hex .st-lab{font:500 12px/1 Roboto,system-ui,sans-serif;fill:#1A1A1A;

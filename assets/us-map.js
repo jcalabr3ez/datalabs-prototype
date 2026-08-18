@@ -524,9 +524,12 @@
   }
 
   function hexGridSvg() {
-    /* Packed plate: one size for grid and draw so hexes share edges. */
+    /* Packed plate: one size for grid and draw so hexes share edges.
+       viewBox must cover vertices, not centers. ME and RI sit on the
+       east edge; a pad smaller than size clips those points. */
     var size = 24;
-    var pad = 20;
+    var margin = 8;
+    var halfH = size * Math.sqrt(3) / 2;
     var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     var placed = [];
     Object.keys(HEX).forEach(function (st) {
@@ -538,10 +541,10 @@
       if (c.x > maxX) maxX = c.x;
       if (c.y > maxY) maxY = c.y;
     });
-    var vbX = minX - pad;
-    var vbY = minY - pad;
-    var vbW = (maxX - minX) + pad * 2;
-    var vbH = (maxY - minY) + pad * 2;
+    var vbX = minX - size - margin;
+    var vbY = minY - halfH - margin;
+    var vbW = (maxX - minX) + (size + margin) * 2;
+    var vbH = (maxY - minY) + (halfH + margin) * 2;
     var html = '<svg class="usmap-svg hexgrid" viewBox="' +
       vbX.toFixed(1) + ' ' + vbY.toFixed(1) + ' ' + vbW.toFixed(1) + ' ' + vbH.toFixed(1) +
       '" role="img" aria-label="United States hex cartogram">';

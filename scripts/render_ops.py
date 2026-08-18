@@ -62,6 +62,22 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Florida Homeowners Insurance fact-check through July 2026",
+        "body": (
+            "The Florida page now uses the July 31, 2026 Citizens "
+            "month-end count of 278,196. Statewide premiums run "
+            "through the official 2026 second-quarter workbook. The "
+            "December 2024 1-in-100 is the February 2025 statutory "
+            "$13.338 billion. Twenty-one residential writers are on "
+            "the July 1 Stability Report. Catastrophe stress tests "
+            "are cited. The 2024 hurricane open count is received "
+            "minus closed (8,528, 11 percent). The 2026 first-half "
+            "takeout total of 109,161 is the official June figure. "
+            "Report-card grades are unchanged."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Florida Homeowners Insurance drops the sales voice",
         "body": (
             "The Florida page now leads with the finding and the figures. "

@@ -519,7 +519,7 @@
   }
 
   function hexGridSvg() {
-    var size = 20;
+    var size = 22;
     var pad = 22;
     var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     var placed = [];
@@ -588,7 +588,7 @@
       g.classList.toggle('is-fl', st === 'FL' || (cmpOn && st === cmp));
       g.classList.toggle('is-on', st === selected);
       g.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
-      g.classList.toggle('is-dark', sc.diverging ? (b === 0 || b === 1 || b >= 3) : b >= 3);
+      g.classList.toggle('is-dark', sc.diverging ? (b === 0 || b === 1 || b >= 3) : b >= 2);
       g.setAttribute('tabindex', (!row || v == null || (active && active.indexOf(st) < 0)) ? '-1' : '0');
     });
 

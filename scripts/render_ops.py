@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Hex labels are larger and keep contrast",
+        "body": (
+            "State abbreviations on the fifty-state hex cartogram are "
+            "larger, with a halo so the letters stay readable on both "
+            "light and navy fills. Massachusetts-only pages, State "
+            "Wealth Taxes, and Florida Homeowners Insurance were not "
+            "edited."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "One hex cartogram on every fifty-state tool",
         "body": (
             "Figure 1 on fifty-state tools, including Retail Electricity, "

@@ -250,6 +250,11 @@
     }
     var read = el.querySelector('.usmap-read');
     if (!read) return;
+    if (!el.classList.contains('townmap')) {
+      read.hidden = true;
+      read.innerHTML = '';
+      return;
+    }
     var htmlRead = cell('', 'Highest', hi) + cell('', 'Lowest', lo);
     if (ma && !el.classList.contains('townmap')) htmlRead += cell('ma', 'Massachusetts', ma);
     var cmp = (opts.compareSt || (opts.highlightFlorida ? 'FL' : '') || '').toUpperCase();

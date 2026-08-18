@@ -62,6 +62,21 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "One Place picker on fifty-state tools",
+        "body": (
+            "Each fifty-state page already had a Place filter in the "
+            "hero. Figure 1 also had a second 51-state dropdown that "
+            "only moved the rust outline off Florida. That second "
+            "menu is gone. Florida stays the rust pin. The map no "
+            "longer reprints Highest, Lowest, Massachusetts, Florida, "
+            "and the U.S. under the hexes. Those figures already live "
+            "in the hero strip and the KPI row. Region chips and the "
+            "rank table stay. State Wealth Taxes and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "The map pin sits below the hexes on a phone",
         "body": (
             "On a narrow screen the selected-state box no longer "

@@ -290,16 +290,20 @@ for app in apps:
     else:
         ok(f"{tid} one Place picker")
 
-# ---- 7. Flagship pages share the finding chrome; atlas hex has no gold/rust ----
+# ---- 7. Atlas opens on the hex map; Florida keeps its finding hero ----
 atlas = (ROOT / "tax-atlas/index.html").read_text(encoding="utf-8")
 if 'id="compareSel"' in atlas:
     fail("tax-atlas still has a second state Compare menu")
 else:
     ok("tax-atlas has no Compare menu")
-if 'id="answerQ"' not in atlas or 'id="chRank"' not in atlas:
-    fail("tax-atlas is missing the finding hero or hex Figure 1")
+if 'id="answerQ"' in atlas or 'id="answer"' in atlas:
+    fail("tax-atlas still has a finding hero above the map")
 else:
-    ok("tax-atlas finding hero and hex Figure 1")
+    ok("tax-atlas has no finding hero")
+if 'id="chRank"' not in atlas:
+    fail("tax-atlas is missing hex Figure 1")
+else:
+    ok("tax-atlas hex Figure 1")
 if "roleOutlines: false" not in atlas and "roleOutlines:false" not in atlas:
     fail("tax-atlas hex map still uses gold/rust role outlines")
 else:

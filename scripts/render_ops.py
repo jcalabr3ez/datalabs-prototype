@@ -62,6 +62,19 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Wealth Taxes opens on the hex map",
+        "body": (
+            "State Wealth Taxes no longer leads with a namesake "
+            "question and a single rate. The title and dateline go "
+            "straight into Figure 1, the equal-hex map of current "
+            "policy, proposals, ballot access, and near-term risk. "
+            "Ask and the dated events list stay below the map. "
+            "Cite-copy sits on the figure. Massachusetts and Florida "
+            "still do not get gold or rust outlines on those hexes."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Wealth Taxes hex map and Florida one-scroll chrome",
         "body": (
             "State Wealth Taxes now uses the same equal-hex cartogram as "

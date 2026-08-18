@@ -260,6 +260,10 @@ if re.search(r"\.usmap\.is-hex \.st-lab\{[^}]*stroke:#fff", usmap_css):
     fail("hex labels still use a white halo")
 else:
     ok("hex labels have no halo")
+if "max-width:680px" not in usmap_css:
+    fail("full-width hex figures have no size cap")
+else:
+    ok("full-width hex figures are capped at 680px")
 
 for app in apps:
     tid = app["id"]

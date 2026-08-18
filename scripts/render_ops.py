@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Full-width hex maps are a figure, not a billboard",
+        "body": (
+            "Suite maps that sit alone in the column, such as Housing "
+            "Permits, were filling the page and growing too tall. "
+            "Those plates now cap at 680 pixels wide and keep their "
+            "shape. Compact insight maps stay small. State Wealth "
+            "Taxes still sits beside its panel."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Hex maps are a packed plate",
         "body": (
             "Every fifty-state hex map is now one plate: cells share "

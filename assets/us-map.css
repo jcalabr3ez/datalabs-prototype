@@ -3,6 +3,9 @@
 .usmap{position:relative}
 .usmap-frame{display:block;position:relative}
 .usmap-box{position:relative;min-width:0}
+/* Full-width suite figures were filling the 1120px column and growing
+   ~850px tall. Cap the plate, keep aspect. Compact insight maps stay small. */
+.usmap.is-hex:not(.is-compact) .usmap-box{max-width:680px;margin-left:auto;margin-right:auto}
 .usmap-svg{width:100%;height:auto;display:block;max-height:none;
   shape-rendering:geometricPrecision}
 .usmap .st{cursor:pointer;fill:#EEF1F4;stroke:#fff;stroke-width:0.5;

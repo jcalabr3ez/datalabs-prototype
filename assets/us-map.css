@@ -52,21 +52,22 @@
 .usmap.is-compact .usmap-pin{margin-top:10px;padding-top:8px}
 
 .usmap.is-hex .hexgrid{width:100%;height:auto;display:block;max-height:none}
-.usmap.is-hex .st polygon{fill:#EEF1F4;stroke:#fff;stroke-width:0.9}
-.usmap.is-hex .st-lab{font:600 11.5px/1 Roboto,system-ui,sans-serif;fill:#1A1A1A;
-  letter-spacing:.02em;text-anchor:middle;dominant-baseline:central;pointer-events:none;
-  paint-order:stroke fill;stroke:#fff;stroke-width:2px;stroke-linejoin:round}
-.usmap.is-hex .st.is-dark .st-lab{fill:#fff;stroke:#1A1A1A;stroke-width:1.8px}
+.usmap.is-hex .st polygon{fill:#EEF1F4;stroke:#293C5C;stroke-width:1;
+  vector-effect:non-scaling-stroke;stroke-linejoin:miter}
+.usmap.is-hex .st-lab{font:500 12px/1 Roboto,system-ui,sans-serif;fill:#1A1A1A;
+  letter-spacing:.04em;text-anchor:middle;dominant-baseline:central;pointer-events:none;
+  stroke:none}
+.usmap.is-hex .st.is-dark .st-lab{fill:#fff;stroke:none}
 .usmap.no-role .usmap-key{display:none}
-.usmap.is-hex .st.is-ma polygon{stroke:#CCB26D;stroke-width:1.8}
-.usmap.is-hex .st.is-fl polygon,.usmap.fl-on .st.is-fl polygon{stroke:#C45C26;stroke-width:1.8}
+.usmap.is-hex .st.is-ma polygon{stroke:#CCB26D;stroke-width:1.5}
+.usmap.is-hex .st.is-fl polygon,.usmap.fl-on .st.is-fl polygon{stroke:#C45C26;stroke-width:1.5}
 .usmap.no-role.is-hex .st.is-ma polygon,.usmap.no-role.is-hex .st.is-fl polygon{
-  stroke:#fff;stroke-width:0.9}
+  stroke:#293C5C;stroke-width:1}
 .usmap.is-hex .st:hover polygon,.usmap.is-hex .st:focus polygon,.usmap.is-hex .st.is-hot polygon{
-  stroke:#1A1A1A;stroke-width:1.6}
-.usmap.is-hex .st.is-on polygon,.usmap.is-hex .st.is-ma.is-hot polygon{stroke:#1A1A1A;stroke-width:1.8}
-.usmap.is-hex .st.is-fl.is-hot polygon{stroke:#1A1A1A;stroke-width:1.8}
-.usmap.is-compact.is-hex .st-lab{font-size:10.5px;stroke-width:1.8px}
+  stroke:#1A1A1A;stroke-width:1}
+.usmap.is-hex .st.is-on polygon,.usmap.is-hex .st.is-ma.is-hot polygon{stroke:#1A1A1A;stroke-width:1.25}
+.usmap.is-hex .st.is-fl.is-hot polygon{stroke:#1A1A1A;stroke-width:1.25}
+.usmap.is-compact.is-hex .st-lab{font-size:11px}
 
 /* Legacy 51-cell tile grid. Fifty-state Figure 1 no longer uses it. */
 .usmap.is-tile .tilegrid{display:grid;gap:4px;max-width:720px}

@@ -248,10 +248,18 @@ if re.search(r"\.usmap-pin\{[^}]*position:absolute", usmap_css):
     fail("hex hover pin still overlays the cartogram")
 else:
     ok("hex hover pin sits under the cartogram")
-if "var step =" not in usmap:
-    fail("hex cartogram has no gutter between cells")
+if "var step =" in usmap:
+    fail("hex cartogram still uses a paper gutter between cells")
 else:
-    ok("hex cartogram has a gutter between cells")
+    ok("hex cartogram is a packed plate")
+if not re.search(r"\.usmap\.is-hex \.st polygon\{[^}]*stroke:#293C5C", usmap_css):
+    fail("hex plate is missing hairline navy rules")
+else:
+    ok("hex plate uses hairline navy rules")
+if re.search(r"\.usmap\.is-hex \.st-lab\{[^}]*stroke:#fff", usmap_css):
+    fail("hex labels still use a white halo")
+else:
+    ok("hex labels have no halo")
 
 for app in apps:
     tid = app["id"]

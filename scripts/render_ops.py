@@ -62,6 +62,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Hex maps are a packed plate",
+        "body": (
+            "Every fifty-state hex map is now one plate: cells share "
+            "edges, hairline navy rules, and postal codes without a "
+            "halo. Hover is a one-pixel ink ring. The readout stays "
+            "under the figure. Suite pages still pin Massachusetts in "
+            "gold and Florida in rust. State Wealth Taxes still has "
+            "no role outlines and no Find a state menu."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Hex cartogram opens up; Wealth Taxes drops Find a state",
         "body": (
             "The fifty-state hex map now has a paper gutter between "

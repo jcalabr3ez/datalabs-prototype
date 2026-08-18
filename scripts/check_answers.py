@@ -252,10 +252,16 @@ if "var step =" in usmap:
     fail("hex cartogram still uses a paper gutter between cells")
 else:
     ok("hex cartogram is a packed plate")
-if "var pad = 20" in usmap or "minX - size" not in usmap:
+if "var pad = 20" in usmap:
+    fail("hex viewBox still pads from centers and clips edge cells")
+elif "minY - size" not in usmap and "minX - size" not in usmap:
     fail("hex viewBox still pads from centers and clips edge cells")
 else:
     ok("hex viewBox includes hex vertices")
+if "60 * i - 30" not in usmap or "1.5 * r" not in usmap:
+    fail("hex cartogram is not pointy-top latitude rows")
+else:
+    ok("hex cartogram uses pointy-top rows like the country")
 if not re.search(r"\.usmap\.is-hex \.st polygon\{[^}]*stroke:#293C5C", usmap_css):
     fail("hex plate is missing hairline navy rules")
 else:

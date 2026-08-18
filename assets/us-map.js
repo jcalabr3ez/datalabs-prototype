@@ -1,5 +1,6 @@
 /* DataLabs fifty-state map. One hex cartogram for every Figure 1.
-   Packed plate: shared edges, hairline navy rules, no label halo.
+   Pointy-top packed plate in latitude rows, so the silhouette reads
+   as the country. Shared edges, hairline navy rules, no label halo.
    Gold outline is Massachusetts. Rust outline is Florida.
    Hover writes a readout under the cartogram, not over the hexes. */
 (function (root) {
@@ -24,16 +25,20 @@
     WI:[1,6], WV:[3,7], WY:[3,2]
   };
 
-  /* Even-q flat-top hexes. Alaska and Hawaii sit at the lower left. */
+  /* Odd-r pointy-top hexes. Rows follow latitude, so the plate reads as
+     the country: Maine and the Pacific Northwest on the north edge,
+     Florida the peninsula, Texas the southern horn, Alaska and Hawaii
+     inset at the lower left. */
   var HEX = {
-    ME:[11,0],
-    WI:[6,1], VT:[10,1], NH:[11,1],
-    WA:[1,2], ID:[2,2], MT:[3,2], ND:[4,2], MN:[5,2], IL:[6,2], MI:[7,2], NY:[9,2], MA:[10,2],
-    OR:[1,3], NV:[2,3], WY:[3,3], SD:[4,3], IA:[5,3], IN:[6,3], OH:[7,3], PA:[8,3], NJ:[9,3], CT:[10,3], RI:[11,3],
-    CA:[1,4], UT:[2,4], CO:[3,4], NE:[4,4], MO:[5,4], KY:[6,4], WV:[7,4], VA:[8,4], MD:[9,4], DE:[10,4],
-    AZ:[2,5], NM:[3,5], KS:[4,5], AR:[5,5], TN:[6,5], NC:[7,5], SC:[8,5], DC:[9,5],
-    AK:[0,6], OK:[4,6], LA:[5,6], MS:[6,6], AL:[7,6], GA:[8,6],
-    HI:[0,7], TX:[4,7], FL:[8,7]
+    ME:[10,0],
+    WI:[5,1], VT:[9,1], NH:[10,1],
+    WA:[0,2], ID:[1,2], MT:[2,2], ND:[3,2], MN:[4,2], IL:[5,2], MI:[6,2], NY:[8,2], MA:[9,2], RI:[10,2],
+    OR:[0,3], NV:[1,3], WY:[2,3], SD:[3,3], IA:[4,3], IN:[5,3], OH:[6,3], PA:[7,3], NJ:[8,3], CT:[9,3],
+    CA:[0,4], UT:[1,4], CO:[2,4], NE:[3,4], MO:[4,4], KY:[5,4], WV:[6,4], VA:[7,4], MD:[8,4], DE:[9,4],
+    AZ:[1,5], NM:[2,5], KS:[3,5], AR:[4,5], TN:[5,5], NC:[6,5], SC:[7,5], DC:[8,5],
+    OK:[3,6], LA:[4,6], MS:[5,6], AL:[6,6], GA:[7,6],
+    AK:[0,7], TX:[3,7], FL:[7,7],
+    HI:[0,8]
   };
 
   function loadTpl(cb) {
@@ -509,15 +514,15 @@
 
   function hexCenter(q, r, size) {
     return {
-      x: size * 1.5 * q,
-      y: size * Math.sqrt(3) * (r + (q % 2) * 0.5)
+      x: size * Math.sqrt(3) * (q + (r % 2) * 0.5),
+      y: size * 1.5 * r
     };
   }
 
   function hexPoints(cx, cy, size) {
     var pts = [];
     for (var i = 0; i < 6; i++) {
-      var a = Math.PI / 180 * (60 * i);
+      var a = Math.PI / 180 * (60 * i - 30);
       pts.push((cx + size * Math.cos(a)).toFixed(2) + ',' + (cy + size * Math.sin(a)).toFixed(2));
     }
     return pts.join(' ');
@@ -525,11 +530,11 @@
 
   function hexGridSvg() {
     /* Packed plate: one size for grid and draw so hexes share edges.
-       viewBox must cover vertices, not centers. ME and RI sit on the
-       east edge; a pad smaller than size clips those points. */
+       viewBox must cover vertices, not centers. Pointy-top cells
+       extend `size` on y and half-width on x. */
     var size = 24;
     var margin = 8;
-    var halfH = size * Math.sqrt(3) / 2;
+    var halfW = size * Math.sqrt(3) / 2;
     var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     var placed = [];
     Object.keys(HEX).forEach(function (st) {
@@ -541,10 +546,10 @@
       if (c.x > maxX) maxX = c.x;
       if (c.y > maxY) maxY = c.y;
     });
-    var vbX = minX - size - margin;
-    var vbY = minY - halfH - margin;
-    var vbW = (maxX - minX) + (size + margin) * 2;
-    var vbH = (maxY - minY) + (halfH + margin) * 2;
+    var vbX = minX - halfW - margin;
+    var vbY = minY - size - margin;
+    var vbW = (maxX - minX) + (halfW + margin) * 2;
+    var vbH = (maxY - minY) + (size + margin) * 2;
     var html = '<svg class="usmap-svg hexgrid" viewBox="' +
       vbX.toFixed(1) + ' ' + vbY.toFixed(1) + ' ' + vbW.toFixed(1) + ' ' + vbH.toFixed(1) +
       '" role="img" aria-label="United States hex cartogram">';

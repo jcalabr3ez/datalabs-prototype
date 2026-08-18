@@ -18,8 +18,8 @@ from check_freshness import RULES, parse_as_of
 from suite_common import ROOT, load_apps
 
 SITE = "https://datalabsai.netlify.app"
-TODAY = date(2026, 8, 16)
-TODAY_LABEL = "August 16, 2026"
+TODAY = date(2026, 8, 18)
+TODAY_LABEL = "August 18, 2026"
 
 FLAGSHIPS = [
     {
@@ -60,6 +60,17 @@ FLAGSHIPS = [
 ]
 
 CHANGELOG = [
+    {
+        "date": "August 18, 2026",
+        "title": "Hex maps now follow the shape of the country",
+        "body": (
+            "The fifty-state cartogram uses pointy-top hexes in latitude "
+            "rows instead of flat-top columns. Maine sits on the northeast "
+            "corner, Washington on the northwest, Florida hangs as the "
+            "peninsula, and Texas is the southern horn. Alaska and Hawaii "
+            "stay inset at the lower left. Cells still share edges."
+        ),
+    },
     {
         "date": "August 18, 2026",
         "title": "Cut the generated voice from the public pages",

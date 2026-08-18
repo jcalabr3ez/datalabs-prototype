@@ -62,6 +62,19 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "One hex cartogram on every fifty-state tool",
+        "body": (
+            "Figure 1 on fifty-state tools, including Retail Electricity, "
+            "is now the same hex cartogram. Equal hexes so a small state "
+            "is as readable as a large one. Gold is Massachusetts. Rust "
+            "is Florida. The legend names fifths of states and puts the "
+            "U.S. figure beside the ramp, not in the middle of it. "
+            "Massachusetts-only pages, State Wealth Taxes, and Florida "
+            "Homeowners Insurance were not edited."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Massachusetts and Florida appear once under the hero",
         "body": (
             "Fifty-state tools keep the rust place-strip under the "

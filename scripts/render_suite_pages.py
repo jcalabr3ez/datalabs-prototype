@@ -18,6 +18,7 @@ from page_voice import (
     short_place_text,
     source_vintage,
     table_value_label,
+    uses_national_lens,
     voice_for,
 )
 from suite_common import ROOT, catalog_dashboards, commify, load_apps, ledger_path, paper_dateline
@@ -189,7 +190,6 @@ def answer_html(answer, kpis_markup="", slug="", vintages=None, answers=None):
     )
 
 
-TILE_TOOLS = {"DL-07", "DL-14", "DL-19", "DL-31"}
 TOWN_TOOLS = {"DL-25", "DL-26"}
 FINDER_TOOLS = {"DL-10", "DL-25", "DL-26"}
 HIST_TOOLS = {"DL-32"}
@@ -718,35 +718,45 @@ def chart_spec(app, ledger):
             where_lede = "46 jurisdictions. Not every state is in this file. "
         else:
             where_lede = f"{n_file} jurisdictions. "
-        lede = (
-            where_lede
-            + "Darker navy is higher. "
-            "Gold outline is Massachusetts. Rust outline is Florida. Light gray is not in this file. "
-            "Hover a state to pin the figure on the map. Click a state to open the table. "
-            "On a phone, the first tap pins; a second tap opens the table. "
-            "Pin a second state to compare."
+        hex_how = (
+            "Equal hexes, so a small state is as readable as a large one. "
+            "Darker navy is higher. Gold outline is Massachusetts. Rust outline is Florida. "
+            "Light gray is not in this file. Hover a state to pin the figure. "
         )
+        if uses_national_lens(tid, ledger):
+            hex_how += (
+                "Click a state to set Place. On a phone, the first tap pins; "
+                "a second tap sets Place. Pin a second state to compare."
+            )
+        else:
+            hex_how += (
+                "Click a state to open the table. On a phone, the first tap pins; "
+                "a second tap opens the table. Pin a second state to compare."
+            )
+        lede = where_lede + hex_how
         if tid == "DL-07":
             lede = (
-                "NAEP grade 4 reading, 2024. Darker navy is a higher scale score. "
-                "Equal-size cells so a small state is as readable as a large one. "
-                "Gold outline is Massachusetts. Rust outline is Florida. "
-                "Hover a state to pin the figure on the map. "
-                "Click a state to open the table. Pin a second state to compare."
+                "NAEP grade 4 reading, 2024. "
+                + hex_how.replace(
+                    "Darker navy is higher. ",
+                    "Darker navy is a higher scale score. ",
+                )
             )
         elif tid == "DL-08":
             lede = (
                 "Fall enrollment in degree-granting institutions, 2022. "
-                "Darker navy is more students. Gold outline is Massachusetts. Rust outline is Florida. "
-                "Hover a state to pin the figure on the map. Click a state to open the table. "
-                "Pin a second state to compare."
+                + hex_how.replace(
+                    "Darker navy is higher. ",
+                    "Darker navy is more students. ",
+                )
             )
         elif tid == "DL-09":
             lede = (
-                "Charter school fall enrollment, 2022-23. Darker navy is more students. "
-                "Gold outline is Massachusetts. Rust outline is Florida. Light gray is not in this file. "
-                "Hover a state to pin the figure on the map. "
-                "Click a state to open the table. Pin a second state to compare."
+                "Charter school fall enrollment, 2022-23. "
+                + hex_how.replace(
+                    "Darker navy is higher. ",
+                    "Darker navy is more students. ",
+                )
             )
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
@@ -951,7 +961,7 @@ def chart_spec(app, ledger):
         "trend_unit": trend_unit,
         "us": us_val,
         "us_compare": us_compare,
-        "map_mode": ("tile" if tid in TILE_TOOLS else "geo"),
+        "map_mode": "hex",
         "compare": (
             "map" if geo == "state"
             else "town" if tid in TOWN_TOOLS
@@ -1249,7 +1259,7 @@ def page_html(app, ledger, apps=None):
     map_views = []
     if live and spec.get("geo") == "state" and spec.get("show_map") is not False:
         src_ids = list((ledger.get("source_id_map") or {}))
-        mode = spec.get("map_mode") or "geo"
+        mode = spec.get("map_mode") or "hex"
         if app["id"] == "DL-07":
             map_views.append({
                 "id": "naep",
@@ -1261,7 +1271,7 @@ def page_html(app, ledger, apps=None):
                 "format": "number",
                 "primary": True,
                 "rows": naep_score_rows(ledger),
-                "mode": "tile",
+                "mode": "hex",
             })
         else:
             map_views.append({
@@ -1448,7 +1458,7 @@ def page_html(app, ledger, apps=None):
         )
     if live:
         if spec.get("geo") == "state" and spec.get("show_map") is not False:
-            mode = (map_views[0].get("mode") if map_views else spec.get("map_mode")) or "geo"
+            mode = (map_views[0].get("mode") if map_views else spec.get("map_mode")) or "hex"
             fig1_title = (
                 (map_views[0].get("title") if map_views else None)
                 or spec.get("title")
@@ -2015,7 +2025,7 @@ const FIND=FIND_JSON;
     writeMapChrome();
     var viewFmt=view.format||fmt;
     window.dlStateMap(el,{
-      mode: view.mode || CHART.map_mode || el.getAttribute('data-mode') || 'geo',
+      mode: view.mode || CHART.map_mode || el.getAttribute('data-mode') || 'hex',
       highlightFlorida: true,
       compareSt: compareSt,
       rows:base,
@@ -2677,6 +2687,8 @@ const FIND=FIND_JSON;
     if(!el||!fig) return;
     if(fig.type==='map' && window.dlStateMap && fig.rows){
       window.dlStateMap(el,{
+        mode:'hex',
+        highlightFlorida:true,
         rows:fig.rows,
         format:function(v){return fmtInsight(fig.format||'number',v,true);},
         extra:function(r){return r.rank?('rank '+r.rank):'';}

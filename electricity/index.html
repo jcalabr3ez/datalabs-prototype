@@ -151,7 +151,7 @@ Households in the United States paid <b>16.48 cents</b> per kilowatthour in 2024
     <div class="exhibit">
       <div class="ex-head"><span class="ex-n">Figure 1</span>
         <span class="ex-t" id="fig1t">Residential average retail electricity price by state</span></div>
-      <div class="plot plot-map" id="chRank"></div>
+      <div class="plot plot-map" id="chRank" data-mode="hex"></div>
       <div class="note" id="mapNote">Residential average retail price, cents per kilowatthour sold to households. This is still an average, not a bill. The all-sector map mixes homes, businesses, and industry. Massachusetts has a gold outline. Pin a second state to compare.</div>
       <div class="srcline" id="mapSrc"><b>Source:</b> <a href="https://www.eia.gov/electricity/annual/html/epa_02_10.html" target="_blank" rel="noopener">EIA Electric Power Annual table 2.10</a> and <a href="https://www.eia.gov/electricity/data/state/" target="_blank" rel="noopener">Form EIA-861 historical state file</a> (SRC-401). <b>Calculation:</b> Pioneer Institute (ranks only).</div>
     </div>
@@ -456,7 +456,7 @@ function paintStateMap(id, rows, fmt, extra, ref){
   var el=document.getElementById(id);
   if(!el||!window.dlStateMap) return;
   window.dlStateMap(el,{
-    mode: (mapView==='res' || mapView==='price') ? 'tile' : 'geo',
+    mode: 'hex',
     highlightFlorida: compareSt==='FL',
     compareSt: compareSt,
     rows:rows,

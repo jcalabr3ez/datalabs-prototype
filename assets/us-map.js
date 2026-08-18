@@ -1,13 +1,13 @@
-/* DataLabs fifty-state map. Option A: Census Albers USA SVG.
-   Option B: 51-cell tile grid with the value in the cell.
-   Gold outline is Massachusetts only. Florida outline is on (rust).
+/* DataLabs fifty-state map. One hex cartogram for every Figure 1.
+   Gold outline is Massachusetts. Rust outline is Florida.
    Hover pins a readout on the map. There is no floating tooltip. */
 (function (root) {
   'use strict';
 
   var EMPTY = '#EEF1F4';
   var NAVY5 = ['#C5D0DC', '#8DA0B5', '#5B7390', '#3A516C', '#293C5C'];
-  var DIVERGE5 = ['#8C2F1B', '#C45C26', '#F3E7CB', '#4A6180', '#293C5C'];
+  /* Warm bins avoid Florida rust (#C45C26) so the outline stays unique. */
+  var DIVERGE5 = ['#8C2F1B', '#D4894A', '#F3E7CB', '#4A6180', '#293C5C'];
   var TPL = null;
   var TOWN_TPL = null;
   var WAIT = [];
@@ -21,6 +21,18 @@
     NM:[5,2], NV:[3,1], NY:[2,9], OH:[2,7], OK:[5,3], OR:[3,0], PA:[2,8], RI:[2,11],
     SC:[5,8], SD:[3,3], TN:[4,6], TX:[6,3], UT:[4,1], VA:[3,8], VT:[1,10], WA:[2,0],
     WI:[1,6], WV:[3,7], WY:[3,2]
+  };
+
+  /* Even-q flat-top hexes. Alaska and Hawaii sit at the lower left. */
+  var HEX = {
+    ME:[11,0],
+    WI:[6,1], VT:[10,1], NH:[11,1],
+    WA:[1,2], ID:[2,2], MT:[3,2], ND:[4,2], MN:[5,2], IL:[6,2], MI:[7,2], NY:[9,2], MA:[10,2],
+    OR:[1,3], NV:[2,3], WY:[3,3], SD:[4,3], IA:[5,3], IN:[6,3], OH:[7,3], PA:[8,3], NJ:[9,3], CT:[10,3], RI:[11,3],
+    CA:[1,4], UT:[2,4], CO:[3,4], NE:[4,4], MO:[5,4], KY:[6,4], WV:[7,4], VA:[8,4], MD:[9,4], DE:[10,4],
+    AZ:[2,5], NM:[3,5], KS:[4,5], AR:[5,5], TN:[6,5], NC:[7,5], SC:[8,5], DC:[9,5],
+    AK:[0,6], OK:[4,6], LA:[5,6], MS:[6,6], AL:[7,6], GA:[8,6],
+    HI:[0,7], TX:[4,7], FL:[8,7]
   };
 
   function loadTpl(cb) {
@@ -210,10 +222,15 @@
       return (i === 0 ? '' : ',') + c + ' ' + Math.round(i / Math.max(colors.length - 1, 1) * 100) + '%';
     }).join('');
     var labs = '<span>' + htmlEsc(lo) + '</span>';
-    if (mid) labs += '<span>' + htmlEsc(sc.diverging ? 'net loss / net gain' : ('U.S. ' + mid)) + '</span>';
+    labs += '<span>' + htmlEsc(sc.diverging ? 'net loss / net gain' : 'fifths of states') + '</span>';
     labs += '<span>' + htmlEsc(hi) + '</span>';
+    var usNote = '';
+    if (us != null) {
+      usNote = '<div class="usmap-us">' + htmlEsc((ref && ref.label) ? ref.label : 'United States') +
+        ' is ' + htmlEsc(mid) + '</div>';
+    }
     return '<div class="usmap-ramp"><div class="usmap-ramp-bar" style="background:linear-gradient(90deg,' + stops + ')"></div>' +
-      '<div class="usmap-ramp-labs">' + labs + '</div></div>';
+      '<div class="usmap-ramp-labs">' + labs + '</div></div>' + usNote;
   }
 
   function writeRead(el, opts, lookup, ranked, fmt) {
@@ -485,30 +502,133 @@
     }
   }
 
+  function hexCenter(q, r, size) {
+    return {
+      x: size * 1.5 * q,
+      y: size * Math.sqrt(3) * (r + (q % 2) * 0.5)
+    };
+  }
+
+  function hexPoints(cx, cy, size) {
+    var pts = [];
+    for (var i = 0; i < 6; i++) {
+      var a = Math.PI / 180 * (60 * i);
+      pts.push((cx + size * Math.cos(a)).toFixed(2) + ',' + (cy + size * Math.sin(a)).toFixed(2));
+    }
+    return pts.join(' ');
+  }
+
+  function hexGridSvg() {
+    var size = 20;
+    var pad = 22;
+    var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+    var placed = [];
+    Object.keys(HEX).forEach(function (st) {
+      var qr = HEX[st];
+      var c = hexCenter(qr[0], qr[1], size);
+      placed.push({ st: st, x: c.x, y: c.y });
+      if (c.x < minX) minX = c.x;
+      if (c.y < minY) minY = c.y;
+      if (c.x > maxX) maxX = c.x;
+      if (c.y > maxY) maxY = c.y;
+    });
+    var vbX = minX - pad;
+    var vbY = minY - pad;
+    var vbW = (maxX - minX) + pad * 2;
+    var vbH = (maxY - minY) + pad * 2;
+    var html = '<svg class="usmap-svg hexgrid" viewBox="' +
+      vbX.toFixed(1) + ' ' + vbY.toFixed(1) + ' ' + vbW.toFixed(1) + ' ' + vbH.toFixed(1) +
+      '" role="img" aria-label="United States hex cartogram">';
+    placed.forEach(function (p) {
+      html += '<g class="st" data-st="' + p.st + '" tabindex="0">' +
+        '<polygon points="' + hexPoints(p.x, p.y, size) + '"></polygon>' +
+        '<text class="st-lab" x="' + p.x.toFixed(2) + '" y="' + p.y.toFixed(2) + '">' + p.st + '</text>' +
+        '</g>';
+    });
+    html += '</svg>';
+    return html;
+  }
+
+  function paintHex(el, opts) {
+    var rows = opts.rows || [];
+    var lookup = bySt(rows);
+    var ranked = rankedRows(rows);
+    var sc = scaleOf(rows);
+    var fmt = opts.format || function (v) { return v == null ? '' : String(v); };
+    var extra = opts.extra || function () { return ''; };
+    var active = opts.active || null;
+    var selected = opts.selected ? String(opts.selected).toUpperCase() : '';
+    var compact = isCompact(el, opts);
+    var cmp = (opts.compareSt || 'FL' || '').toUpperCase();
+    var cmpOn = !!(cmp && cmp !== 'MA');
+    el.classList.add('is-hex');
+    el.classList.remove('is-tile');
+    el.classList.toggle('is-compact', compact);
+    el.classList.toggle('fl-on', true);
+    el.classList.toggle('cmp-on', cmpOn);
+
+    var bins = el.querySelector('.usmap-bins');
+    if (bins) bins.innerHTML = legendHtml(sc, fmt, opts.ref);
+    var cmpLab = el.querySelector('[data-cmp-lab]');
+    var cmpKey = el.querySelector('.cmp-key');
+    if (cmpKey) {
+      cmpKey.hidden = false;
+      if (cmpLab) cmpLab.textContent = (lookup[cmp] && lookup[cmp].name) || cmp || 'Florida';
+    }
+
+    [].forEach.call(el.querySelectorAll('.st'), function (g) {
+      var st = g.getAttribute('data-st');
+      var row = lookup[st];
+      var v = row ? num(row.v) : null;
+      var poly = g.querySelector('polygon') || g;
+      var b = (v == null) ? -1 : sc.bin(v);
+      poly.style.fill = (!row || v == null) ? '' : sc.fill(v);
+      g.classList.toggle('is-empty', !row || v == null);
+      g.classList.toggle('is-ma', st === 'MA');
+      g.classList.toggle('is-fl', st === 'FL' || (cmpOn && st === cmp));
+      g.classList.toggle('is-on', st === selected);
+      g.classList.toggle('is-dim', !!(active && active.indexOf(st) < 0));
+      g.classList.toggle('is-dark', sc.diverging ? (b === 0 || b === 1 || b >= 3) : b >= 3);
+      g.setAttribute('tabindex', (!row || v == null || (active && active.indexOf(st) < 0)) ? '-1' : '0');
+    });
+
+    writeRead(el, opts, lookup, ranked, fmt);
+    el._dlFmt = fmt;
+    el._dlExtra = extra;
+    el._dlCompare = function (r) { return compareLine(r, ranked, opts.ref); };
+    el._dlLookup = lookup;
+    el._dlOnSelect = opts.onSelect || null;
+    el._dlOnPin = opts.onPin || null;
+    el._dlSelected = selected;
+    setHot(el, selected);
+    bind(el);
+    var pinRow = selected ? lookup[selected] : lookup.MA;
+    var pin = el.querySelector('.usmap-pin');
+    var pv = el.querySelector('[data-pin-v]');
+    var pk = el.querySelector('[data-pin-k]');
+    if (pin && pv && pinRow) {
+      pin.hidden = false;
+      if (pk) pk.textContent = selected ? 'Selected' : 'Massachusetts';
+      var more = compareLine(pinRow, ranked, opts.ref);
+      pv.textContent = (pinRow.name || pinRow.st) + ' · ' + fmt(pinRow.v) + (more ? ' · ' + more : '');
+    }
+  }
+
   function dlStateMap(el, opts) {
     if (!el) return;
     opts = opts || {};
-    var mode = opts.mode || el.getAttribute('data-mode') || 'geo';
-    if (mode === 'tile') {
-      if (!el._dlTileReady) {
-        shell(el, tileGridHtml());
-        el._dlTileReady = true;
-        el._dlMapBound = false;
-      }
-      paintTile(el, opts);
-      return;
-    }
-    if (el._dlMapReady && !el.querySelector('.usmap-svg')) {
+    if (el.querySelector('.tilegrid') || (el.querySelector('.usmap-svg') && !el.querySelector('.hexgrid'))) {
+      el._dlTileReady = false;
       el._dlMapReady = false;
+      el._dlHexReady = false;
       el._dlMapBound = false;
     }
-    if (el._dlMapReady) { paintGeo(el, opts); return; }
-    loadTpl(function (svg) {
-      if (!svg) { el.textContent = 'Map unavailable.'; return; }
-      shell(el, svg);
-      el._dlMapReady = true;
-      paintGeo(el, opts);
-    });
+    if (!el._dlHexReady) {
+      shell(el, hexGridSvg());
+      el._dlHexReady = true;
+      el._dlMapBound = false;
+    }
+    paintHex(el, opts);
   }
 
   function normName(s) {

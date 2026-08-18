@@ -232,7 +232,44 @@ if elec_dups:
 else:
     ok("DL-04 KPI row does not repeat MA/FL")
 
-# ---- 5. Frozen pages were not restyled by this pass ----
+# ---- 5. Fifty-state Figure 1 is the hex cartogram ----
+usmap = (ROOT / "assets" / "us-map.js").read_text(encoding="utf-8")
+hex_block = re.search(r"var HEX = \{([\s\S]*?)\n  \};", usmap)
+if not hex_block:
+    fail("us-map.js is missing the HEX layout")
+else:
+    hex_keys = set(re.findall(r"\b([A-Z]{2}):\[", hex_block.group(1)))
+    if len(hex_keys) != 51 or "MA" not in hex_keys or "FL" not in hex_keys or "DC" not in hex_keys:
+        fail(f"HEX layout has {len(hex_keys)} cells, not 51 with MA, FL, and DC")
+    else:
+        ok("HEX layout has 51 jurisdictions")
+
+for app in apps:
+    tid = app["id"]
+    if tid in SKIP_VOICE or app.get("wave") != "live":
+        continue
+    path = ledger_path(tid)
+    if not path.exists():
+        continue
+    ledger = json.loads(path.read_text(encoding="utf-8"))
+    if ledger.get("status") != "live" or not uses_national_lens(tid, ledger):
+        continue
+    slug = "electricity" if tid == "DL-04" else app.get("slug")
+    page = ROOT / slug / "index.html"
+    if not page.exists():
+        continue
+    html = page.read_text(encoding="utf-8")
+    if not re.search(r'id="chRank"[^>]*data-mode="hex"', html):
+        fail(f"{tid} ({slug}) Figure 1 is not the hex cartogram")
+    else:
+        ok(f"{tid} hex Figure 1")
+
+if "mode: 'hex'" not in elec_html and 'mode: "hex"' not in elec_html:
+    fail("DL-04 electricity map is not locked to hex")
+else:
+    ok("DL-04 hex Figure 1")
+
+# ---- 6. Frozen pages were not restyled by this pass ----
 for rel in ("tax-atlas/index.html", "florida-insurance/index.html"):
     page = ROOT / rel
     if not page.exists():

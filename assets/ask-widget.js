@@ -43,7 +43,7 @@
     inflight = true;
     btn.disabled = true;
     resp.hidden = false;
-    resp.innerHTML = '<div class="load">Checking the sources\u2026</div>';
+    resp.innerHTML = '<div class="load">Looking up\u2026</div>';
     var ctl = new AbortController();
     var timer = setTimeout(function () { ctl.abort(); }, 35000);
     try {
@@ -55,7 +55,7 @@
       });
       var p = await r.json();
       if (!r.ok || p.error) {
-        resp.innerHTML = '<div class="noans"><b>The engine is unavailable.</b> Try again in a moment. Every tool in the catalog still works.</div>';
+        resp.innerHTML = '<div class="noans"><b>Try again in a moment.</b> Every tool in the catalog still works.</div>';
       } else if (p.type === "answer") {
         resp.innerHTML =
           '<div class="k">Answer</div>' +
@@ -95,7 +95,7 @@
           "</div>";
       } else {
         resp.innerHTML =
-          '<div class="noans"><b>We do not cover this yet.</b> ' +
+          '<div class="noans"><b>We do not have that number.</b> ' +
           esc(p.note || p.error || "Nothing we publish answers that.") +
           "</div>";
       }

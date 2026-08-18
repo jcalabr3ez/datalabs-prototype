@@ -269,6 +269,57 @@ if "max-width:680px" not in usmap_css:
 else:
     ok("full-width hex figures are capped at 680px")
 
+# ---- copy: no AI-looking chrome ----
+from audience_starters import starters_html  # noqa: E402
+chip_html = starters_html("DL-16")
+if "ask-who" in chip_html or "General public" in chip_html:
+    fail("ask chips still show audience labels")
+else:
+    ok("ask chips have no audience labels")
+if "Ask this page" in chip_html or "Ask in your own words" in chip_html:
+    fail("ask chrome still uses chatbot labels")
+else:
+    ok("ask chrome is lookup language")
+if "Equal hexes, so a small state" in usmap:
+    fail("hex lecture is still in us-map.js")
+hex_lecture_pages = []
+for rel in ("housing-market/index.html", "electricity/index.html"):
+    if "Equal hexes, so a small state" in (ROOT / rel).read_text(encoding="utf-8"):
+        hex_lecture_pages.append(rel)
+if hex_lecture_pages:
+    fail("hex lecture still on " + ", ".join(hex_lecture_pages))
+else:
+    ok("hex map lede is a series line")
+later_qs = [
+    row.get("q") or ""
+    for row in json.loads((ROOT / "catalog.json").read_text(encoding="utf-8"))
+    if isinstance(row, dict) and "later view" in (row.get("q") or "").lower()
+]
+if later_qs:
+    fail(f"catalog deks still say later views: {later_qs[:3]}")
+else:
+    ok("catalog deks dropped later views")
+front = (ROOT / "index.html").read_text(encoding="utf-8")
+if "inform what we build next" in front or "Open the application" in front or "askbadge" in front:
+    fail("landing ask chrome still sounds like a product demo")
+else:
+    ok("landing ask chrome is plain")
+atlas_events = json.loads((ROOT / "netlify/functions/dl01-answers.json").read_text(encoding="utf-8"))
+ev_text = " ".join(
+    e.get("detail") or ""
+    for ph in ((atlas_events.get("events") or {}).get("phases") or [])
+    for e in ph.get("events") or []
+)
+if "Why it matters" in ev_text or "Potential impact" in ev_text or "two Americas" in ev_text:
+    fail("tax-atlas events still use briefing wrappers")
+else:
+    ok("tax-atlas events dropped the wrappers")
+atlas_html = (ROOT / "tax-atlas" / "index.html").read_text(encoding="utf-8")
+if "Twenty-six dates that will decide" in atlas_html:
+    fail("tax-atlas events intro is still a teaser")
+else:
+    ok("tax-atlas events intro is factual")
+
 for app in apps:
     tid = app["id"]
     if tid in SKIP_VOICE or app.get("wave") != "live":

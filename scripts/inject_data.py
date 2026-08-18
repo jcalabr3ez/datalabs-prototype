@@ -237,7 +237,6 @@ def inject_electricity(dl04, text, path):
     page = dl04.get("page") or {}
     year = dl04["data_year"]
     sys.path.insert(0, str(ROOT / "scripts"))
-    from audience_starters import starters_html  # noqa: E402
     from page_voice import flagship_voice, takeaways_html, answer_inner_html  # noqa: E402
     from render_suite_pages import kpi_html  # noqa: E402
     voice = flagship_voice("DL-04", dl04)
@@ -295,6 +294,23 @@ def inject_electricity(dl04, text, path):
     )
     text = replace_block(text, "electricity-footer-meta", footer, path, style="html")
     return text
+
+
+def inject_ask_starters(text, tool_id):
+    """Replace the on-page ask block with the shared starters HTML."""
+    from audience_starters import starters_html  # noqa: E402
+    block = starters_html(tool_id)
+    if not block:
+        return text
+    return re.sub(
+        r'<section class="ask-starters" id="ask-starters" data-tool="'
+        + re.escape(tool_id)
+        + r'">.*?</section>\n',
+        block,
+        text,
+        count=1,
+        flags=re.S,
+    )
 
 
 def usd_prose(n):
@@ -523,6 +539,7 @@ def main():
         new = replace_block(new, "mbta-answer", answer_inner_html(mbta_voice["answer"]), p, style="html")
     if has_block(new, "mbta-lead", style="html") and mbta_voice.get("lead"):
         new = replace_block(new, "mbta-lead", mbta_voice["lead"], p, style="html")
+    new = inject_ask_starters(new, "DL-03")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("mbta/index.html")
@@ -563,6 +580,7 @@ def main():
                 + '</span></summary><p class="dtl">' + esc(e["detail"]) + "</p></details>"
             )
     new = replace_block(new, "tax-atlas-events", "\n".join(ev_lines), p, style="html")
+    new = inject_ask_starters(new, "DL-01")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("tax-atlas/index.html")
@@ -570,7 +588,7 @@ def main():
     # ---- florida-insurance/index.html: charts + keyed headlines ----
     p = ROOT / "florida-insurance/index.html"
     text = p.read_text(encoding="utf-8")
-    new = inject_florida(dl02, text, p)
+    new = inject_ask_starters(inject_florida(dl02, text, p), "DL-02")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("florida-insurance/index.html")
@@ -578,7 +596,7 @@ def main():
     # ---- electricity/index.html: charts + keyed headlines ----
     p = ROOT / "electricity/index.html"
     text = p.read_text(encoding="utf-8")
-    new = inject_electricity(dl04, text, p)
+    new = inject_ask_starters(inject_electricity(dl04, text, p), "DL-04")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("electricity/index.html")
@@ -586,7 +604,7 @@ def main():
     # ---- pensions/index.html: charts + keyed headlines ----
     p = ROOT / "pensions/index.html"
     text = p.read_text(encoding="utf-8")
-    new = inject_pensions(dl05, text, p)
+    new = inject_ask_starters(inject_pensions(dl05, text, p), "DL-05")
     if new != text:
         p.write_text(new, encoding="utf-8")
         changed.append("pensions/index.html")

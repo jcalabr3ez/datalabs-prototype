@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Cut the generated voice from the public pages",
+        "body": (
+            "Ask chips no longer label General public, Journalist, "
+            "Researcher, or Policymaker. Fifty-state map captions are "
+            "the series name, not a how-to. Catalog lines no longer "
+            "say later views. The ask box is lookup language. Wealth "
+            "Taxes events keep the dates and drop the briefing wrappers."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Hex maps no longer clip Maine and Rhode Island",
         "body": (
             "The packed hex plate sized its frame from cell centers "

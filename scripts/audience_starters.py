@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Four audience starter questions for every live tool.
+"""Starter questions for every live tool.
 
 Questions are phrased for the ask box. They use only series the matching
 ledger already publishes. Patents (DL-18) is in build and is omitted.
+Audience labels are not shown on the page.
 """
 from __future__ import annotations
 
@@ -11,10 +12,10 @@ import html
 SKIP = {"DL-18"}
 
 WHO = (
-    ("public", "General public"),
-    ("journalist", "Journalist"),
-    ("researcher", "Researcher"),
-    ("policymaker", "Policymaker"),
+    "public",
+    "journalist",
+    "researcher",
+    "policymaker",
 )
 
 # tool_id -> {public, journalist, researcher, policymaker}
@@ -299,16 +300,14 @@ def starters_html(tool_id):
     if not spec:
         return ""
     chips = []
-    for key, label in WHO:
+    for key in WHO:
         q = spec.get(key)
         if not q:
             continue
         chips.append(
             '<button type="button" class="ask-chip" data-q="'
             + esc(q)
-            + '"><span class="ask-who">'
-            + esc(label)
-            + "</span><span class=\"ask-q\">"
+            + '"><span class="ask-q">'
             + esc(q)
             + "</span></button>"
         )
@@ -316,14 +315,14 @@ def starters_html(tool_id):
         '<section class="ask-starters" id="ask-starters" data-tool="'
         + esc(tool_id)
         + '">\n'
-        '  <div class="ask-k">Ask this page</div>\n'
+        '  <div class="ask-k">Search this page</div>\n'
         '  <div class="ask-chips" role="list">'
         + "".join(chips)
         + "</div>\n"
         '  <div class="askbar">\n'
         '    <input id="toolAskQ" type="text" maxlength="400" '
-        'placeholder="Ask in your own words" aria-label="Ask a question">\n'
-        '    <button id="toolAskBtn" type="button">Ask</button>\n'
+        'placeholder="Look up a figure" aria-label="Look up a figure">\n'
+        '    <button id="toolAskBtn" type="button">Search</button>\n'
         "  </div>\n"
         '  <div class="ask-resp" id="toolAskResp" hidden></div>\n'
         "</section>\n"

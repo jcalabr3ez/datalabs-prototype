@@ -703,54 +703,18 @@ def chart_spec(app, ledger):
     lede = ""
     if geo == "state":
         n_file = n_rows or n_chart
-        if n_file == 51:
-            where_lede = "Every state and the District of Columbia. "
-        elif n_file == 50:
-            where_lede = "The 50 states. The District of Columbia is not in this file. "
-        elif n_file == 46:
-            where_lede = "46 jurisdictions. Not every state is in this file. "
-        else:
-            where_lede = f"{n_file} jurisdictions. "
-        hex_how = (
-            "Equal hexes, so a small state is as readable as a large one. "
-            "Darker navy is higher. Gold outline is Massachusetts. Rust outline is Florida. "
-            "Light gray is not in this file. Hover a state to pin the figure. "
-        )
-        if uses_national_lens(tid, ledger):
-            hex_how += (
-                "Click a state to set Place. On a phone, the first tap pins; "
-                "a second tap sets Place."
-            )
-        else:
-            hex_how += (
-                "Click a state to open the table. On a phone, the first tap pins; "
-                "a second tap opens the table."
-            )
-        lede = where_lede + hex_how
+        series = (label or "").rstrip(".")
         if tid == "DL-07":
-            lede = (
-                "NAEP grade 4 reading, 2024. "
-                + hex_how.replace(
-                    "Darker navy is higher. ",
-                    "Darker navy is a higher scale score. ",
-                )
-            )
+            series = "NAEP grade 4 reading, 2024"
         elif tid == "DL-08":
-            lede = (
-                "Fall enrollment in degree-granting institutions, 2022. "
-                + hex_how.replace(
-                    "Darker navy is higher. ",
-                    "Darker navy is more students. ",
-                )
-            )
+            series = "Fall enrollment in degree-granting institutions, 2022"
         elif tid == "DL-09":
-            lede = (
-                "Charter school fall enrollment, 2022-23. "
-                + hex_how.replace(
-                    "Darker navy is higher. ",
-                    "Darker navy is more students. ",
-                )
-            )
+            series = "Charter school fall enrollment, 2022-23"
+        lede = series + "." if series else ""
+        if n_file == 50:
+            lede = (lede + " " if lede else "") + "The District of Columbia is not in this file."
+        elif n_file == 46:
+            lede = (lede + " " if lede else "") + "Not every state is in this file."
     headline = HEADLINE.get(tid) or {}
     trend_source = dict(ledger.get("trend") or {})
     if headline.get("from") == "secondary.public_k12_enrollment":

@@ -243,6 +243,15 @@ else:
         fail(f"HEX layout has {len(hex_keys)} cells, not 51 with MA, FL, and DC")
     else:
         ok("HEX layout has 51 jurisdictions")
+usmap_css = (ROOT / "assets" / "us-map.css").read_text(encoding="utf-8")
+if re.search(r"\.usmap-pin\{[^}]*position:absolute", usmap_css):
+    fail("hex hover pin still overlays the cartogram")
+else:
+    ok("hex hover pin sits under the cartogram")
+if "var step =" not in usmap:
+    fail("hex cartogram has no gutter between cells")
+else:
+    ok("hex cartogram has a gutter between cells")
 
 for app in apps:
     tid = app["id"]
@@ -323,12 +332,10 @@ else:
         fail("tax-atlas map tabs are missing a one-word label")
     else:
         ok("tax-atlas map tabs are one word")
-legend_i = atlas.find('id="legend"')
-layout_i = atlas.find('class="layout"')
-if legend_i < 0 or layout_i < 0 or "placeSel" in atlas[legend_i:layout_i]:
-    fail("tax-atlas Find a state still sits between the legend and the map")
+if 'id="placeSel"' in atlas or "Find a state" in atlas:
+    fail("tax-atlas still has a Find a state filter")
 else:
-    ok("tax-atlas Find a state is off the map stack")
+    ok("tax-atlas has no Find a state filter")
 src_i = atlas.find('id="mapSrc"')
 cap_i = atlas.find('id="caption"')
 map_i = atlas.find('id="chRank"')

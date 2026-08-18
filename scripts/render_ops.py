@@ -62,6 +62,19 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Hex cartogram opens up; Wealth Taxes drops Find a state",
+        "body": (
+            "The fifty-state hex map now has a paper gutter between "
+            "cells, lighter labels, and a hover readout under the "
+            "figure instead of a box over New England. State Wealth "
+            "Taxes no longer has a Find a state menu. Click a hex, "
+            "or use a deep link that names a state. Massachusetts and "
+            "Florida still do not get gold or rust outlines on that "
+            "atlas map."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Florida Homeowners Insurance drops the sales voice",
         "body": (
             "The Florida page now leads with the finding and the figures. "

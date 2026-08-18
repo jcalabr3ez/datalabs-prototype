@@ -3,7 +3,7 @@
 .usmap{position:relative}
 .usmap-frame{display:block;position:relative}
 .usmap-box{position:relative;min-width:0}
-.usmap-svg{width:100%;height:auto;display:block;max-height:520px;
+.usmap-svg{width:100%;height:auto;display:block;max-height:none;
   shape-rendering:geometricPrecision}
 .usmap .st{cursor:pointer;fill:#EEF1F4;stroke:#fff;stroke-width:0.5;
   vector-effect:non-scaling-stroke;transition:fill .12s,stroke .12s,opacity .12s}
@@ -18,11 +18,12 @@
 .usmap .st.is-fl.is-hot{stroke:#1A1A1A;stroke-width:1.8}
 .usmap .st.is-dim{opacity:.18;pointer-events:none}
 .usmap .st.is-empty{cursor:default;fill:#EEF1F4}
-.usmap-pin{position:absolute;top:8px;right:8px;max-width:min(240px,46%);
-  background:rgba(255,255,255,.94);border:1px solid #E6E8EB;padding:8px 10px;
-  box-shadow:0 1px 0 rgba(26,26,26,.04);pointer-events:none;z-index:2}
-.usmap-pin .k{font:12px/1.3 Roboto,system-ui,sans-serif;color:#58575A}
-.usmap-pin .v{font:600 13.5px/1.3 Roboto,system-ui,sans-serif;color:#1A1A1A;
+.usmap-pin{position:static;max-width:none;margin:14px 0 0;padding:10px 0 0;
+  background:transparent;border:0;border-top:1px solid #E6E8EB;
+  box-shadow:none;pointer-events:none;z-index:auto}
+.usmap-pin .k{font:600 11px/1.4 Roboto,system-ui,sans-serif;letter-spacing:.06em;
+  text-transform:uppercase;color:#58575A}
+.usmap-pin .v{font:600 13.5px/1.4 Roboto,system-ui,sans-serif;color:#1A1A1A;
   font-variant-numeric:tabular-nums}
 .usmap-legend{margin-top:12px}
 .usmap-bins{display:block}
@@ -48,24 +49,24 @@
 .usmap-read .ma{box-shadow:inset 3px 0 0 #CCB26D;padding-left:10px}
 .usmap-read .fl{box-shadow:inset 3px 0 0 #C45C26;padding-left:10px}
 .usmap.is-compact .usmap-svg{max-height:280px}
-.usmap.is-compact .usmap-pin{max-width:42%;padding:6px 8px}
+.usmap.is-compact .usmap-pin{margin-top:10px;padding-top:8px}
 
-.usmap.is-hex .hexgrid{width:100%;height:auto;display:block}
-.usmap.is-hex .st polygon{fill:#EEF1F4;stroke:#fff;stroke-width:1.3}
-.usmap.is-hex .st-lab{font:800 13px/1 Roboto,system-ui,sans-serif;fill:#1A1A1A;
-  text-anchor:middle;dominant-baseline:central;pointer-events:none;
-  paint-order:stroke fill;stroke:#fff;stroke-width:3px;stroke-linejoin:round}
-.usmap.is-hex .st.is-dark .st-lab{fill:#fff;stroke:#1A1A1A;stroke-width:2.4px}
+.usmap.is-hex .hexgrid{width:100%;height:auto;display:block;max-height:none}
+.usmap.is-hex .st polygon{fill:#EEF1F4;stroke:#fff;stroke-width:0.9}
+.usmap.is-hex .st-lab{font:600 11.5px/1 Roboto,system-ui,sans-serif;fill:#1A1A1A;
+  letter-spacing:.02em;text-anchor:middle;dominant-baseline:central;pointer-events:none;
+  paint-order:stroke fill;stroke:#fff;stroke-width:2px;stroke-linejoin:round}
+.usmap.is-hex .st.is-dark .st-lab{fill:#fff;stroke:#1A1A1A;stroke-width:1.8px}
 .usmap.no-role .usmap-key{display:none}
-.usmap.is-hex .st.is-ma polygon{stroke:#CCB26D;stroke-width:2.4}
-.usmap.is-hex .st.is-fl polygon,.usmap.fl-on .st.is-fl polygon{stroke:#C45C26;stroke-width:2.4}
+.usmap.is-hex .st.is-ma polygon{stroke:#CCB26D;stroke-width:1.8}
+.usmap.is-hex .st.is-fl polygon,.usmap.fl-on .st.is-fl polygon{stroke:#C45C26;stroke-width:1.8}
 .usmap.no-role.is-hex .st.is-ma polygon,.usmap.no-role.is-hex .st.is-fl polygon{
-  stroke:#fff;stroke-width:1.3}
+  stroke:#fff;stroke-width:0.9}
 .usmap.is-hex .st:hover polygon,.usmap.is-hex .st:focus polygon,.usmap.is-hex .st.is-hot polygon{
-  stroke:#1A1A1A;stroke-width:2.2}
-.usmap.is-hex .st.is-on polygon,.usmap.is-hex .st.is-ma.is-hot polygon{stroke:#1A1A1A;stroke-width:2.4}
-.usmap.is-hex .st.is-fl.is-hot polygon{stroke:#1A1A1A;stroke-width:2.4}
-.usmap.is-compact.is-hex .st-lab{font-size:11px;stroke-width:2.4px}
+  stroke:#1A1A1A;stroke-width:1.6}
+.usmap.is-hex .st.is-on polygon,.usmap.is-hex .st.is-ma.is-hot polygon{stroke:#1A1A1A;stroke-width:1.8}
+.usmap.is-hex .st.is-fl.is-hot polygon{stroke:#1A1A1A;stroke-width:1.8}
+.usmap.is-compact.is-hex .st-lab{font-size:10.5px;stroke-width:1.8px}
 
 /* Legacy 51-cell tile grid. Fifty-state Figure 1 no longer uses it. */
 .usmap.is-tile .tilegrid{display:grid;gap:4px;max-width:720px}
@@ -92,9 +93,8 @@
 .townmap .usmap-key{display:none}
 
 @media(max-width:800px){
-  .usmap-svg,.townmap svg{max-height:360px}
+  .usmap-svg:not(.hexgrid),.townmap svg{max-height:360px}
   .usmap.is-tile .tile{min-height:36px;padding:4px 3px}
   .usmap.is-tile .tile .r{font-size:9.5px}
-  .usmap-pin{position:static;max-width:none;margin:10px 0 0;z-index:auto}
 }
 @media(max-width:640px){.usmap-read{grid-template-columns:1fr}}

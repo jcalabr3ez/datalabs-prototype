@@ -1,6 +1,6 @@
 /* DataLabs fifty-state map. One hex cartogram for every Figure 1.
    Gold outline is Massachusetts. Rust outline is Florida.
-   Hover pins a readout on the map. There is no floating tooltip. */
+   Hover writes a readout under the cartogram, not over the hexes. */
 (function (root) {
   'use strict';
 
@@ -523,13 +523,15 @@
   }
 
   function hexGridSvg() {
+    /* Grid step is larger than the drawn hex so a paper gutter shows. */
+    var step = 28;
     var size = 22;
-    var pad = 22;
+    var pad = 34;
     var minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     var placed = [];
     Object.keys(HEX).forEach(function (st) {
       var qr = HEX[st];
-      var c = hexCenter(qr[0], qr[1], size);
+      var c = hexCenter(qr[0], qr[1], step);
       placed.push({ st: st, x: c.x, y: c.y });
       if (c.x < minX) minX = c.x;
       if (c.y < minY) minY = c.y;

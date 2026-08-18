@@ -266,12 +266,7 @@
     <div class="layout">
       <div class="exhibit">
         <div class="ex-head"><span class="ex-n">Figure 1</span>
-          <span class="ex-t" id="rankTitle">Current policy by state</span>
-          <div class="findrow">
-            <label class="sel-lab" for="placeSel">Find a state</label>
-            <select id="placeSel" aria-label="Find a state"></select>
-          </div>
-        </div>
+          <span class="ex-t" id="rankTitle">Current policy by state</span></div>
         <div class="plot plot-map" id="chRank" data-mode="hex"></div>
         <div class="srcline" id="mapSrc"><b>Source:</b> Tax Foundation, State Individual Income Tax Rates and Brackets, 2026, with post-publication enactments from the source register. <b>Calculation:</b> Pioneer Institute (classifications and Near-Term Risk model). Name the source next to the figure when you cite it.</div>
         <div class="caption" id="caption"></div>
@@ -635,35 +630,11 @@ function mapActive() {
     return activeFilters.has(catKey(STATES[k]));
   });
 }
-function syncFinder() {
-  var sel = document.getElementById("placeSel");
-  if (sel) sel.value = selected;
-}
-function fillPlaceSel() {
-  var sel = document.getElementById("placeSel");
-  if (!sel || sel.getAttribute("data-ready")) return;
-  Object.keys(STATES).sort(function (a, b) {
-    return STATES[a].name.localeCompare(STATES[b].name);
-  }).forEach(function (k) {
-    var o = document.createElement("option");
-    o.value = k;
-    o.textContent = STATES[k].name;
-    sel.appendChild(o);
-  });
-  sel.setAttribute("data-ready", "1");
-  sel.addEventListener("change", function () {
-    if (!STATES[sel.value]) return;
-    selected = sel.value;
-    renderMap();
-    renderPanel();
-  });
-}
 function renderMap() {
   var box = document.getElementById("chRank");
   if (!box || !window.dlStateMap) return;
   var titleEl = document.getElementById("rankTitle");
   if (titleEl) titleEl.textContent = RANK_TITLES[view] || RANK_TITLES.current;
-  syncFinder();
   window.dlStateMap(box, {
     roleOutlines: false,
     legend: false,
@@ -683,12 +654,10 @@ function renderMap() {
     onPin: function (r) {
       if (!r || !r.st) return;
       selected = r.st;
-      syncFinder();
     },
     onSelect: function (r) {
       if (!r || !r.st) return;
       selected = r.st;
-      syncFinder();
       renderPanel();
     }
   });
@@ -842,7 +811,6 @@ function setView(v) {
   });
   activeFilters.clear();
   document.getElementById("caption").textContent = CAPTIONS[v] || "";
-  fillPlaceSel();
   renderLegend();
   renderMap();
   renderPanel();

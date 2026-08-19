@@ -25,19 +25,18 @@
     WI:[1,6], WV:[3,7], WY:[3,2]
   };
 
-  /* Odd-r pointy-top hexes. The northern rim is the 49th parallel
-     (Washington through Minnesota, then Maine), so the west no longer
-     sits two rows below New England. Florida hangs one row below
-     Texas. Alaska and Hawaii stay inset at the lower left. */
+  /* Odd-r pointy-top hexes. Packed plate: cells share edges. Maine is
+     a one-hex bump. Florida sits under Georgia. Texas sits under
+     Oklahoma. Alaska and Hawaii stay inset at the lower left. */
   var HEX = {
-    WA:[0,0], ID:[1,0], MT:[2,0], ND:[3,0], MN:[4,0], WI:[5,0], MI:[7,0], ME:[11,0],
-    OR:[0,1], NV:[1,1], WY:[2,1], SD:[3,1], IA:[4,1], IL:[5,1], IN:[6,1], OH:[7,1], PA:[8,1], NY:[9,1], VT:[10,1], NH:[11,1],
-    CA:[0,2], UT:[1,2], CO:[2,2], NE:[3,2], MO:[4,2], KY:[5,2], WV:[6,2], VA:[7,2], MD:[8,2], NJ:[9,2], MA:[11,2], RI:[12,2],
-    AZ:[1,3], NM:[2,3], KS:[3,3], AR:[4,3], TN:[5,3], NC:[6,3], DC:[8,3], DE:[9,3], CT:[11,3],
-    OK:[3,4], LA:[4,4], MS:[5,4], AL:[6,4], SC:[7,4],
-    TX:[3,5], GA:[7,5],
-    FL:[7,6],
-    AK:[0,7],
+    ME:[10,0],
+    WI:[5,1], VT:[9,1], NH:[10,1],
+    WA:[0,2], ID:[1,2], MT:[2,2], ND:[3,2], MN:[4,2], IL:[5,2], MI:[6,2], NY:[8,2], MA:[9,2], RI:[10,2],
+    OR:[0,3], NV:[1,3], WY:[2,3], SD:[3,3], IA:[4,3], IN:[5,3], OH:[6,3], PA:[7,3], NJ:[8,3], CT:[9,3],
+    CA:[0,4], UT:[1,4], CO:[2,4], NE:[3,4], MO:[4,4], KY:[5,4], WV:[6,4], VA:[7,4], MD:[8,4], DE:[9,4],
+    AZ:[1,5], NM:[2,5], KS:[3,5], AR:[4,5], TN:[5,5], NC:[6,5], SC:[7,5], DC:[8,5],
+    OK:[3,6], LA:[4,6], MS:[5,6], AL:[6,6], GA:[7,6],
+    AK:[0,7], TX:[3,7], FL:[7,7],
     HI:[0,8]
   };
 

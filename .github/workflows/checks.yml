@@ -20,6 +20,8 @@ jobs:
         run: python3 scripts/check_style.py
       - name: Ledger freshness vs publisher cadence
         run: python3 scripts/check_freshness.py
+      - name: High-cadence files vs ledger vintages
+        run: python3 scripts/check_latest_release.py
       - name: Embedded copies in sync with canonical ledgers
         run: |
           python3 scripts/inject_data.py

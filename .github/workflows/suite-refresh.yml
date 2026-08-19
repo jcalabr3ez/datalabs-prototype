@@ -25,6 +25,8 @@ jobs:
         run: python3 scripts/refresh_suite.py
       - name: Freshness report
         run: python3 scripts/check_freshness.py || true
+      - name: Latest-release report
+        run: python3 scripts/check_latest_release.py || true
       - name: Open pull request
         uses: peter-evans/create-pull-request@v6
         with:

@@ -61,6 +61,17 @@ FLAGSHIPS = [
 
 CHANGELOG = [
     {
+        "date": "August 19, 2026",
+        "title": "Hex maps are a packed plate again",
+        "body": (
+            "The fifty-state cartogram no longer punches holes for "
+            "Canada, the Atlantic, or the Gulf. Cells share edges. "
+            "Maine is a one-hex bump. Florida sits under Georgia. "
+            "Texas sits under Oklahoma. Alaska and Hawaii stay inset "
+            "at the lower left."
+        ),
+    },
+    {
         "date": "August 18, 2026",
         "title": "Hex maps now follow the northern rim of the country",
         "body": (

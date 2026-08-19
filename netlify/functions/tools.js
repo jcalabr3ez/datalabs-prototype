@@ -628,7 +628,7 @@ module.exports = [
       'college faculty', 'students per faculty', 'college tuition',
       'in-state tuition', 'higher-education finance', 'college graduation'
     ],
-    extra: 'SAT mean scores sit in derived.secondary.sat_2023. Public FTE faculty, staff, and students-per-faculty sit in derived.secondary.public_fte_faculty_fall_2023, public_fte_staff_fall_2023, and students_per_faculty_fall_2023. State 6-year bachelor\'s graduation rates sit in derived.secondary.ipeds_6yr_grad_by_state_2017. Tuition, appropriations, expenditures, degrees, and institution counts sit under derived.secondary with he_ and bachelors_ / degree_granting_ keys. National full-time faculty composition remains in faculty_composition_fall_2023. ACT state means are not in the current Digest xlsx set: decline those.'
+    extra: 'SAT mean scores sit in derived.secondary.sat_2023. Public FTE faculty, staff, and students-per-faculty sit in derived.secondary.public_fte_faculty_fall_2023, public_fte_staff_fall_2023, and students_per_faculty_fall_2023. State 6-year bachelor\'s graduation rates sit in derived.secondary.ipeds_6yr_grad_by_state_2017. SHEF FY 2025 education appropriations sit in derived.secondary.he_education_appropriations_fy2025; state-and-local support in he_state_local_support_fy2025. Tuition, Digest expenditures, IPEDS 2023-24 bachelor\'s degrees, and institution counts sit under derived.secondary with he_ and bachelors_ / degree_granting_ keys. National full-time faculty composition remains in faculty_composition_fall_2023. ACT state means are not in the current Digest xlsx set: decline those.'
   }),
   suiteTool(DL09, {
     id: 'DL-09',
@@ -705,7 +705,7 @@ module.exports = [
       'death rate', 'formation rate', 'high-propensity', 'high propensity',
       'projected formation', 'per 100,000', 'applications per'
     ],
-    extra: 'Establishment birth and death rates for every state sit in derived.secondary.bed_births_deaths and derived.windows. U.S. counts there are thousands of establishments; state counts are establishments. Deaths lag three quarters. Trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3, are precomputed: use those, do not average unpublished quarters. High-propensity applications and projected 4-quarter formations sit in derived.secondary. Census BDS firm births are not in this ledger.'
+    extra: 'Establishment birth and death rates for every state sit in derived.secondary.bed_births_deaths and derived.windows. U.S. counts there are thousands of establishments; state counts are establishments. Deaths lag three quarters. Trailing 4-quarter and 9-quarter mean ranks through the latest published end sit in derived.windows and derived.secondary.bed_births_deaths.window_9q: use those, do not average unpublished quarters. High-propensity applications and projected 4-quarter formations sit in derived.secondary. Census BDS firm births are not in this ledger.'
   }),
   suiteTool(DL14, {
     id: 'DL-14',
@@ -728,7 +728,7 @@ module.exports = [
       'real gdp', 'state gdp', 'gross domestic product', 'chained 2017',
       'economic output', 'gdp by state', 'naics', 'manufacturing gdp'
     ],
-    extra: 'Personal income sits in derived.secondary.personal_income_2025. SAGDP2 current-dollar GDP by NAICS sits in derived.secondary.sagdp2_naics_2025.industries. Real GDP figures are millions of chained 2017 dollars; SAGDP2 figures are millions of current dollars; say that in prose.'
+    extra: 'Personal income sits in derived.secondary.personal_income_2025. SAGDP2 current-dollar GDP by NAICS sits in derived.secondary.sagdp2_naics_2025.industries. Quarterly real GDP for 2026 Q1 sits in derived.secondary.sqgdp_2026q1. Annual real GDP figures and SQGDP are millions of chained 2017 dollars; SAGDP2 figures are millions of current dollars; say that in prose.'
   }),
   suiteTool(DL16, {
     id: 'DL-16',
@@ -874,7 +874,7 @@ module.exports = [
       'massachusetts tax collections', 'commonwealth tax', 'qtax massachusetts',
       'massachusetts collected', 'massachusetts collect', 'ma state taxes'
     ],
-    extra: 'The 51-state ranking sits on DL-29. QTAX type shares sit in derived.secondary.qtax_type_shares_2026q1. Census STC FY 2023 annual collections sit in derived.secondary.stc_ma_2023. DOR monthly reports and tax credits are pending. Statutory rates sit on DL-01.'
+    extra: 'The 51-state ranking sits on DL-29. QTAX type shares sit in derived.secondary.qtax_type_shares_2026q1. Census STC FY 2025 annual collections sit in derived.secondary.stc_ma_2025. DOR monthly reports and tax credits are pending. Statutory rates sit on DL-01.'
   }),
   suiteTool(DL29, {
     id: 'DL-29',
@@ -890,7 +890,7 @@ module.exports = [
       'aspp', 'public pension cash', 'public pension holdings',
       'rainy-day', 'rainy day', 'income tax share'
     ],
-    extra: 'The Massachusetts type-of-tax split sits on DL-28. ASPEP 2023 state FTE employment sits in derived.secondary.aspep_fte_2023. Census STC FY 2023 totals and income-tax shares sit in derived.secondary.stc_2023. State-and-local revenue and expenditure sit in derived.secondary.aslg_revenue_2022 and aslg_expenditure_2022. Government-unit counts sit in derived.secondary.gov_units_2022. Public pension cash and investments sit in derived.secondary.aspp_holdings_2025. NASBO rainy-day funds and party dominance are pending. Massachusetts retirement boards sit on DL-05. Excludes D.C.'
+    extra: 'The Massachusetts type-of-tax split sits on DL-28. ASPEP 2023 state FTE employment sits in derived.secondary.aspep_fte_2023. Census STC FY 2025 totals and income-tax shares sit in derived.secondary.stc_2025. State-and-local revenue and expenditure sit in derived.secondary.aslg_revenue_2022 and aslg_expenditure_2022. Government-unit counts sit in derived.secondary.gov_units_2022. Public pension cash and investments sit in derived.secondary.aspp_holdings_2025. NASBO rainy-day funds and party dominance are pending. Massachusetts retirement boards sit on DL-05. Excludes D.C.'
   }),
   suiteTool(DL30, {
     id: 'DL-30',

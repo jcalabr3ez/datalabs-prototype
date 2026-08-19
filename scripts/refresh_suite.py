@@ -41,7 +41,7 @@ from suite_windows import attach_windows, windows_from_trend
 from suite_builders import BUILDERS as EXTRA_BUILDERS
 from suite_later import BUILDERS as LATER_BUILDERS, enrich
 
-TODAY = date(2026, 8, 15)
+TODAY = date(2026, 8, 19)
 
 URL_BFS = "https://www.census.gov/econ/bfs/csv/bfs_monthly.csv"
 URL_LAUS = "https://download.bls.gov/pub/time.series/la/la.data.3.AllStatesS"

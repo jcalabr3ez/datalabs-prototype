@@ -1530,13 +1530,13 @@ def voice_dl28(ledger):
     ma = latest.get("ma") or {}
     qtax = sec(ledger, "qtax_type_shares_2026q1")
     inc = qtax.get("individual_income") or {}
-    stc = sec(ledger, "stc_ma_2023", "total")
+    stc = sec(ledger, "stc_ma_2025", "total")
     sma = ma_of(stc) or (stc.get("ma") if isinstance(stc.get("ma"), dict) else {})
     take = [
         f"Individual income taxes were <b>{inc.get('ma_share_pct')}%</b> of Massachusetts 2026 Q1 collections ({money(inc.get('ma'))}, SRC-628-01).",
         f"Statewide collections were <b>{money(ma.get('v'))}</b>, {ma.get('yoy_pct'):+.1f}% from 2025 Q1 (SRC-628-01)." if ma.get("yoy_pct") is not None else
         f"Statewide collections were <b>{money(ma.get('v'))}</b> in 2026 Q1 (SRC-628-01).",
-        f"On the annual Census STC file, Massachusetts collected <b>{money(sma.get('v'))}</b> in FY 2023, {rank_txt(sma)} (derived, SRC-628-02).",
+        f"On the annual Census STC file, Massachusetts collected <b>{money(sma.get('v'))}</b> in FY 2025, {rank_txt(sma)} (derived, SRC-628-02).",
     ]
     kpis = [
         kpi("Individual income share, 2026 Q1", f"{inc.get('ma_share_pct')}%",
@@ -1547,7 +1547,7 @@ def voice_dl28(ledger):
             f"{ma.get('yoy_pct'):+.1f}% from 2025 Q1 (SRC-628-01)." if ma.get("yoy_pct") is not None else "Census QTAX table 3 (SRC-628-01).",
             "The Commonwealth's quarterly take.",
             src_name(ledger, "SRC-628-01")),
-        kpi("Annual collections, FY 2023", money(sma.get("v")),
+        kpi("Annual collections, FY 2025", money(sma.get("v")),
             f"{rank_txt(sma).capitalize()} (derived, SRC-628-02).",
             "The annual file next to the quarterly split.",
             src_name(ledger, "SRC-628-02")),
@@ -1560,9 +1560,9 @@ def voice_dl29(ledger):
     ma = latest.get("ma") or {}
     fte = sec(ledger, "aspep_fte_2023")
     fma = ma_of(fte)
-    stc = sec(ledger, "stc_2023", "total")
+    stc = sec(ledger, "stc_2025", "total")
     sma = ma_of(stc) or (stc.get("ma") if isinstance(stc.get("ma"), dict) else {})
-    share = sec(ledger, "stc_2023", "income_share")
+    share = sec(ledger, "stc_2025", "income_share")
     shma = ma_of(share)
     take = [
         f"Massachusetts collected <b>{money(ma.get('v'))}</b> in 2026 Q1 state taxes, {rank_txt(ma)} (derived, SRC-629-01).",
@@ -1578,7 +1578,7 @@ def voice_dl29(ledger):
             f"{rank_txt(fma).capitalize()} (derived, SRC-629-03).",
             "How large the state workforce is.",
             src_name(ledger, "SRC-629-03")),
-        kpi("Income-tax share, FY 2023", f"{shma.get('v')}%" if shma.get("v") is not None else money(sma.get("v")),
+        kpi("Income-tax share, FY 2025", f"{shma.get('v')}%" if shma.get("v") is not None else money(sma.get("v")),
             f"{rank_txt(shma or sma).capitalize()} (derived, SRC-629-04).",
             "How income-dependent the annual mix is.",
             src_name(ledger, "SRC-629-04")),

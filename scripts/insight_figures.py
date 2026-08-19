@@ -600,6 +600,22 @@ def figs_dl08(ledger):
     )
     if fig:
         out.append(fig)
+    fig = from_snap(
+        sec.get("he_education_appropriations_fy2025"), "he-shef",
+        title="Education appropriations for public higher education, FY 2025",
+        skip_us=True,
+        note="SHEEO SHEF FY 2025 Report Data. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("bachelors_conferred_2023_24"), "he-ba",
+        title="Bachelor's degrees conferred, 2023-24",
+        skip_us=True,
+        note="IPEDS C2024_A first-major bachelor's degrees at degree-granting institutions. The U.S. total is omitted so state bars remain readable.",
+    )
+    if fig:
+        out.append(fig)
     return out
 
 
@@ -922,6 +938,14 @@ def figs_dl15(ledger):
         pi, "pcpi",
         title="Per capita personal income, 2025",
         lede="Massachusetts $97,456, rank 3 of 51.",
+    )
+    if fig:
+        out.append(fig)
+    fig = from_snap(
+        sec.get("sqgdp_2026q1"), "sqgdp",
+        title="Real GDP by state, 2026 Q1",
+        skip_us=True,
+        note="BEA SQGDP1 all-industry real GDP, millions of chained 2017 dollars. The U.S. total is omitted so state bars remain readable.",
     )
     if fig:
         out.append(fig)
@@ -1315,15 +1339,15 @@ def figs_dl28(ledger):
     )
     out = [fig] if fig else []
     sec = _sec(ledger)
-    stc = ((sec.get("stc_ma_2023") or {}).get("ma_types")) or []
+    stc = ((sec.get("stc_ma_2025") or {}).get("ma_types")) or []
     fig = named_list(
         [t for t in stc if t.get("name") and t["name"] != "Total Taxes"],
         "stc-ma",
-        "Massachusetts annual state tax collections, FY 2023",
+        "Massachusetts annual state tax collections, FY 2025",
         "Census Annual Survey of State Government Tax Collections.",
         "SRC-628-02",
         "usd", "dollars",
-        "Census STC FY 2023. Amounts are published in thousands of dollars.",
+        "Census STC FY 2025. Amounts are published in thousands of dollars; shown in dollars.",
         n=6, span=2,
     )
     if fig:
@@ -1342,10 +1366,10 @@ def figs_dl29(ledger):
     )
     if fig:
         out.append(fig)
-    stc = sec.get("stc_2023") or {}
+    stc = sec.get("stc_2025") or {}
     fig = from_snap(
         stc.get("income_share"), "stc-income-share",
-        title="Individual income tax share of state collections, FY 2023",
+        title="Individual income tax share of state collections, FY 2025",
     )
     if fig:
         out.append(fig)

@@ -18,8 +18,8 @@ from check_freshness import RULES, parse_as_of
 from suite_common import ROOT, load_apps
 
 SITE = "https://datalabsai.netlify.app"
-TODAY = date(2026, 8, 18)
-TODAY_LABEL = "August 18, 2026"
+TODAY = date(2026, 8, 19)
+TODAY_LABEL = "August 19, 2026"
 
 FLAGSHIPS = [
     {
@@ -69,6 +69,20 @@ CHANGELOG = [
             "Maine is a one-hex bump. Florida sits under Georgia. "
             "Texas sits under Oklahoma. Alaska and Hawaii stay inset "
             "at the lower left."
+        ),
+    },
+    {
+        "date": "August 19, 2026",
+        "title": "Suite vintages move to the newest posted files",
+        "body": (
+            "College Enrollment now ranks IPEDS Fall 2024 headcount and "
+            "adds SHEF FY 2025 appropriations and IPEDS 2023-24 bachelor's "
+            "degrees. Annual state tax collections move from Census STC "
+            "FY 2023 to FY 2025. Business Formation trailing windows use "
+            "the latest published BLS BED end, through 2025 Q4 births. "
+            "State GDP adds BEA quarterly real GDP for 2026 Q1. Files "
+            "that are not posted, including IRS TY 2023 and EIA-861 2025, "
+            "stay on the last complete vintage."
         ),
     },
     {

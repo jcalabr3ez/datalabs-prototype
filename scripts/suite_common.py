@@ -53,6 +53,7 @@ NAME_TO_ST.update({
     "Dist. of Col.": "DC",
     "U.S. total": "US",
     "U.S. Total": "US",
+    "U.S.": "US",
     "United States": "US",
 })
 MONTHS = [
@@ -294,7 +295,7 @@ def snap_pack(values, us_val, round_to=None, higher_is_better=True):
     return out
 
 
-REVISED = "Aug 15, 2026"
+REVISED = "Aug 19, 2026"
 
 
 def base_ledger(app, status, as_of, vintage_note, extra):

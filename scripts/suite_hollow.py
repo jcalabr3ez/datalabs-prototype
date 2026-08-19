@@ -67,9 +67,9 @@ URL_SUBEST = (
 URL_ASPEP_2023 = (
     "https://www2.census.gov/programs-surveys/apes/datasets/2023/2023_state.xlsx"
 )
-URL_STC_2023 = (
-    "https://www2.census.gov/programs-surveys/stc/tables/2023/"
-    "FY2023-STC-Detailed-Table-Transposed.xlsx"
+URL_STC_2025 = (
+    "https://www2.census.gov/programs-surveys/stc/tables/2025/"
+    "FY2025-STC-Detailed-Table-Transposed.xlsx"
 )
 URL_CHIA_SRP = (
     "https://www.chiamass.gov/wp-content/uploads/docs/r/pubs/2025/"
@@ -86,7 +86,7 @@ VERIFY_US_FT_FACULTY_FALL_2023 = 859825
 VERIFY_CHIA_CHILDRENS_SRP_2023 = 1.48
 VERIFY_US_ASPEP_FTE_2023 = 4441091
 VERIFY_MA_ASPEP_FTE_2023 = 105348
-VERIFY_US_STC_2023_THOUSANDS = 1423479536
+VERIFY_US_STC_2025_THOUSANDS = 1535843715
 VERIFY_US_IMPRISONMENT_RATE_2023 = 360
 VERIFY_BOS_MEDIAN_HH_INCOME_ACS2024 = 97344
 VERIFY_MA_MEDIAN_HH_INCOME_ACS2024 = 103960
@@ -757,8 +757,8 @@ def sec_qtax_depth():
     }
 
 
-def sec_stc_2023():
-    wb = _wb(URL_STC_2023)
+def sec_stc_2025():
+    wb = _wb(URL_STC_2025)
     ws = wb.active
     headers = [c.value for c in ws[5]]
     col = {}
@@ -767,7 +767,7 @@ def sec_stc_2023():
         if st:
             col[st] = i
     if "US" not in col or "MA" not in col:
-        sys.exit("FATAL: STC 2023 missing US or MA column")
+        sys.exit("FATAL: STC 2025 missing US or MA column")
     items = {}
     for row in ws.iter_rows(min_row=6, max_row=38, values_only=True):
         code = (row[1] or "").strip() if row[1] else ""
@@ -777,10 +777,10 @@ def sec_stc_2023():
         if code:
             items[code] = (name, row)
     if "T00" not in items:
-        sys.exit("FATAL: STC 2023 missing T00 Total Taxes")
+        sys.exit("FATAL: STC 2025 missing T00 Total Taxes")
     us_total = parse_num(items["T00"][1][col["US"]])
-    if us_total is None or abs(us_total - VERIFY_US_STC_2023_THOUSANDS) > 1:
-        sys.exit(f"FATAL: STC 2023 US total taxes are {us_total}")
+    if us_total is None or abs(us_total - VERIFY_US_STC_2025_THOUSANDS) > 1:
+        sys.exit(f"FATAL: STC 2025 US total taxes are {us_total}")
 
     def _series(code):
         _name, row = items[code]
@@ -817,29 +817,29 @@ def sec_stc_2023():
             continue
         ma_types.append({"code": code, "name": name, "v": v * 1000})
     return {
-        "label": "Census Annual Survey of State Government Tax Collections, FY 2023",
+        "label": "Census Annual Survey of State Government Tax Collections, FY 2025",
         "src": "SRC-629-04",
         "unit": "dollars",
-        "as_of_label": "Fiscal year 2023",
+        "as_of_label": "Fiscal year 2025",
         "total": {
             **tot_snap,
-            "label": "State tax collections, FY 2023",
+            "label": "State tax collections, FY 2025",
             "src": "SRC-629-04",
             "unit": "dollars",
-            "as_of_label": "Fiscal year 2023",
+            "as_of_label": "Fiscal year 2025",
         },
         "income_share": (
             {
                 **share_snap,
-                "label": "Individual income tax share of state tax collections, FY 2023",
+                "label": "Individual income tax share of state tax collections, FY 2025",
                 "src": "SRC-629-04",
                 "unit": "percent",
-                "as_of_label": "Fiscal year 2023",
+                "as_of_label": "Fiscal year 2025",
             } if share_snap else None
         ),
         "ma_types": ma_types,
         "us_sales": us_sales,
-        "note": "Census STC detailed table, FY 2023. Amounts are published in thousands of dollars. Excludes D.C.",
+        "note": "Census STC detailed table, FY 2025. Amounts are published in thousands of dollars. Excludes D.C.",
     }
 
 
@@ -990,18 +990,18 @@ def hollow_secondary(tool_id):
             acs["src"] = "SRC-626-03"
         return {key: acs}
     if tool_id == "DL-28":
-        stc = sec_stc_2023()
+        stc = sec_stc_2025()
         stc["src"] = "SRC-628-02"
         if isinstance(stc.get("total"), dict):
             stc["total"]["src"] = "SRC-628-02"
         return {
             "qtax_type_shares_2026q1": sec_qtax_depth(),
-            "stc_ma_2023": stc,
+            "stc_ma_2025": stc,
         }
     if tool_id == "DL-29":
         return {
             "aspep_fte_2023": sec_aspep_2023(),
-            "stc_2023": sec_stc_2023(),
+            "stc_2025": sec_stc_2025(),
         }
     if tool_id == "DL-31":
         return {"bjs_depth_2023": sec_bjs_depth()}
@@ -1119,20 +1119,20 @@ def hollow_lead(tool_id, sec):
     if tool_id == "DL-28":
         q = sec.get("qtax_type_shares_2026q1") or {}
         inc = q.get("individual_income") or {}
-        s = sec.get("stc_ma_2023") or {}
+        s = sec.get("stc_ma_2025") or {}
         tot = (s.get("total") or {}).get("ma") or {}
         parts.append(
             f"Individual income taxes were <b>{inc.get('ma_share_pct')}%</b> of "
             f"Massachusetts 2026 Q1 collections "
             f"({usd_prose(inc.get('ma') or 0)}, SRC-628-01). On the annual "
             f"Census STC file, Massachusetts collected "
-            f"<b>{usd_prose(tot.get('v') or 0)}</b> in FY 2023, rank "
+            f"<b>{usd_prose(tot.get('v') or 0)}</b> in FY 2025, rank "
             f"{tot.get('rank')} of {tot.get('n')} (derived, SRC-628-02). DOR "
             f"monthly reports and tax credits remain pending."
         )
     if tool_id == "DL-29":
         e = sec.get("aspep_fte_2023") or {}
-        s = sec.get("stc_2023") or {}
+        s = sec.get("stc_2025") or {}
         share = s.get("income_share") or {}
         parts.append(
             f"State governments employed <b>{commify(e.get('us') or 0)}</b> "
@@ -1140,7 +1140,7 @@ def hollow_lead(tool_id, sec):
             f"<b>{commify((e.get('ma') or {}).get('v') or 0)}</b>, rank "
             f"{(e.get('ma') or {}).get('rank')} of {(e.get('ma') or {}).get('n')} "
             f"(derived, SRC-629-03). Individual income taxes were "
-            f"<b>{(share.get('ma') or {}).get('v')}%</b> of Massachusetts FY 2023 "
+            f"<b>{(share.get('ma') or {}).get('v')}%</b> of Massachusetts FY 2025 "
             f"state tax collections, rank {(share.get('ma') or {}).get('rank')} of "
             f"{(share.get('ma') or {}).get('n')} (derived, SRC-629-04). NASBO "
             f"rainy-day figures remain pending."

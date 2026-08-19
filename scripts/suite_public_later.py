@@ -67,6 +67,7 @@ URL_OIG_MFCU = (
 )
 URL_UI = "https://oui.doleta.gov/unemploy/csv/ar539.csv"
 URL_SAGDP = "https://apps.bea.gov/regional/zip/SAGDP.zip"
+URL_SQGDP = "https://apps.bea.gov/regional/zip/SQGDP.zip"
 URL_CS_BOS = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BOXRSA"
 URL_CS_MIA = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MIXRSA"
 URL_RUCC = (
@@ -109,6 +110,7 @@ VERIFY_NAEP_LA_READ4_CHANGE_2019_2024 = 6.1
 # 284,000 deaths in 2025 Q1. The national level series is in thousands.
 VERIFY_US_BED_BIRTHS_THOUSANDS_2025Q4 = 338
 VERIFY_US_BED_DEATHS_THOUSANDS_2025Q1 = 284
+VERIFY_US_SQGDP_2026Q1 = 24180419.0  # millions of chained 2017 dollars
 BLS_API = "https://api.bls.gov/publicAPI/v2/timeseries/data/"
 # BD + S + msa 00000 + FIPS + county 000 + industry 000000 (total private)
 # + unit 1 + element 2 (establishments) + size 00 + class 07/08 + L/R + Q + 5
@@ -657,6 +659,43 @@ def sec_sagdp2():
         "as_of_label": "Calendar year 2025",
         "industries": out,
     }
+
+
+def sec_sqgdp():
+    zf = zipfile.ZipFile(io.BytesIO(fetch(URL_SQGDP, timeout=180)))
+    name = next(
+        n for n in zf.namelist()
+        if n.startswith("SQGDP1__ALL_AREAS") and n.endswith(".csv")
+    )
+    rows = list(csv.DictReader(io.TextIOWrapper(zf.open(name), encoding="latin-1")))
+    col = "2026:Q1"
+    values, us_val = {}, None
+    for r in rows:
+        if str(r.get("LineCode") or "").split(".")[0] != "1":
+            continue
+        geo = (r.get("GeoName") or "").strip()
+        v = parse_num(r.get(col))
+        if v is None:
+            continue
+        if geo.startswith("United States"):
+            us_val = v
+            continue
+        st = geo_to_st(geo)
+        if st and st != "US":
+            values[st] = v
+    if us_val is None or abs(us_val - VERIFY_US_SQGDP_2026Q1) > 0.1:
+        sys.exit(f"FATAL: BEA SQGDP1 2026 Q1 US real GDP is {us_val}")
+    if "MA" not in values or len(values) < 50:
+        sys.exit(f"FATAL: BEA SQGDP1 2026 Q1 parsed {len(values)} states")
+    snap = _snap(values, us_val, round_to=1)
+    snap.update({
+        "label": "Real GDP by state, 2026 Q1",
+        "src": "SRC-615-04",
+        "unit": "millions of chained 2017 dollars",
+        "as_of_label": "2026 Q1",
+        "note": "BEA SQGDP1 all-industry real GDP. LineCode 1. The annual 2025 ranking remains the namesake series.",
+    })
+    return snap
 
 
 def _fred_cs(url, col):
@@ -1436,7 +1475,7 @@ MORE_SECONDARY = {
     "DL-13": lambda: {"bed_births_deaths": sec_bed_births_deaths()},
     "DL-14": lambda: {"ui_initial_claims": sec_ui_claims(), **hollow_secondary("DL-14"), **sec_qcew_employment()},
     "DL-19": lambda: hollow_secondary("DL-19"),
-    "DL-15": lambda: {"sagdp2_naics_2025": sec_sagdp2()},
+    "DL-15": lambda: {"sagdp2_naics_2025": sec_sagdp2(), "sqgdp_2026q1": sec_sqgdp()},
     "DL-16": lambda: {"case_shiller_boston": sec_case_shiller()},
     "DL-17": lambda: {"rucc_2023": sec_rucc(), **sec_pop_age_race(), **sec_pop_components()},
     "DL-21": lambda: {**sec_irs_county_bundle(), **hollow_secondary("DL-21")},
@@ -1575,6 +1614,24 @@ def more_lead(tool_id, sec):
                 f"<b>${commify((tui.get('ma') or {}).get('v') or 0)}</b> in "
                 f"Massachusetts in 2022-23 (SRC-608-09)."
             )
+        ea = sec.get("he_education_appropriations_fy2025") or {}
+        if (ea.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"SHEF education appropriations were "
+                f"<b>{usd_prose(ea.get('us') or 0)}</b> nationally in FY 2025; "
+                f"Massachusetts was <b>{usd_prose((ea.get('ma') or {}).get('v') or 0)}</b>, "
+                f"rank {(ea.get('ma') or {}).get('rank')} of {(ea.get('ma') or {}).get('n')} "
+                f"(derived, SRC-608-07)."
+            )
+        ba = sec.get("bachelors_conferred_2023_24") or {}
+        if (ba.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"Degree-granting institutions conferred "
+                f"<b>{commify(ba.get('us') or 0)}</b> bachelor's degrees in 2023-24; "
+                f"Massachusetts conferred <b>{commify((ba.get('ma') or {}).get('v') or 0)}</b>, "
+                f"rank {(ba.get('ma') or {}).get('rank')} of {(ba.get('ma') or {}).get('n')} "
+                f"(derived, SRC-608-10)."
+            )
     if tool_id == "DL-12":
         m = sec.get("mfcu_recoveries_fy2025") or {}
         parts.append(
@@ -1608,10 +1665,10 @@ def more_lead(tool_id, sec):
                 f"<b>{fl.get('birth_rate_pct')}%</b> in {fl.get('births_as_of')} "
                 f"({commify(fl.get('births') or 0)} establishments, SRC-613-02)."
             )
-        w9 = (b.get("window_9q_2024q3") or {})
+        w9 = (b.get("window_9q") or {})
         if (w9.get("ma") or {}).get("rank"):
             parts.append(
-                f"Over the 9 quarters ending 2024 Q3, Massachusetts had the "
+                f"Over the 9 quarters ending {w9.get('end')}, Massachusetts had the "
                 f"{'lowest' if w9['ma']['rank'] == w9['ma']['n'] else 'rank ' + str(w9['ma']['rank'])} "
                 f"mean establishment birth rate among {w9['ma']['n']} jurisdictions "
                 f"at <b>{w9['ma']['v']}%</b> (derived, SRC-613-02)."
@@ -1649,6 +1706,16 @@ def more_lead(tool_id, sec):
             f"<b>{usd_prose(((fin.get('ma') or {}).get('v') or 0) * 1_000_000)}</b> "
             f"(SRC-615-03)."
         )
+        q = sec.get("sqgdp_2026q1") or {}
+        if (q.get("ma") or {}).get("v") is not None:
+            parts.append(
+                f"Quarterly real GDP was "
+                f"<b>{usd_prose((q.get('us') or 0) * 1_000_000)}</b> in the "
+                f"United States in 2026 Q1 (SRC-615-04). Massachusetts was "
+                f"<b>{usd_prose(((q.get('ma') or {}).get('v') or 0) * 1_000_000)}</b>, "
+                f"rank {(q.get('ma') or {}).get('rank')} of {(q.get('ma') or {}).get('n')} "
+                f"(derived, SRC-615-04)."
+            )
     if tool_id == "DL-16":
         c = sec.get("case_shiller_boston") or {}
         parts.append(

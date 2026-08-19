@@ -40,12 +40,17 @@ from suite_common import (
 def _wb(url, timeout=120):
     return load_workbook(io.BytesIO(fetch(url, timeout=timeout)), data_only=True)
 
-PAGE_REVISED = "Aug 16, 2026"
+PAGE_REVISED = "Aug 19, 2026"
 
 DIGEST_314 = "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn314.50.xlsx"
-DIGEST_333 = "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn333.30.xlsx"
 DIGEST_334 = "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn334.20.xlsx"
 DIGEST_330 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn330.20.xlsx"
+URL_SHEF_FY25 = (
+    "https://shef.sheeo.org/wp-content/uploads/2026/04/"
+    "SHEEO_SHEF_FY25_Report_Data.xlsx"
+)
+IPEDS_HD2024 = "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip"
+IPEDS_C2024 = "https://nces.ed.gov/ipeds/datacenter/data/C2024_A.zip"
 DIGEST_213 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn213.20.xlsx"
 DIGEST_319 = "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn319.20.xlsx"
 DIGEST_317 = "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn317.20.xlsx"
@@ -84,11 +89,13 @@ BOS_YEAR_DUMPS = [
 VERIFY_US_STAFF_314 = 2023852
 VERIFY_US_FACULTY_314 = 694542
 VERIFY_US_STU_FAC = 14.4
-VERIFY_US_STATE_APPROP_2021 = 75516740.741  # thousands
+VERIFY_US_SHEF_EA_FY2025 = 130714101066  # Education Appropriations, US row
+VERIFY_US_SHEF_SUPPORT_FY2025 = 149182322914  # Total State and Local Support
 VERIFY_US_HE_EXP_2021 = 419696081.648  # thousands
 VERIFY_US_TUITION_2223 = 9749.987
 VERIFY_US_K12_STAFF = 6795469.766418726
-VERIFY_US_BA_2021 = 2066445
+VERIFY_US_BA_2023_24 = 1959325  # C2024_A CIP 99, first major, bachelor's, DEGGRANT=1
+VERIFY_MA_BA_2023_24 = 57881
 VERIFY_US_INSTITUTIONS = 3722
 VERIFY_US_EXPULSION = 0.05938007341602887
 VERIFY_US_IPEDS_6YR = 64.6
@@ -197,34 +204,59 @@ def sec_public_he_faculty():
     }
 
 
+def _shef_fy2025():
+    book = _wb(URL_SHEF_FY25)
+    ws = book["Report Data"] if "Report Data" in book.sheetnames else book.active
+    headers = [str(c.value or "").strip() for c in next(ws.iter_rows(min_row=1, max_row=1))]
+    idx = {name: i for i, name in enumerate(headers)}
+    for need in ("State", "FY", "Education Appropriations", "Total State and Local Support"):
+        if need not in idx:
+            sys.exit(f"FATAL: SHEF FY2025 missing column {need}")
+    ea, support = {}, {}
+    us_ea = us_support = None
+    for row in ws.iter_rows(min_row=2, values_only=True):
+        if str(row[idx["FY"]] or "") != "2025":
+            continue
+        st = geo_to_st(row[idx["State"]])
+        if not st or st == "PR":
+            continue
+        ea_val = parse_num(row[idx["Education Appropriations"]])
+        tot_val = parse_num(row[idx["Total State and Local Support"]])
+        if ea_val is None:
+            continue
+        if st == "US":
+            us_ea = ea_val
+            us_support = tot_val
+            continue
+        ea[st] = ea_val
+        if tot_val is not None:
+            support[st] = tot_val
+    if us_ea is None or abs(us_ea - VERIFY_US_SHEF_EA_FY2025) > 1:
+        sys.exit(f"FATAL: SHEF FY2025 US education appropriations are {us_ea}")
+    if us_support is None or abs(us_support - VERIFY_US_SHEF_SUPPORT_FY2025) > 1:
+        sys.exit(f"FATAL: SHEF FY2025 US state and local support is {us_support}")
+    if "MA" not in ea or len(ea) < 48:
+        sys.exit(f"FATAL: SHEF FY2025 parsed {len(ea)} states")
+    return ea, us_ea, support, us_support
+
+
 def sec_he_finance():
-    ws = _wb(DIGEST_333).active
-    state_ap, us_state = _digest_state_pairs(ws, 7, 6, us_row=7)
-    local_ap, us_local = _digest_state_pairs(ws, 7, 12, us_row=7)
-    if us_state is None or abs(us_state - VERIFY_US_STATE_APPROP_2021) > 1:
-        sys.exit(f"FATAL: Digest 333.30 US state appropriations 2020-21 are {us_state}")
-    # Published cells are thousands of dollars.
-    state_d = {k: v * 1000 for k, v in state_ap.items()}
-    local_d = {k: v * 1000 for k, v in local_ap.items()}
-    total_d = {k: state_d[k] + local_d.get(k, 0) for k in state_d}
-    us_state_d = us_state * 1000
-    us_local_d = (us_local or 0) * 1000
-    us_tot = us_state_d + us_local_d
-    state_s = _snap({k: round(v) for k, v in state_d.items()}, round(us_state_d))
-    tot_s = _snap({k: round(v) for k, v in total_d.items()}, round(us_tot))
-    state_s.update({
-        "label": "State appropriations to public higher education, 2020-21",
+    ea, us_ea, support, us_support = _shef_fy2025()
+    ea_s = _snap({k: round(v) for k, v in ea.items()}, round(us_ea))
+    tot_s = _snap({k: round(v) for k, v in support.items()}, round(us_support))
+    ea_s.update({
+        "label": "Education appropriations for public higher education, FY 2025",
         "src": "SRC-608-07",
         "unit": "dollars",
-        "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 333.30. Published in thousands of dollars; shown in dollars.",
+        "as_of_label": "Fiscal year 2025",
+        "note": "SHEEO SHEF FY 2025 Report Data, Education Appropriations. Fifty states; D.C. is not in that file.",
     })
     tot_s.update({
-        "label": "State and local appropriations to public higher education, 2020-21",
+        "label": "State and local support for public higher education, FY 2025",
         "src": "SRC-608-07",
         "unit": "dollars",
-        "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 333.30. State plus local appropriations. Published in thousands of dollars; shown in dollars.",
+        "as_of_label": "Fiscal year 2025",
+        "note": "SHEEO SHEF FY 2025 Report Data, Total State and Local Support.",
     })
 
     ws = _wb(DIGEST_334).active
@@ -238,7 +270,7 @@ def sec_he_finance():
         "src": "SRC-608-08",
         "unit": "dollars",
         "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 334.20, all public institutions. Published in thousands of dollars; shown in dollars.",
+        "note": "NCES Digest table 334.20, all public institutions. Published in thousands of dollars; shown in dollars. No later Digest expenditure table is posted.",
     })
 
     ws = _wb(DIGEST_330).active
@@ -251,28 +283,78 @@ def sec_he_finance():
         "src": "SRC-608-09",
         "unit": "dollars",
         "as_of_label": "Academic year 2022-23",
-        "note": "NCES Digest table 330.20. In-state tuition and required fees at public 4-year institutions.",
+        "note": "NCES Digest table 330.20. In-state tuition and required fees at public 4-year institutions. No later Digest tuition table is posted.",
     })
     return {
-        "he_state_appropriations_2020_21": state_s,
-        "he_state_local_appropriations_2020_21": tot_s,
+        "he_education_appropriations_fy2025": ea_s,
+        "he_state_local_support_fy2025": tot_s,
         "he_expenditures_2020_21": exp_s,
         "he_public4_tuition_2022_23": tui_s,
     }
 
 
+def _ipeds_ba_2023_24():
+    hd = zipfile.ZipFile(io.BytesIO(fetch(IPEDS_HD2024, timeout=180)))
+    comp = zipfile.ZipFile(io.BytesIO(fetch(IPEDS_C2024, timeout=180)))
+    hd_name = next(n for n in hd.namelist() if n.lower().endswith(".csv"))
+    c_name = next(
+        n for n in comp.namelist()
+        if n.lower().endswith(".csv") and "_rv" not in n.lower()
+    )
+
+    def _rows(raw):
+        text = raw.decode("utf-8-sig", "replace")
+        rdr = csv.DictReader(io.StringIO(text))
+        rdr.fieldnames = [((h or "").lstrip("\ufeff").strip()) for h in (rdr.fieldnames or [])]
+        return rdr
+
+    stabbr = {}
+    for r in _rows(hd.read(hd_name)):
+        uid = (r.get("UNITID") or "").strip()
+        st = (r.get("STABBR") or "").strip()
+        deg = str(r.get("DEGGRANT") or "").strip()
+        if uid and deg == "1" and st in STATE_NAMES:
+            stabbr[uid] = st
+    values = {}
+    for r in _rows(comp.read(c_name)):
+        cip = (r.get("CIPCODE") or "").strip()
+        if cip != "99" and not cip.startswith("99."):
+            continue
+        if str(r.get("MAJORNUM") or "").strip() != "1":
+            continue
+        if str(r.get("AWLEVEL") or "").strip() != "5":
+            continue
+        st = stabbr.get((r.get("UNITID") or "").strip())
+        if not st:
+            continue
+        v = parse_num(r.get("CTOTALT"))
+        if v is None:
+            continue
+        values[st] = values.get(st, 0) + int(v)
+    us_val = sum(values.get(st, 0) for st in STATE_NAMES if st != "US")
+    if us_val != VERIFY_US_BA_2023_24:
+        sys.exit(f"FATAL: IPEDS C2024_A US bachelor's 2023-24 is {us_val}")
+    if values.get("MA") != VERIFY_MA_BA_2023_24:
+        sys.exit(f"FATAL: IPEDS C2024_A MA bachelor's 2023-24 is {values.get('MA')}")
+    if len(values) < 51:
+        sys.exit(f"FATAL: IPEDS C2024_A parsed {len(values)} states")
+    return values, us_val
+
+
 def sec_he_students():
-    ws = _wb(DIGEST_319).active
-    ba, us_ba = _digest_state_pairs(ws, 6, 10, us_row=5)
-    if us_ba is None or abs(us_ba - VERIFY_US_BA_2021) > 1:
-        sys.exit(f"FATAL: Digest 319.20 US bachelor's 2020-21 is {us_ba}")
-    ba_s = _snap({k: round(v) for k, v in ba.items()}, round(us_ba))
+    values, us_ba = _ipeds_ba_2023_24()
+    ba_s = _snap({k: int(v) for k, v in values.items()}, int(us_ba))
     ba_s.update({
-        "label": "Bachelor's degrees conferred, 2020-21",
+        "label": "Bachelor's degrees conferred, 2023-24",
         "src": "SRC-608-10",
         "unit": "degrees",
-        "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 319.20.",
+        "as_of_label": "Academic year 2023-24",
+        "note": (
+            "IPEDS C2024_A joined to HD2024 on UNITID. First-major bachelor's "
+            "degrees (AWLEVEL 5, CIPCODE 99) at degree-granting institutions "
+            "(DEGGRANT=1). The 50 states and D.C. roll up to "
+            f"{VERIFY_US_BA_2023_24:,}."
+        ),
     })
 
     ws = _wb(DIGEST_317).active
@@ -285,10 +367,10 @@ def sec_he_students():
         "src": "SRC-608-11",
         "unit": "institutions",
         "as_of_label": "Academic year 2022-23",
-        "note": "NCES Digest table 317.20.",
+        "note": "NCES Digest table 317.20. No later Digest institution-count table is posted.",
     })
     return {
-        "bachelors_conferred_2020_21": ba_s,
+        "bachelors_conferred_2023_24": ba_s,
         "degree_granting_institutions_2022_23": inst_s,
     }
 
@@ -912,10 +994,10 @@ SOURCES = {
     }],
     "DL-08": [
         {"id": "SRC-608-06", "name": "NCES Digest table 314.50, public FTE staff and faculty by state", "cadence": "Annual", "url": DIGEST_314},
-        {"id": "SRC-608-07", "name": "NCES Digest table 333.30, state and local appropriations for public higher education", "cadence": "Annual", "url": DIGEST_333},
+        {"id": "SRC-608-07", "name": "SHEEO SHEF FY 2025 Report Data, education appropriations and state-local support", "cadence": "Annual", "url": URL_SHEF_FY25},
         {"id": "SRC-608-08", "name": "NCES Digest table 334.20, public higher-education expenditures by state", "cadence": "Annual", "url": DIGEST_334},
         {"id": "SRC-608-09", "name": "NCES Digest table 330.20, public 4-year in-state tuition and fees", "cadence": "Annual", "url": DIGEST_330},
-        {"id": "SRC-608-10", "name": "NCES Digest table 319.20, degrees conferred by state", "cadence": "Annual", "url": DIGEST_319},
+        {"id": "SRC-608-10", "name": "IPEDS C2024_A and HD2024, bachelor's degrees conferred by state", "cadence": "Annual", "url": IPEDS_C2024},
         {"id": "SRC-608-11", "name": "NCES Digest table 317.20, degree-granting institutions by state", "cadence": "Annual", "url": DIGEST_317},
         {"id": "SRC-608-12", "name": "IPEDS GR2023 and HD2023, 6-year bachelor's graduation rate by state", "cadence": "Annual", "url": IPEDS_GR},
     ],

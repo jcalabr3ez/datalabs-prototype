@@ -48,7 +48,7 @@ RULES = {
         "YYYY-MM", 1200, "NCES Digest enrollment is annual with a long lag"
     ),
     "netlify/functions/dl08-answers.json": (
-        "YYYY-MM", 1600, "NCES Digest higher-education enrollment is annual with a long lag"
+        "YYYY-MM", 1600, "IPEDS Fall Enrollment is annual with a long lag"
     ),
     "netlify/functions/dl09-answers.json": (
         "YYYY-MM", 1400, "NCES Digest charter tables are annual with a long lag"

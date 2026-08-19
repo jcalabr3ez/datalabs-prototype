@@ -1252,21 +1252,22 @@ def enrich(app, ledger):
             wins.update(windows_from_trend(
                 birth, src="SRC-613-02", unit="percent",
                 ns=(4, 9), label_stem="Establishment birth rate",
-                named_ends=["2024 Q3"], prefix="bed_birth_rate",
+                prefix="bed_birth_rate",
             ))
         if death:
             wins.update(windows_from_trend(
                 death, src="SRC-613-02", unit="percent",
                 ns=(4, 9), label_stem="Establishment death rate",
-                named_ends=["2024 Q3"], prefix="bed_death_rate",
+                prefix="bed_death_rate",
             ))
         attach_windows(
             ledger, wins,
             note="Prefer these over recomputing. BED window means and ranks cite (derived, SRC-613-02).",
         )
-        w9 = wins.get("bed_birth_rate_t9_2024q3")
+        w9_key = next((k for k in wins if k.startswith("bed_birth_rate_t9_")), None)
+        w9 = wins.get(w9_key) if w9_key else None
         if w9:
-            bed["window_9q_2024q3"] = {
+            bed["window_9q"] = {
                 "ma": w9.get("ma"), "us": w9.get("us"), "fl": w9.get("fl"),
                 "highest": w9.get("highest"), "lowest": w9.get("lowest"),
                 "end": w9.get("end"), "n_periods": 9,

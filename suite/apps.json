@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-08-17",
+  "as_of": "2026-08-19",
   "note": "The 28 suite applications after the five flagships (DL-01 to DL-05). Family Healthcare Costs is new. Each app sits in one of the four Pioneer verticals.",
   "apps": [
     {
@@ -59,20 +59,20 @@
       "g": ["US"],
       "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
       "replaces": ["Higher Education-College Admissions", "Higher Education-College Enrollment", "Higher Education-Faculty and Staff", "Higher Education-Student Data"],
-      "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20.",
+      "scope": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20.",
       "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. ACT state means are not in the current Digest xlsx set.",
       "wave": "live",
       "sources": [
-        {"id": "SRC-608-01", "name": "NCES Digest table 304.10, fall postsecondary enrollment", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx"},
+        {"id": "SRC-608-01", "name": "IPEDS 2024-25 provisional Fall Enrollment (DRVEF2024) and Institutional Characteristics (HD2024)", "cadence": "Annual", "url": "https://nces.ed.gov/ipeds/use-the-data"},
         {"id": "SRC-608-02", "name": "NCES Digest table 226.40, SAT mean scores by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx"},
         {"id": "SRC-608-03", "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.10.xlsx"},
         {"id": "SRC-608-04", "name": "NCES Digest table 326.10, IPEDS 6-year bachelor's graduation rate (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn326.10.xlsx"},
         {"id": "SRC-608-05", "name": "NCES Digest table 315.20, full-time faculty by rank and sex (national)", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.20.xlsx"},
         {"id": "SRC-608-06", "name": "NCES Digest table 314.50, public FTE staff and faculty by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn314.50.xlsx"},
-        {"id": "SRC-608-07", "name": "NCES Digest table 333.30, state and local appropriations for public higher education", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn333.30.xlsx"},
+        {"id": "SRC-608-07", "name": "SHEEO SHEF FY 2025 Report Data, education appropriations and state-local support", "cadence": "Annual", "url": "https://shef.sheeo.org/wp-content/uploads/2026/04/SHEEO_SHEF_FY25_Report_Data.xlsx"},
         {"id": "SRC-608-08", "name": "NCES Digest table 334.20, public higher-education expenditures by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn334.20.xlsx"},
         {"id": "SRC-608-09", "name": "NCES Digest table 330.20, public 4-year in-state tuition and fees", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn330.20.xlsx"},
-        {"id": "SRC-608-10", "name": "NCES Digest table 319.20, degrees conferred by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn319.20.xlsx"},
+        {"id": "SRC-608-10", "name": "IPEDS C2024_A and HD2024, bachelor's degrees conferred by state", "cadence": "Annual", "url": "https://nces.ed.gov/ipeds/datacenter/data/C2024_A.zip"},
         {"id": "SRC-608-11", "name": "NCES Digest table 317.20, degree-granting institutions by state", "cadence": "Annual", "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn317.20.xlsx"},
         {"id": "SRC-608-12", "name": "IPEDS GR2023 and HD2023, 6-year bachelor's graduation rate by state", "cadence": "Annual", "url": "https://nces.ed.gov/ipeds/datacenter/data/GR2023.zip"}
       ]
@@ -164,7 +164,7 @@
       "g": ["US"],
       "heritage": "Formerly Business Births and Deaths and Business Dynamics",
       "replaces": ["Business Births and Deaths", "Business Dynamics"],
-      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3. Counts for the United States, Massachusetts, and Florida stay on the same BLS file.",
+      "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks through the latest published overlapping end. Counts for the United States, Massachusetts, and Florida stay on the same BLS file.",
       "exclusions": "Does not cover industry clusters or advice about starting a firm. Establishment births and deaths are the BLS BED private-sector series, not Census BDS firm births. Do not average unpublished state-quarters; use derived.windows.",
       "wave": "live",
       "sources": [
@@ -202,13 +202,14 @@
       "g": ["US"],
       "heritage": "Formerly Gross Domestic Product, GDP by NAICS, Personal Income, and MA/US Economic Profile",
       "replaces": ["GDP by NAICS Code", "Gross Domestic Product", "MA Economic Profile", "US Economic Profile", "Personal Income"],
-      "scope": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income, per capita personal income, and BEA SAGDP2 current-dollar GDP by NAICS (all industry, manufacturing, finance and insurance, information, and construction).",
+      "scope": "This ledger ranks states on BEA real GDP for 2025 (chained 2017 dollars, all industry), and also reports 2025 personal income, per capita personal income, BEA SAGDP2 current-dollar GDP by NAICS (all industry, manufacturing, finance and insurance, information, and construction), and BEA SQGDP1 quarterly real GDP for 2026 Q1.",
       "exclusions": "Does not cover forecasts, municipal GDP, or advice about relocation.",
       "wave": "live",
       "sources": [
         {"id": "SRC-615-01", "name": "BEA SAGDP1 real GDP by state, 1997-2025", "cadence": "Annual", "url": "https://apps.bea.gov/regional/zip/SAGDP.zip"},
         {"id": "SRC-615-02", "name": "BEA SAINC4 personal income and per capita personal income by state", "cadence": "Annual", "url": "https://apps.bea.gov/regional/zip/SAINC.zip"},
-        {"id": "SRC-615-03", "name": "BEA SAGDP2 current-dollar GDP by NAICS, 1997-2025", "cadence": "Annual", "url": "https://apps.bea.gov/regional/zip/SAGDP.zip"}
+        {"id": "SRC-615-03", "name": "BEA SAGDP2 current-dollar GDP by NAICS, 1997-2025", "cadence": "Annual", "url": "https://apps.bea.gov/regional/zip/SAGDP.zip"},
+        {"id": "SRC-615-04", "name": "BEA SQGDP1 real GDP by state, 2026 Q1", "cadence": "Quarterly", "url": "https://apps.bea.gov/regional/zip/SQGDP.zip"}
       ]
     },
     {
@@ -448,12 +449,12 @@
       "g": ["MA"],
       "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
       "replaces": ["Revenue Tax", "Revenue Total", "Spending Total", "Tax Credits"],
-      "scope": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2023. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment.",
+      "scope": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2025. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment.",
       "exclusions": "Does not cover municipal levies (Massachusetts Town Rankings), the 51-state ranking (State Tax Collections), or advice about a filing. DOR monthly reports and tax credits are pending: decline those.",
       "wave": "live",
       "sources": [
         {"id": "SRC-628-01", "name": "Census QTAX 2026 Q1 table 3, state tax collections by type", "cadence": "Quarterly", "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx"},
-        {"id": "SRC-628-02", "name": "Census Annual Survey of State Government Tax Collections, FY 2023", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/stc/tables/2023/FY2023-STC-Detailed-Table-Transposed.xlsx"}
+        {"id": "SRC-628-02", "name": "Census Annual Survey of State Government Tax Collections, FY 2025", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/stc/tables/2025/FY2025-STC-Detailed-Table-Transposed.xlsx"}
       ]
     },
     {
@@ -466,14 +467,14 @@
       "g": ["US"],
       "heritage": "Formerly the State Finance overview, State Employees, Government Organizations, Party Dominance, Financial Transparency, and US Public Pensions",
       "replaces": ["Financial Transparency", "Government Organizations", "Party Dominance", "Public Pensions", "State Employees", "State Finance-State & Local Expenses", "State Finance-State & Local Revenues", "State Finance-State Only Expenses", "State Finance-State Only Revenues", "State Finance-State Rainy Day Funds"],
-      "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2023 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views.",
+      "scope": "This ledger ranks states on Census QTAX 2026 Q1 total state tax collections, Census Annual Survey of State Government Tax Collections for FY 2025 (including the individual-income share), Census ASPEP 2023 state government full-time-equivalent employment, Census of Governments 2022 state-and-local revenue and expenditure, 2022 government-unit counts, and Census Annual Survey of Public Pensions 2025 cash and investments and membership. NASBO rainy-day funds and party-dominance files remain later views.",
       "exclusions": "Does not cover Massachusetts retirement boards (DL-05), the Massachusetts type-of-tax split (Massachusetts Tax Collections), or party-registration advice. NASBO rainy-day figures and party-dominance files are pending: decline those.",
       "wave": "live",
       "sources": [
         {"id": "SRC-629-01", "name": "Census QTAX 2026 Q1 table 3, total state taxes", "cadence": "Quarterly", "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx"},
         {"id": "SRC-629-02", "name": "NASBO Fiscal Survey of the States, rainy-day funds", "cadence": "Twice yearly", "url": "https://www.nasbo.org/"},
         {"id": "SRC-629-03", "name": "Census ASPEP 2023 state government full-time-equivalent employment", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/apes/datasets/2023/2023_state.xlsx"},
-        {"id": "SRC-629-04", "name": "Census Annual Survey of State Government Tax Collections, FY 2023", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/stc/tables/2023/FY2023-STC-Detailed-Table-Transposed.xlsx"},
+        {"id": "SRC-629-04", "name": "Census Annual Survey of State Government Tax Collections, FY 2025", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/stc/tables/2025/FY2025-STC-Detailed-Table-Transposed.xlsx"},
         {"id": "SRC-629-05", "name": "Census of Governments Finance 2022, state and local revenue and expenditure", "cadence": "Every five years / annual estimate", "url": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx"},
         {"id": "SRC-629-06", "name": "Census of Governments 2022 organization counts (CG2200ORG01)", "cadence": "Every five years", "url": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org01.zip"},
         {"id": "SRC-629-07", "name": "Census Annual Survey of Public Pensions 2025 unit file", "cadence": "Annual", "url": "https://www2.census.gov/programs-surveys/aspp/datasets/2025/aspp-historical-datasets/ASPP_Unit_File_2025.csv"}

@@ -64,6 +64,8 @@ URL_BOSTON = (
 
 # Two-path checks against publisher-printed totals.
 VERIFY_US_ENROLL_FALL_2024 = 49387403
+VERIFY_US_IPEDS_FALL_2024 = 19760570  # DRVEF2024 ENRTOT, DEGGRANT=1, 50 states + D.C.
+VERIFY_MA_IPEDS_FALL_2024 = 482004
 VERIFY_US_PPE_FY2024 = 17644  # NCES 2026-008 First Look Table 4
 VERIFY_MA_PPE_FY2024 = 27008
 VERIFY_US_RPP_2024 = 100.0
@@ -411,59 +413,70 @@ def build_national_k12(app):
     )
 
 
+def _ipeds_fall_2024_enrollment():
+    """Degree-granting fall headcount by state from IPEDS DRVEF2024 + HD2024."""
+    from ipeds_access import export_table
+
+    hd_path = export_table("HD2024")
+    ef_path = export_table("DRVEF2024")
+    stabbr = {}
+    with open(hd_path, newline="", encoding="utf-8-sig") as fh:
+        for r in csv.DictReader(fh):
+            uid = (r.get("UNITID") or "").strip()
+            st = (r.get("STABBR") or "").strip()
+            deg = str(r.get("DEGGRANT") or "").strip()
+            if uid and deg == "1" and st in STATE_NAMES:
+                stabbr[uid] = st
+    values = {}
+    for r in csv.DictReader(open(ef_path, newline="", encoding="utf-8-sig")):
+        uid = (r.get("UNITID") or "").strip()
+        st = stabbr.get(uid)
+        if not st:
+            continue
+        v = parse_num(r.get("ENRTOT"))
+        if v is None:
+            continue
+        values[st] = values.get(st, 0) + int(v)
+    us_val = sum(values.get(st, 0) for st in STATE_NAMES if st != "US")
+    if us_val != VERIFY_US_IPEDS_FALL_2024:
+        sys.exit(f"FATAL: IPEDS Fall 2024 US enrollment is {us_val}")
+    if values.get("MA") != VERIFY_MA_IPEDS_FALL_2024:
+        sys.exit(f"FATAL: IPEDS Fall 2024 MA enrollment is {values.get('MA')}")
+    if len(values) < 51:
+        sys.exit(f"FATAL: IPEDS Fall 2024 parsed {len(values)} states")
+    return values, us_val
+
+
 def build_higher_ed(app):
-    values, us_val, col, label, raw, ws, header_row = _digest_state_table(
-        DIGEST_304, 2, "2022", us_check=None
-    )
-    # header row has many years; first exact 2022 (not 2012)
-    if us_val is None or us_val < 10_000_000:
-        # likely grabbed 2012; re-pick last 2022-like column
-        wb = _wb(DIGEST_304)
-        ws = wb.active
-        headers = [c.value for c in ws[2]]
-        year_col = None
-        for i, h in enumerate(headers):
-            if h is not None and str(h).strip() == "2022":
-                year_col = i
-        if year_col is None:
-            sys.exit("FATAL: Digest 304.10 has no 2022 column")
-        values, us_val = {}, None
-        raw = []
-        for row in ws.iter_rows(min_row=3, values_only=True):
-            st = geo_to_st(row[0])
-            if not st:
-                continue
-            v = parse_num(row[year_col])
-            if v is None:
-                continue
-            raw.append((st, row))
-            if st == "US":
-                us_val = v
-            else:
-                values[st] = v
-    if us_val is None or not (15_000_000 < us_val < 25_000_000):
-        sys.exit(f"FATAL: Digest 304.10 US 2022 enrollment is {us_val}")
+    values, us_val = _ipeds_fall_2024_enrollment()
     ranked = rank_rows(values, higher_is_better=True)
-    for rec in ranked:
-        rec["v"] = int(round(rec["v"]))
     ma = _ma(ranked)
     hi, lo = _extremes(ranked)
-    as_of = "2022-10"
-    as_of_label = "Fall 2022"
+    as_of = "2024-10"
+    as_of_label = "Fall 2024"
+    # Keep the Digest history through 2022 and append the IPEDS 2024 point.
+    wb = _wb(DIGEST_304)
+    trend = _digest_all_year_trend(wb.active, 2)
+    for st, v in list(values.items()) + [("US", us_val)]:
+        series = list(trend.get(st) or [])
+        if not any(p.get("y") == 2024 for p in series):
+            series.append({"y": 2024, "v": int(v)})
+        if len(series) >= 2:
+            trend[st] = series
     kpis = [
         _kpi(
-            "U.S. fall enrollment, 2022",
+            "U.S. fall enrollment, 2024",
             commify(us_val),
             "Total fall enrollment in degree-granting postsecondary institutions (SRC-608-01).",
             "The national college-enrollment stock.",
-            "NCES Digest table 304.10 (SRC-608-01)",
+            "IPEDS Fall 2024 enrollment (SRC-608-01)",
         ),
         _kpi(
             "Massachusetts",
             commify(ma["v"]),
             f"Rank {ma['rank']} of {ma['n']} (derived, SRC-608-01).",
             "Massachusetts higher-education enrollment against the other jurisdictions.",
-            "NCES Digest table 304.10 (SRC-608-01)",
+            "IPEDS Fall 2024 enrollment (SRC-608-01)",
         ),
         _kpi(
             "Highest / lowest",
@@ -473,12 +486,12 @@ def build_higher_ed(app):
                 f"at {commify(lo['v'])} (SRC-608-01)."
             ),
             "Large states and states with large online providers lead on raw counts.",
-            "NCES Digest table 304.10 (SRC-608-01)",
+            "IPEDS Fall 2024 enrollment (SRC-608-01)",
         ),
     ]
     lead = (
         f"Fall enrollment in degree-granting postsecondary institutions was "
-        f"<b>{commify(us_val)}</b> in 2022 (SRC-608-01). Massachusetts enrolled "
+        f"<b>{commify(us_val)}</b> in 2024 (SRC-608-01). Massachusetts enrolled "
         f"<b>{commify(ma['v'])}</b>, rank {ma['rank']} of {ma['n']} "
         f"(derived, SRC-608-01)."
     )
@@ -487,17 +500,18 @@ def build_higher_ed(app):
         as_of=as_of,
         as_of_label=as_of_label,
         vintage_note=(
-            f"Rebuilt {REVISED} from NCES Digest 2023 table 304.10, Fall 2022 "
-            f"total enrollment. A state-level faculty table is not in the "
-            f"current Digest xlsx set."
+            f"Rebuilt {REVISED} from IPEDS 2024-25 provisional DRVEF2024 ENRTOT "
+            f"joined to HD2024 on UNITID for degree-granting institutions "
+            f"(DEGGRANT=1). Digest table 304.10 still ends at Fall 2022; "
+            f"that history stays on the trend and 2024 is the IPEDS point."
         ),
-        metric="higher_ed_fall_enrollment_2022",
-        metric_label="Fall enrollment in degree-granting institutions, 2022",
+        metric="higher_ed_fall_enrollment_2024",
+        metric_label="Fall enrollment in degree-granting institutions, 2024",
         unit="students",
         lead=lead,
         kpis=kpis,
         ranked=ranked,
-        trend=_digest_all_year_trend(ws, 2),
+        trend=trend,
         latest={
             "us": {"v": int(us_val)},
             "ma": {"v": ma["v"], "rank": ma["rank"], "n": ma["n"]},

@@ -21,7 +21,7 @@ from page_voice import (
     uses_national_lens,
     voice_for,
 )
-from suite_common import ROOT, catalog_dashboards, commify, load_apps, ledger_path, paper_dateline
+from suite_common import ROOT, catalog_dashboards, commify, load_apps, ledger_path, paper_dateline, usd_prose
 
 def esc(s):
     return html.escape("" if s is None else str(s), quote=True)
@@ -521,7 +521,6 @@ JUMP_SHORT = {
     "bps-race": "Race",
     "bps-grades": "Grades",
     "bps-ppe": "Per-pupil spending",
-    "bps-ppe-trend": "Spending trend",
     "bps-buses": "Bus routes",
 }
 
@@ -609,10 +608,10 @@ HEADLINE = {
         ),
     },
     "DL-34": {
-        "title": "Boston Public Schools enrollment over time",
+        "title": "Enrollment and spending per pupil",
         "lede": (
-            "Fall enrollment in Boston Public Schools. "
-            "This is the district stock the school ranking adds up toward."
+            "Fall enrollment in Boston Public Schools next to total "
+            "expenditures per pupil."
         ),
     },
     "DL-25": {
@@ -648,6 +647,30 @@ def trend_compare_mode(trend, keys=None):
     if not all_pos or len(maxs) < 2 or min(maxs) == 0:
         return "level"
     return "index_100" if max(maxs) / min(maxs) >= TREND_INDEX_RATIO else "level"
+
+
+def _sy_label(year):
+    y = int(year)
+    return f"{y - 1}-{str(y)[2:]}"
+
+
+def bps_enroll_ppe_lede(ledger):
+    """One sentence each for the published enrollment drop and PPE rise."""
+    sec = ((ledger.get("derived") or {}).get("secondary") or {})
+    enroll = (sec.get("bps_enrollment_trend") or {}).get("trend") or []
+    ppe = (sec.get("bps_finance_fy2025") or {}).get("trend") or []
+    if len(enroll) < 2 or len(ppe) < 2:
+        return ""
+    e0, e1 = enroll[0], enroll[-1]
+    p0, p1 = ppe[0], ppe[-1]
+    if e0.get("v") is None or e1.get("v") is None or p0.get("v") is None or p1.get("v") is None:
+        return ""
+    return (
+        f"Fall enrollment fell from {commify(e0['v'])} in {_sy_label(e0['y'])} "
+        f"to {commify(e1['v'])} in {_sy_label(e1['y'])} (SRC-634-01). "
+        f"Total expenditures per pupil rose from {usd_prose(p0['v'])} in FY {int(p0['y'])} "
+        f"to {usd_prose(p1['v'])} in FY {int(p1['y'])} (SRC-634-02)."
+    )
 
 
 def chart_spec(app, ledger):
@@ -764,6 +787,11 @@ def chart_spec(app, ledger):
             if headline.get("from") == "secondary.public_k12_enrollment"
             else unit
         )
+        if tid == "DL-34":
+            scissors = bps_enroll_ppe_lede(ledger)
+            if scissors:
+                trend_lede = scissors
+            trend_unit = "students (left) and dollars per pupil (right)"
     elif geo == "state":
         trend_title = (label or "The figure") + " over time"
         trend_lede = (
@@ -937,6 +965,22 @@ def chart_spec(app, ledger):
         "trend_title": trend_title,
         "trend_lede": trend_lede,
         "trend_unit": trend_unit,
+        "trend_src": (
+            "DESE / E2C enrollment (SRC-634-01) and district finance, Total Expenditures (SRC-634-02)"
+            if tid == "DL-34" else ""
+        ),
+        "trend_right": (
+            {
+                "label": "Total expenditures per pupil",
+                "unit": "dollars per pupil",
+                "format": "usd",
+                "points": (
+                    ((ledger.get("derived") or {}).get("secondary") or {})
+                    .get("bps_finance_fy2025") or {}
+                ).get("trend") or [],
+            }
+            if tid == "DL-34" else None
+        ),
         "us": us_val,
         "us_compare": us_compare,
         "map_mode": "hex",
@@ -1301,7 +1345,10 @@ def page_html(app, ledger, apps=None):
         if has_compare:
             jump_links.append('<a href="#view-rank">' + esc(compare_h2) + "</a>")
         if has_trend:
-            jump_links.append('<a href="#view-trend">The trend</a>')
+            jump_lab = (
+                "Enrollment and spending" if app["id"] == "DL-34" else "The trend"
+            )
+            jump_links.append('<a href="#view-trend">' + esc(jump_lab) + "</a>")
         if spec.get("show_map") is not False:
             if spec.get("geo") == "state":
                 jump_links.append('<a href="#view-table">Table</a>')
@@ -1365,7 +1412,7 @@ def page_html(app, ledger, apps=None):
       <div class="ex-head"><span class="ex-n">Figure {trend_n}</span>
         <span class="ex-t" id="trendTitle">{esc(spec.get("trend_title") or "Trend")}</span></div>
       <div class="plot"><canvas id="chTrend"></canvas></div>
-      <div class="srcline"><b>Source:</b> {esc(fig1_src)}. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
+      <div class="srcline"><b>Source:</b> {esc(spec.get("trend_src") or fig1_src)}. <b>Unit:</b> {esc(spec.get("trend_unit") or unit or "see the register")}. <b>Calculation:</b> Pioneer Institute.</div>
     </div>
   </section>
 """
@@ -2581,7 +2628,86 @@ const FIND=FIND_JSON;
   function isMonthlyLabs(labs){
     return !!(labs && labs.length && /^\\d{4}-\\d{2}$/.test(String(labs[0])));
   }
+  function fmtUsdAxis(v){
+    if(v==null||v==='') return '';
+    var n=Number(v), sign=n<0?'\\u2212':'', a=Math.abs(n);
+    if(a>=1e6) return sign+'$'+(a/1e6).toFixed(1)+'M';
+    if(a>=1000) return sign+'$'+Math.round(a).toLocaleString();
+    return sign+'$'+String(Math.round(a));
+  }
+  function drawDualHeadline(){
+    var right=CHART.trend_right||{};
+    var ptsR=sortPts(right.points||[]);
+    var leftKey=visibleTrendKeys()[0]||allTrendKeys[0];
+    var ptsL=sortPts(trend[leftKey]||[]);
+    if(!chTrend||!window.Chart||ptsL.length<2||ptsR.length<2) return false;
+    var labelSet={};
+    ptsL.forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
+    ptsR.forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
+    var labels=Object.keys(labelSet).sort();
+    function seriesOf(pts){
+      var by={};
+      pts.forEach(function(p){ by[trendKey(p)]=p; });
+      return labels.map(function(lab){
+        var p=by[lab];
+        return (!p||p.v==null||!isFinite(Number(p.v)))?null:Number(p.v);
+      });
+    }
+    var left=seriesOf(ptsL);
+    var rightVals=seriesOf(ptsR);
+    var leftLast=null, rightLast=null;
+    for(var i=left.length-1;i>=0;i--){ if(left[i]!=null){ leftLast=left[i]; break; } }
+    for(var j=rightVals.length-1;j>=0;j--){ if(rightVals[j]!=null){ rightLast=rightVals[j]; break; } }
+    var titleEl=document.getElementById('trendTitle');
+    if(titleEl) titleEl.textContent=CHART.trend_title||'Enrollment and spending per pupil';
+    var payload={labels:labels,datasets:[
+      {label:'Fall enrollment',key:'enroll',data:left,yAxisID:'y',
+        borderColor:NAVY,backgroundColor:'transparent',spanGaps:false,
+        pointRadius:labels.length>24?0:2,pointHoverRadius:4,borderWidth:2},
+      {label:right.label||'Total expenditures per pupil',key:'ppe',data:rightVals,yAxisID:'y1',
+        borderColor:RUST,backgroundColor:'transparent',spanGaps:false,
+        pointRadius:labels.length>24?0:2,pointHoverRadius:4,borderWidth:2}
+    ]};
+    var padLabs=[];
+    if(leftLast!=null) padLabs.push(fmtVal(leftLast,true));
+    if(rightLast!=null) padLabs.push(fmtUsdAxis(rightLast));
+    var rightPad=window.dlRightPad?window.dlRightPad(padLabs,96):96;
+    var opts={responsive:true,maintainAspectRatio:false,
+      layout:{padding:{top:12,right:rightPad}},
+      plugins:{legend:{display:true,position:'top',align:'end'},
+        tooltip:{callbacks:{
+          title:function(items){
+            var idx=items[0]&&items[0].dataIndex;
+            return (labels[idx]!=null)?String(labels[idx]):'';
+          },
+          label:function(c){
+            var v=c.parsed.y;
+            if(c.dataset.key==='ppe') return ' '+c.dataset.label+': '+fmtUsdAxis(v);
+            return ' '+c.dataset.label+': '+fmtVal(v)+(unit?' '+unit:'');
+          }
+        }}},
+      scales:{
+        x:{type:'category',ticks:{color:GREY,autoSkip:true,maxTicksLimit:12}},
+        y:fitScale({position:'left',grace:'10%',
+          title:{display:true,text:'students',color:NAVY,font:{size:11}},
+          ticks:{color:NAVY,callback:function(v){return fmtVal(v,true);}},
+          grid:{color:'rgba(34,34,34,.08)'}}, left),
+        y1:fitScale({position:'right',grace:'10%',
+          title:{display:true,text:'dollars per pupil',color:RUST,font:{size:11}},
+          ticks:{color:RUST,callback:function(v){return fmtUsdAxis(v);}},
+          grid:{drawOnChartArea:false}}, rightVals)
+      }};
+    var plugins=[dataLabels(function(v, di){
+      return di===1?fmtUsdAxis(v):fmtVal(v,true);
+    }, labels.length>18?'end':'all')];
+    if(trendChart){ trendChart.destroy(); trendChart=null; }
+    trendChart=new Chart(chTrend,{type:'line',data:payload,options:opts,plugins:plugins});
+    return true;
+  }
   function drawHeadline(){
+    if(CHART.trend_right && CHART.trend_right.points && CHART.trend_right.points.length>=2){
+      if(drawDualHeadline()) return;
+    }
     if(!chTrend || !window.Chart || !allTrendKeys.length) return;
     var keys=visibleTrendKeys();
     var trendMode=headlineMode(keys);

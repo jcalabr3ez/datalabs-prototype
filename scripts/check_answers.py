@@ -499,6 +499,14 @@ else:
         fail("DL-34 FIND.cards is missing Boston Latin School")
     else:
         ok("DL-34 school finder defaults to Boston Latin School")
+if "trend_right" not in bps_html or "Total expenditures per pupil" not in bps_html:
+    fail("DL-34 trend is missing the per-pupil series")
+elif "44416" not in bps_html or "34833" not in bps_html:
+    fail("DL-34 combined trend lede is missing the published endpoints")
+elif "id=\"view-bps-ppe-trend\"" in bps_html:
+    fail("DL-34 still has a standalone spending-trend view")
+else:
+    ok("DL-34 trend combines enrollment and per-pupil spending")
 if 'id="proofFind"' not in bps_html or 'id="proofFindList"' not in bps_html:
     fail("DL-34 school lookup is missing the typeahead list")
 else:

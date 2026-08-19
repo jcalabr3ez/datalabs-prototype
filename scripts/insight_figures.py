@@ -1649,22 +1649,6 @@ def figs_dl34(ledger):
             fin.get("note") or "DESE / E2C district finance. Category bars exclude the two total lines.",
             span=2,
         ))
-    ppe_tr = fin.get("trend") or []
-    if len(ppe_tr) >= 3:
-        labels = [str(p["y"]) for p in ppe_tr]
-        values = [p["v"] for p in ppe_tr]
-        out.append(_fig(
-            "bps-ppe-trend",
-            "Boston Public Schools total expenditures per pupil",
-            (
-                f"${values[0]:,} in {labels[0]} to ${values[-1]:,} in {labels[-1]}."
-            ),
-            "SRC-634-02",
-            "line", "usd", "dollars per pupil",
-            labels, _line(values, "Total expenditures per pupil"),
-            "DESE / E2C district finance, Total Expenditures series.",
-            span=2,
-        ))
     bus = sec.get("bps_transportation_2025") or {}
     if bus.get("buses_on_road") is not None:
         labels = ["Daily buses", "Morning runs"]

@@ -7,7 +7,7 @@ agent rules. `NEW-TOOL-CHECKLIST.md` is how to add a tool.
 ## 1. What it is
 
 One static site plus one serverless question engine. Thirty-two numbered tools
-(DL-01 through DL-33): five hand-built flagships and a 28-app suite that replaced
+(DL-01 through DL-34): five hand-built flagships and a 29-app suite that replaced
 the old Tableau workbooks. Every published figure lives in a JSON ledger and
 cites a primary source. The model does not invent numbers.
 
@@ -53,7 +53,7 @@ flowchart TB
     DL05["DL-05 /pensions/ · Massachusetts Public Pensions"]
   end
   subgraph Suite [28-app suite]
-    Live["DL-06 to DL-33 live pages"]
+    Live["DL-06 to DL-34 live pages"]
     Stub["DL-18 Patents by State · in build"]
   end
   Ops["/status/ vintage table · /changelog/ production record"]
@@ -136,7 +136,7 @@ headlines, and keyed blocks from the ledger. Remaining narrative (methodology,
 source register prose) stays in the HTML and is sentinel-checked so it cannot
 silently drift from the ledger.
 
-Suite pages (DL-06 to DL-33) are generated shells. `render_suite_pages.py`
+Suite pages (DL-06 to DL-34) are generated shells. `render_suite_pages.py`
 writes the HTML. Inject then drops in the ledger payload, the national-lens
 answers, takeaways, and cite line. Shared look lives in `assets/datalabs.css`,
 `assets/suite.css`, and vendored Chart.js at `assets/chart.umd.min.js`.
@@ -201,7 +201,7 @@ flowchart TB
     A03["Monthly · refresh_dl03.py · FTA NTD API"]
     A04["Yearly October · refresh_dl04.py · EIA + Census"]
     A05["Monthly · refresh_dl05.py · CTHRU retirees + name shards"]
-    A06["Monthly · refresh_suite.py · 28 suite apps"]
+    A06["Monthly · refresh_suite.py · 29 suite apps"]
   end
   subgraph special [Special builders]
     B11["build_dl11.py · local OPAIS JSON + CMS HCRIS + Census SLDL"]
@@ -222,7 +222,7 @@ flowchart TB
 | DL-03 MBTA Performance | `/mbta/` | `dl03-answers.json` | Monthly Action from the FTA NTD API. |
 | DL-04 Retail Electricity Prices | `/electricity/` | `dl04-answers.json` | Yearly Action, October, EIA and Census. |
 | DL-05 Public Pensions | `/pensions/` | `dl05-answers.json` | Monthly CTHRU retirees and `pensions/search/` shards. Boards when PERAC posts. |
-| DL-06 to DL-33 | slugs in `suite/apps.json` | `dlXX-answers.json` | Monthly Action. Live builders fetch public files. 340B rebuilds from a local OPAIS export. Family Healthcare Costs rebuilds from the CHIA MHIS Excel. Patents stays a stub. |
+| DL-06 to DL-34 | slugs in `suite/apps.json` | `dlXX-answers.json` | Monthly Action. Live builders fetch public files. 340B rebuilds from a local OPAIS export. Family Healthcare Costs rebuilds from the CHIA MHIS Excel. Patents stays a stub. |
 
 Do not invent a second refresh next to these jobs. Do not mark a stub `live`
 or invent figures. The five flagships stay frozen during a suite refresh.
@@ -271,6 +271,7 @@ flowchart TB
     H2[DL-11 340B Drug Discounts]
     H3[DL-12 State Medicaid Spending]
     H4[DL-33 Family Healthcare Costs]
+    H5[DL-34 Boston Public Schools]
   end
   subgraph opportunity [Economic Opportunity]
     O1[DL-13 Business Formation]

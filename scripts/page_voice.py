@@ -175,6 +175,7 @@ def fifty_state_ledger(ledger):
 LENS_SKIP = SKIP_VOICE | {
     "DL-03", "DL-05", "DL-06", "DL-10", "DL-18", "DL-22",
     "DL-25", "DL-26", "DL-27", "DL-28", "DL-30", "DL-32", "DL-33",
+    "DL-34",
 }
 
 
@@ -1747,6 +1748,47 @@ def voice_dl33(ledger):
     return take, kpis, f"{v:.1f}% high out-of-pocket burden", "SRC-633-02", "", page_lead
 
 
+def voice_dl34(ledger):
+    latest = ledger.get("latest") or {}
+    gender = sec(ledger, "bps_gender_2026")
+    fin = sec(ledger, "bps_finance_fy2025")
+    bus = sec(ledger, "bps_transportation_2025")
+    hi = latest.get("highest") or {}
+    take = [
+        f"Boston Public Schools enrolled <b>{commify(latest.get('enrollment'))}</b> students in <b>{latest.get('schools')}</b> DESE-listed schools in 2025-26 (SRC-634-01).",
+        f"<b>{commify(gender.get('male') or latest.get('male'))}</b> were male and <b>{commify(gender.get('female') or latest.get('female'))}</b> were female (SRC-634-01).",
+        f"Total expenditures per pupil were <b>{money(fin.get('total_ppe') or latest.get('ppe'))}</b> in FY 2025 (SRC-634-02).",
+    ]
+    kpis = [
+        kpi("BPS enrollment, 2025-26", commify(latest.get("enrollment")),
+            f"{latest.get('schools')} schools. {hi.get('name')} was largest at {commify(hi.get('v'))} (SRC-634-01).",
+            "The district stock, not one school.",
+            src_name(ledger, "SRC-634-01")),
+        kpi("Male / female", f"{commify(latest.get('male'))} / {commify(latest.get('female'))}",
+            f"{latest.get('male_pct')}% male, {latest.get('female_pct')}% female (SRC-634-01).",
+            "The published gender split.",
+            src_name(ledger, "SRC-634-01")),
+        kpi("Per-pupil, FY 2025", money(fin.get("total_ppe") or latest.get("ppe")),
+            (
+                f"The April 2025 transportation report printed "
+                f"{bus.get('buses_on_road')} buses on the road (SRC-634-03)."
+                if bus.get("buses_on_road") else
+                "DESE / E2C district finance (SRC-634-02)."
+            ),
+            "Spending next to the enrollment stock.",
+            src_name(ledger, "SRC-634-02")),
+    ]
+    page_lead = (
+        f"Boston Public Schools enrolled <b>{commify(latest.get('enrollment'))}</b> "
+        f"students in <b>{latest.get('schools')}</b> DESE-listed schools in 2025-26 (SRC-634-01)."
+    )
+    return (
+        take, kpis,
+        f"{commify(latest.get('enrollment'))} enrolled, {latest.get('schools')} schools",
+        "SRC-634-01", "", page_lead,
+    )
+
+
 VOICES = {
     "DL-06": voice_dl06,
     "DL-07": voice_dl07,
@@ -1775,6 +1817,7 @@ VOICES = {
     "DL-31": voice_dl31,
     "DL-32": voice_dl32,
     "DL-33": voice_dl33,
+    "DL-34": voice_dl34,
 }
 
 
@@ -1974,6 +2017,11 @@ def find_bundle(app, ledger):
                 facts.append(f"Stipends (A14) {money_cents(r['a14'])}")
             if r.get("n_stints") and r["n_stints"] > 1:
                 facts.append(f"{r['n_stints']} payroll stints in 2025, added together")
+        if tid == "DL-34":
+            if r.get("female_pct") is not None and r.get("male_pct") is not None:
+                facts.append(
+                    f"Female {r['female_pct']}%, male {r['male_pct']}% (SRC-634-01)"
+                )
         aliases = [norm_key(name), (name or "").lower()]
         shown = short_place(name) if kind == "town" else name
         if shown and shown.lower() not in aliases:
@@ -2457,6 +2505,14 @@ def build_answer(tid, ledger, ma_line=""):
             "calendar 2025 (SRC-627-01)."
         )
         src_id = "SRC-627-01"
+    elif tid == "DL-34":
+        value = commify(latest.get("enrollment"))
+        context = (
+            f"in {latest.get('schools')} DESE-listed schools in 2025-26 "
+            f"(SRC-634-01). {commify(latest.get('male'))} male, "
+            f"{commify(latest.get('female'))} female."
+        )
+        src_id = "SRC-634-01"
     else:
         if ma.get("v") is not None:
             value = format_metric_value(ma.get("v"), unit)

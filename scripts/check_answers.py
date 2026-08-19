@@ -108,6 +108,12 @@ for app in apps:
             fail(f"{tid} national-lens default geo is {answer.get('geo')!r}, not United States")
         else:
             ok(f"{tid} national default")
+    if tid == "DL-34":
+        compact = value.replace(",", "")
+        if "44416" not in compact:
+            fail(f"{tid} hero should be BPS enrollment 44,416, value={value!r}")
+        else:
+            ok(f"{tid} BPS enrollment")
     if tid == "DL-30":
         if "10.89" not in value:
             fail(f"{tid} hero should be Commonwealth payroll total, value={value!r}")

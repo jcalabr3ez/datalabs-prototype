@@ -1,0 +1,2575 @@
+{
+  "tool_id": "DL-34",
+  "title": "Boston Public Schools",
+  "slug": "boston-schools",
+  "vertical": "Education",
+  "group": "Education",
+  "status": "live",
+  "as_of": "2026-06",
+  "scope": "This ledger ranks every DESE-listed Boston Public Schools school (district 00350000) on 2025-26 enrollment, reports district enrollment by gender, race, grade, and selected populations, DESE FY 2025 total expenditures per pupil and the published spending categories, teacher FTE and average salary from the same finance file, and the last exact published daily-bus and morning-run counts from the April 2025 BPS Transportation progress report.",
+  "exclusions": "Does not cover charter or Horace Mann districts that are not 00350000, waitlists, lottery outcomes, statewide Massachusetts enrollment or MCAS (those sit on Massachusetts Schools), City of Boston payroll or the BPS budget line on Boston City Payroll, other cities, or advice about a school. BPS does not publish a machine-readable route roster; later School Committee memos that say daily buses were fewer than 625 do not replace the last exact published count.",
+  "heritage": "New. The Tableau suite did not publish a Boston Public Schools district namesake.",
+  "replaces": [],
+  "vintage_note": "Rebuilt Aug 19, 2026 from DESE / E2C t8td-gens for district 00350000, school year 2025-26 (sy=2026). District enrollment 44,416 matches the DESE profile. 105 school rows sum to that total. Gender counts 21,165 / 23,214 / 37 match the DESE Enrollment by Gender table and the E2C percentages to one decimal. FY 2025 total expenditures per pupil $34,833 is E2C er3w-dyti. Daily buses 640 are the last exact count printed in BPS Driving Change, April 2025 (SRC-634-03).",
+  "source_id_map": {
+    "SRC-634-01": {
+      "name": "DESE / E2C enrollment by grade, race/ethnicity, gender, and selected populations, Boston district and schools",
+      "cadence": "Annual school year",
+      "url": "https://educationtocareer.data.mass.gov/resource/t8td-gens.json",
+      "supports": "This ledger ranks every DESE-listed Boston Public Schools school (district 00350000) on 2025-26 enrollment, reports district enrollment by gender, race, grade, and selected populations, DESE FY 2025 total expenditures per pupil and the published spending categories, teacher FTE and average salary from the same finance file, and the last exact published daily-bus and morning-run counts from the April 2025 BPS Transportation progress report."
+    },
+    "SRC-634-02": {
+      "name": "DESE / E2C district finance, total expenditures per pupil and staff",
+      "cadence": "Annual fiscal year",
+      "url": "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json",
+      "supports": "This ledger ranks every DESE-listed Boston Public Schools school (district 00350000) on 2025-26 enrollment, reports district enrollment by gender, race, grade, and selected populations, DESE FY 2025 total expenditures per pupil and the published spending categories, teacher FTE and average salary from the same finance file, and the last exact published daily-bus and morning-run counts from the April 2025 BPS Transportation progress report."
+    },
+    "SRC-634-03": {
+      "name": "BPS Driving Change: Transportation Progress 2022-2025, April 2025",
+      "cadence": "Occasional School Committee report",
+      "url": "https://resources.finalsite.net/images/v1744738924/bostonpublicschoolsorg/mnr8vg3lfqnr5gacu1du/EN_BPSTransportationProgress2022-2025.pdf",
+      "supports": "This ledger ranks every DESE-listed Boston Public Schools school (district 00350000) on 2025-26 enrollment, reports district enrollment by gender, race, grade, and selected populations, DESE FY 2025 total expenditures per pupil and the published spending categories, teacher FTE and average salary from the same finance file, and the last exact published daily-bus and morning-run counts from the April 2025 BPS Transportation progress report."
+    }
+  },
+  "page": {
+    "revised": "Aug 19, 2026",
+    "version": "0.1"
+  },
+  "geo": [
+    "Boston"
+  ],
+  "q": "Enrollment, gender, per-pupil spending, and bus routes for Boston Public Schools.",
+  "pending": false,
+  "metric": "bps_school_enrollment_2026",
+  "metric_label": "School enrollment, 2025-26",
+  "unit": "students",
+  "data_month": "2026-06",
+  "data_month_label": "School year 2025-26",
+  "lead": "Boston Public Schools enrolled <b>44,416</b> students in <b>105</b> DESE-listed schools in 2025-26 (SRC-634-01). <b>23,214</b> were male and <b>21,165</b> were female (SRC-634-01). Total expenditures per pupil were <b>$34,833</b> in FY 2025 (SRC-634-02). The April 2025 transportation report printed <b>640</b> buses on the road (SRC-634-03).",
+  "kpis": [
+    {
+      "label": "BPS enrollment, 2025-26",
+      "value": "44,416",
+      "detail": "105 DESE-listed schools (SRC-634-01).",
+      "why": "The district stock the school ranking adds up toward.",
+      "src": "DESE / E2C enrollment, Boston 00350000 (SRC-634-01)"
+    },
+    {
+      "label": "Male / female",
+      "value": "23,214 / 21,165",
+      "detail": "52.3% male, 47.7% female, 37 nonbinary (SRC-634-01).",
+      "why": "The published gender split, not a derived share.",
+      "src": "DESE / E2C enrollment and DESE Enrollment by Gender (SRC-634-01)"
+    },
+    {
+      "label": "Per-pupil spending, FY 2025",
+      "value": "$34,833",
+      "detail": "Total expenditures per pupil. In-district was $35,911 (SRC-634-02).",
+      "why": "The finance file next to the enrollment stock.",
+      "src": "DESE / E2C district finance (SRC-634-02)"
+    }
+  ],
+  "latest": {
+    "enrollment": 44416,
+    "schools": 105,
+    "female": 21165,
+    "male": 23214,
+    "nonbinary": 37,
+    "female_pct": 47.7,
+    "male_pct": 52.3,
+    "nonbinary_pct": 0.1,
+    "ppe": 34833,
+    "buses_on_road": 640,
+    "highest": {
+      "name": "Boston Latin School",
+      "v": 2382,
+      "rank": 1,
+      "n": 105
+    },
+    "lowest": {
+      "name": "Lyon High School",
+      "v": 27,
+      "rank": 105,
+      "n": 105
+    }
+  },
+  "rows": [
+    {
+      "st": "Boston L",
+      "name": "Boston Latin School",
+      "v": 2382,
+      "rank": 1,
+      "n": 105,
+      "org_code": "00350560",
+      "female_pct": 53.4,
+      "male_pct": 46.4,
+      "nonbinary_pct": 0.2
+    },
+    {
+      "st": "Boston L",
+      "name": "Boston Latin Academy",
+      "v": 1669,
+      "rank": 2,
+      "n": 105,
+      "org_code": "00350545",
+      "female_pct": 54.6,
+      "male_pct": 45.0,
+      "nonbinary_pct": 0.4
+    },
+    {
+      "st": "O'Bryant",
+      "name": "O'Bryant School of Math & Science",
+      "v": 1518,
+      "rank": 3,
+      "n": 105,
+      "org_code": "00350575",
+      "female_pct": 46.9,
+      "male_pct": 53.1,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "East Bos",
+      "name": "East Boston High School",
+      "v": 1181,
+      "rank": 4,
+      "n": 105,
+      "org_code": "00350530",
+      "female_pct": 46.5,
+      "male_pct": 53.4,
+      "nonbinary_pct": 0.1
+    },
+    {
+      "st": "Madison ",
+      "name": "Madison Park Technical Vocational High School",
+      "v": 1024,
+      "rank": 5,
+      "n": 105,
+      "org_code": "00350537",
+      "female_pct": 41.9,
+      "male_pct": 58.0,
+      "nonbinary_pct": 0.1
+    },
+    {
+      "st": "Curley K",
+      "name": "Curley K-8 School",
+      "v": 955,
+      "rank": 6,
+      "n": 105,
+      "org_code": "00350020",
+      "female_pct": 44.2,
+      "male_pct": 55.7,
+      "nonbinary_pct": 0.1
+    },
+    {
+      "st": "TechBost",
+      "name": "TechBoston Academy",
+      "v": 869,
+      "rank": 7,
+      "n": 105,
+      "org_code": "00350657",
+      "female_pct": 44.5,
+      "male_pct": 55.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Murphy K",
+      "name": "Murphy K-8 School",
+      "v": 833,
+      "rank": 8,
+      "n": 105,
+      "org_code": "00350240",
+      "female_pct": 48.1,
+      "male_pct": 51.7,
+      "nonbinary_pct": 0.1
+    },
+    {
+      "st": "Eliot K-",
+      "name": "Eliot K-8 Innovation School",
+      "v": 779,
+      "rank": 9,
+      "n": 105,
+      "org_code": "00350096",
+      "female_pct": 45.3,
+      "male_pct": 54.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "New Miss",
+      "name": "New Mission High School",
+      "v": 739,
+      "rank": 10,
+      "n": 105,
+      "org_code": "00350542",
+      "female_pct": 43.0,
+      "male_pct": 56.8,
+      "nonbinary_pct": 0.1
+    },
+    {
+      "st": "Quincy E",
+      "name": "Quincy Elementary School",
+      "v": 719,
+      "rank": 11,
+      "n": 105,
+      "org_code": "00350286",
+      "female_pct": 50.5,
+      "male_pct": 49.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Orchard ",
+      "name": "Orchard Gardens K-8 School",
+      "v": 716,
+      "rank": 12,
+      "n": 105,
+      "org_code": "00350257",
+      "female_pct": 47.1,
+      "male_pct": 52.9,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Sarah Ro",
+      "name": "Sarah Roberts Elementary School",
+      "v": 684,
+      "rank": 13,
+      "n": 105,
+      "org_code": "00350017",
+      "female_pct": 48.1,
+      "male_pct": 51.9,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "English ",
+      "name": "English High School",
+      "v": 653,
+      "rank": 14,
+      "n": 105,
+      "org_code": "00350535",
+      "female_pct": 48.4,
+      "male_pct": 51.6,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Charlest",
+      "name": "Charlestown High School",
+      "v": 646,
+      "rank": 15,
+      "n": 105,
+      "org_code": "00350515",
+      "female_pct": 40.4,
+      "male_pct": 59.6,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "UP Acade",
+      "name": "UP Academy Holland",
+      "v": 628,
+      "rank": 16,
+      "n": 105,
+      "org_code": "00350167",
+      "female_pct": 51.4,
+      "male_pct": 48.6,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Brighton",
+      "name": "Brighton High School",
+      "v": 609,
+      "rank": 17,
+      "n": 105,
+      "org_code": "00350505",
+      "female_pct": 43.8,
+      "male_pct": 56.0,
+      "nonbinary_pct": 0.2
+    },
+    {
+      "st": "Henderso",
+      "name": "Henderson K-12 Inclusion School Upper",
+      "v": 605,
+      "rank": 18,
+      "n": 105,
+      "org_code": "00350426",
+      "female_pct": 44.8,
+      "male_pct": 55.2,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "McKay K-",
+      "name": "McKay K-8 School",
+      "v": 599,
+      "rank": 19,
+      "n": 105,
+      "org_code": "00350080",
+      "female_pct": 51.4,
+      "male_pct": 48.6,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Mario Um",
+      "name": "Mario Umana Academy",
+      "v": 585,
+      "rank": 20,
+      "n": 105,
+      "org_code": "00350656",
+      "female_pct": 45.0,
+      "male_pct": 55.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Ruth Bat",
+      "name": "Ruth Batson Academy",
+      "v": 584,
+      "rank": 21,
+      "n": 105,
+      "org_code": "00350558",
+      "female_pct": 43.5,
+      "male_pct": 56.3,
+      "nonbinary_pct": 0.2
+    },
+    {
+      "st": "Lee K-8 ",
+      "name": "Lee K-8 School",
+      "v": 582,
+      "rank": 22,
+      "n": 105,
+      "org_code": "00350183",
+      "female_pct": 40.9,
+      "male_pct": 59.1,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Mattahun",
+      "name": "Mattahunt Elementary School",
+      "v": 580,
+      "rank": 23,
+      "n": 105,
+      "org_code": "00350016",
+      "female_pct": 43.3,
+      "male_pct": 56.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Quincy U",
+      "name": "Quincy Upper School",
+      "v": 575,
+      "rank": 24,
+      "n": 105,
+      "org_code": "00350565",
+      "female_pct": 48.7,
+      "male_pct": 51.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Blacksto",
+      "name": "Blackstone Elementary School",
+      "v": 572,
+      "rank": 25,
+      "n": 105,
+      "org_code": "00350390",
+      "female_pct": 43.9,
+      "male_pct": 56.1,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Dearborn",
+      "name": "Dearborn STEM Academy",
+      "v": 565,
+      "rank": 26,
+      "n": 105,
+      "org_code": "00350074",
+      "female_pct": 47.4,
+      "male_pct": 52.4,
+      "nonbinary_pct": 0.2
+    },
+    {
+      "st": "Mildred ",
+      "name": "Mildred Avenue K-8 School",
+      "v": 557,
+      "rank": 27,
+      "n": 105,
+      "org_code": "00350378",
+      "female_pct": 45.8,
+      "male_pct": 54.2,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Warren-P",
+      "name": "Warren-Prescott K-8 School",
+      "v": 544,
+      "rank": 28,
+      "n": 105,
+      "org_code": "00350346",
+      "female_pct": 47.6,
+      "male_pct": 52.4,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Albert D",
+      "name": "Albert D Holland School of Technology",
+      "v": 526,
+      "rank": 29,
+      "n": 105,
+      "org_code": "00350525",
+      "female_pct": 44.7,
+      "male_pct": 55.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Lyndon K",
+      "name": "Lyndon K-8 School",
+      "v": 524,
+      "rank": 30,
+      "n": 105,
+      "org_code": "00350262",
+      "female_pct": 50.0,
+      "male_pct": 50.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Boston A",
+      "name": "Boston Arts Academy",
+      "v": 490,
+      "rank": 31,
+      "n": 105,
+      "org_code": "00350546",
+      "female_pct": 65.9,
+      "male_pct": 33.3,
+      "nonbinary_pct": 0.8
+    },
+    {
+      "st": "Margarit",
+      "name": "Margarita Muniz Academy",
+      "v": 480,
+      "rank": 32,
+      "n": 105,
+      "org_code": "00350549",
+      "female_pct": 50.0,
+      "male_pct": 50.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Mather E",
+      "name": "Mather Elementary School",
+      "v": 479,
+      "rank": 33,
+      "n": 105,
+      "org_code": "00350227",
+      "female_pct": 51.8,
+      "male_pct": 48.2,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Boston I",
+      "name": "Boston International High School & Newcomers Academy",
+      "v": 477,
+      "rank": 34,
+      "n": 105,
+      "org_code": "00350507",
+      "female_pct": 42.6,
+      "male_pct": 57.4,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Shaw-Tay",
+      "name": "Shaw-Taylor Elementary School",
+      "v": 469,
+      "rank": 35,
+      "n": 105,
+      "org_code": "00350014",
+      "female_pct": 49.0,
+      "male_pct": 51.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Ohrenber",
+      "name": "Ohrenberger School",
+      "v": 458,
+      "rank": 36,
+      "n": 105,
+      "org_code": "00350258",
+      "female_pct": 46.7,
+      "male_pct": 53.1,
+      "nonbinary_pct": 0.2
+    },
+    {
+      "st": "Edison E",
+      "name": "Edison Elementary School",
+      "v": 455,
+      "rank": 37,
+      "n": 105,
+      "org_code": "00350375",
+      "female_pct": 46.8,
+      "male_pct": 53.2,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "King Ele",
+      "name": "King Elementary School",
+      "v": 454,
+      "rank": 38,
+      "n": 105,
+      "org_code": "00350376",
+      "female_pct": 44.1,
+      "male_pct": 55.9,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Condon K",
+      "name": "Condon K-8 School",
+      "v": 448,
+      "rank": 39,
+      "n": 105,
+      "org_code": "00350146",
+      "female_pct": 44.2,
+      "male_pct": 55.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Snowden ",
+      "name": "Snowden International High School",
+      "v": 435,
+      "rank": 40,
+      "n": 105,
+      "org_code": "00350690",
+      "female_pct": 49.9,
+      "male_pct": 49.7,
+      "nonbinary_pct": 0.5
+    },
+    {
+      "st": "Young Ac",
+      "name": "Young Achievers Elementary School",
+      "v": 422,
+      "rank": 41,
+      "n": 105,
+      "org_code": "00350380",
+      "female_pct": 49.3,
+      "male_pct": 50.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Ellis El",
+      "name": "Ellis Elementary School",
+      "v": 418,
+      "rank": 42,
+      "n": 105,
+      "org_code": "00350072",
+      "female_pct": 52.2,
+      "male_pct": 47.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Otis Ele",
+      "name": "Otis Elementary School",
+      "v": 414,
+      "rank": 43,
+      "n": 105,
+      "org_code": "00350156",
+      "female_pct": 49.5,
+      "male_pct": 50.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Kilmer K",
+      "name": "Kilmer K-8 School",
+      "v": 391,
+      "rank": 44,
+      "n": 105,
+      "org_code": "00350190",
+      "female_pct": 44.5,
+      "male_pct": 55.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Greenwoo",
+      "name": "Greenwood Sarah K-8 School",
+      "v": 381,
+      "rank": 45,
+      "n": 105,
+      "org_code": "00350308",
+      "female_pct": 50.9,
+      "male_pct": 49.1,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Communit",
+      "name": "Community Academy of Science and Health",
+      "v": 373,
+      "rank": 46,
+      "n": 105,
+      "org_code": "00350581",
+      "female_pct": 51.2,
+      "male_pct": 48.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Roosevel",
+      "name": "Roosevelt K-8 School",
+      "v": 372,
+      "rank": 47,
+      "n": 105,
+      "org_code": "00350116",
+      "female_pct": 47.6,
+      "male_pct": 52.4,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Kennedy ",
+      "name": "Kennedy John F Elementary School",
+      "v": 366,
+      "rank": 48,
+      "n": 105,
+      "org_code": "00350166",
+      "female_pct": 49.7,
+      "male_pct": 50.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Hennigan",
+      "name": "Hennigan Elementary School",
+      "v": 361,
+      "rank": 49,
+      "n": 105,
+      "org_code": "00350153",
+      "female_pct": 45.4,
+      "male_pct": 54.3,
+      "nonbinary_pct": 0.3
+    },
+    {
+      "st": "Trotter ",
+      "name": "Trotter Elementary School",
+      "v": 360,
+      "rank": 50,
+      "n": 105,
+      "org_code": "00350370",
+      "female_pct": 46.4,
+      "male_pct": 53.6,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Fenway H",
+      "name": "Fenway High School",
+      "v": 358,
+      "rank": 51,
+      "n": 105,
+      "org_code": "00350540",
+      "female_pct": 53.1,
+      "male_pct": 46.9,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Tobin K-",
+      "name": "Tobin K-8 School",
+      "v": 355,
+      "rank": 52,
+      "n": 105,
+      "org_code": "00350229",
+      "female_pct": 48.7,
+      "male_pct": 51.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Haley Pi",
+      "name": "Haley Pilot School",
+      "v": 352,
+      "rank": 53,
+      "n": 105,
+      "org_code": "00350077",
+      "female_pct": 51.4,
+      "male_pct": 48.0,
+      "nonbinary_pct": 0.6
+    },
+    {
+      "st": "Winship ",
+      "name": "Winship Elementary School",
+      "v": 349,
+      "rank": 54,
+      "n": 105,
+      "org_code": "00350374",
+      "female_pct": 51.0,
+      "male_pct": 48.7,
+      "nonbinary_pct": 0.3
+    },
+    {
+      "st": "Hurley K",
+      "name": "Hurley K-8 School",
+      "v": 337,
+      "rank": 55,
+      "n": 105,
+      "org_code": "00350182",
+      "female_pct": 53.4,
+      "male_pct": 46.3,
+      "nonbinary_pct": 0.3
+    },
+    {
+      "st": "Hernande",
+      "name": "Hernandez Elementary School",
+      "v": 332,
+      "rank": 56,
+      "n": 105,
+      "org_code": "00350691",
+      "female_pct": 53.3,
+      "male_pct": 46.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Russell ",
+      "name": "Russell Elementary School",
+      "v": 331,
+      "rank": 57,
+      "n": 105,
+      "org_code": "00350366",
+      "female_pct": 52.3,
+      "male_pct": 47.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Harvard-",
+      "name": "Harvard-Kent Elementary School",
+      "v": 315,
+      "rank": 58,
+      "n": 105,
+      "org_code": "00350200",
+      "female_pct": 47.6,
+      "male_pct": 52.4,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Kenny El",
+      "name": "Kenny Elementary School",
+      "v": 315,
+      "rank": 59,
+      "n": 105,
+      "org_code": "00350328",
+      "female_pct": 46.7,
+      "male_pct": 53.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Mendell ",
+      "name": "Mendell Elementary School",
+      "v": 312,
+      "rank": 60,
+      "n": 105,
+      "org_code": "00350100",
+      "female_pct": 44.6,
+      "male_pct": 54.8,
+      "nonbinary_pct": 0.6
+    },
+    {
+      "st": "Holmes E",
+      "name": "Holmes Elementary School",
+      "v": 301,
+      "rank": 61,
+      "n": 105,
+      "org_code": "00350138",
+      "female_pct": 44.5,
+      "male_pct": 55.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Gardner ",
+      "name": "Gardner Pilot Academy",
+      "v": 296,
+      "rank": 62,
+      "n": 105,
+      "org_code": "00350326",
+      "female_pct": 47.3,
+      "male_pct": 52.4,
+      "nonbinary_pct": 0.3
+    },
+    {
+      "st": "Bradley ",
+      "name": "Bradley Elementary School",
+      "v": 295,
+      "rank": 63,
+      "n": 105,
+      "org_code": "00350215",
+      "female_pct": 50.2,
+      "male_pct": 49.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Bates El",
+      "name": "Bates Elementary School",
+      "v": 292,
+      "rank": 64,
+      "n": 105,
+      "org_code": "00350278",
+      "female_pct": 44.5,
+      "male_pct": 55.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Kennedy ",
+      "name": "Kennedy Patrick J Elementary School",
+      "v": 285,
+      "rank": 65,
+      "n": 105,
+      "org_code": "00350264",
+      "female_pct": 44.2,
+      "male_pct": 55.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Everett ",
+      "name": "Everett Elementary School",
+      "v": 283,
+      "rank": 66,
+      "n": 105,
+      "org_code": "00350088",
+      "female_pct": 49.1,
+      "male_pct": 50.9,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Boston C",
+      "name": "Boston Collaborative High School",
+      "v": 282,
+      "rank": 67,
+      "n": 105,
+      "org_code": "00350755",
+      "female_pct": 48.6,
+      "male_pct": 51.4,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Dever El",
+      "name": "Dever Elementary School",
+      "v": 279,
+      "rank": 68,
+      "n": 105,
+      "org_code": "00350268",
+      "female_pct": 50.2,
+      "male_pct": 49.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Beethove",
+      "name": "Beethoven Elementary School",
+      "v": 275,
+      "rank": 69,
+      "n": 105,
+      "org_code": "00350021",
+      "female_pct": 50.5,
+      "male_pct": 49.1,
+      "nonbinary_pct": 0.4
+    },
+    {
+      "st": "Chittick",
+      "name": "Chittick Elementary School",
+      "v": 275,
+      "rank": 70,
+      "n": 105,
+      "org_code": "00350154",
+      "female_pct": 44.7,
+      "male_pct": 55.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Winthrop",
+      "name": "Winthrop Elementary School",
+      "v": 256,
+      "rank": 71,
+      "n": 105,
+      "org_code": "00350180",
+      "female_pct": 47.3,
+      "male_pct": 52.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "O'Donnel",
+      "name": "O'Donnell Elementary School",
+      "v": 248,
+      "rank": 72,
+      "n": 105,
+      "org_code": "00350141",
+      "female_pct": 54.0,
+      "male_pct": 46.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Higginso",
+      "name": "Higginson-Lewis K-8 School",
+      "v": 246,
+      "rank": 73,
+      "n": 105,
+      "org_code": "00350377",
+      "female_pct": 46.7,
+      "male_pct": 53.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Another ",
+      "name": "Another Course To College",
+      "v": 244,
+      "rank": 74,
+      "n": 105,
+      "org_code": "00350541",
+      "female_pct": 41.8,
+      "male_pct": 58.2,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Guild El",
+      "name": "Guild Elementary School",
+      "v": 243,
+      "rank": 75,
+      "n": 105,
+      "org_code": "00350062",
+      "female_pct": 43.2,
+      "male_pct": 56.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Perry El",
+      "name": "Perry Elementary School",
+      "v": 232,
+      "rank": 76,
+      "n": 105,
+      "org_code": "00350255",
+      "female_pct": 47.0,
+      "male_pct": 53.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Mason El",
+      "name": "Mason Elementary School",
+      "v": 230,
+      "rank": 77,
+      "n": 105,
+      "org_code": "00350304",
+      "female_pct": 47.4,
+      "male_pct": 52.6,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Adams El",
+      "name": "Adams Elementary School",
+      "v": 222,
+      "rank": 78,
+      "n": 105,
+      "org_code": "00350302",
+      "female_pct": 45.0,
+      "male_pct": 55.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Tynan El",
+      "name": "Tynan Elementary School",
+      "v": 218,
+      "rank": 79,
+      "n": 105,
+      "org_code": "00350181",
+      "female_pct": 41.7,
+      "male_pct": 58.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Boston T",
+      "name": "Boston Teachers Union Elementary Pilot School",
+      "v": 209,
+      "rank": 80,
+      "n": 105,
+      "org_code": "00350012",
+      "female_pct": 51.2,
+      "male_pct": 48.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Perkins ",
+      "name": "Perkins Elementary School",
+      "v": 201,
+      "rank": 81,
+      "n": 105,
+      "org_code": "00350231",
+      "female_pct": 48.3,
+      "male_pct": 51.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Channing",
+      "name": "Channing Elementary School",
+      "v": 200,
+      "rank": 82,
+      "n": 105,
+      "org_code": "00350360",
+      "female_pct": 40.5,
+      "male_pct": 59.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Lee Acad",
+      "name": "Lee Academy",
+      "v": 197,
+      "rank": 83,
+      "n": 105,
+      "org_code": "00350001",
+      "female_pct": 50.3,
+      "male_pct": 49.2,
+      "nonbinary_pct": 0.5
+    },
+    {
+      "st": "Grew Ele",
+      "name": "Grew Elementary School",
+      "v": 196,
+      "rank": 84,
+      "n": 105,
+      "org_code": "00350135",
+      "female_pct": 52.6,
+      "male_pct": 47.4,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Haynes E",
+      "name": "Haynes Early Education Center",
+      "v": 191,
+      "rank": 85,
+      "n": 105,
+      "org_code": "00350010",
+      "female_pct": 44.5,
+      "male_pct": 55.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Henderso",
+      "name": "Henderson K-12 Inclusion School Lower",
+      "v": 185,
+      "rank": 86,
+      "n": 105,
+      "org_code": "00350266",
+      "female_pct": 49.2,
+      "male_pct": 50.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Ellison-",
+      "name": "Ellison-Parks Early Education School",
+      "v": 183,
+      "rank": 87,
+      "n": 105,
+      "org_code": "00350008",
+      "female_pct": 49.7,
+      "male_pct": 50.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Hale Ele",
+      "name": "Hale Elementary School",
+      "v": 167,
+      "rank": 88,
+      "n": 105,
+      "org_code": "00350243",
+      "female_pct": 48.5,
+      "male_pct": 51.5,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Higginso",
+      "name": "Higginson Inclusion K0-2 School",
+      "v": 161,
+      "rank": 89,
+      "n": 105,
+      "org_code": "00350015",
+      "female_pct": 39.8,
+      "male_pct": 60.2,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Conley E",
+      "name": "Conley Elementary School",
+      "v": 157,
+      "rank": 90,
+      "n": 105,
+      "org_code": "00350122",
+      "female_pct": 38.9,
+      "male_pct": 61.1,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Mozart E",
+      "name": "Mozart Elementary School",
+      "v": 154,
+      "rank": 91,
+      "n": 105,
+      "org_code": "00350237",
+      "female_pct": 48.7,
+      "male_pct": 50.6,
+      "nonbinary_pct": 0.6
+    },
+    {
+      "st": "Baldwin ",
+      "name": "Baldwin Early Learning Pilot Academy",
+      "v": 151,
+      "rank": 92,
+      "n": 105,
+      "org_code": "00350003",
+      "female_pct": 45.7,
+      "male_pct": 54.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Manning ",
+      "name": "Manning Elementary School",
+      "v": 150,
+      "rank": 93,
+      "n": 105,
+      "org_code": "00350184",
+      "female_pct": 47.3,
+      "male_pct": 52.7,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Clap Ele",
+      "name": "Clap Elementary School",
+      "v": 144,
+      "rank": 94,
+      "n": 105,
+      "org_code": "00350298",
+      "female_pct": 41.7,
+      "male_pct": 58.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "East Bos",
+      "name": "East Boston Early Education Center",
+      "v": 139,
+      "rank": 95,
+      "n": 105,
+      "org_code": "00350009",
+      "female_pct": 43.9,
+      "male_pct": 56.1,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Lyon Ele",
+      "name": "Lyon Elementary School",
+      "v": 129,
+      "rank": 96,
+      "n": 105,
+      "org_code": "00350004",
+      "female_pct": 45.7,
+      "male_pct": 54.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Boston A",
+      "name": "Boston Adult Tech Academy",
+      "v": 122,
+      "rank": 97,
+      "n": 105,
+      "org_code": "00350548",
+      "female_pct": 40.2,
+      "male_pct": 59.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Alighier",
+      "name": "Alighieri Dante Montessori School",
+      "v": 100,
+      "rank": 98,
+      "n": 105,
+      "org_code": "00350066",
+      "female_pct": 52.0,
+      "male_pct": 48.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Excel Hi",
+      "name": "Excel High School",
+      "v": 90,
+      "rank": 99,
+      "n": 105,
+      "org_code": "00350522",
+      "female_pct": 44.4,
+      "male_pct": 55.6,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "McKinley",
+      "name": "McKinley Schools",
+      "v": 80,
+      "rank": 100,
+      "n": 105,
+      "org_code": "00350363",
+      "female_pct": 33.8,
+      "male_pct": 66.3,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Horace M",
+      "name": "Horace Mann School for the Deaf Hard of Hearing",
+      "v": 78,
+      "rank": 101,
+      "n": 105,
+      "org_code": "00350750",
+      "female_pct": 28.2,
+      "male_pct": 71.8,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Greater ",
+      "name": "Greater Egleston High School",
+      "v": 53,
+      "rank": 102,
+      "n": 105,
+      "org_code": "00350543",
+      "female_pct": 56.6,
+      "male_pct": 43.4,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Carter S",
+      "name": "Carter School",
+      "v": 50,
+      "rank": 103,
+      "n": 105,
+      "org_code": "00350036",
+      "female_pct": 42.0,
+      "male_pct": 58.0,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Communit",
+      "name": "Community Academy",
+      "v": 39,
+      "rank": 104,
+      "n": 105,
+      "org_code": "00350518",
+      "female_pct": 35.9,
+      "male_pct": 64.1,
+      "nonbinary_pct": 0.0
+    },
+    {
+      "st": "Lyon Hig",
+      "name": "Lyon High School",
+      "v": 27,
+      "rank": 105,
+      "n": 105,
+      "org_code": "00350655",
+      "female_pct": 51.9,
+      "male_pct": 48.1,
+      "nonbinary_pct": 0.0
+    }
+  ],
+  "trend": {
+    "Boston": [
+      {
+        "y": "1994",
+        "v": 63738
+      },
+      {
+        "y": "1995",
+        "v": 61489
+      },
+      {
+        "y": "1996",
+        "v": 63293
+      },
+      {
+        "y": "1997",
+        "v": 63239
+      },
+      {
+        "y": "1998",
+        "v": 63762
+      },
+      {
+        "y": "1999",
+        "v": 63043
+      },
+      {
+        "y": "2000",
+        "v": 62950
+      },
+      {
+        "y": "2001",
+        "v": 63024
+      },
+      {
+        "y": "2002",
+        "v": 62414
+      },
+      {
+        "y": "2003",
+        "v": 61552
+      },
+      {
+        "y": "2004",
+        "v": 60150
+      },
+      {
+        "y": "2005",
+        "v": 57742
+      },
+      {
+        "y": "2006",
+        "v": 57349
+      },
+      {
+        "y": "2007",
+        "v": 56388
+      },
+      {
+        "y": "2008",
+        "v": 56168
+      },
+      {
+        "y": "2009",
+        "v": 55923
+      },
+      {
+        "y": "2010",
+        "v": 55371
+      },
+      {
+        "y": "2011",
+        "v": 56037
+      },
+      {
+        "y": "2012",
+        "v": 55027
+      },
+      {
+        "y": "2013",
+        "v": 55114
+      },
+      {
+        "y": "2014",
+        "v": 54300
+      },
+      {
+        "y": "2015",
+        "v": 54312
+      },
+      {
+        "y": "2016",
+        "v": 53530
+      },
+      {
+        "y": "2017",
+        "v": 53263
+      },
+      {
+        "y": "2018",
+        "v": 52665
+      },
+      {
+        "y": "2019",
+        "v": 51433
+      },
+      {
+        "y": "2020",
+        "v": 50480
+      },
+      {
+        "y": "2021",
+        "v": 48112
+      },
+      {
+        "y": "2022",
+        "v": 46169
+      },
+      {
+        "y": "2023",
+        "v": 46001
+      },
+      {
+        "y": "2024",
+        "v": 45742
+      },
+      {
+        "y": "2025",
+        "v": 46094
+      },
+      {
+        "y": "2026",
+        "v": 44416
+      }
+    ]
+  },
+  "derived": {
+    "note": "Prefer these over recomputing. Ranks cite (derived, SRC-634-01).",
+    "highest_five": [
+      {
+        "st": "Boston L",
+        "name": "Boston Latin School",
+        "v": 2382,
+        "rank": 1,
+        "n": 105,
+        "org_code": "00350560",
+        "female_pct": 53.4,
+        "male_pct": 46.4,
+        "nonbinary_pct": 0.2
+      },
+      {
+        "st": "Boston L",
+        "name": "Boston Latin Academy",
+        "v": 1669,
+        "rank": 2,
+        "n": 105,
+        "org_code": "00350545",
+        "female_pct": 54.6,
+        "male_pct": 45.0,
+        "nonbinary_pct": 0.4
+      },
+      {
+        "st": "O'Bryant",
+        "name": "O'Bryant School of Math & Science",
+        "v": 1518,
+        "rank": 3,
+        "n": 105,
+        "org_code": "00350575",
+        "female_pct": 46.9,
+        "male_pct": 53.1,
+        "nonbinary_pct": 0.0
+      },
+      {
+        "st": "East Bos",
+        "name": "East Boston High School",
+        "v": 1181,
+        "rank": 4,
+        "n": 105,
+        "org_code": "00350530",
+        "female_pct": 46.5,
+        "male_pct": 53.4,
+        "nonbinary_pct": 0.1
+      },
+      {
+        "st": "Madison ",
+        "name": "Madison Park Technical Vocational High School",
+        "v": 1024,
+        "rank": 5,
+        "n": 105,
+        "org_code": "00350537",
+        "female_pct": 41.9,
+        "male_pct": 58.0,
+        "nonbinary_pct": 0.1
+      }
+    ],
+    "lowest_five": [
+      {
+        "st": "Lyon Hig",
+        "name": "Lyon High School",
+        "v": 27,
+        "rank": 105,
+        "n": 105,
+        "org_code": "00350655",
+        "female_pct": 51.9,
+        "male_pct": 48.1,
+        "nonbinary_pct": 0.0
+      },
+      {
+        "st": "Communit",
+        "name": "Community Academy",
+        "v": 39,
+        "rank": 104,
+        "n": 105,
+        "org_code": "00350518",
+        "female_pct": 35.9,
+        "male_pct": 64.1,
+        "nonbinary_pct": 0.0
+      },
+      {
+        "st": "Carter S",
+        "name": "Carter School",
+        "v": 50,
+        "rank": 103,
+        "n": 105,
+        "org_code": "00350036",
+        "female_pct": 42.0,
+        "male_pct": 58.0,
+        "nonbinary_pct": 0.0
+      },
+      {
+        "st": "Greater ",
+        "name": "Greater Egleston High School",
+        "v": 53,
+        "rank": 102,
+        "n": 105,
+        "org_code": "00350543",
+        "female_pct": 56.6,
+        "male_pct": 43.4,
+        "nonbinary_pct": 0.0
+      },
+      {
+        "st": "Horace M",
+        "name": "Horace Mann School for the Deaf Hard of Hearing",
+        "v": 78,
+        "rank": 101,
+        "n": 105,
+        "org_code": "00350750",
+        "female_pct": 28.2,
+        "male_pct": 71.8,
+        "nonbinary_pct": 0.0
+      }
+    ],
+    "n_ranked": 105,
+    "secondary": {
+      "bps_gender_2026": {
+        "label": "Boston Public Schools enrollment by gender, 2025-26",
+        "src": "SRC-634-01",
+        "unit": "students",
+        "as_of_label": "School year 2025-26",
+        "total": 44416,
+        "female": 21165,
+        "male": 23214,
+        "nonbinary": 37,
+        "female_pct": 47.7,
+        "male_pct": 52.3,
+        "nonbinary_pct": 0.1,
+        "rows": [
+          {
+            "name": "Male",
+            "v": 23214,
+            "pct": 52.3
+          },
+          {
+            "name": "Female",
+            "v": 21165,
+            "pct": 47.7
+          },
+          {
+            "name": "Nonbinary",
+            "v": 37,
+            "pct": 0.1
+          }
+        ],
+        "note": "DESE / E2C district percentages for Boston (00350000). Counts are the DESE profile Enrollment by Gender table for the same year; they sum to the E2C district total and match the published percentages to one decimal."
+      },
+      "bps_demographics_2026": {
+        "label": "Boston Public Schools enrollment by race and selected populations, 2025-26",
+        "src": "SRC-634-01",
+        "unit": "percent",
+        "as_of_label": "School year 2025-26",
+        "total": 44416,
+        "race": [
+          {
+            "name": "Hispanic or Latino",
+            "v": 44.4
+          },
+          {
+            "name": "Black or African American",
+            "v": 28.9
+          },
+          {
+            "name": "White",
+            "v": 14.5
+          },
+          {
+            "name": "Asian",
+            "v": 8.0
+          },
+          {
+            "name": "Multi-race, non-Hispanic",
+            "v": 3.9
+          },
+          {
+            "name": "American Indian or Alaska Native",
+            "v": 0.3
+          },
+          {
+            "name": "Native Hawaiian or Pacific Islander",
+            "v": 0.1
+          }
+        ],
+        "selected": [
+          {
+            "name": "High needs",
+            "v": 80.9,
+            "count": 36208.0
+          },
+          {
+            "name": "Low income",
+            "v": 68.3,
+            "count": 30322.0
+          },
+          {
+            "name": "First language not English",
+            "v": 51.5,
+            "count": 22861.0
+          },
+          {
+            "name": "English learners",
+            "v": 33.6,
+            "count": 14913.0
+          },
+          {
+            "name": "Students with disabilities",
+            "v": 24.2,
+            "count": 10832.0
+          }
+        ],
+        "grades": [
+          {
+            "name": "Pre-kindergarten",
+            "v": 2621
+          },
+          {
+            "name": "Kindergarten",
+            "v": 3248
+          },
+          {
+            "name": "Grade 1",
+            "v": 3345
+          },
+          {
+            "name": "Grade 2",
+            "v": 3304
+          },
+          {
+            "name": "Grade 3",
+            "v": 3338
+          },
+          {
+            "name": "Grade 4",
+            "v": 3323
+          },
+          {
+            "name": "Grade 5",
+            "v": 2905
+          },
+          {
+            "name": "Grade 6",
+            "v": 2869
+          },
+          {
+            "name": "Grade 7",
+            "v": 2834
+          },
+          {
+            "name": "Grade 8",
+            "v": 2895
+          },
+          {
+            "name": "Grade 9",
+            "v": 3140
+          },
+          {
+            "name": "Grade 10",
+            "v": 3281
+          },
+          {
+            "name": "Grade 11",
+            "v": 3430
+          },
+          {
+            "name": "Grade 12",
+            "v": 3677
+          },
+          {
+            "name": "Special education beyond grade 12",
+            "v": 206
+          }
+        ]
+      },
+      "bps_finance_fy2025": {
+        "label": "Boston Public Schools total expenditures per pupil, FY 2025",
+        "src": "SRC-634-02",
+        "unit": "dollars per pupil",
+        "as_of_label": "Fiscal year 2025",
+        "total_ppe": 34833,
+        "in_district_ppe": 35911,
+        "teacher_salary": 140105.0,
+        "teacher_fte": 4365.7,
+        "categories": [
+          {
+            "name": "Teachers",
+            "v": 12991
+          },
+          {
+            "name": "Insurance, Retirement Programs and Other",
+            "v": 5302
+          },
+          {
+            "name": "Pupil Services",
+            "v": 4740
+          },
+          {
+            "name": "Other Teaching Services",
+            "v": 3290
+          },
+          {
+            "name": "Instructional Leadership",
+            "v": 3002
+          },
+          {
+            "name": "Operations and Maintenance",
+            "v": 2592
+          },
+          {
+            "name": "Instructional Materials, Equipment and Technology",
+            "v": 1510
+          },
+          {
+            "name": "Administration",
+            "v": 1461
+          },
+          {
+            "name": "Guidance, Counseling and Testing",
+            "v": 569
+          },
+          {
+            "name": "Professional Development",
+            "v": 455
+          }
+        ],
+        "trend": [
+          {
+            "y": 2009,
+            "v": 18831
+          },
+          {
+            "y": 2010,
+            "v": 17524
+          },
+          {
+            "y": 2011,
+            "v": 17760
+          },
+          {
+            "y": 2012,
+            "v": 17936
+          },
+          {
+            "y": 2013,
+            "v": 18466
+          },
+          {
+            "y": 2014,
+            "v": 19205
+          },
+          {
+            "y": 2015,
+            "v": 19246
+          },
+          {
+            "y": 2016,
+            "v": 19325
+          },
+          {
+            "y": 2017,
+            "v": 20201
+          },
+          {
+            "y": 2018,
+            "v": 21904
+          },
+          {
+            "y": 2019,
+            "v": 23002
+          },
+          {
+            "y": 2020,
+            "v": 24021
+          },
+          {
+            "y": 2021,
+            "v": 26589
+          },
+          {
+            "y": 2022,
+            "v": 29067
+          },
+          {
+            "y": 2023,
+            "v": 31883
+          },
+          {
+            "y": 2024,
+            "v": 33854
+          },
+          {
+            "y": 2025,
+            "v": 34833
+          }
+        ],
+        "note": "DESE / E2C district finance. Total Expenditures is all pupils. Total In-District Expenditures is the in-district series."
+      },
+      "bps_enrollment_trend": {
+        "label": "Boston Public Schools fall enrollment",
+        "src": "SRC-634-01",
+        "unit": "students",
+        "trend": [
+          {
+            "y": 1994,
+            "v": 63738
+          },
+          {
+            "y": 1995,
+            "v": 61489
+          },
+          {
+            "y": 1996,
+            "v": 63293
+          },
+          {
+            "y": 1997,
+            "v": 63239
+          },
+          {
+            "y": 1998,
+            "v": 63762
+          },
+          {
+            "y": 1999,
+            "v": 63043
+          },
+          {
+            "y": 2000,
+            "v": 62950
+          },
+          {
+            "y": 2001,
+            "v": 63024
+          },
+          {
+            "y": 2002,
+            "v": 62414
+          },
+          {
+            "y": 2003,
+            "v": 61552
+          },
+          {
+            "y": 2004,
+            "v": 60150
+          },
+          {
+            "y": 2005,
+            "v": 57742
+          },
+          {
+            "y": 2006,
+            "v": 57349
+          },
+          {
+            "y": 2007,
+            "v": 56388
+          },
+          {
+            "y": 2008,
+            "v": 56168
+          },
+          {
+            "y": 2009,
+            "v": 55923
+          },
+          {
+            "y": 2010,
+            "v": 55371
+          },
+          {
+            "y": 2011,
+            "v": 56037
+          },
+          {
+            "y": 2012,
+            "v": 55027
+          },
+          {
+            "y": 2013,
+            "v": 55114
+          },
+          {
+            "y": 2014,
+            "v": 54300
+          },
+          {
+            "y": 2015,
+            "v": 54312
+          },
+          {
+            "y": 2016,
+            "v": 53530
+          },
+          {
+            "y": 2017,
+            "v": 53263
+          },
+          {
+            "y": 2018,
+            "v": 52665
+          },
+          {
+            "y": 2019,
+            "v": 51433
+          },
+          {
+            "y": 2020,
+            "v": 50480
+          },
+          {
+            "y": 2021,
+            "v": 48112
+          },
+          {
+            "y": 2022,
+            "v": 46169
+          },
+          {
+            "y": 2023,
+            "v": 46001
+          },
+          {
+            "y": 2024,
+            "v": 45742
+          },
+          {
+            "y": 2025,
+            "v": 46094
+          },
+          {
+            "y": 2026,
+            "v": 44416
+          }
+        ]
+      },
+      "bps_transportation_2025": {
+        "label": "Boston Public Schools daily buses and morning runs, April 2025",
+        "src": "SRC-634-03",
+        "unit": "buses",
+        "as_of_label": "April 2025",
+        "buses_on_road": 640,
+        "routes": 640,
+        "morning_runs": 1500,
+        "afternoon_runs": 1500,
+        "runs_are_approximate": true,
+        "students_transported_more_than": 22000,
+        "fleet_approx": 740,
+        "later_memo": "A May 6, 2026 School Committee on-time-performance memo said daily buses had been reduced from 640 in December 2025 to fewer than 625. That memo does not publish a new exact count.",
+        "note": "BPS Driving Change: Transportation Progress 2022-2025 (April 2025). The report prints 640 buses on the road and 640 routes, and approximately 1,500 morning and afternoon runs. BPS does not publish a machine-readable route roster."
+      }
+    }
+  },
+  "entities": {
+    "Boston Latin School": {
+      "st": "Boston L",
+      "name": "Boston Latin School",
+      "v": 2382,
+      "rank": 1
+    },
+    "Boston Latin Academy": {
+      "st": "Boston L",
+      "name": "Boston Latin Academy",
+      "v": 1669,
+      "rank": 2
+    },
+    "O'Bryant School of Math & Science": {
+      "st": "O'Bryant",
+      "name": "O'Bryant School of Math & Science",
+      "v": 1518,
+      "rank": 3
+    },
+    "East Boston High School": {
+      "st": "East Bos",
+      "name": "East Boston High School",
+      "v": 1181,
+      "rank": 4
+    },
+    "Madison Park Technical Vocational High School": {
+      "st": "Madison ",
+      "name": "Madison Park Technical Vocational High School",
+      "v": 1024,
+      "rank": 5
+    },
+    "Curley K-8 School": {
+      "st": "Curley K",
+      "name": "Curley K-8 School",
+      "v": 955,
+      "rank": 6
+    },
+    "TechBoston Academy": {
+      "st": "TechBost",
+      "name": "TechBoston Academy",
+      "v": 869,
+      "rank": 7
+    },
+    "Murphy K-8 School": {
+      "st": "Murphy K",
+      "name": "Murphy K-8 School",
+      "v": 833,
+      "rank": 8
+    },
+    "Eliot K-8 Innovation School": {
+      "st": "Eliot K-",
+      "name": "Eliot K-8 Innovation School",
+      "v": 779,
+      "rank": 9
+    },
+    "New Mission High School": {
+      "st": "New Miss",
+      "name": "New Mission High School",
+      "v": 739,
+      "rank": 10
+    },
+    "Quincy Elementary School": {
+      "st": "Quincy E",
+      "name": "Quincy Elementary School",
+      "v": 719,
+      "rank": 11
+    },
+    "Orchard Gardens K-8 School": {
+      "st": "Orchard ",
+      "name": "Orchard Gardens K-8 School",
+      "v": 716,
+      "rank": 12
+    },
+    "Sarah Roberts Elementary School": {
+      "st": "Sarah Ro",
+      "name": "Sarah Roberts Elementary School",
+      "v": 684,
+      "rank": 13
+    },
+    "English High School": {
+      "st": "English ",
+      "name": "English High School",
+      "v": 653,
+      "rank": 14
+    },
+    "Charlestown High School": {
+      "st": "Charlest",
+      "name": "Charlestown High School",
+      "v": 646,
+      "rank": 15
+    },
+    "UP Academy Holland": {
+      "st": "UP Acade",
+      "name": "UP Academy Holland",
+      "v": 628,
+      "rank": 16
+    },
+    "Brighton High School": {
+      "st": "Brighton",
+      "name": "Brighton High School",
+      "v": 609,
+      "rank": 17
+    },
+    "Henderson K-12 Inclusion School Upper": {
+      "st": "Henderso",
+      "name": "Henderson K-12 Inclusion School Upper",
+      "v": 605,
+      "rank": 18
+    },
+    "McKay K-8 School": {
+      "st": "McKay K-",
+      "name": "McKay K-8 School",
+      "v": 599,
+      "rank": 19
+    },
+    "Mario Umana Academy": {
+      "st": "Mario Um",
+      "name": "Mario Umana Academy",
+      "v": 585,
+      "rank": 20
+    },
+    "Ruth Batson Academy": {
+      "st": "Ruth Bat",
+      "name": "Ruth Batson Academy",
+      "v": 584,
+      "rank": 21
+    },
+    "Lee K-8 School": {
+      "st": "Lee K-8 ",
+      "name": "Lee K-8 School",
+      "v": 582,
+      "rank": 22
+    },
+    "Mattahunt Elementary School": {
+      "st": "Mattahun",
+      "name": "Mattahunt Elementary School",
+      "v": 580,
+      "rank": 23
+    },
+    "Quincy Upper School": {
+      "st": "Quincy U",
+      "name": "Quincy Upper School",
+      "v": 575,
+      "rank": 24
+    },
+    "Blackstone Elementary School": {
+      "st": "Blacksto",
+      "name": "Blackstone Elementary School",
+      "v": 572,
+      "rank": 25
+    },
+    "Dearborn STEM Academy": {
+      "st": "Dearborn",
+      "name": "Dearborn STEM Academy",
+      "v": 565,
+      "rank": 26
+    },
+    "Mildred Avenue K-8 School": {
+      "st": "Mildred ",
+      "name": "Mildred Avenue K-8 School",
+      "v": 557,
+      "rank": 27
+    },
+    "Warren-Prescott K-8 School": {
+      "st": "Warren-P",
+      "name": "Warren-Prescott K-8 School",
+      "v": 544,
+      "rank": 28
+    },
+    "Albert D Holland School of Technology": {
+      "st": "Albert D",
+      "name": "Albert D Holland School of Technology",
+      "v": 526,
+      "rank": 29
+    },
+    "Lyndon K-8 School": {
+      "st": "Lyndon K",
+      "name": "Lyndon K-8 School",
+      "v": 524,
+      "rank": 30
+    },
+    "Boston Arts Academy": {
+      "st": "Boston A",
+      "name": "Boston Arts Academy",
+      "v": 490,
+      "rank": 31
+    },
+    "Margarita Muniz Academy": {
+      "st": "Margarit",
+      "name": "Margarita Muniz Academy",
+      "v": 480,
+      "rank": 32
+    },
+    "Mather Elementary School": {
+      "st": "Mather E",
+      "name": "Mather Elementary School",
+      "v": 479,
+      "rank": 33
+    },
+    "Boston International High School & Newcomers Academy": {
+      "st": "Boston I",
+      "name": "Boston International High School & Newcomers Academy",
+      "v": 477,
+      "rank": 34
+    },
+    "Shaw-Taylor Elementary School": {
+      "st": "Shaw-Tay",
+      "name": "Shaw-Taylor Elementary School",
+      "v": 469,
+      "rank": 35
+    },
+    "Ohrenberger School": {
+      "st": "Ohrenber",
+      "name": "Ohrenberger School",
+      "v": 458,
+      "rank": 36
+    },
+    "Edison Elementary School": {
+      "st": "Edison E",
+      "name": "Edison Elementary School",
+      "v": 455,
+      "rank": 37
+    },
+    "King Elementary School": {
+      "st": "King Ele",
+      "name": "King Elementary School",
+      "v": 454,
+      "rank": 38
+    },
+    "Condon K-8 School": {
+      "st": "Condon K",
+      "name": "Condon K-8 School",
+      "v": 448,
+      "rank": 39
+    },
+    "Snowden International High School": {
+      "st": "Snowden ",
+      "name": "Snowden International High School",
+      "v": 435,
+      "rank": 40
+    },
+    "Young Achievers Elementary School": {
+      "st": "Young Ac",
+      "name": "Young Achievers Elementary School",
+      "v": 422,
+      "rank": 41
+    },
+    "Ellis Elementary School": {
+      "st": "Ellis El",
+      "name": "Ellis Elementary School",
+      "v": 418,
+      "rank": 42
+    },
+    "Otis Elementary School": {
+      "st": "Otis Ele",
+      "name": "Otis Elementary School",
+      "v": 414,
+      "rank": 43
+    },
+    "Kilmer K-8 School": {
+      "st": "Kilmer K",
+      "name": "Kilmer K-8 School",
+      "v": 391,
+      "rank": 44
+    },
+    "Greenwood Sarah K-8 School": {
+      "st": "Greenwoo",
+      "name": "Greenwood Sarah K-8 School",
+      "v": 381,
+      "rank": 45
+    },
+    "Community Academy of Science and Health": {
+      "st": "Communit",
+      "name": "Community Academy of Science and Health",
+      "v": 373,
+      "rank": 46
+    },
+    "Roosevelt K-8 School": {
+      "st": "Roosevel",
+      "name": "Roosevelt K-8 School",
+      "v": 372,
+      "rank": 47
+    },
+    "Kennedy John F Elementary School": {
+      "st": "Kennedy ",
+      "name": "Kennedy John F Elementary School",
+      "v": 366,
+      "rank": 48
+    },
+    "Hennigan Elementary School": {
+      "st": "Hennigan",
+      "name": "Hennigan Elementary School",
+      "v": 361,
+      "rank": 49
+    },
+    "Trotter Elementary School": {
+      "st": "Trotter ",
+      "name": "Trotter Elementary School",
+      "v": 360,
+      "rank": 50
+    },
+    "Fenway High School": {
+      "st": "Fenway H",
+      "name": "Fenway High School",
+      "v": 358,
+      "rank": 51
+    },
+    "Tobin K-8 School": {
+      "st": "Tobin K-",
+      "name": "Tobin K-8 School",
+      "v": 355,
+      "rank": 52
+    },
+    "Haley Pilot School": {
+      "st": "Haley Pi",
+      "name": "Haley Pilot School",
+      "v": 352,
+      "rank": 53
+    },
+    "Winship Elementary School": {
+      "st": "Winship ",
+      "name": "Winship Elementary School",
+      "v": 349,
+      "rank": 54
+    },
+    "Hurley K-8 School": {
+      "st": "Hurley K",
+      "name": "Hurley K-8 School",
+      "v": 337,
+      "rank": 55
+    },
+    "Hernandez Elementary School": {
+      "st": "Hernande",
+      "name": "Hernandez Elementary School",
+      "v": 332,
+      "rank": 56
+    },
+    "Russell Elementary School": {
+      "st": "Russell ",
+      "name": "Russell Elementary School",
+      "v": 331,
+      "rank": 57
+    },
+    "Harvard-Kent Elementary School": {
+      "st": "Harvard-",
+      "name": "Harvard-Kent Elementary School",
+      "v": 315,
+      "rank": 58
+    },
+    "Kenny Elementary School": {
+      "st": "Kenny El",
+      "name": "Kenny Elementary School",
+      "v": 315,
+      "rank": 59
+    },
+    "Mendell Elementary School": {
+      "st": "Mendell ",
+      "name": "Mendell Elementary School",
+      "v": 312,
+      "rank": 60
+    },
+    "Holmes Elementary School": {
+      "st": "Holmes E",
+      "name": "Holmes Elementary School",
+      "v": 301,
+      "rank": 61
+    },
+    "Gardner Pilot Academy": {
+      "st": "Gardner ",
+      "name": "Gardner Pilot Academy",
+      "v": 296,
+      "rank": 62
+    },
+    "Bradley Elementary School": {
+      "st": "Bradley ",
+      "name": "Bradley Elementary School",
+      "v": 295,
+      "rank": 63
+    },
+    "Bates Elementary School": {
+      "st": "Bates El",
+      "name": "Bates Elementary School",
+      "v": 292,
+      "rank": 64
+    },
+    "Kennedy Patrick J Elementary School": {
+      "st": "Kennedy ",
+      "name": "Kennedy Patrick J Elementary School",
+      "v": 285,
+      "rank": 65
+    },
+    "Everett Elementary School": {
+      "st": "Everett ",
+      "name": "Everett Elementary School",
+      "v": 283,
+      "rank": 66
+    },
+    "Boston Collaborative High School": {
+      "st": "Boston C",
+      "name": "Boston Collaborative High School",
+      "v": 282,
+      "rank": 67
+    },
+    "Dever Elementary School": {
+      "st": "Dever El",
+      "name": "Dever Elementary School",
+      "v": 279,
+      "rank": 68
+    },
+    "Beethoven Elementary School": {
+      "st": "Beethove",
+      "name": "Beethoven Elementary School",
+      "v": 275,
+      "rank": 69
+    },
+    "Chittick Elementary School": {
+      "st": "Chittick",
+      "name": "Chittick Elementary School",
+      "v": 275,
+      "rank": 70
+    },
+    "Winthrop Elementary School": {
+      "st": "Winthrop",
+      "name": "Winthrop Elementary School",
+      "v": 256,
+      "rank": 71
+    },
+    "O'Donnell Elementary School": {
+      "st": "O'Donnel",
+      "name": "O'Donnell Elementary School",
+      "v": 248,
+      "rank": 72
+    },
+    "Higginson-Lewis K-8 School": {
+      "st": "Higginso",
+      "name": "Higginson-Lewis K-8 School",
+      "v": 246,
+      "rank": 73
+    },
+    "Another Course To College": {
+      "st": "Another ",
+      "name": "Another Course To College",
+      "v": 244,
+      "rank": 74
+    },
+    "Guild Elementary School": {
+      "st": "Guild El",
+      "name": "Guild Elementary School",
+      "v": 243,
+      "rank": 75
+    },
+    "Perry Elementary School": {
+      "st": "Perry El",
+      "name": "Perry Elementary School",
+      "v": 232,
+      "rank": 76
+    },
+    "Mason Elementary School": {
+      "st": "Mason El",
+      "name": "Mason Elementary School",
+      "v": 230,
+      "rank": 77
+    },
+    "Adams Elementary School": {
+      "st": "Adams El",
+      "name": "Adams Elementary School",
+      "v": 222,
+      "rank": 78
+    },
+    "Tynan Elementary School": {
+      "st": "Tynan El",
+      "name": "Tynan Elementary School",
+      "v": 218,
+      "rank": 79
+    },
+    "Boston Teachers Union Elementary Pilot School": {
+      "st": "Boston T",
+      "name": "Boston Teachers Union Elementary Pilot School",
+      "v": 209,
+      "rank": 80
+    },
+    "Perkins Elementary School": {
+      "st": "Perkins ",
+      "name": "Perkins Elementary School",
+      "v": 201,
+      "rank": 81
+    },
+    "Channing Elementary School": {
+      "st": "Channing",
+      "name": "Channing Elementary School",
+      "v": 200,
+      "rank": 82
+    },
+    "Lee Academy": {
+      "st": "Lee Acad",
+      "name": "Lee Academy",
+      "v": 197,
+      "rank": 83
+    },
+    "Grew Elementary School": {
+      "st": "Grew Ele",
+      "name": "Grew Elementary School",
+      "v": 196,
+      "rank": 84
+    },
+    "Haynes Early Education Center": {
+      "st": "Haynes E",
+      "name": "Haynes Early Education Center",
+      "v": 191,
+      "rank": 85
+    },
+    "Henderson K-12 Inclusion School Lower": {
+      "st": "Henderso",
+      "name": "Henderson K-12 Inclusion School Lower",
+      "v": 185,
+      "rank": 86
+    },
+    "Ellison-Parks Early Education School": {
+      "st": "Ellison-",
+      "name": "Ellison-Parks Early Education School",
+      "v": 183,
+      "rank": 87
+    },
+    "Hale Elementary School": {
+      "st": "Hale Ele",
+      "name": "Hale Elementary School",
+      "v": 167,
+      "rank": 88
+    },
+    "Higginson Inclusion K0-2 School": {
+      "st": "Higginso",
+      "name": "Higginson Inclusion K0-2 School",
+      "v": 161,
+      "rank": 89
+    },
+    "Conley Elementary School": {
+      "st": "Conley E",
+      "name": "Conley Elementary School",
+      "v": 157,
+      "rank": 90
+    },
+    "Mozart Elementary School": {
+      "st": "Mozart E",
+      "name": "Mozart Elementary School",
+      "v": 154,
+      "rank": 91
+    },
+    "Baldwin Early Learning Pilot Academy": {
+      "st": "Baldwin ",
+      "name": "Baldwin Early Learning Pilot Academy",
+      "v": 151,
+      "rank": 92
+    },
+    "Manning Elementary School": {
+      "st": "Manning ",
+      "name": "Manning Elementary School",
+      "v": 150,
+      "rank": 93
+    },
+    "Clap Elementary School": {
+      "st": "Clap Ele",
+      "name": "Clap Elementary School",
+      "v": 144,
+      "rank": 94
+    },
+    "East Boston Early Education Center": {
+      "st": "East Bos",
+      "name": "East Boston Early Education Center",
+      "v": 139,
+      "rank": 95
+    },
+    "Lyon Elementary School": {
+      "st": "Lyon Ele",
+      "name": "Lyon Elementary School",
+      "v": 129,
+      "rank": 96
+    },
+    "Boston Adult Tech Academy": {
+      "st": "Boston A",
+      "name": "Boston Adult Tech Academy",
+      "v": 122,
+      "rank": 97
+    },
+    "Alighieri Dante Montessori School": {
+      "st": "Alighier",
+      "name": "Alighieri Dante Montessori School",
+      "v": 100,
+      "rank": 98
+    },
+    "Excel High School": {
+      "st": "Excel Hi",
+      "name": "Excel High School",
+      "v": 90,
+      "rank": 99
+    },
+    "McKinley Schools": {
+      "st": "McKinley",
+      "name": "McKinley Schools",
+      "v": 80,
+      "rank": 100
+    },
+    "Horace Mann School for the Deaf Hard of Hearing": {
+      "st": "Horace M",
+      "name": "Horace Mann School for the Deaf Hard of Hearing",
+      "v": 78,
+      "rank": 101
+    },
+    "Greater Egleston High School": {
+      "st": "Greater ",
+      "name": "Greater Egleston High School",
+      "v": 53,
+      "rank": 102
+    },
+    "Carter School": {
+      "st": "Carter S",
+      "name": "Carter School",
+      "v": 50,
+      "rank": 103
+    },
+    "Community Academy": {
+      "st": "Communit",
+      "name": "Community Academy",
+      "v": 39,
+      "rank": 104
+    },
+    "Lyon High School": {
+      "st": "Lyon Hig",
+      "name": "Lyon High School",
+      "v": 27,
+      "rank": 105
+    }
+  }
+}

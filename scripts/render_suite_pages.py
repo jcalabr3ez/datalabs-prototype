@@ -184,7 +184,7 @@ def answer_html(answer, kpis_markup="", slug="", vintages=None, answers=None):
 
 
 TOWN_TOOLS = {"DL-25", "DL-26"}
-FINDER_TOOLS = {"DL-10", "DL-25", "DL-26"}
+FINDER_TOOLS = {"DL-10", "DL-25", "DL-26", "DL-34"}
 HIST_TOOLS = {"DL-32"}
 
 
@@ -399,7 +399,8 @@ def later_view_html(later, start_fig, canvas_start):
 
 
 RELATED_PAIRS = {
-    "DL-06": ["DL-07", "DL-09", "DL-08"],
+    "DL-06": ["DL-07", "DL-09", "DL-34"],
+    "DL-34": ["DL-06", "DL-07", "DL-27"],
     "DL-07": ["DL-06", "DL-08", "DL-09"],
     "DL-08": ["DL-07", "DL-06"],
     "DL-09": ["DL-06", "DL-07"],
@@ -515,6 +516,13 @@ JUMP_SHORT = {
     "teachers-fte": "Teachers",
     "k12-staff": "Staff",
     "k12-aides": "Aides",
+    "bps-schools": "Largest schools",
+    "bps-gender": "Gender",
+    "bps-race": "Race",
+    "bps-grades": "Grades",
+    "bps-ppe": "Per-pupil spending",
+    "bps-ppe-trend": "Spending trend",
+    "bps-buses": "Bus routes",
 }
 
 # Opening line: the namesake question. Select-a-state copy is added in JS
@@ -600,6 +608,13 @@ HEADLINE = {
             "national stock. Select a state to add it."
         ),
     },
+    "DL-34": {
+        "title": "Boston Public Schools enrollment over time",
+        "lede": (
+            "Fall enrollment in Boston Public Schools. "
+            "This is the district stock the school ranking adds up toward."
+        ),
+    },
     "DL-25": {
         "title": "Massachusetts population over time",
         "lede": "Statewide resident population, with Boston when the series exists.",
@@ -651,6 +666,7 @@ def chart_spec(app, ledger):
         "DL-30": ("department", 12, None),
         "DL-32": ("legislator", 12, None),
         "DL-33": ("income group", 5, "Less than 139% FPL"),
+        "DL-34": ("school", 12, "Boston Latin School"),
     }
     if tid in named:
         geo, n_chart, highlight = named[tid]
@@ -1260,7 +1276,11 @@ def page_html(app, ledger, apps=None):
     if live:
         jump_links = ['<a href="#answer">The finding</a>']
         if spec.get("hero_finder"):
-            noun = "hospital" if app["id"] == "DL-10" else "city or town"
+            noun = (
+                "hospital" if app["id"] == "DL-10"
+                else "school" if app["id"] == "DL-34"
+                else "city or town"
+            )
             jump_links.append('<a href="#view-proof">Look up a ' + esc(noun) + "</a>")
         if app["id"] in TOWN_TOOLS:
             jump_links.append('<a href="#view-town-map">Town map</a>')
@@ -1404,7 +1424,11 @@ def page_html(app, ledger, apps=None):
     compare = spec.get("compare") or ("map" if spec.get("geo") == "state" else "dots")
     finder_block = ""
     if live and spec.get("hero_finder"):
-        noun = "hospital" if app["id"] == "DL-10" else "city or town"
+        noun = (
+            "hospital" if app["id"] == "DL-10"
+            else "school" if app["id"] == "DL-34"
+            else "city or town"
+        )
         finder_block = (
             '  <section id="view-proof" class="proof-find">\n'
             f"    <h2>Look up a {esc(noun)}</h2>\n"

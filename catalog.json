@@ -502,5 +502,19 @@
   "group": "Healthcare",
   "vint": "2025 MHIS, fielded January to April 2025",
   "ma": "8.6% high out-of-pocket burden"
+ },
+ {
+  "id": "DL-34",
+  "t": "Boston Public Schools",
+  "q": "Enrollment, gender, per-pupil spending, and bus routes for Boston Public Schools.",
+  "g": [
+   "Boston"
+  ],
+  "st": "live",
+  "url": "/boston-schools/",
+  "ai": true,
+  "group": "Education",
+  "vint": "School year 2025-26",
+  "ma": "44,416 enrolled, 105 schools"
  }
 ]

@@ -9,7 +9,9 @@ from __future__ import annotations
 
 import csv
 import io
+import json
 import sys
+import urllib.parse
 import zipfile
 from collections import defaultdict
 
@@ -76,6 +78,34 @@ VERIFY_US_PRISONERS_2023 = 1254224
 VERIFY_US_MEDICAID_FY2024 = 908839083557.1
 VERIFY_US_CO2_2024 = 4780.661  # SEDS TETCE, million metric tons
 VERIFY_MA_CO2_2024 = 58.072
+VERIFY_BPS_ENROLL_2026 = 44416
+VERIFY_BPS_SCHOOLS_2026 = 105
+VERIFY_BPS_FEMALE_2026 = 21165
+VERIFY_BPS_MALE_2026 = 23214
+VERIFY_BPS_NB_2026 = 37
+VERIFY_BPS_PPE_FY2025 = 34833
+VERIFY_BPS_LATIN_2026 = 2382
+VERIFY_BPS_BUSES_APR2025 = 640
+E2C_ENROLL = "https://educationtocareer.data.mass.gov/resource/t8td-gens.json"
+E2C_FINANCE = "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json"
+BPS_DIST = "00350000"
+BPS_GRADE_FIELDS = [
+    ("pk_cnt", "Pre-kindergarten"),
+    ("k_cnt", "Kindergarten"),
+    ("g1_cnt", "Grade 1"),
+    ("g2_cnt", "Grade 2"),
+    ("g3_cnt", "Grade 3"),
+    ("g4_cnt", "Grade 4"),
+    ("g5_cnt", "Grade 5"),
+    ("g6_cnt", "Grade 6"),
+    ("g7_cnt", "Grade 7"),
+    ("g8_cnt", "Grade 8"),
+    ("g9_cnt", "Grade 9"),
+    ("g10_cnt", "Grade 10"),
+    ("g11_cnt", "Grade 11"),
+    ("g12_cnt", "Grade 12"),
+    ("sp_cnt", "Special education beyond grade 12"),
+]
 
 
 def _wb(url, timeout=120):
@@ -1521,6 +1551,326 @@ def build_muni_rankings(app):
     )
 
 
+def _soda(url, params):
+    q = urllib.parse.urlencode(params)
+    return json.loads(fetch(url + "?" + q, timeout=120))
+
+
+def _pct_field(row, key):
+    v = parse_num(row.get(key))
+    if v is None:
+        return None
+    return round(v * 100, 1) if v <= 1.5 else round(v, 1)
+
+
+def build_boston_schools(app):
+    """DL-34: Boston Public Schools enrollment, spending, and published bus counts."""
+    dist_rows = _soda(E2C_ENROLL, {
+        "$where": f"sy='2026' AND org_type='District' AND org_code='{BPS_DIST}'",
+        "$limit": "5",
+    })
+    if not dist_rows:
+        sys.exit("FATAL: E2C t8td-gens has no Boston district row for SY2026")
+    dist = dist_rows[0]
+    total = parse_num(dist.get("total_cnt"))
+    if total is None or abs(total - VERIFY_BPS_ENROLL_2026) > 0:
+        sys.exit(f"FATAL: Boston SY2026 enrollment is {total}")
+    total = int(total)
+    female_pct = _pct_field(dist, "fe_pct")
+    male_pct = _pct_field(dist, "ma_pct")
+    nb_pct = _pct_field(dist, "nb_pct")
+    if (
+        round(100.0 * VERIFY_BPS_FEMALE_2026 / total, 1) != female_pct
+        or round(100.0 * VERIFY_BPS_MALE_2026 / total, 1) != male_pct
+        or round(100.0 * VERIFY_BPS_NB_2026 / total, 1) != nb_pct
+    ):
+        sys.exit(
+            f"FATAL: Boston gender counts do not match E2C percentages "
+            f"({female_pct}/{male_pct}/{nb_pct})"
+        )
+    if VERIFY_BPS_FEMALE_2026 + VERIFY_BPS_MALE_2026 + VERIFY_BPS_NB_2026 != total:
+        sys.exit("FATAL: Boston gender counts do not sum to district enrollment")
+
+    schools = _soda(E2C_ENROLL, {
+        "$where": f"sy='2026' AND org_type='School' AND dist_code='{BPS_DIST}'",
+        "$limit": "500",
+    })
+    values = {}
+    extras = {}
+    for s in schools:
+        name = (s.get("org_name") or "").strip()
+        v = parse_num(s.get("total_cnt"))
+        if not name or v is None:
+            continue
+        values[name] = int(v)
+        extras[name] = {
+            "org_code": s.get("org_code"),
+            "female_pct": _pct_field(s, "fe_pct"),
+            "male_pct": _pct_field(s, "ma_pct"),
+            "nonbinary_pct": _pct_field(s, "nb_pct"),
+        }
+    if len(values) != VERIFY_BPS_SCHOOLS_2026:
+        sys.exit(f"FATAL: Boston school rows are {len(values)}")
+    if sum(values.values()) != total:
+        sys.exit(
+            f"FATAL: Boston school enrollment sums to {sum(values.values())} "
+            f"vs district {total}"
+        )
+    ranked = rank_named(values, higher_is_better=True, st_key=lambda n: n[:8])
+    for rec in ranked:
+        rec.update(extras.get(rec["name"]) or {})
+        rec["v"] = int(rec["v"])
+    hi = ranked[0]
+    if hi["name"] != "Boston Latin School" or hi["v"] != VERIFY_BPS_LATIN_2026:
+        sys.exit(f"FATAL: largest BPS school is {hi['name']} at {hi['v']}")
+    lo = ranked[-1]
+
+    hist = _soda(E2C_ENROLL, {
+        "$where": f"org_type='District' AND org_code='{BPS_DIST}'",
+        "$order": "sy",
+        "$limit": "40",
+    })
+    enroll_trend = []
+    for r in hist:
+        y = parse_num(r.get("sy"))
+        v = parse_num(r.get("total_cnt"))
+        if y is None or v is None:
+            continue
+        enroll_trend.append({"y": int(y), "v": int(v)})
+
+    fin = _soda(E2C_FINANCE, {
+        "$where": f"sy='2025' AND dist_code='{BPS_DIST}'",
+        "$limit": "80",
+    })
+    ppe = {}
+    for r in fin:
+        cat = (r.get("ind_cat") or "").strip()
+        sub = (r.get("ind_subcat") or "").strip()
+        v = parse_num(r.get("ind_value"))
+        if v is None:
+            continue
+        ppe[(cat, sub)] = v
+    total_ppe = ppe.get(("Expenditures Per Pupil", "Total Expenditures"))
+    if total_ppe is None or abs(total_ppe - VERIFY_BPS_PPE_FY2025) > 0.01:
+        sys.exit(f"FATAL: Boston FY2025 total PPE is {total_ppe}")
+    in_dist_ppe = ppe.get(("Expenditures Per Pupil", "Total In-District Expenditures"))
+    ppe_cats = []
+    for (cat, sub), v in ppe.items():
+        if cat != "Expenditures Per Pupil" or sub.startswith("Total"):
+            continue
+        ppe_cats.append({"name": sub, "v": round(v)})
+    ppe_cats.sort(key=lambda r: -r["v"])
+    ppe_hist = _soda(E2C_FINANCE, {
+        "$where": (
+            f"dist_code='{BPS_DIST}' AND ind_cat='Expenditures Per Pupil' "
+            "AND ind_subcat='Total Expenditures'"
+        ),
+        "$order": "sy",
+        "$limit": "30",
+    })
+    ppe_trend = []
+    for r in ppe_hist:
+        y = parse_num(r.get("sy"))
+        v = parse_num(r.get("ind_value"))
+        if y is None or v is None:
+            continue
+        ppe_trend.append({"y": int(y), "v": round(v)})
+
+    race = [
+        {"name": "Hispanic or Latino", "v": _pct_field(dist, "hl_pct")},
+        {"name": "Black or African American", "v": _pct_field(dist, "baa_pct")},
+        {"name": "White", "v": _pct_field(dist, "wh_pct")},
+        {"name": "Asian", "v": _pct_field(dist, "as_pct")},
+        {"name": "Multi-race, non-Hispanic", "v": _pct_field(dist, "mnhl_pct")},
+        {"name": "American Indian or Alaska Native", "v": _pct_field(dist, "aian_pct")},
+        {"name": "Native Hawaiian or Pacific Islander", "v": _pct_field(dist, "nhpi_pct")},
+    ]
+    selected = [
+        {"name": "High needs", "v": _pct_field(dist, "hn_pct"), "count": parse_num(dist.get("hn_cnt"))},
+        {"name": "Low income", "v": _pct_field(dist, "li_pct"), "count": parse_num(dist.get("li_cnt"))},
+        {"name": "First language not English", "v": _pct_field(dist, "flne_pct"), "count": parse_num(dist.get("flne_cnt"))},
+        {"name": "English learners", "v": _pct_field(dist, "el_pct"), "count": parse_num(dist.get("el_cnt"))},
+        {"name": "Students with disabilities", "v": _pct_field(dist, "swd_pct"), "count": parse_num(dist.get("swd_cnt"))},
+    ]
+    grades = []
+    for key, name in BPS_GRADE_FIELDS:
+        v = parse_num(dist.get(key))
+        if v is None:
+            continue
+        grades.append({"name": name, "v": int(v)})
+    grade_sum = sum(g["v"] for g in grades)
+    if grades and abs(grade_sum - total) > 5:
+        sys.exit(f"FATAL: Boston grade counts sum to {grade_sum} vs {total}")
+
+    secondary = {
+        "bps_gender_2026": {
+            "label": "Boston Public Schools enrollment by gender, 2025-26",
+            "src": "SRC-634-01",
+            "unit": "students",
+            "as_of_label": "School year 2025-26",
+            "total": total,
+            "female": VERIFY_BPS_FEMALE_2026,
+            "male": VERIFY_BPS_MALE_2026,
+            "nonbinary": VERIFY_BPS_NB_2026,
+            "female_pct": female_pct,
+            "male_pct": male_pct,
+            "nonbinary_pct": nb_pct,
+            "rows": [
+                {"name": "Male", "v": VERIFY_BPS_MALE_2026, "pct": male_pct},
+                {"name": "Female", "v": VERIFY_BPS_FEMALE_2026, "pct": female_pct},
+                {"name": "Nonbinary", "v": VERIFY_BPS_NB_2026, "pct": nb_pct},
+            ],
+            "note": (
+                "DESE / E2C district percentages for Boston (00350000). "
+                "Counts are the DESE profile Enrollment by Gender table for "
+                "the same year; they sum to the E2C district total and match "
+                "the published percentages to one decimal."
+            ),
+        },
+        "bps_demographics_2026": {
+            "label": "Boston Public Schools enrollment by race and selected populations, 2025-26",
+            "src": "SRC-634-01",
+            "unit": "percent",
+            "as_of_label": "School year 2025-26",
+            "total": total,
+            "race": [r for r in race if r["v"] is not None],
+            "selected": [r for r in selected if r["v"] is not None],
+            "grades": grades,
+        },
+        "bps_finance_fy2025": {
+            "label": "Boston Public Schools total expenditures per pupil, FY 2025",
+            "src": "SRC-634-02",
+            "unit": "dollars per pupil",
+            "as_of_label": "Fiscal year 2025",
+            "total_ppe": int(total_ppe),
+            "in_district_ppe": int(in_dist_ppe) if in_dist_ppe is not None else None,
+            "teacher_salary": ppe.get(("Teacher Salaries", "Average Teacher Salary")),
+            "teacher_fte": ppe.get(("Teacher Salaries", "Teacher FTE")),
+            "categories": ppe_cats,
+            "trend": ppe_trend,
+            "note": (
+                "DESE / E2C district finance. Total Expenditures is all pupils. "
+                "Total In-District Expenditures is the in-district series."
+            ),
+        },
+        "bps_enrollment_trend": {
+            "label": "Boston Public Schools fall enrollment",
+            "src": "SRC-634-01",
+            "unit": "students",
+            "trend": enroll_trend,
+        },
+        "bps_transportation_2025": {
+            "label": "Boston Public Schools daily buses and morning runs, April 2025",
+            "src": "SRC-634-03",
+            "unit": "buses",
+            "as_of_label": "April 2025",
+            "buses_on_road": VERIFY_BPS_BUSES_APR2025,
+            "routes": VERIFY_BPS_BUSES_APR2025,
+            "morning_runs": 1500,
+            "afternoon_runs": 1500,
+            "runs_are_approximate": True,
+            "students_transported_more_than": 22000,
+            "fleet_approx": 740,
+            "later_memo": (
+                "A May 6, 2026 School Committee on-time-performance memo said "
+                "daily buses had been reduced from 640 in December 2025 to "
+                "fewer than 625. That memo does not publish a new exact count."
+            ),
+            "note": (
+                "BPS Driving Change: Transportation Progress 2022-2025 "
+                "(April 2025). The report prints 640 buses on the road and "
+                "640 routes, and approximately 1,500 morning and afternoon "
+                "runs. BPS does not publish a machine-readable route roster."
+            ),
+        },
+    }
+
+    as_of = "2026-06"
+    as_of_label = "School year 2025-26"
+    kpis = [
+        _kpi(
+            "BPS enrollment, 2025-26",
+            commify(total),
+            f"{VERIFY_BPS_SCHOOLS_2026} DESE-listed schools (SRC-634-01).",
+            "The district stock the school ranking adds up toward.",
+            "DESE / E2C enrollment, Boston 00350000 (SRC-634-01)",
+        ),
+        _kpi(
+            "Male / female",
+            f"{commify(VERIFY_BPS_MALE_2026)} / {commify(VERIFY_BPS_FEMALE_2026)}",
+            (
+                f"{male_pct}% male, {female_pct}% female, "
+                f"{commify(VERIFY_BPS_NB_2026)} nonbinary (SRC-634-01)."
+            ),
+            "The published gender split, not a derived share.",
+            "DESE / E2C enrollment and DESE Enrollment by Gender (SRC-634-01)",
+        ),
+        _kpi(
+            "Per-pupil spending, FY 2025",
+            f"${commify(int(total_ppe))}",
+            (
+                f"Total expenditures per pupil. In-district was "
+                f"${commify(int(in_dist_ppe))} (SRC-634-02)."
+                if in_dist_ppe is not None else
+                "Total expenditures per pupil (SRC-634-02)."
+            ),
+            "The finance file next to the enrollment stock.",
+            "DESE / E2C district finance (SRC-634-02)",
+        ),
+    ]
+    lead = (
+        f"Boston Public Schools enrolled <b>{commify(total)}</b> students in "
+        f"<b>{VERIFY_BPS_SCHOOLS_2026}</b> DESE-listed schools in 2025-26 "
+        f"(SRC-634-01). <b>{commify(VERIFY_BPS_MALE_2026)}</b> were male and "
+        f"<b>{commify(VERIFY_BPS_FEMALE_2026)}</b> were female (SRC-634-01). "
+        f"Total expenditures per pupil were <b>${commify(int(total_ppe))}</b> "
+        f"in FY 2025 (SRC-634-02). The April 2025 transportation report "
+        f"printed <b>{VERIFY_BPS_BUSES_APR2025}</b> buses on the road "
+        f"(SRC-634-03)."
+    )
+    return finish_live(
+        app,
+        as_of=as_of,
+        as_of_label=as_of_label,
+        vintage_note=(
+            f"Rebuilt {REVISED} from DESE / E2C t8td-gens for district "
+            f"00350000, school year 2025-26 (sy=2026). District enrollment "
+            f"{VERIFY_BPS_ENROLL_2026:,} matches the DESE profile. "
+            f"{VERIFY_BPS_SCHOOLS_2026} school rows sum to that total. "
+            f"Gender counts {VERIFY_BPS_FEMALE_2026:,} / "
+            f"{VERIFY_BPS_MALE_2026:,} / {VERIFY_BPS_NB_2026} match the "
+            f"DESE Enrollment by Gender table and the E2C percentages to "
+            f"one decimal. FY 2025 total expenditures per pupil "
+            f"${VERIFY_BPS_PPE_FY2025:,} is E2C er3w-dyti. Daily buses "
+            f"{VERIFY_BPS_BUSES_APR2025} are the last exact count printed "
+            f"in BPS Driving Change, April 2025 (SRC-634-03)."
+        ),
+        metric="bps_school_enrollment_2026",
+        metric_label="School enrollment, 2025-26",
+        unit="students",
+        lead=lead,
+        kpis=kpis,
+        ranked=ranked,
+        trend={"Boston": [{"y": str(p["y"]), "v": p["v"]} for p in enroll_trend]},
+        latest={
+            "enrollment": total,
+            "schools": VERIFY_BPS_SCHOOLS_2026,
+            "female": VERIFY_BPS_FEMALE_2026,
+            "male": VERIFY_BPS_MALE_2026,
+            "nonbinary": VERIFY_BPS_NB_2026,
+            "female_pct": female_pct,
+            "male_pct": male_pct,
+            "nonbinary_pct": nb_pct,
+            "ppe": int(total_ppe),
+            "buses_on_road": VERIFY_BPS_BUSES_APR2025,
+            "highest": {"name": hi["name"], "v": hi["v"], "rank": hi["rank"], "n": hi["n"]},
+            "lowest": {"name": lo["name"], "v": lo["v"], "rank": lo["rank"], "n": lo["n"]},
+        },
+        src_note="SRC-634-01",
+        extra={"derived": {"secondary": secondary}},
+    )
+
+
 def build_boston(app):
     text = fetch_text(URL_BOSTON, timeout=180)
     rdr = csv.DictReader(io.StringIO(text))
@@ -1908,6 +2258,7 @@ BUILDERS = {
     "DL-25": build_muni_atlas,
     "DL-26": build_muni_rankings,
     "DL-27": build_boston,
+    "DL-34": build_boston_schools,
     "DL-28": build_ma_finances,
     "DL-29": build_us_finances,
     "DL-31": build_crime,

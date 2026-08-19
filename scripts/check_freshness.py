@@ -110,6 +110,9 @@ RULES = {
     "netlify/functions/dl33-answers.json": (
         "YYYY-MM", 900, "CHIA MHIS is biennial; the 2025 survey published in December 2025"
     ),
+    "netlify/functions/dl34-answers.json": (
+        "YYYY-MM", 400, "DESE / E2C Boston enrollment is annual; FY finance lags one year"
+    ),
 }
 
 

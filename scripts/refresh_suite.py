@@ -843,8 +843,8 @@ def main():
             sys.exit("usage: refresh_suite.py [--only DL-13,DL-14]")
         only = {t.strip() for t in args[1].split(",") if t.strip()}
     apps = load_apps()
-    if len(apps) != 28:
-        sys.exit(f"FATAL: suite/apps.json has {len(apps)} apps, expected 28")
+    if len(apps) != 29:
+        sys.exit(f"FATAL: suite/apps.json has {len(apps)} apps, expected 29")
     for app in apps:
         tool = app["id"]
         if only and tool not in only:

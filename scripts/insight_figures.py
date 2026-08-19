@@ -1562,6 +1562,128 @@ def figs_dl32(ledger):
     return out[:2]
 
 
+def figs_dl34(ledger):
+    sec = _sec(ledger)
+    out = []
+    latest = ledger.get("latest") or {}
+    fig = named_list(
+        ledger.get("rows"), "bps-schools",
+        "Largest Boston Public Schools by enrollment, 2025-26",
+        (
+            f"{(latest.get('highest') or {}).get('name')} was largest at "
+            f"{(latest.get('highest') or {}).get('v'):,} of "
+            f"{latest.get('enrollment'):,} district students."
+        ) if latest.get("highest") else "DESE-listed BPS schools.",
+        "SRC-634-01",
+        "number", "students",
+        "DESE / E2C school rows for district 00350000. The 105 school enrollments sum to the district total.",
+        n=10, highlight="Boston Latin School", span=2,
+    )
+    if fig:
+        out.append(fig)
+    gender = sec.get("bps_gender_2026") or {}
+    grow = [r for r in (gender.get("rows") or []) if r.get("name") != "Nonbinary"]
+    if len(grow) >= 2:
+        labels = [r["name"] for r in grow]
+        values = [r["v"] for r in grow]
+        out.append(_fig(
+            "bps-gender",
+            "Boston Public Schools enrollment by gender, 2025-26",
+            (
+                f"{gender.get('male'):,} male ({gender.get('male_pct')}%) and "
+                f"{gender.get('female'):,} female ({gender.get('female_pct')}%). "
+                f"{gender.get('nonbinary')} students were nonbinary."
+            ),
+            gender.get("src") or "SRC-634-01",
+            "bar", "number", "students",
+            labels, _bars(labels, values),
+            gender.get("note") or "DESE / E2C enrollment and the DESE Enrollment by Gender table.",
+        ))
+    demo = sec.get("bps_demographics_2026") or {}
+    race = [r for r in (demo.get("race") or []) if r.get("v") is not None]
+    if len(race) >= 3:
+        labels = [r["name"] for r in race]
+        values = [r["v"] for r in race]
+        out.append(_fig(
+            "bps-race",
+            "Boston Public Schools enrollment by race, 2025-26",
+            (
+                f"Hispanic or Latino students were {next((r['v'] for r in race if r['name'].startswith('Hispanic')), None)} "
+                f"percent of enrollment."
+            ),
+            demo.get("src") or "SRC-634-01",
+            "bar", "percent", "percent",
+            labels, _bars(labels, values),
+            "DESE / E2C race and ethnicity shares for Boston (00350000).",
+            span=2,
+        ))
+    grades = demo.get("grades") or []
+    if len(grades) >= 5:
+        labels = [r["name"].replace("Special education beyond grade 12", "SP") for r in grades]
+        values = [r["v"] for r in grades]
+        out.append(_fig(
+            "bps-grades",
+            "Boston Public Schools enrollment by grade, 2025-26",
+            "Pre-kindergarten through grade 12, plus special education beyond grade 12.",
+            demo.get("src") or "SRC-634-01",
+            "bar", "number", "students",
+            labels, _bars(labels, values),
+            "DESE / E2C grade counts. They sum to the district total.",
+            span=2,
+        ))
+    fin = sec.get("bps_finance_fy2025") or {}
+    cats = (fin.get("categories") or [])[:8]
+    if len(cats) >= 3:
+        labels = [c["name"] for c in cats]
+        values = [c["v"] for c in cats]
+        out.append(_fig(
+            "bps-ppe",
+            "Boston Public Schools spending per pupil by category, FY 2025",
+            (
+                f"Total expenditures per pupil were ${fin.get('total_ppe'):,}. "
+                f"Teachers were the largest published category."
+            ),
+            fin.get("src") or "SRC-634-02",
+            "bar", "usd", "dollars per pupil",
+            labels, _bars(labels, values),
+            fin.get("note") or "DESE / E2C district finance. Category bars exclude the two total lines.",
+            span=2,
+        ))
+    ppe_tr = fin.get("trend") or []
+    if len(ppe_tr) >= 3:
+        labels = [str(p["y"]) for p in ppe_tr]
+        values = [p["v"] for p in ppe_tr]
+        out.append(_fig(
+            "bps-ppe-trend",
+            "Boston Public Schools total expenditures per pupil",
+            (
+                f"${values[0]:,} in {labels[0]} to ${values[-1]:,} in {labels[-1]}."
+            ),
+            "SRC-634-02",
+            "line", "usd", "dollars per pupil",
+            labels, _line(values, "Total expenditures per pupil"),
+            "DESE / E2C district finance, Total Expenditures series.",
+            span=2,
+        ))
+    bus = sec.get("bps_transportation_2025") or {}
+    if bus.get("buses_on_road") is not None:
+        labels = ["Daily buses", "Morning runs"]
+        values = [bus["buses_on_road"], bus.get("morning_runs")]
+        out.append(_fig(
+            "bps-buses",
+            "Boston Public Schools buses and morning runs, April 2025",
+            (
+                f"The April 2025 report printed {bus.get('buses_on_road')} buses "
+                f"on the road and approximately {bus.get('morning_runs'):,} morning runs."
+            ),
+            bus.get("src") or "SRC-634-03",
+            "bar", "number", "count",
+            labels, _bars(labels, values),
+            bus.get("note") or "BPS Driving Change, April 2025. Morning runs are printed as approximately 1,500.",
+        ))
+    return out
+
+
 DISPATCH = {
     "DL-06": figs_dl06,
     "DL-07": figs_dl07,
@@ -1589,6 +1711,7 @@ DISPATCH = {
     "DL-30": figs_dl30,
     "DL-31": figs_dl31,
     "DL-32": figs_dl32,
+    "DL-34": figs_dl34,
 }
 
 

@@ -10,9 +10,9 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     index.html                     Front door (Ask, All Tools, By Geography, Sources)
     catalog.json                   CANONICAL catalog: topic headings plus the
                                    five flagships and the 28-app suite
-                                   (DL-01 through DL-33). Public
+                                   (DL-01 through DL-34). Public
                                    production site.
-    suite/apps.json                CANONICAL registry of the 28 suite applications
+    suite/apps.json                CANONICAL registry of the 29 suite applications
     mbta/index.html                DL-03 MBTA Performance flagship page
     florida-insurance/index.html   DL-02 Florida Homeowners Insurance flagship page
     tax-atlas/index.html           DL-01 State Wealth Taxes flagship page
@@ -44,7 +44,7 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    Census files; run by the yearly workflow
     scripts/refresh_suite.py       Suite fetch (BFS, LAUS, BPS, PEP, plus later
                                    public-file builders) and page render for
-                                   DL-06 to DL-33; run by the monthly workflow
+                                   DL-06 to DL-34; run by the monthly workflow
     scripts/refresh_dl05.py        Rebuilds DL-05 retiree totals and the
                                    last-name search shards from CTHRU;
                                    run by the monthly workflow

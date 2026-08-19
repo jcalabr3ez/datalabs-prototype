@@ -212,6 +212,12 @@ STARTERS = {
         "researcher": "Does the Massachusetts Health Insurance Survey publish an average dollar out-of-pocket cost?",
         "policymaker": "How does the high out-of-pocket burden change with family income?",
     },
+    "DL-34": {
+        "public": "How many students are in Boston Public Schools?",
+        "journalist": "How many Boston Public Schools students are male and how many are female?",
+        "researcher": "What is Boston Public Schools total expenditure per pupil, and is that in-district or all pupils?",
+        "policymaker": "How many buses does Boston Public Schools run?",
+    },
 }
 
 # Place-lens questions for fifty-state tools. {name} is the jurisdiction.
@@ -256,6 +262,11 @@ COMPANION_JUMPS = {
     "DL-16": (
         ("House prices", "#insight-fhfa-hpi"),
         ("Boston and Miami", "#view-cs-boston"),
+    ),
+    "DL-34": (
+        ("Gender", "#insight-bps-gender"),
+        ("Per-pupil spending", "#insight-bps-ppe"),
+        ("Bus routes", "#insight-bps-buses"),
     ),
     "DL-17": (
         ("Age 65 and over", "#insight-age65"),

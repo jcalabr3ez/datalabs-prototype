@@ -85,6 +85,8 @@ const GOLDEN_HITS = [
   ["What is the population of Boston?", "DL-25"],
   ["Which Massachusetts town grew the most since 2020?", "DL-26"],
   ["How much is Boston city payroll?", "DL-27"],
+  ["How many students are in Boston Public Schools?", "DL-34"],
+  ["How many buses does Boston Public Schools run?", "DL-34"],
   ["How much tax did Massachusetts collect last quarter?", "DL-28"],
   ["Which state collected the most tax last quarter?", "DL-29"],
   ["How much is Commonwealth payroll?", "DL-30"],

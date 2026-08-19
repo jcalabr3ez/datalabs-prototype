@@ -57,6 +57,7 @@ const DL30 = require('./dl30-answers.json');
 const DL31 = require('./dl31-answers.json');
 const DL32 = require('./dl32-answers.json');
 const DL33 = require('./dl33-answers.json');
+const DL34 = require('./dl34-answers.json');
 
 var CORE_HEAVY = {
   trend: 1, rows: 1, district_rows: 1, states: 1, cube: 1,
@@ -161,7 +162,7 @@ function slimModelDerived(derived) {
 function slimTrend(trend) {
   if (!trend || typeof trend !== 'object') return trend;
   if (Array.isArray(trend)) return trend.slice(-36);
-  var keep = { US: 1, MA: 1, FL: 1 };
+  var keep = { US: 1, MA: 1, FL: 1, Boston: 1 };
   var out = {};
   Object.keys(trend).forEach(function (st) {
     if (!keep[st]) return;
@@ -948,5 +949,21 @@ module.exports = [
       'forgo care', 'cost of care', 'family income on health'
     ],
     extra: 'The namesake cell is the CHIA high out-of-pocket-to-income ratio in latest.v: above 5 percent of income below 200 percent FPL, or above 10 percent at or above 200 percent FPL. Income-group rows are that ratio. Race cuts sit in derived.secondary.high_oop_race. Affordability, unmet need, medical bills, medical debt, the share-of-income distribution, coverage, and high-deductible plans sit under derived.secondary. MHIS does not publish an average dollar out-of-pocket cost: say so and answer with the ratio and the F.1 distribution, never a guessed dollar figure. Hospital relative prices sit on DL-10. 340B sits on DL-11. Medicaid program spend sits on DL-12. Decline plan or provider advice.'
+  }),
+  suiteTool(DL34, {
+    id: 'DL-34',
+    label: 'Boston Public Schools enrollment, gender, per-pupil spending, and published bus counts',
+    src: 'SRC-634-01',
+    extraViews: ['bps-gender', 'bps-ppe', 'bps-buses'],
+    uppercase: false,
+    hl: 'the exact school name as written in entities if the question focuses on one school, else null',
+    triggers: [
+      'boston public schools', 'bps enrollment', 'bps students',
+      'boston schools', 'how many students are in boston public',
+      'boston latin school', 'bps per pupil', 'boston per pupil',
+      'bps spending', 'boston school bus', 'bps bus', 'bps buses',
+      'bus routes', 'male and female', 'bps gender'
+    ],
+    extra: 'District enrollment is latest.enrollment. School ranks sit in rows. Gender sits in derived.secondary.bps_gender_2026. Per-pupil spend sits in derived.secondary.bps_finance_fy2025 (total_ppe is all pupils; in_district_ppe is the in-district series). Daily buses and morning runs sit in derived.secondary.bps_transportation_2025 from the April 2025 report; later memos that say fewer than 625 buses do not publish a new exact count. Statewide MA enrollment and MCAS sit on DL-06. Boston city payroll sits on DL-27. Decline waitlists, lottery outcomes, and charter districts that are not 00350000.'
   })
 ];

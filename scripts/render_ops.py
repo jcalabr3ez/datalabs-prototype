@@ -62,6 +62,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 19, 2026",
+        "title": "Boston Public Schools is a live application",
+        "body": (
+            "A new Education tool compiles Boston district enrollment "
+            "by school, the published male and female counts, DESE "
+            "FY 2025 expenditures per pupil, and the last exact "
+            "daily-bus count from the April 2025 transportation "
+            "report. Statewide enrollment stays on Massachusetts "
+            "Schools. No invented route roster."
+        ),
+    },
+    {
+        "date": "August 19, 2026",
         "title": "Landing drops the internal-beta briefing",
         "body": (
             "The front door no longer reprints the one-month "

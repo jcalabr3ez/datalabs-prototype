@@ -1,8 +1,8 @@
 {
- "as_of": "June 2026",
+ "as_of": "July 2026",
  "source_id_map": {
   "SRC-FL-01": "FL OIR county premium tables, published July 1, 2026 (county averages as of March 2026; prior column September 2025)",
-  "SRC-FL-02": "Citizens Property Insurance, Policies in Force reports and statutory filings, through June 2026",
+  "SRC-FL-02": "Citizens Property Insurance, Policies in Force reports and statutory filings, through July 2026",
   "SRC-FL-03": "NAIC MCAS via FL OIR Insurance Summary Update, July 2026 (2025 preliminary)",
   "SRC-FL-04": "Citizens audited financial statements, risk transfer program notes, 2017-2025",
   "SRC-FL-05": "OIR Property Claims Lifecycle Report (PCLR) via Property Insurance Stability Reports, closed-claim days 2023-2025",
@@ -309,6 +309,10 @@
   {
    "m": "2026-06",
    "v": 278246
+  },
+  {
+   "m": "2026-07",
+   "v": 278196
   }
  ],
  "citizens_quarterly": [
@@ -411,15 +415,15 @@
  ],
  "citizens_key_facts": {
   "latest": {
-   "month": "2026-06",
-   "policies": 278246
+   "month": "2026-07",
+   "policies": 278196
   },
   "peak": {
    "month": "2023-09",
    "policies": 1407805
   },
   "decline_from_peak_pct": -80.2,
-  "yoy_change_pct": -64.3,
+  "yoy_change_pct": -64.4,
   "series_start": {
    "month": "2020-04",
    "policies": 453911
@@ -1060,7 +1064,7 @@
    "implied_inflow_per_100_takeouts": -7.3
   }
  ],
- "takeout_note": "Implied policies flowing INTO Citizens per 100 taken out, derived as an identity from the takeout table (SRC-FL-02). Negative means net outflow beyond takeouts. Gross takeout counts overstate progress when inflow is high.",
+  "takeout_note": "Implied policies flowing INTO Citizens per 100 taken out, derived as an identity from the takeout table (SRC-FL-02). Negative means net outflow beyond takeouts. Gross takeout counts overstate progress when inflow is high. 2023-2025 takeout totals close against the Citizens 2014-2026 Exposure Summary (all combined policy types: 275,324 / 477,821 / 585,432) and the 2024 OIR Stability Report figure. The 2026 first-half takeout count of 109,161 is the official June 2026 figure in the June 23, 2026 President's Report. The same Exposure Summary lists 109,171 as of July 21, 2026; that later year-to-date total is not used in the first-half identity.",
  "risk_transfer": [
   {
    "year": "2017",
@@ -1121,23 +1125,25 @@
  "market_facts": {
   "combined_ratio_2025_pct": 83,
   "combined_ratio_note": "Pooled weighted combined ratio of Florida domestic insurers; below 100 is an underwriting profit; 2025 is the lowest in more than a decade; the industry moved from deep loss in 2020 to profit in 2023 (FL OIR).",
-  "no_statewide_average_note": "Florida publishes no single official statewide average premium; the state reports county averages, ranging from $2,105 (Sumter) to $7,863 (Monroe) including wind, March 2026 (SRC-FL-01).",
+  "no_statewide_average_note": "Florida Stability Reports publish county averages, not one statewide premium. Those county averages range from $2,105 (Sumter) to $7,863 (Monroe) including wind, March 2026 (SRC-FL-01). This tool's statewide average is Pioneer-computed from OIR's owner-occupied homeowners excluding wind-only quarterly workbooks ($3,675 in 2026 Q2).",
   "flood_note": "A standard homeowners policy does not cover flood damage; flood coverage is separate (NFIP or private flood)."
  },
  "sourced_facts": {
   "note": "Official figures cited on the page that are not recomputed from a time series already in this ledger. Each carries its own vintage. Do not invent replacements; update only when the cited filing is restated.",
   "new_residential_writers": {
-   "count": 20,
+   "count": 21,
    "new_capital_usd": 850000000,
-   "as_of": "2026-05-20",
-   "source": "OIR press releases, January 13 and May 20, 2026"
+   "capital_as_of": "2026-05-20",
+   "as_of": "2026-07-01",
+   "source": "OIR Stability Report, July 1, 2026 (21 residential writers); OIR press release, May 20, 2026 (more than $850 million as of the twentieth entrant)"
   },
   "citizens_2026_rate_change": {
    "multiperil_pct": -8.8,
    "wind_only_pct": -5.5,
    "first_broad_decrease_since": 2015,
    "effective": "2026-07-01",
-   "source": "Citizens, March 4, 2026 announcement and December 10, 2025 recommendation"
+   "source": "Citizens, March 4, 2026 announcement and December 10, 2025 recommendation",
+   "wind_only_note": "March 4, 2026 announcement and Revised Rate Kit: 5.5 percent. April 30, 2026 agent bulletin restates 5.1 percent. Ledger keeps the March 4 approved-rate announcement."
   },
   "citizens_homeowners_market_share_pct": 1.93,
   "citizens_homeowners_market_share_as_of": "2026-03-31",
@@ -1145,18 +1151,29 @@
   "claims_paying_ability_usd": 9600000000,
   "claims_paying_ability_season": 2026,
   "assessment_threshold": "no surcharge until a storm worse than 1-in-360 years",
-  "claims_paying_ability_source": "Citizens Annual PML Report, February 2026; press release, June 23, 2026",
+  "claims_paying_ability_source": "Citizens press release, June 23, 2026 ($9.6 billion claims-paying ability; no assessment below a 1-in-360 event after the program was placed). The February 2026 statutory PML report had projected no assessment through 1-275 on the planned program.",
   "hurricane_2024_citizens": {
+   "claims_received": 76625,
+   "closed_without_payment": 34645,
+   "closed_without_payment_pct": 45,
+   "closed": 68097,
+   "open": 8528,
+   "open_pct": 11,
+   "closed_with_payment": 33453,
    "debby_paid_pct": 24,
    "helene_paid_pct": 28,
-   "closed_without_payment_pct": 44,
-   "claims_more_than": 76000,
-   "source": "Testimony of Citizens President/CEO Tim Cerio to the Florida Senate Banking and Insurance Committee, January 14, 2025"
+   "paid_usd_about": 823000000,
+   "table_as_of": "2025-01-07",
+   "source": "Citizens 2024 hurricane claims table as of January 7, 2025, reprinted in Fla. H. Insurance & Banking Subcommittee packet, February 4, 2025 (76,625 received, 68,097 closed, 34,645 closed without payment, 33,453 closed with payment; no Open row). Open 8,528 (11 percent) is received minus closed. About $823 million from Cerio testimony, January 14, 2025, as reported by the Florida Phoenix (testimony rounded the same book to 44 percent closed without payment and 11 percent open)."
   },
   "tri_county_wind_only_condo_writers": {
    "before": 1,
    "after": 5,
-   "counties": ["Broward", "Miami-Dade", "Palm Beach"],
+   "counties": [
+    "Broward",
+    "Miami-Dade",
+    "Palm Beach"
+   ],
    "source": "OIR, May 20, 2026"
   },
   "citizens_takeouts_2024": 477821,
@@ -1168,7 +1185,22 @@
   "trade_secret_filers_as_of": "2026-08-04",
   "visible_county_policies_end_2022_approx": 1290000,
   "visible_county_policies_end_2025_approx": 405000,
-  "visible_county_policies_note": "Approximate; OIR Market Intelligence Totals Report, periods ending December 31, 2022 and December 31, 2025. County and zip-code detail is withheld for trade-secret filers."
+  "visible_county_policies_note": "Approximate; OIR Market Intelligence Totals Report, periods ending December 31, 2022 and December 31, 2025. County and zip-code detail is withheld for trade-secret filers.",
+  "citizens_july_2026_book": {
+   "as_of": "2026-07-31",
+   "policies": 278196,
+   "premium_usd": 732684962,
+   "exposure_usd": 78907617476,
+   "source": "https://www.citizensfla.com/-/20260731-policies-in-force"
+  },
+  "citizens_pml_ye2025_statutory": {
+   "one_in_50_m": 3913,
+   "one_in_100_m": 5908,
+   "one_in_250_m": 9284,
+   "assessable_shortfall_m": 0,
+   "no_assessment_through": "1-275 years (planned 2026 program as of the February filing)",
+   "source": "Citizens Annual Report of Aggregate Net Probable Maximum Losses, February 2026, Table 1 (YE 2025 book, 10% LAE, mid-season factors)"
+  }
  },
  "claims_cycle": {
   "note": "OIR Property Claims Lifecycle Report via Stability Reports (SRC-FL-05). Closed-claim days, all perils. Section 627.70131(7)(a), Florida Statutes, requires insurers to pay or deny a claim within 60 days unless factors beyond the insurer's control apply; OIR states that close times over 60 days are not automatically violations. A 2023 median was not published.",
@@ -1235,11 +1267,31 @@
    }
   ],
   "appropriations_usd": [
-   {"session": "2022D", "amount": 150000000, "note": "SB 2-D relaunch"},
-   {"session": "2023", "amount": 100000000, "note": "grants; plus $2,065,000 administration"},
-   {"session": "2023C", "amount": 176170000, "note": "grants; plus $5,285,100 administration"},
-   {"session": "2024", "amount": 200000000, "note": "grants, inspections, and administration"},
-   {"session": "2025", "amount": 280000000, "note": "2025-26 fiscal year; MSFH program flyer, June 17, 2025"}
+   {
+    "session": "2022D",
+    "amount": 150000000,
+    "note": "SB 2-D relaunch"
+   },
+   {
+    "session": "2023",
+    "amount": 100000000,
+    "note": "grants; plus $2,065,000 administration"
+   },
+   {
+    "session": "2023C",
+    "amount": 176170000,
+    "note": "grants; plus $5,285,100 administration"
+   },
+   {
+    "session": "2024",
+    "amount": 200000000,
+    "note": "grants, inspections, and administration"
+   },
+   {
+    "session": "2025",
+    "amount": 280000000,
+    "note": "2025-26 fiscal year; MSFH program flyer, June 17, 2025"
+   }
   ]
  },
  "reform_context": "The 2022 and 2023 reforms targeted litigation costs, residual-market size, reinsurance capacity, claims conduct, and affordability. The page's report card view grades eleven stated legislative objectives against the record; grades are Pioneer Institute's judgment.",
@@ -1248,37 +1300,190 @@
   "version": "1.0"
  },
  "statewide_premiums": {
-  "note": "OIR quarterly Statewide Summary by Company and Policy Type, owner-occupied homeowners excluding wind-only. avg_premium is the statewide average annual premium; cost_per_100k is Pioneer-calculated price of one year of coverage per $100,000 of insured value. A trailing null means that quarter's OIR file is not in yet. Citizens cost-per-100k is derived from citizens_quarterly, not stored here.",
-  "labels": ["2022 Q2","2022 Q3","2022 Q4","2023 Q1","2023 Q2","2023 Q3","2023 Q4","2024 Q1","2024 Q2","2024 Q3","2024 Q4","2025 Q1","2025 Q2","2025 Q3","2025 Q4","2026 Q1","2026 Q2"],
-  "avg_premium": [2798,2895,3014,3134,3283,3379,3466,3511,3558,3669,3635,3702,3733,3748,3741,3712,null],
-  "cost_per_100k": [459,465,469,479,484,489,496,502,510,515,511,508,506,500,493,485,null]
+  "note": "OIR quarterly Statewide Summary by Company and Policy Type, owner-occupied homeowners excluding wind-only. avg_premium is the statewide average annual premium; cost_per_100k is Pioneer-calculated price of one year of coverage per $100,000 of insured value. A trailing null means that quarter's OIR file is not in yet. Citizens cost-per-100k is derived from citizens_quarterly, not stored here. 2026 Q2 recomputed August 18, 2026 from the official workbook pulled August 11, 2026.",
+  "labels": [
+   "2022 Q2",
+   "2022 Q3",
+   "2022 Q4",
+   "2023 Q1",
+   "2023 Q2",
+   "2023 Q3",
+   "2023 Q4",
+   "2024 Q1",
+   "2024 Q2",
+   "2024 Q3",
+   "2024 Q4",
+   "2025 Q1",
+   "2025 Q2",
+   "2025 Q3",
+   "2025 Q4",
+   "2026 Q1",
+   "2026 Q2"
+  ],
+  "avg_premium": [
+   2798,
+   2895,
+   3014,
+   3134,
+   3283,
+   3379,
+   3466,
+   3511,
+   3558,
+   3669,
+   3635,
+   3702,
+   3733,
+   3748,
+   3741,
+   3712,
+   3675
+  ],
+  "cost_per_100k": [
+   459,
+   465,
+   469,
+   479,
+   484,
+   489,
+   496,
+   502,
+   510,
+   515,
+   511,
+   508,
+   506,
+   500,
+   493,
+   485,
+   475
+  ]
  },
  "combined_ratio": [
-  {"year": "2020", "pct": 116},
-  {"year": "2021", "pct": 110},
-  {"year": "2022", "pct": 109},
-  {"year": "2023", "pct": 99},
-  {"year": "2024", "pct": 94},
-  {"year": "2025", "pct": 83}
+  {
+   "year": "2020",
+   "pct": 116
+  },
+  {
+   "year": "2021",
+   "pct": 110
+  },
+  {
+   "year": "2022",
+   "pct": 109
+  },
+  {
+   "year": "2023",
+   "pct": 99
+  },
+  {
+   "year": "2024",
+   "pct": 94
+  },
+  {
+   "year": "2025",
+   "pct": 83
+  }
  ],
  "citizens_statutory_results": [
-  {"year": "2017", "underwriting_m": -1165.0, "net_income_m": -1028.4},
-  {"year": "2018", "underwriting_m": -280.7, "net_income_m": -151.4},
-  {"year": "2019", "underwriting_m": -97.1, "net_income_m": 86.3},
-  {"year": "2020", "underwriting_m": -98.3, "net_income_m": 129.0},
-  {"year": "2021", "underwriting_m": -166.5, "net_income_m": 80.1},
-  {"year": "2022", "underwriting_m": -2446.4, "net_income_m": -2242.3},
-  {"year": "2023", "underwriting_m": 466.5, "net_income_m": 746.5},
-  {"year": "2024", "underwriting_m": -1215.7, "net_income_m": -844.8},
-  {"year": "2025", "underwriting_m": 639.2, "net_income_m": 979.2}
+  {
+   "year": "2017",
+   "underwriting_m": -1165.0,
+   "net_income_m": -1028.4
+  },
+  {
+   "year": "2018",
+   "underwriting_m": -280.7,
+   "net_income_m": -151.4
+  },
+  {
+   "year": "2019",
+   "underwriting_m": -97.1,
+   "net_income_m": 86.3
+  },
+  {
+   "year": "2020",
+   "underwriting_m": -98.3,
+   "net_income_m": 129.0
+  },
+  {
+   "year": "2021",
+   "underwriting_m": -166.5,
+   "net_income_m": 80.1
+  },
+  {
+   "year": "2022",
+   "underwriting_m": -2446.4,
+   "net_income_m": -2242.3
+  },
+  {
+   "year": "2023",
+   "underwriting_m": 466.5,
+   "net_income_m": 746.5
+  },
+  {
+   "year": "2024",
+   "underwriting_m": -1215.7,
+   "net_income_m": -844.8
+  },
+  {
+   "year": "2025",
+   "underwriting_m": 639.2,
+   "net_income_m": 979.2
+  }
  ],
  "pml_vintages": [
-  {"label": "Dec 2018", "source": "Citizens Feb 2019 statutory report, 12/31/2018 book", "abs_bn": 5.333, "tiv_per_100": null, "per_policy_k": null},
-  {"label": "Sep 2023", "source": "Sum of three accounts, FL Auditor General Rpt 2025-011; peak book", "abs_bn": 18.04, "tiv_per_100": 2.92, "per_policy_k": 12.8},
-  {"label": "Dec 2024", "source": "Citizens board data via Artemis, 2025 season basis", "abs_bn": 12.859, "tiv_per_100": 3.33, "per_policy_k": 13.7},
-  {"label": "Jun 2025", "source": "Citizens board data via Artemis", "abs_bn": 11.143, "tiv_per_100": 3.78, "per_policy_k": 14.3},
-  {"label": "Dec 2025", "source": "Citizens 2026 Operating Budget, modeled 2026 book", "abs_bn": 6.493, "tiv_per_100": 5.02, "per_policy_k": 16.9},
-  {"label": "Jun 2026", "source": "Pioneer estimate range, scaled to the actual June 2026 book", "abs_bn": [4.003, 5.066], "tiv_per_100": [5.03, 6.36], "per_policy_k": [14.4, 18.2]}
+  {
+   "label": "Dec 2018",
+   "source": "Citizens Feb 2019 statutory report, 12/31/2018 book",
+   "abs_bn": 5.333,
+   "tiv_per_100": null,
+   "per_policy_k": null
+  },
+  {
+   "label": "Sep 2023",
+   "source": "Sum of three accounts, FL Auditor General Rpt 2025-011; peak book",
+   "abs_bn": 18.04,
+   "tiv_per_100": 2.92,
+   "per_policy_k": 12.8
+  },
+  {
+   "label": "Dec 2024",
+   "source": "Citizens Feb 2025 statutory PML report, 12/31/2024 book",
+   "abs_bn": 13.338,
+   "tiv_per_100": 3.46,
+   "per_policy_k": 14.2
+  },
+  {
+   "label": "Jun 2025",
+   "source": "Citizens board data via Artemis",
+   "abs_bn": 11.143,
+   "tiv_per_100": 3.78,
+   "per_policy_k": 14.3
+  },
+  {
+   "label": "Dec 2025",
+   "source": "Citizens Feb 2026 statutory PML report, 12/31/2025 book, 10% LAE, mid-season; normalized by YE 2025 month-end TIV and PIF",
+   "abs_bn": 5.908,
+   "tiv_per_100": 4.6,
+   "per_policy_k": 14.9
+  },
+  {
+   "label": "Jun 2026",
+   "source": "Pioneer estimate range, scaled to the actual June 2026 book",
+   "abs_bn": [
+    4.003,
+    5.066
+   ],
+   "tiv_per_100": [
+    5.03,
+    6.36
+   ],
+   "per_policy_k": [
+    14.4,
+    18.2
+   ]
+  }
  ],
  "concentration": {
   "share_of_residential_tiv_pct": 2.5,

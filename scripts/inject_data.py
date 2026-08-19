@@ -179,6 +179,11 @@ def inject_florida(dl02, text, path):
         }) + ";",
         "const FLCONC=" + jdump(dl02["concentration"]) + ";",
         "const FL=" + jdump(fl) + ";",
+        "const FLBOOK=" + jdump({
+            "policies": (dl02.get("sourced_facts") or {}).get("citizens_july_2026_book", {}).get("policies"),
+            "premium_usd": (dl02.get("sourced_facts") or {}).get("citizens_july_2026_book", {}).get("premium_usd"),
+            "exposure_usd": (dl02.get("sourced_facts") or {}).get("citizens_july_2026_book", {}).get("exposure_usd"),
+        }) + ";",
     ])
     text = replace_block(text, "florida-charts", charts, path)
     dateline = paper_dateline(f"Data through {fl['data_through']}", fl["revised"])
@@ -211,8 +216,8 @@ def inject_florida(dl02, text, path):
     n_up_word = ONES.get(n_up, str(n_up))
     change = (
         f"The largest declines came in {decl}, consistent with the largest "
-        f"approved Citizens cuts landing in South Florida; {n_up_word} counties "
-        f"rose modestly, led by {inc}."
+        f"approved Citizens cuts landing on the Treasure Coast and in South "
+        f"Florida; {n_up_word} counties rose modestly, led by {inc}."
     )
     text = replace_block(text, "florida-county-change", change, path, style="html")
     revised_long = fl["revised"]

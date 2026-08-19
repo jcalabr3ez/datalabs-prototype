@@ -62,13 +62,13 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 19, 2026",
-        "title": "Landing About drops the beta briefing",
+        "title": "Landing drops the internal-beta briefing",
         "body": (
-            "The front-door About section no longer reprints the "
-            "one-month internal-beta note, the figure-and-cite "
-            "instructions, or the corrections paragraph. Research and "
-            "educational use stays. The header dek and the Report an "
-            "error footer link are unchanged."
+            "The front door no longer reprints the one-month "
+            "internal-beta note in the masthead or About, the "
+            "figure-and-cite instructions, or the corrections "
+            "paragraph. Research and educational use stays. The "
+            "Report an error footer link is unchanged."
         ),
     },
     {

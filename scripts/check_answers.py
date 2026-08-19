@@ -310,6 +310,15 @@ if "inform what we build next" in front or "Open the application" in front or "a
     fail("landing ask chrome still sounds like a product demo")
 else:
     ok("landing ask chrome is plain")
+if (
+    "<h3>One-month internal beta</h3>" in front
+    or "How a figure gets on a page" in front
+    or "<h3>How to cite</h3>" in front
+    or "<h3>Corrections</h3>" in front
+):
+    fail("landing About still prints the beta briefing")
+else:
+    ok("landing About dropped the beta briefing")
 atlas_events = json.loads((ROOT / "netlify/functions/dl01-answers.json").read_text(encoding="utf-8"))
 ev_text = " ".join(
     e.get("detail") or ""

@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 19, 2026",
+        "title": "Landing About drops the beta briefing",
+        "body": (
+            "The front-door About section no longer reprints the "
+            "one-month internal-beta note, the figure-and-cite "
+            "instructions, or the corrections paragraph. Research and "
+            "educational use stays. The header dek and the Report an "
+            "error footer link are unchanged."
+        ),
+    },
+    {
+        "date": "August 19, 2026",
         "title": "Housing Permits shows the price series it already holds",
         "body": (
             "The FHFA 2025 annual house-price change and the Case-Shiller "

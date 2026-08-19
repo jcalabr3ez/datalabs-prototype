@@ -952,7 +952,7 @@ module.exports = [
   }),
   suiteTool(DL34, {
     id: 'DL-34',
-    label: 'Boston Public Schools enrollment, gender, per-pupil spending, and published bus counts',
+    label: 'Boston Public Schools enrollment, gender, per-pupil spending, MCAS, and published bus counts',
     src: 'SRC-634-01',
     extraViews: ['bps-gender', 'bps-ppe', 'bps-buses'],
     uppercase: false,
@@ -962,8 +962,9 @@ module.exports = [
       'boston schools', 'how many students are in boston public',
       'boston latin school', 'bps per pupil', 'boston per pupil',
       'bps spending', 'boston school bus', 'bps bus', 'bps buses',
-      'bus routes', 'male and female', 'bps gender'
+      'bus routes', 'male and female', 'bps gender',
+      'boston mcas', 'bps mcas', 'boston ela', 'boston math scores'
     ],
-    extra: 'District enrollment is latest.enrollment. School ranks sit in rows. Gender sits in derived.secondary.bps_gender_2026. Per-pupil spend sits in derived.secondary.bps_finance_fy2025 (total_ppe is all pupils; in_district_ppe is the in-district series). The enrollment series is derived.secondary.bps_enrollment_trend.trend; the total-expenditures-per-pupil series is derived.secondary.bps_finance_fy2025.trend. Those two series are the combined trend: answer a question about enrollment falling and spending per pupil rising from those published points, and do not invent a missing year. Daily buses and morning runs sit in derived.secondary.bps_transportation_2025 from the April 2025 report; later memos that say fewer than 625 buses do not publish a new exact count. Statewide MA enrollment and MCAS sit on DL-06. Boston city payroll sits on DL-27. Decline waitlists, lottery outcomes, and charter districts that are not 00350000.'
+    extra: 'District enrollment is latest.enrollment. School ranks sit in rows. Gender sits in derived.secondary.bps_gender_2026. Per-pupil spend sits in derived.secondary.bps_finance_fy2025 (total_ppe is all pupils; in_district_ppe is the in-district series). The enrollment series is derived.secondary.bps_enrollment_trend.trend; the total-expenditures-per-pupil series is derived.secondary.bps_finance_fy2025.trend. Boston district Next Generation MCAS grades 3-8 meeting-or-exceeding sits in derived.secondary.bps_mcas_38 (ela and math arrays; ela_2025 and math_2025 are the latest shares). There is no 2020 MCAS point: the test was not administered. Do not invent a 2020 value or an ELA-math average. Those three series are the combined trend: answer a question about enrollment, spending per pupil, and MCAS from those published points, and do not invent a missing year. Daily buses and morning runs sit in derived.secondary.bps_transportation_2025 from the April 2025 report; later memos that say fewer than 625 buses do not publish a new exact count. Statewide MA enrollment and statewide MCAS sit on DL-06. Boston city payroll sits on DL-27. Decline waitlists, lottery outcomes, and charter districts that are not 00350000.'
   })
 ];

@@ -608,10 +608,10 @@ HEADLINE = {
         ),
     },
     "DL-34": {
-        "title": "Enrollment and spending per pupil",
+        "title": "Enrollment, spending, and MCAS",
         "lede": (
-            "Fall enrollment in Boston Public Schools next to total "
-            "expenditures per pupil."
+            "Fall enrollment, total expenditures per pupil, and Boston "
+            "Next Generation MCAS grades 3-8."
         ),
     },
     "DL-25": {
@@ -655,22 +655,39 @@ def _sy_label(year):
 
 
 def bps_enroll_ppe_lede(ledger):
-    """One sentence each for the published enrollment drop and PPE rise."""
+    """Published enrollment, PPE, and Boston MCAS endpoints on one lede."""
     sec = ((ledger.get("derived") or {}).get("secondary") or {})
     enroll = (sec.get("bps_enrollment_trend") or {}).get("trend") or []
     ppe = (sec.get("bps_finance_fy2025") or {}).get("trend") or []
+    mcas = sec.get("bps_mcas_38") or {}
+    ela = mcas.get("ela") or []
     if len(enroll) < 2 or len(ppe) < 2:
         return ""
     e0, e1 = enroll[0], enroll[-1]
     p0, p1 = ppe[0], ppe[-1]
     if e0.get("v") is None or e1.get("v") is None or p0.get("v") is None or p1.get("v") is None:
         return ""
-    return (
+    bits = [
         f"Fall enrollment fell from {commify(e0['v'])} in {_sy_label(e0['y'])} "
-        f"to {commify(e1['v'])} in {_sy_label(e1['y'])} (SRC-634-01). "
+        f"to {commify(e1['v'])} in {_sy_label(e1['y'])} (SRC-634-01).",
         f"Total expenditures per pupil rose from {usd_prose(p0['v'])} in FY {int(p0['y'])} "
-        f"to {usd_prose(p1['v'])} in FY {int(p1['y'])} (SRC-634-02)."
-    )
+        f"to {usd_prose(p1['v'])} in FY {int(p1['y'])} (SRC-634-02).",
+    ]
+    if len(ela) >= 2 and ela[0].get("v") is not None and ela[-1].get("v") is not None:
+        math = mcas.get("math") or []
+        math_bit = ""
+        if len(math) >= 2 and math[0].get("v") is not None and math[-1].get("v") is not None:
+            math_bit = (
+                f" Math was {math[0]['v']:.0f}% in {int(math[0]['y'])} and "
+                f"{math[-1]['v']:.0f}% in {int(math[-1]['y'])}."
+            )
+        bits.append(
+            f"On the Next Generation MCAS, {ela[0]['v']:.0f}% of Boston grades 3-8 "
+            f"students met or exceeded in ELA in {int(ela[0]['y'])} and "
+            f"{ela[-1]['v']:.0f}% in {int(ela[-1]['y'])}.{math_bit} "
+            f"The 2020 test was not administered (SRC-634-04)."
+        )
+    return " ".join(bits)
 
 
 def chart_spec(app, ledger):
@@ -791,7 +808,10 @@ def chart_spec(app, ledger):
             scissors = bps_enroll_ppe_lede(ledger)
             if scissors:
                 trend_lede = scissors
-            trend_unit = "students (left) and dollars per pupil (right)"
+            trend_unit = (
+                "students (left), dollars per pupil (right), and MCAS "
+                "meeting or exceeding (far right, percent)"
+            )
     elif geo == "state":
         trend_title = (label or "The figure") + " over time"
         trend_lede = (
@@ -942,7 +962,7 @@ def chart_spec(app, ledger):
     if tid == "DL-11":
         compare_title = "Program growth"
         table_noun = "Every state"
-    return {
+    spec = {
         "geo": geo,
         "format": fmt,
         "highlight": highlight,
@@ -966,7 +986,7 @@ def chart_spec(app, ledger):
         "trend_lede": trend_lede,
         "trend_unit": trend_unit,
         "trend_src": (
-            "DESE / E2C enrollment (SRC-634-01) and district finance, Total Expenditures (SRC-634-02)"
+            "DESE / E2C enrollment (SRC-634-01), district finance, Total Expenditures (SRC-634-02), and Next Generation MCAS grades 3-8 (SRC-634-04). The 2020 MCAS was not administered"
             if tid == "DL-34" else ""
         ),
         "trend_right": (
@@ -994,6 +1014,26 @@ def chart_spec(app, ledger):
         "hero_finder": tid in FINDER_TOOLS,
         "show_map": tid != "DL-06",
     }
+    if tid == "DL-34":
+        mcas = ((ledger.get("derived") or {}).get("secondary") or {}).get("bps_mcas_38") or {}
+        ela = mcas.get("ela") or []
+        math = mcas.get("math") or []
+        if ela:
+            spec["trend_academic"] = [
+                {
+                    "label": "Grades 3-8 ELA meeting or exceeding",
+                    "key": "ela",
+                    "unit": "percent",
+                    "points": ela,
+                },
+                {
+                    "label": "Grades 3-8 math meeting or exceeding",
+                    "key": "math",
+                    "unit": "percent",
+                    "points": math,
+                },
+            ]
+    return spec
 
 
 def _pct_rows_table(rows, value_label="Share"):
@@ -1346,7 +1386,7 @@ def page_html(app, ledger, apps=None):
             jump_links.append('<a href="#view-rank">' + esc(compare_h2) + "</a>")
         if has_trend:
             jump_lab = (
-                "Enrollment and spending" if app["id"] == "DL-34" else "The trend"
+                "Enrollment, spending, and MCAS" if app["id"] == "DL-34" else "The trend"
             )
             jump_links.append('<a href="#view-trend">' + esc(jump_lab) + "</a>")
         if spec.get("show_map") is not False:
@@ -2641,9 +2681,15 @@ const FIND=FIND_JSON;
     var leftKey=visibleTrendKeys()[0]||allTrendKeys[0];
     var ptsL=sortPts(trend[leftKey]||[]);
     if(!chTrend||!window.Chart||ptsL.length<2||ptsR.length<2) return false;
+    var academics=(CHART.trend_academic||[]).filter(function(ex){
+      return ex && (ex.points||[]).length>=2;
+    });
     var labelSet={};
     ptsL.forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
     ptsR.forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
+    academics.forEach(function(ex){
+      (ex.points||[]).forEach(function(p){ var lab=trendKey(p); if(lab) labelSet[lab]=1; });
+    });
     var labels=Object.keys(labelSet).sort();
     function seriesOf(pts){
       var by={};
@@ -2655,11 +2701,11 @@ const FIND=FIND_JSON;
     }
     var left=seriesOf(ptsL);
     var rightVals=seriesOf(ptsR);
-    var leftLast=null, rightLast=null;
+    var leftLast=null, rightLast=null, acadLast=null;
     for(var i=left.length-1;i>=0;i--){ if(left[i]!=null){ leftLast=left[i]; break; } }
     for(var j=rightVals.length-1;j>=0;j--){ if(rightVals[j]!=null){ rightLast=rightVals[j]; break; } }
     var titleEl=document.getElementById('trendTitle');
-    if(titleEl) titleEl.textContent=CHART.trend_title||'Enrollment and spending per pupil';
+    if(titleEl) titleEl.textContent=CHART.trend_title||'Enrollment, spending, and MCAS';
     var payload={labels:labels,datasets:[
       {label:'Fall enrollment',key:'enroll',data:left,yAxisID:'y',
         borderColor:NAVY,backgroundColor:'transparent',spanGaps:false,
@@ -2668,10 +2714,30 @@ const FIND=FIND_JSON;
         borderColor:RUST,backgroundColor:'transparent',spanGaps:false,
         pointRadius:labels.length>24?0:2,pointHoverRadius:4,borderWidth:2}
     ]};
+    var acadVals=[];
+    academics.forEach(function(ex, idx){
+      var vals=seriesOf(sortPts(ex.points||[]));
+      vals.forEach(function(v){ if(v!=null) acadVals.push(v); });
+      for(var k=vals.length-1;k>=0;k--){ if(vals[k]!=null){ acadLast=vals[k]; break; } }
+      payload.datasets.push({
+        label:ex.label||'MCAS meeting or exceeding',
+        key:ex.key||('mcas'+idx),
+        data:vals,
+        yAxisID:'y2',
+        borderColor:idx===0?GOLD:STEEL,
+        backgroundColor:'transparent',
+        borderDash:idx===0?[]:[5,4],
+        spanGaps:false,
+        pointRadius:labels.length>24?0:2,
+        pointHoverRadius:4,
+        borderWidth:2
+      });
+    });
     var padLabs=[];
     if(leftLast!=null) padLabs.push(fmtVal(leftLast,true));
     if(rightLast!=null) padLabs.push(fmtUsdAxis(rightLast));
-    var rightPad=window.dlRightPad?window.dlRightPad(padLabs,96):96;
+    if(acadLast!=null) padLabs.push(String(Math.round(acadLast))+'%');
+    var rightPad=window.dlRightPad?window.dlRightPad(padLabs, academics.length?148:96):(academics.length?148:96);
     var opts={responsive:true,maintainAspectRatio:false,
       layout:{padding:{top:12,right:rightPad}},
       plugins:{legend:{display:true,position:'top',align:'end'},
@@ -2682,7 +2748,8 @@ const FIND=FIND_JSON;
           },
           label:function(c){
             var v=c.parsed.y;
-            if(c.dataset.key==='ppe') return ' '+c.dataset.label+': '+fmtUsdAxis(v);
+            if(c.dataset.yAxisID==='y1'||c.dataset.key==='ppe') return ' '+c.dataset.label+': '+fmtUsdAxis(v);
+            if(c.dataset.yAxisID==='y2') return ' '+c.dataset.label+': '+(v==null?'':Number(v).toFixed(0)+'%');
             return ' '+c.dataset.label+': '+fmtVal(v)+(unit?' '+unit:'');
           }
         }}},
@@ -2697,8 +2764,23 @@ const FIND=FIND_JSON;
           ticks:{color:RUST,callback:function(v){return fmtUsdAxis(v);}},
           grid:{drawOnChartArea:false}}, rightVals)
       }};
+    if(academics.length){
+      opts.scales.y2={
+        type:'linear',
+        position:'right',
+        offset:true,
+        min:0,
+        suggestedMax:40,
+        beginAtZero:true,
+        title:{display:true,text:'MCAS meeting or exceeding',color:GOLD,font:{size:11}},
+        ticks:{color:GOLD,callback:function(v){return v+'%';}},
+        grid:{drawOnChartArea:false}
+      };
+    }
     var plugins=[dataLabels(function(v, di){
-      return di===1?fmtUsdAxis(v):fmtVal(v,true);
+      if(di===1) return fmtUsdAxis(v);
+      if(di>=2) return (v==null?'':Math.round(Number(v))+'%');
+      return fmtVal(v,true);
     }, labels.length>18?'end':'all')];
     if(trendChart){ trendChart.destroy(); trendChart=null; }
     trendChart=new Chart(chTrend,{type:'line',data:payload,options:opts,plugins:plugins});

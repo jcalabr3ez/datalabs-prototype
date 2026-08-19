@@ -86,8 +86,11 @@ VERIFY_BPS_NB_2026 = 37
 VERIFY_BPS_PPE_FY2025 = 34833
 VERIFY_BPS_LATIN_2026 = 2382
 VERIFY_BPS_BUSES_APR2025 = 640
+VERIFY_BPS_MCAS_ELA_38_2025 = 29.0
+VERIFY_BPS_MCAS_MATH_38_2025 = 28.0
 E2C_ENROLL = "https://educationtocareer.data.mass.gov/resource/t8td-gens.json"
 E2C_FINANCE = "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json"
+E2C_MCAS = "https://educationtocareer.data.mass.gov/resource/i9w6-niyt.json"
 BPS_DIST = "00350000"
 BPS_GRADE_FIELDS = [
     ("pk_cnt", "Pre-kindergarten"),
@@ -1563,8 +1566,33 @@ def _pct_field(row, key):
     return round(v * 100, 1) if v <= 1.5 else round(v, 1)
 
 
+def _bps_mcas_series(subject):
+    rows = _soda(E2C_MCAS, {
+        "$where": (
+            f"org_type='Public School District' AND org_code='{BPS_DIST}' "
+            "AND stu_grp='All Students' AND test_grade='ALL (03-08)' "
+            f"AND subject_code='{subject}'"
+        ),
+        "$order": "sy",
+        "$limit": "40",
+    })
+    out = []
+    for r in rows:
+        y = parse_num(r.get("sy"))
+        v = parse_num(r.get("m_plus_e_pct"))
+        n = parse_num(r.get("stu_cnt"))
+        if y is None or v is None:
+            continue
+        pct_v = round(v * 100, 1) if v <= 1.5 else round(v, 1)
+        rec = {"y": int(y), "v": pct_v}
+        if n is not None:
+            rec["n"] = int(n)
+        out.append(rec)
+    return out
+
+
 def build_boston_schools(app):
-    """DL-34: Boston Public Schools enrollment, spending, and published bus counts."""
+    """DL-34: Boston Public Schools enrollment, spending, MCAS, and published bus counts."""
     dist_rows = _soda(E2C_ENROLL, {
         "$where": f"sy='2026' AND org_type='District' AND org_code='{BPS_DIST}'",
         "$limit": "5",
@@ -1676,6 +1704,19 @@ def build_boston_schools(app):
             continue
         ppe_trend.append({"y": int(y), "v": round(v)})
 
+    ela_mcas = _bps_mcas_series("ELA")
+    math_mcas = _bps_mcas_series("MATH")
+    ela_2025 = next((p for p in ela_mcas if p["y"] == 2025), None)
+    math_2025 = next((p for p in math_mcas if p["y"] == 2025), None)
+    if not ela_2025 or abs(ela_2025["v"] - VERIFY_BPS_MCAS_ELA_38_2025) > 0.05:
+        sys.exit(f"FATAL: Boston 2025 MCAS ELA 3-8 is {ela_2025}")
+    if not math_2025 or abs(math_2025["v"] - VERIFY_BPS_MCAS_MATH_38_2025) > 0.05:
+        sys.exit(f"FATAL: Boston 2025 MCAS math 3-8 is {math_2025}")
+    if len(ela_mcas) < 4 or len(math_mcas) < 4:
+        sys.exit(f"FATAL: Boston MCAS series too short ({len(ela_mcas)}/{len(math_mcas)})")
+    if any(p["y"] == 2020 for p in ela_mcas + math_mcas):
+        sys.exit("FATAL: Boston MCAS series has a 2020 row")
+
     race = [
         {"name": "Hispanic or Latino", "v": _pct_field(dist, "hl_pct")},
         {"name": "Black or African American", "v": _pct_field(dist, "baa_pct")},
@@ -1758,6 +1799,22 @@ def build_boston_schools(app):
             "src": "SRC-634-01",
             "unit": "students",
             "trend": enroll_trend,
+        },
+        "bps_mcas_38": {
+            "label": "Boston Next Generation MCAS grades 3-8, share meeting or exceeding",
+            "src": "SRC-634-04",
+            "unit": "percent",
+            "as_of_label": "Spring 2025",
+            "ela_2025": ela_2025["v"],
+            "math_2025": math_2025["v"],
+            "ela": ela_mcas,
+            "math": math_mcas,
+            "note": (
+                "DESE / E2C Next Generation MCAS, Boston district 00350000, "
+                "All Students, grades 3-8. The 2025 ELA and math shares match "
+                "the DESE district achievement-level table. Next Generation "
+                "MCAS was not administered in 2020."
+            ),
         },
         "bps_transportation_2025": {
             "label": "Boston Public Schools daily buses and morning runs, April 2025",
@@ -1843,7 +1900,11 @@ def build_boston_schools(app):
             f"one decimal. FY 2025 total expenditures per pupil "
             f"${VERIFY_BPS_PPE_FY2025:,} is E2C er3w-dyti. Daily buses "
             f"{VERIFY_BPS_BUSES_APR2025} are the last exact count printed "
-            f"in BPS Driving Change, April 2025 (SRC-634-03)."
+            f"in BPS Driving Change, April 2025 (SRC-634-03). "
+            f"Boston Next Generation MCAS grades 3-8 meeting-or-exceeding "
+            f"shares {VERIFY_BPS_MCAS_ELA_38_2025:.0f}% ELA and "
+            f"{VERIFY_BPS_MCAS_MATH_38_2025:.0f}% math in 2025 match the "
+            f"DESE achievement-level table (SRC-634-04)."
         ),
         metric="bps_school_enrollment_2026",
         metric_label="School enrollment, 2025-26",
@@ -1863,6 +1924,8 @@ def build_boston_schools(app):
             "nonbinary_pct": nb_pct,
             "ppe": int(total_ppe),
             "buses_on_road": VERIFY_BPS_BUSES_APR2025,
+            "mcas_ela_3_8": ela_2025["v"],
+            "mcas_math_3_8": math_2025["v"],
             "highest": {"name": hi["name"], "v": hi["v"], "rank": hi["rank"], "n": hi["n"]},
             "lowest": {"name": lo["name"], "v": lo["v"], "rank": lo["rank"], "n": lo["n"]},
         },

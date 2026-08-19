@@ -559,19 +559,20 @@
       "id": "DL-34",
       "slug": "boston-schools",
       "title": "Boston Public Schools",
-      "q": "Enrollment, gender, per-pupil spending, and bus routes for Boston Public Schools.",
+      "q": "Enrollment, gender, per-pupil spending, MCAS, and bus routes for Boston Public Schools.",
       "vertical": "Education",
       "group": "Education",
       "g": ["Boston"],
       "heritage": "New. The Tableau suite did not publish a Boston Public Schools district namesake.",
       "replaces": [],
-      "scope": "This ledger ranks every DESE-listed Boston Public Schools school (district 00350000) on 2025-26 enrollment, reports district enrollment by gender, race, grade, and selected populations, DESE FY 2025 total expenditures per pupil and the published spending categories, teacher FTE and average salary from the same finance file, and the last exact published daily-bus and morning-run counts from the April 2025 BPS Transportation progress report.",
-      "exclusions": "Does not cover charter or Horace Mann districts that are not 00350000, waitlists, lottery outcomes, statewide Massachusetts enrollment or MCAS (those sit on Massachusetts Schools), City of Boston payroll or the BPS budget line on Boston City Payroll, other cities, or advice about a school. BPS does not publish a machine-readable route roster; later School Committee memos that say daily buses were fewer than 625 do not replace the last exact published count.",
+      "scope": "This ledger ranks every DESE-listed Boston Public Schools school (district 00350000) on 2025-26 enrollment, reports district enrollment by gender, race, grade, and selected populations, DESE FY 2025 total expenditures per pupil and the published spending categories, teacher FTE and average salary from the same finance file, Boston district Next Generation MCAS grades 3-8 meeting-or-exceeding shares from 2017 through 2025, and the last exact published daily-bus and morning-run counts from the April 2025 BPS Transportation progress report.",
+      "exclusions": "Does not cover charter or Horace Mann districts that are not 00350000, waitlists, lottery outcomes, statewide Massachusetts enrollment or statewide MCAS (those sit on Massachusetts Schools), City of Boston payroll or the BPS budget line on Boston City Payroll, other cities, or advice about a school. Next Generation MCAS was not administered in 2020; that year is a gap, not a zero. BPS does not publish a machine-readable route roster; later School Committee memos that say daily buses were fewer than 625 do not replace the last exact published count.",
       "wave": "live",
       "sources": [
         {"id": "SRC-634-01", "name": "DESE / E2C enrollment by grade, race/ethnicity, gender, and selected populations, Boston district and schools", "cadence": "Annual school year", "url": "https://educationtocareer.data.mass.gov/resource/t8td-gens.json"},
         {"id": "SRC-634-02", "name": "DESE / E2C district finance, total expenditures per pupil and staff", "cadence": "Annual fiscal year", "url": "https://educationtocareer.data.mass.gov/resource/er3w-dyti.json"},
-        {"id": "SRC-634-03", "name": "BPS Driving Change: Transportation Progress 2022-2025, April 2025", "cadence": "Occasional School Committee report", "url": "https://resources.finalsite.net/images/v1744738924/bostonpublicschoolsorg/mnr8vg3lfqnr5gacu1du/EN_BPSTransportationProgress2022-2025.pdf"}
+        {"id": "SRC-634-03", "name": "BPS Driving Change: Transportation Progress 2022-2025, April 2025", "cadence": "Occasional School Committee report", "url": "https://resources.finalsite.net/images/v1744738924/bostonpublicschoolsorg/mnr8vg3lfqnr5gacu1du/EN_BPSTransportationProgress2022-2025.pdf"},
+        {"id": "SRC-634-04", "name": "DESE / E2C Next Generation MCAS, Boston district grades 3-8 meeting or exceeding", "cadence": "Annual spring test", "url": "https://educationtocareer.data.mass.gov/resource/i9w6-niyt.json"}
       ]
     }
   ]

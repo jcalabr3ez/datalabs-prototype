@@ -1759,6 +1759,12 @@ def voice_dl34(ledger):
         f"<b>{commify(gender.get('male') or latest.get('male'))}</b> were male and <b>{commify(gender.get('female') or latest.get('female'))}</b> were female (SRC-634-01).",
         f"Total expenditures per pupil were <b>{money(fin.get('total_ppe') or latest.get('ppe'))}</b> in FY 2025 (SRC-634-02).",
     ]
+    if latest.get("mcas_ela_3_8") is not None and latest.get("mcas_math_3_8") is not None:
+        take.append(
+            f"Grades 3-8 Next Generation MCAS meeting or exceeding was "
+            f"<b>{float(latest['mcas_ela_3_8']):.0f}%</b> in ELA and "
+            f"<b>{float(latest['mcas_math_3_8']):.0f}%</b> in math in 2025 (SRC-634-04)."
+        )
     kpis = [
         kpi("BPS enrollment, 2025-26", commify(latest.get("enrollment")),
             f"{latest.get('schools')} schools. {hi.get('name')} was largest at {commify(hi.get('v'))} (SRC-634-01).",

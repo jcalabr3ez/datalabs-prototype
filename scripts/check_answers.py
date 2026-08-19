@@ -501,12 +501,22 @@ else:
         ok("DL-34 school finder defaults to Boston Latin School")
 if "trend_right" not in bps_html or "Total expenditures per pupil" not in bps_html:
     fail("DL-34 trend is missing the per-pupil series")
+elif "trend_academic" not in bps_html or "SRC-634-04" not in bps_html:
+    fail("DL-34 trend is missing the MCAS overlay")
 elif "44416" not in bps_html or "34833" not in bps_html:
     fail("DL-34 combined trend lede is missing the published endpoints")
+elif "31%" not in bps_html or "29%" not in bps_html:
+    fail("DL-34 MCAS lede is missing the published ELA endpoints")
 elif "id=\"view-bps-ppe-trend\"" in bps_html:
     fail("DL-34 still has a standalone spending-trend view")
 else:
-    ok("DL-34 trend combines enrollment and per-pupil spending")
+    chart_m = re.search(r"const CHART=(\{.*\});\n", bps_html)
+    acad = ((json.loads(chart_m.group(1)).get("trend_academic") or [{}])[0].get("points") or []) if chart_m else []
+    invented_2020 = [p for p in acad if str(p.get("y")) == "2020" and p.get("v") is not None]
+    if invented_2020:
+        fail("DL-34 MCAS overlay invents a 2020 point")
+    else:
+        ok("DL-34 trend combines enrollment, spending, and MCAS")
 if 'id="proofFind"' not in bps_html or 'id="proofFindList"' not in bps_html:
     fail("DL-34 school lookup is missing the typeahead list")
 else:

@@ -953,8 +953,89 @@ def figs_dl15(ledger):
 
 
 def figs_dl16(ledger):
-    # Namesake is permits. House-price series stay in the ledger for Ask.
-    return []
+    sec = _sec(ledger)
+    out = []
+    h = sec.get("fhfa_hpi_annual_change_2025") or {}
+    ma = h.get("ma") if isinstance(h.get("ma"), dict) else {}
+    fl = h.get("fl") if isinstance(h.get("fl"), dict) else {}
+    hi = h.get("highest") or {}
+    labels, values = [], []
+    if hi.get("name") and hi.get("v") is not None and hi.get("st") not in ("MA", "FL"):
+        labels.append(hi["name"])
+        values.append(hi["v"])
+    if ma.get("v") is not None:
+        labels.append("Massachusetts")
+        values.append(ma["v"])
+    if fl.get("v") is not None:
+        labels.append("Florida")
+        values.append(fl["v"])
+    if len(labels) >= 2:
+        fl_v = fl.get("v")
+        fl_bit = (
+            f"Florida {'rose' if fl_v > 0 else 'fell'} {abs(fl_v)} percent, "
+            f"rank {fl.get('rank')} of {fl.get('n')}"
+            if fl_v is not None else ""
+        )
+        lede = (
+            f"Massachusetts rose {ma.get('v')} percent in 2025, rank "
+            f"{ma.get('rank')} of {ma.get('n')}."
+            + (f" {fl_bit}." if fl_bit else "")
+            + f" {hi.get('name')} was highest at {hi.get('v')} percent."
+        )
+        fig = _fig(
+            "fhfa-hpi",
+            "FHFA house-price index, annual change, 2025",
+            lede,
+            h.get("src") or "SRC-616-02",
+            "bar", "percent", "percent",
+            labels, _bars(labels, values),
+            h.get("note") or (
+                "FHFA does not publish a U.S. row in this state file. "
+                "The index is developmental (FHFA note, March 31, 2026)."
+            ),
+        )
+        out.append(_with_filter(fig, h))
+    cs = sec.get("case_shiller_boston") or {}
+    bos = {p.get("m"): p.get("v") for p in (cs.get("trend") or []) if p.get("m")}
+    mia = {p.get("m"): p.get("v") for p in (cs.get("miami_trend") or []) if p.get("m")}
+    months = [m for m in sorted(set(bos) | set(mia)) if bos.get(m) is not None]
+    if len(months) >= 3:
+        series = [{"label": "Boston MSA", "data": [bos.get(m) for m in months], "color": GOLD}]
+        if any(mia.get(m) is not None for m in months):
+            series.append({
+                "label": "Miami MSA",
+                "data": [mia.get(m) for m in months],
+                "color": RUST,
+            })
+        yoy = cs.get("yoy_pct")
+        mia_yoy = cs.get("miami_yoy_pct")
+        yoy_bit = f", {yoy} percent from a year earlier" if yoy is not None else ""
+        mia_bit = ""
+        if cs.get("miami") is not None:
+            mia_yoy_bit = (
+                f", {mia_yoy} percent from a year earlier" if mia_yoy is not None else ""
+            )
+            mia_bit = (
+                f" Miami was {cs.get('miami')} in {cs.get('miami_as_of_label')}"
+                f"{mia_yoy_bit}."
+            )
+        out.append(_fig(
+            "cs-boston",
+            "Case-Shiller Boston and Miami house-price indexes",
+            (
+                f"Boston MSA {cs.get('boston')} in {cs.get('as_of_label')}"
+                f"{yoy_bit}. January 2000 equals 100.{mia_bit}"
+            ),
+            cs.get("src") or "SRC-616-03",
+            "line", "number", "index, January 2000 = 100",
+            months, series,
+            cs.get("note") or (
+                "Seasonally adjusted Boston MSA series BOXRSA and Miami MSA "
+                "series MIXRSA via FRED. January 2000 equals 100."
+            ),
+            span=2,
+        ))
+    return out
 
 
 def figs_dl17(ledger):
@@ -1521,7 +1602,7 @@ def insight_figures(app, ledger):
     figs = fn(ledger) if fn else []
     figs = [f for f in figs if f]
     figs = [f for f in figs if f.get("type") != "map"]
-    if not figs and tid not in ("DL-07", "DL-10", "DL-14", "DL-16", "DL-25", "DL-26", "DL-32", "DL-33"):
+    if not figs and tid not in ("DL-07", "DL-10", "DL-14", "DL-25", "DL-26", "DL-32", "DL-33"):
         fallback = from_latest(ledger)
         if fallback:
             figs = [fallback]

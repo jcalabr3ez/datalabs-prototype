@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 19, 2026",
+        "title": "Housing Permits shows the price series it already holds",
+        "body": (
+            "The FHFA 2025 annual house-price change and the Case-Shiller "
+            "Boston and Miami indexes were already in the Housing Permits "
+            "ledger. They are on the page again. Authorized units stay the "
+            "namesake. No new figures were compiled."
+        ),
+    },
+    {
+        "date": "August 19, 2026",
         "title": "Fifty-state tools drop the boxed hero strip",
         "body": (
             "Under the hero number, Massachusetts and Florida now sit "

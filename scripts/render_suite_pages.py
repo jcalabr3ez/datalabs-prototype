@@ -510,6 +510,8 @@ JUMP_SHORT = {
     "he-approp": "Appropriations",
     "he-exp": "Expenditures",
     "he-ba": "Bachelor's degrees",
+    "fhfa-hpi": "House prices",
+    "cs-boston": "Boston and Miami",
     "teachers-fte": "Teachers",
     "k12-staff": "Staff",
     "k12-aides": "Aides",
@@ -3131,7 +3133,7 @@ def main():
         dest.write_text(page_html(app, ledger, apps), encoding="utf-8")
         n += 1
         print(f"render {app['id']} -> {dest.relative_to(ROOT)}")
-        if ledger.get("status") == "live" and not insight_figures(app, ledger) and app["id"] not in FINDER_TOOLS | TOWN_TOOLS | HIST_TOOLS | {"DL-07", "DL-16", "DL-33"}:
+        if ledger.get("status") == "live" and not insight_figures(app, ledger) and app["id"] not in FINDER_TOOLS | TOWN_TOOLS | HIST_TOOLS | {"DL-07", "DL-33"}:
             missing.append(app["id"])
     if missing:
         sys.exit("FATAL: no insight figures for " + ", ".join(missing))

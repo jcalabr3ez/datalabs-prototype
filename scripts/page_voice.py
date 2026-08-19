@@ -1180,13 +1180,21 @@ def voice_dl15(ledger):
 def voice_dl16(ledger):
     latest = ledger.get("latest") or {}
     ma = latest.get("ma") or {}
-    us = latest.get("us") if isinstance(latest.get("us"), dict) else {}
     fl = fl_cell(ledger) or {}
+    h = sec(ledger, "fhfa_hpi_annual_change_2025")
+    hma = ma_of(h)
+    hfl = h.get("fl") if isinstance(h.get("fl"), dict) else {}
     take = [
         f"Massachusetts authorized <b>{commify(ma.get('v'))}</b> housing units through Jun 2026, {rank_txt(ma)}, {ma.get('yoy_pct'):+.1f}% from the same months of 2025 (derived, SRC-616-01)." if ma.get("yoy_pct") is not None else
         f"Massachusetts authorized <b>{commify(ma.get('v'))}</b> housing units through Jun 2026, {rank_txt(ma)} (derived, SRC-616-01).",
-        f"Permit-issuing places authorized <b>{commify(us.get('v'))}</b> housing units in the United States through Jun 2026 (derived, SRC-616-01)." if us.get("v") is not None else "",
-        f"Florida authorized <b>{commify(fl.get('v'))}</b>, {rank_txt(fl)} (derived, SRC-616-01)." if fl.get("v") is not None else "",
+        f"The FHFA all-transactions house-price index rose <b>{hma.get('v')}%</b> in Massachusetts in 2025, {rank_txt(hma)} (derived, SRC-616-02)." if hma.get("v") is not None else "",
+        (
+            f"Florida authorized <b>{commify(fl.get('v'))}</b>, {rank_txt(fl)} (derived, SRC-616-01)."
+            + (
+                f" Its FHFA index {'rose' if hfl.get('v') > 0 else 'fell'} <b>{abs(hfl.get('v'))}%</b>, {rank_txt(hfl)} (derived, SRC-616-02)."
+                if hfl.get("v") is not None else ""
+            )
+        ) if fl.get("v") is not None else "",
     ]
     kpis = [
         kpi("Massachusetts permits, YTD Jun 2026", commify(ma.get("v")),
@@ -2597,10 +2605,7 @@ def voice_for(app, ledger):
         "page_lead": page_lead,
         "answer": answer,
         "answers": answers,
-        "vintages": (
-            [(ledger.get("metric_label") or "Housing units authorized", ledger.get("data_month_label"))]
-            if tid == "DL-16" else mixed_vintage_lines(ledger)
-        ),
+        "vintages": mixed_vintage_lines(ledger),
     }
 
 

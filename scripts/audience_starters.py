@@ -112,7 +112,7 @@ STARTERS = {
     },
     "DL-16": {
         "public": "How many housing units were authorized in the United States?",
-        "journalist": "Which state authorized the most housing units?",
+        "journalist": "Did Massachusetts house prices rise in 2025?",
         "researcher": "Are housing permits completions, and is this year-to-date?",
         "policymaker": "How many housing units were authorized in Massachusetts?",
     },
@@ -252,6 +252,10 @@ COMPANION_JUMPS = {
     "DL-15": (
         ("Industry mix", "#insight-ma-industries"),
         ("Income per person", "#insight-pcpi"),
+    ),
+    "DL-16": (
+        ("House prices", "#insight-fhfa-hpi"),
+        ("Boston and Miami", "#view-cs-boston"),
     ),
     "DL-17": (
         ("Age 65 and over", "#insight-age65"),

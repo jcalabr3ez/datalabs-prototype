@@ -51,9 +51,9 @@
   .pibar a:focus-visible { outline:2px solid #fff; outline-offset:3px; }
 
   /* Ask box: same dark field as the masthead */
-  .askDock { background:var(--bar); padding:4px 0 32px; border-bottom:none; }
+  .askDock { background:var(--bar); padding:0 0 20px; border-bottom:none; }
   body.ai-off .askDock { display:none; }
-  .askpanel { margin:0 auto; max-width:640px; }
+  .askpanel { margin:0 auto; max-width:720px; }
   .askbar { display:flex; align-items:center; gap:12px; background:#fff; border:1px solid transparent;
     border-radius:999px; padding:5px 8px 5px 18px; box-shadow:0 1px 8px rgba(0,0,0,.28);
     transition:box-shadow .18s ease; }
@@ -114,9 +114,9 @@
   @keyframes spin { to { transform:rotate(360deg); } }
 
   /* ---------- sections ---------- */
-  .sec { padding-top:40px; }
+  .sec { padding-top:32px; }
   .sec .lab { font-size:12px; font-weight:400; letter-spacing:.08em; text-transform:uppercase; color:var(--faint); }
-  .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.6vw,36px); letter-spacing:-.02em; margin-top:8px; color:var(--ink); }
+  .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.6vw,36px); letter-spacing:-.02em; margin-top:0; color:var(--ink); }
   .sec .sub { margin-top:10px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
   /* New Releases: two tiles on the same dark field as the header */
@@ -138,16 +138,16 @@
   .lead .askex { margin-top:12px; font-size:13px; font-weight:600; color:var(--gold); padding:0; }
   .lead .askex i { font-family:var(--serif); font-weight:500; }
   .lead .askex:hover { color:#fff; text-decoration:underline; }
-  .lead .status { margin-top:18px; padding-top:12px; border-top:1px solid rgba(255,255,255,.12);
+  .lead .status { margin-top:8px; padding-top:12px; border-top:1px solid rgba(255,255,255,.12);
     font-size:12px; color:#8DA0B5; line-height:1.45; }
-  .lead .go { margin-top:10px; font-size:13px; font-weight:600; color:#fff; }
+  .lead .go { margin-top:6px; font-size:13px; font-weight:600; color:#fff; }
   .lead:hover .go { color:#fff; text-decoration:underline; }
   @media (max-width:640px){
     .desk { grid-template-columns:1fr; }
   }
 
   /* catalog: four open verticals, one tool per row */
-  .dir-sec { padding-bottom:8px; }
+  .dir-sec { padding-bottom:0; }
   .cabtop { display:flex; align-items:center; gap:14px; margin-top:22px; flex-wrap:wrap; }
   .srchwrap { position:relative; flex:1 1 240px; min-width:200px; max-width:320px; }
   .srchwrap .srch { width:100%; border:1px solid var(--rule); border-radius:2px; padding:11px 34px 11px 12px;
@@ -174,7 +174,7 @@
   .area[open] { background:#fff; }
   .area[open] > summary.areahead { border-bottom:1px solid var(--rule); }
   .area > summary.areahead { display:grid; grid-template-columns:minmax(0,1fr) 16ch;
-    align-items:baseline; column-gap:16px; padding:16px 0; cursor:pointer; list-style:none; }
+    align-items:baseline; column-gap:16px; padding:20px 0; cursor:pointer; list-style:none; }
   .area > summary.areahead::-webkit-details-marker { display:none; }
   .areahead .anm { margin:0; font-family:var(--serif); font-size:24px; font-weight:700; letter-spacing:-.02em; color:var(--ink); line-height:1.2; }
   .areahead .achevron { display:inline-block; width:0.42em; height:0.42em; margin-left:0.4em;
@@ -186,10 +186,10 @@
   .topic { margin-top:18px; }
   .topic.hide { display:none; }
   .topic .nm { font-size:13px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--faint); margin-bottom:4px; }
-  .topic.solo { margin-top:2px; padding-bottom:10px; }
+  .topic.solo { margin-top:2px; padding-bottom:22px; }
   .topic.solo .nm { display:none; }
 
-  .topic.solo { display:flex; flex-direction:column; gap:8px; }
+  .topic.solo { display:flex; flex-direction:column; gap:12px; }
   .cr { display:flex; align-items:flex-start; justify-content:space-between; gap:12px 24px;
     padding:16px 18px; background:var(--tile); color:var(--navy); text-decoration:none; }
   .cr:hover { background:var(--tile-hot); color:var(--navy); text-decoration:none; }
@@ -232,8 +232,8 @@
 
   body.ai-off #respBar, body.ai-off #resp { display:none; }
 
-  .about-sec { padding-bottom:0; background:#fff; border-top:1px solid var(--rule);
-    margin-top:40px; padding-top:40px; padding-bottom:48px; }
+  .about-sec { background:#fff; border-top:1px solid var(--rule);
+    margin-top:0; padding-top:32px; padding-bottom:48px; }
   .about-sec .sub { max-width:none; margin-top:10px; line-height:1.55; }
   .about-sec .body { margin-top:16px; }
   .about-sec .body p { margin:0 0 14px; color:var(--grey); font-size:14.5px; }

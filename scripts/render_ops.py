@@ -62,6 +62,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 19, 2026",
+        "title": "Fifty-state tools drop the boxed hero strip",
+        "body": (
+            "Under the hero number, Massachusetts and Florida now sit "
+            "on one comparison line. The United States figure is no "
+            "longer reprinted in a third box. The Florida insurance "
+            "report card is unchanged."
+        ),
+    },
+    {
+        "date": "August 19, 2026",
         "title": "Hex maps are a packed plate again",
         "body": (
             "The fifty-state cartogram no longer punches holes for "

@@ -457,9 +457,9 @@ function histValueLine(lo, hi, val, color, label){
 function fillPlaceStrip(){
   var el=document.getElementById('placeStrip');
   if(!el || !DL05) return;
-  function cell(cls,k,v,r){
+  function part(cls,k,v){
     if(v==null||v==='') return '';
-    return '<div class="ps '+cls+'"><div class="ps-k">'+k+'</div><div class="ps-v">'+String(v).replace(/</g,'')+'</div>'+(r?'<div class="ps-r">'+String(r).replace(/</g,'')+'</div>':'')+'</div>';
+    return '<span class="ps '+cls+'"><span class="ps-k">'+k+'</span> <span class="ps-v">'+String(v).replace(/</g,'')+'</span></span>';
   }
   function board(id){
     var i, rows=DL05.boards||[];
@@ -470,11 +470,20 @@ function fillPlaceStrip(){
   var state=board('state')||(DL05.latest&&DL05.latest.state);
   var sel=board(selected)||teachers;
   function funded(r){ return r&&r.funded_pct!=null ? r.funded_pct.toFixed(1)+'%' : ''; }
-  function rank(r){ return r&&r.rank!=null ? 'rank '+r.rank+' of '+(r.n||105) : ''; }
-  el.innerHTML=cell('ps-ma', 'Mass Teachers (MTRS)', funded(teachers), rank(teachers))
-    +cell('ps-us', 'State Retirement Board', funded(state), rank(state))
-    +cell('ps-fl', (sel&&sel.name)||'Selected board', funded(sel), rank(sel));
-  el.hidden=!el.innerHTML;
+  var parts=[];
+  var html=part('ps-ma', 'Mass Teachers (MTRS)', funded(teachers));
+  if(html) parts.push(html);
+  html=part('ps-us', 'State Retirement Board', funded(state));
+  if(html) parts.push(html);
+  html=part('ps-fl', (sel&&sel.name)||'Selected board', funded(sel));
+  if(html) parts.push(html);
+  if(!parts.length){
+    el.innerHTML='';
+    el.hidden=true;
+    return;
+  }
+  el.innerHTML=parts.join('<span class="ps-dot" aria-hidden="true"> · </span>');
+  el.hidden=false;
 }
 function renderBoards(){
   if(!rendered.b){

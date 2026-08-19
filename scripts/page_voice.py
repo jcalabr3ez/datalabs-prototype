@@ -2465,32 +2465,31 @@ def build_answer(tid, ledger, ma_line=""):
 
 
 def place_strip_html(answers):
-    """U.S. / Massachusetts / Florida under the hero. Published cells only."""
+    """Massachusetts and Florida on one line under the hero. Published cells only."""
     if not answers:
         return '    <div class="place-strip" id="placeStrip" hidden></div>\n'
 
-    def cell(cls, label, rec):
+    def part(cls, label, rec):
         rec = rec or {}
         v = rec.get("value")
         if not v:
             return ""
         return (
-            f'<div class="ps {cls}"><div class="ps-k">{esc(label)}</div>'
-            f'<div class="ps-v">{esc(v)}</div></div>'
+            f'<span class="ps {cls}"><span class="ps-k">{esc(label)}</span> '
+            f'<span class="ps-v">{esc(v)}</span></span>'
         )
 
-    us = answers.get("US") or {}
-    ma = answers.get("MA") or {}
-    fl = answers.get("FL") or {}
-    us_lab = us.get("geo") if us.get("kind") == "rank" else (us.get("geo") or "United States")
-    html = (
-        cell("ps-us", us_lab or "United States", us)
-        + cell("ps-ma", "Massachusetts", ma)
-        + cell("ps-fl", "Florida", fl)
-    )
-    if not html:
+    parts = [
+        p for p in (
+            part("ps-ma", "Massachusetts", answers.get("MA") or {}),
+            part("ps-fl", "Florida", answers.get("FL") or {}),
+        )
+        if p
+    ]
+    if not parts:
         return '    <div class="place-strip" id="placeStrip" hidden></div>\n'
-    return f'    <div class="place-strip" id="placeStrip">{html}</div>\n'
+    dot = '<span class="ps-dot" aria-hidden="true"> · </span>'
+    return f'    <div class="place-strip" id="placeStrip">{dot.join(parts)}</div>\n'
 
 
 def answer_inner_html(answer, answers=None):

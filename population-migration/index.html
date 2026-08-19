@@ -55,7 +55,7 @@ July 1, 2025 · Revised 16 August 2026
     </div>
     <h2 id="answerQ">Which state gained the most people from domestic migration?</h2>
     <div class="answer-num" id="answerNum">+84,064</div>
-    <div class="place-strip" id="placeStrip"><div class="ps ps-us"><div class="ps-k">North Carolina</div><div class="ps-v">+84,064</div></div><div class="ps ps-ma"><div class="ps-k">Massachusetts</div><div class="ps-v">−33,340</div></div><div class="ps ps-fl"><div class="ps-k">Florida</div><div class="ps-v">+22,517</div></div></div>
+    <div class="place-strip" id="placeStrip"><span class="ps ps-ma"><span class="ps-k">Massachusetts</span> <span class="ps-v">−33,340</span></span><span class="ps-dot" aria-hidden="true"> · </span><span class="ps ps-fl"><span class="ps-k">Florida</span> <span class="ps-v">+22,517</span></span></div>
     <p class="answer-ctx" id="answerCtx">North Carolina leads the published ranking on domestic migration, 2025 (derived, SRC-617-01).</p>
     <p class="answer-meta" id="answerMeta">North Carolina · July 1, 2025 · SRC-617-01</p>
     <button type="button" class="cite-copy" data-cite="Pioneer Institute DataLabs, State Migration, July 1, 2025: Which state gained the most people from domestic migration? +84,064. North Carolina leads the published ranking on domestic migration, 2025 (derived, SRC-617-01).">Copy citation</button>
@@ -402,11 +402,17 @@ const FIND={"kind": "row", "cards": {"north carolina": {"name": "North Carolina"
   function fillPlaceStrip(){
     var el=document.getElementById('placeStrip');
     if(!el) return;
-    function cell(cls, k, v, r){
+    function part(cls, k, v, r){
       if(v==null||v==='') return '';
-      return '<div class="ps '+cls+'"><div class="ps-k">'+k+'</div><div class="ps-v">'+String(v).replace(/</g,'')+'</div>'+(r?'<div class="ps-r">'+String(r).replace(/</g,'')+'</div>':'')+'</div>';
+      var lab=k;
+      if(r && String(r)!==k) lab=k+', '+String(r).replace(/</g,'');
+      return '<span class="ps '+cls+'"><span class="ps-k">'+lab+'</span> <span class="ps-v">'+String(v).replace(/</g,'')+'</span></span>';
     }
-    var html='';
+    var parts=[];
+    function push(cls, k, v, r){
+      var html=part(cls, k, v, r);
+      if(html) parts.push(html);
+    }
     var kind=(FIND&&FIND.kind)||'';
     if(kind==='town'){
       var bos=(FIND.compare&&FIND.compare.boston)||bostonRow();
@@ -414,33 +420,34 @@ const FIND={"kind": "row", "cards": {"north carolina": {"name": "North Carolina"
       var card=typeof findCardFor==='function'?findCardFor(q):null;
       var row=card?rowByName(card.name):rowByName(q);
       var acs=((FIND.compare&&FIND.compare.acs_peers)||{})[normFind((row&&row.name)||q)];
-      html+=cell('ps-ma','Boston', bos&&(bos.value||fmtVal(bos.v)), bos&&bos.name);
-      html+=cell('ps-us','Selected', (card&&card.value)||(row&&fmtVal(row.v)), (row&&row.name)||(card&&card.name)||'A town');
-      html+=cell('ps-fl','ACS peer', acs&&(acs.value||fmtVal(acs.v)), acs&&acs.name);
+      push('ps-ma','Boston', bos&&(bos.value||fmtVal(bos.v)), bos&&bos.name);
+      push('ps-us','Selected', (card&&card.value)||(row&&fmtVal(row.v)), (row&&row.name)||(card&&card.name)||'A town');
+      push('ps-fl','ACS peer', acs&&(acs.value||fmtVal(acs.v)), acs&&acs.name);
     } else if(kind==='legislator'){
       var cmp=FIND.compare||{};
       var q2=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||(document.getElementById('tblFind')&&document.getElementById('tblFind').value)||(FIND&&FIND.default_q)||'';
       var card2=typeof findCardFor==='function'?findCardFor(q2):null;
-      html+=cell('ps-ma','House median', cmp.house_median&&cmp.house_median.value);
-      html+=cell('ps-us','Senate median', cmp.senate_median&&cmp.senate_median.value);
-      html+=cell('ps-fl','Selected', card2&&card2.value, card2&&card2.name);
+      push('ps-ma','House median', cmp.house_median&&cmp.house_median.value);
+      push('ps-us','Senate median', cmp.senate_median&&cmp.senate_median.value);
+      push('ps-fl','Selected', card2&&card2.value, card2&&card2.name);
     } else if(kind==='hospital'){
       var cmpH=FIND.compare||{};
       var qH=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||(FIND&&FIND.default_q)||'';
       var cardH=typeof findCardFor==='function'?findCardFor(qH):null;
-      html+=cell('ps-ma','Selected', cardH&&(cardH.srp!=null?String(cardH.srp):cardH.value), cardH&&cardH.name);
-      html+=cell('ps-us','Statewide commercial average', cmpH.statewide_srp&&cmpH.statewide_srp.value);
+      push('ps-ma','Selected', cardH&&(cardH.srp!=null?String(cardH.srp):cardH.value), cardH&&cardH.name);
+      push('ps-us','Statewide commercial average', cmpH.statewide_srp&&cmpH.statewide_srp.value);
     } else if(hasLens){
-      var us=ANSWERS.US||{};
       var ma=ANSWERS.MA||{};
       var fl=ANSWERS.FL||{};
-      var usLab=(us.kind==='rank'&&us.geo)?us.geo:(us.geo||'United States');
-      html+=cell('ps-us', usLab, us.value);
-      html+=cell('ps-ma', 'Massachusetts', ma.value);
-      html+=cell('ps-fl', 'Florida', fl.value);
+      push('ps-ma', 'Massachusetts', ma.value);
+      push('ps-fl', 'Florida', fl.value);
     }
-    if(!html) return;
-    el.innerHTML=html;
+    if(!parts.length){
+      el.innerHTML='';
+      el.hidden=true;
+      return;
+    }
+    el.innerHTML=parts.join('<span class="ps-dot" aria-hidden="true"> · </span>');
     el.hidden=false;
   }
   function answerKey(st){

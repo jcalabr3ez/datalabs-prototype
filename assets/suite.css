@@ -79,6 +79,8 @@
   .findcard .fc-facts{margin:10px 0 0 18px;font-size:13.5px;color:var(--g1);line-height:1.5}
   .findcard .fc-facts li{margin:0 0 4px}
   .findcard .fc-src{font-size:12px;color:var(--faint);margin-top:10px}
+  .findcard .find-pick{appearance:none;background:none;border:0;padding:0;margin:0;color:var(--navy);font:inherit;cursor:pointer;text-align:left;text-decoration:underline;text-underline-offset:2px}
+  .findcard .find-pick:hover{color:var(--ink)}
   .body-p{font-size:15px;margin-bottom:14px;max-width:42em}
   .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));border-top:1px solid var(--ink);border-bottom:1px solid var(--rule);background:#fff}
   .cell{padding:16px 20px 16px 0;border-right:1px solid var(--rule-lt);text-align:left}

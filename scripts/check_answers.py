@@ -485,6 +485,29 @@ if "Proposition 40" not in cur or "Initiative 645" not in cur or "Rhode Island" 
 else:
     ok("tax-atlas current caption names the live vehicles")
 
+bps_html = (ROOT / "boston-schools/index.html").read_text(encoding="utf-8")
+find_m = re.search(r"const FIND=(\{.*\});\n", bps_html)
+if not find_m:
+    fail("DL-34 page is missing FIND")
+else:
+    find = json.loads(find_m.group(1))
+    if find.get("kind") != "school":
+        fail(f"DL-34 FIND.kind is {find.get('kind')!r}, not school")
+    elif find.get("default_q") != "Boston Latin School":
+        fail(f"DL-34 FIND.default_q is {find.get('default_q')!r}")
+    elif "boston latin school" not in (find.get("cards") or {}):
+        fail("DL-34 FIND.cards is missing Boston Latin School")
+    else:
+        ok("DL-34 school finder defaults to Boston Latin School")
+if 'id="proofFind"' not in bps_html or 'id="proofFindList"' not in bps_html:
+    fail("DL-34 school lookup is missing the typeahead list")
+else:
+    ok("DL-34 school lookup has a typeahead list")
+if "function findHitsFor" not in bps_html or "find-pick" not in bps_html:
+    fail("DL-34 school lookup cannot resolve a short name to a pick list")
+else:
+    ok("DL-34 school lookup resolves short names")
+
 if failures:
     print("\nANSWER CONTRACT FAILURES:")
     for f in failures:

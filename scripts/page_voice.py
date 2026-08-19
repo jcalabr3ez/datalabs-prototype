@@ -1914,6 +1914,8 @@ def find_bundle(app, ledger):
         kind = "tax_type"
     elif tid == "DL-32":
         kind = "legislator"
+    elif tid == "DL-34":
+        kind = "school"
     else:
         kind = "row"
     cards = {}
@@ -2017,12 +2019,15 @@ def find_bundle(app, ledger):
                 facts.append(f"Stipends (A14) {money_cents(r['a14'])}")
             if r.get("n_stints") and r["n_stints"] > 1:
                 facts.append(f"{r['n_stints']} payroll stints in 2025, added together")
-        if tid == "DL-34":
+        if kind == "school":
             if r.get("female_pct") is not None and r.get("male_pct") is not None:
                 facts.append(
                     f"Female {r['female_pct']}%, male {r['male_pct']}% (SRC-634-01)"
                 )
         aliases = [norm_key(name), (name or "").lower()]
+        compact = re.sub(r"[^a-z0-9]+", "", name.lower())
+        if compact and compact not in aliases:
+            aliases.append(compact)
         shown = short_place(name) if kind == "town" else name
         if shown and shown.lower() not in aliases:
             aliases.append(shown.lower())
@@ -2069,6 +2074,8 @@ def find_bundle(app, ledger):
         default_q = "Boston"
     elif kind == "legislator":
         default_q = "Karen Spilka"
+    elif kind == "school":
+        default_q = "Boston Latin School"
     metric = ledger.get("metric_label") or "Value"
     if tid == "DL-07":
         metric = "NAEP grade 4 reading, 2024"
@@ -2129,6 +2136,14 @@ def find_bundle(app, ledger):
                 "name": "Senate median",
                 "v": senate.get("median"),
                 "value": money_cents(senate.get("median")),
+            }
+    elif kind == "school":
+        if latest.get("enrollment") is not None:
+            compare["district"] = {
+                "name": "Boston Public Schools",
+                "v": latest.get("enrollment"),
+                "value": commify(latest.get("enrollment")),
+                "schools": latest.get("schools"),
             }
     return {
         "kind": kind,

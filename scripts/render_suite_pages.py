@@ -791,6 +791,7 @@ def chart_spec(app, ledger):
         "department": "Compared with other departments",
         "tax type": "Compared by tax type",
         "legislator": "Pay by person",
+        "school": "This school versus the nearest by enrollment",
     }.get(geo, "Compared")
     table_noun = {
         "state": "Every state",
@@ -801,6 +802,7 @@ def chart_spec(app, ledger):
         "tax type": "Every tax type",
         "legislator": "Every legislator",
         "income group": "Every income group",
+        "school": "Every school",
     }.get(geo, "Every row")
     col_name = {
         "state": "State",
@@ -811,6 +813,7 @@ def chart_spec(app, ledger):
         "tax type": "Tax type",
         "legislator": "Legislator",
         "income group": "Income group",
+        "school": "School",
     }.get(geo, "Name")
     if tid == "DL-11":
         table_columns = [
@@ -1292,7 +1295,7 @@ def page_html(app, ledger, apps=None):
                 spec.get("geo") == "state"
                 or app["id"] in TOWN_TOOLS
                 or app["id"] in HIST_TOOLS
-                or (spec.get("compare") or "") in ("dots", "map", "town", "hist")
+                or (spec.get("compare") or "") in ("dots", "map", "town", "hist", "finder")
             )
         )
         if has_compare:
@@ -1429,13 +1432,23 @@ def page_html(app, ledger, apps=None):
             else "school" if app["id"] == "DL-34"
             else "city or town"
         )
+        options = []
+        for r in ledger.get("rows") or []:
+            name = r.get("name")
+            if name:
+                options.append(f'<option value="{esc(name)}"></option>')
+        datalist = (
+            f'      <datalist id="proofFindList">{"".join(options)}</datalist>\n'
+            if options else ""
+        )
         finder_block = (
             '  <section id="view-proof" class="proof-find">\n'
             f"    <h2>Look up a {esc(noun)}</h2>\n"
             '    <div class="findrow">\n'
             f'      <label class="sel-lab" for="proofFind">Type a {esc(noun)}</label>\n'
-            '      <input id="proofFind" type="search" placeholder="Type a name" autocomplete="off">\n'
-            "    </div>\n"
+            '      <input id="proofFind" type="search" list="proofFindList" placeholder="Type a name" autocomplete="off">\n'
+            + datalist
+            + "    </div>\n"
             '    <div id="proofCard" class="findcard"></div>\n'
             "  </section>\n"
         )
@@ -1807,6 +1820,12 @@ const FIND=FIND_JSON;
       var cardH=typeof findCardFor==='function'?findCardFor(qH):null;
       push('ps-ma','Selected', cardH&&(cardH.srp!=null?String(cardH.srp):cardH.value), cardH&&cardH.name);
       push('ps-us','Statewide commercial average', cmpH.statewide_srp&&cmpH.statewide_srp.value);
+    } else if(kind==='school'){
+      var cmpS=FIND.compare||{};
+      var qS=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||(document.getElementById('tblFind')&&document.getElementById('tblFind').value)||(FIND&&FIND.default_q)||'';
+      var cardS=typeof findCardFor==='function'?findCardFor(qS):null;
+      push('ps-ma','Selected', cardS&&cardS.value, cardS&&cardS.name);
+      push('ps-us','District', cmpS.district&&cmpS.district.value, cmpS.district&&cmpS.district.name);
     } else if(hasLens){
       var ma=ANSWERS.MA||{};
       var fl=ANSWERS.FL||{};
@@ -2119,14 +2138,55 @@ const FIND=FIND_JSON;
   function normFind(s){
     return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\\b(city|town|the)\\b/g,' ').replace(/^\\s+|\\s+$/g,'').replace(/\\s+/g,' ');
   }
-  function findCardFor(q){
-    if(!FIND || !FIND.cards) return null;
+  function compactFind(s){
+    return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
+  }
+  function findHitsFor(q){
+    if(!FIND || !FIND.cards) return [];
     var nq=normFind(q);
-    if(FIND.cards[nq]) return FIND.cards[nq];
+    var cq=compactFind(q);
+    if(!nq && !cq) return [];
+    var seen={};
     var hits=[];
-    Object.keys(FIND.cards).forEach(function(k){
-      if(k.indexOf(nq)>=0 || nq.indexOf(k)>=0) hits.push(FIND.cards[k]);
+    function add(rec){
+      if(!rec || !rec.name || seen[rec.name]) return;
+      seen[rec.name]=1;
+      hits.push(rec);
+    }
+    function keysOf(rec, k){
+      var ks=[k, normFind(rec.name), compactFind(rec.name)];
+      (rec.aliases||[]).forEach(function(a){
+        ks.push(normFind(a));
+        ks.push(compactFind(a));
+      });
+      return ks;
+    }
+    function walk(pred){
+      Object.keys(FIND.cards).forEach(function(k){
+        var rec=FIND.cards[k];
+        if(pred(keysOf(rec, k), rec)) add(rec);
+      });
+    }
+    walk(function(ks){
+      return ks.indexOf(nq)>=0 || (cq && ks.indexOf(cq)>=0);
     });
+    if(hits.length) return hits;
+    walk(function(ks){
+      return ks.some(function(k2){
+        if(!k2) return false;
+        if(nq && (k2===nq || k2.indexOf(nq+' ')===0 || nq.indexOf(k2+' ')===0)) return true;
+        if(cq && cq.length>=3 && k2.indexOf(cq)===0) return true;
+        return false;
+      });
+    });
+    if(hits.length) return hits;
+    walk(function(ks){
+      return ks.some(function(k2){ return nq && k2 && k2.indexOf(nq)>=0; });
+    });
+    return hits;
+  }
+  function findCardFor(q){
+    var hits=findHitsFor(q);
     return hits.length===1?hits[0]:null;
   }
   function rowByName(name){
@@ -2224,6 +2284,15 @@ const FIND=FIND_JSON;
         {name: senate.name, v:Number(senate.v)}
       ], (person.name||'This member')+' versus House and Senate medians', 'dollars');
     }
+    if(kind==='school'){
+      var school=row||(card&&rowByName(card.name));
+      if(!school) return false;
+      var peer=nearestPeerRow(school);
+      var items=[{name:school.name,v:Number(school.v)}];
+      if(peer) items.push({name:peer.name,v:Number(peer.v)});
+      if(items.length<2) return false;
+      return drawLookupBars(items, (school.name||'This school')+' versus the nearest school by enrollment', 'students');
+    }
     return false;
   }
   function bostonRow(){
@@ -2253,7 +2322,7 @@ const FIND=FIND_JSON;
   }
   function drawRank(){
     if(CHART.geo==='state'){ drawRankMap(); return; }
-    if(CHART.compare==='town' || CHART.compare==='finder' || (FIND && (FIND.kind==='town'||FIND.kind==='hospital'||FIND.kind==='legislator'))){
+    if(CHART.compare==='town' || CHART.compare==='finder' || (FIND && (FIND.kind==='town'||FIND.kind==='hospital'||FIND.kind==='legislator'||FIND.kind==='school'))){
       if(drawLookupFig()){
         drawTownMapLater();
         if(document.getElementById('chHist')) drawHist('chHist');
@@ -2988,33 +3057,51 @@ const FIND=FIND_JSON;
       if(proofCard && !(FIND && FIND.default_q)){ proofCard.hidden=true; proofCard.innerHTML=''; }
     }
     function matchCard(q){
-      if(!q || !FIND || !FIND.cards) return null;
-      var nq=norm(q);
-      var cards=FIND.cards;
-      if(cards[nq]) return cards[nq];
-      var hits=[];
-      Object.keys(cards).forEach(function(k){
-        if(k.indexOf(nq)>=0 || nq.indexOf(k)>=0) hits.push(cards[k]);
+      return typeof findCardFor==='function'?findCardFor(q):null;
+    }
+    function bindPicks(root){
+      if(!root) return;
+      [].slice.call(root.querySelectorAll('.find-pick')).forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var name=btn.getAttribute('data-name')||'';
+          if(find) find.value=name;
+          if(proofFind) proofFind.value=name;
+          applyFind();
+          writeQuery();
+        });
       });
-      if(hits.length===1) return hits[0];
-      return null;
+    }
+    function renderPick(hits){
+      var kind=(FIND&&FIND.kind)||'';
+      var noun=kind==='school'?'Schools that match':kind==='hospital'?'Hospitals that match':kind==='town'?'Places that match':'Matches';
+      var html='<div class="fc-k">'+noun+'</div><ul class="fc-facts">'+
+        hits.slice(0,12).map(function(h){
+          var lab=String(h.name||'').replace(/</g,'');
+          var val=h.value?(' \\u00b7 '+String(h.value).replace(/</g,'')):'';
+          return '<li><button type="button" class="find-pick" data-name="'+lab.replace(/"/g,'')+'">'+lab+val+'</button></li>';
+        }).join('')+'</ul>';
+      if(card){ card.hidden=false; card.innerHTML=html; bindPicks(card); }
+      if(proofCard){ proofCard.hidden=false; proofCard.innerHTML=html; bindPicks(proofCard); }
     }
     var _apply=applyFind;
     applyFind=function(){
       _apply();
       var q=(find&&find.value||'').replace(/^\\s+|\\s+$/g,'');
       var extra=matchCard(q);
+      var hits=(typeof findHitsFor==='function'?findHitsFor(q):[]);
       var shown=[];
       [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){ if(!tr.hidden) shown.push(tr); });
-      if(extra && shown.length===1){
-        var key=(shown[0].getAttribute('data-q')||'');
-        var row=null;
-        var src=(CHART.geo==='state')?mapBaseRows():rows;
-        src.forEach(function(r){
-          var rk=((r.name||'')+' '+(r.st||'')).toLowerCase();
-          if(rk===key) row=r;
-        });
+      if(extra){
+        var row=typeof rowByName==='function'?rowByName(extra.name):null;
+        if(!row){
+          var src=(CHART.geo==='state')?mapBaseRows():rows;
+          src.forEach(function(r){
+            if(norm(r.name)===norm(extra.name)) row=r;
+          });
+        }
         renderCard(row, extra);
+      } else if(hits.length>1){
+        renderPick(hits);
       } else if(shown.length===1){
         var key2=(shown[0].getAttribute('data-q')||'');
         var row2=null;

@@ -221,7 +221,7 @@ const DL={"tool_id":"DL-20","as_of":"2023-12","rows":[{"st":"TX","name":"Texas",
 const CHART={"geo": "state", "format": "number", "highlight": "MA", "highlights": ["MA"], "n_chart": 51, "unit": "returns", "axis_unit": "returns", "label": "Net domestic taxpayer migration, 2022-23 (returns)", "title": "Net domestic taxpayer migration, 2022-23 (returns) by state", "compare_title": "Across the 50 states and D.C.", "lede": "Net domestic taxpayer migration, 2022-23 (returns).", "has_trend": false, "headline_from": "", "table_noun": "Every state", "col_name": "State", "table_columns": [{"key": "name", "label": "State", "cls": "m"}, {"key": "v", "label": "Returns", "align": "n", "fmt": "value"}, {"key": "rank", "label": "Rank", "align": "n"}, {"key": "yoy_pct", "label": "YoY", "align": "n", "kind": "yoy"}], "table_lede": "Filter by Census region, or by the top or bottom ten. Click a column head to sort. Type a name to jump to a row.", "table_note": "Ranks and year-over-year changes are Pioneer calculations (derived).", "trend_mode": "level", "trend_title": "Net domestic taxpayer migration, 2022-23 (returns) over time", "trend_lede": "The line shows whether the figure has risen or fallen. Select a state to add it when that series is on file.", "trend_unit": "returns", "us": null, "us_compare": false, "map_mode": "hex", "compare": "map", "hero_finder": false, "show_map": true};
 const INSIGHTS=[{"id": "ma-destinations", "title": "Where Massachusetts taxpayers moved, 2022-23", "lede": "Florida was the largest destination at 12,159 returns.", "src": "SRC-620-01", "type": "bar", "format": "number", "unit": "returns", "labels": ["Florida", "New York", "New Hampshire", "California", "Rhode Island", "Connecticut", "Texas", "North Carolina"], "series": [{"label": "", "data": [12159, 11027, 10603, 7767, 6510, 6006, 4218, 3483], "colors": ["#C45C26", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8"]}], "note": "Origin-destination returns from IRS SOI stateoutflow2223.csv. Same-state, foreign, and Total Migration-US aggregate rows are excluded. AGI is the published IRS column, in thousands of dollars.", "span": 2, "index_axis": "y", "height": "mid"}, {"id": "us-county-mig", "title": "Largest U.S. county taxpayer gains and losses, 2022-23", "lede": "Polk County, FL had the largest net inflow; Los Angeles County, CA the largest net outflow. 3,087 counties are in the file. Massachusetts counties are marked in gold; Florida in rust.", "src": "SRC-620-02", "type": "bar", "format": "number", "unit": "returns", "labels": ["Polk County, FL", "Pasco County, FL", "Montgomery County, TX", "Williamson County, TX", "Collin County, TX", "Harris County, TX", "Nassau County, NY", "Broward County, FL", "Suffolk County, NY", "Montgomery County, MD"], "series": [{"label": "", "data": [9148, 8986, 8404, 7519, 7057, -6492, -6384, -6182, -5768, -5761], "colors": ["#293C5C", "#293C5C", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#293C5C", "#A9B8C8", "#A9B8C8"]}], "note": "Every U.S. county with a published Total Migration-US inflow and outflow. The figure shows the 15 largest net gains and the 15 largest net losses. Net equals inflow n1 minus outflow n1. Same-state and foreign rows are excluded.", "span": 2, "index_axis": "y", "height": "ranks"}, {"id": "county-mig", "title": "Massachusetts county net domestic taxpayer migration, 2022-23", "lede": "Bristol County had the largest net inflow; Middlesex County the largest net outflow.", "src": "SRC-620-02", "type": "bar", "format": "number", "unit": "returns", "labels": ["Bristol County", "Nantucket County", "Franklin County", "Dukes County", "Berkshire County", "Worcester County", "Norfolk County", "Essex County", "Suffolk County", "Middlesex County"], "series": [{"label": "", "data": [168, -32, -54, -120, -172, -1359, -1670, -1820, -3762, -4549], "colors": ["#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8", "#A9B8C8"]}], "note": "Net equals Total Migration-US inflow n1 minus outflow n1. Same-state and foreign rows are excluded.", "span": 2, "index_axis": "y", "height": "mid"}];
 const MAP_VIEWS=[{"id": "latest", "tab": "Net domestic taxpayer migration, 2022-23 (returns)", "title": "Net domestic taxpayer migration, 2022-23 (returns) by state", "lede": "Net domestic taxpayer migration, 2022-23 (returns).", "src": "IRS SOI state-to-state migration, tax years 2022-23 (SRC-620-01)", "unit": "returns", "format": "number", "primary": true, "mode": "hex"}];
-const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473 returns", "rank": 1, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["texas", "texas"], "v": 56473, "srp": null, "chamber": null}, "florida": {"name": "Florida", "value": "55,349 returns", "rank": 2, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["florida", "florida"], "v": 55349, "srp": null, "chamber": null}, "north carolina": {"name": "North Carolina", "value": "39,118 returns", "rank": 3, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["north carolina", "north carolina"], "v": 39118, "srp": null, "chamber": null}, "south carolina": {"name": "South Carolina", "value": "29,214 returns", "rank": 4, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["south carolina", "south carolina"], "v": 29214, "srp": null, "chamber": null}, "tennessee": {"name": "Tennessee", "value": "24,104 returns", "rank": 5, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["tennessee", "tennessee"], "v": 24104, "srp": null, "chamber": null}, "arizona": {"name": "Arizona", "value": "17,316 returns", "rank": 6, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["arizona", "arizona"], "v": 17316, "srp": null, "chamber": null}, "georgia": {"name": "Georgia", "value": "14,671 returns", "rank": 7, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["georgia", "georgia"], "v": 14671, "srp": null, "chamber": null}, "colorado": {"name": "Colorado", "value": "11,341 returns", "rank": 8, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["colorado", "colorado"], "v": 11341, "srp": null, "chamber": null}, "washington": {"name": "Washington", "value": "9,839 returns", "rank": 9, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["washington", "washington"], "v": 9839, "srp": null, "chamber": null}, "nevada": {"name": "Nevada", "value": "8,977 returns", "rank": 10, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["nevada", "nevada"], "v": 8977, "srp": null, "chamber": null}, "alabama": {"name": "Alabama", "value": "6,202 returns", "rank": 11, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["alabama", "alabama"], "v": 6202, "srp": null, "chamber": null}, "idaho": {"name": "Idaho", "value": "5,811 returns", "rank": 12, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["idaho", "idaho"], "v": 5811, "srp": null, "chamber": null}, "oklahoma": {"name": "Oklahoma", "value": "5,414 returns", "rank": 13, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["oklahoma", "oklahoma"], "v": 5414, "srp": null, "chamber": null}, "arkansas": {"name": "Arkansas", "value": "5,269 returns", "rank": 14, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["arkansas", "arkansas"], "v": 5269, "srp": null, "chamber": null}, "delaware": {"name": "Delaware", "value": "4,054 returns", "rank": 15, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["delaware", "delaware"], "v": 4054, "srp": null, "chamber": null}, "maine": {"name": "Maine", "value": "3,671 returns", "rank": 16, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["maine", "maine"], "v": 3671, "srp": null, "chamber": null}, "utah": {"name": "Utah", "value": "3,164 returns", "rank": 17, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["utah", "utah"], "v": 3164, "srp": null, "chamber": null}, "montana": {"name": "Montana", "value": "3,096 returns", "rank": 18, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["montana", "montana"], "v": 3096, "srp": null, "chamber": null}, "missouri": {"name": "Missouri", "value": "2,794 returns", "rank": 19, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["missouri", "missouri"], "v": 2794, "srp": null, "chamber": null}, "new hampshire": {"name": "New Hampshire", "value": "2,168 returns", "rank": 20, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new hampshire", "new hampshire"], "v": 2168, "srp": null, "chamber": null}, "kentucky": {"name": "Kentucky", "value": "2,158 returns", "rank": 21, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["kentucky", "kentucky"], "v": 2158, "srp": null, "chamber": null}, "district of columbia": {"name": "District of Columbia", "value": "1,673 returns", "rank": 22, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["district of columbia", "district of columbia"], "v": 1673, "srp": null, "chamber": null}, "south dakota": {"name": "South Dakota", "value": "1,539 returns", "rank": 23, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["south dakota", "south dakota"], "v": 1539, "srp": null, "chamber": null}, "west virginia": {"name": "West Virginia", "value": "879 returns", "rank": 24, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["west virginia", "west virginia"], "v": 879, "srp": null, "chamber": null}, "wisconsin": {"name": "Wisconsin", "value": "516 returns", "rank": 25, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["wisconsin", "wisconsin"], "v": 516, "srp": null, "chamber": null}, "virginia": {"name": "Virginia", "value": "421 returns", "rank": 26, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["virginia", "virginia"], "v": 421, "srp": null, "chamber": null}, "wyoming": {"name": "Wyoming", "value": "187 returns", "rank": 27, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["wyoming", "wyoming"], "v": 187, "srp": null, "chamber": null}, "oregon": {"name": "Oregon", "value": "-45 returns", "rank": 28, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["oregon", "oregon"], "v": -45, "srp": null, "chamber": null}, "north dakota": {"name": "North Dakota", "value": "-46 returns", "rank": 29, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["north dakota", "north dakota"], "v": -46, "srp": null, "chamber": null}, "rhode island": {"name": "Rhode Island", "value": "-129 returns", "rank": 30, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["rhode island", "rhode island"], "v": -129, "srp": null, "chamber": null}, "new mexico": {"name": "New Mexico", "value": "-213 returns", "rank": 31, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new mexico", "new mexico"], "v": -213, "srp": null, "chamber": null}, "vermont": {"name": "Vermont", "value": "-299 returns", "rank": 32, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["vermont", "vermont"], "v": -299, "srp": null, "chamber": null}, "indiana": {"name": "Indiana", "value": "-1,268 returns", "rank": 33, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["indiana", "indiana"], "v": -1268, "srp": null, "chamber": null}, "alaska": {"name": "Alaska", "value": "-1,389 returns", "rank": 34, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["alaska", "alaska"], "v": -1389, "srp": null, "chamber": null}, "nebraska": {"name": "Nebraska", "value": "-1,484 returns", "rank": 35, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["nebraska", "nebraska"], "v": -1484, "srp": null, "chamber": null}, "iowa": {"name": "Iowa", "value": "-2,414 returns", "rank": 36, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["iowa", "iowa"], "v": -2414, "srp": null, "chamber": null}, "hawaii": {"name": "Hawaii", "value": "-2,597 returns", "rank": 37, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["hawaii", "hawaii"], "v": -2597, "srp": null, "chamber": null}, "mississippi": {"name": "Mississippi", "value": "-3,125 returns", "rank": 38, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["mississippi", "mississippi"], "v": -3125, "srp": null, "chamber": null}, "kansas": {"name": "Kansas", "value": "-3,272 returns", "rank": 39, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["kansas", "kansas"], "v": -3272, "srp": null, "chamber": null}, "minnesota": {"name": "Minnesota", "value": "-5,106 returns", "rank": 40, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["minnesota", "minnesota"], "v": -5106, "srp": null, "chamber": null}, "connecticut": {"name": "Connecticut", "value": "-5,674 returns", "rank": 41, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["connecticut", "connecticut"], "v": -5674, "srp": null, "chamber": null}, "ohio": {"name": "Ohio", "value": "-7,994 returns", "rank": 42, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["ohio", "ohio"], "v": -7994, "srp": null, "chamber": null}, "michigan": {"name": "Michigan", "value": "-8,770 returns", "rank": 43, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["michigan", "michigan"], "v": -8770, "srp": null, "chamber": null}, "louisiana": {"name": "Louisiana", "value": "-10,129 returns", "rank": 44, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["louisiana", "louisiana"], "v": -10129, "srp": null, "chamber": null}, "pennsylvania": {"name": "Pennsylvania", "value": "-12,095 returns", "rank": 45, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["pennsylvania", "pennsylvania"], "v": -12095, "srp": null, "chamber": null}, "maryland": {"name": "Maryland", "value": "-13,628 returns", "rank": 46, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["maryland", "maryland"], "v": -13628, "srp": null, "chamber": null}, "massachusetts": {"name": "Massachusetts", "value": "-15,378 returns", "rank": 47, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["massachusetts", "massachusetts"], "v": -15378, "srp": null, "chamber": null}, "new jersey": {"name": "New Jersey", "value": "-19,370 returns", "rank": 48, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new jersey", "new jersey"], "v": -19370, "srp": null, "chamber": null}, "illinois": {"name": "Illinois", "value": "-28,609 returns", "rank": 49, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["illinois", "illinois"], "v": -28609, "srp": null, "chamber": null}, "new york": {"name": "New York", "value": "-71,987 returns", "rank": 50, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new york", "new york"], "v": -71987, "srp": null, "chamber": null}, "california": {"name": "California", "value": "-100,397 returns", "rank": 51, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["california", "california"], "v": -100397, "srp": null, "chamber": null}}, "metric": "Net domestic taxpayer migration, 2022-23 (returns)", "default_q": "", "compare": {"kind": "row"}};
+const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473 returns", "rank": 1, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["texas", "texas"], "v": 56473, "srp": null, "chamber": null}, "florida": {"name": "Florida", "value": "55,349 returns", "rank": 2, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["florida", "florida"], "v": 55349, "srp": null, "chamber": null}, "north carolina": {"name": "North Carolina", "value": "39,118 returns", "rank": 3, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["north carolina", "north carolina", "northcarolina"], "v": 39118, "srp": null, "chamber": null}, "south carolina": {"name": "South Carolina", "value": "29,214 returns", "rank": 4, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["south carolina", "south carolina", "southcarolina"], "v": 29214, "srp": null, "chamber": null}, "tennessee": {"name": "Tennessee", "value": "24,104 returns", "rank": 5, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["tennessee", "tennessee"], "v": 24104, "srp": null, "chamber": null}, "arizona": {"name": "Arizona", "value": "17,316 returns", "rank": 6, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["arizona", "arizona"], "v": 17316, "srp": null, "chamber": null}, "georgia": {"name": "Georgia", "value": "14,671 returns", "rank": 7, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["georgia", "georgia"], "v": 14671, "srp": null, "chamber": null}, "colorado": {"name": "Colorado", "value": "11,341 returns", "rank": 8, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["colorado", "colorado"], "v": 11341, "srp": null, "chamber": null}, "washington": {"name": "Washington", "value": "9,839 returns", "rank": 9, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["washington", "washington"], "v": 9839, "srp": null, "chamber": null}, "nevada": {"name": "Nevada", "value": "8,977 returns", "rank": 10, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["nevada", "nevada"], "v": 8977, "srp": null, "chamber": null}, "alabama": {"name": "Alabama", "value": "6,202 returns", "rank": 11, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["alabama", "alabama"], "v": 6202, "srp": null, "chamber": null}, "idaho": {"name": "Idaho", "value": "5,811 returns", "rank": 12, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["idaho", "idaho"], "v": 5811, "srp": null, "chamber": null}, "oklahoma": {"name": "Oklahoma", "value": "5,414 returns", "rank": 13, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["oklahoma", "oklahoma"], "v": 5414, "srp": null, "chamber": null}, "arkansas": {"name": "Arkansas", "value": "5,269 returns", "rank": 14, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["arkansas", "arkansas"], "v": 5269, "srp": null, "chamber": null}, "delaware": {"name": "Delaware", "value": "4,054 returns", "rank": 15, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["delaware", "delaware"], "v": 4054, "srp": null, "chamber": null}, "maine": {"name": "Maine", "value": "3,671 returns", "rank": 16, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["maine", "maine"], "v": 3671, "srp": null, "chamber": null}, "utah": {"name": "Utah", "value": "3,164 returns", "rank": 17, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["utah", "utah"], "v": 3164, "srp": null, "chamber": null}, "montana": {"name": "Montana", "value": "3,096 returns", "rank": 18, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["montana", "montana"], "v": 3096, "srp": null, "chamber": null}, "missouri": {"name": "Missouri", "value": "2,794 returns", "rank": 19, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["missouri", "missouri"], "v": 2794, "srp": null, "chamber": null}, "new hampshire": {"name": "New Hampshire", "value": "2,168 returns", "rank": 20, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new hampshire", "new hampshire", "newhampshire"], "v": 2168, "srp": null, "chamber": null}, "kentucky": {"name": "Kentucky", "value": "2,158 returns", "rank": 21, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["kentucky", "kentucky"], "v": 2158, "srp": null, "chamber": null}, "district of columbia": {"name": "District of Columbia", "value": "1,673 returns", "rank": 22, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["district of columbia", "district of columbia", "districtofcolumbia"], "v": 1673, "srp": null, "chamber": null}, "south dakota": {"name": "South Dakota", "value": "1,539 returns", "rank": 23, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["south dakota", "south dakota", "southdakota"], "v": 1539, "srp": null, "chamber": null}, "west virginia": {"name": "West Virginia", "value": "879 returns", "rank": 24, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["west virginia", "west virginia", "westvirginia"], "v": 879, "srp": null, "chamber": null}, "wisconsin": {"name": "Wisconsin", "value": "516 returns", "rank": 25, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["wisconsin", "wisconsin"], "v": 516, "srp": null, "chamber": null}, "virginia": {"name": "Virginia", "value": "421 returns", "rank": 26, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["virginia", "virginia"], "v": 421, "srp": null, "chamber": null}, "wyoming": {"name": "Wyoming", "value": "187 returns", "rank": 27, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["wyoming", "wyoming"], "v": 187, "srp": null, "chamber": null}, "oregon": {"name": "Oregon", "value": "-45 returns", "rank": 28, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["oregon", "oregon"], "v": -45, "srp": null, "chamber": null}, "north dakota": {"name": "North Dakota", "value": "-46 returns", "rank": 29, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["north dakota", "north dakota", "northdakota"], "v": -46, "srp": null, "chamber": null}, "rhode island": {"name": "Rhode Island", "value": "-129 returns", "rank": 30, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["rhode island", "rhode island", "rhodeisland"], "v": -129, "srp": null, "chamber": null}, "new mexico": {"name": "New Mexico", "value": "-213 returns", "rank": 31, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new mexico", "new mexico", "newmexico"], "v": -213, "srp": null, "chamber": null}, "vermont": {"name": "Vermont", "value": "-299 returns", "rank": 32, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["vermont", "vermont"], "v": -299, "srp": null, "chamber": null}, "indiana": {"name": "Indiana", "value": "-1,268 returns", "rank": 33, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["indiana", "indiana"], "v": -1268, "srp": null, "chamber": null}, "alaska": {"name": "Alaska", "value": "-1,389 returns", "rank": 34, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["alaska", "alaska"], "v": -1389, "srp": null, "chamber": null}, "nebraska": {"name": "Nebraska", "value": "-1,484 returns", "rank": 35, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["nebraska", "nebraska"], "v": -1484, "srp": null, "chamber": null}, "iowa": {"name": "Iowa", "value": "-2,414 returns", "rank": 36, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["iowa", "iowa"], "v": -2414, "srp": null, "chamber": null}, "hawaii": {"name": "Hawaii", "value": "-2,597 returns", "rank": 37, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["hawaii", "hawaii"], "v": -2597, "srp": null, "chamber": null}, "mississippi": {"name": "Mississippi", "value": "-3,125 returns", "rank": 38, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["mississippi", "mississippi"], "v": -3125, "srp": null, "chamber": null}, "kansas": {"name": "Kansas", "value": "-3,272 returns", "rank": 39, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["kansas", "kansas"], "v": -3272, "srp": null, "chamber": null}, "minnesota": {"name": "Minnesota", "value": "-5,106 returns", "rank": 40, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["minnesota", "minnesota"], "v": -5106, "srp": null, "chamber": null}, "connecticut": {"name": "Connecticut", "value": "-5,674 returns", "rank": 41, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["connecticut", "connecticut"], "v": -5674, "srp": null, "chamber": null}, "ohio": {"name": "Ohio", "value": "-7,994 returns", "rank": 42, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["ohio", "ohio"], "v": -7994, "srp": null, "chamber": null}, "michigan": {"name": "Michigan", "value": "-8,770 returns", "rank": 43, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["michigan", "michigan"], "v": -8770, "srp": null, "chamber": null}, "louisiana": {"name": "Louisiana", "value": "-10,129 returns", "rank": 44, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["louisiana", "louisiana"], "v": -10129, "srp": null, "chamber": null}, "pennsylvania": {"name": "Pennsylvania", "value": "-12,095 returns", "rank": 45, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["pennsylvania", "pennsylvania"], "v": -12095, "srp": null, "chamber": null}, "maryland": {"name": "Maryland", "value": "-13,628 returns", "rank": 46, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["maryland", "maryland"], "v": -13628, "srp": null, "chamber": null}, "massachusetts": {"name": "Massachusetts", "value": "-15,378 returns", "rank": 47, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["massachusetts", "massachusetts"], "v": -15378, "srp": null, "chamber": null}, "new jersey": {"name": "New Jersey", "value": "-19,370 returns", "rank": 48, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new jersey", "new jersey", "newjersey"], "v": -19370, "srp": null, "chamber": null}, "illinois": {"name": "Illinois", "value": "-28,609 returns", "rank": 49, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["illinois", "illinois"], "v": -28609, "srp": null, "chamber": null}, "new york": {"name": "New York", "value": "-71,987 returns", "rank": 50, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["new york", "new york", "newyork"], "v": -71987, "srp": null, "chamber": null}, "california": {"name": "California", "value": "-100,397 returns", "rank": 51, "n": 51, "yoy": null, "facts": [], "kind": "row", "aliases": ["california", "california"], "v": -100397, "srp": null, "chamber": null}}, "metric": "Net domestic taxpayer migration, 2022-23 (returns)", "default_q": "", "compare": {"kind": "row"}};
 
 (function(){
   var q=new URLSearchParams(location.search);
@@ -399,6 +399,12 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
       var cardH=typeof findCardFor==='function'?findCardFor(qH):null;
       push('ps-ma','Selected', cardH&&(cardH.srp!=null?String(cardH.srp):cardH.value), cardH&&cardH.name);
       push('ps-us','Statewide commercial average', cmpH.statewide_srp&&cmpH.statewide_srp.value);
+    } else if(kind==='school'){
+      var cmpS=FIND.compare||{};
+      var qS=(document.getElementById('proofFind')&&document.getElementById('proofFind').value)||(document.getElementById('tblFind')&&document.getElementById('tblFind').value)||(FIND&&FIND.default_q)||'';
+      var cardS=typeof findCardFor==='function'?findCardFor(qS):null;
+      push('ps-ma','Selected', cardS&&cardS.value, cardS&&cardS.name);
+      push('ps-us','District', cmpS.district&&cmpS.district.value, cmpS.district&&cmpS.district.name);
     } else if(hasLens){
       var ma=ANSWERS.MA||{};
       var fl=ANSWERS.FL||{};
@@ -711,14 +717,55 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
   function normFind(s){
     return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\b(city|town|the)\b/g,' ').replace(/^\s+|\s+$/g,'').replace(/\s+/g,' ');
   }
-  function findCardFor(q){
-    if(!FIND || !FIND.cards) return null;
+  function compactFind(s){
+    return String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,'');
+  }
+  function findHitsFor(q){
+    if(!FIND || !FIND.cards) return [];
     var nq=normFind(q);
-    if(FIND.cards[nq]) return FIND.cards[nq];
+    var cq=compactFind(q);
+    if(!nq && !cq) return [];
+    var seen={};
     var hits=[];
-    Object.keys(FIND.cards).forEach(function(k){
-      if(k.indexOf(nq)>=0 || nq.indexOf(k)>=0) hits.push(FIND.cards[k]);
+    function add(rec){
+      if(!rec || !rec.name || seen[rec.name]) return;
+      seen[rec.name]=1;
+      hits.push(rec);
+    }
+    function keysOf(rec, k){
+      var ks=[k, normFind(rec.name), compactFind(rec.name)];
+      (rec.aliases||[]).forEach(function(a){
+        ks.push(normFind(a));
+        ks.push(compactFind(a));
+      });
+      return ks;
+    }
+    function walk(pred){
+      Object.keys(FIND.cards).forEach(function(k){
+        var rec=FIND.cards[k];
+        if(pred(keysOf(rec, k), rec)) add(rec);
+      });
+    }
+    walk(function(ks){
+      return ks.indexOf(nq)>=0 || (cq && ks.indexOf(cq)>=0);
     });
+    if(hits.length) return hits;
+    walk(function(ks){
+      return ks.some(function(k2){
+        if(!k2) return false;
+        if(nq && (k2===nq || k2.indexOf(nq+' ')===0 || nq.indexOf(k2+' ')===0)) return true;
+        if(cq && cq.length>=3 && k2.indexOf(cq)===0) return true;
+        return false;
+      });
+    });
+    if(hits.length) return hits;
+    walk(function(ks){
+      return ks.some(function(k2){ return nq && k2 && k2.indexOf(nq)>=0; });
+    });
+    return hits;
+  }
+  function findCardFor(q){
+    var hits=findHitsFor(q);
     return hits.length===1?hits[0]:null;
   }
   function rowByName(name){
@@ -816,6 +863,15 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
         {name: senate.name, v:Number(senate.v)}
       ], (person.name||'This member')+' versus House and Senate medians', 'dollars');
     }
+    if(kind==='school'){
+      var school=row||(card&&rowByName(card.name));
+      if(!school) return false;
+      var peer=nearestPeerRow(school);
+      var items=[{name:school.name,v:Number(school.v)}];
+      if(peer) items.push({name:peer.name,v:Number(peer.v)});
+      if(items.length<2) return false;
+      return drawLookupBars(items, (school.name||'This school')+' versus the nearest school by enrollment', 'students');
+    }
     return false;
   }
   function bostonRow(){
@@ -845,7 +901,7 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
   }
   function drawRank(){
     if(CHART.geo==='state'){ drawRankMap(); return; }
-    if(CHART.compare==='town' || CHART.compare==='finder' || (FIND && (FIND.kind==='town'||FIND.kind==='hospital'||FIND.kind==='legislator'))){
+    if(CHART.compare==='town' || CHART.compare==='finder' || (FIND && (FIND.kind==='town'||FIND.kind==='hospital'||FIND.kind==='legislator'||FIND.kind==='school'))){
       if(drawLookupFig()){
         drawTownMapLater();
         if(document.getElementById('chHist')) drawHist('chHist');
@@ -1580,33 +1636,51 @@ const FIND={"kind": "row", "cards": {"texas": {"name": "Texas", "value": "56,473
       if(proofCard && !(FIND && FIND.default_q)){ proofCard.hidden=true; proofCard.innerHTML=''; }
     }
     function matchCard(q){
-      if(!q || !FIND || !FIND.cards) return null;
-      var nq=norm(q);
-      var cards=FIND.cards;
-      if(cards[nq]) return cards[nq];
-      var hits=[];
-      Object.keys(cards).forEach(function(k){
-        if(k.indexOf(nq)>=0 || nq.indexOf(k)>=0) hits.push(cards[k]);
+      return typeof findCardFor==='function'?findCardFor(q):null;
+    }
+    function bindPicks(root){
+      if(!root) return;
+      [].slice.call(root.querySelectorAll('.find-pick')).forEach(function(btn){
+        btn.addEventListener('click', function(){
+          var name=btn.getAttribute('data-name')||'';
+          if(find) find.value=name;
+          if(proofFind) proofFind.value=name;
+          applyFind();
+          writeQuery();
+        });
       });
-      if(hits.length===1) return hits[0];
-      return null;
+    }
+    function renderPick(hits){
+      var kind=(FIND&&FIND.kind)||'';
+      var noun=kind==='school'?'Schools that match':kind==='hospital'?'Hospitals that match':kind==='town'?'Places that match':'Matches';
+      var html='<div class="fc-k">'+noun+'</div><ul class="fc-facts">'+
+        hits.slice(0,12).map(function(h){
+          var lab=String(h.name||'').replace(/</g,'');
+          var val=h.value?(' \u00b7 '+String(h.value).replace(/</g,'')):'';
+          return '<li><button type="button" class="find-pick" data-name="'+lab.replace(/"/g,'')+'">'+lab+val+'</button></li>';
+        }).join('')+'</ul>';
+      if(card){ card.hidden=false; card.innerHTML=html; bindPicks(card); }
+      if(proofCard){ proofCard.hidden=false; proofCard.innerHTML=html; bindPicks(proofCard); }
     }
     var _apply=applyFind;
     applyFind=function(){
       _apply();
       var q=(find&&find.value||'').replace(/^\s+|\s+$/g,'');
       var extra=matchCard(q);
+      var hits=(typeof findHitsFor==='function'?findHitsFor(q):[]);
       var shown=[];
       [].slice.call(tb.querySelectorAll('tr')).forEach(function(tr){ if(!tr.hidden) shown.push(tr); });
-      if(extra && shown.length===1){
-        var key=(shown[0].getAttribute('data-q')||'');
-        var row=null;
-        var src=(CHART.geo==='state')?mapBaseRows():rows;
-        src.forEach(function(r){
-          var rk=((r.name||'')+' '+(r.st||'')).toLowerCase();
-          if(rk===key) row=r;
-        });
+      if(extra){
+        var row=typeof rowByName==='function'?rowByName(extra.name):null;
+        if(!row){
+          var src=(CHART.geo==='state')?mapBaseRows():rows;
+          src.forEach(function(r){
+            if(norm(r.name)===norm(extra.name)) row=r;
+          });
+        }
         renderCard(row, extra);
+      } else if(hits.length>1){
+        renderPick(hits);
       } else if(shown.length===1){
         var key2=(shown[0].getAttribute('data-q')||'');
         var row2=null;

@@ -249,7 +249,7 @@ def sec_he_finance():
         "src": "SRC-608-07",
         "unit": "dollars",
         "as_of_label": "Fiscal year 2025",
-        "note": "SHEEO SHEF FY 2025 Report Data, Education Appropriations. Fifty states; D.C. is not in that file.",
+        "note": "SHEEO SHEF FY 2025 Report Data, Education Appropriations.",
     })
     tot_s.update({
         "label": "State and local support for public higher education, FY 2025",

@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import json
 import re
+import time
+import urllib.error
 import urllib.request
 from pathlib import Path
 
@@ -158,9 +160,19 @@ def write_ledger(obj: dict) -> Path:
 
 
 def fetch(url: str, timeout: int = 90) -> bytes:
+    """GET bytes. Retries a few times when the publisher drops the socket."""
     req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
-        return resp.read()
+    last = None
+    for attempt in range(4):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return resp.read()
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as exc:
+            last = exc
+            if attempt == 3:
+                raise
+            time.sleep(2 ** attempt)
+    raise last
 
 
 def fetch_text(url: str, timeout: int = 90) -> str:

@@ -5,8 +5,8 @@
   "vertical": "Education",
   "group": "Education",
   "status": "live",
-  "as_of": "2022-10",
-  "scope": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20.",
+  "as_of": "2024-10",
+  "scope": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20.",
   "exclusions": "Does not cover K-12, rankings of individual colleges as advice, or predictions of admission. ACT state means are not in the current Digest xlsx set.",
   "heritage": "Formerly Higher Education College Admissions, Enrollment, Faculty and Staff, and Student Data",
   "replaces": [
@@ -15,496 +15,494 @@
     "Higher Education-Faculty and Staff",
     "Higher Education-Student Data"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from NCES Digest 2023 table 304.10, Fall 2022 total enrollment.  Later views compiled Aug 15, 2026 are stored under derived.secondary. Tableau companions compiled Aug 16, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 19, 2026 from IPEDS 2024-25 provisional DRVEF2024 ENRTOT joined to HD2024 on UNITID for degree-granting institutions (DEGGRANT=1). Digest table 304.10 still ends at Fall 2022; that history stays on the trend and 2024 is the IPEDS point. Later views compiled Aug 19, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-608-01": {
-      "name": "NCES Digest table 304.10, fall postsecondary enrollment",
+      "name": "IPEDS 2024-25 provisional Fall Enrollment (DRVEF2024) and Institutional Characteristics (HD2024)",
       "cadence": "Annual",
-      "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn304.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "url": "https://nces.ed.gov/ipeds/use-the-data",
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-02": {
       "name": "NCES Digest table 226.40, SAT mean scores by state",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-03": {
       "name": "NCES Digest table 315.10, faculty in degree-granting institutions (national)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-04": {
       "name": "NCES Digest table 326.10, IPEDS 6-year bachelor's graduation rate (national)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn326.10.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-05": {
       "name": "NCES Digest table 315.20, full-time faculty by rank and sex (national)",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn315.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-06": {
       "name": "NCES Digest table 314.50, public FTE staff and faculty by state",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn314.50.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-07": {
-      "name": "NCES Digest table 333.30, state and local appropriations for public higher education",
+      "name": "SHEEO SHEF FY 2025 Report Data, education appropriations and state-local support",
       "cadence": "Annual",
-      "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn333.30.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "url": "https://shef.sheeo.org/wp-content/uploads/2026/04/SHEEO_SHEF_FY25_Report_Data.xlsx",
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-08": {
       "name": "NCES Digest table 334.20, public higher-education expenditures by state",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn334.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-09": {
       "name": "NCES Digest table 330.20, public 4-year in-state tuition and fees",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn330.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-10": {
-      "name": "NCES Digest table 319.20, degrees conferred by state",
+      "name": "IPEDS C2024_A and HD2024, bachelor's degrees conferred by state",
       "cadence": "Annual",
-      "url": "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn319.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "url": "https://nces.ed.gov/ipeds/datacenter/data/C2024_A.zip",
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-11": {
       "name": "NCES Digest table 317.20, degree-granting institutions by state",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/programs/digest/d23/tables/xls/tabn317.20.xlsx",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     },
     "SRC-608-12": {
       "name": "IPEDS GR2023 and HD2023, 6-year bachelor's graduation rate by state",
       "cadence": "Annual",
       "url": "https://nces.ed.gov/ipeds/datacenter/data/GR2023.zip",
-      "supports": "This ledger ranks states on NCES Digest fall enrollment in degree-granting postsecondary institutions for 2022, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2020-21, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, and public higher-education appropriations and expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
+      "supports": "This ledger ranks states on IPEDS Fall 2024 enrollment in degree-granting postsecondary institutions, and also reports 2023 SAT mean scores by state, public FTE faculty and staff and students-per-faculty for Fall 2023 (Digest 314.50), IPEDS 6-year bachelor's graduation rates by state for the 2017 cohort, bachelor's degrees conferred in 2023-24, degree-granting institution counts for 2022-23, public 4-year in-state tuition and fees for 2022-23, SHEF FY 2025 education appropriations and state-and-local support, and Digest public higher-education expenditures for 2020-21. National full-time faculty composition (rank and sex) remains on Digest 315.20."
     }
   },
   "page": {
-    "revised": "Aug 16, 2026",
+    "revised": "Aug 19, 2026",
     "version": "0.1"
   },
   "geo": [
-    "US",
-    "MA",
-    "FL"
+    "US"
   ],
-  "q": "Fall college enrollment, SAT scores, faculty and staff, graduation, tuition, and higher-education finance by state.",
+  "q": "Fall college enrollment by state.",
   "pending": false,
-  "metric": "higher_ed_fall_enrollment_2022",
-  "metric_label": "Fall enrollment in degree-granting institutions, 2022",
+  "metric": "higher_ed_fall_enrollment_2024",
+  "metric_label": "Fall enrollment in degree-granting institutions, 2024",
   "unit": "students",
-  "data_month": "2022-10",
-  "data_month_label": "Fall 2022",
-  "lead": "Fall enrollment in degree-granting postsecondary institutions was <b>18,580,026</b> in 2022 (SRC-608-01). Massachusetts enrolled <b>468,960</b>, rank 12 of 51 (derived, SRC-608-01). The SAT mean total score for 2023 graduates was <b>1028</b> in the United States, with 51.2% of graduates taking the test (SRC-608-02). Massachusetts scored <b>1112</b> (57.0% taking the test) (SRC-608-02). Degree-granting institutions employed <b>1,530,513</b> faculty in Fall 2023 (SRC-608-03). The IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort was <b>64.5%</b> nationally; Massachusetts was <b>75.0%</b>, rank 2 of 51 (derived, SRC-608-12). Public institutions employed <b>11,022</b> FTE faculty in Massachusetts in Fall 2023, rank 24 of 51 (derived, SRC-608-06). Public 4-year in-state tuition and fees were <b>$14,345</b> in Massachusetts in 2022-23 (SRC-608-09). Full-time faculty numbered <b>859,825</b> in Fall 2023; <b>192,300</b> were professors and <b>48.8%</b> were women (SRC-608-05).",
+  "data_month": "2024-10",
+  "data_month_label": "Fall 2024",
+  "lead": "Fall enrollment in degree-granting postsecondary institutions was <b>19,760,570</b> in 2024 (SRC-608-01). Massachusetts enrolled <b>482,004</b>, rank 14 of 51 (derived, SRC-608-01). The SAT mean total score for 2023 graduates was <b>1028</b> in the United States, with 51.2% of graduates taking the test (SRC-608-02). Massachusetts scored <b>1112</b> (57.0% taking the test) (SRC-608-02). Degree-granting institutions employed <b>1,530,513</b> faculty in Fall 2023 (SRC-608-03). The IPEDS 6-year bachelor's graduation rate for the 2017 entry cohort was <b>64.5%</b> nationally; Massachusetts was <b>75.0%</b>, rank 2 of 51 (derived, SRC-608-12). Public institutions employed <b>11,022</b> FTE faculty in Massachusetts in Fall 2023, rank 24 of 51 (derived, SRC-608-06). Public 4-year in-state tuition and fees were <b>$14,345</b> in Massachusetts in 2022-23 (SRC-608-09). SHEF education appropriations were <b>$130.71 billion</b> nationally in FY 2025; Massachusetts was <b>$2.60 billion</b>, rank 13 of 51 (derived, SRC-608-07). Degree-granting institutions conferred <b>1,959,325</b> bachelor's degrees in 2023-24; Massachusetts conferred <b>57,881</b>, rank 10 of 51 (derived, SRC-608-10). Full-time faculty numbered <b>859,825</b> in Fall 2023; <b>192,300</b> were professors and <b>48.8%</b> were women (SRC-608-05).",
   "kpis": [
     {
-      "label": "U.S. fall enrollment, 2022",
-      "value": "18,580,026",
+      "label": "U.S. fall enrollment, 2024",
+      "value": "19,760,570",
       "detail": "Total fall enrollment in degree-granting postsecondary institutions (SRC-608-01).",
       "why": "The national college-enrollment stock.",
-      "src": "NCES Digest table 304.10 (SRC-608-01)"
+      "src": "IPEDS Fall 2024 enrollment (SRC-608-01)"
     },
     {
       "label": "Massachusetts",
-      "value": "468,960",
-      "detail": "Rank 12 of 51 (derived, SRC-608-01).",
+      "value": "482,004",
+      "detail": "Rank 14 of 51 (derived, SRC-608-01).",
       "why": "Massachusetts higher-education enrollment against the other jurisdictions.",
-      "src": "NCES Digest table 304.10 (SRC-608-01)"
+      "src": "IPEDS Fall 2024 enrollment (SRC-608-01)"
     },
     {
       "label": "Highest / lowest",
-      "value": "CA 2,486,788",
-      "detail": "California enrolled the most students; Alaska the fewest at 20,152 (SRC-608-01).",
+      "value": "CA 2,721,565",
+      "detail": "California enrolled the most students; Alaska the fewest at 22,726 (SRC-608-01).",
       "why": "Large states and states with large online providers lead on raw counts.",
-      "src": "NCES Digest table 304.10 (SRC-608-01)"
+      "src": "IPEDS Fall 2024 enrollment (SRC-608-01)"
     }
   ],
   "latest": {
     "us": {
-      "v": 18580026
+      "v": 19760570
     },
     "ma": {
-      "v": 468960,
-      "rank": 12,
+      "v": 482004,
+      "rank": 14,
       "n": 51
     },
     "highest": {
       "st": "CA",
       "name": "California",
-      "v": 2486788
+      "v": 2721565
     },
     "lowest": {
       "st": "AK",
       "name": "Alaska",
-      "v": 20152
+      "v": 22726
     }
   },
   "rows": [
     {
       "st": "CA",
       "name": "California",
-      "v": 2486788,
+      "v": 2721565,
       "rank": 1,
       "n": 51
     },
     {
       "st": "TX",
       "name": "Texas",
-      "v": 1567017,
+      "v": 1673856,
       "rank": 2,
       "n": 51
     },
     {
       "st": "NY",
       "name": "New York",
-      "v": 1117623,
+      "v": 1150621,
       "rank": 3,
       "n": 51
     },
     {
       "st": "FL",
       "name": "Florida",
-      "v": 999223,
+      "v": 1048638,
       "rank": 4,
       "n": 51
     },
     {
       "st": "IL",
       "name": "Illinois",
-      "v": 677446,
+      "v": 723397,
       "rank": 5,
-      "n": 51
-    },
-    {
-      "st": "PA",
-      "name": "Pennsylvania",
-      "v": 633991,
-      "rank": 6,
       "n": 51
     },
     {
       "st": "AZ",
       "name": "Arizona",
-      "v": 624719,
+      "v": 684249,
+      "rank": 6,
+      "n": 51
+    },
+    {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 643232,
       "rank": 7,
       "n": 51
     },
     {
       "st": "OH",
       "name": "Ohio",
-      "v": 612352,
+      "v": 610991,
       "rank": 8,
-      "n": 51
-    },
-    {
-      "st": "NC",
-      "name": "North Carolina",
-      "v": 553180,
-      "rank": 9,
-      "n": 51
-    },
-    {
-      "st": "VA",
-      "name": "Virginia",
-      "v": 546280,
-      "rank": 10,
       "n": 51
     },
     {
       "st": "GA",
       "name": "Georgia",
-      "v": 541594,
+      "v": 594714,
+      "rank": 9,
+      "n": 51
+    },
+    {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 584778,
+      "rank": 10,
+      "n": 51
+    },
+    {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 575345,
       "rank": 11,
       "n": 51
     },
     {
-      "st": "MA",
-      "name": "Massachusetts",
-      "v": 468960,
+      "st": "IN",
+      "name": "Indiana",
+      "v": 492801,
       "rank": 12,
       "n": 51
     },
     {
       "st": "MI",
       "name": "Michigan",
-      "v": 466458,
+      "v": 483259,
       "rank": 13,
       "n": 51
     },
     {
-      "st": "IN",
-      "name": "Indiana",
-      "v": 436234,
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 482004,
       "rank": 14,
       "n": 51
     },
     {
       "st": "UT",
       "name": "Utah",
-      "v": 401218,
+      "v": 474505,
       "rank": 15,
-      "n": 51
-    },
-    {
-      "st": "NJ",
-      "name": "New Jersey",
-      "v": 378819,
-      "rank": 16,
       "n": 51
     },
     {
       "st": "MN",
       "name": "Minnesota",
-      "v": 373128,
+      "v": 411392,
+      "rank": 16,
+      "n": 51
+    },
+    {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 394142,
       "rank": 17,
       "n": 51
     },
     {
       "st": "CO",
       "name": "Colorado",
-      "v": 346716,
+      "v": 371053,
       "rank": 18,
-      "n": 51
-    },
-    {
-      "st": "MO",
-      "name": "Missouri",
-      "v": 333470,
-      "rank": 19,
       "n": 51
     },
     {
       "st": "MD",
       "name": "Maryland",
-      "v": 329092,
-      "rank": 20,
+      "v": 355566,
+      "rank": 19,
       "n": 51
     },
     {
-      "st": "WI",
-      "name": "Wisconsin",
-      "v": 316129,
-      "rank": 21,
+      "st": "MO",
+      "name": "Missouri",
+      "v": 341921,
+      "rank": 20,
       "n": 51
     },
     {
       "st": "WA",
       "name": "Washington",
-      "v": 311068,
+      "v": 331375,
+      "rank": 21,
+      "n": 51
+    },
+    {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 328106,
       "rank": 22,
       "n": 51
     },
     {
       "st": "TN",
       "name": "Tennessee",
-      "v": 308710,
+      "v": 325353,
       "rank": 23,
       "n": 51
     },
     {
       "st": "AL",
       "name": "Alabama",
-      "v": 294009,
+      "v": 312662,
       "rank": 24,
       "n": 51
     },
     {
       "st": "KY",
       "name": "Kentucky",
-      "v": 261751,
+      "v": 290201,
       "rank": 25,
       "n": 51
     },
     {
       "st": "SC",
       "name": "South Carolina",
-      "v": 242672,
+      "v": 257645,
       "rank": 26,
       "n": 51
     },
     {
       "st": "LA",
       "name": "Louisiana",
-      "v": 238689,
+      "v": 255622,
       "rank": 27,
       "n": 51
     },
     {
       "st": "NH",
       "name": "New Hampshire",
-      "v": 214537,
+      "v": 240941,
       "rank": 28,
       "n": 51
     },
     {
       "st": "IA",
       "name": "Iowa",
-      "v": 202287,
+      "v": 206570,
       "rank": 29,
       "n": 51
     },
     {
       "st": "OR",
       "name": "Oregon",
-      "v": 194987,
+      "v": 202996,
       "rank": 30,
       "n": 51
     },
     {
-      "st": "CT",
-      "name": "Connecticut",
-      "v": 187764,
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 198353,
       "rank": 31,
       "n": 51
     },
     {
       "st": "KS",
       "name": "Kansas",
-      "v": 185985,
+      "v": 196412,
       "rank": 32,
       "n": 51
     },
     {
-      "st": "OK",
-      "name": "Oklahoma",
-      "v": 184218,
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 195025,
       "rank": 33,
       "n": 51
     },
     {
       "st": "MS",
       "name": "Mississippi",
-      "v": 155950,
+      "v": 165241,
       "rank": 34,
       "n": 51
     },
     {
       "st": "AR",
       "name": "Arkansas",
-      "v": 154781,
+      "v": 162441,
       "rank": 35,
       "n": 51
     },
     {
       "st": "NE",
       "name": "Nebraska",
-      "v": 134815,
+      "v": 140349,
       "rank": 36,
       "n": 51
     },
     {
       "st": "WV",
       "name": "West Virginia",
-      "v": 132923,
+      "v": 137068,
       "rank": 37,
       "n": 51
     },
     {
       "st": "ID",
       "name": "Idaho",
-      "v": 125249,
+      "v": 136009,
       "rank": 38,
       "n": 51
     },
     {
       "st": "NV",
       "name": "Nevada",
-      "v": 113588,
+      "v": 121009,
       "rank": 39,
       "n": 51
     },
     {
       "st": "NM",
       "name": "New Mexico",
-      "v": 110082,
+      "v": 114483,
       "rank": 40,
       "n": 51
     },
     {
       "st": "DC",
       "name": "District of Columbia",
-      "v": 99329,
+      "v": 100572,
       "rank": 41,
-      "n": 51
-    },
-    {
-      "st": "RI",
-      "name": "Rhode Island",
-      "v": 74413,
-      "rank": 42,
       "n": 51
     },
     {
       "st": "ME",
       "name": "Maine",
-      "v": 71475,
+      "v": 80932,
+      "rank": 42,
+      "n": 51
+    },
+    {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 75601,
       "rank": 43,
       "n": 51
     },
     {
       "st": "HI",
       "name": "Hawaii",
-      "v": 58841,
+      "v": 61420,
       "rank": 44,
       "n": 51
     },
     {
       "st": "DE",
       "name": "Delaware",
-      "v": 57022,
+      "v": 58010,
       "rank": 45,
       "n": 51
     },
     {
       "st": "SD",
       "name": "South Dakota",
-      "v": 51317,
+      "v": 54167,
       "rank": 46,
       "n": 51
     },
     {
       "st": "ND",
       "name": "North Dakota",
-      "v": 51074,
+      "v": 53473,
       "rank": 47,
       "n": 51
     },
     {
       "st": "MT",
       "name": "Montana",
-      "v": 47134,
+      "v": 48357,
       "rank": 48,
       "n": 51
     },
     {
       "st": "VT",
       "name": "Vermont",
-      "v": 39888,
+      "v": 38343,
       "rank": 49,
       "n": 51
     },
     {
       "st": "WY",
       "name": "Wyoming",
-      "v": 29971,
+      "v": 31079,
       "rank": 50,
       "n": 51
     },
     {
       "st": "AK",
       "name": "Alaska",
-      "v": 20152,
+      "v": 22726,
       "rank": 51,
       "n": 51
     }
@@ -550,6 +548,10 @@
       {
         "y": 2022,
         "v": 18580026
+      },
+      {
+        "y": 2024,
+        "v": 19760570
       }
     ],
     "AL": [
@@ -592,6 +594,10 @@
       {
         "y": 2022,
         "v": 294009
+      },
+      {
+        "y": 2024,
+        "v": 312662
       }
     ],
     "AK": [
@@ -634,6 +640,10 @@
       {
         "y": 2022,
         "v": 20152
+      },
+      {
+        "y": 2024,
+        "v": 22726
       }
     ],
     "AZ": [
@@ -676,6 +686,10 @@
       {
         "y": 2022,
         "v": 624719
+      },
+      {
+        "y": 2024,
+        "v": 684249
       }
     ],
     "AR": [
@@ -718,6 +732,10 @@
       {
         "y": 2022,
         "v": 154781
+      },
+      {
+        "y": 2024,
+        "v": 162441
       }
     ],
     "CA": [
@@ -760,6 +778,10 @@
       {
         "y": 2022,
         "v": 2486788
+      },
+      {
+        "y": 2024,
+        "v": 2721565
       }
     ],
     "CO": [
@@ -802,6 +824,10 @@
       {
         "y": 2022,
         "v": 346716
+      },
+      {
+        "y": 2024,
+        "v": 371053
       }
     ],
     "CT": [
@@ -844,6 +870,10 @@
       {
         "y": 2022,
         "v": 187764
+      },
+      {
+        "y": 2024,
+        "v": 195025
       }
     ],
     "DE": [
@@ -886,6 +916,10 @@
       {
         "y": 2022,
         "v": 57022
+      },
+      {
+        "y": 2024,
+        "v": 58010
       }
     ],
     "DC": [
@@ -928,6 +962,10 @@
       {
         "y": 2022,
         "v": 99329
+      },
+      {
+        "y": 2024,
+        "v": 100572
       }
     ],
     "FL": [
@@ -970,6 +1008,10 @@
       {
         "y": 2022,
         "v": 999223
+      },
+      {
+        "y": 2024,
+        "v": 1048638
       }
     ],
     "GA": [
@@ -1012,6 +1054,10 @@
       {
         "y": 2022,
         "v": 541594
+      },
+      {
+        "y": 2024,
+        "v": 594714
       }
     ],
     "HI": [
@@ -1054,6 +1100,10 @@
       {
         "y": 2022,
         "v": 58841
+      },
+      {
+        "y": 2024,
+        "v": 61420
       }
     ],
     "ID": [
@@ -1096,6 +1146,10 @@
       {
         "y": 2022,
         "v": 125249
+      },
+      {
+        "y": 2024,
+        "v": 136009
       }
     ],
     "IL": [
@@ -1138,6 +1192,10 @@
       {
         "y": 2022,
         "v": 677446
+      },
+      {
+        "y": 2024,
+        "v": 723397
       }
     ],
     "IN": [
@@ -1180,6 +1238,10 @@
       {
         "y": 2022,
         "v": 436234
+      },
+      {
+        "y": 2024,
+        "v": 492801
       }
     ],
     "IA": [
@@ -1222,6 +1284,10 @@
       {
         "y": 2022,
         "v": 202287
+      },
+      {
+        "y": 2024,
+        "v": 206570
       }
     ],
     "KS": [
@@ -1264,6 +1330,10 @@
       {
         "y": 2022,
         "v": 185985
+      },
+      {
+        "y": 2024,
+        "v": 196412
       }
     ],
     "KY": [
@@ -1306,6 +1376,10 @@
       {
         "y": 2022,
         "v": 261751
+      },
+      {
+        "y": 2024,
+        "v": 290201
       }
     ],
     "LA": [
@@ -1348,6 +1422,10 @@
       {
         "y": 2022,
         "v": 238689
+      },
+      {
+        "y": 2024,
+        "v": 255622
       }
     ],
     "ME": [
@@ -1390,6 +1468,10 @@
       {
         "y": 2022,
         "v": 71475
+      },
+      {
+        "y": 2024,
+        "v": 80932
       }
     ],
     "MD": [
@@ -1432,6 +1514,10 @@
       {
         "y": 2022,
         "v": 329092
+      },
+      {
+        "y": 2024,
+        "v": 355566
       }
     ],
     "MA": [
@@ -1474,6 +1560,10 @@
       {
         "y": 2022,
         "v": 468960
+      },
+      {
+        "y": 2024,
+        "v": 482004
       }
     ],
     "MI": [
@@ -1516,6 +1606,10 @@
       {
         "y": 2022,
         "v": 466458
+      },
+      {
+        "y": 2024,
+        "v": 483259
       }
     ],
     "MN": [
@@ -1558,6 +1652,10 @@
       {
         "y": 2022,
         "v": 373128
+      },
+      {
+        "y": 2024,
+        "v": 411392
       }
     ],
     "MS": [
@@ -1600,6 +1698,10 @@
       {
         "y": 2022,
         "v": 155950
+      },
+      {
+        "y": 2024,
+        "v": 165241
       }
     ],
     "MO": [
@@ -1642,6 +1744,10 @@
       {
         "y": 2022,
         "v": 333470
+      },
+      {
+        "y": 2024,
+        "v": 341921
       }
     ],
     "MT": [
@@ -1684,6 +1790,10 @@
       {
         "y": 2022,
         "v": 47134
+      },
+      {
+        "y": 2024,
+        "v": 48357
       }
     ],
     "NE": [
@@ -1726,6 +1836,10 @@
       {
         "y": 2022,
         "v": 134815
+      },
+      {
+        "y": 2024,
+        "v": 140349
       }
     ],
     "NV": [
@@ -1768,6 +1882,10 @@
       {
         "y": 2022,
         "v": 113588
+      },
+      {
+        "y": 2024,
+        "v": 121009
       }
     ],
     "NH": [
@@ -1810,6 +1928,10 @@
       {
         "y": 2022,
         "v": 214537
+      },
+      {
+        "y": 2024,
+        "v": 240941
       }
     ],
     "NJ": [
@@ -1852,6 +1974,10 @@
       {
         "y": 2022,
         "v": 378819
+      },
+      {
+        "y": 2024,
+        "v": 394142
       }
     ],
     "NM": [
@@ -1894,6 +2020,10 @@
       {
         "y": 2022,
         "v": 110082
+      },
+      {
+        "y": 2024,
+        "v": 114483
       }
     ],
     "NY": [
@@ -1936,6 +2066,10 @@
       {
         "y": 2022,
         "v": 1117623
+      },
+      {
+        "y": 2024,
+        "v": 1150621
       }
     ],
     "NC": [
@@ -1978,6 +2112,10 @@
       {
         "y": 2022,
         "v": 553180
+      },
+      {
+        "y": 2024,
+        "v": 584778
       }
     ],
     "ND": [
@@ -2020,6 +2158,10 @@
       {
         "y": 2022,
         "v": 51074
+      },
+      {
+        "y": 2024,
+        "v": 53473
       }
     ],
     "OH": [
@@ -2062,6 +2204,10 @@
       {
         "y": 2022,
         "v": 612352
+      },
+      {
+        "y": 2024,
+        "v": 610991
       }
     ],
     "OK": [
@@ -2104,6 +2250,10 @@
       {
         "y": 2022,
         "v": 184218
+      },
+      {
+        "y": 2024,
+        "v": 198353
       }
     ],
     "OR": [
@@ -2146,6 +2296,10 @@
       {
         "y": 2022,
         "v": 194987
+      },
+      {
+        "y": 2024,
+        "v": 202996
       }
     ],
     "PA": [
@@ -2188,6 +2342,10 @@
       {
         "y": 2022,
         "v": 633991
+      },
+      {
+        "y": 2024,
+        "v": 643232
       }
     ],
     "RI": [
@@ -2230,6 +2388,10 @@
       {
         "y": 2022,
         "v": 74413
+      },
+      {
+        "y": 2024,
+        "v": 75601
       }
     ],
     "SC": [
@@ -2272,6 +2434,10 @@
       {
         "y": 2022,
         "v": 242672
+      },
+      {
+        "y": 2024,
+        "v": 257645
       }
     ],
     "SD": [
@@ -2314,6 +2480,10 @@
       {
         "y": 2022,
         "v": 51317
+      },
+      {
+        "y": 2024,
+        "v": 54167
       }
     ],
     "TN": [
@@ -2356,6 +2526,10 @@
       {
         "y": 2022,
         "v": 308710
+      },
+      {
+        "y": 2024,
+        "v": 325353
       }
     ],
     "TX": [
@@ -2398,6 +2572,10 @@
       {
         "y": 2022,
         "v": 1567017
+      },
+      {
+        "y": 2024,
+        "v": 1673856
       }
     ],
     "UT": [
@@ -2440,6 +2618,10 @@
       {
         "y": 2022,
         "v": 401218
+      },
+      {
+        "y": 2024,
+        "v": 474505
       }
     ],
     "VT": [
@@ -2482,6 +2664,10 @@
       {
         "y": 2022,
         "v": 39888
+      },
+      {
+        "y": 2024,
+        "v": 38343
       }
     ],
     "VA": [
@@ -2524,6 +2710,10 @@
       {
         "y": 2022,
         "v": 546280
+      },
+      {
+        "y": 2024,
+        "v": 575345
       }
     ],
     "WA": [
@@ -2566,6 +2756,10 @@
       {
         "y": 2022,
         "v": 311068
+      },
+      {
+        "y": 2024,
+        "v": 331375
       }
     ],
     "WV": [
@@ -2608,6 +2802,10 @@
       {
         "y": 2022,
         "v": 132923
+      },
+      {
+        "y": 2024,
+        "v": 137068
       }
     ],
     "WI": [
@@ -2650,6 +2848,10 @@
       {
         "y": 2022,
         "v": 316129
+      },
+      {
+        "y": 2024,
+        "v": 328106
       }
     ],
     "WY": [
@@ -2692,6 +2894,10 @@
       {
         "y": 2022,
         "v": 29971
+      },
+      {
+        "y": 2024,
+        "v": 31079
       }
     ]
   },
@@ -2701,35 +2907,35 @@
       {
         "st": "CA",
         "name": "California",
-        "v": 2486788,
+        "v": 2721565,
         "rank": 1,
         "n": 51
       },
       {
         "st": "TX",
         "name": "Texas",
-        "v": 1567017,
+        "v": 1673856,
         "rank": 2,
         "n": 51
       },
       {
         "st": "NY",
         "name": "New York",
-        "v": 1117623,
+        "v": 1150621,
         "rank": 3,
         "n": 51
       },
       {
         "st": "FL",
         "name": "Florida",
-        "v": 999223,
+        "v": 1048638,
         "rank": 4,
         "n": 51
       },
       {
         "st": "IL",
         "name": "Illinois",
-        "v": 677446,
+        "v": 723397,
         "rank": 5,
         "n": 51
       }
@@ -2738,41 +2944,41 @@
       {
         "st": "AK",
         "name": "Alaska",
-        "v": 20152,
+        "v": 22726,
         "rank": 51,
         "n": 51
       },
       {
         "st": "WY",
         "name": "Wyoming",
-        "v": 29971,
+        "v": 31079,
         "rank": 50,
         "n": 51
       },
       {
         "st": "VT",
         "name": "Vermont",
-        "v": 39888,
+        "v": 38343,
         "rank": 49,
         "n": 51
       },
       {
         "st": "MT",
         "name": "Montana",
-        "v": 47134,
+        "v": 48357,
         "rank": 48,
         "n": 51
       },
       {
         "st": "ND",
         "name": "North Dakota",
-        "v": 51074,
+        "v": 53473,
         "rank": 47,
         "n": 51
       }
     ],
     "n_ranked": 51,
-    "massachusetts_rank": 12,
+    "massachusetts_rank": 14,
     "secondary": {
       "sat_2023": {
         "us": 1028.0,
@@ -2792,20 +2998,6 @@
           "v": 901.0
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 966.0,
-          "rank": 46,
-          "n": 51
-        },
-        "label": "SAT mean total score, 2023 high-school graduates",
-        "src": "SRC-608-02",
-        "unit": "points",
-        "as_of_label": "2023 graduates",
-        "participation_pct": {
-          "us": 51.2,
-          "ma": 57.0
-        },
-        "note": "Means are not comparable across states with very different participation rates.",
         "rows": [
           {
             "st": "ND",
@@ -3164,7 +3356,21 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 966.0,
+          "rank": 46,
+          "n": 51
+        },
+        "label": "SAT mean total score, 2023 high-school graduates",
+        "src": "SRC-608-02",
+        "unit": "points",
+        "as_of_label": "2023 graduates",
+        "participation_pct": {
+          "us": 51.2,
+          "ma": 57.0
+        },
+        "note": "Means are not comparable across states with very different participation rates."
       },
       "faculty_fall_2023_us": {
         "label": "Faculty in degree-granting institutions, Fall 2023 (national)",
@@ -3215,16 +3421,6 @@
           "v": 778
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 85560,
-          "rank": 3,
-          "n": 51
-        },
-        "src": "SRC-608-06",
-        "as_of_label": "Fall 2023",
-        "note": "NCES Digest table 314.50, public degree-granting institutions.",
-        "label": "Public FTE staff, Fall 2023",
-        "unit": "full-time-equivalent staff",
         "rows": [
           {
             "st": "CA",
@@ -3583,7 +3779,17 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 85560,
+          "rank": 3,
+          "n": 51
+        },
+        "src": "SRC-608-06",
+        "as_of_label": "Fall 2023",
+        "note": "NCES Digest table 314.50, public degree-granting institutions.",
+        "label": "Public FTE staff, Fall 2023",
+        "unit": "full-time-equivalent staff"
       },
       "public_fte_faculty_fall_2023": {
         "us": 694542,
@@ -3603,16 +3809,6 @@
           "v": 388
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 28775,
-          "rank": 5,
-          "n": 51
-        },
-        "src": "SRC-608-06",
-        "as_of_label": "Fall 2023",
-        "note": "NCES Digest table 314.50, public degree-granting institutions.",
-        "label": "Public FTE faculty, Fall 2023",
-        "unit": "full-time-equivalent faculty",
         "rows": [
           {
             "st": "CA",
@@ -3971,7 +4167,17 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 28775,
+          "rank": 5,
+          "n": 51
+        },
+        "src": "SRC-608-06",
+        "as_of_label": "Fall 2023",
+        "note": "NCES Digest table 314.50, public degree-granting institutions.",
+        "label": "Public FTE faculty, Fall 2023",
+        "unit": "full-time-equivalent faculty"
       },
       "students_per_faculty_fall_2023": {
         "us": 14.4,
@@ -3991,16 +4197,6 @@
           "v": 18.5
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 18.5,
-          "rank": 51,
-          "n": 51
-        },
-        "src": "SRC-608-06",
-        "as_of_label": "Fall 2023",
-        "note": "NCES Digest table 314.50. A lower ratio is fewer students per faculty member.",
-        "label": "FTE students per FTE faculty, public institutions, Fall 2023",
-        "unit": "students per faculty",
         "rows": [
           {
             "st": "DC",
@@ -4359,783 +4555,793 @@
             "rank": 51,
             "n": 51
           }
-        ]
-      },
-      "he_state_appropriations_2020_21": {
-        "us": 75516740741,
-        "ma": {
-          "v": 1670574122,
-          "rank": 14,
-          "n": 51
-        },
-        "highest": {
-          "st": "CA",
-          "name": "California",
-          "v": 11244569434
-        },
-        "lowest": {
-          "st": "CO",
-          "name": "Colorado",
-          "v": 42486097
-        },
-        "n_ranked": 51,
+        ],
         "fl": {
-          "v": 4518224699,
-          "rank": 4,
+          "v": 18.5,
+          "rank": 51,
           "n": 51
         },
-        "label": "State appropriations to public higher education, 2020-21",
-        "src": "SRC-608-07",
-        "unit": "dollars",
-        "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 333.30. Published in thousands of dollars; shown in dollars.",
-        "rows": [
-          {
-            "st": "CA",
-            "name": "California",
-            "v": 11244569434,
-            "rank": 1,
-            "n": 51
-          },
-          {
-            "st": "TX",
-            "name": "Texas",
-            "v": 6357491002,
-            "rank": 2,
-            "n": 51
-          },
-          {
-            "st": "NY",
-            "name": "New York",
-            "v": 5150873060,
-            "rank": 3,
-            "n": 51
-          },
-          {
-            "st": "FL",
-            "name": "Florida",
-            "v": 4518224699,
-            "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 4142711814,
-            "rank": 5,
-            "n": 51
-          },
-          {
-            "st": "GA",
-            "name": "Georgia",
-            "v": 2428019913,
-            "rank": 6,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 2162760479,
-            "rank": 7,
-            "n": 51
-          },
-          {
-            "st": "VA",
-            "name": "Virginia",
-            "v": 2068081723,
-            "rank": 8,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 1967975552,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 1940366774,
-            "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 1908724899,
-            "rank": 11,
-            "n": 51
-          },
-          {
-            "st": "NJ",
-            "name": "New Jersey",
-            "v": 1743845009,
-            "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 1693447975,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 1670574122,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 1646840768,
-            "rank": 15,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 1547136531,
-            "rank": 16,
-            "n": 51
-          },
-          {
-            "st": "TN",
-            "name": "Tennessee",
-            "v": 1510529409,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 1476844708,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "MN",
-            "name": "Minnesota",
-            "v": 1464866379,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "PA",
-            "name": "Pennsylvania",
-            "v": 1359845579,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 1325042719,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 1138138395,
-            "rank": 22,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 922840245,
-            "rank": 23,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 883451451,
-            "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 847752569,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 843964100,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 839711353,
-            "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 815567180,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 809213875,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 803428729,
-            "rank": 30,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 800390166,
-            "rank": 31,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 785429510,
-            "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 773553995,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 713638132,
-            "rank": 34,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 701737670,
-            "rank": 35,
-            "n": 51
-          },
-          {
-            "st": "NV",
-            "name": "Nevada",
-            "v": 543686486,
-            "rank": 36,
-            "n": 51
-          },
-          {
-            "st": "HI",
-            "name": "Hawaii",
-            "v": 539623197,
-            "rank": 37,
-            "n": 51
-          },
-          {
-            "st": "ID",
-            "name": "Idaho",
-            "v": 442575567,
-            "rank": 38,
-            "n": 51
-          },
-          {
-            "st": "WV",
-            "name": "West Virginia",
-            "v": 429628262,
-            "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 326531929,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "WY",
-            "name": "Wyoming",
-            "v": 316710812,
-            "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "ME",
-            "name": "Maine",
-            "v": 291087504,
-            "rank": 42,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 285582321,
-            "rank": 43,
-            "n": 51
-          },
-          {
-            "st": "MT",
-            "name": "Montana",
-            "v": 268365764,
-            "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 254692129,
-            "rank": 45,
-            "n": 51
-          },
-          {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 217243174,
-            "rank": 46,
-            "n": 51
-          },
-          {
-            "st": "RI",
-            "name": "Rhode Island",
-            "v": 182584047,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "NH",
-            "name": "New Hampshire",
-            "v": 143860000,
-            "rank": 48,
-            "n": 51
-          },
-          {
-            "st": "VT",
-            "name": "Vermont",
-            "v": 133410199,
-            "rank": 49,
-            "n": 51
-          },
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 91083335,
-            "rank": 50,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 42486097,
-            "rank": 51,
-            "n": 51
-          }
-        ]
+        "src": "SRC-608-06",
+        "as_of_label": "Fall 2023",
+        "note": "NCES Digest table 314.50. A lower ratio is fewer students per faculty member.",
+        "label": "FTE students per FTE faculty, public institutions, Fall 2023",
+        "unit": "students per faculty"
       },
-      "he_state_local_appropriations_2020_21": {
-        "us": 90779593055,
+      "he_education_appropriations_fy2025": {
+        "us": 130714101066,
         "ma": {
-          "v": 1670574122,
-          "rank": 16,
+          "v": 2597308007,
+          "rank": 13,
           "n": 51
         },
         "highest": {
           "st": "CA",
           "name": "California",
-          "v": 15993832788
+          "v": 24766519875
         },
         "lowest": {
           "st": "DC",
           "name": "District of Columbia",
-          "v": 91083335
+          "v": 100818227
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 4518224699,
-          "rank": 4,
-          "n": 51
-        },
-        "label": "State and local appropriations to public higher education, 2020-21",
-        "src": "SRC-608-07",
-        "unit": "dollars",
-        "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 333.30. State plus local appropriations. Published in thousands of dollars; shown in dollars.",
         "rows": [
           {
             "st": "CA",
             "name": "California",
-            "v": 15993832788,
+            "v": 24766519875,
             "rank": 1,
             "n": 51
           },
           {
             "st": "TX",
             "name": "Texas",
-            "v": 8992442477,
+            "v": 14766254392,
             "rank": 2,
             "n": 51
           },
           {
             "st": "NY",
             "name": "New York",
-            "v": 6235199554,
+            "v": 7808925609,
             "rank": 3,
             "n": 51
           },
           {
             "st": "FL",
             "name": "Florida",
-            "v": 4518224699,
+            "v": 6885108619,
             "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 4423450274,
-            "rank": 5,
             "n": 51
           },
           {
             "st": "IL",
             "name": "Illinois",
-            "v": 2905889022,
-            "rank": 6,
+            "v": 6403613190,
+            "rank": 5,
             "n": 51
           },
           {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 2551306667,
-            "rank": 7,
+            "st": "NC",
+            "name": "North Carolina",
+            "v": 4983840117,
+            "rank": 6,
             "n": 51
           },
           {
             "st": "GA",
             "name": "Georgia",
-            "v": 2428019913,
-            "rank": 8,
+            "v": 4411002620,
+            "rank": 7,
             "n": 51
           },
           {
             "st": "MD",
             "name": "Maryland",
-            "v": 2421440647,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 2394008219,
-            "rank": 10,
+            "v": 3722263946,
+            "rank": 8,
             "n": 51
           },
           {
             "st": "VA",
             "name": "Virginia",
-            "v": 2072251798,
+            "v": 3498164951,
+            "rank": 9,
+            "n": 51
+          },
+          {
+            "st": "MI",
+            "name": "Michigan",
+            "v": 3169499398,
+            "rank": 10,
+            "n": 51
+          },
+          {
+            "st": "WA",
+            "name": "Washington",
+            "v": 3157320575,
             "rank": 11,
             "n": 51
           },
           {
             "st": "NJ",
             "name": "New Jersey",
-            "v": 1976187325,
+            "v": 2974440820,
             "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 1963758832,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 1940366774,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 1782830158,
-            "rank": 15,
             "n": 51
           },
           {
             "st": "MA",
             "name": "Massachusetts",
-            "v": 1670574122,
-            "rank": 16,
+            "v": 2597308007,
+            "rank": 13,
             "n": 51
           },
           {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 1650616139,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 1556832501,
-            "rank": 18,
+            "st": "OH",
+            "name": "Ohio",
+            "v": 2542001154,
+            "rank": 14,
             "n": 51
           },
           {
             "st": "TN",
             "name": "Tennessee",
-            "v": 1517611740,
-            "rank": 19,
+            "v": 2340174672,
+            "rank": 15,
+            "n": 51
+          },
+          {
+            "st": "AL",
+            "name": "Alabama",
+            "v": 2132505862,
+            "rank": 16,
+            "n": 51
+          },
+          {
+            "st": "AZ",
+            "name": "Arizona",
+            "v": 2096906859,
+            "rank": 17,
             "n": 51
           },
           {
             "st": "PA",
             "name": "Pennsylvania",
-            "v": 1497647568,
-            "rank": 20,
+            "v": 2038537920,
+            "rank": 18,
+            "n": 51
+          },
+          {
+            "st": "WI",
+            "name": "Wisconsin",
+            "v": 1913826123,
+            "rank": 19,
             "n": 51
           },
           {
             "st": "MN",
             "name": "Minnesota",
-            "v": 1464866379,
+            "v": 1802585829,
+            "rank": 20,
+            "n": 51
+          },
+          {
+            "st": "SC",
+            "name": "South Carolina",
+            "v": 1708889851,
             "rank": 21,
             "n": 51
           },
           {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 1325042719,
+            "st": "UT",
+            "name": "Utah",
+            "v": 1670217471,
             "rank": 22,
             "n": 51
           },
           {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 1152595324,
+            "st": "IN",
+            "name": "Indiana",
+            "v": 1647349259,
             "rank": 23,
             "n": 51
           },
           {
             "st": "NM",
             "name": "New Mexico",
-            "v": 1146977684,
+            "v": 1596895702,
             "rank": 24,
+            "n": 51
+          },
+          {
+            "st": "CO",
+            "name": "Colorado",
+            "v": 1550278305,
+            "rank": 25,
             "n": 51
           },
           {
             "st": "KS",
             "name": "Kansas",
-            "v": 1143352294,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 1138138395,
+            "v": 1520775718,
             "rank": 26,
             "n": 51
           },
           {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 1062232648,
+            "st": "CT",
+            "name": "Connecticut",
+            "v": 1495782048,
             "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 1023292189,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 1002903905,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 966611572,
-            "rank": 30,
             "n": 51
           },
           {
             "st": "KY",
             "name": "Kentucky",
-            "v": 875037594,
-            "rank": 31,
+            "v": 1352162189,
+            "rank": 28,
             "n": 51
           },
           {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 871519426,
-            "rank": 32,
+            "st": "MO",
+            "name": "Missouri",
+            "v": 1321518346,
+            "rank": 29,
             "n": 51
           },
           {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 856199510,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 774248006,
-            "rank": 34,
+            "st": "OR",
+            "name": "Oregon",
+            "v": 1293594700,
+            "rank": 30,
             "n": 51
           },
           {
             "st": "LA",
             "name": "Louisiana",
-            "v": 713638132,
+            "v": 1169444986,
+            "rank": 31,
+            "n": 51
+          },
+          {
+            "st": "OK",
+            "name": "Oklahoma",
+            "v": 1067951604,
+            "rank": 32,
+            "n": 51
+          },
+          {
+            "st": "NE",
+            "name": "Nebraska",
+            "v": 971790696,
+            "rank": 33,
+            "n": 51
+          },
+          {
+            "st": "MS",
+            "name": "Mississippi",
+            "v": 937121280,
+            "rank": 34,
+            "n": 51
+          },
+          {
+            "st": "AR",
+            "name": "Arkansas",
+            "v": 902725683,
             "rank": 35,
             "n": 51
           },
           {
             "st": "NV",
             "name": "Nevada",
-            "v": 543686486,
+            "v": 900478201,
             "rank": 36,
+            "n": 51
+          },
+          {
+            "st": "IA",
+            "name": "Iowa",
+            "v": 781182444,
+            "rank": 37,
             "n": 51
           },
           {
             "st": "HI",
             "name": "Hawaii",
-            "v": 539623197,
-            "rank": 37,
+            "v": 777159771,
+            "rank": 38,
             "n": 51
           },
           {
             "st": "ID",
             "name": "Idaho",
-            "v": 482118729,
-            "rank": 38,
+            "v": 646858254,
+            "rank": 39,
             "n": 51
           },
           {
             "st": "WV",
             "name": "West Virginia",
-            "v": 430011862,
-            "rank": 39,
+            "v": 460514485,
+            "rank": 40,
             "n": 51
           },
           {
             "st": "WY",
             "name": "Wyoming",
-            "v": 368948129,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 331792070,
+            "v": 412367329,
             "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 299375791,
-            "rank": 42,
             "n": 51
           },
           {
             "st": "ME",
             "name": "Maine",
-            "v": 291087504,
+            "v": 375523634,
+            "rank": 42,
+            "n": 51
+          },
+          {
+            "st": "ND",
+            "name": "North Dakota",
+            "v": 357764447,
             "rank": 43,
             "n": 51
           },
           {
-            "st": "MT",
-            "name": "Montana",
-            "v": 280704145,
+            "st": "AK",
+            "name": "Alaska",
+            "v": 336561218,
             "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 254692129,
-            "rank": 45,
             "n": 51
           },
           {
             "st": "SD",
             "name": "South Dakota",
-            "v": 217243174,
+            "v": 312467989,
+            "rank": 45,
+            "n": 51
+          },
+          {
+            "st": "DE",
+            "name": "Delaware",
+            "v": 297221800,
             "rank": 46,
+            "n": 51
+          },
+          {
+            "st": "MT",
+            "name": "Montana",
+            "v": 287814371,
+            "rank": 47,
             "n": 51
           },
           {
             "st": "RI",
             "name": "Rhode Island",
-            "v": 182584047,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 180225264,
+            "v": 267114336,
             "rank": 48,
             "n": 51
           },
           {
             "st": "NH",
             "name": "New Hampshire",
-            "v": 143860000,
+            "v": 163082493,
             "rank": 49,
             "n": 51
           },
           {
             "st": "VT",
             "name": "Vermont",
-            "v": 133410199,
+            "v": 120691918,
             "rank": 50,
             "n": 51
           },
           {
             "st": "DC",
             "name": "District of Columbia",
-            "v": 91083335,
+            "v": 100818227,
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 6885108619,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "Education appropriations for public higher education, FY 2025",
+        "src": "SRC-608-07",
+        "unit": "dollars",
+        "as_of_label": "Fiscal year 2025",
+        "note": "SHEEO SHEF FY 2025 Report Data, Education Appropriations."
+      },
+      "he_state_local_support_fy2025": {
+        "us": 149182322914,
+        "ma": {
+          "v": 2741799917,
+          "rank": 15,
+          "n": 51
+        },
+        "highest": {
+          "st": "CA",
+          "name": "California",
+          "v": 26449341293
+        },
+        "lowest": {
+          "st": "DC",
+          "name": "District of Columbia",
+          "v": 105458738
+        },
+        "n_ranked": 51,
+        "rows": [
+          {
+            "st": "CA",
+            "name": "California",
+            "v": 26449341293,
+            "rank": 1,
+            "n": 51
+          },
+          {
+            "st": "TX",
+            "name": "Texas",
+            "v": 17597959773,
+            "rank": 2,
+            "n": 51
+          },
+          {
+            "st": "NY",
+            "name": "New York",
+            "v": 8482317973,
+            "rank": 3,
+            "n": 51
+          },
+          {
+            "st": "FL",
+            "name": "Florida",
+            "v": 7741917745,
+            "rank": 4,
+            "n": 51
+          },
+          {
+            "st": "IL",
+            "name": "Illinois",
+            "v": 6923066788,
+            "rank": 5,
+            "n": 51
+          },
+          {
+            "st": "NC",
+            "name": "North Carolina",
+            "v": 5923107448,
+            "rank": 6,
+            "n": 51
+          },
+          {
+            "st": "GA",
+            "name": "Georgia",
+            "v": 5048488018,
+            "rank": 7,
+            "n": 51
+          },
+          {
+            "st": "MD",
+            "name": "Maryland",
+            "v": 4258015155,
+            "rank": 8,
+            "n": 51
+          },
+          {
+            "st": "VA",
+            "name": "Virginia",
+            "v": 4110563702,
+            "rank": 9,
+            "n": 51
+          },
+          {
+            "st": "NJ",
+            "name": "New Jersey",
+            "v": 3482612000,
+            "rank": 10,
+            "n": 51
+          },
+          {
+            "st": "MI",
+            "name": "Michigan",
+            "v": 3455165949,
+            "rank": 11,
+            "n": 51
+          },
+          {
+            "st": "WA",
+            "name": "Washington",
+            "v": 3327143483,
+            "rank": 12,
+            "n": 51
+          },
+          {
+            "st": "OH",
+            "name": "Ohio",
+            "v": 2922191945,
+            "rank": 13,
+            "n": 51
+          },
+          {
+            "st": "TN",
+            "name": "Tennessee",
+            "v": 2904564313,
+            "rank": 14,
+            "n": 51
+          },
+          {
+            "st": "MA",
+            "name": "Massachusetts",
+            "v": 2741799917,
+            "rank": 15,
+            "n": 51
+          },
+          {
+            "st": "AL",
+            "name": "Alabama",
+            "v": 2609862944,
+            "rank": 16,
+            "n": 51
+          },
+          {
+            "st": "PA",
+            "name": "Pennsylvania",
+            "v": 2424001632,
+            "rank": 17,
+            "n": 51
+          },
+          {
+            "st": "AZ",
+            "name": "Arizona",
+            "v": 2343778321,
+            "rank": 18,
+            "n": 51
+          },
+          {
+            "st": "WI",
+            "name": "Wisconsin",
+            "v": 2179664055,
+            "rank": 19,
+            "n": 51
+          },
+          {
+            "st": "MN",
+            "name": "Minnesota",
+            "v": 2099958846,
+            "rank": 20,
+            "n": 51
+          },
+          {
+            "st": "SC",
+            "name": "South Carolina",
+            "v": 2097491151,
+            "rank": 21,
+            "n": 51
+          },
+          {
+            "st": "IN",
+            "name": "Indiana",
+            "v": 2071620505,
+            "rank": 22,
+            "n": 51
+          },
+          {
+            "st": "KS",
+            "name": "Kansas",
+            "v": 1852280467,
+            "rank": 23,
+            "n": 51
+          },
+          {
+            "st": "NM",
+            "name": "New Mexico",
+            "v": 1834607397,
+            "rank": 24,
+            "n": 51
+          },
+          {
+            "st": "CT",
+            "name": "Connecticut",
+            "v": 1827746546,
+            "rank": 25,
+            "n": 51
+          },
+          {
+            "st": "UT",
+            "name": "Utah",
+            "v": 1815124800,
+            "rank": 26,
+            "n": 51
+          },
+          {
+            "st": "CO",
+            "name": "Colorado",
+            "v": 1769837838,
+            "rank": 27,
+            "n": 51
+          },
+          {
+            "st": "KY",
+            "name": "Kentucky",
+            "v": 1651856189,
+            "rank": 28,
+            "n": 51
+          },
+          {
+            "st": "LA",
+            "name": "Louisiana",
+            "v": 1593826476,
+            "rank": 29,
+            "n": 51
+          },
+          {
+            "st": "MO",
+            "name": "Missouri",
+            "v": 1582978282,
+            "rank": 30,
+            "n": 51
+          },
+          {
+            "st": "OR",
+            "name": "Oregon",
+            "v": 1544947031,
+            "rank": 31,
+            "n": 51
+          },
+          {
+            "st": "MS",
+            "name": "Mississippi",
+            "v": 1274875534,
+            "rank": 32,
+            "n": 51
+          },
+          {
+            "st": "OK",
+            "name": "Oklahoma",
+            "v": 1244764099,
+            "rank": 33,
+            "n": 51
+          },
+          {
+            "st": "NE",
+            "name": "Nebraska",
+            "v": 1198116628,
+            "rank": 34,
+            "n": 51
+          },
+          {
+            "st": "AR",
+            "name": "Arkansas",
+            "v": 1161579443,
+            "rank": 35,
+            "n": 51
+          },
+          {
+            "st": "NV",
+            "name": "Nevada",
+            "v": 1034899118,
+            "rank": 36,
+            "n": 51
+          },
+          {
+            "st": "IA",
+            "name": "Iowa",
+            "v": 964893315,
+            "rank": 37,
+            "n": 51
+          },
+          {
+            "st": "HI",
+            "name": "Hawaii",
+            "v": 927782991,
+            "rank": 38,
+            "n": 51
+          },
+          {
+            "st": "ID",
+            "name": "Idaho",
+            "v": 721675947,
+            "rank": 39,
+            "n": 51
+          },
+          {
+            "st": "WV",
+            "name": "West Virginia",
+            "v": 642002092,
+            "rank": 40,
+            "n": 51
+          },
+          {
+            "st": "WY",
+            "name": "Wyoming",
+            "v": 471335780,
+            "rank": 41,
+            "n": 51
+          },
+          {
+            "st": "ND",
+            "name": "North Dakota",
+            "v": 470036099,
+            "rank": 42,
+            "n": 51
+          },
+          {
+            "st": "ME",
+            "name": "Maine",
+            "v": 420108503,
+            "rank": 43,
+            "n": 51
+          },
+          {
+            "st": "SD",
+            "name": "South Dakota",
+            "v": 369670161,
+            "rank": 44,
+            "n": 51
+          },
+          {
+            "st": "AK",
+            "name": "Alaska",
+            "v": 366989876,
+            "rank": 45,
+            "n": 51
+          },
+          {
+            "st": "MT",
+            "name": "Montana",
+            "v": 337663359,
+            "rank": 46,
+            "n": 51
+          },
+          {
+            "st": "DE",
+            "name": "Delaware",
+            "v": 308181741,
+            "rank": 47,
+            "n": 51
+          },
+          {
+            "st": "RI",
+            "name": "Rhode Island",
+            "v": 268914336,
+            "rank": 48,
+            "n": 51
+          },
+          {
+            "st": "NH",
+            "name": "New Hampshire",
+            "v": 177850080,
+            "rank": 49,
+            "n": 51
+          },
+          {
+            "st": "VT",
+            "name": "Vermont",
+            "v": 153145830,
+            "rank": 50,
+            "n": 51
+          },
+          {
+            "st": "DC",
+            "name": "District of Columbia",
+            "v": 105458738,
+            "rank": 51,
+            "n": 51
+          }
+        ],
+        "fl": {
+          "v": 7741917745,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "State and local support for public higher education, FY 2025",
+        "src": "SRC-608-07",
+        "unit": "dollars",
+        "as_of_label": "Fiscal year 2025",
+        "note": "SHEEO SHEF FY 2025 Report Data, Total State and Local Support."
       },
       "he_expenditures_2020_21": {
         "us": 419696081648,
@@ -5155,16 +5361,6 @@
           "v": 172491542
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 14724301824,
-          "rank": 6,
-          "n": 51
-        },
-        "label": "Public higher-education expenditures, 2020-21",
-        "src": "SRC-608-08",
-        "unit": "dollars",
-        "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 334.20, all public institutions. Published in thousands of dollars; shown in dollars.",
         "rows": [
           {
             "st": "CA",
@@ -5523,7 +5719,17 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 14724301824,
+          "rank": 6,
+          "n": 51
+        },
+        "label": "Public higher-education expenditures, 2020-21",
+        "src": "SRC-608-08",
+        "unit": "dollars",
+        "as_of_label": "Academic year 2020-21",
+        "note": "NCES Digest table 334.20, all public institutions. Published in thousands of dollars; shown in dollars. No later Digest expenditure table is posted."
       },
       "he_public4_tuition_2022_23": {
         "us": 9750,
@@ -5543,16 +5749,6 @@
           "v": 4540
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 4540,
-          "rank": 51,
-          "n": 51
-        },
-        "label": "Public 4-year in-state tuition and required fees, 2022-23",
-        "src": "SRC-608-09",
-        "unit": "dollars",
-        "as_of_label": "Academic year 2022-23",
-        "note": "NCES Digest table 330.20. In-state tuition and required fees at public 4-year institutions.",
         "rows": [
           {
             "st": "VT",
@@ -5911,395 +6107,405 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 4540,
+          "rank": 51,
+          "n": 51
+        },
+        "label": "Public 4-year in-state tuition and required fees, 2022-23",
+        "src": "SRC-608-09",
+        "unit": "dollars",
+        "as_of_label": "Academic year 2022-23",
+        "note": "NCES Digest table 330.20. In-state tuition and required fees at public 4-year institutions. No later Digest tuition table is posted."
       },
-      "bachelors_conferred_2020_21": {
-        "us": 2066445,
+      "bachelors_conferred_2023_24": {
+        "us": 1959325,
         "ma": {
-          "v": 60801,
+          "v": 57881,
           "rank": 10,
           "n": 51
         },
         "highest": {
           "st": "CA",
           "name": "California",
-          "v": 233473
+          "v": 217700
         },
         "lowest": {
           "st": "AK",
           "name": "Alaska",
-          "v": 1812
+          "v": 1386
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 114202,
-          "rank": 4,
-          "n": 51
-        },
-        "label": "Bachelor's degrees conferred, 2020-21",
-        "src": "SRC-608-10",
-        "unit": "degrees",
-        "as_of_label": "Academic year 2020-21",
-        "note": "NCES Digest table 319.20.",
         "rows": [
           {
             "st": "CA",
             "name": "California",
-            "v": 233473,
+            "v": 217700,
             "rank": 1,
             "n": 51
           },
           {
             "st": "TX",
             "name": "Texas",
-            "v": 148196,
+            "v": 143410,
             "rank": 2,
             "n": 51
           },
           {
             "st": "NY",
             "name": "New York",
-            "v": 144819,
+            "v": 129906,
             "rank": 3,
             "n": 51
           },
           {
             "st": "FL",
             "name": "Florida",
-            "v": 114202,
+            "v": 111239,
             "rank": 4,
             "n": 51
           },
           {
             "st": "PA",
             "name": "Pennsylvania",
-            "v": 88506,
+            "v": 80157,
             "rank": 5,
             "n": 51
           },
           {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 71121,
+            "st": "AZ",
+            "name": "Arizona",
+            "v": 68747,
             "rank": 6,
             "n": 51
           },
           {
             "st": "OH",
             "name": "Ohio",
-            "v": 71018,
+            "v": 65193,
             "rank": 7,
             "n": 51
           },
           {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 68101,
+            "st": "IL",
+            "name": "Illinois",
+            "v": 65041,
             "rank": 8,
             "n": 51
           },
           {
             "st": "VA",
             "name": "Virginia",
-            "v": 61611,
+            "v": 58842,
             "rank": 9,
             "n": 51
           },
           {
             "st": "MA",
             "name": "Massachusetts",
-            "v": 60801,
+            "v": 57881,
             "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 60012,
-            "rank": 11,
             "n": 51
           },
           {
             "st": "NC",
             "name": "North Carolina",
-            "v": 58885,
-            "rank": 12,
+            "v": 57877,
+            "rank": 11,
             "n": 51
           },
           {
             "st": "GA",
             "name": "Georgia",
-            "v": 56514,
+            "v": 55798,
+            "rank": 12,
+            "n": 51
+          },
+          {
+            "st": "MI",
+            "name": "Michigan",
+            "v": 53839,
             "rank": 13,
             "n": 51
           },
           {
             "st": "UT",
             "name": "Utah",
-            "v": 53313,
+            "v": 53759,
             "rank": 14,
             "n": 51
           },
           {
             "st": "IN",
             "name": "Indiana",
-            "v": 52271,
+            "v": 49501,
             "rank": 15,
             "n": 51
           },
           {
             "st": "NJ",
             "name": "New Jersey",
-            "v": 46477,
+            "v": 42671,
             "rank": 16,
             "n": 51
           },
           {
             "st": "MN",
             "name": "Minnesota",
-            "v": 39290,
+            "v": 39994,
             "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 37902,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 36389,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 36342,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 35906,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 35815,
-            "rank": 22,
             "n": 51
           },
           {
             "st": "TN",
             "name": "Tennessee",
-            "v": 35526,
-            "rank": 23,
+            "v": 35182,
+            "rank": 18,
+            "n": 51
+          },
+          {
+            "st": "MD",
+            "name": "Maryland",
+            "v": 35073,
+            "rank": 19,
+            "n": 51
+          },
+          {
+            "st": "CO",
+            "name": "Colorado",
+            "v": 34582,
+            "rank": 20,
+            "n": 51
+          },
+          {
+            "st": "MO",
+            "name": "Missouri",
+            "v": 34127,
+            "rank": 21,
+            "n": 51
+          },
+          {
+            "st": "WI",
+            "name": "Wisconsin",
+            "v": 33546,
+            "rank": 22,
             "n": 51
           },
           {
             "st": "AL",
             "name": "Alabama",
-            "v": 34821,
+            "v": 32791,
+            "rank": 23,
+            "n": 51
+          },
+          {
+            "st": "WA",
+            "name": "Washington",
+            "v": 32791,
             "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 27176,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 24251,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 23481,
-            "rank": 27,
             "n": 51
           },
           {
             "st": "NH",
             "name": "New Hampshire",
-            "v": 23335,
-            "rank": 28,
+            "v": 30881,
+            "rank": 25,
             "n": 51
           },
           {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 23183,
-            "rank": 29,
+            "st": "SC",
+            "name": "South Carolina",
+            "v": 26481,
+            "rank": 26,
+            "n": 51
+          },
+          {
+            "st": "KY",
+            "name": "Kentucky",
+            "v": 24597,
+            "rank": 27,
+            "n": 51
+          },
+          {
+            "st": "LA",
+            "name": "Louisiana",
+            "v": 22920,
+            "rank": 28,
             "n": 51
           },
           {
             "st": "CT",
             "name": "Connecticut",
-            "v": 23110,
+            "v": 22744,
+            "rank": 29,
+            "n": 51
+          },
+          {
+            "st": "IA",
+            "name": "Iowa",
+            "v": 21135,
             "rank": 30,
             "n": 51
           },
           {
             "st": "OR",
             "name": "Oregon",
-            "v": 22899,
+            "v": 20841,
             "rank": 31,
             "n": 51
           },
           {
             "st": "OK",
             "name": "Oklahoma",
-            "v": 21533,
+            "v": 20555,
             "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 20711,
-            "rank": 33,
             "n": 51
           },
           {
             "st": "WV",
             "name": "West Virginia",
-            "v": 17661,
-            "rank": 34,
+            "v": 17729,
+            "rank": 33,
             "n": 51
           },
           {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 17319,
-            "rank": 35,
+            "st": "KS",
+            "name": "Kansas",
+            "v": 17501,
+            "rank": 34,
             "n": 51
           },
           {
             "st": "AR",
             "name": "Arkansas",
-            "v": 17101,
+            "v": 15624,
+            "rank": 35,
+            "n": 51
+          },
+          {
+            "st": "MS",
+            "name": "Mississippi",
+            "v": 15102,
             "rank": 36,
             "n": 51
           },
           {
             "st": "NE",
             "name": "Nebraska",
-            "v": 15125,
+            "v": 14190,
             "rank": 37,
             "n": 51
           },
           {
             "st": "ID",
             "name": "Idaho",
-            "v": 13806,
+            "v": 13850,
             "rank": 38,
             "n": 51
           },
           {
             "st": "RI",
             "name": "Rhode Island",
-            "v": 11942,
+            "v": 11538,
             "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 10675,
-            "rank": 40,
             "n": 51
           },
           {
             "st": "NV",
             "name": "Nevada",
-            "v": 10430,
-            "rank": 41,
+            "v": 10277,
+            "rank": 40,
             "n": 51
           },
           {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 8325,
-            "rank": 42,
+            "st": "DC",
+            "name": "District of Columbia",
+            "v": 10017,
+            "rank": 41,
             "n": 51
           },
           {
             "st": "ME",
             "name": "Maine",
-            "v": 7681,
+            "v": 7854,
+            "rank": 42,
+            "n": 51
+          },
+          {
+            "st": "NM",
+            "name": "New Mexico",
+            "v": 7697,
             "rank": 43,
             "n": 51
           },
           {
             "st": "DE",
             "name": "Delaware",
-            "v": 7219,
+            "v": 6622,
             "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 6584,
-            "rank": 45,
             "n": 51
           },
           {
             "st": "VT",
             "name": "Vermont",
-            "v": 6256,
+            "v": 5852,
+            "rank": 45,
+            "n": 51
+          },
+          {
+            "st": "ND",
+            "name": "North Dakota",
+            "v": 5817,
             "rank": 46,
             "n": 51
           },
           {
             "st": "HI",
             "name": "Hawaii",
-            "v": 6077,
+            "v": 5522,
             "rank": 47,
             "n": 51
           },
           {
             "st": "SD",
             "name": "South Dakota",
-            "v": 5969,
+            "v": 5515,
             "rank": 48,
             "n": 51
           },
           {
             "st": "MT",
             "name": "Montana",
-            "v": 5653,
+            "v": 5439,
             "rank": 49,
             "n": 51
           },
           {
             "st": "WY",
             "name": "Wyoming",
-            "v": 2205,
+            "v": 1992,
             "rank": 50,
             "n": 51
           },
           {
             "st": "AK",
             "name": "Alaska",
-            "v": 1812,
+            "v": 1386,
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 111239,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "Bachelor's degrees conferred, 2023-24",
+        "src": "SRC-608-10",
+        "unit": "degrees",
+        "as_of_label": "Academic year 2023-24",
+        "note": "IPEDS C2024_A joined to HD2024 on UNITID. First-major bachelor's degrees (AWLEVEL 5, CIPCODE 99) at degree-granting institutions (DEGGRANT=1). The 50 states and D.C. roll up to 1,959,325."
       },
       "degree_granting_institutions_2022_23": {
         "us": 3722,
@@ -6319,16 +6525,6 @@
           "v": 7
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 158,
-          "rank": 5,
-          "n": 51
-        },
-        "label": "Degree-granting postsecondary institutions, 2022-23",
-        "src": "SRC-608-11",
-        "unit": "institutions",
-        "as_of_label": "Academic year 2022-23",
-        "note": "NCES Digest table 317.20.",
         "rows": [
           {
             "st": "CA",
@@ -6687,7 +6883,17 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 158,
+          "rank": 5,
+          "n": 51
+        },
+        "label": "Degree-granting postsecondary institutions, 2022-23",
+        "src": "SRC-608-11",
+        "unit": "institutions",
+        "as_of_label": "Academic year 2022-23",
+        "note": "NCES Digest table 317.20. No later Digest institution-count table is posted."
       },
       "ipeds_6yr_grad_by_state_2017": {
         "us": 64.5,
@@ -6707,16 +6913,6 @@
           "v": 13.9
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 67.4,
-          "rank": 16,
-          "n": 51
-        },
-        "label": "IPEDS 6-year bachelor's graduation rate, 2017 cohort",
-        "src": "SRC-608-12",
-        "unit": "percent",
-        "as_of_label": "2017 cohort, completing by 2023",
-        "note": "IPEDS GR2023 joined to HD2023 on UNITID. Bachelor's or equivalent subcohort at degree-granting 4-year institutions: completers within 150% of normal time (GRTYPE 12) divided by the adjusted cohort (GRTYPE 8). The national rollup is 64.5 percent, matching Digest 326.10.",
         "rows": [
           {
             "st": "DC",
@@ -7075,1304 +7271,17 @@
             "rank": 51,
             "n": 51
           }
-        ]
-      }
-    },
-    "windows": {
-      "note": "Prefer these over recomputing. Window means and ranks cite (derived) plus the source id on each snapshot.",
-      "dl08_t4_2022": {
-        "id": "dl08_t4_2022",
-        "label": "Fall postsecondary enrollment, trailing 4 periods ending 2022",
-        "src": "SRC-608-01",
-        "unit": "students",
-        "end": "2022",
-        "n_periods": 4,
-        "higher_is_better": true,
-        "us": 18974092.5,
-        "ma": {
-          "v": 478428.0,
-          "rank": 13,
-          "n": 51
-        },
-        "highest": {
-          "st": "CA",
-          "name": "California",
-          "v": 2570237.75
-        },
-        "lowest": {
-          "st": "AK",
-          "name": "Alaska",
-          "v": 21635.0
-        },
-        "n_ranked": 51,
-        "ranked": [
-          {
-            "st": "CA",
-            "v": 2570237.75,
-            "rank": 1
-          },
-          {
-            "st": "TX",
-            "v": 1598569.0,
-            "rank": 2
-          },
-          {
-            "st": "NY",
-            "v": 1171406.5,
-            "rank": 3
-          },
-          {
-            "st": "FL",
-            "v": 1021637.25,
-            "rank": 4
-          },
-          {
-            "st": "IL",
-            "v": 688435.25,
-            "rank": 5
-          },
-          {
-            "st": "PA",
-            "v": 660788.25,
-            "rank": 6
-          },
-          {
-            "st": "OH",
-            "v": 642132.5,
-            "rank": 7
-          },
-          {
-            "st": "AZ",
-            "v": 611798.5,
-            "rank": 8
-          },
-          {
-            "st": "NC",
-            "v": 558801.5,
-            "rank": 9
-          },
-          {
-            "st": "VA",
-            "v": 551484.75,
-            "rank": 10
-          },
-          {
-            "st": "GA",
-            "v": 546781.0,
-            "rank": 11
-          },
-          {
-            "st": "MI",
-            "v": 490945.0,
-            "rank": 12
-          },
-          {
-            "st": "MA",
-            "v": 478428.0,
-            "rank": 13
-          },
-          {
-            "st": "IN",
-            "v": 431093.0,
-            "rank": 14
-          },
-          {
-            "st": "UT",
-            "v": 392001.0,
-            "rank": 15
-          },
-          {
-            "st": "NJ",
-            "v": 391341.75,
-            "rank": 16
-          },
-          {
-            "st": "MN",
-            "v": 387976.25,
-            "rank": 17
-          },
-          {
-            "st": "CO",
-            "v": 355815.5,
-            "rank": 18
-          },
-          {
-            "st": "MO",
-            "v": 343849.75,
-            "rank": 19
-          },
-          {
-            "st": "MD",
-            "v": 341835.5,
-            "rank": 20
-          },
-          {
-            "st": "WA",
-            "v": 332413.5,
-            "rank": 21
-          },
-          {
-            "st": "WI",
-            "v": 320797.75,
-            "rank": 22
-          },
-          {
-            "st": "TN",
-            "v": 314371.75,
-            "rank": 23
-          },
-          {
-            "st": "AL",
-            "v": 295506.25,
-            "rank": 24
-          },
-          {
-            "st": "KY",
-            "v": 261802.0,
-            "rank": 25
-          },
-          {
-            "st": "LA",
-            "v": 241368.25,
-            "rank": 26
-          },
-          {
-            "st": "SC",
-            "v": 238632.0,
-            "rank": 27
-          },
-          {
-            "st": "IA",
-            "v": 206741.0,
-            "rank": 28
-          },
-          {
-            "st": "OR",
-            "v": 205101.0,
-            "rank": 29
-          },
-          {
-            "st": "KS",
-            "v": 195328.0,
-            "rank": 30
-          },
-          {
-            "st": "NH",
-            "v": 192714.0,
-            "rank": 31
-          },
-          {
-            "st": "CT",
-            "v": 188187.25,
-            "rank": 32
-          },
-          {
-            "st": "OK",
-            "v": 187492.0,
-            "rank": 33
-          },
-          {
-            "st": "MS",
-            "v": 161047.5,
-            "rank": 34
-          },
-          {
-            "st": "AR",
-            "v": 152701.25,
-            "rank": 35
-          },
-          {
-            "st": "WV",
-            "v": 135501.75,
-            "rank": 36
-          },
-          {
-            "st": "NE",
-            "v": 134811.75,
-            "rank": 37
-          },
-          {
-            "st": "ID",
-            "v": 124135.5,
-            "rank": 38
-          },
-          {
-            "st": "NV",
-            "v": 116314.0,
-            "rank": 39
-          },
-          {
-            "st": "NM",
-            "v": 112246.5,
-            "rank": 40
-          },
-          {
-            "st": "DC",
-            "v": 98788.5,
-            "rank": 41
-          },
-          {
-            "st": "RI",
-            "v": 76587.5,
-            "rank": 42
-          },
-          {
-            "st": "ME",
-            "v": 70629.0,
-            "rank": 43
-          },
-          {
-            "st": "HI",
-            "v": 59761.75,
-            "rank": 44
-          },
-          {
-            "st": "DE",
-            "v": 57983.5,
-            "rank": 45
-          },
-          {
-            "st": "ND",
-            "v": 51434.5,
-            "rank": 46
-          },
-          {
-            "st": "SD",
-            "v": 51297.75,
-            "rank": 47
-          },
-          {
-            "st": "MT",
-            "v": 46930.5,
-            "rank": 48
-          },
-          {
-            "st": "VT",
-            "v": 40283.75,
-            "rank": 49
-          },
-          {
-            "st": "WY",
-            "v": 30933.5,
-            "rank": 50
-          },
-          {
-            "st": "AK",
-            "v": 21635.0,
-            "rank": 51
-          }
         ],
         "fl": {
-          "v": 1021637.25,
-          "rank": 4,
+          "v": 67.4,
+          "rank": 16,
           "n": 51
         },
-        "rows": [
-          {
-            "st": "CA",
-            "name": "California",
-            "v": 2570237.75,
-            "rank": 1,
-            "n": 51
-          },
-          {
-            "st": "TX",
-            "name": "Texas",
-            "v": 1598569.0,
-            "rank": 2,
-            "n": 51
-          },
-          {
-            "st": "NY",
-            "name": "New York",
-            "v": 1171406.5,
-            "rank": 3,
-            "n": 51
-          },
-          {
-            "st": "FL",
-            "name": "Florida",
-            "v": 1021637.25,
-            "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 688435.25,
-            "rank": 5,
-            "n": 51
-          },
-          {
-            "st": "PA",
-            "name": "Pennsylvania",
-            "v": 660788.25,
-            "rank": 6,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 642132.5,
-            "rank": 7,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 611798.5,
-            "rank": 8,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 558801.5,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "VA",
-            "name": "Virginia",
-            "v": 551484.75,
-            "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "GA",
-            "name": "Georgia",
-            "v": 546781.0,
-            "rank": 11,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 490945.0,
-            "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 478428.0,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 431093.0,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 392001.0,
-            "rank": 15,
-            "n": 51
-          },
-          {
-            "st": "NJ",
-            "name": "New Jersey",
-            "v": 391341.75,
-            "rank": 16,
-            "n": 51
-          },
-          {
-            "st": "MN",
-            "name": "Minnesota",
-            "v": 387976.25,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 355815.5,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 343849.75,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 341835.5,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 332413.5,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 320797.75,
-            "rank": 22,
-            "n": 51
-          },
-          {
-            "st": "TN",
-            "name": "Tennessee",
-            "v": 314371.75,
-            "rank": 23,
-            "n": 51
-          },
-          {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 295506.25,
-            "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 261802.0,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 241368.25,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 238632.0,
-            "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 206741.0,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 205101.0,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 195328.0,
-            "rank": 30,
-            "n": 51
-          },
-          {
-            "st": "NH",
-            "name": "New Hampshire",
-            "v": 192714.0,
-            "rank": 31,
-            "n": 51
-          },
-          {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 188187.25,
-            "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 187492.0,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 161047.5,
-            "rank": 34,
-            "n": 51
-          },
-          {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 152701.25,
-            "rank": 35,
-            "n": 51
-          },
-          {
-            "st": "WV",
-            "name": "West Virginia",
-            "v": 135501.75,
-            "rank": 36,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 134811.75,
-            "rank": 37,
-            "n": 51
-          },
-          {
-            "st": "ID",
-            "name": "Idaho",
-            "v": 124135.5,
-            "rank": 38,
-            "n": 51
-          },
-          {
-            "st": "NV",
-            "name": "Nevada",
-            "v": 116314.0,
-            "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 112246.5,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 98788.5,
-            "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "RI",
-            "name": "Rhode Island",
-            "v": 76587.5,
-            "rank": 42,
-            "n": 51
-          },
-          {
-            "st": "ME",
-            "name": "Maine",
-            "v": 70629.0,
-            "rank": 43,
-            "n": 51
-          },
-          {
-            "st": "HI",
-            "name": "Hawaii",
-            "v": 59761.75,
-            "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 57983.5,
-            "rank": 45,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 51434.5,
-            "rank": 46,
-            "n": 51
-          },
-          {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 51297.75,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "MT",
-            "name": "Montana",
-            "v": 46930.5,
-            "rank": 48,
-            "n": 51
-          },
-          {
-            "st": "VT",
-            "name": "Vermont",
-            "v": 40283.75,
-            "rank": 49,
-            "n": 51
-          },
-          {
-            "st": "WY",
-            "name": "Wyoming",
-            "v": 30933.5,
-            "rank": 50,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 21635.0,
-            "rank": 51,
-            "n": 51
-          }
-        ]
-      },
-      "dl08_t8_2022": {
-        "id": "dl08_t8_2022",
-        "label": "Fall postsecondary enrollment, trailing 8 periods ending 2022",
-        "src": "SRC-608-01",
-        "unit": "students",
-        "end": "2022",
-        "n_periods": 8,
-        "higher_is_better": true,
-        "us": 19623731.12,
-        "ma": {
-          "v": 492399.88,
-          "rank": 13,
-          "n": 51
-        },
-        "highest": {
-          "st": "CA",
-          "name": "California",
-          "v": 2633156.12
-        },
-        "lowest": {
-          "st": "AK",
-          "name": "Alaska",
-          "v": 25841.62
-        },
-        "n_ranked": 51,
-        "ranked": [
-          {
-            "st": "CA",
-            "v": 2633156.12,
-            "rank": 1
-          },
-          {
-            "st": "TX",
-            "v": 1593396.12,
-            "rank": 2
-          },
-          {
-            "st": "NY",
-            "v": 1226440.25,
-            "rank": 3
-          },
-          {
-            "st": "FL",
-            "v": 1063289.75,
-            "rank": 4
-          },
-          {
-            "st": "IL",
-            "v": 752866.0,
-            "rank": 5
-          },
-          {
-            "st": "PA",
-            "v": 705283.5,
-            "rank": 6
-          },
-          {
-            "st": "OH",
-            "v": 664792.88,
-            "rank": 7
-          },
-          {
-            "st": "AZ",
-            "v": 643829.62,
-            "rank": 8
-          },
-          {
-            "st": "NC",
-            "v": 565812.0,
-            "rank": 9
-          },
-          {
-            "st": "VA",
-            "v": 559841.25,
-            "rank": 10
-          },
-          {
-            "st": "MI",
-            "v": 553008.75,
-            "rank": 11
-          },
-          {
-            "st": "GA",
-            "v": 547833.12,
-            "rank": 12
-          },
-          {
-            "st": "MA",
-            "v": 492399.88,
-            "rank": 13
-          },
-          {
-            "st": "IN",
-            "v": 427265.38,
-            "rank": 14
-          },
-          {
-            "st": "MN",
-            "v": 411373.25,
-            "rank": 15
-          },
-          {
-            "st": "NJ",
-            "v": 410359.75,
-            "rank": 16
-          },
-          {
-            "st": "MO",
-            "v": 377652.38,
-            "rank": 17
-          },
-          {
-            "st": "CO",
-            "v": 359581.88,
-            "rank": 18
-          },
-          {
-            "st": "MD",
-            "v": 355677.88,
-            "rank": 19
-          },
-          {
-            "st": "WA",
-            "v": 352192.25,
-            "rank": 20
-          },
-          {
-            "st": "UT",
-            "v": 347841.75,
-            "rank": 21
-          },
-          {
-            "st": "WI",
-            "v": 339227.5,
-            "rank": 22
-          },
-          {
-            "st": "TN",
-            "v": 324743.5,
-            "rank": 23
-          },
-          {
-            "st": "AL",
-            "v": 303867.62,
-            "rank": 24
-          },
-          {
-            "st": "KY",
-            "v": 267560.88,
-            "rank": 25
-          },
-          {
-            "st": "IA",
-            "v": 260608.75,
-            "rank": 26
-          },
-          {
-            "st": "LA",
-            "v": 246357.25,
-            "rank": 27
-          },
-          {
-            "st": "SC",
-            "v": 244700.38,
-            "rank": 28
-          },
-          {
-            "st": "OR",
-            "v": 223139.38,
-            "rank": 29
-          },
-          {
-            "st": "KS",
-            "v": 204593.38,
-            "rank": 30
-          },
-          {
-            "st": "OK",
-            "v": 200899.12,
-            "rank": 31
-          },
-          {
-            "st": "CT",
-            "v": 193570.12,
-            "rank": 32
-          },
-          {
-            "st": "MS",
-            "v": 167748.38,
-            "rank": 33
-          },
-          {
-            "st": "AR",
-            "v": 160964.75,
-            "rank": 34
-          },
-          {
-            "st": "NH",
-            "v": 154875.88,
-            "rank": 35
-          },
-          {
-            "st": "WV",
-            "v": 142461.12,
-            "rank": 36
-          },
-          {
-            "st": "NE",
-            "v": 136768.12,
-            "rank": 37
-          },
-          {
-            "st": "NM",
-            "v": 127606.75,
-            "rank": 38
-          },
-          {
-            "st": "NV",
-            "v": 118536.0,
-            "rank": 39
-          },
-          {
-            "st": "ID",
-            "v": 118129.5,
-            "rank": 40
-          },
-          {
-            "st": "DC",
-            "v": 96383.88,
-            "rank": 41
-          },
-          {
-            "st": "RI",
-            "v": 79863.5,
-            "rank": 42
-          },
-          {
-            "st": "ME",
-            "v": 71450.12,
-            "rank": 43
-          },
-          {
-            "st": "HI",
-            "v": 65194.5,
-            "rank": 44
-          },
-          {
-            "st": "DE",
-            "v": 58208.38,
-            "rank": 45
-          },
-          {
-            "st": "SD",
-            "v": 53324.25,
-            "rank": 46
-          },
-          {
-            "st": "ND",
-            "v": 53114.62,
-            "rank": 47
-          },
-          {
-            "st": "MT",
-            "v": 49282.88,
-            "rank": 48
-          },
-          {
-            "st": "VT",
-            "v": 42271.62,
-            "rank": 49
-          },
-          {
-            "st": "WY",
-            "v": 33171.0,
-            "rank": 50
-          },
-          {
-            "st": "AK",
-            "v": 25841.62,
-            "rank": 51
-          }
-        ],
-        "fl": {
-          "v": 1063289.75,
-          "rank": 4,
-          "n": 51
-        },
-        "rows": [
-          {
-            "st": "CA",
-            "name": "California",
-            "v": 2633156.12,
-            "rank": 1,
-            "n": 51
-          },
-          {
-            "st": "TX",
-            "name": "Texas",
-            "v": 1593396.12,
-            "rank": 2,
-            "n": 51
-          },
-          {
-            "st": "NY",
-            "name": "New York",
-            "v": 1226440.25,
-            "rank": 3,
-            "n": 51
-          },
-          {
-            "st": "FL",
-            "name": "Florida",
-            "v": 1063289.75,
-            "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 752866.0,
-            "rank": 5,
-            "n": 51
-          },
-          {
-            "st": "PA",
-            "name": "Pennsylvania",
-            "v": 705283.5,
-            "rank": 6,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 664792.88,
-            "rank": 7,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 643829.62,
-            "rank": 8,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 565812.0,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "VA",
-            "name": "Virginia",
-            "v": 559841.25,
-            "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 553008.75,
-            "rank": 11,
-            "n": 51
-          },
-          {
-            "st": "GA",
-            "name": "Georgia",
-            "v": 547833.12,
-            "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 492399.88,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 427265.38,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "MN",
-            "name": "Minnesota",
-            "v": 411373.25,
-            "rank": 15,
-            "n": 51
-          },
-          {
-            "st": "NJ",
-            "name": "New Jersey",
-            "v": 410359.75,
-            "rank": 16,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 377652.38,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 359581.88,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 355677.88,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 352192.25,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 347841.75,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 339227.5,
-            "rank": 22,
-            "n": 51
-          },
-          {
-            "st": "TN",
-            "name": "Tennessee",
-            "v": 324743.5,
-            "rank": 23,
-            "n": 51
-          },
-          {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 303867.62,
-            "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 267560.88,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 260608.75,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 246357.25,
-            "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 244700.38,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 223139.38,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 204593.38,
-            "rank": 30,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 200899.12,
-            "rank": 31,
-            "n": 51
-          },
-          {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 193570.12,
-            "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 167748.38,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 160964.75,
-            "rank": 34,
-            "n": 51
-          },
-          {
-            "st": "NH",
-            "name": "New Hampshire",
-            "v": 154875.88,
-            "rank": 35,
-            "n": 51
-          },
-          {
-            "st": "WV",
-            "name": "West Virginia",
-            "v": 142461.12,
-            "rank": 36,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 136768.12,
-            "rank": 37,
-            "n": 51
-          },
-          {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 127606.75,
-            "rank": 38,
-            "n": 51
-          },
-          {
-            "st": "NV",
-            "name": "Nevada",
-            "v": 118536.0,
-            "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "ID",
-            "name": "Idaho",
-            "v": 118129.5,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 96383.88,
-            "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "RI",
-            "name": "Rhode Island",
-            "v": 79863.5,
-            "rank": 42,
-            "n": 51
-          },
-          {
-            "st": "ME",
-            "name": "Maine",
-            "v": 71450.12,
-            "rank": 43,
-            "n": 51
-          },
-          {
-            "st": "HI",
-            "name": "Hawaii",
-            "v": 65194.5,
-            "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 58208.38,
-            "rank": 45,
-            "n": 51
-          },
-          {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 53324.25,
-            "rank": 46,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 53114.62,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "MT",
-            "name": "Montana",
-            "v": 49282.88,
-            "rank": 48,
-            "n": 51
-          },
-          {
-            "st": "VT",
-            "name": "Vermont",
-            "v": 42271.62,
-            "rank": 49,
-            "n": 51
-          },
-          {
-            "st": "WY",
-            "name": "Wyoming",
-            "v": 33171.0,
-            "rank": 50,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 25841.62,
-            "rank": 51,
-            "n": 51
-          }
-        ]
+        "label": "IPEDS 6-year bachelor's graduation rate, 2017 cohort",
+        "src": "SRC-608-12",
+        "unit": "percent",
+        "as_of_label": "2017 cohort, completing by 2023",
+        "note": "IPEDS GR2023 joined to HD2023 on UNITID. Bachelor's or equivalent subcohort at degree-granting 4-year institutions: completers within 150% of normal time (GRTYPE 12) divided by the adjusted cohort (GRTYPE 8). The national rollup is 64.5 percent, matching Digest 326.10."
       }
     }
   },
@@ -8380,307 +7289,307 @@
     "CA": {
       "st": "CA",
       "name": "California",
-      "v": 2486788,
+      "v": 2721565,
       "rank": 1
     },
     "TX": {
       "st": "TX",
       "name": "Texas",
-      "v": 1567017,
+      "v": 1673856,
       "rank": 2
     },
     "NY": {
       "st": "NY",
       "name": "New York",
-      "v": 1117623,
+      "v": 1150621,
       "rank": 3
     },
     "FL": {
       "st": "FL",
       "name": "Florida",
-      "v": 999223,
+      "v": 1048638,
       "rank": 4
     },
     "IL": {
       "st": "IL",
       "name": "Illinois",
-      "v": 677446,
+      "v": 723397,
       "rank": 5
-    },
-    "PA": {
-      "st": "PA",
-      "name": "Pennsylvania",
-      "v": 633991,
-      "rank": 6
     },
     "AZ": {
       "st": "AZ",
       "name": "Arizona",
-      "v": 624719,
+      "v": 684249,
+      "rank": 6
+    },
+    "PA": {
+      "st": "PA",
+      "name": "Pennsylvania",
+      "v": 643232,
       "rank": 7
     },
     "OH": {
       "st": "OH",
       "name": "Ohio",
-      "v": 612352,
+      "v": 610991,
       "rank": 8
-    },
-    "NC": {
-      "st": "NC",
-      "name": "North Carolina",
-      "v": 553180,
-      "rank": 9
-    },
-    "VA": {
-      "st": "VA",
-      "name": "Virginia",
-      "v": 546280,
-      "rank": 10
     },
     "GA": {
       "st": "GA",
       "name": "Georgia",
-      "v": 541594,
+      "v": 594714,
+      "rank": 9
+    },
+    "NC": {
+      "st": "NC",
+      "name": "North Carolina",
+      "v": 584778,
+      "rank": 10
+    },
+    "VA": {
+      "st": "VA",
+      "name": "Virginia",
+      "v": 575345,
       "rank": 11
     },
-    "MA": {
-      "st": "MA",
-      "name": "Massachusetts",
-      "v": 468960,
+    "IN": {
+      "st": "IN",
+      "name": "Indiana",
+      "v": 492801,
       "rank": 12
     },
     "MI": {
       "st": "MI",
       "name": "Michigan",
-      "v": 466458,
+      "v": 483259,
       "rank": 13
     },
-    "IN": {
-      "st": "IN",
-      "name": "Indiana",
-      "v": 436234,
+    "MA": {
+      "st": "MA",
+      "name": "Massachusetts",
+      "v": 482004,
       "rank": 14
     },
     "UT": {
       "st": "UT",
       "name": "Utah",
-      "v": 401218,
+      "v": 474505,
       "rank": 15
-    },
-    "NJ": {
-      "st": "NJ",
-      "name": "New Jersey",
-      "v": 378819,
-      "rank": 16
     },
     "MN": {
       "st": "MN",
       "name": "Minnesota",
-      "v": 373128,
+      "v": 411392,
+      "rank": 16
+    },
+    "NJ": {
+      "st": "NJ",
+      "name": "New Jersey",
+      "v": 394142,
       "rank": 17
     },
     "CO": {
       "st": "CO",
       "name": "Colorado",
-      "v": 346716,
+      "v": 371053,
       "rank": 18
-    },
-    "MO": {
-      "st": "MO",
-      "name": "Missouri",
-      "v": 333470,
-      "rank": 19
     },
     "MD": {
       "st": "MD",
       "name": "Maryland",
-      "v": 329092,
-      "rank": 20
+      "v": 355566,
+      "rank": 19
     },
-    "WI": {
-      "st": "WI",
-      "name": "Wisconsin",
-      "v": 316129,
-      "rank": 21
+    "MO": {
+      "st": "MO",
+      "name": "Missouri",
+      "v": 341921,
+      "rank": 20
     },
     "WA": {
       "st": "WA",
       "name": "Washington",
-      "v": 311068,
+      "v": 331375,
+      "rank": 21
+    },
+    "WI": {
+      "st": "WI",
+      "name": "Wisconsin",
+      "v": 328106,
       "rank": 22
     },
     "TN": {
       "st": "TN",
       "name": "Tennessee",
-      "v": 308710,
+      "v": 325353,
       "rank": 23
     },
     "AL": {
       "st": "AL",
       "name": "Alabama",
-      "v": 294009,
+      "v": 312662,
       "rank": 24
     },
     "KY": {
       "st": "KY",
       "name": "Kentucky",
-      "v": 261751,
+      "v": 290201,
       "rank": 25
     },
     "SC": {
       "st": "SC",
       "name": "South Carolina",
-      "v": 242672,
+      "v": 257645,
       "rank": 26
     },
     "LA": {
       "st": "LA",
       "name": "Louisiana",
-      "v": 238689,
+      "v": 255622,
       "rank": 27
     },
     "NH": {
       "st": "NH",
       "name": "New Hampshire",
-      "v": 214537,
+      "v": 240941,
       "rank": 28
     },
     "IA": {
       "st": "IA",
       "name": "Iowa",
-      "v": 202287,
+      "v": 206570,
       "rank": 29
     },
     "OR": {
       "st": "OR",
       "name": "Oregon",
-      "v": 194987,
+      "v": 202996,
       "rank": 30
     },
-    "CT": {
-      "st": "CT",
-      "name": "Connecticut",
-      "v": 187764,
+    "OK": {
+      "st": "OK",
+      "name": "Oklahoma",
+      "v": 198353,
       "rank": 31
     },
     "KS": {
       "st": "KS",
       "name": "Kansas",
-      "v": 185985,
+      "v": 196412,
       "rank": 32
     },
-    "OK": {
-      "st": "OK",
-      "name": "Oklahoma",
-      "v": 184218,
+    "CT": {
+      "st": "CT",
+      "name": "Connecticut",
+      "v": 195025,
       "rank": 33
     },
     "MS": {
       "st": "MS",
       "name": "Mississippi",
-      "v": 155950,
+      "v": 165241,
       "rank": 34
     },
     "AR": {
       "st": "AR",
       "name": "Arkansas",
-      "v": 154781,
+      "v": 162441,
       "rank": 35
     },
     "NE": {
       "st": "NE",
       "name": "Nebraska",
-      "v": 134815,
+      "v": 140349,
       "rank": 36
     },
     "WV": {
       "st": "WV",
       "name": "West Virginia",
-      "v": 132923,
+      "v": 137068,
       "rank": 37
     },
     "ID": {
       "st": "ID",
       "name": "Idaho",
-      "v": 125249,
+      "v": 136009,
       "rank": 38
     },
     "NV": {
       "st": "NV",
       "name": "Nevada",
-      "v": 113588,
+      "v": 121009,
       "rank": 39
     },
     "NM": {
       "st": "NM",
       "name": "New Mexico",
-      "v": 110082,
+      "v": 114483,
       "rank": 40
     },
     "DC": {
       "st": "DC",
       "name": "District of Columbia",
-      "v": 99329,
+      "v": 100572,
       "rank": 41
-    },
-    "RI": {
-      "st": "RI",
-      "name": "Rhode Island",
-      "v": 74413,
-      "rank": 42
     },
     "ME": {
       "st": "ME",
       "name": "Maine",
-      "v": 71475,
+      "v": 80932,
+      "rank": 42
+    },
+    "RI": {
+      "st": "RI",
+      "name": "Rhode Island",
+      "v": 75601,
       "rank": 43
     },
     "HI": {
       "st": "HI",
       "name": "Hawaii",
-      "v": 58841,
+      "v": 61420,
       "rank": 44
     },
     "DE": {
       "st": "DE",
       "name": "Delaware",
-      "v": 57022,
+      "v": 58010,
       "rank": 45
     },
     "SD": {
       "st": "SD",
       "name": "South Dakota",
-      "v": 51317,
+      "v": 54167,
       "rank": 46
     },
     "ND": {
       "st": "ND",
       "name": "North Dakota",
-      "v": 51074,
+      "v": 53473,
       "rank": 47
     },
     "MT": {
       "st": "MT",
       "name": "Montana",
-      "v": 47134,
+      "v": 48357,
       "rank": 48
     },
     "VT": {
       "st": "VT",
       "name": "Vermont",
-      "v": 39888,
+      "v": 38343,
       "rank": 49
     },
     "WY": {
       "st": "WY",
       "name": "Wyoming",
-      "v": 29971,
+      "v": 31079,
       "rank": 50
     },
     "AK": {
       "st": "AK",
       "name": "Alaska",
-      "v": 20152,
+      "v": 22726,
       "rank": 51
     }
   }

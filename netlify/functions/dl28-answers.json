@@ -6,7 +6,7 @@
   "group": "State Government & Spending",
   "status": "live",
   "as_of": "2026-03",
-  "scope": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2023. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment.",
+  "scope": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2025. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment.",
   "exclusions": "Does not cover municipal levies (Massachusetts Town Rankings), the 51-state ranking (State Tax Collections), or advice about a filing. DOR monthly reports and tax credits are pending: decline those.",
   "heritage": "Formerly Revenue Tax, Revenue Total, Spending Total, and Tax Credits",
   "replaces": [
@@ -15,36 +15,36 @@
     "Spending Total",
     "Tax Credits"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from Census QTAX 2026 q1t3.xlsx, Massachusetts 2026 Q1 column. Amounts are published in thousands of dollars. U.S. Total Taxes equals 393,072,675 thousand. Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 19, 2026 from Census QTAX 2026 q1t3.xlsx, Massachusetts 2026 Q1 column. Amounts are published in thousands of dollars. U.S. Total Taxes equals 393,072,675 thousand. Later views compiled Aug 19, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-628-01": {
       "name": "Census QTAX 2026 Q1 table 3, state tax collections by type",
       "cadence": "Quarterly",
       "url": "https://www2.census.gov/programs-surveys/qtax/tables/2026/q1t3.xlsx",
-      "supports": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2023. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment."
+      "supports": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2025. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment."
     },
     "SRC-628-02": {
-      "name": "Census Annual Survey of State Government Tax Collections, FY 2023",
+      "name": "Census Annual Survey of State Government Tax Collections, FY 2025",
       "cadence": "Annual",
-      "url": "https://www2.census.gov/programs-surveys/stc/tables/2023/FY2023-STC-Detailed-Table-Transposed.xlsx",
-      "supports": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2023. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment."
+      "url": "https://www2.census.gov/programs-surveys/stc/tables/2025/FY2025-STC-Detailed-Table-Transposed.xlsx",
+      "supports": "This ledger reports Massachusetts state tax collections by type for 2026 Q1 from the Census Quarterly Summary of State and Local Tax Revenue, including type shares and year-over-year change, and also reports Census Annual Survey of State Government Tax Collections for FY 2025. DOR monthly collections and tax-credit totals remain later views because those mass.gov workbooks return 403 from this environment."
     }
   },
   "page": {
-    "revised": "Aug 16, 2026",
+    "revised": "Aug 19, 2026",
     "version": "0.1"
   },
   "geo": [
     "MA"
   ],
-  "q": "Commonwealth quarterly and annual tax collections by type from Census QTAX and STC.",
+  "q": "Commonwealth tax collections by type from Census QTAX and STC.",
   "pending": false,
   "metric": "ma_state_tax_collections_2026q1",
   "metric_label": "Massachusetts state tax collections by type, 2026 Q1",
   "unit": "dollars",
   "data_month": "2026-03",
   "data_month_label": "2026 Q1",
-  "lead": "Massachusetts state tax collections were <b>$11.62 billion</b> in the first quarter of 2026, +5.2% from the same quarter of 2025 (SRC-628-01). The United States (excluding D.C.) collected <b>$393.07 billion</b> (SRC-628-01). Individual income was the largest Massachusetts source after the total. Individual income taxes were <b>50.4%</b> of Massachusetts 2026 Q1 collections ($5.85 billion, SRC-628-01). On the annual Census STC file, Massachusetts collected <b>$41.34 billion</b> in FY 2023, rank 8 of 50 (derived, SRC-628-02). DOR monthly reports and tax credits remain pending.",
+  "lead": "Massachusetts state tax collections were <b>$11.62 billion</b> in the first quarter of 2026, +5.2% from the same quarter of 2025 (SRC-628-01). The United States (excluding D.C.) collected <b>$393.07 billion</b> (SRC-628-01). Individual income was the largest Massachusetts source after the total. Individual income taxes were <b>50.4%</b> of Massachusetts 2026 Q1 collections ($5.85 billion, SRC-628-01). On the annual Census STC file, Massachusetts collected <b>$46.17 billion</b> in FY 2025, rank 8 of 50 (derived, SRC-628-02). DOR monthly reports and tax credits remain pending.",
   "kpis": [
     {
       "label": "Massachusetts taxes, 2026 Q1",
@@ -238,84 +238,7 @@
       "n": 22
     }
   ],
-  "trend": {
-    "MA": [
-      {
-        "q": "2024 Q1",
-        "v": 10207010000
-      },
-      {
-        "q": "2024 Q2",
-        "v": 13962587000
-      },
-      {
-        "q": "2024 Q3",
-        "v": 10371968000
-      },
-      {
-        "q": "2024 Q4",
-        "v": 10025169000
-      },
-      {
-        "q": "2025 Q1",
-        "v": 11044470000
-      },
-      {
-        "q": "2025 Q2",
-        "v": 14719739000
-      },
-      {
-        "q": "2025 Q3",
-        "v": 10597867000
-      },
-      {
-        "q": "2025 Q4",
-        "v": 10194330000
-      },
-      {
-        "q": "2026 Q1",
-        "v": 11618592000
-      }
-    ],
-    "US": [
-      {
-        "q": "2024 Q1",
-        "v": 351767218000
-      },
-      {
-        "q": "2024 Q2",
-        "v": 443064090000
-      },
-      {
-        "q": "2024 Q3",
-        "v": 341351706000
-      },
-      {
-        "q": "2024 Q4",
-        "v": 356300195000
-      },
-      {
-        "q": "2025 Q1",
-        "v": 372021864000
-      },
-      {
-        "q": "2025 Q2",
-        "v": 468212522000
-      },
-      {
-        "q": "2025 Q3",
-        "v": 356085899000
-      },
-      {
-        "q": "2025 Q4",
-        "v": 383737612000
-      },
-      {
-        "q": "2026 Q1",
-        "v": 393072675000
-      }
-    ]
-  },
+  "trend": {},
   "derived": {
     "note": "Prefer these over recomputing. Ranks cite (derived, SRC-628-01).",
     "highest_five": [
@@ -645,397 +568,402 @@
         ],
         "note": "Census QTAX 2026 Q1 table 3. Shares are of Total Taxes. Year-over-year is 2026 Q1 versus 2025 Q1."
       },
-      "stc_ma_2023": {
-        "label": "Census Annual Survey of State Government Tax Collections, FY 2023",
+      "stc_ma_2025": {
+        "label": "Census Annual Survey of State Government Tax Collections, FY 2025",
         "src": "SRC-628-02",
         "unit": "dollars",
-        "as_of_label": "Fiscal year 2023",
+        "as_of_label": "Fiscal year 2025",
         "total": {
-          "us": 1423479536000.0,
+          "us": 1535843715000.0,
           "ma": {
-            "v": 41338531000.0,
+            "v": 46172934000.0,
             "rank": 8,
             "n": 50
           },
           "highest": {
             "st": "CA",
             "name": "California",
-            "v": 217707953000.0
+            "v": 275041333000.0
           },
           "lowest": {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 2629090000.0
+            "st": "AK",
+            "name": "Alaska",
+            "v": 1686939000.0
           },
           "n_ranked": 50,
-          "label": "State tax collections, FY 2023",
-          "src": "SRC-628-02",
-          "unit": "dollars",
-          "as_of_label": "Fiscal year 2023",
           "rows": [
             {
               "st": "CA",
               "name": "California",
-              "v": 217707953000.0,
+              "v": 275041333000.0,
               "rank": 1,
               "n": 50
             },
             {
               "st": "NY",
               "name": "New York",
-              "v": 125459496000.0,
+              "v": 131284169000.0,
               "rank": 2,
               "n": 50
             },
             {
               "st": "TX",
               "name": "Texas",
-              "v": 87328717000.0,
+              "v": 89943632000.0,
               "rank": 3,
               "n": 50
             },
             {
               "st": "IL",
               "name": "Illinois",
-              "v": 68053072000.0,
+              "v": 71309239000.0,
               "rank": 4,
               "n": 50
             },
             {
               "st": "FL",
               "name": "Florida",
-              "v": 61925155000.0,
+              "v": 63550663000.0,
               "rank": 5,
               "n": 50
             },
             {
               "st": "PA",
               "name": "Pennsylvania",
-              "v": 55074459000.0,
+              "v": 56545523000.0,
               "rank": 6,
               "n": 50
             },
             {
               "st": "NJ",
               "name": "New Jersey",
-              "v": 50726388000.0,
+              "v": 54065138000.0,
               "rank": 7,
               "n": 50
             },
             {
               "st": "MA",
               "name": "Massachusetts",
-              "v": 41338531000.0,
+              "v": 46172934000.0,
               "rank": 8,
-              "n": 50
-            },
-            {
-              "st": "NC",
-              "name": "North Carolina",
-              "v": 39074633000.0,
-              "rank": 9,
-              "n": 50
-            },
-            {
-              "st": "OH",
-              "name": "Ohio",
-              "v": 38728351000.0,
-              "rank": 10,
               "n": 50
             },
             {
               "st": "MI",
               "name": "Michigan",
-              "v": 38254379000.0,
+              "v": 40805907000.0,
+              "rank": 9,
+              "n": 50
+            },
+            {
+              "st": "NC",
+              "name": "North Carolina",
+              "v": 40626167000.0,
+              "rank": 10,
+              "n": 50
+            },
+            {
+              "st": "VA",
+              "name": "Virginia",
+              "v": 40256178000.0,
               "rank": 11,
               "n": 50
             },
             {
               "st": "WA",
               "name": "Washington",
-              "v": 38025420000.0,
+              "v": 39361742000.0,
               "rank": 12,
               "n": 50
             },
             {
-              "st": "VA",
-              "name": "Virginia",
-              "v": 37018190000.0,
+              "st": "OH",
+              "name": "Ohio",
+              "v": 38844122000.0,
               "rank": 13,
               "n": 50
             },
             {
               "st": "MN",
               "name": "Minnesota",
-              "v": 34473185000.0,
+              "v": 36889555000.0,
               "rank": 14,
               "n": 50
             },
             {
               "st": "GA",
               "name": "Georgia",
-              "v": 33818735000.0,
+              "v": 34358826000.0,
               "rank": 15,
               "n": 50
             },
             {
               "st": "MD",
               "name": "Maryland",
-              "v": 29590039000.0,
+              "v": 32921289000.0,
               "rank": 16,
               "n": 50
             },
             {
               "st": "IN",
               "name": "Indiana",
-              "v": 26576465000.0,
+              "v": 27421554000.0,
               "rank": 17,
               "n": 50
             },
             {
               "st": "AZ",
               "name": "Arizona",
-              "v": 24705701000.0,
+              "v": 26635906000.0,
               "rank": 18,
               "n": 50
             },
             {
               "st": "TN",
               "name": "Tennessee",
-              "v": 23776144000.0,
+              "v": 25573839000.0,
               "rank": 19,
               "n": 50
             },
             {
               "st": "WI",
               "name": "Wisconsin",
-              "v": 23743687000.0,
+              "v": 25299273000.0,
               "rank": 20,
               "n": 50
             },
             {
               "st": "CT",
               "name": "Connecticut",
-              "v": 22527037000.0,
+              "v": 24753804000.0,
               "rank": 21,
               "n": 50
             },
             {
               "st": "OR",
               "name": "Oregon",
-              "v": 20749483000.0,
+              "v": 20522201000.0,
               "rank": 22,
               "n": 50
             },
             {
               "st": "CO",
               "name": "Colorado",
-              "v": 18131705000.0,
+              "v": 20261443000.0,
               "rank": 23,
+              "n": 50
+            },
+            {
+              "st": "SC",
+              "name": "South Carolina",
+              "v": 19243335000.0,
+              "rank": 24,
               "n": 50
             },
             {
               "st": "MO",
               "name": "Missouri",
-              "v": 17403548000.0,
-              "rank": 24,
-              "n": 50
-            },
-            {
-              "st": "KY",
-              "name": "Kentucky",
-              "v": 17217084000.0,
+              "v": 18004517000.0,
               "rank": 25,
               "n": 50
             },
             {
               "st": "AL",
               "name": "Alabama",
-              "v": 16497098000.0,
+              "v": 17673064000.0,
               "rank": 26,
+              "n": 50
+            },
+            {
+              "st": "KY",
+              "name": "Kentucky",
+              "v": 17336567000.0,
+              "rank": 27,
               "n": 50
             },
             {
               "st": "LA",
               "name": "Louisiana",
-              "v": 16057374000.0,
-              "rank": 27,
-              "n": 50
-            },
-            {
-              "st": "SC",
-              "name": "South Carolina",
-              "v": 15649277000.0,
+              "v": 16380208000.0,
               "rank": 28,
               "n": 50
             },
             {
               "st": "NM",
               "name": "New Mexico",
-              "v": 14436205000.0,
+              "v": 14938479000.0,
               "rank": 29,
               "n": 50
             },
             {
               "st": "NV",
               "name": "Nevada",
-              "v": 14314135000.0,
+              "v": 14519772000.0,
               "rank": 30,
-              "n": 50
-            },
-            {
-              "st": "OK",
-              "name": "Oklahoma",
-              "v": 13647881000.0,
-              "rank": 31,
               "n": 50
             },
             {
               "st": "UT",
               "name": "Utah",
-              "v": 13485420000.0,
-              "rank": 32,
+              "v": 14133061000.0,
+              "rank": 31,
               "n": 50
             },
             {
               "st": "KS",
               "name": "Kansas",
-              "v": 13139563000.0,
-              "rank": 33,
+              "v": 13118999000.0,
+              "rank": 32,
               "n": 50
             },
             {
-              "st": "IA",
-              "name": "Iowa",
-              "v": 12950402000.0,
-              "rank": 34,
+              "st": "OK",
+              "name": "Oklahoma",
+              "v": 13044419000.0,
+              "rank": 33,
               "n": 50
             },
             {
               "st": "AR",
               "name": "Arkansas",
-              "v": 12758766000.0,
-              "rank": 35,
+              "v": 12560305000.0,
+              "rank": 34,
               "n": 50
             },
             {
-              "st": "MS",
-              "name": "Mississippi",
-              "v": 10860590000.0,
-              "rank": 36,
+              "st": "IA",
+              "name": "Iowa",
+              "v": 12120559000.0,
+              "rank": 35,
               "n": 50
             },
             {
               "st": "HI",
               "name": "Hawaii",
-              "v": 10187648000.0,
-              "rank": 37,
+              "v": 11036365000.0,
+              "rank": 36,
               "n": 50
             },
             {
-              "st": "WV",
-              "name": "West Virginia",
-              "v": 7646664000.0,
-              "rank": 38,
+              "st": "MS",
+              "name": "Mississippi",
+              "v": 10950782000.0,
+              "rank": 37,
               "n": 50
             },
             {
               "st": "ID",
               "name": "Idaho",
-              "v": 7600174000.0,
-              "rank": 39,
+              "v": 8881206000.0,
+              "rank": 38,
               "n": 50
             },
             {
               "st": "NE",
               "name": "Nebraska",
-              "v": 7326707000.0,
+              "v": 7293864000.0,
+              "rank": 39,
+              "n": 50
+            },
+            {
+              "st": "WV",
+              "name": "West Virginia",
+              "v": 6951166000.0,
               "rank": 40,
               "n": 50
             },
             {
               "st": "DE",
               "name": "Delaware",
-              "v": 6563472000.0,
+              "v": 6949753000.0,
               "rank": 41,
               "n": 50
             },
             {
               "st": "ME",
               "name": "Maine",
-              "v": 6476126000.0,
+              "v": 6917242000.0,
               "rank": 42,
               "n": 50
             },
             {
               "st": "ND",
               "name": "North Dakota",
-              "v": 6048549000.0,
+              "v": 5517006000.0,
               "rank": 43,
               "n": 50
             },
             {
               "st": "RI",
               "name": "Rhode Island",
-              "v": 5312973000.0,
+              "v": 5470824000.0,
               "rank": 44,
-              "n": 50
-            },
-            {
-              "st": "MT",
-              "name": "Montana",
-              "v": 4704607000.0,
-              "rank": 45,
               "n": 50
             },
             {
               "st": "VT",
               "name": "Vermont",
-              "v": 4498680000.0,
+              "v": 5205872000.0,
+              "rank": 45,
+              "n": 50
+            },
+            {
+              "st": "MT",
+              "name": "Montana",
+              "v": 4836766000.0,
               "rank": 46,
               "n": 50
             },
             {
               "st": "NH",
               "name": "New Hampshire",
-              "v": 3461507000.0,
+              "v": 3372460000.0,
               "rank": 47,
-              "n": 50
-            },
-            {
-              "st": "WY",
-              "name": "Wyoming",
-              "v": 3004996000.0,
-              "rank": 48,
-              "n": 50
-            },
-            {
-              "st": "AK",
-              "name": "Alaska",
-              "v": 2794075000.0,
-              "rank": 49,
               "n": 50
             },
             {
               "st": "SD",
               "name": "South Dakota",
-              "v": 2629090000.0,
+              "v": 2687143000.0,
+              "rank": 48,
+              "n": 50
+            },
+            {
+              "st": "WY",
+              "name": "Wyoming",
+              "v": 2568605000.0,
+              "rank": 49,
+              "n": 50
+            },
+            {
+              "st": "AK",
+              "name": "Alaska",
+              "v": 1686939000.0,
               "rank": 50,
               "n": 50
             }
-          ]
+          ],
+          "fl": {
+            "v": 63550663000.0,
+            "rank": 5,
+            "n": 50
+          },
+          "label": "State tax collections, FY 2025",
+          "src": "SRC-628-02",
+          "unit": "dollars",
+          "as_of_label": "Fiscal year 2025"
         },
         "income_share": {
-          "us": 32.4,
+          "us": 33.7,
           "ma": {
-            "v": 47.8,
-            "rank": 5,
+            "v": 53.0,
+            "rank": 2,
             "n": 44
           },
           "highest": {
             "st": "OR",
             "name": "Oregon",
-            "v": 63.5
+            "v": 63.7
           },
           "lowest": {
             "st": "TN",
@@ -1043,253 +971,249 @@
             "v": 0.0
           },
           "n_ranked": 44,
-          "label": "Individual income tax share of state tax collections, FY 2023",
-          "src": "SRC-629-04",
-          "unit": "percent",
-          "as_of_label": "Fiscal year 2023",
           "rows": [
             {
               "st": "OR",
               "name": "Oregon",
-              "v": 63.5,
+              "v": 63.7,
               "rank": 1,
-              "n": 44
-            },
-            {
-              "st": "GA",
-              "name": "Georgia",
-              "v": 50.2,
-              "rank": 2,
-              "n": 44
-            },
-            {
-              "st": "MO",
-              "name": "Missouri",
-              "v": 49.9,
-              "rank": 3,
-              "n": 44
-            },
-            {
-              "st": "MT",
-              "name": "Montana",
-              "v": 48.6,
-              "rank": 4,
               "n": 44
             },
             {
               "st": "MA",
               "name": "Massachusetts",
-              "v": 47.8,
-              "rank": 5,
+              "v": 53.0,
+              "rank": 2,
               "n": 44
             },
             {
-              "st": "NY",
-              "name": "New York",
-              "v": 46.8,
-              "rank": 6,
+              "st": "MT",
+              "name": "Montana",
+              "v": 47.7,
+              "rank": 3,
               "n": 44
             },
             {
               "st": "VA",
               "name": "Virginia",
-              "v": 45.0,
-              "rank": 7,
+              "v": 47.3,
+              "rank": 4,
+              "n": 44
+            },
+            {
+              "st": "GA",
+              "name": "Georgia",
+              "v": 47.3,
+              "rank": 5,
               "n": 44
             },
             {
               "st": "CA",
               "name": "California",
-              "v": 44.3,
-              "rank": 8,
+              "v": 46.8,
+              "rank": 6,
               "n": 44
             },
             {
-              "st": "UT",
-              "name": "Utah",
-              "v": 43.9,
-              "rank": 9,
-              "n": 44
-            },
-            {
-              "st": "NC",
-              "name": "North Carolina",
-              "v": 43.1,
-              "rank": 10,
+              "st": "NY",
+              "name": "New York",
+              "v": 46.6,
+              "rank": 7,
               "n": 44
             },
             {
               "st": "CT",
               "name": "Connecticut",
-              "v": 42.5,
+              "v": 45.3,
+              "rank": 8,
+              "n": 44
+            },
+            {
+              "st": "CO",
+              "name": "Colorado",
+              "v": 43.5,
+              "rank": 9,
+              "n": 44
+            },
+            {
+              "st": "MO",
+              "name": "Missouri",
+              "v": 43.2,
+              "rank": 10,
+              "n": 44
+            },
+            {
+              "st": "UT",
+              "name": "Utah",
+              "v": 42.8,
               "rank": 11,
               "n": 44
             },
             {
-              "st": "NE",
-              "name": "Nebraska",
-              "v": 41.0,
+              "st": "NC",
+              "name": "North Carolina",
+              "v": 42.1,
               "rank": 12,
               "n": 44
             },
             {
               "st": "WI",
               "name": "Wisconsin",
-              "v": 38.7,
+              "v": 40.4,
               "rank": 13,
               "n": 44
             },
             {
-              "st": "MN",
-              "name": "Minnesota",
-              "v": 38.4,
+              "st": "DE",
+              "name": "Delaware",
+              "v": 39.6,
               "rank": 14,
               "n": 44
             },
             {
               "st": "ME",
               "name": "Maine",
-              "v": 38.3,
+              "v": 39.5,
               "rank": 15,
-              "n": 44
-            },
-            {
-              "st": "CO",
-              "name": "Colorado",
-              "v": 37.4,
-              "rank": 16,
-              "n": 44
-            },
-            {
-              "st": "DE",
-              "name": "Delaware",
-              "v": 37.0,
-              "rank": 17,
-              "n": 44
-            },
-            {
-              "st": "SC",
-              "name": "South Carolina",
-              "v": 36.9,
-              "rank": 18,
               "n": 44
             },
             {
               "st": "NJ",
               "name": "New Jersey",
-              "v": 36.5,
-              "rank": 19,
+              "v": 38.9,
+              "rank": 16,
               "n": 44
             },
             {
-              "st": "IA",
-              "name": "Iowa",
-              "v": 35.8,
-              "rank": 20,
-              "n": 44
-            },
-            {
-              "st": "WV",
-              "name": "West Virginia",
-              "v": 35.2,
-              "rank": 21,
-              "n": 44
-            },
-            {
-              "st": "KY",
-              "name": "Kentucky",
-              "v": 35.1,
-              "rank": 22,
-              "n": 44
-            },
-            {
-              "st": "KS",
-              "name": "Kansas",
-              "v": 34.3,
-              "rank": 23,
-              "n": 44
-            },
-            {
-              "st": "IL",
-              "name": "Illinois",
-              "v": 34.2,
-              "rank": 24,
-              "n": 44
-            },
-            {
-              "st": "MD",
-              "name": "Maryland",
-              "v": 32.8,
-              "rank": 25,
+              "st": "MN",
+              "name": "Minnesota",
+              "v": 37.8,
+              "rank": 17,
               "n": 44
             },
             {
               "st": "OK",
               "name": "Oklahoma",
-              "v": 32.2,
-              "rank": 26,
+              "v": 37.5,
+              "rank": 18,
               "n": 44
             },
             {
-              "st": "AL",
-              "name": "Alabama",
-              "v": 31.0,
-              "rank": 27,
+              "st": "KS",
+              "name": "Kansas",
+              "v": 35.6,
+              "rank": 19,
               "n": 44
             },
             {
-              "st": "PA",
-              "name": "Pennsylvania",
-              "v": 30.9,
-              "rank": 28,
+              "st": "IL",
+              "name": "Illinois",
+              "v": 35.6,
+              "rank": 20,
               "n": 44
             },
             {
-              "st": "HI",
-              "name": "Hawaii",
-              "v": 30.4,
-              "rank": 29,
+              "st": "MD",
+              "name": "Maryland",
+              "v": 35.6,
+              "rank": 21,
+              "n": 44
+            },
+            {
+              "st": "SC",
+              "name": "South Carolina",
+              "v": 35.1,
+              "rank": 22,
+              "n": 44
+            },
+            {
+              "st": "ID",
+              "name": "Idaho",
+              "v": 34.9,
+              "rank": 23,
               "n": 44
             },
             {
               "st": "RI",
               "name": "Rhode Island",
-              "v": 30.3,
-              "rank": 30,
+              "v": 33.4,
+              "rank": 24,
+              "n": 44
+            },
+            {
+              "st": "AL",
+              "name": "Alabama",
+              "v": 32.8,
+              "rank": 25,
+              "n": 44
+            },
+            {
+              "st": "IN",
+              "name": "Indiana",
+              "v": 31.7,
+              "rank": 26,
+              "n": 44
+            },
+            {
+              "st": "PA",
+              "name": "Pennsylvania",
+              "v": 31.6,
+              "rank": 27,
+              "n": 44
+            },
+            {
+              "st": "IA",
+              "name": "Iowa",
+              "v": 31.4,
+              "rank": 28,
+              "n": 44
+            },
+            {
+              "st": "WV",
+              "name": "West Virginia",
+              "v": 31.0,
+              "rank": 29,
               "n": 44
             },
             {
               "st": "MI",
               "name": "Michigan",
-              "v": 30.1,
+              "v": 30.7,
+              "rank": 30,
+              "n": 44
+            },
+            {
+              "st": "NE",
+              "name": "Nebraska",
+              "v": 29.9,
               "rank": 31,
               "n": 44
             },
             {
-              "st": "OH",
-              "name": "Ohio",
-              "v": 29.2,
+              "st": "HI",
+              "name": "Hawaii",
+              "v": 29.8,
               "rank": 32,
               "n": 44
             },
             {
               "st": "LA",
               "name": "Louisiana",
-              "v": 29.1,
+              "v": 29.0,
               "rank": 33,
               "n": 44
             },
             {
-              "st": "IN",
-              "name": "Indiana",
-              "v": 28.5,
+              "st": "OH",
+              "name": "Ohio",
+              "v": 28.3,
               "rank": 34,
               "n": 44
             },
             {
-              "st": "ID",
-              "name": "Idaho",
-              "v": 28.2,
+              "st": "KY",
+              "name": "Kentucky",
+              "v": 27.7,
               "rank": 35,
               "n": 44
             },
@@ -1303,49 +1227,49 @@
             {
               "st": "AR",
               "name": "Arkansas",
-              "v": 23.0,
+              "v": 21.8,
               "rank": 37,
               "n": 44
             },
             {
               "st": "MS",
               "name": "Mississippi",
-              "v": 22.6,
+              "v": 21.7,
               "rank": 38,
               "n": 44
             },
             {
               "st": "AZ",
               "name": "Arizona",
-              "v": 21.2,
+              "v": 20.6,
               "rank": 39,
               "n": 44
             },
             {
               "st": "NM",
               "name": "New Mexico",
-              "v": 18.3,
+              "v": 16.9,
               "rank": 40,
               "n": 44
             },
             {
               "st": "ND",
               "name": "North Dakota",
-              "v": 8.2,
+              "v": 7.7,
               "rank": 41,
               "n": 44
             },
             {
               "st": "NH",
               "name": "New Hampshire",
-              "v": 4.3,
+              "v": 2.7,
               "rank": 42,
               "n": 44
             },
             {
               "st": "WA",
               "name": "Washington",
-              "v": 2.2,
+              "v": 1.4,
               "rank": 43,
               "n": 44
             },
@@ -1356,131 +1280,51 @@
               "rank": 44,
               "n": 44
             }
-          ]
+          ],
+          "label": "Individual income tax share of state tax collections, FY 2025",
+          "src": "SRC-629-04",
+          "unit": "percent",
+          "as_of_label": "Fiscal year 2025"
         },
         "ma_types": [
           {
             "code": "T00",
             "name": "Total Taxes",
-            "v": 41338531000.0
+            "v": 46172934000.0
           },
           {
             "code": "TA1",
             "name": "Sales and gross receipts taxes",
-            "v": 12165804000.0
+            "v": 12691895000.0
           },
           {
             "code": "T09",
             "name": "General sales and gross receipts",
-            "v": 9353642000.0
+            "v": 9718010000.0
           },
           {
             "code": "TA4",
             "name": "Income taxes",
-            "v": 26479758000.0
+            "v": 30843337000.0
           },
           {
             "code": "T40",
             "name": "Individual income",
-            "v": 19753739000.0
+            "v": 24484941000.0
           },
           {
             "code": "T41",
             "name": "Corporation net income",
-            "v": 6726019000.0
+            "v": 6358396000.0
           },
           {
             "code": "T01",
             "name": "Property taxes",
-            "v": 14073000.0
+            "v": 17846000.0
           }
         ],
-        "us_sales": 459121588000.0,
-        "note": "Census STC detailed table, FY 2023. Amounts are published in thousands of dollars. Excludes D.C."
-      },
-      "qtax_quarter_stack": {
-        "label": "Census QTAX total taxes by quarter",
-        "src": "SRC-628-01",
-        "unit": "dollars",
-        "note": "Table 3 Total Taxes. Amounts converted from thousands of dollars.",
-        "cube": {
-          "US": [
-            {
-              "q": "2024 Q1",
-              "v": 351767218000
-            },
-            {
-              "q": "2024 Q2",
-              "v": 443064090000
-            },
-            {
-              "q": "2024 Q3",
-              "v": 341351706000
-            },
-            {
-              "q": "2024 Q4",
-              "v": 356300195000
-            },
-            {
-              "q": "2025 Q1",
-              "v": 372021864000
-            },
-            {
-              "q": "2025 Q2",
-              "v": 468212522000
-            },
-            {
-              "q": "2025 Q3",
-              "v": 356085899000
-            },
-            {
-              "q": "2025 Q4",
-              "v": 383737612000
-            },
-            {
-              "q": "2026 Q1",
-              "v": 393072675000
-            }
-          ],
-          "MA": [
-            {
-              "q": "2024 Q1",
-              "v": 10207010000
-            },
-            {
-              "q": "2024 Q2",
-              "v": 13962587000
-            },
-            {
-              "q": "2024 Q3",
-              "v": 10371968000
-            },
-            {
-              "q": "2024 Q4",
-              "v": 10025169000
-            },
-            {
-              "q": "2025 Q1",
-              "v": 11044470000
-            },
-            {
-              "q": "2025 Q2",
-              "v": 14719739000
-            },
-            {
-              "q": "2025 Q3",
-              "v": 10597867000
-            },
-            {
-              "q": "2025 Q4",
-              "v": 10194330000
-            },
-            {
-              "q": "2026 Q1",
-              "v": 11618592000
-            }
-          ]
-        }
+        "us_sales": 475228739000.0,
+        "note": "Census STC detailed table, FY 2025. Amounts are published in thousands of dollars. Excludes D.C."
       }
     }
   },

@@ -1133,6 +1133,52 @@ STRIP_PHRASES = {
 }
 
 
+def _attach_bed_windows(ledger, sec):
+    bed = sec.get("bed_births_deaths") or {}
+    states = bed.get("states") or {}
+    birth, death = {}, {}
+    for st, series in states.items():
+        b, d = [], []
+        for p in series or []:
+            q = p.get("q")
+            if p.get("birth_rate_pct") is not None and q:
+                b.append({"q": q, "v": p["birth_rate_pct"]})
+            if p.get("death_rate_pct") is not None and q:
+                d.append({"q": q, "v": p["death_rate_pct"]})
+        if len(b) >= 2:
+            birth[st] = b
+        if len(d) >= 2:
+            death[st] = d
+    wins = {}
+    if birth:
+        wins.update(windows_from_trend(
+            birth, src="SRC-613-02", unit="percent",
+            ns=(4, 9), label_stem="Establishment birth rate",
+            prefix="bed_birth_rate",
+        ))
+    if death:
+        wins.update(windows_from_trend(
+            death, src="SRC-613-02", unit="percent",
+            ns=(4, 9), label_stem="Establishment death rate",
+            prefix="bed_death_rate",
+        ))
+    attach_windows(
+        ledger, wins,
+        note="Prefer these over recomputing. BED window means and ranks cite (derived, SRC-613-02).",
+    )
+    w9_key = next((k for k in wins if k.startswith("bed_birth_rate_t9_")), None)
+    w9 = wins.get(w9_key) if w9_key else None
+    if w9:
+        bed["window_9q"] = {
+            "ma": w9.get("ma"), "us": w9.get("us"), "fl": w9.get("fl"),
+            "highest": w9.get("highest"), "lowest": w9.get("lowest"),
+            "end": w9.get("end"), "n_periods": 9,
+            "n_ranked": w9.get("n_ranked"),
+            "ranked": w9.get("ranked") or [],
+            "rows": w9.get("rows") or [],
+        }
+
+
 def enrich(app, ledger):
     """Attach verified later views to a live ledger and rewrite pending copy."""
     if ledger.get("status") != "live":
@@ -1158,6 +1204,8 @@ def enrich(app, ledger):
             for field in ("detail", "why"):
                 if k.get(field):
                     k[field] = k[field].replace(phrase, "").strip()
+    if tid == "DL-13":
+        _attach_bed_windows(ledger, sec)
     appendix = " ".join(
         p for p in (lead_appendix(tid, sec), more_lead(tid, sec)) if p
     ).strip()
@@ -1231,50 +1279,6 @@ def enrich(app, ledger):
             "DESE / E2C Next Generation MCAS (SRC-606-04)",
         ))
         ledger["kpis"] = kpis
-    if tid == "DL-13":
-        bed = sec.get("bed_births_deaths") or {}
-        states = bed.get("states") or {}
-        birth, death = {}, {}
-        for st, series in states.items():
-            b, d = [], []
-            for p in series or []:
-                q = p.get("q")
-                if p.get("birth_rate_pct") is not None and q:
-                    b.append({"q": q, "v": p["birth_rate_pct"]})
-                if p.get("death_rate_pct") is not None and q:
-                    d.append({"q": q, "v": p["death_rate_pct"]})
-            if len(b) >= 2:
-                birth[st] = b
-            if len(d) >= 2:
-                death[st] = d
-        wins = {}
-        if birth:
-            wins.update(windows_from_trend(
-                birth, src="SRC-613-02", unit="percent",
-                ns=(4, 9), label_stem="Establishment birth rate",
-                prefix="bed_birth_rate",
-            ))
-        if death:
-            wins.update(windows_from_trend(
-                death, src="SRC-613-02", unit="percent",
-                ns=(4, 9), label_stem="Establishment death rate",
-                prefix="bed_death_rate",
-            ))
-        attach_windows(
-            ledger, wins,
-            note="Prefer these over recomputing. BED window means and ranks cite (derived, SRC-613-02).",
-        )
-        w9_key = next((k for k in wins if k.startswith("bed_birth_rate_t9_")), None)
-        w9 = wins.get(w9_key) if w9_key else None
-        if w9:
-            bed["window_9q"] = {
-                "ma": w9.get("ma"), "us": w9.get("us"), "fl": w9.get("fl"),
-                "highest": w9.get("highest"), "lowest": w9.get("lowest"),
-                "end": w9.get("end"), "n_periods": 9,
-                "n_ranked": w9.get("n_ranked"),
-                "ranked": w9.get("ranked") or [],
-                "rows": w9.get("rows") or [],
-            }
     extra_note = (
         f" Later views compiled {REVISED} are stored under derived.secondary."
     )

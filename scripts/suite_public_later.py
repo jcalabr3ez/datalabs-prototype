@@ -1667,11 +1667,19 @@ def more_lead(tool_id, sec):
             )
         w9 = (b.get("window_9q") or {})
         if (w9.get("ma") or {}).get("rank"):
+            ma9 = w9["ma"]
+            if ma9["rank"] == ma9["n"]:
+                place = f"the lowest mean establishment birth rate among {ma9['n']} jurisdictions"
+            elif ma9["rank"] == 1:
+                place = f"the highest mean establishment birth rate among {ma9['n']} jurisdictions"
+            else:
+                place = (
+                    f"a mean establishment birth rate rank of {ma9['rank']} of "
+                    f"{ma9['n']}"
+                )
             parts.append(
-                f"Over the 9 quarters ending {w9.get('end')}, Massachusetts had the "
-                f"{'lowest' if w9['ma']['rank'] == w9['ma']['n'] else 'rank ' + str(w9['ma']['rank'])} "
-                f"mean establishment birth rate among {w9['ma']['n']} jurisdictions "
-                f"at <b>{w9['ma']['v']}%</b> (derived, SRC-613-02)."
+                f"Over the 9 quarters ending {w9.get('end')}, Massachusetts had "
+                f"{place} at <b>{ma9['v']}%</b> (derived, SRC-613-02)."
             )
     if tool_id == "DL-14":
         u = sec.get("ui_initial_claims") or {}

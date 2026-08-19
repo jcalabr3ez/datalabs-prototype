@@ -6,45 +6,43 @@
   "group": "Economy & Jobs",
   "status": "live",
   "as_of": "2026-07",
-  "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3. Counts for the United States, Massachusetts, and Florida stay on the same BLS file.",
+  "scope": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks through the latest published overlapping end. Counts for the United States, Massachusetts, and Florida stay on the same BLS file.",
   "exclusions": "Does not cover industry clusters or advice about starting a firm. Establishment births and deaths are the BLS BED private-sector series, not Census BDS firm births. Do not average unpublished state-quarters; use derived.windows.",
   "heritage": "Formerly Business Births and Deaths and Business Dynamics",
   "replaces": [
     "Business Births and Deaths",
     "Business Dynamics"
   ],
-  "vintage_note": "Rebuilt Aug 15, 2026 from the Census BFS monthly CSV. Headline series is seasonally adjusted BA_BA, TOTAL NAICS. U.S. Jul 2026 equals 578,926, matching Census press release CB26-130 (August 12, 2026). Later views compiled Aug 15, 2026 are stored under derived.secondary.",
+  "vintage_note": "Rebuilt Aug 19, 2026 from the Census BFS monthly CSV. Headline series is seasonally adjusted BA_BA, TOTAL NAICS. U.S. Jul 2026 equals 578,926, matching Census press release CB26-130 (August 12, 2026). Later views compiled Aug 19, 2026 are stored under derived.secondary.",
   "source_id_map": {
     "SRC-613-01": {
       "name": "Census Bureau Business Formation Statistics monthly time series",
       "cadence": "Monthly",
       "url": "https://www.census.gov/econ/bfs/csv/bfs_monthly.csv",
-      "supports": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3. Counts for the United States, Massachusetts, and Florida stay on the same BLS file."
+      "supports": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks through the latest published overlapping end. Counts for the United States, Massachusetts, and Florida stay on the same BLS file."
     },
     "SRC-613-02": {
       "name": "BLS Business Employment Dynamics, private-sector establishment births and deaths",
       "cadence": "Quarterly",
       "url": "https://www.bls.gov/bdm/",
-      "supports": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks, including the 9 quarters ending 2024 Q3. Counts for the United States, Massachusetts, and Florida stay on the same BLS file."
+      "supports": "Covers Census Business Formation Statistics: seasonally adjusted business applications, high-propensity applications, and projected formations within four quarters, for the United States and each state, plus applications per 100,000 residents where a Census population figure joins. Also reports BLS Business Employment Dynamics private-sector establishment birth and death rates for every state and D.C., with trailing 4-quarter and 9-quarter mean ranks through the latest published overlapping end. Counts for the United States, Massachusetts, and Florida stay on the same BLS file."
     }
   },
   "page": {
-    "revised": "Aug 16, 2026",
+    "revised": "Aug 19, 2026",
     "version": "0.1"
   },
   "geo": [
-    "US",
-    "MA",
-    "FL"
+    "US"
   ],
-  "q": "New business applications from Census BFS, and private-sector establishment births and deaths from BLS BED.",
+  "q": "New business applications from Census BFS.",
   "pending": false,
   "metric": "seasonally_adjusted_business_applications",
   "metric_label": "Business applications (seasonally adjusted)",
   "unit": "applications",
   "data_month": "2026-07",
   "data_month_label": "Jul 2026",
-  "lead": "Seasonally adjusted business applications were <b>578,926</b> in Jul 2026, +23.4% from a year earlier (SRC-613-01). Massachusetts filed <b>7,497</b>, rank 25 of 51 (derived, SRC-613-01). BLS Business Employment Dynamics put the Massachusetts private-sector establishment birth rate at <b>3.9%</b> in 2025 Q4 (8,540 establishments, SRC-613-02). Deaths are published through 2025 Q1, when the death rate was <b>2.6%</b> (5,722 establishments, SRC-613-02). In the last overlapping quarter, 2025 Q1, the birth rate was <b>2.9%</b> and the death rate was <b>2.6%</b> (SRC-613-02). Florida's establishment birth rate was <b>4.0%</b> in 2025 Q4 (28,035 establishments, SRC-613-02). Over the 9 quarters ending 2024 Q3, Massachusetts had the lowest mean establishment birth rate among 51 jurisdictions at <b>2.37%</b> (derived, SRC-613-02).",
+  "lead": "Seasonally adjusted business applications were <b>578,926</b> in Jul 2026, +23.4% from a year earlier (SRC-613-01). Massachusetts filed <b>7,497</b>, rank 25 of 51 (derived, SRC-613-01). BLS Business Employment Dynamics put the Massachusetts private-sector establishment birth rate at <b>3.9%</b> in 2025 Q4 (8,540 establishments, SRC-613-02). Deaths are published through 2025 Q1, when the death rate was <b>2.6%</b> (5,722 establishments, SRC-613-02). In the last overlapping quarter, 2025 Q1, the birth rate was <b>2.9%</b> and the death rate was <b>2.6%</b> (SRC-613-02). Florida's establishment birth rate was <b>4.0%</b> in 2025 Q4 (28,035 establishments, SRC-613-02). Over the 9 quarters ending 2025 Q4, Massachusetts had a mean establishment birth rate rank of 47 of 51 at <b>2.78%</b> (derived, SRC-613-02).",
   "kpis": [
     {
       "label": "U.S. applications, Jul 2026",
@@ -55847,16 +55845,6 @@
           "v": 31
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 4877,
-          "rank": 3,
-          "n": 51
-        },
-        "label": "High-propensity business applications (seasonally adjusted)",
-        "src": "SRC-613-01",
-        "unit": "applications",
-        "as_of_label": "Jul 2026",
-        "note": "Census BFS monthly CSV, seasonally adjusted BA_CBA, TOTAL NAICS. Same file as the headline BA_BA series.",
         "rows": [
           {
             "st": "CA",
@@ -56215,7 +56203,17 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 4877,
+          "rank": 3,
+          "n": 51
+        },
+        "label": "High-propensity business applications (seasonally adjusted)",
+        "src": "SRC-613-01",
+        "unit": "applications",
+        "as_of_label": "Jul 2026",
+        "note": "Census BFS monthly CSV, seasonally adjusted BA_CBA, TOTAL NAICS. Same file as the headline BA_BA series."
       },
       "projected_formations_4q": {
         "us": 29959,
@@ -56235,16 +56233,6 @@
           "v": 49
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 2773,
-          "rank": 3,
-          "n": 51
-        },
-        "label": "Projected business formations within four quarters (seasonally adjusted)",
-        "src": "SRC-613-01",
-        "unit": "formations",
-        "as_of_label": "Jul 2026",
-        "note": "Census BFS monthly CSV, seasonally adjusted BF_PBF4Q, TOTAL NAICS. Same file as the headline BA_BA series.",
         "rows": [
           {
             "st": "CA",
@@ -56603,7 +56591,17 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 2773,
+          "rank": 3,
+          "n": 51
+        },
+        "label": "Projected business formations within four quarters (seasonally adjusted)",
+        "src": "SRC-613-01",
+        "unit": "formations",
+        "as_of_label": "Jul 2026",
+        "note": "Census BFS monthly CSV, seasonally adjusted BF_PBF4Q, TOTAL NAICS. Same file as the headline BA_BA series."
       },
       "bfs_per_100k": {
         "us": null,
@@ -56623,17 +56621,6 @@
           "v": 93.14
         },
         "n_ranked": 51,
-        "fl": {
-          "v": 278.45,
-          "rank": 4,
-          "n": 51
-        },
-        "label": "Business applications per 100,000 residents, Jul 2026",
-        "src": "SRC-613-01",
-        "unit": "applications per 100,000 residents",
-        "as_of_label": "Jul 2026",
-        "pop_year": 2025,
-        "note": "Seasonally adjusted BA_BA divided by Census July 1 resident population for 2025, times 100,000 (derived, SRC-613-01). 2026 months use the 2025 population estimate.",
         "rows": [
           {
             "st": "WY",
@@ -56992,7 +56979,18 @@
             "rank": 51,
             "n": 51
           }
-        ]
+        ],
+        "fl": {
+          "v": 278.45,
+          "rank": 4,
+          "n": 51
+        },
+        "label": "Business applications per 100,000 residents, Jul 2026",
+        "src": "SRC-613-01",
+        "unit": "applications per 100,000 residents",
+        "as_of_label": "Jul 2026",
+        "pop_year": 2025,
+        "note": "Seasonally adjusted BA_BA divided by Census July 1 resident population for 2025, times 100,000 (derived, SRC-613-01). 2026 months use the 2025 population estimate."
       },
       "bed_births_deaths": {
         "label": "Private-sector establishment birth and death rates",
@@ -79009,285 +79007,285 @@
           ]
         },
         "note": "BLS Business Employment Dynamics, total private, seasonally adjusted. Births are a subset of openings; deaths are a subset of closings and lag three quarters. Rates are the component as a percent of the average of current and prior-quarter establishment counts. U.S. counts are thousands of establishments, matching the BLS news release. State rates cover every published jurisdiction on the same series. The states cube is the all-jurisdiction quarterly file; the trend array keeps the United States, Massachusetts, and Florida overlay.",
-        "window_9q_2024q3": {
+        "window_9q": {
           "ma": {
-            "v": 2.37,
-            "rank": 51,
+            "v": 2.78,
+            "rank": 47,
             "n": 51
           },
-          "us": 3.59,
+          "us": 3.47,
           "fl": {
-            "v": 4.23,
-            "rank": 8,
+            "v": 3.96,
+            "rank": 9,
             "n": 51
           },
           "highest": {
             "st": "DC",
             "name": "District of Columbia",
-            "v": 5.06
+            "v": 4.81
           },
           "lowest": {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 2.37
+            "st": "IA",
+            "name": "Iowa",
+            "v": 2.51
           },
-          "end": "2024 Q3",
+          "end": "2025 Q4",
           "n_periods": 9,
           "n_ranked": 51,
           "ranked": [
             {
               "st": "DC",
-              "v": 5.06,
+              "v": 4.81,
               "rank": 1
             },
             {
               "st": "ID",
-              "v": 4.68,
+              "v": 4.53,
               "rank": 2
             },
             {
-              "st": "SC",
-              "v": 4.43,
+              "st": "DE",
+              "v": 4.26,
               "rank": 3
             },
             {
-              "st": "AZ",
-              "v": 4.4,
+              "st": "MO",
+              "v": 4.24,
               "rank": 4
             },
             {
               "st": "UT",
-              "v": 4.36,
+              "v": 4.18,
               "rank": 5
             },
             {
-              "st": "NV",
-              "v": 4.34,
+              "st": "AZ",
+              "v": 4.17,
               "rank": 6
             },
             {
-              "st": "DE",
-              "v": 4.32,
+              "st": "CA",
+              "v": 4.03,
               "rank": 7
             },
             {
-              "st": "FL",
-              "v": 4.23,
+              "st": "SC",
+              "v": 4.03,
               "rank": 8
             },
             {
-              "st": "MO",
-              "v": 4.21,
+              "st": "FL",
+              "v": 3.96,
               "rank": 9
             },
             {
-              "st": "GA",
-              "v": 4.14,
+              "st": "TN",
+              "v": 3.91,
               "rank": 10
             },
             {
-              "st": "RI",
-              "v": 4.08,
+              "st": "NV",
+              "v": 3.9,
               "rank": 11
             },
             {
-              "st": "VT",
-              "v": 4.08,
+              "st": "CO",
+              "v": 3.82,
               "rank": 12
             },
             {
-              "st": "MD",
-              "v": 4.02,
+              "st": "GA",
+              "v": 3.76,
               "rank": 13
             },
             {
-              "st": "CO",
-              "v": 4.01,
+              "st": "MD",
+              "v": 3.68,
               "rank": 14
             },
             {
-              "st": "WY",
-              "v": 3.8,
+              "st": "RI",
+              "v": 3.68,
               "rank": 15
             },
             {
-              "st": "TN",
-              "v": 3.79,
+              "st": "ME",
+              "v": 3.54,
               "rank": 16
             },
             {
-              "st": "CA",
-              "v": 3.77,
+              "st": "VT",
+              "v": 3.54,
               "rank": 17
             },
             {
               "st": "CT",
-              "v": 3.77,
+              "v": 3.53,
               "rank": 18
             },
             {
-              "st": "KS",
-              "v": 3.73,
+              "st": "NC",
+              "v": 3.51,
               "rank": 19
             },
             {
-              "st": "NH",
-              "v": 3.73,
+              "st": "VA",
+              "v": 3.51,
               "rank": 20
             },
             {
-              "st": "VA",
-              "v": 3.73,
+              "st": "KS",
+              "v": 3.46,
               "rank": 21
             },
             {
-              "st": "NC",
-              "v": 3.72,
+              "st": "WY",
+              "v": 3.44,
               "rank": 22
             },
             {
               "st": "MT",
-              "v": 3.71,
+              "v": 3.43,
               "rank": 23
             },
             {
-              "st": "WV",
-              "v": 3.7,
+              "st": "NJ",
+              "v": 3.38,
               "rank": 24
             },
             {
               "st": "AR",
-              "v": 3.68,
+              "v": 3.32,
               "rank": 25
             },
             {
               "st": "AL",
-              "v": 3.64,
+              "v": 3.27,
               "rank": 26
             },
             {
-              "st": "OR",
-              "v": 3.64,
+              "st": "TX",
+              "v": 3.27,
               "rank": 27
             },
             {
-              "st": "ME",
-              "v": 3.59,
+              "st": "NM",
+              "v": 3.24,
               "rank": 28
             },
             {
-              "st": "OK",
-              "v": 3.57,
+              "st": "AK",
+              "v": 3.21,
               "rank": 29
             },
             {
-              "st": "NM",
-              "v": 3.51,
+              "st": "OK",
+              "v": 3.21,
               "rank": 30
             },
             {
-              "st": "TX",
-              "v": 3.41,
+              "st": "NH",
+              "v": 3.17,
               "rank": 31
             },
             {
-              "st": "AK",
-              "v": 3.4,
+              "st": "WV",
+              "v": 3.16,
               "rank": 32
             },
             {
-              "st": "HI",
-              "v": 3.39,
+              "st": "KY",
+              "v": 3.11,
               "rank": 33
             },
             {
-              "st": "KY",
-              "v": 3.37,
+              "st": "HI",
+              "v": 3.07,
               "rank": 34
             },
             {
-              "st": "NJ",
-              "v": 3.37,
+              "st": "WA",
+              "v": 3.06,
               "rank": 35
             },
             {
-              "st": "SD",
-              "v": 3.31,
+              "st": "MN",
+              "v": 3.03,
               "rank": 36
             },
             {
-              "st": "WI",
-              "v": 3.31,
+              "st": "NY",
+              "v": 3.03,
               "rank": 37
             },
             {
-              "st": "NY",
-              "v": 3.23,
+              "st": "SD",
+              "v": 3.0,
               "rank": 38
             },
             {
-              "st": "ND",
-              "v": 3.21,
+              "st": "WI",
+              "v": 2.99,
               "rank": 39
             },
             {
-              "st": "NE",
-              "v": 3.2,
+              "st": "IL",
+              "v": 2.96,
               "rank": 40
             },
             {
-              "st": "MN",
-              "v": 3.19,
+              "st": "ND",
+              "v": 2.94,
               "rank": 41
             },
             {
-              "st": "WA",
-              "v": 3.18,
+              "st": "OR",
+              "v": 2.93,
               "rank": 42
             },
             {
-              "st": "MS",
-              "v": 3.16,
+              "st": "MI",
+              "v": 2.87,
               "rank": 43
             },
             {
-              "st": "MI",
-              "v": 3.12,
+              "st": "MS",
+              "v": 2.87,
               "rank": 44
             },
             {
-              "st": "IL",
-              "v": 3.08,
+              "st": "NE",
+              "v": 2.87,
               "rank": 45
             },
             {
               "st": "LA",
-              "v": 2.98,
+              "v": 2.81,
               "rank": 46
             },
             {
-              "st": "IN",
-              "v": 2.82,
+              "st": "MA",
+              "v": 2.78,
               "rank": 47
             },
             {
-              "st": "OH",
-              "v": 2.79,
+              "st": "IN",
+              "v": 2.6,
               "rank": 48
             },
             {
               "st": "PA",
-              "v": 2.67,
+              "v": 2.6,
               "rank": 49
             },
             {
-              "st": "IA",
-              "v": 2.6,
+              "st": "OH",
+              "v": 2.58,
               "rank": 50
             },
             {
-              "st": "MA",
-              "v": 2.37,
+              "st": "IA",
+              "v": 2.51,
               "rank": 51
             }
           ],
@@ -79295,357 +79293,357 @@
             {
               "st": "DC",
               "name": "District of Columbia",
-              "v": 5.06,
+              "v": 4.81,
               "rank": 1,
               "n": 51
             },
             {
               "st": "ID",
               "name": "Idaho",
-              "v": 4.68,
+              "v": 4.53,
               "rank": 2,
               "n": 51
             },
             {
-              "st": "SC",
-              "name": "South Carolina",
-              "v": 4.43,
+              "st": "DE",
+              "name": "Delaware",
+              "v": 4.26,
               "rank": 3,
               "n": 51
             },
             {
-              "st": "AZ",
-              "name": "Arizona",
-              "v": 4.4,
+              "st": "MO",
+              "name": "Missouri",
+              "v": 4.24,
               "rank": 4,
               "n": 51
             },
             {
               "st": "UT",
               "name": "Utah",
-              "v": 4.36,
+              "v": 4.18,
               "rank": 5,
               "n": 51
             },
             {
-              "st": "NV",
-              "name": "Nevada",
-              "v": 4.34,
+              "st": "AZ",
+              "name": "Arizona",
+              "v": 4.17,
               "rank": 6,
-              "n": 51
-            },
-            {
-              "st": "DE",
-              "name": "Delaware",
-              "v": 4.32,
-              "rank": 7,
-              "n": 51
-            },
-            {
-              "st": "FL",
-              "name": "Florida",
-              "v": 4.23,
-              "rank": 8,
-              "n": 51
-            },
-            {
-              "st": "MO",
-              "name": "Missouri",
-              "v": 4.21,
-              "rank": 9,
-              "n": 51
-            },
-            {
-              "st": "GA",
-              "name": "Georgia",
-              "v": 4.14,
-              "rank": 10,
-              "n": 51
-            },
-            {
-              "st": "RI",
-              "name": "Rhode Island",
-              "v": 4.08,
-              "rank": 11,
-              "n": 51
-            },
-            {
-              "st": "VT",
-              "name": "Vermont",
-              "v": 4.08,
-              "rank": 12,
-              "n": 51
-            },
-            {
-              "st": "MD",
-              "name": "Maryland",
-              "v": 4.02,
-              "rank": 13,
-              "n": 51
-            },
-            {
-              "st": "CO",
-              "name": "Colorado",
-              "v": 4.01,
-              "rank": 14,
-              "n": 51
-            },
-            {
-              "st": "WY",
-              "name": "Wyoming",
-              "v": 3.8,
-              "rank": 15,
-              "n": 51
-            },
-            {
-              "st": "TN",
-              "name": "Tennessee",
-              "v": 3.79,
-              "rank": 16,
               "n": 51
             },
             {
               "st": "CA",
               "name": "California",
-              "v": 3.77,
+              "v": 4.03,
+              "rank": 7,
+              "n": 51
+            },
+            {
+              "st": "SC",
+              "name": "South Carolina",
+              "v": 4.03,
+              "rank": 8,
+              "n": 51
+            },
+            {
+              "st": "FL",
+              "name": "Florida",
+              "v": 3.96,
+              "rank": 9,
+              "n": 51
+            },
+            {
+              "st": "TN",
+              "name": "Tennessee",
+              "v": 3.91,
+              "rank": 10,
+              "n": 51
+            },
+            {
+              "st": "NV",
+              "name": "Nevada",
+              "v": 3.9,
+              "rank": 11,
+              "n": 51
+            },
+            {
+              "st": "CO",
+              "name": "Colorado",
+              "v": 3.82,
+              "rank": 12,
+              "n": 51
+            },
+            {
+              "st": "GA",
+              "name": "Georgia",
+              "v": 3.76,
+              "rank": 13,
+              "n": 51
+            },
+            {
+              "st": "MD",
+              "name": "Maryland",
+              "v": 3.68,
+              "rank": 14,
+              "n": 51
+            },
+            {
+              "st": "RI",
+              "name": "Rhode Island",
+              "v": 3.68,
+              "rank": 15,
+              "n": 51
+            },
+            {
+              "st": "ME",
+              "name": "Maine",
+              "v": 3.54,
+              "rank": 16,
+              "n": 51
+            },
+            {
+              "st": "VT",
+              "name": "Vermont",
+              "v": 3.54,
               "rank": 17,
               "n": 51
             },
             {
               "st": "CT",
               "name": "Connecticut",
-              "v": 3.77,
+              "v": 3.53,
               "rank": 18,
-              "n": 51
-            },
-            {
-              "st": "KS",
-              "name": "Kansas",
-              "v": 3.73,
-              "rank": 19,
-              "n": 51
-            },
-            {
-              "st": "NH",
-              "name": "New Hampshire",
-              "v": 3.73,
-              "rank": 20,
-              "n": 51
-            },
-            {
-              "st": "VA",
-              "name": "Virginia",
-              "v": 3.73,
-              "rank": 21,
               "n": 51
             },
             {
               "st": "NC",
               "name": "North Carolina",
-              "v": 3.72,
+              "v": 3.51,
+              "rank": 19,
+              "n": 51
+            },
+            {
+              "st": "VA",
+              "name": "Virginia",
+              "v": 3.51,
+              "rank": 20,
+              "n": 51
+            },
+            {
+              "st": "KS",
+              "name": "Kansas",
+              "v": 3.46,
+              "rank": 21,
+              "n": 51
+            },
+            {
+              "st": "WY",
+              "name": "Wyoming",
+              "v": 3.44,
               "rank": 22,
               "n": 51
             },
             {
               "st": "MT",
               "name": "Montana",
-              "v": 3.71,
+              "v": 3.43,
               "rank": 23,
               "n": 51
             },
             {
-              "st": "WV",
-              "name": "West Virginia",
-              "v": 3.7,
+              "st": "NJ",
+              "name": "New Jersey",
+              "v": 3.38,
               "rank": 24,
               "n": 51
             },
             {
               "st": "AR",
               "name": "Arkansas",
-              "v": 3.68,
+              "v": 3.32,
               "rank": 25,
               "n": 51
             },
             {
               "st": "AL",
               "name": "Alabama",
-              "v": 3.64,
+              "v": 3.27,
               "rank": 26,
-              "n": 51
-            },
-            {
-              "st": "OR",
-              "name": "Oregon",
-              "v": 3.64,
-              "rank": 27,
-              "n": 51
-            },
-            {
-              "st": "ME",
-              "name": "Maine",
-              "v": 3.59,
-              "rank": 28,
-              "n": 51
-            },
-            {
-              "st": "OK",
-              "name": "Oklahoma",
-              "v": 3.57,
-              "rank": 29,
-              "n": 51
-            },
-            {
-              "st": "NM",
-              "name": "New Mexico",
-              "v": 3.51,
-              "rank": 30,
               "n": 51
             },
             {
               "st": "TX",
               "name": "Texas",
-              "v": 3.41,
-              "rank": 31,
+              "v": 3.27,
+              "rank": 27,
+              "n": 51
+            },
+            {
+              "st": "NM",
+              "name": "New Mexico",
+              "v": 3.24,
+              "rank": 28,
               "n": 51
             },
             {
               "st": "AK",
               "name": "Alaska",
-              "v": 3.4,
-              "rank": 32,
+              "v": 3.21,
+              "rank": 29,
               "n": 51
             },
             {
-              "st": "HI",
-              "name": "Hawaii",
-              "v": 3.39,
-              "rank": 33,
+              "st": "OK",
+              "name": "Oklahoma",
+              "v": 3.21,
+              "rank": 30,
+              "n": 51
+            },
+            {
+              "st": "NH",
+              "name": "New Hampshire",
+              "v": 3.17,
+              "rank": 31,
+              "n": 51
+            },
+            {
+              "st": "WV",
+              "name": "West Virginia",
+              "v": 3.16,
+              "rank": 32,
               "n": 51
             },
             {
               "st": "KY",
               "name": "Kentucky",
-              "v": 3.37,
+              "v": 3.11,
+              "rank": 33,
+              "n": 51
+            },
+            {
+              "st": "HI",
+              "name": "Hawaii",
+              "v": 3.07,
               "rank": 34,
-              "n": 51
-            },
-            {
-              "st": "NJ",
-              "name": "New Jersey",
-              "v": 3.37,
-              "rank": 35,
-              "n": 51
-            },
-            {
-              "st": "SD",
-              "name": "South Dakota",
-              "v": 3.31,
-              "rank": 36,
-              "n": 51
-            },
-            {
-              "st": "WI",
-              "name": "Wisconsin",
-              "v": 3.31,
-              "rank": 37,
-              "n": 51
-            },
-            {
-              "st": "NY",
-              "name": "New York",
-              "v": 3.23,
-              "rank": 38,
-              "n": 51
-            },
-            {
-              "st": "ND",
-              "name": "North Dakota",
-              "v": 3.21,
-              "rank": 39,
-              "n": 51
-            },
-            {
-              "st": "NE",
-              "name": "Nebraska",
-              "v": 3.2,
-              "rank": 40,
-              "n": 51
-            },
-            {
-              "st": "MN",
-              "name": "Minnesota",
-              "v": 3.19,
-              "rank": 41,
               "n": 51
             },
             {
               "st": "WA",
               "name": "Washington",
-              "v": 3.18,
-              "rank": 42,
+              "v": 3.06,
+              "rank": 35,
               "n": 51
             },
             {
-              "st": "MS",
-              "name": "Mississippi",
-              "v": 3.16,
-              "rank": 43,
+              "st": "MN",
+              "name": "Minnesota",
+              "v": 3.03,
+              "rank": 36,
               "n": 51
             },
             {
-              "st": "MI",
-              "name": "Michigan",
-              "v": 3.12,
-              "rank": 44,
+              "st": "NY",
+              "name": "New York",
+              "v": 3.03,
+              "rank": 37,
+              "n": 51
+            },
+            {
+              "st": "SD",
+              "name": "South Dakota",
+              "v": 3.0,
+              "rank": 38,
+              "n": 51
+            },
+            {
+              "st": "WI",
+              "name": "Wisconsin",
+              "v": 2.99,
+              "rank": 39,
               "n": 51
             },
             {
               "st": "IL",
               "name": "Illinois",
-              "v": 3.08,
+              "v": 2.96,
+              "rank": 40,
+              "n": 51
+            },
+            {
+              "st": "ND",
+              "name": "North Dakota",
+              "v": 2.94,
+              "rank": 41,
+              "n": 51
+            },
+            {
+              "st": "OR",
+              "name": "Oregon",
+              "v": 2.93,
+              "rank": 42,
+              "n": 51
+            },
+            {
+              "st": "MI",
+              "name": "Michigan",
+              "v": 2.87,
+              "rank": 43,
+              "n": 51
+            },
+            {
+              "st": "MS",
+              "name": "Mississippi",
+              "v": 2.87,
+              "rank": 44,
+              "n": 51
+            },
+            {
+              "st": "NE",
+              "name": "Nebraska",
+              "v": 2.87,
               "rank": 45,
               "n": 51
             },
             {
               "st": "LA",
               "name": "Louisiana",
-              "v": 2.98,
+              "v": 2.81,
               "rank": 46,
+              "n": 51
+            },
+            {
+              "st": "MA",
+              "name": "Massachusetts",
+              "v": 2.78,
+              "rank": 47,
               "n": 51
             },
             {
               "st": "IN",
               "name": "Indiana",
-              "v": 2.82,
-              "rank": 47,
-              "n": 51
-            },
-            {
-              "st": "OH",
-              "name": "Ohio",
-              "v": 2.79,
+              "v": 2.6,
               "rank": 48,
               "n": 51
             },
             {
               "st": "PA",
               "name": "Pennsylvania",
-              "v": 2.67,
+              "v": 2.6,
               "rank": 49,
+              "n": 51
+            },
+            {
+              "st": "OH",
+              "name": "Ohio",
+              "v": 2.58,
+              "rank": 50,
               "n": 51
             },
             {
               "st": "IA",
               "name": "Iowa",
-              "v": 2.6,
-              "rank": 50,
-              "n": 51
-            },
-            {
-              "st": "MA",
-              "name": "Massachusetts",
-              "v": 2.37,
+              "v": 2.51,
               "rank": 51,
               "n": 51
             }
@@ -81596,653 +81594,6 @@
           }
         ]
       },
-      "bed_birth_rate_t4_2024q3": {
-        "id": "bed_birth_rate_t4_2024q3",
-        "label": "Establishment birth rate, trailing 4 periods ending 2024 Q3",
-        "src": "SRC-613-02",
-        "unit": "percent",
-        "end": "2024 Q3",
-        "n_periods": 4,
-        "higher_is_better": true,
-        "us": 3.48,
-        "ma": {
-          "v": 2.3,
-          "rank": 51,
-          "n": 51
-        },
-        "highest": {
-          "st": "DC",
-          "name": "District of Columbia",
-          "v": 4.65
-        },
-        "lowest": {
-          "st": "MA",
-          "name": "Massachusetts",
-          "v": 2.3
-        },
-        "n_ranked": 51,
-        "ranked": [
-          {
-            "st": "DC",
-            "v": 4.65,
-            "rank": 1
-          },
-          {
-            "st": "ID",
-            "v": 4.47,
-            "rank": 2
-          },
-          {
-            "st": "TN",
-            "v": 4.45,
-            "rank": 3
-          },
-          {
-            "st": "AZ",
-            "v": 4.35,
-            "rank": 4
-          },
-          {
-            "st": "MO",
-            "v": 4.35,
-            "rank": 5
-          },
-          {
-            "st": "DE",
-            "v": 4.3,
-            "rank": 6
-          },
-          {
-            "st": "SC",
-            "v": 4.28,
-            "rank": 7
-          },
-          {
-            "st": "UT",
-            "v": 4.25,
-            "rank": 8
-          },
-          {
-            "st": "MD",
-            "v": 4.22,
-            "rank": 9
-          },
-          {
-            "st": "FL",
-            "v": 4.08,
-            "rank": 10
-          },
-          {
-            "st": "NV",
-            "v": 3.95,
-            "rank": 11
-          },
-          {
-            "st": "GA",
-            "v": 3.9,
-            "rank": 12
-          },
-          {
-            "st": "CA",
-            "v": 3.83,
-            "rank": 13
-          },
-          {
-            "st": "RI",
-            "v": 3.77,
-            "rank": 14
-          },
-          {
-            "st": "NC",
-            "v": 3.7,
-            "rank": 15
-          },
-          {
-            "st": "VT",
-            "v": 3.67,
-            "rank": 16
-          },
-          {
-            "st": "CO",
-            "v": 3.62,
-            "rank": 17
-          },
-          {
-            "st": "KS",
-            "v": 3.58,
-            "rank": 18
-          },
-          {
-            "st": "CT",
-            "v": 3.55,
-            "rank": 19
-          },
-          {
-            "st": "VA",
-            "v": 3.55,
-            "rank": 20
-          },
-          {
-            "st": "MT",
-            "v": 3.5,
-            "rank": 21
-          },
-          {
-            "st": "WV",
-            "v": 3.45,
-            "rank": 22
-          },
-          {
-            "st": "ME",
-            "v": 3.42,
-            "rank": 23
-          },
-          {
-            "st": "NH",
-            "v": 3.42,
-            "rank": 24
-          },
-          {
-            "st": "WY",
-            "v": 3.42,
-            "rank": 25
-          },
-          {
-            "st": "AR",
-            "v": 3.4,
-            "rank": 26
-          },
-          {
-            "st": "AK",
-            "v": 3.33,
-            "rank": 27
-          },
-          {
-            "st": "OK",
-            "v": 3.27,
-            "rank": 28
-          },
-          {
-            "st": "TX",
-            "v": 3.27,
-            "rank": 29
-          },
-          {
-            "st": "AL",
-            "v": 3.23,
-            "rank": 30
-          },
-          {
-            "st": "OR",
-            "v": 3.23,
-            "rank": 31
-          },
-          {
-            "st": "HI",
-            "v": 3.2,
-            "rank": 32
-          },
-          {
-            "st": "KY",
-            "v": 3.2,
-            "rank": 33
-          },
-          {
-            "st": "MN",
-            "v": 3.2,
-            "rank": 34
-          },
-          {
-            "st": "NM",
-            "v": 3.2,
-            "rank": 35
-          },
-          {
-            "st": "WA",
-            "v": 3.17,
-            "rank": 36
-          },
-          {
-            "st": "WI",
-            "v": 3.12,
-            "rank": 37
-          },
-          {
-            "st": "NJ",
-            "v": 3.1,
-            "rank": 38
-          },
-          {
-            "st": "SD",
-            "v": 3.1,
-            "rank": 39
-          },
-          {
-            "st": "NY",
-            "v": 3.08,
-            "rank": 40
-          },
-          {
-            "st": "MI",
-            "v": 2.98,
-            "rank": 41
-          },
-          {
-            "st": "MS",
-            "v": 2.98,
-            "rank": 42
-          },
-          {
-            "st": "IL",
-            "v": 2.95,
-            "rank": 43
-          },
-          {
-            "st": "ND",
-            "v": 2.95,
-            "rank": 44
-          },
-          {
-            "st": "LA",
-            "v": 2.92,
-            "rank": 45
-          },
-          {
-            "st": "NE",
-            "v": 2.8,
-            "rank": 46
-          },
-          {
-            "st": "PA",
-            "v": 2.67,
-            "rank": 47
-          },
-          {
-            "st": "IN",
-            "v": 2.65,
-            "rank": 48
-          },
-          {
-            "st": "IA",
-            "v": 2.6,
-            "rank": 49
-          },
-          {
-            "st": "OH",
-            "v": 2.6,
-            "rank": 50
-          },
-          {
-            "st": "MA",
-            "v": 2.3,
-            "rank": 51
-          }
-        ],
-        "fl": {
-          "v": 4.08,
-          "rank": 10,
-          "n": 51
-        },
-        "rows": [
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 4.65,
-            "rank": 1,
-            "n": 51
-          },
-          {
-            "st": "ID",
-            "name": "Idaho",
-            "v": 4.47,
-            "rank": 2,
-            "n": 51
-          },
-          {
-            "st": "TN",
-            "name": "Tennessee",
-            "v": 4.45,
-            "rank": 3,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 4.35,
-            "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 4.35,
-            "rank": 5,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 4.3,
-            "rank": 6,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 4.28,
-            "rank": 7,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 4.25,
-            "rank": 8,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 4.22,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "FL",
-            "name": "Florida",
-            "v": 4.08,
-            "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "NV",
-            "name": "Nevada",
-            "v": 3.95,
-            "rank": 11,
-            "n": 51
-          },
-          {
-            "st": "GA",
-            "name": "Georgia",
-            "v": 3.9,
-            "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "CA",
-            "name": "California",
-            "v": 3.83,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "RI",
-            "name": "Rhode Island",
-            "v": 3.77,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 3.7,
-            "rank": 15,
-            "n": 51
-          },
-          {
-            "st": "VT",
-            "name": "Vermont",
-            "v": 3.67,
-            "rank": 16,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 3.62,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 3.58,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 3.55,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "VA",
-            "name": "Virginia",
-            "v": 3.55,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "MT",
-            "name": "Montana",
-            "v": 3.5,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "WV",
-            "name": "West Virginia",
-            "v": 3.45,
-            "rank": 22,
-            "n": 51
-          },
-          {
-            "st": "ME",
-            "name": "Maine",
-            "v": 3.42,
-            "rank": 23,
-            "n": 51
-          },
-          {
-            "st": "NH",
-            "name": "New Hampshire",
-            "v": 3.42,
-            "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "WY",
-            "name": "Wyoming",
-            "v": 3.42,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 3.4,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 3.33,
-            "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 3.27,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "TX",
-            "name": "Texas",
-            "v": 3.27,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 3.23,
-            "rank": 30,
-            "n": 51
-          },
-          {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 3.23,
-            "rank": 31,
-            "n": 51
-          },
-          {
-            "st": "HI",
-            "name": "Hawaii",
-            "v": 3.2,
-            "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 3.2,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "MN",
-            "name": "Minnesota",
-            "v": 3.2,
-            "rank": 34,
-            "n": 51
-          },
-          {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 3.2,
-            "rank": 35,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 3.17,
-            "rank": 36,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 3.12,
-            "rank": 37,
-            "n": 51
-          },
-          {
-            "st": "NJ",
-            "name": "New Jersey",
-            "v": 3.1,
-            "rank": 38,
-            "n": 51
-          },
-          {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 3.1,
-            "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "NY",
-            "name": "New York",
-            "v": 3.08,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 2.98,
-            "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 2.98,
-            "rank": 42,
-            "n": 51
-          },
-          {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 2.95,
-            "rank": 43,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 2.95,
-            "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 2.92,
-            "rank": 45,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 2.8,
-            "rank": 46,
-            "n": 51
-          },
-          {
-            "st": "PA",
-            "name": "Pennsylvania",
-            "v": 2.67,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 2.65,
-            "rank": 48,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 2.6,
-            "rank": 49,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 2.6,
-            "rank": 50,
-            "n": 51
-          },
-          {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 2.3,
-            "rank": 51,
-            "n": 51
-          }
-        ]
-      },
       "bed_birth_rate_t9_2025q4": {
         "id": "bed_birth_rate_t9_2025q4",
         "label": "Establishment birth rate, trailing 9 periods ending 2025 Q4",
@@ -82885,653 +82236,6 @@
             "st": "IA",
             "name": "Iowa",
             "v": 2.51,
-            "rank": 51,
-            "n": 51
-          }
-        ]
-      },
-      "bed_birth_rate_t9_2024q3": {
-        "id": "bed_birth_rate_t9_2024q3",
-        "label": "Establishment birth rate, trailing 9 periods ending 2024 Q3",
-        "src": "SRC-613-02",
-        "unit": "percent",
-        "end": "2024 Q3",
-        "n_periods": 9,
-        "higher_is_better": true,
-        "us": 3.59,
-        "ma": {
-          "v": 2.37,
-          "rank": 51,
-          "n": 51
-        },
-        "highest": {
-          "st": "DC",
-          "name": "District of Columbia",
-          "v": 5.06
-        },
-        "lowest": {
-          "st": "MA",
-          "name": "Massachusetts",
-          "v": 2.37
-        },
-        "n_ranked": 51,
-        "ranked": [
-          {
-            "st": "DC",
-            "v": 5.06,
-            "rank": 1
-          },
-          {
-            "st": "ID",
-            "v": 4.68,
-            "rank": 2
-          },
-          {
-            "st": "SC",
-            "v": 4.43,
-            "rank": 3
-          },
-          {
-            "st": "AZ",
-            "v": 4.4,
-            "rank": 4
-          },
-          {
-            "st": "UT",
-            "v": 4.36,
-            "rank": 5
-          },
-          {
-            "st": "NV",
-            "v": 4.34,
-            "rank": 6
-          },
-          {
-            "st": "DE",
-            "v": 4.32,
-            "rank": 7
-          },
-          {
-            "st": "FL",
-            "v": 4.23,
-            "rank": 8
-          },
-          {
-            "st": "MO",
-            "v": 4.21,
-            "rank": 9
-          },
-          {
-            "st": "GA",
-            "v": 4.14,
-            "rank": 10
-          },
-          {
-            "st": "RI",
-            "v": 4.08,
-            "rank": 11
-          },
-          {
-            "st": "VT",
-            "v": 4.08,
-            "rank": 12
-          },
-          {
-            "st": "MD",
-            "v": 4.02,
-            "rank": 13
-          },
-          {
-            "st": "CO",
-            "v": 4.01,
-            "rank": 14
-          },
-          {
-            "st": "WY",
-            "v": 3.8,
-            "rank": 15
-          },
-          {
-            "st": "TN",
-            "v": 3.79,
-            "rank": 16
-          },
-          {
-            "st": "CA",
-            "v": 3.77,
-            "rank": 17
-          },
-          {
-            "st": "CT",
-            "v": 3.77,
-            "rank": 18
-          },
-          {
-            "st": "KS",
-            "v": 3.73,
-            "rank": 19
-          },
-          {
-            "st": "NH",
-            "v": 3.73,
-            "rank": 20
-          },
-          {
-            "st": "VA",
-            "v": 3.73,
-            "rank": 21
-          },
-          {
-            "st": "NC",
-            "v": 3.72,
-            "rank": 22
-          },
-          {
-            "st": "MT",
-            "v": 3.71,
-            "rank": 23
-          },
-          {
-            "st": "WV",
-            "v": 3.7,
-            "rank": 24
-          },
-          {
-            "st": "AR",
-            "v": 3.68,
-            "rank": 25
-          },
-          {
-            "st": "AL",
-            "v": 3.64,
-            "rank": 26
-          },
-          {
-            "st": "OR",
-            "v": 3.64,
-            "rank": 27
-          },
-          {
-            "st": "ME",
-            "v": 3.59,
-            "rank": 28
-          },
-          {
-            "st": "OK",
-            "v": 3.57,
-            "rank": 29
-          },
-          {
-            "st": "NM",
-            "v": 3.51,
-            "rank": 30
-          },
-          {
-            "st": "TX",
-            "v": 3.41,
-            "rank": 31
-          },
-          {
-            "st": "AK",
-            "v": 3.4,
-            "rank": 32
-          },
-          {
-            "st": "HI",
-            "v": 3.39,
-            "rank": 33
-          },
-          {
-            "st": "KY",
-            "v": 3.37,
-            "rank": 34
-          },
-          {
-            "st": "NJ",
-            "v": 3.37,
-            "rank": 35
-          },
-          {
-            "st": "SD",
-            "v": 3.31,
-            "rank": 36
-          },
-          {
-            "st": "WI",
-            "v": 3.31,
-            "rank": 37
-          },
-          {
-            "st": "NY",
-            "v": 3.23,
-            "rank": 38
-          },
-          {
-            "st": "ND",
-            "v": 3.21,
-            "rank": 39
-          },
-          {
-            "st": "NE",
-            "v": 3.2,
-            "rank": 40
-          },
-          {
-            "st": "MN",
-            "v": 3.19,
-            "rank": 41
-          },
-          {
-            "st": "WA",
-            "v": 3.18,
-            "rank": 42
-          },
-          {
-            "st": "MS",
-            "v": 3.16,
-            "rank": 43
-          },
-          {
-            "st": "MI",
-            "v": 3.12,
-            "rank": 44
-          },
-          {
-            "st": "IL",
-            "v": 3.08,
-            "rank": 45
-          },
-          {
-            "st": "LA",
-            "v": 2.98,
-            "rank": 46
-          },
-          {
-            "st": "IN",
-            "v": 2.82,
-            "rank": 47
-          },
-          {
-            "st": "OH",
-            "v": 2.79,
-            "rank": 48
-          },
-          {
-            "st": "PA",
-            "v": 2.67,
-            "rank": 49
-          },
-          {
-            "st": "IA",
-            "v": 2.6,
-            "rank": 50
-          },
-          {
-            "st": "MA",
-            "v": 2.37,
-            "rank": 51
-          }
-        ],
-        "fl": {
-          "v": 4.23,
-          "rank": 8,
-          "n": 51
-        },
-        "rows": [
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 5.06,
-            "rank": 1,
-            "n": 51
-          },
-          {
-            "st": "ID",
-            "name": "Idaho",
-            "v": 4.68,
-            "rank": 2,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 4.43,
-            "rank": 3,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 4.4,
-            "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 4.36,
-            "rank": 5,
-            "n": 51
-          },
-          {
-            "st": "NV",
-            "name": "Nevada",
-            "v": 4.34,
-            "rank": 6,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 4.32,
-            "rank": 7,
-            "n": 51
-          },
-          {
-            "st": "FL",
-            "name": "Florida",
-            "v": 4.23,
-            "rank": 8,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 4.21,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "GA",
-            "name": "Georgia",
-            "v": 4.14,
-            "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "RI",
-            "name": "Rhode Island",
-            "v": 4.08,
-            "rank": 11,
-            "n": 51
-          },
-          {
-            "st": "VT",
-            "name": "Vermont",
-            "v": 4.08,
-            "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 4.02,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 4.01,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "WY",
-            "name": "Wyoming",
-            "v": 3.8,
-            "rank": 15,
-            "n": 51
-          },
-          {
-            "st": "TN",
-            "name": "Tennessee",
-            "v": 3.79,
-            "rank": 16,
-            "n": 51
-          },
-          {
-            "st": "CA",
-            "name": "California",
-            "v": 3.77,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 3.77,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 3.73,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "NH",
-            "name": "New Hampshire",
-            "v": 3.73,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "VA",
-            "name": "Virginia",
-            "v": 3.73,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 3.72,
-            "rank": 22,
-            "n": 51
-          },
-          {
-            "st": "MT",
-            "name": "Montana",
-            "v": 3.71,
-            "rank": 23,
-            "n": 51
-          },
-          {
-            "st": "WV",
-            "name": "West Virginia",
-            "v": 3.7,
-            "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 3.68,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 3.64,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 3.64,
-            "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "ME",
-            "name": "Maine",
-            "v": 3.59,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 3.57,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 3.51,
-            "rank": 30,
-            "n": 51
-          },
-          {
-            "st": "TX",
-            "name": "Texas",
-            "v": 3.41,
-            "rank": 31,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 3.4,
-            "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "HI",
-            "name": "Hawaii",
-            "v": 3.39,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 3.37,
-            "rank": 34,
-            "n": 51
-          },
-          {
-            "st": "NJ",
-            "name": "New Jersey",
-            "v": 3.37,
-            "rank": 35,
-            "n": 51
-          },
-          {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 3.31,
-            "rank": 36,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 3.31,
-            "rank": 37,
-            "n": 51
-          },
-          {
-            "st": "NY",
-            "name": "New York",
-            "v": 3.23,
-            "rank": 38,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 3.21,
-            "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 3.2,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "MN",
-            "name": "Minnesota",
-            "v": 3.19,
-            "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 3.18,
-            "rank": 42,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 3.16,
-            "rank": 43,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 3.12,
-            "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 3.08,
-            "rank": 45,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 2.98,
-            "rank": 46,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 2.82,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 2.79,
-            "rank": 48,
-            "n": 51
-          },
-          {
-            "st": "PA",
-            "name": "Pennsylvania",
-            "v": 2.67,
-            "rank": 49,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 2.6,
-            "rank": 50,
-            "n": 51
-          },
-          {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 2.37,
             "rank": 51,
             "n": 51
           }
@@ -84184,653 +82888,6 @@
           }
         ]
       },
-      "bed_death_rate_t4_2024q3": {
-        "id": "bed_death_rate_t4_2024q3",
-        "label": "Establishment death rate, trailing 4 periods ending 2024 Q3",
-        "src": "SRC-613-02",
-        "unit": "percent",
-        "end": "2024 Q3",
-        "n_periods": 4,
-        "higher_is_better": true,
-        "us": 3.35,
-        "ma": {
-          "v": 3.3,
-          "rank": 24,
-          "n": 51
-        },
-        "highest": {
-          "st": "DC",
-          "name": "District of Columbia",
-          "v": 4.7
-        },
-        "lowest": {
-          "st": "IA",
-          "name": "Iowa",
-          "v": 2.35
-        },
-        "n_ranked": 51,
-        "ranked": [
-          {
-            "st": "DC",
-            "v": 4.7,
-            "rank": 1
-          },
-          {
-            "st": "CO",
-            "v": 4.5,
-            "rank": 2
-          },
-          {
-            "st": "ID",
-            "v": 4.15,
-            "rank": 3
-          },
-          {
-            "st": "NV",
-            "v": 4.0,
-            "rank": 4
-          },
-          {
-            "st": "GA",
-            "v": 3.85,
-            "rank": 5
-          },
-          {
-            "st": "MO",
-            "v": 3.85,
-            "rank": 6
-          },
-          {
-            "st": "UT",
-            "v": 3.85,
-            "rank": 7
-          },
-          {
-            "st": "FL",
-            "v": 3.8,
-            "rank": 8
-          },
-          {
-            "st": "CA",
-            "v": 3.75,
-            "rank": 9
-          },
-          {
-            "st": "DE",
-            "v": 3.67,
-            "rank": 10
-          },
-          {
-            "st": "OK",
-            "v": 3.65,
-            "rank": 11
-          },
-          {
-            "st": "WA",
-            "v": 3.62,
-            "rank": 12
-          },
-          {
-            "st": "AZ",
-            "v": 3.52,
-            "rank": 13
-          },
-          {
-            "st": "OR",
-            "v": 3.48,
-            "rank": 14
-          },
-          {
-            "st": "VA",
-            "v": 3.45,
-            "rank": 15
-          },
-          {
-            "st": "WY",
-            "v": 3.38,
-            "rank": 16
-          },
-          {
-            "st": "CT",
-            "v": 3.35,
-            "rank": 17
-          },
-          {
-            "st": "MD",
-            "v": 3.35,
-            "rank": 18
-          },
-          {
-            "st": "NC",
-            "v": 3.35,
-            "rank": 19
-          },
-          {
-            "st": "RI",
-            "v": 3.35,
-            "rank": 20
-          },
-          {
-            "st": "NH",
-            "v": 3.33,
-            "rank": 21
-          },
-          {
-            "st": "TN",
-            "v": 3.33,
-            "rank": 22
-          },
-          {
-            "st": "VT",
-            "v": 3.33,
-            "rank": 23
-          },
-          {
-            "st": "MA",
-            "v": 3.3,
-            "rank": 24
-          },
-          {
-            "st": "NY",
-            "v": 3.3,
-            "rank": 25
-          },
-          {
-            "st": "AR",
-            "v": 3.27,
-            "rank": 26
-          },
-          {
-            "st": "NM",
-            "v": 3.25,
-            "rank": 27
-          },
-          {
-            "st": "HI",
-            "v": 3.2,
-            "rank": 28
-          },
-          {
-            "st": "MT",
-            "v": 3.2,
-            "rank": 29
-          },
-          {
-            "st": "AK",
-            "v": 3.17,
-            "rank": 30
-          },
-          {
-            "st": "MN",
-            "v": 3.17,
-            "rank": 31
-          },
-          {
-            "st": "KS",
-            "v": 3.15,
-            "rank": 32
-          },
-          {
-            "st": "NJ",
-            "v": 3.08,
-            "rank": 33
-          },
-          {
-            "st": "ME",
-            "v": 3.02,
-            "rank": 34
-          },
-          {
-            "st": "AL",
-            "v": 3.0,
-            "rank": 35
-          },
-          {
-            "st": "TX",
-            "v": 3.0,
-            "rank": 36
-          },
-          {
-            "st": "SC",
-            "v": 2.98,
-            "rank": 37
-          },
-          {
-            "st": "IL",
-            "v": 2.92,
-            "rank": 38
-          },
-          {
-            "st": "KY",
-            "v": 2.9,
-            "rank": 39
-          },
-          {
-            "st": "MI",
-            "v": 2.85,
-            "rank": 40
-          },
-          {
-            "st": "MS",
-            "v": 2.8,
-            "rank": 41
-          },
-          {
-            "st": "LA",
-            "v": 2.73,
-            "rank": 42
-          },
-          {
-            "st": "NE",
-            "v": 2.7,
-            "rank": 43
-          },
-          {
-            "st": "ND",
-            "v": 2.65,
-            "rank": 44
-          },
-          {
-            "st": "OH",
-            "v": 2.62,
-            "rank": 45
-          },
-          {
-            "st": "SD",
-            "v": 2.6,
-            "rank": 46
-          },
-          {
-            "st": "WI",
-            "v": 2.6,
-            "rank": 47
-          },
-          {
-            "st": "WV",
-            "v": 2.58,
-            "rank": 48
-          },
-          {
-            "st": "IN",
-            "v": 2.55,
-            "rank": 49
-          },
-          {
-            "st": "PA",
-            "v": 2.48,
-            "rank": 50
-          },
-          {
-            "st": "IA",
-            "v": 2.35,
-            "rank": 51
-          }
-        ],
-        "fl": {
-          "v": 3.8,
-          "rank": 8,
-          "n": 51
-        },
-        "rows": [
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 4.7,
-            "rank": 1,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 4.5,
-            "rank": 2,
-            "n": 51
-          },
-          {
-            "st": "ID",
-            "name": "Idaho",
-            "v": 4.15,
-            "rank": 3,
-            "n": 51
-          },
-          {
-            "st": "NV",
-            "name": "Nevada",
-            "v": 4.0,
-            "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "GA",
-            "name": "Georgia",
-            "v": 3.85,
-            "rank": 5,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 3.85,
-            "rank": 6,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 3.85,
-            "rank": 7,
-            "n": 51
-          },
-          {
-            "st": "FL",
-            "name": "Florida",
-            "v": 3.8,
-            "rank": 8,
-            "n": 51
-          },
-          {
-            "st": "CA",
-            "name": "California",
-            "v": 3.75,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 3.67,
-            "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 3.65,
-            "rank": 11,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 3.62,
-            "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 3.52,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 3.48,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "VA",
-            "name": "Virginia",
-            "v": 3.45,
-            "rank": 15,
-            "n": 51
-          },
-          {
-            "st": "WY",
-            "name": "Wyoming",
-            "v": 3.38,
-            "rank": 16,
-            "n": 51
-          },
-          {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 3.35,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 3.35,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 3.35,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "RI",
-            "name": "Rhode Island",
-            "v": 3.35,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "NH",
-            "name": "New Hampshire",
-            "v": 3.33,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "TN",
-            "name": "Tennessee",
-            "v": 3.33,
-            "rank": 22,
-            "n": 51
-          },
-          {
-            "st": "VT",
-            "name": "Vermont",
-            "v": 3.33,
-            "rank": 23,
-            "n": 51
-          },
-          {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 3.3,
-            "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "NY",
-            "name": "New York",
-            "v": 3.3,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 3.27,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 3.25,
-            "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "HI",
-            "name": "Hawaii",
-            "v": 3.2,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "MT",
-            "name": "Montana",
-            "v": 3.2,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 3.17,
-            "rank": 30,
-            "n": 51
-          },
-          {
-            "st": "MN",
-            "name": "Minnesota",
-            "v": 3.17,
-            "rank": 31,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 3.15,
-            "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "NJ",
-            "name": "New Jersey",
-            "v": 3.08,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "ME",
-            "name": "Maine",
-            "v": 3.02,
-            "rank": 34,
-            "n": 51
-          },
-          {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 3.0,
-            "rank": 35,
-            "n": 51
-          },
-          {
-            "st": "TX",
-            "name": "Texas",
-            "v": 3.0,
-            "rank": 36,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 2.98,
-            "rank": 37,
-            "n": 51
-          },
-          {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 2.92,
-            "rank": 38,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 2.9,
-            "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 2.85,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 2.8,
-            "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 2.73,
-            "rank": 42,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 2.7,
-            "rank": 43,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 2.65,
-            "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 2.62,
-            "rank": 45,
-            "n": 51
-          },
-          {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 2.6,
-            "rank": 46,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 2.6,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "WV",
-            "name": "West Virginia",
-            "v": 2.58,
-            "rank": 48,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 2.55,
-            "rank": 49,
-            "n": 51
-          },
-          {
-            "st": "PA",
-            "name": "Pennsylvania",
-            "v": 2.48,
-            "rank": 50,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 2.35,
-            "rank": 51,
-            "n": 51
-          }
-        ]
-      },
       "bed_death_rate_t9_2025q1": {
         "id": "bed_death_rate_t9_2025q1",
         "label": "Establishment death rate, trailing 9 periods ending 2025 Q1",
@@ -85473,653 +83530,6 @@
             "st": "IA",
             "name": "Iowa",
             "v": 2.43,
-            "rank": 51,
-            "n": 51
-          }
-        ]
-      },
-      "bed_death_rate_t9_2024q3": {
-        "id": "bed_death_rate_t9_2024q3",
-        "label": "Establishment death rate, trailing 9 periods ending 2024 Q3",
-        "src": "SRC-613-02",
-        "unit": "percent",
-        "end": "2024 Q3",
-        "n_periods": 9,
-        "higher_is_better": true,
-        "us": 3.28,
-        "ma": {
-          "v": 3.23,
-          "rank": 25,
-          "n": 51
-        },
-        "highest": {
-          "st": "DC",
-          "name": "District of Columbia",
-          "v": 4.57
-        },
-        "lowest": {
-          "st": "IA",
-          "name": "Iowa",
-          "v": 2.46
-        },
-        "n_ranked": 51,
-        "ranked": [
-          {
-            "st": "DC",
-            "v": 4.57,
-            "rank": 1
-          },
-          {
-            "st": "MO",
-            "v": 4.11,
-            "rank": 2
-          },
-          {
-            "st": "CO",
-            "v": 3.99,
-            "rank": 3
-          },
-          {
-            "st": "NV",
-            "v": 3.92,
-            "rank": 4
-          },
-          {
-            "st": "ID",
-            "v": 3.9,
-            "rank": 5
-          },
-          {
-            "st": "GA",
-            "v": 3.83,
-            "rank": 6
-          },
-          {
-            "st": "UT",
-            "v": 3.83,
-            "rank": 7
-          },
-          {
-            "st": "FL",
-            "v": 3.76,
-            "rank": 8
-          },
-          {
-            "st": "DE",
-            "v": 3.66,
-            "rank": 9
-          },
-          {
-            "st": "AZ",
-            "v": 3.61,
-            "rank": 10
-          },
-          {
-            "st": "RI",
-            "v": 3.57,
-            "rank": 11
-          },
-          {
-            "st": "VA",
-            "v": 3.56,
-            "rank": 12
-          },
-          {
-            "st": "NM",
-            "v": 3.48,
-            "rank": 13
-          },
-          {
-            "st": "MD",
-            "v": 3.46,
-            "rank": 14
-          },
-          {
-            "st": "OR",
-            "v": 3.44,
-            "rank": 15
-          },
-          {
-            "st": "CA",
-            "v": 3.43,
-            "rank": 16
-          },
-          {
-            "st": "VT",
-            "v": 3.37,
-            "rank": 17
-          },
-          {
-            "st": "NH",
-            "v": 3.36,
-            "rank": 18
-          },
-          {
-            "st": "WY",
-            "v": 3.36,
-            "rank": 19
-          },
-          {
-            "st": "CT",
-            "v": 3.31,
-            "rank": 20
-          },
-          {
-            "st": "MT",
-            "v": 3.29,
-            "rank": 21
-          },
-          {
-            "st": "OK",
-            "v": 3.29,
-            "rank": 22
-          },
-          {
-            "st": "AK",
-            "v": 3.24,
-            "rank": 23
-          },
-          {
-            "st": "NY",
-            "v": 3.24,
-            "rank": 24
-          },
-          {
-            "st": "MA",
-            "v": 3.23,
-            "rank": 25
-          },
-          {
-            "st": "NC",
-            "v": 3.23,
-            "rank": 26
-          },
-          {
-            "st": "ME",
-            "v": 3.19,
-            "rank": 27
-          },
-          {
-            "st": "AR",
-            "v": 3.18,
-            "rank": 28
-          },
-          {
-            "st": "HI",
-            "v": 3.17,
-            "rank": 29
-          },
-          {
-            "st": "SC",
-            "v": 3.17,
-            "rank": 30
-          },
-          {
-            "st": "KS",
-            "v": 3.14,
-            "rank": 31
-          },
-          {
-            "st": "TN",
-            "v": 3.13,
-            "rank": 32
-          },
-          {
-            "st": "NJ",
-            "v": 3.12,
-            "rank": 33
-          },
-          {
-            "st": "WA",
-            "v": 3.07,
-            "rank": 34
-          },
-          {
-            "st": "AL",
-            "v": 3.02,
-            "rank": 35
-          },
-          {
-            "st": "TX",
-            "v": 3.02,
-            "rank": 36
-          },
-          {
-            "st": "MS",
-            "v": 2.94,
-            "rank": 37
-          },
-          {
-            "st": "MN",
-            "v": 2.92,
-            "rank": 38
-          },
-          {
-            "st": "WV",
-            "v": 2.92,
-            "rank": 39
-          },
-          {
-            "st": "IL",
-            "v": 2.91,
-            "rank": 40
-          },
-          {
-            "st": "NE",
-            "v": 2.88,
-            "rank": 41
-          },
-          {
-            "st": "SD",
-            "v": 2.81,
-            "rank": 42
-          },
-          {
-            "st": "WI",
-            "v": 2.78,
-            "rank": 43
-          },
-          {
-            "st": "MI",
-            "v": 2.77,
-            "rank": 44
-          },
-          {
-            "st": "KY",
-            "v": 2.73,
-            "rank": 45
-          },
-          {
-            "st": "ND",
-            "v": 2.72,
-            "rank": 46
-          },
-          {
-            "st": "IN",
-            "v": 2.69,
-            "rank": 47
-          },
-          {
-            "st": "LA",
-            "v": 2.69,
-            "rank": 48
-          },
-          {
-            "st": "OH",
-            "v": 2.67,
-            "rank": 49
-          },
-          {
-            "st": "PA",
-            "v": 2.54,
-            "rank": 50
-          },
-          {
-            "st": "IA",
-            "v": 2.46,
-            "rank": 51
-          }
-        ],
-        "fl": {
-          "v": 3.76,
-          "rank": 8,
-          "n": 51
-        },
-        "rows": [
-          {
-            "st": "DC",
-            "name": "District of Columbia",
-            "v": 4.57,
-            "rank": 1,
-            "n": 51
-          },
-          {
-            "st": "MO",
-            "name": "Missouri",
-            "v": 4.11,
-            "rank": 2,
-            "n": 51
-          },
-          {
-            "st": "CO",
-            "name": "Colorado",
-            "v": 3.99,
-            "rank": 3,
-            "n": 51
-          },
-          {
-            "st": "NV",
-            "name": "Nevada",
-            "v": 3.92,
-            "rank": 4,
-            "n": 51
-          },
-          {
-            "st": "ID",
-            "name": "Idaho",
-            "v": 3.9,
-            "rank": 5,
-            "n": 51
-          },
-          {
-            "st": "GA",
-            "name": "Georgia",
-            "v": 3.83,
-            "rank": 6,
-            "n": 51
-          },
-          {
-            "st": "UT",
-            "name": "Utah",
-            "v": 3.83,
-            "rank": 7,
-            "n": 51
-          },
-          {
-            "st": "FL",
-            "name": "Florida",
-            "v": 3.76,
-            "rank": 8,
-            "n": 51
-          },
-          {
-            "st": "DE",
-            "name": "Delaware",
-            "v": 3.66,
-            "rank": 9,
-            "n": 51
-          },
-          {
-            "st": "AZ",
-            "name": "Arizona",
-            "v": 3.61,
-            "rank": 10,
-            "n": 51
-          },
-          {
-            "st": "RI",
-            "name": "Rhode Island",
-            "v": 3.57,
-            "rank": 11,
-            "n": 51
-          },
-          {
-            "st": "VA",
-            "name": "Virginia",
-            "v": 3.56,
-            "rank": 12,
-            "n": 51
-          },
-          {
-            "st": "NM",
-            "name": "New Mexico",
-            "v": 3.48,
-            "rank": 13,
-            "n": 51
-          },
-          {
-            "st": "MD",
-            "name": "Maryland",
-            "v": 3.46,
-            "rank": 14,
-            "n": 51
-          },
-          {
-            "st": "OR",
-            "name": "Oregon",
-            "v": 3.44,
-            "rank": 15,
-            "n": 51
-          },
-          {
-            "st": "CA",
-            "name": "California",
-            "v": 3.43,
-            "rank": 16,
-            "n": 51
-          },
-          {
-            "st": "VT",
-            "name": "Vermont",
-            "v": 3.37,
-            "rank": 17,
-            "n": 51
-          },
-          {
-            "st": "NH",
-            "name": "New Hampshire",
-            "v": 3.36,
-            "rank": 18,
-            "n": 51
-          },
-          {
-            "st": "WY",
-            "name": "Wyoming",
-            "v": 3.36,
-            "rank": 19,
-            "n": 51
-          },
-          {
-            "st": "CT",
-            "name": "Connecticut",
-            "v": 3.31,
-            "rank": 20,
-            "n": 51
-          },
-          {
-            "st": "MT",
-            "name": "Montana",
-            "v": 3.29,
-            "rank": 21,
-            "n": 51
-          },
-          {
-            "st": "OK",
-            "name": "Oklahoma",
-            "v": 3.29,
-            "rank": 22,
-            "n": 51
-          },
-          {
-            "st": "AK",
-            "name": "Alaska",
-            "v": 3.24,
-            "rank": 23,
-            "n": 51
-          },
-          {
-            "st": "NY",
-            "name": "New York",
-            "v": 3.24,
-            "rank": 24,
-            "n": 51
-          },
-          {
-            "st": "MA",
-            "name": "Massachusetts",
-            "v": 3.23,
-            "rank": 25,
-            "n": 51
-          },
-          {
-            "st": "NC",
-            "name": "North Carolina",
-            "v": 3.23,
-            "rank": 26,
-            "n": 51
-          },
-          {
-            "st": "ME",
-            "name": "Maine",
-            "v": 3.19,
-            "rank": 27,
-            "n": 51
-          },
-          {
-            "st": "AR",
-            "name": "Arkansas",
-            "v": 3.18,
-            "rank": 28,
-            "n": 51
-          },
-          {
-            "st": "HI",
-            "name": "Hawaii",
-            "v": 3.17,
-            "rank": 29,
-            "n": 51
-          },
-          {
-            "st": "SC",
-            "name": "South Carolina",
-            "v": 3.17,
-            "rank": 30,
-            "n": 51
-          },
-          {
-            "st": "KS",
-            "name": "Kansas",
-            "v": 3.14,
-            "rank": 31,
-            "n": 51
-          },
-          {
-            "st": "TN",
-            "name": "Tennessee",
-            "v": 3.13,
-            "rank": 32,
-            "n": 51
-          },
-          {
-            "st": "NJ",
-            "name": "New Jersey",
-            "v": 3.12,
-            "rank": 33,
-            "n": 51
-          },
-          {
-            "st": "WA",
-            "name": "Washington",
-            "v": 3.07,
-            "rank": 34,
-            "n": 51
-          },
-          {
-            "st": "AL",
-            "name": "Alabama",
-            "v": 3.02,
-            "rank": 35,
-            "n": 51
-          },
-          {
-            "st": "TX",
-            "name": "Texas",
-            "v": 3.02,
-            "rank": 36,
-            "n": 51
-          },
-          {
-            "st": "MS",
-            "name": "Mississippi",
-            "v": 2.94,
-            "rank": 37,
-            "n": 51
-          },
-          {
-            "st": "MN",
-            "name": "Minnesota",
-            "v": 2.92,
-            "rank": 38,
-            "n": 51
-          },
-          {
-            "st": "WV",
-            "name": "West Virginia",
-            "v": 2.92,
-            "rank": 39,
-            "n": 51
-          },
-          {
-            "st": "IL",
-            "name": "Illinois",
-            "v": 2.91,
-            "rank": 40,
-            "n": 51
-          },
-          {
-            "st": "NE",
-            "name": "Nebraska",
-            "v": 2.88,
-            "rank": 41,
-            "n": 51
-          },
-          {
-            "st": "SD",
-            "name": "South Dakota",
-            "v": 2.81,
-            "rank": 42,
-            "n": 51
-          },
-          {
-            "st": "WI",
-            "name": "Wisconsin",
-            "v": 2.78,
-            "rank": 43,
-            "n": 51
-          },
-          {
-            "st": "MI",
-            "name": "Michigan",
-            "v": 2.77,
-            "rank": 44,
-            "n": 51
-          },
-          {
-            "st": "KY",
-            "name": "Kentucky",
-            "v": 2.73,
-            "rank": 45,
-            "n": 51
-          },
-          {
-            "st": "ND",
-            "name": "North Dakota",
-            "v": 2.72,
-            "rank": 46,
-            "n": 51
-          },
-          {
-            "st": "IN",
-            "name": "Indiana",
-            "v": 2.69,
-            "rank": 47,
-            "n": 51
-          },
-          {
-            "st": "LA",
-            "name": "Louisiana",
-            "v": 2.69,
-            "rank": 48,
-            "n": 51
-          },
-          {
-            "st": "OH",
-            "name": "Ohio",
-            "v": 2.67,
-            "rank": 49,
-            "n": 51
-          },
-          {
-            "st": "PA",
-            "name": "Pennsylvania",
-            "v": 2.54,
-            "rank": 50,
-            "n": 51
-          },
-          {
-            "st": "IA",
-            "name": "Iowa",
-            "v": 2.46,
             "rank": 51,
             "n": 51
           }

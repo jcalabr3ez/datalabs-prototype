@@ -62,6 +62,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 18, 2026",
+        "title": "Hex maps now follow the northern rim of the country",
+        "body": (
+            "Washington, the northern plains, and Maine now share the top "
+            "row, so the west is no longer two rows below New England. "
+            "Florida hangs one row below Texas. The cartogram stays a "
+            "packed pointy-top plate with Alaska and Hawaii inset at the "
+            "lower left."
+        ),
+    },
+    {
+        "date": "August 18, 2026",
         "title": "Hex maps now follow the shape of the country",
         "body": (
             "The fifty-state cartogram uses pointy-top hexes in latitude "

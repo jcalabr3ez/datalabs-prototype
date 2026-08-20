@@ -218,7 +218,7 @@
 
   footer { margin-top:0; }
   .pifoot { background:var(--bar); color:#C9D2E0; border-top:none; }
-  .pifoot-in { display:grid; grid-template-columns:1.2fr auto 1fr; gap:28px 48px; padding-top:36px; padding-bottom:26px; align-items:start; }
+  .pifoot-in { display:grid; grid-template-columns:1.2fr auto; gap:28px 48px; padding-top:36px; padding-bottom:26px; align-items:start; }
   @media (max-width:820px){ .pifoot-in { grid-template-columns:1fr; } }
   .pf-logo { color:#fff; font-weight:700; font-size:13px; letter-spacing:.14em; }
   .pf-tag { margin-top:8px; font-size:12.5px; color:#8DA0B5; }
@@ -226,7 +226,6 @@
   .pf-links { display:flex; flex-direction:column; gap:9px; font-size:13.5px; font-weight:600; }
   .pf-links a { color:#fff; }
   .pf-links a:hover { color:#fff; text-decoration:underline; }
-  .pf-credo { font-size:12.5px; line-height:1.7; color:#8DA0B5; max-width:320px; }
   .pf-legal { padding-top:14px; padding-bottom:26px; font-size:11px; color:#6E8093; border-top:1px solid rgba(255,255,255,.1); }
 
   body.ai-off #respBar, body.ai-off #resp { display:none; }
@@ -323,7 +322,6 @@
     <a href="/status/">Status</a>
     <a href="mailto:jcalabrese@pioneerinstitute.org">Report an error</a>
   </div>
-  <div class="pf-credo" id="pfCredo">Every figure compiled here traces to a public record.</div>
 </div>
 <div class="frame pf-legal">Copyright &#169; 2026 Pioneer Institute. All rights reserved.</div>
 </div></footer>
@@ -361,11 +359,6 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
   var el=document.getElementById('q');
   if(el) el.placeholder=hints[Math.floor(Date.now()/86400000)%hints.length];
 })();
-(function(){
-  var cr=document.getElementById('pfCredo');
-  if (cr) cr.textContent = 'Every figure compiled here traces to a public record.';
-})();
-
 /* ---------- The desk: rendered below, after the data constants it draws from ---------- */
 
 /* ---------- The index: every tool, sectioned like a paper ---------- */

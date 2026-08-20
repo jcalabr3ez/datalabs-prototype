@@ -332,6 +332,10 @@ elif "Prototype" not in front:
     fail("landing masthead is missing Prototype")
 else:
     ok("landing marks the catalog as Prototype")
+if "Every figure compiled here traces to a public record." in front:
+    fail("landing still prints the public-record credo")
+else:
+    ok("landing dropped the public-record credo")
 atlas_events = json.loads((ROOT / "netlify/functions/dl01-answers.json").read_text(encoding="utf-8"))
 ev_text = " ".join(
     e.get("detail") or ""

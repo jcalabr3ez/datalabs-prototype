@@ -62,6 +62,14 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 20, 2026",
+        "title": "Landing drops the public-record credo",
+        "body": (
+            "The front-door footer no longer prints Every figure "
+            "compiled here traces to a public record."
+        ),
+    },
+    {
+        "date": "August 20, 2026",
         "title": "Landing marks the catalog as Prototype",
         "body": (
             "The front door now reads DataLabs Prototype. The browser "

@@ -565,7 +565,7 @@ const CHART_TITLES = {
   var flLast = FLPIF[FLPIF.length-1][1], flPeak = Math.max.apply(null, FLPIF.map(function(r){return r[1];}));
   var cards = [
     { place:'Florida', id:'DL-02', ask:true, url:'/florida-insurance/',
-      line:'<b>'+flLast.toLocaleString('en-US')+'</b> homes still on Citizens, the state insurer of last resort, down '+((1-flLast/flPeak)*100).toFixed(1)+'% from the 2023 peak.',
+      line:'<b>'+flLast.toLocaleString('en-US')+'</b> policies still on Citizens, the state insurer of last resort, down '+((1-flLast/flPeak)*100).toFixed(1)+'% from the 2023 peak.',
       q:'What does homeowners insurance cost in Miami-Dade?', qshort:'What does Miami-Dade pay?',
       status:'Through July 2026. FL OIR, Citizens, NAIC.' },
     // Stats come from DL01D, generated from the atlas ledger at build time,

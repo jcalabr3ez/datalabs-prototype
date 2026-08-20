@@ -28,7 +28,7 @@ STARTERS = {
     },
     "DL-02": {
         "public": "What does homeowners insurance cost in Miami-Dade?",
-        "journalist": "How many homes does Citizens still insure?",
+        "journalist": "How many policies does Citizens still insure?",
         "researcher": "Does Florida publish one official statewide average premium?",
         "policymaker": "What share of nationwide homeowners lawsuits are filed in Florida?",
     },

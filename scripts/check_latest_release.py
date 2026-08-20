@@ -16,6 +16,8 @@ import re
 import sys
 import urllib.error
 import urllib.parse
+import urllib.request
+from calendar import monthrange
 from datetime import date
 from pathlib import Path
 
@@ -279,10 +281,57 @@ def probe_qtax():
     return row("DL-28/29", "Census QTAX table 3 (SRC-629-01)", ledger, found or "unreadable", note)
 
 
+def _pif_month_end_slug(year, month):
+    last = monthrange(year, month)[1]
+    return f"{year}{month:02d}{last:02d}-policies-in-force"
+
+
+def _http_status(url, timeout=20):
+    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return int(getattr(resp, "status", 200) or 200)
+    except urllib.error.HTTPError as exc:
+        return int(exc.code)
+
+
 def probe_citizens():
     led = load_ledger("DL-02")
     series = led.get("citizens_policies_monthly") or []
     ledger = series[-1]["m"] if series else ym(led.get("as_of"))
+    # Fail when the next month-end PIF page is already live.
+    # Skip the probe while that month-end is still in the future.
+    try:
+        y, m = [int(x) for x in str(ledger).split("-")]
+    except ValueError:
+        y = m = None
+    if y and m:
+        ny, nm = (y + 1, 1) if m == 12 else (y, m + 1)
+        next_end = date(ny, nm, monthrange(ny, nm)[1])
+        if next_end <= date.today():
+            next_url = (
+                "https://www.citizensfla.com/-/"
+                + _pif_month_end_slug(ny, nm)
+            )
+            try:
+                code = _http_status(next_url)
+            except Exception as e:
+                code = None
+                next_err = type(e).__name__
+            else:
+                next_err = None
+            if code == 200:
+                return row(
+                    "DL-02", "Citizens Policies in Force (SRC-FL-02)",
+                    ledger, f"{ny}-{nm:02d}",
+                    f"newer month-end page is live: {next_url}",
+                )
+            if next_err:
+                return row(
+                    "DL-02", "Citizens Policies in Force (SRC-FL-02)",
+                    ledger, f"err:{next_err}",
+                    f"could not probe {next_url}",
+                )
     try:
         html = fetch_text(URL_CITIZENS, timeout=45)
     except Exception as e:

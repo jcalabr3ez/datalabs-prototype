@@ -18,7 +18,7 @@ RULES = {
         "YYYY-MM", 75, "FTA NTD publishes monthly with roughly a two-month lag"
     ),
     "netlify/functions/dl02-answers.json": (
-        "YYYY-MM", 160, "monthly Cursor Automation rechecks the register; this 160-day gate is the backstop"
+        "YYYY-MM", 50, "Citizens posts month-end PIF within weeks; 50 days is the backstop if the 17th pass is missed"
     ),
     "netlify/functions/dl01-answers.json": (
         "YYYY-MM-DD", 45, "weekly Cursor Automation rechecks the register; this 45-day gate is the backstop"

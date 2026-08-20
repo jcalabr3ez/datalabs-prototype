@@ -50,6 +50,7 @@ pif_slug = f"{y}{m:02d}{monthrange(y, m)[1]:02d}-policies-in-force"
 sentinels = [
     (pif_formatted, f"latest Citizens policies in force ({pif_formatted}, month {latest['m']})"),
     (pif_slug, f"Citizens PIF URL slug ({pif_slug})"),
+    ("20230930-policies-in-force", "Citizens Sept. 30, 2023 peak PIF URL"),
     (fl["as_of"], f"ledger as_of ({fl['as_of']})"),
     (fl["page"]["revised"], f"page.revised ({fl['page']['revised']})"),
 ]

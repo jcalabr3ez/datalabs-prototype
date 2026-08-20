@@ -72,7 +72,9 @@ CHANGELOG = [
             "peak (July 31, 2026), and the peak (Sept. 30, 2023). "
             "Report-card grades are still Pioneer judgments; that "
             "sentence now sits above the grade chips. CI locks the "
-            "July 31 vintage and URL."
+            "July 31 vintage and URL. The finding links the July 31 "
+            "and Sept. 30 Citizens pages and the July 1 OIR "
+            "Stability Report."
         ),
     },
     {

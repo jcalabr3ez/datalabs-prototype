@@ -551,6 +551,16 @@ if grades_note < 0 or chips < 0 or grades_note > chips:
     fail("florida-insurance report-card judgment note is not above the grade chips")
 else:
     ok("florida-insurance report-card judgment note sits above the chips")
+answer_html = fl_html[fl_html.find('id="answer"'):fl_html.find('id="view-home"')]
+for slug, label in (
+    ("20260731-policies-in-force", "July 31, 2026 Citizens PIF page"),
+    ("20230930-policies-in-force", "Sept. 30, 2023 Citizens PIF page"),
+    ("july-2026-isu-report.pdf", "July 1, 2026 OIR Stability Report"),
+):
+    if slug not in answer_html:
+        fail(f"florida-insurance finding is missing a link to the {label}")
+    else:
+        ok(f"florida-insurance finding links the {label}")
 
 atlas_cap = (ROOT / "netlify/functions/dl01-answers.json")
 cap = json.loads(atlas_cap.read_text(encoding="utf-8")).get("captions", {})

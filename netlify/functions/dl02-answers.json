@@ -420,11 +420,13 @@
    "personal_residential": 273822,
    "commercial": 4374,
    "unit": "policies in force, not homes",
+   "source": "https://www.citizensfla.com/-/20260731-policies-in-force",
    "split_note": "Personal residential is PR-W 57,543 plus PR-M 216,279. Commercial is CR-W 1,250 plus CR-M 600 plus CNR-W 1,723 plus CNR-M 801. Citizens Policies in Force as of July 31, 2026."
   },
   "peak": {
    "month": "2023-09",
-   "policies": 1407805
+   "policies": 1407805,
+   "source": "https://www.citizensfla.com/-/20230930-policies-in-force"
   },
   "decline_from_peak_pct": -80.2,
   "yoy_change_pct": -64.4,

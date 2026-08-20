@@ -1,4 +1,4 @@
-# Pioneer DataLabs: one-month internal beta
+# Pioneer DataLabs: one-month internal prototype
 
 Live site: [https://datalabsai.netlify.app](https://datalabsai.netlify.app)
 
@@ -11,8 +11,7 @@ answer from those ledgers.
 
 ## What to do (about 15 minutes)
 
-1. Open the front door. Confirm the masthead says DataLabs Beta and
-   names the window through Sept. 16, 2026.
+1. Open the front door. Confirm the masthead says DataLabs Prototype.
 2. Ask one question you would actually use in a brief. Starters that
    already have a published number:
    - How many new business applications were filed in the United States last month?
@@ -63,7 +62,7 @@ Institute DataLabs, Retail Electricity Prices, data through Dec 31,
 
 ## Invite you can paste
 
-Pioneer staff: DataLabs is open for a one-month internal beta,
+Pioneer staff: DataLabs is open for a one-month internal prototype,
 August 16 through September 16, 2026, at https://datalabsai.netlify.app.
 Ask a question you would use in a brief, open the tool it names, and
 check the number against the source register. Write

@@ -18,8 +18,8 @@ from check_freshness import RULES, parse_as_of
 from suite_common import ROOT, load_apps
 
 SITE = "https://datalabsai.netlify.app"
-TODAY = date(2026, 8, 19)
-TODAY_LABEL = "August 19, 2026"
+TODAY = date(2026, 8, 20)
+TODAY_LABEL = "August 20, 2026"
 
 FLAGSHIPS = [
     {
@@ -60,6 +60,14 @@ FLAGSHIPS = [
 ]
 
 CHANGELOG = [
+    {
+        "date": "August 20, 2026",
+        "title": "Landing marks the catalog as Prototype",
+        "body": (
+            "The front door now reads DataLabs Prototype. The browser "
+            "tab and share title say the same. Status copy matches."
+        ),
+    },
     {
         "date": "August 19, 2026",
         "title": "Boston Public Schools is a live application",
@@ -1301,7 +1309,7 @@ def status_body(rows):
   <h2>What this page reports</h2>
   <p class="lede">Vintage and refresh cadence for every DataLabs application. The vintage on each catalog row is the vintage of the data inside. This table adds the freshness gate and the job that is supposed to move it.</p>
   <p class="body-p">{live} applications are live. {build} {"is" if build == 1 else "are"} in build. {stale} {"is" if stale == 1 else "are"} past {"its" if stale == 1 else "their"} freshness gate. Table generated {TODAY_LABEL} from the ledgers in this repository.</p>
-  <p class="body-p">The catalog is in a one-month internal beta for Pioneer staff, August 16 through September 16, 2026. Questions asked at the front door are written to the site question log so the next tool can come from demand, not from a bigger catalog. Individual questions are not published here. The ask box is on at the front door. Use ?ai=0 to hide it.</p>
+  <p class="body-p">The catalog is a one-month internal prototype for Pioneer staff, August 16 through September 16, 2026. Questions asked at the front door are written to the site question log so the next tool can come from demand, not from a bigger catalog. Individual questions are not published here. The ask box is on at the front door. Use ?ai=0 to hide it.</p>
   <div class="scroll"><table>
     <thead><tr><th>Application</th><th>Status</th><th>Vintage</th><th>Freshness gate</th><th>Refresh</th></tr></thead>
     <tbody>

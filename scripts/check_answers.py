@@ -326,6 +326,12 @@ if (
     fail("landing still prints the beta briefing")
 else:
     ok("landing dropped the beta briefing")
+if "DataLabs · Beta" in front or ">Beta</span>" in front:
+    fail("landing still says Beta")
+elif "Prototype" not in front:
+    fail("landing masthead is missing Prototype")
+else:
+    ok("landing marks the catalog as Prototype")
 atlas_events = json.loads((ROOT / "netlify/functions/dl01-answers.json").read_text(encoding="utf-8"))
 ev_text = " ".join(
     e.get("detail") or ""

@@ -33,14 +33,18 @@ from suite_common import (
     parse_num,
     rank_named,
     rank_rows,
+    revised_today,
     snap_pack,
     usd_prose,
     write_ledger,
 )
+
+
 def _wb(url, timeout=120):
     return load_workbook(io.BytesIO(fetch(url, timeout=timeout)), data_only=True)
 
-PAGE_REVISED = "Aug 19, 2026"
+
+PAGE_REVISED = revised_today()
 
 DIGEST_314 = "https://nces.ed.gov/programs/digest/d24/tables/xls/tabn314.50.xlsx"
 DIGEST_334 = "https://nces.ed.gov/programs/digest/d22/tables/xls/tabn334.20.xlsx"

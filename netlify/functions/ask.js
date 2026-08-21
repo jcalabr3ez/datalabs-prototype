@@ -51,8 +51,8 @@ function selectDatasets(question, history) {
   const hits = toolsMatching(blob);
   const cores = {};
   const full = {};
-  TOOLS.forEach(function (t) { cores[t.id] = t.coreSlice(t.dataset); });
-  hits.forEach(function (t) { full[t.id] = t.modelSlice(t.dataset); });
+  TOOLS.forEach(function (t) { cores[t.id] = t.coreSlice(); });
+  hits.forEach(function (t) { full[t.id] = t.modelSlice(); });
   return { cores: cores, full: full, hits: hits.map(function (t) { return t.id; }) };
 }
 
@@ -251,7 +251,7 @@ exports.handler = async function (event) {
       const valid = tool.dataset[tool.highlight.key] || {};
       parsed.highlight = (hl && Object.prototype.hasOwnProperty.call(valid, hl)) ? hl : null;
       parsed.link = tool.link(parsed);
-      parsed.src = tool.src(tool.dataset, parsed);
+      parsed.src = tool.src(null, parsed);
       // Cross-tool pointers, validated against the catalog.
       const seeAlso = (out.see_also || [])
         .filter(function (s) { return s && s.id !== tool.id && catalogIds.has(s.id); })

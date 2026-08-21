@@ -60,7 +60,8 @@ scored July 28, 2026).
 
 After ledger edits: `python3 scripts/inject_data.py`, then
 `python3 scripts/check_style.py`, `python3 scripts/check_freshness.py`,
-and `node --check scripts/check_engine.mjs`.
+`node --check scripts/check_engine.mjs`, and
+`node scripts/check_page_payload.mjs`.
 
 Any change to the Florida page or `dl02-answers.json` must set
 `page.revised` to today's date (`Mon D, YYYY`, e.g. `Aug 14, 2026`)

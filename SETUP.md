@@ -30,6 +30,11 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
                                    = one dataset JSON + one entry here
                                    (scope, triggers, coreSlice, modelSlice).
     netlify/functions/catalog.json GENERATED copy of the root catalog
+    netlify/functions/cores.json   GENERATED ask cores (written at inject)
+    netlify/functions/tool-flags.json  GENERATED suite flags (written at inject)
+    netlify/functions/ledgers.js   Lazy ledger loaders for the ask function
+    assets/suite-runtime.js        Shared suite chart, map, table, and find runtime
+    assets/fonts.css               Self-hosted Libre Bodoni and Roboto faces
     netlify/functions/dl03-answers.json  CANONICAL DL-03 (MBTA) ledger
     netlify/functions/dl02-answers.json  CANONICAL DL-02 (Florida) ledger
     netlify/functions/dl01-answers.json  CANONICAL DL-01 (Tax Atlas) ledger
@@ -73,6 +78,7 @@ a web browser. If you prefer the git command line, Step 2 has that path too.
     .github/workflows/             GitHub Actions (DL-03, DL-04, DL-05, suite,
                                    checks, eval; Step 7)
     netlify.toml                   Site, functions, and the build command
+    requirements.txt               openpyxl and xlrd for suite and DL-04 refresh
     SETUP.md                       This file
 
 Single source of truth: the canonical files above are the only ones you edit.

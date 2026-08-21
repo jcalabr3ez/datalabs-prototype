@@ -18,8 +18,9 @@ from check_freshness import RULES, parse_as_of
 from suite_common import ROOT, load_apps
 
 SITE = "https://datalabsai.netlify.app"
-TODAY = date(2026, 8, 20)
-TODAY_LABEL = "August 20, 2026"
+# Frozen so inject_data.py stays byte-stable in CI. Bump with the changelog.
+TODAY = date(2026, 8, 21)
+TODAY_LABEL = "August 21, 2026"
 
 FLAGSHIPS = [
     {
@@ -60,6 +61,18 @@ FLAGSHIPS = [
 ]
 
 CHANGELOG = [
+    {
+        "date": "August 21, 2026",
+        "title": "Shared suite runtime, slimmer pages, and self-hosted fonts",
+        "body": (
+            "Suite pages load one shared chart runtime instead of "
+            "copying the same script onto every page. Embedded trend "
+            "payloads keep a usable recent window; the full series stays "
+            "in the ledger. Libre Bodoni and Roboto are served from "
+            "/assets. The ask function ships precomputed cores so a cold "
+            "start does not parse every ledger."
+        ),
+    },
     {
         "date": "August 20, 2026",
         "title": "Landing drops the public-record credo",
@@ -1196,9 +1209,7 @@ def ops_page(title, description, standfirst, body):
 <meta property="og:description" content="{esc(description)}">
 <meta property="og:url" content="{SITE}/{esc(title.split()[0].lower())}/">
 <meta property="og:image" content="{SITE}/assets/og-image.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Bodoni:ital,wght@0,400..700;1,400..700&family=Roboto:wght@300..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/fonts.css">
 <link rel="stylesheet" href="/assets/datalabs.css">
 <link rel="stylesheet" href="/assets/ops.css">
 </head>

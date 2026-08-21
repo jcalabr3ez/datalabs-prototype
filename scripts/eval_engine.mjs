@@ -26,7 +26,13 @@ if (SITE_URL) {
   console.log("eval mode: live site endpoint " + SITE_URL + "\n");
   const probe = await ask({ question: "ping" });
   if (probe.statusCode === 401) {
-    console.warn("eval skip: live site returned 401 (password gate). PR checks stay green; scheduled eval still runs when the gate is lifted.");
+    const strict = process.env.EVAL_STRICT === "1" || process.env.EVAL_ALLOW_GATE === "0";
+    const msg = "live site returned 401 (password gate)";
+    if (strict) {
+      console.error("eval fail: " + msg);
+      process.exit(1);
+    }
+    console.warn("eval skip: " + msg + ". Set EVAL_STRICT=1 on scheduled runs.");
     process.exit(0);
   }
 } else {

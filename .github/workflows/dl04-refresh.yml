@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install spreadsheet readers
-        run: python3 -m pip install --quiet openpyxl xlrd
+        run: python3 -m pip install --quiet -r requirements.txt
       - name: Refresh electricity ledger from EIA and Census, re-inject pages
         run: python3 scripts/refresh_dl04.py
       - name: Freshness report

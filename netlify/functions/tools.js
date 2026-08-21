@@ -12,7 +12,7 @@
 //   triggers      recall-oriented phrases; a hit ships the full modelSlice.
 //                 Misses still ship coreSlice, so a thin trigger list cannot
 //                 hide a tool. Short tokens (<=2 chars) match as whole words.
-//   dataset       the full ledger (require'd JSON)
+//   dataset       lazy getter over the ledger JSON (not parsed at load)
 //   coreSlice(d)  the always-sent answering core (scope, derived, latest
 //                 figures). Keep this small: at 20 tools every core ships.
 //   modelSlice(d) the full subset the model sees when this tool is a hit
@@ -25,39 +25,14 @@
 //   link(p)       deep link built from the validated answer
 //   src(d, p)     source line built from the ledger and the validated answer
 
-const DL03 = require('./dl03-answers.json');
-const DL02 = require('./dl02-answers.json');
-const DL01 = require('./dl01-answers.json');
-const DL04 = require('./dl04-answers.json');
-const DL05 = require('./dl05-answers.json');
-const DL06 = require('./dl06-answers.json');
-const DL07 = require('./dl07-answers.json');
-const DL08 = require('./dl08-answers.json');
-const DL09 = require('./dl09-answers.json');
-const DL10 = require('./dl10-answers.json');
-const DL11 = require('./dl11-answers.json');
-const DL12 = require('./dl12-answers.json');
-const DL13 = require('./dl13-answers.json');
-const DL14 = require('./dl14-answers.json');
-const DL15 = require('./dl15-answers.json');
-const DL16 = require('./dl16-answers.json');
-const DL17 = require('./dl17-answers.json');
-const DL19 = require('./dl19-answers.json');
-const DL20 = require('./dl20-answers.json');
-const DL21 = require('./dl21-answers.json');
-const DL22 = require('./dl22-answers.json');
-const DL23 = require('./dl23-answers.json');
-const DL24 = require('./dl24-answers.json');
-const DL25 = require('./dl25-answers.json');
-const DL26 = require('./dl26-answers.json');
-const DL27 = require('./dl27-answers.json');
-const DL28 = require('./dl28-answers.json');
-const DL29 = require('./dl29-answers.json');
-const DL30 = require('./dl30-answers.json');
-const DL31 = require('./dl31-answers.json');
-const DL32 = require('./dl32-answers.json');
-const DL33 = require('./dl33-answers.json');
-const DL34 = require('./dl34-answers.json');
+const { loadLedger } = require('./ledgers.js');
+const COMPUTE_CORES = process.env.DATALABS_COMPUTE_CORES === '1';
+var CORES = {};
+var FLAGS = {};
+if (!COMPUTE_CORES) {
+  try { CORES = require('./cores.json'); } catch (e) { CORES = {}; }
+  try { FLAGS = require('./tool-flags.json'); } catch (e) { FLAGS = {}; }
+}
 
 var CORE_HEAVY = {
   trend: 1, rows: 1, district_rows: 1, states: 1, cube: 1,
@@ -282,8 +257,12 @@ function suiteSrc(d) {
   return d.title + ', through ' + (d.data_month_label || d.as_of) + '. ' + (d.vintage_note || '');
 }
 
-function suiteTool(d, spec) {
-  var hasTrend = spec.hasTrend != null ? spec.hasTrend : suiteHasTrend(d);
+function suiteTool(spec) {
+  var id = spec.id;
+  var flags = FLAGS[id] || {};
+  var needLedger = COMPUTE_CORES || !flags.slug;
+  var d = needLedger ? loadLedger(id) : null;
+  var hasTrend = spec.hasTrend != null ? spec.hasTrend : (d ? suiteHasTrend(d) : !!flags.hasTrend);
   var hasTable = spec.hasTable !== false;
   var extraViews = spec.extraViews || [];
   var views = ['latest'];
@@ -291,12 +270,13 @@ function suiteTool(d, spec) {
   if (hasTable) views.push('table');
   extraViews.forEach(function (v) { views.push(v); });
   var charts = views.filter(function (v) { return extraViews.indexOf(v) < 0; });
+  var slug = spec.slug || (d && d.slug) || flags.slug;
+  var scope = d ? ((d.scope || '') + ' ' + (d.exclusions || '')) : (flags.scope || '');
   return {
     id: spec.id,
     label: spec.label,
-    scope: (d.scope || '') + ' ' + (d.exclusions || ''),
+    scope: scope,
     triggers: spec.triggers,
-    dataset: d,
     coreSlice: suiteCore,
     modelSlice: suiteModel,
     charts: charts,
@@ -308,7 +288,7 @@ function suiteTool(d, spec) {
       describe: spec.hl || 'the exact two-letter jurisdiction code (for example MA, CA, TX) if the question focuses on one state, else null'
     },
     rules: suiteRules(spec.id, spec.src, spec.extra, hasTrend, hasTable),
-    link: suiteLink(d.slug, {
+    link: suiteLink(slug, {
       hasTrend: hasTrend,
       hasTable: hasTable,
       extraViews: extraViews,
@@ -319,7 +299,7 @@ function suiteTool(d, spec) {
   };
 }
 
-module.exports = [
+const TOOLS = [
   {
     id: 'DL-03',
     label: 'MBTA Performance: ridership by mode and month, recovery vs 2019, cost per trip, farebox recovery',
@@ -331,7 +311,6 @@ module.exports = [
       'productivity', 'reliability', 'on time', 'ontime', 'punctual', 'headway',
       'pre-pandemic', 'bus rapid', 'silver line', 'ntd', 'transportation'
     ],
-    dataset: DL03,
     coreSlice: function (d) {
       var service = d.service || {};
       var rel = d.reliability || {};
@@ -386,7 +365,6 @@ module.exports = [
       'miami', 'miami-dade', 'dade', 'takeout', 'litigation', 'reinsurance',
       'cat fund', 'risk transfer', 'oir', 'windstorm', 'county premium'
     ],
-    dataset: DL02,
     coreSlice: function (d) {
       return {
         as_of: d.as_of, scope: d.scope, source_id_map: d.source_id_map,
@@ -418,7 +396,6 @@ module.exports = [
       'prop 40', 'initiative', 'jurisdiction', 'california', 'texas', 'watch list',
       'what to watch', 'events should', 'high earner', 'atlas'
     ],
-    dataset: DL01,
     coreSlice: function (d) {
       // Always-sent core: codes and rates for every jurisdiction, plus the
       // derived rankings and the dated watch list. Long notes and proposal
@@ -479,7 +456,6 @@ module.exports = [
       'residential electricity', 'what does a household pay', 'commercial electricity',
       'industrial electricity'
     ],
-    dataset: DL04,
     coreSlice: function (d) {
       return {
         tool_id: d.tool_id, as_of: d.as_of, data_year: d.data_year, scope: d.scope,
@@ -523,7 +499,6 @@ module.exports = [
       'state retirement', 'cthru', 'public pension', 'pension payroll',
       'springfield pension', 'boston teachers'
     ],
-    dataset: DL05,
     coreSlice: function (d) {
       return {
         tool_id: d.tool_id, as_of: d.as_of, scope: d.scope,
@@ -584,7 +559,7 @@ module.exports = [
       return 'PERAC board actuarial valuations through January 1, ' + d.board_valuation_through + ' (SRC-501); PERAC compiled investment returns, calendar ' + d.returns_year + ' (SRC-502); CTHRU State and Teachers Retirement Benefits, calendar years 2011 through ' + d.retiree_year + ' (SRC-503). Name search uses calendar ' + d.search_year + '.';
     }
   },
-  suiteTool(DL06, {
+  suiteTool({
     id: 'DL-06',
     label: 'Massachusetts Schools: Fall public-school enrollment, with per-pupil spending, MCAS, and Chapter 74 as later views',
     src: 'SRC-606-02',
@@ -603,7 +578,7 @@ module.exports = [
     latestId: 'view-trend',
     hasTable: false
   }),
-  suiteTool(DL07, {
+  suiteTool({
     id: 'DL-07',
     label: 'State School Scores: NAEP grade 4 reading by state, with enrollment and finance as later views',
     src: 'SRC-607-05',
@@ -618,7 +593,7 @@ module.exports = [
     extra: 'Graduation rates, out-of-school suspension shares, and expulsion shares sit in derived.secondary. Suspension and expulsion shares by race sit in derived.secondary.discipline_race_2020_21. In-school suspension is not a column on Digest 233.40: decline those. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.',
     hasTrend: false
   }),
-  suiteTool(DL08, {
+  suiteTool({
     id: 'DL-08',
     label: 'College Enrollment: fall enrollment in degree-granting institutions by state',
     src: 'SRC-608-01',
@@ -631,7 +606,7 @@ module.exports = [
     ],
     extra: 'SAT mean scores sit in derived.secondary.sat_2023. Public FTE faculty, staff, and students-per-faculty sit in derived.secondary.public_fte_faculty_fall_2023, public_fte_staff_fall_2023, and students_per_faculty_fall_2023. State 6-year bachelor\'s graduation rates sit in derived.secondary.ipeds_6yr_grad_by_state_2017. SHEF FY 2025 education appropriations sit in derived.secondary.he_education_appropriations_fy2025; state-and-local support in he_state_local_support_fy2025. Tuition, Digest expenditures, IPEDS 2023-24 bachelor\'s degrees, and institution counts sit under derived.secondary with he_ and bachelors_ / degree_granting_ keys. National full-time faculty composition remains in faculty_composition_fall_2023. ACT state means are not in the current Digest xlsx set: decline those.'
   }),
-  suiteTool(DL09, {
+  suiteTool({
     id: 'DL-09',
     label: 'Charter school fall enrollment by state',
     src: 'SRC-609-01',
@@ -640,7 +615,7 @@ module.exports = [
     ],
     extra: 'Teacher FTE counts sit in derived.secondary.teachers_fte_fall_2022. Total staff and instructional aides sit in derived.secondary.k12_staff_fte_fall_2022 and k12_aides_fte_fall_2022.'
   }),
-  suiteTool(DL10, {
+  suiteTool({
     id: 'DL-10',
     label: 'Massachusetts hospitals from CMS Hospital General Information, including overall star ratings',
     src: 'SRC-610-02',
@@ -655,7 +630,7 @@ module.exports = [
     latestId: 'view-proof'
   }),
   (function () {
-    var t = suiteTool(DL11, {
+    var t = suiteTool({
       id: 'DL-11',
       label: '340B participating covered-entity sites, hospital charity-care shares, and contract pharmacies by 2024 state house district',
       src: 'SRC-611-01',
@@ -684,7 +659,7 @@ module.exports = [
     };
     return t;
   }()),
-  suiteTool(DL12, {
+  suiteTool({
     id: 'DL-12',
     label: 'Medicaid Medical Assistance Program net expenditures by state, FY 2024',
     src: 'SRC-612-01',
@@ -694,7 +669,7 @@ module.exports = [
     ],
     extra: 'MFCU recoveries sit in derived.secondary.mfcu_recoveries_fy2025. NASBO health-chapter totals are PDF-only: decline those.'
   }),
-  suiteTool(DL13, {
+  suiteTool({
     id: 'DL-13',
     label: 'Business formation: seasonally adjusted business applications by state',
     src: 'SRC-613-01',
@@ -708,7 +683,7 @@ module.exports = [
     ],
     extra: 'Establishment birth and death rates for every state sit in derived.secondary.bed_births_deaths and derived.windows. U.S. counts there are thousands of establishments; state counts are establishments. Deaths lag three quarters. Trailing 4-quarter and 9-quarter mean ranks through the latest published end sit in derived.windows and derived.secondary.bed_births_deaths.window_9q: use those, do not average unpublished quarters. High-propensity applications and projected 4-quarter formations sit in derived.secondary. Census BDS firm births are not in this ledger.'
   }),
-  suiteTool(DL14, {
+  suiteTool({
     id: 'DL-14',
     label: 'State Unemployment: seasonally adjusted unemployment rate by state',
     src: 'SRC-614-01',
@@ -721,7 +696,7 @@ module.exports = [
     ],
     extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. A named-state question uses by_st[ST] on that snap (for example by_st.WY), or rows when the full slice is present. Do not decline a state that appears in by_st. CPS age-sex-race detail is not posted: decline those.'
   }),
-  suiteTool(DL15, {
+  suiteTool({
     id: 'DL-15',
     label: 'State real GDP, chained 2017 dollars, all industry',
     src: 'SRC-615-01',
@@ -731,7 +706,7 @@ module.exports = [
     ],
     extra: 'Personal income sits in derived.secondary.personal_income_2025. SAGDP2 current-dollar GDP by NAICS sits in derived.secondary.sagdp2_naics_2025.industries. Quarterly real GDP for 2026 Q1 sits in derived.secondary.sqgdp_2026q1. Annual real GDP figures and SQGDP are millions of chained 2017 dollars; SAGDP2 figures are millions of current dollars; say that in prose.'
   }),
-  suiteTool(DL16, {
+  suiteTool({
     id: 'DL-16',
     label: 'Housing units authorized by building permit, year-to-date by state',
     src: 'SRC-616-01',
@@ -742,7 +717,7 @@ module.exports = [
     ],
     extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. The Case-Shiller Boston MSA index sits in derived.secondary.case_shiller_boston (FRED BOXRSA). Boston is the only Massachusetts city in that series. FHFA has no U.S. row in that state file.'
   }),
-  suiteTool(DL17, {
+  suiteTool({
     id: 'DL-17',
     label: 'State population and domestic migration from Census vintage estimates',
     src: 'SRC-617-01',
@@ -754,7 +729,7 @@ module.exports = [
     ],
     extra: 'The ranking is DOMESTICMIG, not total population. Births, deaths, natural change, international migration, and NPOPCHG sit in derived.secondary.births_2025, deaths_2025, natural_change_2025, international_mig_2025, and pop_change_2025. IRS taxpayer migration sits on DL-20. Municipal populations sit on DL-25. USDA rural-urban continuum codes sit in derived.secondary.rucc_2023. Age and race shares sit in derived.secondary.pop_age_65plus_share_2025, pop_age_0_17_share_2025, pop_hispanic_share_2025, and pop_white_nh_share_2025.'
   }),
-  suiteTool(DL19, {
+  suiteTool({
     id: 'DL-19',
     label: 'Regional price parities, all items, United States = 100',
     src: 'SRC-619-01',
@@ -764,7 +739,7 @@ module.exports = [
     ],
     extra: 'Component RPPs (goods, housing, utilities, other services) sit in derived.secondary.rpp_components_2024.components. Tariff, defense, and fiscal-dependency measures are Pioneer products and are pending: decline those. Do not invent a Census substitute. United States is 100 by construction.'
   }),
-  suiteTool(DL20, {
+  suiteTool({
     id: 'DL-20',
     label: 'IRS net domestic taxpayer migration, returns in minus returns out',
     src: 'SRC-620-01',
@@ -776,7 +751,7 @@ module.exports = [
     ],
     extra: 'Census domestic migration sits on DL-17. Massachusetts county nets sit in derived.secondary.ma_county_taxpayer_migration_2022_23. Origin-destination pairs, including Massachusetts to Florida, sit in derived.secondary.state_pair_flows_2022_23. Decline relocation advice.'
   }),
-  suiteTool(DL21, {
+  suiteTool({
     id: 'DL-21',
     label: 'IRS Statistics of Income: adjusted gross income and return counts by state',
     src: 'SRC-621-01',
@@ -787,7 +762,7 @@ module.exports = [
     ],
     extra: 'This is AGI and return counts, not statutory tax rates (those sit on DL-01) and not quarterly state tax collections (DL-28 and DL-29). Massachusetts county AGI sits in derived.secondary.ma_county_agi_2022. Size-of-AGI stubs, including the million-plus AGI share, sit in derived.secondary.agi_stubs_2022. A dedicated AGI-percentile-by-state file is not posted: decline those.'
   }),
-  suiteTool(DL22, {
+  suiteTool({
     id: 'DL-22',
     label: 'U.S. transit agency unlinked passenger trips from FTA NTD, latest month',
     src: 'SRC-622-01',
@@ -800,7 +775,7 @@ module.exports = [
     ],
     extra: 'This is agency-level monthly ridership plus NTD report-year 2024 operating cost and farebox in derived.secondary.ntd_annual_2024. MBTA mode-by-mode reliability stays on DL-03.'
   }),
-  suiteTool(DL23, {
+  suiteTool({
     id: 'DL-23',
     label: 'Annual vehicle-miles of travel by state from FHWA VM-2',
     src: 'SRC-623-01',
@@ -812,7 +787,7 @@ module.exports = [
     ],
     extra: 'OpenFEMA Public Assistance obligations sit in derived.secondary.fema_pa_obligations; National Risk Index scores in nri_mean_county_score; NOAA degree days in noaa_degree_days_2024 when present. Transit agencies sit on DL-03 or DL-22.'
   }),
-  suiteTool(DL24, {
+  suiteTool({
     id: 'DL-24',
     label: 'Energy-related carbon dioxide emissions by state',
     src: 'SRC-624-01',
@@ -824,7 +799,7 @@ module.exports = [
     ],
     extra: 'Retail electricity prices sit on DL-04. SEDS consumption sits in derived.secondary.seds_consumption_2024. SEDS production sits in derived.secondary.seds_production_2024.'
   }),
-  suiteTool(DL25, {
+  suiteTool({
     id: 'DL-25',
     label: 'Massachusetts city and town population, Census subcounty estimates',
     src: 'SRC-625-01',
@@ -838,7 +813,7 @@ module.exports = [
     ],
     extra: 'Population peers sit in derived.secondary.population_peers_2025 (five nearest Census 2025 counts). ACS 2020-2024 income, home value, poverty, education, age, and socioeconomic peers sit in derived.secondary.acs_towns_2024. ACS peers are z-scored income, home value, and bachelor\'s share, not the old Pioneer workbook. A DLS levy file is not a stable public CSV: decline those. Statewide population sits on DL-17. Boston payroll sits on DL-27.'
   }),
-  suiteTool(DL26, {
+  suiteTool({
     id: 'DL-26',
     label: 'Massachusetts municipal population change, 2020 to 2025',
     src: 'SRC-626-01',
@@ -851,7 +826,7 @@ module.exports = [
     ],
     extra: 'DESE district per-pupil education rankings sit in derived.secondary.district_ppe_fy2025. ACS 2020-2024 income, poverty, home-value, and bachelor\'s rankings sit in derived.secondary.acs_rankings_2024. DLS debt, levy, revenue, tax, and municipal crime files are not stable public CSVs: decline those. The headline ranking is 2025 minus 2020 population.'
   }),
-  suiteTool(DL27, {
+  suiteTool({
     id: 'DL-27',
     label: 'City of Boston department earnings, calendar year 2025',
     src: 'SRC-627-01',
@@ -865,7 +840,7 @@ module.exports = [
     ],
     extra: 'The FY26 operating budget sits in derived.secondary.boston_operating_budget_fy26. Named top earners sit in derived.secondary.boston_top_earners_2025; answer those names. The 2015-2025 citywide earnings trend sits in derived.secondary.boston_payroll_trend. Statewide payroll sits on DL-30. Decline a named-employee lookup that is not on the published top list.'
   }),
-  suiteTool(DL28, {
+  suiteTool({
     id: 'DL-28',
     label: 'Massachusetts state tax collections by type, Census QTAX latest quarter',
     src: 'SRC-628-01',
@@ -877,7 +852,7 @@ module.exports = [
     ],
     extra: 'The 51-state ranking sits on DL-29. QTAX type shares sit in derived.secondary.qtax_type_shares_2026q1. Census STC FY 2025 annual collections sit in derived.secondary.stc_ma_2025. DOR monthly reports and tax credits are pending. Statutory rates sit on DL-01.'
   }),
-  suiteTool(DL29, {
+  suiteTool({
     id: 'DL-29',
     label: 'State government tax collections by state, Census QTAX latest quarter',
     src: 'SRC-629-01',
@@ -893,7 +868,7 @@ module.exports = [
     ],
     extra: 'The Massachusetts type-of-tax split sits on DL-28. ASPEP 2023 state FTE employment sits in derived.secondary.aspep_fte_2023. Census STC FY 2025 totals and income-tax shares sit in derived.secondary.stc_2025. State-and-local revenue and expenditure sit in derived.secondary.aslg_revenue_2022 and aslg_expenditure_2022. Government-unit counts sit in derived.secondary.gov_units_2022. Public pension cash and investments sit in derived.secondary.aspp_holdings_2025. NASBO rainy-day funds and party dominance are pending. Massachusetts retirement boards sit on DL-05. Excludes D.C.'
   }),
-  suiteTool(DL30, {
+  suiteTool({
     id: 'DL-30',
     label: 'Massachusetts Commonwealth payroll by department from CTHRU, plus Comptroller spending',
     src: 'SRC-630-01',
@@ -906,7 +881,7 @@ module.exports = [
     ],
     extra: 'Decline named-employee lookups. Named House and Senate pay sits on DL-32. Boston city payroll sits on DL-27. Retiree pensions sit on DL-05. Quasi-public payroll sits in derived.secondary.quasi_payroll_2025. The vendor-only extract sits in derived.secondary.vendor_extract_fy2025. Spending on the headline KPI is the Comptroller all-object-class total.'
   }),
-  suiteTool(DL31, {
+  suiteTool({
     id: 'DL-31',
     label: 'Prisoners under state or federal jurisdiction, year-end count by state',
     src: 'SRC-631-02',
@@ -917,7 +892,7 @@ module.exports = [
     ],
     extra: 'Imprisonment rates, admissions, releases, and youth in adult prisons sit in derived.secondary.bjs_depth_2023. FBI crime rates and IC3 internet-crime reports are pending: decline those. Youth counts are prisoners age 17 or younger in adult prisons, not OJJDP juvenile-justice custody. Municipal crime rankings are pending. This ledger is not a Boston crime rate.'
   }),
-  suiteTool(DL32, {
+  suiteTool({
     id: 'DL-32',
     label: 'Massachusetts legislator pay: named House and Senate salary, supplemental pay, and stipends',
     src: 'SRC-632-01',
@@ -933,7 +908,7 @@ module.exports = [
     ],
     extra: 'Answer named Representative and Senator pay from the rows. Total pay is base plus AA1 (Comptroller supplemental) plus A14 (stipends). Employer-paid GIC health and MSERS pension contributions are not in this file: decline those as unpublished and do not invent them. The office-expense allowance is not a named column here. Calendar 2026 is year-to-date and is not the headline. Decline advice about a member. Statewide department payroll sits on DL-30. Retiree pensions sit on DL-05.'
   }),
-  suiteTool(DL33, {
+  suiteTool({
     id: 'DL-33',
     label: 'Massachusetts family healthcare costs from the CHIA Health Insurance Survey',
     src: 'SRC-633-02',
@@ -950,7 +925,7 @@ module.exports = [
     ],
     extra: 'The namesake cell is the CHIA high out-of-pocket-to-income ratio in latest.v: above 5 percent of income below 200 percent FPL, or above 10 percent at or above 200 percent FPL. Income-group rows are that ratio. Race cuts sit in derived.secondary.high_oop_race. Affordability, unmet need, medical bills, medical debt, the share-of-income distribution, coverage, and high-deductible plans sit under derived.secondary. MHIS does not publish an average dollar out-of-pocket cost: say so and answer with the ratio and the F.1 distribution, never a guessed dollar figure. Hospital relative prices sit on DL-10. 340B sits on DL-11. Medicaid program spend sits on DL-12. Decline plan or provider advice.'
   }),
-  suiteTool(DL34, {
+  suiteTool({
     id: 'DL-34',
     label: 'Boston Public Schools enrollment, gender, per-pupil spending, MCAS, and published bus counts',
     src: 'SRC-634-01',
@@ -967,4 +942,30 @@ module.exports = [
     ],
     extra: 'District enrollment is latest.enrollment. School ranks sit in rows. Gender sits in derived.secondary.bps_gender_2026. Per-pupil spend sits in derived.secondary.bps_finance_fy2025 (total_ppe is all pupils; in_district_ppe is the in-district series). The enrollment series is derived.secondary.bps_enrollment_trend.trend; the total-expenditures-per-pupil series is derived.secondary.bps_finance_fy2025.trend. Boston district Next Generation MCAS grades 3-8 meeting-or-exceeding sits in derived.secondary.bps_mcas_38 (ela and math arrays; ela_2025 and math_2025 are the latest shares). There is no 2020 MCAS point: the test was not administered. Do not invent a 2020 value or an ELA-math average. Those three series are the combined trend: answer a question about enrollment, spending per pupil, and MCAS from those published points, and do not invent a missing year. Daily buses and morning runs sit in derived.secondary.bps_transportation_2025 from the April 2025 report; later memos that say fewer than 625 buses do not publish a new exact count. Statewide MA enrollment and statewide MCAS sit on DL-06. Boston city payroll sits on DL-27. Decline waitlists, lottery outcomes, and charter districts that are not 00350000.'
   })
-];
+].map(attachLazy);
+
+function attachLazy(tool) {
+  Object.defineProperty(tool, 'dataset', {
+    get: function () { return loadLedger(tool.id); },
+    enumerable: true,
+    configurable: true
+  });
+  var origCore = tool.coreSlice;
+  var origModel = tool.modelSlice;
+  var origSrc = tool.src;
+  tool.coreSlice = function (d) {
+    if (!COMPUTE_CORES && CORES[tool.id]) return CORES[tool.id];
+    return origCore.call(tool, d || loadLedger(tool.id));
+  };
+  tool.modelSlice = function (d) {
+    return origModel.call(tool, d || loadLedger(tool.id));
+  };
+  if (typeof origSrc === 'function') {
+    tool.src = function (d, p) {
+      return origSrc.call(tool, d || loadLedger(tool.id), p);
+    };
+  }
+  return tool;
+}
+
+module.exports = TOOLS;

@@ -30,11 +30,12 @@ from suite_common import (
     ledger_path,
     parse_num,
     rank_rows,
+    revised_today,
     usd_prose,
 )
 
 FILE_DATE = date(2026, 8, 15)
-PAGE_REVISED = "Aug 16, 2026"
+PAGE_REVISED = revised_today()
 HCRIS_YEARS = list(range(2011, 2024))
 HOSPITAL_TYPES = {"DSH", "CAH", "RRC", "SCH", "PED", "CAN"}
 CCN_RE = re.compile(r"^([A-Z]+)(\d{6})(?:-\d+)?$")

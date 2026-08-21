@@ -169,7 +169,8 @@ counts. The JSON includes `store: ok` when the blob is reachable, or
 `store: error` with a short reason when it is not. `hook` is `skip`
 when QUESTION_LOG_URL is unset (Power Automate will have no run
 history), a status code when the spreadsheet POST returned, or
-`timeout` when that call did not finish. To read the recent rows
+`timeout` when that call did not finish. The answer returns before
+that write finishes. To read the recent rows
 (the demand evidence for NEW-TOOL-CHECKLIST.md), set a Netlify
 environment variable QUESTION_LOG_KEY and call the function with
 `?key=` or `Authorization: Bearer ...`. Individual questions are not

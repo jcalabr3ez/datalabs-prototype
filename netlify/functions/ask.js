@@ -13,7 +13,9 @@
 // the bigram housing permit. A named Census region also ships those
 // published state rows. Trigger hits always ship. Flagships do not ride
 // along unless the place or topic matches, or the question has no
-// signal. Prompt caching covers the static rules and cores, then the
+// signal. A single trigger hit turns thinking off. Zero or several
+// hits keep adaptive thinking. The answer returns before the question
+// log write. Prompt caching covers the static rules and cores, then the
 // bundled catalog, so a hit pattern never invalidates the cached prefix.
 // The visitor's recent exchanges ride along, and no free-form model
 // text is ever parsed.
@@ -199,12 +201,20 @@ function selectDatasets(question, history) {
   };
 }
 
-// Sonnet 5: adaptive thinking is ON when the thinking param is omitted, and
-// max_tokens caps thinking plus the answer, so the call carries a generous cap
-// and effort medium (comparable to Sonnet 4.6 at high) to keep latency inside
-// the function budget.
+// Sonnet 5: adaptive thinking is ON when the thinking param is omitted.
+// A single trigger hit is a lookup: disable thinking and drop effort so
+// max_tokens only has to cover the JSON answer. Zero hits or several
+// hits keep thinking at medium effort. DATALABS_ASK_THINKING=1 forces
+// thinking on every question.
 const ANSWER_MODEL = 'claude-sonnet-5';
 const ANSWER_EFFORT = 'medium';
+const THINK_TOKENS = 10000;
+const LOOKUP_TOKENS = 4096;
+
+function useThinking(selected) {
+  if (process.env.DATALABS_ASK_THINKING === '1') return true;
+  return !selected || !Array.isArray(selected.hits) || selected.hits.length !== 1;
+}
 
 function catalogForModel(raw) {
   // Bundled catalog only. A live fetch can change bytes and miss the
@@ -273,16 +283,18 @@ const ENGINE_RULES = 'You are the engine behind Pioneer Institute DataLabs\' que
 
 // ---------- model call ----------
 
-async function callModel(model, systemBlocks, messages, schema, maxTokens, effort) {
+async function callModel(model, systemBlocks, messages, schema, maxTokens, effort, thinking) {
   const outputConfig = { format: { type: 'json_schema', schema: schema } };
   if (effort) outputConfig.effort = effort;
-  const body = JSON.stringify({
+  const payload = {
     model: model,
     max_tokens: maxTokens,
     system: systemBlocks,
     messages: messages,
     output_config: outputConfig
-  });
+  };
+  if (thinking) payload.thinking = thinking;
+  const body = JSON.stringify(payload);
   let lastErr = 'model call failed';
   for (let attempt = 0; attempt < 2; attempt++) {
     const apiRes = await fetch('https://api.anthropic.com/v1/messages', {
@@ -334,7 +346,7 @@ function buildMessages(history, question) {
 
 // ---------- handler ----------
 
-exports.handler = async function (event) {
+exports.handler = async function (event, context) {
   const headers = {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': '*',
@@ -383,7 +395,16 @@ exports.handler = async function (event) {
         text: 'CENSUS_REGION (published state rows for the named region; do not invent a regional total):\n' + JSON.stringify(selected.region)
       });
     }
-    const out = await callModel(ANSWER_MODEL, systemBlocks, messages, ENGINE_SCHEMA, 10000, ANSWER_EFFORT);
+    const think = useThinking(selected);
+    const out = await callModel(
+      ANSWER_MODEL,
+      systemBlocks,
+      messages,
+      ENGINE_SCHEMA,
+      think ? THINK_TOKENS : LOOKUP_TOKENS,
+      think ? ANSWER_EFFORT : null,
+      think ? null : { type: 'disabled' }
+    );
 
     const catalogIds = new Set();
     (Array.isArray(catalog) ? catalog : []).forEach(function (t) { if (t && t.id) catalogIds.add(t.id); });
@@ -429,7 +450,8 @@ exports.handler = async function (event) {
 
     // Question log: every question, its outcome, and destination.
     // Declines carry the engine's note; they are the research agenda input.
-    await recordQuestion({
+    // Do not await: the visitor already has the answer.
+    queueQuestion({
       at: new Date().toISOString(),
       q: question,
       type: parsed.type,
@@ -437,18 +459,18 @@ exports.handler = async function (event) {
           : parsed.type === 'route' ? (parsed.matches || []).map(function (m) { return m.id; }).join('|')
           : '',
       note: parsed.type === 'none' ? (parsed.note || '') : ''
-    }, event);
+    }, event, context);
 
     return { statusCode: 200, headers, body: JSON.stringify(parsed) };
   } catch (err) {
     console.error('engine error:', err.message);
-    await recordQuestion({
+    queueQuestion({
       at: new Date().toISOString(),
       q: question,
       type: 'error',
       tool: '',
       note: 'engine unavailable'
-    }, event);
+    }, event, context);
     return { statusCode: 502, headers, body: JSON.stringify({ error: 'engine unavailable' }) };
   }
 };
@@ -456,8 +478,9 @@ exports.handler = async function (event) {
 // Write the row from the Lambda event. getStore() has no environment in
 // this handler style unless connectLambda runs; event.blobs already has
 // the URL and token. The optional spreadsheet webhook still uses
-// QUESTION_LOG_URL (SETUP.md Step 6). Await that POST before returning
-// or the runtime freezes and Power Automate never starts a run.
+// QUESTION_LOG_URL (SETUP.md Step 6). The answer returns first. The
+// write rides waitUntil when the runtime has it, otherwise the pending
+// promise keeps the event loop alive after the handler returns.
 async function postSpreadsheet(logEntry) {
   const url = process.env.QUESTION_LOG_URL;
   if (!url) {
@@ -500,8 +523,18 @@ async function recordQuestion(logEntry, event) {
   }
 }
 
+function queueQuestion(logEntry, event, context) {
+  var work = recordQuestion(logEntry, event).catch(function (e) {
+    console.error('question log failed:', e && e.message);
+  });
+  if (context && typeof context.waitUntil === 'function') {
+    context.waitUntil(work);
+  }
+}
+
 exports.selectDatasets = selectDatasets;
 exports.toolsMatching = toolsMatching;
 exports.matchesTrigger = matchesTrigger;
 exports.questionBlob = questionBlob;
 exports.questionRegion = questionRegion;
+exports.useThinking = useThinking;

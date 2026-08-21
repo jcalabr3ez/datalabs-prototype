@@ -180,6 +180,8 @@ per-tool edits.
   example "taxpayer returns" or "state tax").
 - **decision**: `answer` (cite this ledger), `route` (send them to another
   catalog tool), or `none` (DataLabs does not cover it).
+- **thinking**: off on a single trigger hit. On when there is no hit or
+  more than one. The answer returns before the question log write.
 - The Anthropic key lives only in Netlify as `ANTHROPIC_API_KEY`. It is never
   in the repo. `?ai=0` hides the box.
 

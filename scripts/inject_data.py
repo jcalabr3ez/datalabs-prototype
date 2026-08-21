@@ -536,7 +536,7 @@ def main():
     text = p.read_text(encoding="utf-8")
     data = extract_json_after(text, "const DATA = ", p)
     data["catalog"] = catalog
-    data["answers"] = dl03
+    data.pop("answers", None)
     data.pop("audit", None)
     # Desk-card stats derived from the atlas ledger, so front-door copy
     # cannot drift from the data (the count was once hardcoded).
@@ -546,25 +546,9 @@ def main():
                        .get("Certified for the 2026 ballot", {}).get("count", 0),
         "as_of": dl01["as_of"],
     }
-    dl05d = {
-        "state_funded_pct": dl05["latest"]["state"]["funded_pct"],
-        "mtrs_funded_pct": dl05["latest"]["mtrs"]["funded_pct"],
-        "weighted_funded_pct": dl05["derived"]["weighted_funded_pct"],
-        "retiree_year": dl05["retiree_year"],
-        "search_year": dl05.get("search_year") or dl05["retirees"].get("search_year"),
-        "retiree_amount": dl05["latest"]["retirees"]["annual_amount"],
-        "retiree_amount_fmt": usd_prose(dl05["latest"]["retirees"]["annual_amount"]),
-        "retiree_count": dl05["latest"]["retirees"]["count"],
-        "n_boards": dl05["latest"]["n_boards"],
-        "as_of": dl05["as_of"],
-        "state_trend": [
-            [e["y"], e["v"]] for e in dl05["funded_history"]["state"]
-        ],
-    }
     front_payload = (
         "const DATA = " + jdump(data) + ";\n"
-        + "const DL01D = " + jdump(dl01d) + ";\n"
-        + "const DL05D = " + jdump(dl05d) + ";"
+        + "const DL01D = " + jdump(dl01d) + ";"
     )
     new = replace_block(text, "front-data", front_payload, p)
 

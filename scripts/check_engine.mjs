@@ -123,6 +123,7 @@ const GOLDEN_HITS = [
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context
+const CORE_HEADROOM = 38000; // DL-04 and DL-07 must leave room for the next companion series
 const CORES_PROJECTED_BUDGET = 500000; // 20 * average core, in bytes
 
 let failures = 0;
@@ -147,8 +148,30 @@ for (const t of tools) {
   check(core.length > 200, t.id + " coreSlice is non-empty (" + core.length + " B)");
   check(full.length > 200, t.id + " modelSlice is non-empty (" + full.length + " B)");
   check(core.length <= CORE_BUDGET, t.id + " coreSlice " + core.length + " B is under " + CORE_BUDGET);
+  if (t.id === "DL-04" || t.id === "DL-07") {
+    check(core.length <= CORE_HEADROOM, t.id + " coreSlice " + core.length + " B leaves headroom under " + CORE_HEADROOM);
+  }
   check(core.length <= full.length, t.id + " coreSlice (" + core.length + ") <= modelSlice (" + full.length + ")");
 }
+
+const dl04 = tools.find(function (t) { return t.id === "DL-04"; });
+const dl04Core = dl04.coreSlice(dl04.dataset);
+check(dl04Core.latest_by_st && dl04Core.latest_by_st.HI && dl04Core.latest_by_st.HI.v != null,
+  "DL-04 coreSlice has Hawaii all-sector price in latest_by_st");
+check(dl04Core.residential_by_st && dl04Core.residential_by_st.MA && dl04Core.residential_by_st.MA.v != null,
+  "DL-04 coreSlice has Massachusetts residential price in residential_by_st");
+check(!dl04Core.latest_states && !dl04Core.residential_states,
+  "DL-04 coreSlice dropped the full latest_states and residential_states rows");
+
+const dl07 = tools.find(function (t) { return t.id === "DL-07"; });
+const naepCore = ((((dl07.coreSlice(dl07.dataset).derived || {}).secondary || {}).naep_2024 || {}).series || {}).read4 || {};
+check(naepCore.by_st && naepCore.by_st.WY && naepCore.by_st.WY.v != null,
+  "DL-07 coreSlice has Wyoming NAEP grade 4 reading in by_st");
+check(!naepCore.rows, "DL-07 coreSlice drops naep series.rows");
+const naepChange = (((((dl07.coreSlice(dl07.dataset).derived || {}).secondary || {}).naep_2024 || {}).history || {}).read4 || {}).change_2019_2024 || {};
+check(naepChange.by_st && naepChange.by_st.LA && naepChange.by_st.LA.v != null,
+  "DL-07 coreSlice keeps 2019-to-2024 NAEP change in by_st");
+check(!naepChange.rows, "DL-07 coreSlice drops naep history change rows");
 
 const dl15 = tools.find(function (t) { return t.id === "DL-15"; });
 const pcpiCore = ((((dl15.coreSlice(dl15.dataset).derived || {}).secondary || {}).personal_income_2025 || {}).per_capita || {});
@@ -205,16 +228,83 @@ for (const [q, tool] of GOLDEN_HITS) {
   check(JSON.stringify(selected.cores[tool]) === core, "hit " + tool + " still ships its coreSlice");
 }
 
-const nohit = ask.selectDatasets("What will the weather be in Boston tomorrow?", []);
+const nohit = ask.selectDatasets("What will the weather be tomorrow?", []);
 check(nohit.hits.length === 0, "weather is a no-hit question (hits: " + nohit.hits.join(",") + ")");
 check(Object.keys(nohit.full).length === 0, "no-hit questions ship no DATASETS_FULL upgrades");
 for (const t of tools) {
   const core = JSON.stringify(t.coreSlice(t.dataset));
-  check(JSON.stringify(nohit.cores[t.id]) === core, t.id + " ships coreSlice on a no-hit question");
+  check(JSON.stringify(nohit.cores[t.id]) === core, t.id + " ships coreSlice on a no-signal no-hit question");
 }
+
+const bostonWeather = ask.selectDatasets("What will the weather be in Boston tomorrow?", []);
+check(bostonWeather.hits.length === 0, "Boston weather is a no-hit question");
+check(!!bostonWeather.cores["DL-01"] && !!bostonWeather.cores["DL-05"],
+  "Boston weather still ships the flagship cores");
+
+const maSchools = ask.selectDatasets("How many students are enrolled in Massachusetts public schools?", []);
+check(maSchools.hits.includes("DL-06"), "MA schools question hits DL-06");
+check(!!maSchools.cores["DL-06"], "MA schools question keeps the DL-06 core");
+check(!!maSchools.cores["DL-01"], "MA schools question keeps flagship DL-01");
+check(!maSchools.cores["DL-14"], "MA schools question drops the unemployment core");
+check(!maSchools.cores["DL-31"], "MA schools question drops the imprisonment core");
+
+const wyLfpr = ask.selectDatasets("What is the labor force participation rate in WY?", []);
+check(wyLfpr.hits.includes("DL-14"), "WY LFPR hits DL-14");
+check(!!wyLfpr.cores["DL-14"], "WY LFPR keeps the DL-14 core");
+check(!wyLfpr.cores["DL-06"], "WY LFPR drops the Massachusetts schools core");
+check(!wyLfpr.cores["DL-25"], "WY LFPR drops the town-profile core");
+check(!wyLfpr.cores["DL-34"], "WY LFPR drops the Boston schools core");
+
+const dl01CoreObj = tools.find(function (t) { return t.id === "DL-01"; }).coreSlice(
+  tools.find(function (t) { return t.id === "DL-01"; }).dataset
+);
+check(!(dl01CoreObj.events && dl01CoreObj.events.phases),
+  "DL-01 coreSlice drops the full events.phases watch list");
+check(dl01CoreObj.events && dl01CoreObj.events.n > 0,
+  "DL-01 coreSlice keeps an events count");
+
+const dl05CoreObj = tools.find(function (t) { return t.id === "DL-05"; }).coreSlice(
+  tools.find(function (t) { return t.id === "DL-05"; }).dataset
+);
+check(!dl05CoreObj.boards, "DL-05 coreSlice drops the 105-board table");
+check(dl05CoreObj.latest && dl05CoreObj.latest.mtrs, "DL-05 coreSlice keeps Teachers latest");
+
+const dl08CoreObj = tools.find(function (t) { return t.id === "DL-08"; }).coreSlice(
+  tools.find(function (t) { return t.id === "DL-08"; }).dataset
+);
+check(!(dl08CoreObj.derived && dl08CoreObj.derived.secondary && Object.keys(dl08CoreObj.derived.secondary).length),
+  "DL-08 coreSlice drops companion secondary series");
+
+["DL-01", "DL-05", "DL-08", "DL-14", "DL-17"].forEach(function (id) {
+  const t = tools.find(function (x) { return x.id === id; });
+  const n = JSON.stringify(t.coreSlice(t.dataset)).length;
+  check(n <= 22000, id + " coreSlice " + n + " B is under 22000 after slimming");
+});
 
 check(!ask.matchesTrigger("stable", "t"), "single-letter trigger would be whole-word only");
 check(ask.matchesTrigger("is the t back", "the t"), "'the t' matches the ridership golden");
+
+const BARE_COLLISIONS = [
+  ["Insurance costs in Texas", "DL-02"],
+  ["What does auto insurance cost in Texas?", "DL-02"],
+  ["taxpayers leaving Massachusetts", "DL-01"],
+  ["Where did Massachusetts taxpayers move, and how many went to Florida?", "DL-01"],
+  ["Where did Massachusetts taxpayers move, and how many went to Florida?", "DL-02"],
+  ["How many UI initial claims did Massachusetts file last week?", "DL-02"],
+  ["What is the unemployment insurance claims count in Massachusetts?", "DL-02"],
+  ["What is Boston median household income?", "DL-04"],
+];
+for (const [q, tool] of BARE_COLLISIONS) {
+  const hits = ask.toolsMatching(q).map(function (t) { return t.id; });
+  check(!hits.includes(tool), "bare token does not upgrade " + tool + " for: " + q + "  (hits: " + hits.join(",") + ")");
+}
+
+const dl01 = tools.find(function (t) { return t.id === "DL-01"; });
+const dl02 = tools.find(function (t) { return t.id === "DL-02"; });
+["tax", "florida", "insurance"].forEach(function (token) {
+  check(!(dl01.triggers || []).includes(token), "DL-01 dropped bare trigger " + token);
+  check(!(dl02.triggers || []).includes(token), "DL-02 dropped bare trigger " + token);
+});
 
 const catalog = require("../catalog.json");
 function catalogAiIds(node, ids) {

@@ -337,6 +337,32 @@ if "Every figure compiled here traces to a public record." in front:
     fail("landing still prints the public-record credo")
 else:
     ok("landing dropped the public-record credo")
+if '"answers":' in front and "monthly_total_upt" in front:
+    fail("landing still embeds the unused MBTA ledger")
+else:
+    ok("landing dropped the unused MBTA ledger")
+if 'src="/assets/ask-widget.js"' not in front:
+    fail("landing Ask is not the shared ask-widget client")
+else:
+    ok("landing Ask uses the shared ask-widget client")
+if "async function ask()" in front:
+    fail("landing still has its own ask() client")
+else:
+    ok("landing no longer duplicates ask()")
+for rel in (
+    "florida-insurance/index.html",
+    "mbta/index.html",
+    "electricity/index.html",
+    "pensions/index.html",
+):
+    page = (ROOT / rel).read_text(encoding="utf-8")
+    head = page.split("</head>", 1)[0]
+    if "chart.umd.min.js" in head:
+        fail(f"{rel} still loads Chart.js in the head")
+    elif 'src="/assets/chart.umd.min.js"' not in page:
+        fail(f"{rel} lost Chart.js")
+    else:
+        ok(f"{rel} loads Chart.js after first paint")
 atlas_events = json.loads((ROOT / "netlify/functions/dl01-answers.json").read_text(encoding="utf-8"))
 ev_text = " ".join(
     e.get("detail") or ""

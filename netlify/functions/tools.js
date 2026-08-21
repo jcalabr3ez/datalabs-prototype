@@ -11,10 +11,13 @@
 //                 be answered from this dataset)
 //   triggers      recall-oriented phrases; a hit ships the full modelSlice.
 //                 Misses still ship coreSlice, so a thin trigger list cannot
-//                 hide a tool. Short tokens (<=2 chars) match as whole words.
+//                 hide a tool. Do not use bare tokens such as tax, florida,
+//                 or insurance: those upgrade the wrong ledger. Short tokens
+//                 (<=2 chars) match as whole words.
 //   dataset       lazy getter over the ledger JSON (not parsed at load)
-//   coreSlice(d)  the always-sent answering core (scope, derived, latest
-//                 figures). Keep this small: at 20 tools every core ships.
+//   coreSlice(d)  the answering core (scope, derived, latest figures).
+//                 Keep this small. Place and vertical filters drop cores
+//                 that cannot apply; flagships and hits still ship.
 //   modelSlice(d) the full subset the model sees when this tool is a hit
 //   charts        pre-built chart kinds the model may SELECT, or null
 //   views         page views the model may SELECT, or null
@@ -51,6 +54,13 @@ var MODEL_HEAVY = {
 };
 var MODEL_ROW_CAP = 60;
 
+function isSlimmable(v) {
+  return !!(v && typeof v === 'object' && !Array.isArray(v) && (
+    v.n_ranked || v.ma || v.highest || v.lfpr || v.rows ||
+    v.series || v.history || v.change_2019_2024 || v.change_2022_2024
+  ));
+}
+
 function slimSnap(snap) {
   if (!snap || typeof snap !== 'object' || Array.isArray(snap)) return snap;
   var out = {};
@@ -65,10 +75,20 @@ function slimSnap(snap) {
     if (Object.keys(by).length) out.by_st = by;
   }
   Object.keys(snap).forEach(function (k) {
-    if (CORE_HEAVY[k]) return;
     var v = snap[k];
-    if (v && typeof v === 'object' && !Array.isArray(v) && (v.n_ranked || v.ma || v.highest || v.lfpr)) {
+    // `series` is heavy when it is a long time axis. NAEP keeps named
+    // 2024 snaps under that key; slim those instead of dropping them.
+    if (CORE_HEAVY[k]) {
+      if (k === 'series' && v && typeof v === 'object' && !Array.isArray(v)) {
+        out[k] = slimSnap(v);
+      }
+      return;
+    }
+    if (isSlimmable(v)) {
       out[k] = slimSnap(v);
+    } else if (v && typeof v === 'object' && !Array.isArray(v)) {
+      var nested = Object.keys(v).some(function (ck) { return isSlimmable(v[ck]); });
+      out[k] = nested ? slimSnap(v) : v;
     } else {
       out[k] = v;
     }
@@ -299,6 +319,32 @@ function suiteTool(spec) {
   };
 }
 
+// Namesake cores drop companion series that only matter on a trigger
+// hit. keep lists the secondary keys that still answer from the core
+// (for example LFPR by_st). Windows stay in modelSlice.
+function namesakeCore(t, opts) {
+  var inner = t.coreSlice;
+  t.coreSlice = function (d) {
+    var c = inner.call(this, d);
+    if (!c.derived) return c;
+    var der = Object.assign({}, c.derived);
+    if (!opts || opts.dropWindows !== false) delete der.windows;
+    var sec = der.secondary || {};
+    if (opts && opts.keep && opts.keep.length) {
+      var out = {};
+      opts.keep.forEach(function (k) {
+        if (sec[k]) out[k] = opts.pick && opts.pick[k] ? opts.pick[k](sec[k]) : sec[k];
+      });
+      der.secondary = out;
+    } else {
+      delete der.secondary;
+    }
+    c.derived = der;
+    return c;
+  };
+  return t;
+}
+
 const TOOLS = [
   {
     id: 'DL-03',
@@ -361,9 +407,12 @@ const TOOLS = [
     label: 'Florida Homeowners Insurance: homeowners premiums by county, Citizens series, litigation, takeouts, risk transfer',
     scope: 'Covers Florida homeowners insurance: county average premiums, Citizens Property Insurance policy counts and finances, litigation shares, the takeout program, and risk transfer. Does NOT cover: advice on buying, dropping, or switching coverage; predictions of future rates or hurricanes; individual premium quotes; claims or legal guidance; insurer solvency opinions; other insurance lines; other states.',
     triggers: [
-      'florida', 'homeowners', 'homeowner', 'insurance', 'premium', 'citizens',
-      'miami', 'miami-dade', 'dade', 'takeout', 'litigation', 'reinsurance',
-      'cat fund', 'risk transfer', 'oir', 'windstorm', 'county premium'
+      'homeowners', 'homeowner', 'florida insurance', 'florida homeowners',
+      'homeowners insurance', 'homeowner insurance', 'property insurance',
+      'citizens property', 'citizens policies', 'policies in force',
+      'premium', 'citizens', 'miami', 'miami-dade', 'dade', 'takeout',
+      'litigation', 'reinsurance', 'cat fund', 'risk transfer', 'windstorm',
+      'county premium', 'my safe florida', 'floir'
     ],
     coreSlice: function (d) {
       return {
@@ -392,9 +441,11 @@ const TOOLS = [
     label: 'State Wealth Taxes: every jurisdiction’s wealth-tax, surtax, and intangibles provisions, ballot pathways, and risk tier',
     scope: 'Covers all 51 US jurisdictions: enacted top income tax rates and surtaxes (a single state’s current top income tax rate answers here, for example what is California’s top income tax rate), slated changes already in law, active wealth-tax and high-income surtax proposals, citizen-initiative ballot pathways, Pioneer’s Short-Term Risk tier, and a dated watch list of upcoming events (hearings, rulings, deadlines, elections) through 2028, so what-to-watch and upcoming-dates questions route here. Does NOT cover: personal tax or legal advice; whether to move or relocate; predicting how a ballot measure, election, or court case will turn out; calculating an individual’s tax; sales, property, corporate, or estate taxes except where a record already notes them; other countries or years outside the dataset.',
     triggers: [
-      'tax', 'surtax', 'wealth', 'income tax', 'top rate', 'ballot', 'proposition',
-      'prop 40', 'initiative', 'jurisdiction', 'california', 'texas', 'watch list',
-      'what to watch', 'events should', 'high earner', 'atlas'
+      'surtax', 'wealth tax', 'wealth-tax', 'wealth', 'income tax', 'income-tax',
+      'top rate', 'tax rate', 'avoid taxes', 'ballot', 'proposition',
+      'prop 40', 'initiative', 'tax atlas', 'watch list', 'what to watch',
+      'events should', 'high earner', 'high-earner', 'near-term risk',
+      'short-term risk', 'atlas'
     ],
     coreSlice: function (d) {
       // Always-sent core: codes and rates for every jurisdiction, plus the
@@ -412,7 +463,11 @@ const TOOLS = [
       return {
         tool_id: d.tool_id, title: d.title, as_of: d.as_of, horizon: d.horizon,
         scope: d.scope, views: d.views, meta: d.meta, derived: d.derived,
-        events: d.events, states: states
+        events: d.events ? {
+          as_of: d.events.as_of,
+          n: (d.events.phases || []).length
+        } : undefined,
+        states: states
       };
     },
     modelSlice: function (d) {
@@ -452,18 +507,29 @@ const TOOLS = [
       'electricity', 'electric', 'kilowatthour', 'kwh', 'cents per', 'retail price',
       'electricity price', 'electricity cost', 'power price', 'utility rate',
       'eia-861', 'form eia', 'all-sector', 'hawaii electricity',
-      'massachusetts electricity', 'state electricity', 'household',
+      'massachusetts electricity', 'state electricity', 'household electricity',
       'residential electricity', 'what does a household pay', 'commercial electricity',
       'industrial electricity'
     ],
     coreSlice: function (d) {
+      var latestBy = {};
+      (d.latest_states || []).forEach(function (r) {
+        if (r && r.st) latestBy[r.st] = { v: r.price_cents, rank: r.rank, name: r.name };
+      });
+      var resBy = {};
+      (d.residential_states || []).forEach(function (r) {
+        if (r && r.st) resBy[r.st] = { v: r.price_cents, rank: r.rank, name: r.name };
+      });
+      var src = {};
+      Object.keys(d.source_id_map || {}).forEach(function (k) {
+        var s = d.source_id_map[k] || {};
+        src[k] = { name: s.name, cadence: s.cadence };
+      });
       return {
         tool_id: d.tool_id, as_of: d.as_of, data_year: d.data_year, scope: d.scope,
-        vintage_note: d.vintage_note, source_id_map: d.source_id_map,
-        entities: d.entities, latest: d.latest, latest_states: d.latest_states,
-        derived: d.derived,
-        residential_states: d.residential_states,
-        residential_trend: d.residential_trend,
+        vintage_note: d.vintage_note, source_ids: src,
+        latest: d.latest, latest_by_st: latestBy, residential_by_st: resBy,
+        derived: slimDerived(d.derived),
         price_trend_us: d.price_trend.US,
         price_trend_ma: d.price_trend.MA
       };
@@ -477,7 +543,7 @@ const TOOLS = [
     views: ['prices', 'trends', 'supply', 'table', 'households'],
     viewDefault: 'prices',
     highlight: { key: 'entities', uppercase: true, describe: 'the exact two-letter jurisdiction code (for example MA, HI, ND, US) if the question focuses on one state, else null' },
-    rules: 'DL-04 rules. Every figure cites its source in parentheses: prices and sales cite (SRC-401); generation cites (SRC-403); capacity cites (SRC-404); population and per-capita figures cite (SRC-402) or (derived, SRC-401, SRC-402). Ranks and year-over-year changes cite (derived, SRC-401). Prefer the precomputed values in latest, latest_states, derived.sectors, residential_states, and latest.residential over your own arithmetic. The U.S. all-sector average is latest.us.price_cents, EIA\'s U.S. Total row; never average the 50 state prices. An unscoped household question uses latest.residential.us.price_cents, not Massachusetts. Household questions use latest.residential and residential_states (price_cents on each row). Commercial and industrial averages sit in derived.sectors. A residential price is still not a household bill. Chart selection: res_rank = household or residential prices; price_rank = all-sector comparison; price_trend = change over time or since 2012; sales_rank = how much electricity was sold; gen_rank = how much was generated; none = no view fits. When the question names a state, set highlight to that state code. View selection: households for residential prices; prices for the all-sector ranking; trends for the 2012-forward series; supply for sales or generation; table for the full latest-year table. Decline forecasts, utility-specific rates, and bill advice.',
+    rules: 'DL-04 rules. Every figure cites its source in parentheses: prices and sales cite (SRC-401); generation cites (SRC-403); capacity cites (SRC-404); population and per-capita figures cite (SRC-402) or (derived, SRC-401, SRC-402). Ranks and year-over-year changes cite (derived, SRC-401). Prefer the precomputed values in latest, latest_by_st, derived.sectors, residential_by_st, and latest.residential over your own arithmetic. When DATASETS_FULL is present, latest_states and residential_states are the same ranks as rows. The U.S. all-sector average is latest.us.price_cents, EIA\'s U.S. Total row; never average the 50 state prices. An unscoped household question uses latest.residential.us.price_cents, not Massachusetts. Household questions use latest.residential and residential_by_st (v is price_cents). Commercial and industrial averages sit in derived.sectors. A residential price is still not a household bill. Chart selection: res_rank = household or residential prices; price_rank = all-sector comparison; price_trend = change over time or since 2012; sales_rank = how much electricity was sold; gen_rank = how much was generated; none = no view fits. When the question names a state, set highlight to that state code. View selection: households for residential prices; prices for the all-sector ranking; trends for the 2012-forward series; supply for sales or generation; table for the full latest-year table. Decline forecasts, utility-specific rates, and bill advice.',
     link: function (p) {
       var chart = p.chart && p.chart !== 'none' ? p.chart : (p.view && p.view !== 'prices' ? p.view : 'price_rank');
       if (chart === 'res_rank' || p.view === 'households') chart = 'households';
@@ -507,24 +573,8 @@ const TOOLS = [
         returns_year: d.returns_year, retiree_year: d.retiree_year,
         search_year: d.search_year,
         latest: d.latest, derived: d.derived, entities: d.entities,
-        boards: d.boards.map(function (b) {
-          return {
-            id: b.id, name: b.name, valuation_year: b.valuation_year,
-            funded_pct: b.funded_pct, ual: b.ual, rank: b.rank,
-            return_1y_pct: b.return_1y_pct, return_10y_pct: b.return_10y_pct,
-            active: b.active, retired: b.retired
-          };
-        }),
         retirees: {
           latest: d.retirees.latest,
-          yearly: d.retirees.yearly.map(function (y) {
-            return {
-              year: y.year, count: y.count, annual_amount: y.annual_amount,
-              msers_count: y.msers.count, mtrs_count: y.mtrs.count,
-              msers_amount: y.msers.annual_amount, mtrs_amount: y.mtrs.annual_amount
-            };
-          }),
-          top_pensions: d.retirees.top_pensions,
           search: d.retirees.search ? {
             year: d.retirees.search.year,
             count: d.retirees.search.count,
@@ -578,22 +628,50 @@ const TOOLS = [
     latestId: 'view-trend',
     hasTable: false
   }),
-  suiteTool({
-    id: 'DL-07',
-    label: 'State School Scores: NAEP grade 4 reading by state, with enrollment and finance as later views',
-    src: 'SRC-607-05',
-    triggers: [
-      'k-12 enrollment', 'k12 enrollment', 'public school enrollment',
-      'public k-12', 'national k-12', 'fall 2023 enrollment',
-      'fall 2024 enrollment',
-      'elementary and secondary enrollment', 'naep', 'nations report card',
-      'expulsion', 'expelled', 'out-of-school suspension',
-      'suspension by race', 'improved on naep', 'naep grade'
-    ],
-    extra: 'Graduation rates, out-of-school suspension shares, and expulsion shares sit in derived.secondary. Suspension and expulsion shares by race sit in derived.secondary.discipline_race_2020_21. In-school suspension is not a column on Digest 233.40: decline those. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024.',
-    hasTrend: false
-  }),
-  suiteTool({
+  (function () {
+    var t = suiteTool({
+      id: 'DL-07',
+      label: 'State School Scores: NAEP grade 4 reading by state, with enrollment and finance as later views',
+      src: 'SRC-607-05',
+      triggers: [
+        'k-12 enrollment', 'k12 enrollment', 'public school enrollment',
+        'public k-12', 'national k-12', 'fall 2023 enrollment',
+        'fall 2024 enrollment',
+        'elementary and secondary enrollment', 'naep', 'nations report card',
+        'expulsion', 'expelled', 'out-of-school suspension',
+        'suspension by race', 'improved on naep', 'naep grade'
+      ],
+      extra: 'Graduation rates, out-of-school suspension shares, and expulsion shares sit in derived.secondary. Suspension and expulsion shares by race sit in derived.secondary.discipline_race_2020_21. In-school suspension is not a column on Digest 233.40: decline those. NAEP state reading and math scores sit in derived.secondary.naep_2024.series (2024 snapshots: read4, read8, math4, math8). The all-year national-public and Massachusetts series, plus every-state 2019-to-2024 change, sit in derived.secondary.naep_2024.history. 2022-to-2024 change is the same history object without per-state rows. NPEFS FY 2024 current expenditures per pupil sit in derived.secondary.npefs_ppe_fy2024. The always-sent core keeps grade 4 reading and NPEFS; a NAEP hit upgrades to the other subjects.',
+      hasTrend: false
+    });
+    var orig = t.coreSlice;
+    t.coreSlice = function (d) {
+      var c = orig.call(t, d);
+      if (!c.derived || !c.derived.secondary) return c;
+      var sec = {};
+      var keep = { npefs_ppe_fy2024: 1, naep_2024: 1 };
+      Object.keys(c.derived.secondary).forEach(function (k) {
+        if (keep[k]) sec[k] = c.derived.secondary[k];
+      });
+      if (sec.naep_2024) {
+        var naep = {};
+        Object.keys(sec.naep_2024).forEach(function (k) {
+          if (k !== 'series' && k !== 'history') naep[k] = sec.naep_2024[k];
+        });
+        if (sec.naep_2024.series && sec.naep_2024.series.read4) {
+          naep.series = { read4: sec.naep_2024.series.read4 };
+        }
+        if (sec.naep_2024.history && sec.naep_2024.history.read4) {
+          naep.history = { read4: sec.naep_2024.history.read4 };
+        }
+        sec.naep_2024 = naep;
+      }
+      c.derived = Object.assign({}, c.derived, { secondary: sec });
+      return c;
+    };
+    return t;
+  }()),
+  namesakeCore(suiteTool({
     id: 'DL-08',
     label: 'College Enrollment: fall enrollment in degree-granting institutions by state',
     src: 'SRC-608-01',
@@ -605,7 +683,7 @@ const TOOLS = [
       'in-state tuition', 'higher-education finance', 'college graduation'
     ],
     extra: 'SAT mean scores sit in derived.secondary.sat_2023. Public FTE faculty, staff, and students-per-faculty sit in derived.secondary.public_fte_faculty_fall_2023, public_fte_staff_fall_2023, and students_per_faculty_fall_2023. State 6-year bachelor\'s graduation rates sit in derived.secondary.ipeds_6yr_grad_by_state_2017. SHEF FY 2025 education appropriations sit in derived.secondary.he_education_appropriations_fy2025; state-and-local support in he_state_local_support_fy2025. Tuition, Digest expenditures, IPEDS 2023-24 bachelor\'s degrees, and institution counts sit under derived.secondary with he_ and bachelors_ / degree_granting_ keys. National full-time faculty composition remains in faculty_composition_fall_2023. ACT state means are not in the current Digest xlsx set: decline those.'
-  }),
+  })),
   suiteTool({
     id: 'DL-09',
     label: 'Charter school fall enrollment by state',
@@ -683,7 +761,7 @@ const TOOLS = [
     ],
     extra: 'Establishment birth and death rates for every state sit in derived.secondary.bed_births_deaths and derived.windows. U.S. counts there are thousands of establishments; state counts are establishments. Deaths lag three quarters. Trailing 4-quarter and 9-quarter mean ranks through the latest published end sit in derived.windows and derived.secondary.bed_births_deaths.window_9q: use those, do not average unpublished quarters. High-propensity applications and projected 4-quarter formations sit in derived.secondary. Census BDS firm births are not in this ledger.'
   }),
-  suiteTool({
+  namesakeCore(suiteTool({
     id: 'DL-14',
     label: 'State Unemployment: seasonally adjusted unemployment rate by state',
     src: 'SRC-614-01',
@@ -695,6 +773,17 @@ const TOOLS = [
       'employment-population', 'epop'
     ],
     extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. A named-state question uses by_st[ST] on that snap (for example by_st.WY), or rows when the full slice is present. Do not decline a state that appears in by_st. CPS age-sex-race detail is not posted: decline those.'
+  }), {
+    keep: ['laus_labor_2026'],
+    pick: {
+      laus_labor_2026: function (s) {
+        var lfpr = s.lfpr || {};
+        return {
+          label: s.label, src: s.src, as_of_label: s.as_of_label,
+          lfpr: { by_st: lfpr.by_st, us: lfpr.us, ma: lfpr.ma, fl: lfpr.fl }
+        };
+      }
+    }
   }),
   suiteTool({
     id: 'DL-15',
@@ -717,7 +806,7 @@ const TOOLS = [
     ],
     extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. The Case-Shiller Boston MSA index sits in derived.secondary.case_shiller_boston (FRED BOXRSA). Boston is the only Massachusetts city in that series. FHFA has no U.S. row in that state file.'
   }),
-  suiteTool({
+  namesakeCore(suiteTool({
     id: 'DL-17',
     label: 'State population and domestic migration from Census vintage estimates',
     src: 'SRC-617-01',
@@ -728,7 +817,7 @@ const TOOLS = [
       'international migration', 'population change', 'age 65', 'hispanic share'
     ],
     extra: 'The ranking is DOMESTICMIG, not total population. Births, deaths, natural change, international migration, and NPOPCHG sit in derived.secondary.births_2025, deaths_2025, natural_change_2025, international_mig_2025, and pop_change_2025. IRS taxpayer migration sits on DL-20. Municipal populations sit on DL-25. USDA rural-urban continuum codes sit in derived.secondary.rucc_2023. Age and race shares sit in derived.secondary.pop_age_65plus_share_2025, pop_age_0_17_share_2025, pop_hispanic_share_2025, and pop_white_nh_share_2025.'
-  }),
+  })),
   suiteTool({
     id: 'DL-19',
     label: 'Regional price parities, all items, United States = 100',

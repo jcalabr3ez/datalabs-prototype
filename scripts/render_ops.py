@@ -63,6 +63,32 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
+        "title": "Ask ships fewer cores and the landing page got lighter",
+        "body": (
+            "A question that names a place or a topic now drops Ask "
+            "cores that cannot apply. The five flagships and every "
+            "trigger hit still ship. Wealth-tax, pension, college, "
+            "unemployment, and migration cores lost companion tables "
+            "that only matter on a hit. The front door no longer "
+            "embeds the unused MBTA ledger, uses the same Ask client "
+            "as the tool pages, and the flagship chart library loads "
+            "after the page HTML."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
+        "title": "Ask no longer upgrades on bare tax, Florida, or insurance",
+        "body": (
+            "A question that only says tax, Florida, or insurance no "
+            "longer ships the full wealth-tax or homeowners ledger. "
+            "Those words now have to sit in a phrase the page actually "
+            "covers. Retail electricity and state school-score cores "
+            "drop repeated state rows so the next companion series has "
+            "room under the 50 KB cap."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
         "title": "Shared suite runtime, slimmer pages, and self-hosted fonts",
         "body": (
             "Suite pages load one shared chart runtime instead of "

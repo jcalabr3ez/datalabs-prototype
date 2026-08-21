@@ -28,6 +28,34 @@
 
   var HISTORY = [];
   var inflight = false;
+  var LOAD_STEPS = [
+    { at: 0, line: "Matching your question to the catalog" },
+    { at: 1400, line: "Reading the published ledgers that apply" },
+    { at: 3800, line: "Checking whether those figures answer it" },
+    { at: 10000, line: "Still checking. A harder match can take longer" }
+  ];
+
+  function startLoad(el) {
+    var timers = [];
+    var stopped = false;
+    function paint(i) {
+      if (stopped || !el) return;
+      var step = LOAD_STEPS[i];
+      el.innerHTML =
+        '<div class="load"><span class="load-k">' + esc(step.line) + "\u2026</span>" +
+        (i > 0 ? '<div class="slow">Only figures from this catalog</div>' : "") +
+        "</div>";
+    }
+    paint(0);
+    LOAD_STEPS.forEach(function (step, i) {
+      if (!step.at) return;
+      timers.push(setTimeout(function () { paint(i); }, step.at));
+    });
+    return function stopLoad() {
+      stopped = true;
+      timers.forEach(clearTimeout);
+    };
+  }
 
   function bootTool() {
     var root = document.getElementById("ask-starters");
@@ -50,7 +78,7 @@
       inflight = true;
       btn.disabled = true;
       resp.hidden = false;
-      resp.innerHTML = '<div class="load">Looking up\u2026</div>';
+      var stopLoad = startLoad(resp);
       var ctl = new AbortController();
       var timer = setTimeout(function () { ctl.abort(); }, 35000);
       try {
@@ -109,6 +137,7 @@
       } catch (err) {
         resp.innerHTML = '<div class="noans"><b>Something went wrong.</b> Try again in a moment.</div>';
       } finally {
+        stopLoad();
         clearTimeout(timer);
         btn.disabled = false;
         inflight = false;
@@ -148,7 +177,7 @@
       if (!q) return;
       btn.disabled = true;
       inflight = true;
-      resp.innerHTML = '<div class="load">Looking up&#8230;</div>';
+      var stopLoad = startLoad(resp);
       var ctl = new AbortController();
       var timer = setTimeout(function () { ctl.abort(); }, 35000);
       try {
@@ -221,6 +250,7 @@
       } catch (err) {
         resp.innerHTML = '<div class="noans">' + DISMISS + "<b>Try again in a moment.</b> Every tool in the catalog still works.</div>";
       } finally {
+        stopLoad();
         clearTimeout(timer);
         btn.disabled = false;
         inflight = false;

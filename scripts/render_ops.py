@@ -63,6 +63,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
+        "title": "Ask names the steps while it works",
+        "body": (
+            "While a question is in flight, Ask no longer says Looking "
+            "up. It names matching the catalog, reading the published "
+            "ledgers that apply, and checking whether those figures "
+            "answer the question. After a few seconds it adds that "
+            "only figures from this catalog are used."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
         "title": "Catalog sits under Ask",
         "body": (
             "The four Pioneer topics now sit on the first screen under "

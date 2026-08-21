@@ -15,8 +15,9 @@
 //                 or insurance: those upgrade the wrong ledger. Short tokens
 //                 (<=2 chars) match as whole words.
 //   dataset       lazy getter over the ledger JSON (not parsed at load)
-//   coreSlice(d)  the always-sent answering core (scope, derived, latest
-//                 figures). Keep this small: at 20 tools every core ships.
+//   coreSlice(d)  the answering core (scope, derived, latest figures).
+//                 Keep this small. Place and vertical filters drop cores
+//                 that cannot apply; flagships and hits still ship.
 //   modelSlice(d) the full subset the model sees when this tool is a hit
 //   charts        pre-built chart kinds the model may SELECT, or null
 //   views         page views the model may SELECT, or null
@@ -318,6 +319,32 @@ function suiteTool(spec) {
   };
 }
 
+// Namesake cores drop companion series that only matter on a trigger
+// hit. keep lists the secondary keys that still answer from the core
+// (for example LFPR by_st). Windows stay in modelSlice.
+function namesakeCore(t, opts) {
+  var inner = t.coreSlice;
+  t.coreSlice = function (d) {
+    var c = inner.call(this, d);
+    if (!c.derived) return c;
+    var der = Object.assign({}, c.derived);
+    if (!opts || opts.dropWindows !== false) delete der.windows;
+    var sec = der.secondary || {};
+    if (opts && opts.keep && opts.keep.length) {
+      var out = {};
+      opts.keep.forEach(function (k) {
+        if (sec[k]) out[k] = opts.pick && opts.pick[k] ? opts.pick[k](sec[k]) : sec[k];
+      });
+      der.secondary = out;
+    } else {
+      delete der.secondary;
+    }
+    c.derived = der;
+    return c;
+  };
+  return t;
+}
+
 const TOOLS = [
   {
     id: 'DL-03',
@@ -436,7 +463,11 @@ const TOOLS = [
       return {
         tool_id: d.tool_id, title: d.title, as_of: d.as_of, horizon: d.horizon,
         scope: d.scope, views: d.views, meta: d.meta, derived: d.derived,
-        events: d.events, states: states
+        events: d.events ? {
+          as_of: d.events.as_of,
+          n: (d.events.phases || []).length
+        } : undefined,
+        states: states
       };
     },
     modelSlice: function (d) {
@@ -542,24 +573,8 @@ const TOOLS = [
         returns_year: d.returns_year, retiree_year: d.retiree_year,
         search_year: d.search_year,
         latest: d.latest, derived: d.derived, entities: d.entities,
-        boards: d.boards.map(function (b) {
-          return {
-            id: b.id, name: b.name, valuation_year: b.valuation_year,
-            funded_pct: b.funded_pct, ual: b.ual, rank: b.rank,
-            return_1y_pct: b.return_1y_pct, return_10y_pct: b.return_10y_pct,
-            active: b.active, retired: b.retired
-          };
-        }),
         retirees: {
           latest: d.retirees.latest,
-          yearly: d.retirees.yearly.map(function (y) {
-            return {
-              year: y.year, count: y.count, annual_amount: y.annual_amount,
-              msers_count: y.msers.count, mtrs_count: y.mtrs.count,
-              msers_amount: y.msers.annual_amount, mtrs_amount: y.mtrs.annual_amount
-            };
-          }),
-          top_pensions: d.retirees.top_pensions,
           search: d.retirees.search ? {
             year: d.retirees.search.year,
             count: d.retirees.search.count,
@@ -656,7 +671,7 @@ const TOOLS = [
     };
     return t;
   }()),
-  suiteTool({
+  namesakeCore(suiteTool({
     id: 'DL-08',
     label: 'College Enrollment: fall enrollment in degree-granting institutions by state',
     src: 'SRC-608-01',
@@ -668,7 +683,7 @@ const TOOLS = [
       'in-state tuition', 'higher-education finance', 'college graduation'
     ],
     extra: 'SAT mean scores sit in derived.secondary.sat_2023. Public FTE faculty, staff, and students-per-faculty sit in derived.secondary.public_fte_faculty_fall_2023, public_fte_staff_fall_2023, and students_per_faculty_fall_2023. State 6-year bachelor\'s graduation rates sit in derived.secondary.ipeds_6yr_grad_by_state_2017. SHEF FY 2025 education appropriations sit in derived.secondary.he_education_appropriations_fy2025; state-and-local support in he_state_local_support_fy2025. Tuition, Digest expenditures, IPEDS 2023-24 bachelor\'s degrees, and institution counts sit under derived.secondary with he_ and bachelors_ / degree_granting_ keys. National full-time faculty composition remains in faculty_composition_fall_2023. ACT state means are not in the current Digest xlsx set: decline those.'
-  }),
+  })),
   suiteTool({
     id: 'DL-09',
     label: 'Charter school fall enrollment by state',
@@ -746,7 +761,7 @@ const TOOLS = [
     ],
     extra: 'Establishment birth and death rates for every state sit in derived.secondary.bed_births_deaths and derived.windows. U.S. counts there are thousands of establishments; state counts are establishments. Deaths lag three quarters. Trailing 4-quarter and 9-quarter mean ranks through the latest published end sit in derived.windows and derived.secondary.bed_births_deaths.window_9q: use those, do not average unpublished quarters. High-propensity applications and projected 4-quarter formations sit in derived.secondary. Census BDS firm births are not in this ledger.'
   }),
-  suiteTool({
+  namesakeCore(suiteTool({
     id: 'DL-14',
     label: 'State Unemployment: seasonally adjusted unemployment rate by state',
     src: 'SRC-614-01',
@@ -758,6 +773,17 @@ const TOOLS = [
       'employment-population', 'epop'
     ],
     extra: 'The U.S. civilian unemployment rate is not in the LAUS statewide file: do not invent it. Trailing 12-month and 36-month mean ranks sit in derived.windows. QCEW weekly wages sit in derived.secondary.qcew_avg_weekly_wage_2025q4; the quarterly employment and wage cube sits in derived.secondary.qcew_quarter_stack. UI initial claims sit in derived.secondary.ui_initial_claims. Labor-force participation, employment-population ratio, employment, and labor-force levels sit in derived.secondary.laus_labor_2026. A named-state question uses by_st[ST] on that snap (for example by_st.WY), or rows when the full slice is present. Do not decline a state that appears in by_st. CPS age-sex-race detail is not posted: decline those.'
+  }), {
+    keep: ['laus_labor_2026'],
+    pick: {
+      laus_labor_2026: function (s) {
+        var lfpr = s.lfpr || {};
+        return {
+          label: s.label, src: s.src, as_of_label: s.as_of_label,
+          lfpr: { by_st: lfpr.by_st, us: lfpr.us, ma: lfpr.ma, fl: lfpr.fl }
+        };
+      }
+    }
   }),
   suiteTool({
     id: 'DL-15',
@@ -780,7 +806,7 @@ const TOOLS = [
     ],
     extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. The Case-Shiller Boston MSA index sits in derived.secondary.case_shiller_boston (FRED BOXRSA). Boston is the only Massachusetts city in that series. FHFA has no U.S. row in that state file.'
   }),
-  suiteTool({
+  namesakeCore(suiteTool({
     id: 'DL-17',
     label: 'State population and domestic migration from Census vintage estimates',
     src: 'SRC-617-01',
@@ -791,7 +817,7 @@ const TOOLS = [
       'international migration', 'population change', 'age 65', 'hispanic share'
     ],
     extra: 'The ranking is DOMESTICMIG, not total population. Births, deaths, natural change, international migration, and NPOPCHG sit in derived.secondary.births_2025, deaths_2025, natural_change_2025, international_mig_2025, and pop_change_2025. IRS taxpayer migration sits on DL-20. Municipal populations sit on DL-25. USDA rural-urban continuum codes sit in derived.secondary.rucc_2023. Age and race shares sit in derived.secondary.pop_age_65plus_share_2025, pop_age_0_17_share_2025, pop_hispanic_share_2025, and pop_white_nh_share_2025.'
-  }),
+  })),
   suiteTool({
     id: 'DL-19',
     label: 'Regional price parities, all items, United States = 100',

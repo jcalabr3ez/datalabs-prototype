@@ -228,13 +228,58 @@ for (const [q, tool] of GOLDEN_HITS) {
   check(JSON.stringify(selected.cores[tool]) === core, "hit " + tool + " still ships its coreSlice");
 }
 
-const nohit = ask.selectDatasets("What will the weather be in Boston tomorrow?", []);
+const nohit = ask.selectDatasets("What will the weather be tomorrow?", []);
 check(nohit.hits.length === 0, "weather is a no-hit question (hits: " + nohit.hits.join(",") + ")");
 check(Object.keys(nohit.full).length === 0, "no-hit questions ship no DATASETS_FULL upgrades");
 for (const t of tools) {
   const core = JSON.stringify(t.coreSlice(t.dataset));
-  check(JSON.stringify(nohit.cores[t.id]) === core, t.id + " ships coreSlice on a no-hit question");
+  check(JSON.stringify(nohit.cores[t.id]) === core, t.id + " ships coreSlice on a no-signal no-hit question");
 }
+
+const bostonWeather = ask.selectDatasets("What will the weather be in Boston tomorrow?", []);
+check(bostonWeather.hits.length === 0, "Boston weather is a no-hit question");
+check(!!bostonWeather.cores["DL-01"] && !!bostonWeather.cores["DL-05"],
+  "Boston weather still ships the flagship cores");
+
+const maSchools = ask.selectDatasets("How many students are enrolled in Massachusetts public schools?", []);
+check(maSchools.hits.includes("DL-06"), "MA schools question hits DL-06");
+check(!!maSchools.cores["DL-06"], "MA schools question keeps the DL-06 core");
+check(!!maSchools.cores["DL-01"], "MA schools question keeps flagship DL-01");
+check(!maSchools.cores["DL-14"], "MA schools question drops the unemployment core");
+check(!maSchools.cores["DL-31"], "MA schools question drops the imprisonment core");
+
+const wyLfpr = ask.selectDatasets("What is the labor force participation rate in WY?", []);
+check(wyLfpr.hits.includes("DL-14"), "WY LFPR hits DL-14");
+check(!!wyLfpr.cores["DL-14"], "WY LFPR keeps the DL-14 core");
+check(!wyLfpr.cores["DL-06"], "WY LFPR drops the Massachusetts schools core");
+check(!wyLfpr.cores["DL-25"], "WY LFPR drops the town-profile core");
+check(!wyLfpr.cores["DL-34"], "WY LFPR drops the Boston schools core");
+
+const dl01CoreObj = tools.find(function (t) { return t.id === "DL-01"; }).coreSlice(
+  tools.find(function (t) { return t.id === "DL-01"; }).dataset
+);
+check(!(dl01CoreObj.events && dl01CoreObj.events.phases),
+  "DL-01 coreSlice drops the full events.phases watch list");
+check(dl01CoreObj.events && dl01CoreObj.events.n > 0,
+  "DL-01 coreSlice keeps an events count");
+
+const dl05CoreObj = tools.find(function (t) { return t.id === "DL-05"; }).coreSlice(
+  tools.find(function (t) { return t.id === "DL-05"; }).dataset
+);
+check(!dl05CoreObj.boards, "DL-05 coreSlice drops the 105-board table");
+check(dl05CoreObj.latest && dl05CoreObj.latest.mtrs, "DL-05 coreSlice keeps Teachers latest");
+
+const dl08CoreObj = tools.find(function (t) { return t.id === "DL-08"; }).coreSlice(
+  tools.find(function (t) { return t.id === "DL-08"; }).dataset
+);
+check(!(dl08CoreObj.derived && dl08CoreObj.derived.secondary && Object.keys(dl08CoreObj.derived.secondary).length),
+  "DL-08 coreSlice drops companion secondary series");
+
+["DL-01", "DL-05", "DL-08", "DL-14", "DL-17"].forEach(function (id) {
+  const t = tools.find(function (x) { return x.id === id; });
+  const n = JSON.stringify(t.coreSlice(t.dataset)).length;
+  check(n <= 22000, id + " coreSlice " + n + " B is under 22000 after slimming");
+});
 
 check(!ask.matchesTrigger("stable", "t"), "single-letter trigger would be whole-word only");
 check(ask.matchesTrigger("is the t back", "the t"), "'the t' matches the ridership golden");

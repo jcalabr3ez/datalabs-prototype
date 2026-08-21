@@ -5,10 +5,12 @@
 // outputs. A two-stage router (scopes first, ledger second) was tried and
 // removed: routing without the ledger is where every eval misdecline lived.
 // Scaling to many tools is done by shrinking the payload, not by splitting
-// the decision. Every tool always ships a small coreSlice; a trigger hit
+// the decision. Every tool can ship a small coreSlice; a trigger hit
 // upgrades that tool to a slim modelSlice (51-state rows and district
-// summaries, not ZIP files or raw state cubes). Prompt caching covers the
-// static rules and cores, then the bundled catalog, so a hit pattern never
+// summaries, not ZIP files or raw state cubes). Questions that name a
+// place or a vertical drop cores that cannot apply. The five flagships
+// and every trigger hit still ship. Prompt caching covers the static
+// rules and cores, then the bundled catalog, so a hit pattern never
 // invalidates the cached prefix. The visitor's recent exchanges ride along,
 // and no free-form model text is ever parsed.
 // Holds the Anthropic API key server-side (env var ANTHROPIC_API_KEY).
@@ -46,12 +48,104 @@ function toolsMatching(text) {
   });
 }
 
+var FLAGSHIP = { 'DL-01': 1, 'DL-02': 1, 'DL-03': 1, 'DL-04': 1, 'DL-05': 1 };
+
+var TOOL_META = {};
+(BUNDLED_CATALOG || []).forEach(function (row) {
+  if (row && row.id && String(row.id).indexOf('DL-') === 0) {
+    TOOL_META[row.id] = {
+      g: (row.g && row.g[0]) || 'US',
+      group: row.group || ''
+    };
+  }
+});
+
+var STATE_NAMES = [
+  'alabama', 'alaska', 'arizona', 'arkansas', 'california', 'colorado',
+  'connecticut', 'delaware', 'florida', 'georgia', 'hawaii', 'idaho',
+  'illinois', 'indiana', 'iowa', 'kansas', 'kentucky', 'louisiana', 'maine',
+  'maryland', 'massachusetts', 'michigan', 'minnesota', 'mississippi',
+  'missouri', 'montana', 'nebraska', 'nevada', 'new hampshire', 'new jersey',
+  'new mexico', 'new york', 'north carolina', 'north dakota', 'ohio',
+  'oklahoma', 'oregon', 'pennsylvania', 'rhode island', 'south carolina',
+  'south dakota', 'tennessee', 'texas', 'utah', 'vermont', 'virginia',
+  'washington', 'west virginia', 'wisconsin', 'wyoming', 'district of columbia'
+];
+
+var VERTICALS = [
+  { group: 'Education', re: /\bnaep\b|\benrollment\b|\bschool\b|\bschools\b|\bcollege\b|\bcharter\b|\bpupil\b|\bmcas\b|\bstudent\b|\bfaculty\b|\btuition\b|\bkindergarten\b|\bk-12\b|\bk12\b/ },
+  { group: 'Healthcare', re: /\bhospital\b|\bmedicaid\b|\bhealthcare\b|\bhealth care\b|\bout-of-pocket\b|\bmhis\b|\bunderinsured\b/ },
+  { group: '340B', re: /\b340b\b/ },
+  { group: 'Economy & Jobs', re: /\bunemployment\b|\bgdp\b|\bbusiness application\b|\bbusiness formation\b|\bmigration\b|\bcost of living\b|\blabor force\b|\blabor-force\b|\bjobless\b|\bui claims\b|\bparticipation rate\b/ },
+  { group: 'Housing', re: /\bhousing permit\b|\bbuilding permit\b|\bcase-shiller\b|\bhouse price\b/ },
+  { group: 'Taxation', re: /\btaxpayer\b|\bagi\b|\btax collection\b|\bwealth tax\b|\bincome tax\b|\bsurtax\b/ },
+  { group: 'Transportation & Infrastructure', re: /\btransit\b|\bridership\b|\bvmt\b|\bvehicle-miles\b|\bmbta\b|\bthe t\b/ },
+  { group: 'Energy', re: /\belectricity\b|\bkilowatthour\b|\bkwh\b|\bemissions\b|\bco2\b/ },
+  { group: 'Your City & Town', re: /\btown\b|\bcity and town\b|\bmunicipal\b|\blexington\b|\bmedian household\b/ },
+  { group: 'Crime & Justice', re: /\bprison\b|\bimprison\b|\binmate\b/ },
+  { group: 'State Government & Spending', re: /\blegislature\b|\bpayroll\b|\bspeaker\b|\bsenate president\b|\bvendor\b/ },
+  { group: 'Public Pensions', re: /\bpension\b|\bfunded ratio\b|\bperac\b|\bretiree\b/ }
+];
+
+function questionPlace(blob) {
+  var q = String(blob || '');
+  var t = q.toLowerCase();
+  var fl = /\bflorida\b|\bmiami\b|\bmiami-dade\b|\bdade county\b/.test(t);
+  var ma = /\bmassachusetts\b|\bcommonwealth\b|\bthe t\b|\bmbta\b/.test(t);
+  var boston = /\bboston\b/.test(t);
+  var us = /\bunited states\b|\bu\.s\.a?\b|\bnational\b|\bfifty states\b|\bwhich state\b|\bevery state\b|\ball 50\b|\ball fifty\b/.test(t);
+  var other = false;
+  STATE_NAMES.forEach(function (name) {
+    if (name === 'florida' || name === 'massachusetts') return;
+    if (t.indexOf(name) !== -1) other = true;
+  });
+  var codes = q.match(/\b[A-Z]{2}\b/g) || [];
+  codes.forEach(function (c) {
+    if (c === 'MA') ma = true;
+    else if (c === 'FL') fl = true;
+    else if (c === 'US' || c === 'DC') us = true;
+    else other = true;
+  });
+  if (boston) ma = true;
+  return {
+    fl: fl, ma: ma, boston: boston, us: us, other: other,
+    any: !!(fl || ma || boston || us || other)
+  };
+}
+
+function questionVerticals(blob) {
+  var t = String(blob || '').toLowerCase();
+  var groups = [];
+  VERTICALS.forEach(function (v) {
+    if (v.re.test(t)) groups.push(v.group);
+  });
+  return groups;
+}
+
+function keepCore(id, place, groups, hitSet) {
+  if (hitSet[id] || FLAGSHIP[id]) return true;
+  var meta = TOOL_META[id] || {};
+  if (groups.length && groups.indexOf(meta.group) < 0) return false;
+  if (place.any) {
+    if (meta.g === 'FL' && !place.fl) return false;
+    if (meta.g === 'Boston' && !place.boston && !place.ma) return false;
+    if (meta.g === 'MA' && !place.ma && !place.boston) return false;
+  }
+  return true;
+}
+
 function selectDatasets(question, history) {
   const blob = questionBlob(question, history);
   const hits = toolsMatching(blob);
+  const hitSet = {};
+  hits.forEach(function (t) { hitSet[t.id] = 1; });
+  const place = questionPlace(blob);
+  const groups = questionVerticals(blob);
   const cores = {};
   const full = {};
-  TOOLS.forEach(function (t) { cores[t.id] = t.coreSlice(); });
+  TOOLS.forEach(function (t) {
+    if (keepCore(t.id, place, groups, hitSet)) cores[t.id] = t.coreSlice();
+  });
   hits.forEach(function (t) { full[t.id] = t.modelSlice(); });
   return { cores: cores, full: full, hits: hits.map(function (t) { return t.id; }) };
 }

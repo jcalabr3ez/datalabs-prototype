@@ -1,3 +1,6 @@
+# DEPRECATED clock. The one daily job is daily-platform.yml plus
+# scripts/daily_platform_pass.md. Delete this file after that job is
+# the only clock. Do not add work here.
 # Monthly DL-03 refresh: ridership and cost from the FTA NTD Socrata API,
 # service and productivity from the same NTD monthly file, and reliability from
 # the MBTA Open Data Portal.

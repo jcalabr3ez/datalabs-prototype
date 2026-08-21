@@ -1,3 +1,6 @@
+# DEPRECATED clock. The one daily job is daily-platform.yml plus
+# scripts/daily_platform_pass.md. Delete this file after that job is
+# the only clock. Do not add work here.
 # Yearly DL-04 refresh: all-sector retail electricity prices, sales,
 # generation, and capacity from EIA, plus Census population.
 # Opens a pull request; never pushes to main (a push deploys the site).

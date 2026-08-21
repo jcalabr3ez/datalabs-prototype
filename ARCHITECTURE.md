@@ -198,24 +198,15 @@ function. Ledgers are refreshed on a cadence, as pull requests, then merged.
 
 ```mermaid
 flowchart TB
-  subgraph human [Research passes · Cursor Automation]
-    R01["DL-01 Monday 9:00 AM ET · dl01-research-pass.md"]
-    R02["DL-02 17th 10:00 AM ET · dl02-research-pass.md"]
-    R05b["DL-05 boards when PERAC posts · dl05-research-pass.md"]
-  end
-  subgraph actions [GitHub Actions · open a PR]
-    A03["Monthly · refresh_dl03.py · FTA NTD API"]
-    A04["Yearly October · refresh_dl04.py · EIA + Census"]
-    A05["Monthly · refresh_dl05.py · CTHRU retirees + name shards"]
-    A06["Monthly · refresh_suite.py · 29 suite apps"]
-  end
-  subgraph special [Special builders]
-    B11["build_dl11.py · local OPAIS JSON + CMS HCRIS + Census SLDL"]
-    B18["DL-18 Patents · stub, stays in build"]
-  end
-  human --> PR[Draft pull request]
-  actions --> PR
-  special --> PR
+  Daily["One daily platform pass"]
+  Daily --> Files["daily_platform.py · MBTA, CTHRU, suite, EIA in October"]
+  Daily --> Atlas["DL-01 register · bills, hearings, dockets"]
+  Daily --> Florida["DL-02 register · Citizens, OIR, statutory"]
+  Daily --> Boards["DL-05 boards only if PERAC posted"]
+  Files --> PR[One draft PR · auto/daily-platform]
+  Atlas --> PR
+  Florida --> PR
+  Boards --> PR
   PR --> Main[Merge to main]
   Main --> Netlify[Netlify runs inject_data.py]
   Netlify --> Live[datalabsai.netlify.app]
@@ -223,15 +214,16 @@ flowchart TB
 
 | Tool | Page | Ledger | Refresh |
 | --- | --- | --- | --- |
-| DL-01 State Wealth Taxes | `/tax-atlas/` | `dl01-answers.json` | Weekly research pass. Editorial sources. |
-| DL-02 Florida Homeowners Insurance | `/florida-insurance/` | `dl02-answers.json` | Monthly research pass. |
-| DL-03 MBTA Performance | `/mbta/` | `dl03-answers.json` | Monthly Action from the FTA NTD API. |
-| DL-04 Retail Electricity Prices | `/electricity/` | `dl04-answers.json` | Yearly Action, October, EIA and Census. |
-| DL-05 Public Pensions | `/pensions/` | `dl05-answers.json` | Monthly CTHRU retirees and `pensions/search/` shards. Boards when PERAC posts. |
-| DL-06 to DL-34 | slugs in `suite/apps.json` | `dlXX-answers.json` | Monthly Action. Live builders fetch public files. 340B rebuilds from a local OPAIS export. Family Healthcare Costs rebuilds from the CHIA MHIS Excel. Patents stays a stub. |
+| DL-01 State Wealth Taxes | `/tax-atlas/` | `dl01-answers.json` | Daily platform pass. Editorial register. |
+| DL-02 Florida Homeowners Insurance | `/florida-insurance/` | `dl02-answers.json` | Daily platform pass. Editorial register. |
+| DL-03 MBTA Performance | `/mbta/` | `dl03-answers.json` | Daily platform pass. FTA NTD API. |
+| DL-04 Retail Electricity Prices | `/electricity/` | `dl04-answers.json` | Daily platform pass, EIA fetch in October. |
+| DL-05 Public Pensions | `/pensions/` | `dl05-answers.json` | Daily CTHRU retirees. Boards when PERAC posts. |
+| DL-06 to DL-34 | slugs in `suite/apps.json` | `dlXX-answers.json` | Daily platform pass. Live builders fetch public files. 340B rebuilds from a local OPAIS export. Patents stays a stub. |
 
-Do not invent a second refresh next to these jobs. Do not mark a stub `live`
-or invent figures. The five flagships stay frozen during a suite refresh.
+The older monthly Actions and the Monday / 17th Automations are deprecated
+clocks. Delete them after this daily pass is the only clock. Do not invent
+a second refresh. Do not mark a stub `live` or invent figures.
 
 ## 7. How a change goes live
 
@@ -260,10 +252,11 @@ CI on every PR (`checks.yml`):
 - Chart zero-baseline rules
 - High-cadence files versus ledger vintages, plus every live register URL
 
-A daily workflow (`daily-source-check.yml`) runs the same freshness and
-file probes every day, and walks every live register URL. It does not
-write ledgers. A red run means merge the refresh job that already owns
-that tool.
+The daily platform Action (`daily-platform.yml`) refreshes every
+public-file ledger and walks every live register URL. The same job's
+editorial half is `scripts/daily_platform_pass.md` (atlas bills and
+Florida). One PR. A red latest-release line means a file is newer than
+the ledger that just ran.
 
 A second workflow (`eval.yml`) asks the live production engine the golden
 questions. The key stays in Netlify.

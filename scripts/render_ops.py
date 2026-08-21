@@ -27,35 +27,35 @@ FLAGSHIPS = [
         "id": "DL-01",
         "title": "State Wealth Taxes",
         "url": "/tax-atlas/",
-        "refresh": "Weekly Cursor Automation, Monday 9:00 AM ET",
+        "refresh": "Daily platform pass (atlas register)",
         "ledger": "netlify/functions/dl01-answers.json",
     },
     {
         "id": "DL-02",
         "title": "Florida Homeowners Insurance",
         "url": "/florida-insurance/",
-        "refresh": "Monthly Cursor Automation, 17th at 10:00 AM ET",
+        "refresh": "Daily platform pass (Florida register)",
         "ledger": "netlify/functions/dl02-answers.json",
     },
     {
         "id": "DL-03",
         "title": "MBTA Performance",
         "url": "/mbta/",
-        "refresh": "Monthly GitHub Action, 5th of the month",
+        "refresh": "Daily platform pass",
         "ledger": "netlify/functions/dl03-answers.json",
     },
     {
         "id": "DL-04",
         "title": "Retail Electricity Prices",
         "url": "/electricity/",
-        "refresh": "Yearly GitHub Action, October 20",
+        "refresh": "Daily platform pass; EIA fetch in October",
         "ledger": "netlify/functions/dl04-answers.json",
     },
     {
         "id": "DL-05",
         "title": "Massachusetts Public Pensions",
         "url": "/pensions/",
-        "refresh": "Monthly GitHub Action for CTHRU (8th); boards when PERAC posts",
+        "refresh": "Daily platform pass (CTHRU); boards when PERAC posts",
         "ledger": "netlify/functions/dl05-answers.json",
     },
 ]
@@ -63,12 +63,15 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
-        "title": "Every source is checked every day",
+        "title": "One daily job for the whole platform",
         "body": (
-            "A daily GitHub Action now probes every live source URL and "
-            "compares high-cadence publisher files to the ledger vintages. "
-            "It does not write ledgers. When a file is newer than the "
-            "ledger, merge the refresh job that already owns that tool."
+            "One daily platform pass now covers every public-file ledger, "
+            "the State Wealth Taxes atlas register, and Florida "
+            "Homeowners Insurance. The file half refreshes MBTA, CTHRU "
+            "retirees, the suite, and electricity in October. The "
+            "editorial half rechecks bills, hearings, dockets, and the "
+            "Florida register. Older monthly Actions stay only until "
+            "this job is the only clock."
         ),
     },
     {
@@ -1390,7 +1393,7 @@ def tool_rows(today):
             refresh = "Held until a reachable primary file exists"
         else:
             gate, tone = freshness_cell(rel, led, today)
-            refresh = "Monthly GitHub Action, 12th of the month"
+            refresh = "Daily platform pass"
         rows.append({
             "id": app["id"],
             "title": app["title"],

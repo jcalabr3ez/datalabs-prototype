@@ -22,40 +22,24 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
 
 ## Recurring jobs
 
-- **DL-01 (Monday 9:00 AM ET):** follow `scripts/dl01-research-pass.md`.
-  Deep pass: five parallel agents over the full source register, not only
-  sources due under the 45-day freshness gate. Update an existing PR only
-  if it is a draft whose title starts with `DL-01`. Ignore every other
-  open or closed PR, including the Florida export.
-- **DL-02 (17th, 10:00 AM ET):** follow `scripts/dl02-research-pass.md`.
-  Monthly full pass over the Florida register. Update an existing PR
-  only if it is a draft whose title starts with `DL-02`. Do not fold
-  this into the weekly DL-01 PR.
-- **DL-03 (monthly):** `.github/workflows/dl03-refresh.yml` already opens
-  a PR from the FTA NTD API. Do not invent a second refresh.
-- **DL-04 (yearly, October):** `.github/workflows/dl04-refresh.yml` already
-  opens a PR from EIA Form EIA-861, EIA-923, EIA-860, and Census
-  population. Do not invent a second refresh.
-- **DL-05 retirees (monthly):** `.github/workflows/dl05-refresh.yml`
-  already opens a PR from `scripts/refresh_dl05.py` (live CTHRU API plus
-  last-name shards under `pensions/search/`). Do not invent a second
-  retiree fetch.
-- **DL-05 boards (when PERAC posts):** follow
-  `scripts/dl05-research-pass.md`. Update an existing PR only if it is a
-  draft whose title starts with `DL-05`. Do not invent a fetch for the
-  Investment Report; that source is a PDF.
-- **Suite (DL-06 to DL-34):** `.github/workflows/suite-refresh.yml`
-  already opens a monthly PR from `scripts/refresh_suite.py` (first-wave
-  builders plus later public-file builders; Patents stays a stub).
-  Do not invent a second suite refresh. Do not mark a stub `live` or
-  invent figures. The five flagships stay frozen. 340B (DL-11) rebuilds
-  from a local OPAIS Covered Entity Daily Export JSON plus CMS HCRIS and
-  the Census SLDL-ZCTA file; see `scripts/build_dl11.py`.
-- **Daily source check:** `.github/workflows/daily-source-check.yml`
-  probes every live register URL and compares high-cadence publisher
-  files to the ledger vintages. It does not write ledgers. Do not invent
-  a second refresh when it fails; run the job that already owns that
-  tool.
+- **One daily platform pass:** follow `scripts/daily_platform_pass.md`.
+  File half is `python3 scripts/daily_platform.py` and
+  `.github/workflows/daily-platform.yml` (MBTA, CTHRU retirees, suite,
+  electricity in October). Editorial half is the same job: the wealth-tax
+  atlas register (bills, hearings, dockets) and the Florida insurance
+  register. One draft PR on `auto/daily-platform`. Do not merge. Do not
+  invent a second daily pass.
+- **DL-01 / DL-02 / DL-05 runbooks** stay as
+  `scripts/dl01-research-pass.md`, `scripts/dl02-research-pass.md`, and
+  `scripts/dl05-research-pass.md`. The daily pass calls them. Do not
+  schedule those files on their own once the daily Automation is on.
+- **Older clocks to delete** after the daily pass is the only clock:
+  `dl03-refresh.yml`, `dl04-refresh.yml`, `dl05-refresh.yml`,
+  `suite-refresh.yml`, the Monday DL-01 Automation, and the 17th DL-02
+  Automation. See the list in `scripts/daily_platform_pass.md`.
+- **340B (DL-11)** still rebuilds from a local OPAIS export plus CMS and
+  Census files (`scripts/build_dl11.py`). Patents stays a stub. Do not
+  invent figures.
 
 ## House style
 

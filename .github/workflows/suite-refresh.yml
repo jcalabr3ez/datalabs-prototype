@@ -1,3 +1,6 @@
+# DEPRECATED clock. The one daily job is daily-platform.yml plus
+# scripts/daily_platform_pass.md. Delete this file after that job is
+# the only clock. Do not add work here.
 # Monthly suite refresh: rebuilds every suite ledger that has a live
 # builder (first wave plus later public files), restubs 340B and Patents,
 # re-renders pages, and opens a pull request. Never pushes to main.

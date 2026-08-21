@@ -1,11 +1,9 @@
-# Repository checks: ledger freshness, injection sync, engine harness shape.
-# Freshness also runs weekly so staleness surfaces without waiting for a PR.
+# Repository checks: house style, injection sync, engine harness shape.
+# Publisher-file catch-up is the daily platform job, not this workflow.
 name: Checks
 
 on:
   pull_request: {}
-  schedule:
-    - cron: "23 10 * * 1" # Mondays 10:23 UTC
   workflow_dispatch: {}
 
 jobs:
@@ -36,5 +34,5 @@ jobs:
         run: node scripts/check_chart_scale.mjs
       - name: Suite page payloads stay under the weight budget
         run: node scripts/check_page_payload.mjs
-      - name: High-cadence files vs ledger vintages
-        run: python3 scripts/check_latest_release.py
+      - name: High-cadence files vs ledger vintages (report)
+        run: python3 scripts/check_latest_release.py || true

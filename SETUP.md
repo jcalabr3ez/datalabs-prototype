@@ -250,10 +250,11 @@ point it at another host, add a PUBLIC repository variable SITE_URL
                        Monday DL-01 / 17th DL-02 Automations.
     The older monthly and yearly refresh yml files are deprecated
     clocks. Do not add work to them.
-    checks.yml         Weekly and on every PR. Fails when a ledger ages past
-                       its publisher cadence, when a generated page block is
-                       out of sync with its canonical ledger, or when the
-                       engine manifests do not load.
+    checks.yml         On every PR. Fails on house style, a ledger older
+                       than its cadence, generated blocks out of sync, or
+                       an engine that does not load. A newer publisher
+                       file is a report, not a fail. The daily job opens
+                       that catch-up PR.
     eval.yml           Weekly. POSTs golden questions to the LIVE site's ask
                        endpoint and asserts each routes to the right tool
                        with a cited, linked answer. The key stays in

@@ -250,13 +250,15 @@ CI on every PR (`checks.yml`):
 - Public question matches the hero number (`check_answers.py`)
 - Engine goldens and payload shape
 - Chart zero-baseline rules
-- High-cadence files versus ledger vintages, plus every live register URL
+- High-cadence files versus ledger vintages (report only). A newer
+  publisher file does not fail the PR. The daily platform job opens
+  the catch-up PR.
 
 The daily platform Action (`daily-platform.yml`) refreshes every
 public-file ledger and walks every live register URL. The same job's
 editorial half is `scripts/daily_platform_pass.md` (atlas bills and
-Florida). One PR. A red latest-release line means a file is newer than
-the ledger that just ran.
+Florida). One PR. A red latest-release line on that job means a file
+is newer than the ledger that just ran.
 
 A second workflow (`eval.yml`) asks the live production engine the golden
 questions. The key stays in Netlify.

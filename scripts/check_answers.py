@@ -371,6 +371,7 @@ if "defaultOpenId" not in front or "dl-area" not in front:
 else:
     ok("landing leaves one catalog topic open")
 daily_wf = (ROOT / ".github/workflows/daily-platform.yml").read_text(encoding="utf-8")
+checks_wf = (ROOT / ".github/workflows/checks.yml").read_text(encoding="utf-8")
 pass_md = (ROOT / "scripts/daily_platform_pass.md").read_text(encoding="utf-8")
 if (
     "23 10 * * *" not in daily_wf
@@ -380,6 +381,10 @@ if (
     fail("daily platform file job is missing or is not daily")
 elif "State Wealth Taxes" not in pass_md or "Florida Homeowners Insurance" not in pass_md:
     fail("daily platform pass does not cover the atlas and Florida")
+elif "cron:" in checks_wf:
+    fail("PR checks still run on their own clock; the daily job owns freshness")
+elif "check_latest_release.py || true" not in checks_wf:
+    fail("PR checks still fail when a publisher file is newer than the ledger")
 else:
     ok("daily platform job covers files, the atlas, and Florida")
 widget = (ROOT / "assets/ask-widget.js").read_text(encoding="utf-8")

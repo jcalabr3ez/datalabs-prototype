@@ -71,7 +71,8 @@ CHANGELOG = [
             "retirees, the suite, and electricity in October. The "
             "editorial half rechecks bills, hearings, dockets, and the "
             "Florida register. Older monthly Actions stay only until "
-            "this job is the only clock."
+            "this job is the only clock. Pull-request checks no longer "
+            "fail when a publisher file is newer than the ledger."
         ),
     },
     {

@@ -51,13 +51,17 @@ OIR portal. Do not enable merge or any "push to main" action.
 
     Edit netlify/functions/dl02-answers.json as the source of truth.
     Recompute citizens_key_facts and county_rankings from the series.
-    Set page.revised to today's date. Change as_of only when the
-    latest series vintage actually moved. Run python3
+    Keep the personal/commercial split. When the latest month-end
+    moves, update PINNED_PIF in scripts/check_answers.py after a
+    two-path check. Set page.revised to today's date. Change as_of
+    only when the latest series vintage actually moved. Run python3
     scripts/inject_data.py. Then update remaining hand-authored prose
     that still quotes a stale figure (report card, methodology folds,
-    source-register vintages). Do not hand-edit DATA:BEGIN blocks.
-    Run python3 scripts/check_style.py and
-    python3 scripts/check_freshness.py.
+    source-register vintages). Say policies in force, not homes. Do
+    not hand-edit DATA:BEGIN blocks. Run python3
+    scripts/check_style.py, python3 scripts/check_freshness.py,
+    python3 scripts/check_answers.py, and python3
+    scripts/check_latest_release.py.
 
     Open a DRAFT pull request against main whose title starts with
     DL-02, using the PR body template in the runbook. Do not merge.
@@ -155,15 +159,22 @@ Unit reports.
 
 1. Apply verified series updates to `netlify/functions/dl02-answers.json`.
 2. Recompute `citizens_key_facts` and `county_rankings` from the series.
+   Keep the personal/commercial split on the latest PIF. When the latest
+   month-end moves, update `PINNED_PIF` in `scripts/check_answers.py`
+   after a two-path check of the new Citizens page.
 3. Set `page.revised` to today (`Mon D, YYYY` style already used, e.g.
    `Aug 17, 2026`). Change `as_of` only when the latest Citizens or OIR
    vintage moved.
 4. Run `python3 scripts/inject_data.py`.
 5. Search `florida-insurance/index.html` for leftover old figures
    (prior PIF count, prior peak math, register vintages, report-card
-   sentences). Update those by hand.
-6. Run `python3 scripts/check_style.py` and
-   `python3 scripts/check_freshness.py`.
+   sentences). Update those by hand. Say policies in force, not homes.
+6. Run `python3 scripts/check_style.py`,
+   `python3 scripts/check_freshness.py`,
+   `python3 scripts/check_answers.py`, and
+   `python3 scripts/check_latest_release.py`.
+   The latest-release check fails if a newer
+   `/YYYYMMDD-policies-in-force` page is already live.
 7. Commit on a feature branch. Push. Open a **draft** pull request
    against `main` whose title starts with `DL-02`.
 

@@ -416,11 +416,17 @@
  "citizens_key_facts": {
   "latest": {
    "month": "2026-07",
-   "policies": 278196
+   "policies": 278196,
+   "personal_residential": 273822,
+   "commercial": 4374,
+   "unit": "policies in force, not homes",
+   "source": "https://www.citizensfla.com/-/20260731-policies-in-force",
+   "split_note": "Personal residential is PR-W 57,543 plus PR-M 216,279. Commercial is CR-W 1,250 plus CR-M 600 plus CNR-W 1,723 plus CNR-M 801. Citizens Policies in Force as of July 31, 2026."
   },
   "peak": {
    "month": "2023-09",
-   "policies": 1407805
+   "policies": 1407805,
+   "source": "https://www.citizensfla.com/-/20230930-policies-in-force"
   },
   "decline_from_peak_pct": -80.2,
   "yoy_change_pct": -64.4,
@@ -1189,9 +1195,12 @@
   "citizens_july_2026_book": {
    "as_of": "2026-07-31",
    "policies": 278196,
+   "personal_residential": 273822,
+   "commercial": 4374,
    "premium_usd": 732684962,
    "exposure_usd": 78907617476,
-   "source": "https://www.citizensfla.com/-/20260731-policies-in-force"
+   "source": "https://www.citizensfla.com/-/20260731-policies-in-force",
+   "split_note": "Personal residential is PR-W 57,543 plus PR-M 216,279. Commercial is CR-W 1,250 plus CR-M 600 plus CNR-W 1,723 plus CNR-M 801."
   },
   "citizens_pml_ye2025_statutory": {
    "one_in_50_m": 3913,
@@ -1296,7 +1305,7 @@
  },
  "reform_context": "The 2022 and 2023 reforms targeted litigation costs, residual-market size, reinsurance capacity, claims conduct, and affordability. The page's report card view grades eleven stated legislative objectives against the record; grades are Pioneer Institute's judgment.",
  "page": {
-  "revised": "Aug 18, 2026",
+  "revised": "Aug 20, 2026",
   "version": "1.0"
  },
  "statewide_premiums": {

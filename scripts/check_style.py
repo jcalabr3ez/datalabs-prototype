@@ -16,6 +16,7 @@ import json
 import subprocess
 import sys
 import tempfile
+from calendar import monthrange
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -44,8 +45,12 @@ fl = json.loads((ROOT / "netlify/functions/dl02-answers.json").read_text(encodin
 page = (ROOT / "florida-insurance/index.html").read_text(encoding="utf-8")
 latest = fl["citizens_policies_monthly"][-1]
 pif_formatted = f"{latest['v']:,}"
+y, m = [int(x) for x in latest["m"].split("-")]
+pif_slug = f"{y}{m:02d}{monthrange(y, m)[1]:02d}-policies-in-force"
 sentinels = [
     (pif_formatted, f"latest Citizens policies in force ({pif_formatted}, month {latest['m']})"),
+    (pif_slug, f"Citizens PIF URL slug ({pif_slug})"),
+    ("20230930-policies-in-force", "Citizens Sept. 30, 2023 peak PIF URL"),
     (fl["as_of"], f"ledger as_of ({fl['as_of']})"),
     (fl["page"]["revised"], f"page.revised ({fl['page']['revised']})"),
 ]
@@ -100,6 +105,13 @@ for needle, label in sentinels:
             f"florida-insurance/index.html does not mention {label}; "
             "the DL-02 ledger moved but the hand-authored page did not follow"
         )
+if "How many homes does Citizens still insure" in page:
+    failures.append(
+        "florida-insurance/index.html still calls Citizens policies homes"
+    )
+    print("florida sentinel: MISS policies-not-homes")
+else:
+    print("florida sentinel: ok   policies-not-homes")
 
 # ---- 3. Electricity page sentinels ----
 el = json.loads((ROOT / "netlify/functions/dl04-answers.json").read_text(encoding="utf-8"))

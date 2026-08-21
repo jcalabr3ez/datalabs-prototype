@@ -804,7 +804,7 @@ const TOOLS = [
       'units authorized', 'housing production', 'permit-issuing',
       'case-shiller', 'case shiller', 'boston house price'
     ],
-    extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. The Case-Shiller Boston MSA index sits in derived.secondary.case_shiller_boston (FRED BOXRSA). Boston is the only Massachusetts city in that series. FHFA has no U.S. row in that state file.'
+    extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. The Case-Shiller Boston MSA index sits in derived.secondary.case_shiller_boston (FRED BOXRSA). Boston is the only Massachusetts city in that series. FHFA has no U.S. row in that state file. Census Northeast on the page filter is CT, ME, MA, NH, RI, VT, NJ, NY, PA. Compare those published rows. Do not invent a Northeast total.'
   }),
   namesakeCore(suiteTool({
     id: 'DL-17',

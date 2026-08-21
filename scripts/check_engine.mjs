@@ -68,6 +68,7 @@ const GOLDEN_HITS = [
   ["What is real GDP in the United States?", "DL-15"],
   ["How many housing units were authorized in Massachusetts?", "DL-16"],
   ["How many housing units were authorized in the United States?", "DL-16"],
+  ["Compare the housing units permitted in north east states", "DL-16"],
   ["What was domestic migration in Massachusetts?", "DL-17"],
   ["Which state gained the most people from domestic migration?", "DL-17"],
   ["What is the cost of living in Massachusetts compared to the US?", "DL-19"],
@@ -254,6 +255,34 @@ check(!!wyLfpr.cores["DL-14"], "WY LFPR keeps the DL-14 core");
 check(!wyLfpr.cores["DL-06"], "WY LFPR drops the Massachusetts schools core");
 check(!wyLfpr.cores["DL-25"], "WY LFPR drops the town-profile core");
 check(!wyLfpr.cores["DL-34"], "WY LFPR drops the Boston schools core");
+
+const maHousing = ask.selectDatasets("How many housing units were authorized in Massachusetts?", []);
+check(maHousing.hits.includes("DL-16"), "MA housing units question hits DL-16");
+check(!!maHousing.cores["DL-16"] && !!maHousing.cores["DL-01"],
+  "MA housing units question keeps the housing and flagship cores");
+check(!maHousing.cores["DL-14"], "MA housing units question drops the unemployment core");
+check(!maHousing.cores["DL-06"], "MA housing units question drops the schools core");
+
+const neHousing = ask.selectDatasets("Compare the housing units permitted in north east states", []);
+check(neHousing.hits.includes("DL-16"), "Northeast housing compare hits DL-16");
+check(!!neHousing.cores["DL-16"] && !!neHousing.cores["DL-01"],
+  "Northeast housing compare keeps the housing and flagship cores");
+check(!neHousing.cores["DL-14"], "Northeast housing compare drops the unemployment core");
+check(!neHousing.cores["DL-31"], "Northeast housing compare drops the imprisonment core");
+check(Object.keys(neHousing.cores).length <= 8,
+  "Northeast housing compare ships a small core set (" + Object.keys(neHousing.cores).length + ")");
+check(neHousing.region && neHousing.region.id === "northeast",
+  "Northeast housing compare attaches the Census Northeast roster");
+check(neHousing.region && neHousing.region.tool_id === "DL-16" && (neHousing.region.rows || []).length === 9,
+  "Northeast housing compare ships the nine published Northeast permit rows");
+const neNy = (neHousing.region && neHousing.region.rows || []).find(function (r) { return r.st === "NY"; });
+const dl16Ny = ((tools.find(function (t) { return t.id === "DL-16"; }).modelSlice(
+  tools.find(function (t) { return t.id === "DL-16"; }).dataset
+).rows || []).find(function (r) { return r.st === "NY"; }));
+check(neNy && dl16Ny && neNy.v === dl16Ny.v,
+  "Northeast housing compare keeps New York's published permit count");
+check(!ask.questionRegion("How many housing units were authorized in North Carolina?"),
+  "North Carolina is not read as Census Northeast");
 
 const dl01CoreObj = tools.find(function (t) { return t.id === "DL-01"; }).coreSlice(
   tools.find(function (t) { return t.id === "DL-01"; }).dataset

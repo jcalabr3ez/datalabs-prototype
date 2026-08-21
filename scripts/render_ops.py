@@ -63,6 +63,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
+        "title": "Ask can compare Northeast housing permits",
+        "body": (
+            "A question about housing units permitted in the Northeast "
+            "now counts as Housing and ships the nine Census Northeast "
+            "state rows from the Housing Permits ledger. It no longer "
+            "loads every unrelated core. Ask still does not invent a "
+            "regional total. The Open link lands on the Northeast chip "
+            "already on that page."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
         "title": "Ask ships fewer cores and the landing page got lighter",
         "body": (
             "A question that names a place or a topic now drops Ask "

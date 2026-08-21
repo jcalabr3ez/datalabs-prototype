@@ -46,6 +46,57 @@ def jdump(obj):
     return json.dumps(obj, ensure_ascii=True, separators=(",", ":"), sort_keys=False)
 
 
+CORE_TREND_KEYS = {"US", "MA", "FL", "Boston"}
+CORE_TREND_POINTS = 120
+OTHER_TREND_POINTS = 36
+PAGE_SECONDARY = {
+    "DL-06": ("public_k12_enrollment",),
+    "DL-11": ("charity_care",),
+}
+
+
+def slim_page_trend(trend):
+    """Keep a usable chart series. Full history stays in the ledger."""
+    if not trend:
+        return {}
+    if isinstance(trend, list):
+        return trend[-CORE_TREND_POINTS:]
+    out = {}
+    for key, series in trend.items():
+        if not isinstance(series, list):
+            out[key] = series
+            continue
+        cap = CORE_TREND_POINTS if key in CORE_TREND_KEYS else OTHER_TREND_POINTS
+        out[key] = series[-cap:]
+    return out
+
+
+def slim_page_derived(led):
+    """Only the secondary keys the suite page script reads."""
+    wanted = PAGE_SECONDARY.get(led.get("tool_id") or "")
+    if not wanted:
+        return {}
+    sec = ((led.get("derived") or {}).get("secondary")) or {}
+    kept = {k: sec[k] for k in wanted if k in sec}
+    if not kept:
+        return {}
+    return {"secondary": kept}
+
+
+def page_payload(led, voice, rows):
+    return {
+        "tool_id": led["tool_id"],
+        "as_of": led.get("as_of"),
+        "rows": rows,
+        "trend": slim_page_trend(led.get("trend") or {}),
+        "latest": led.get("latest"),
+        "derived": slim_page_derived(led),
+        "metric": led.get("metric"),
+        "unit": led.get("unit"),
+        "answers": slim_answers((voice or {}).get("answers")),
+    }
+
+
 def slim_answers(answers):
     """Page-side lens payload: question, number, context, cite. No extras."""
     out = {}
@@ -671,18 +722,16 @@ def main():
         if has_block(new, slug + "-cite", style="html") and voice and voice.get("cite"):
             new = replace_block(new, slug + "-cite", voice["cite"], p, style="html")
         if has_block(new, slug + "-data"):
-            payload = {
-                "tool_id": led["tool_id"],
-                "as_of": led.get("as_of"),
-                "rows": display_rows(led.get("rows") or []),
-                "trend": led.get("trend") or {},
-                "latest": led.get("latest"),
-                "derived": led.get("derived") or {},
-                "metric": led.get("metric"),
-                "unit": led.get("unit"),
-                "answers": slim_answers((voice or {}).get("answers")),
-            }
+            payload = page_payload(led, voice, display_rows(led.get("rows") or []))
             new = replace_block(new, slug + "-data", "const DL=" + jdump(payload) + ";", p)
+        if led.get("tool_id") == "DL-11":
+            legis = ((led.get("derived") or {}).get("secondary") or {}).get("legislative") or {}
+            side = ROOT / "340b" / "districts.json"
+            body = jdump({"rows": legis.get("rows") or []}) + "\n"
+            if not side.exists() or side.read_text(encoding="utf-8") != body:
+                side.parent.mkdir(parents=True, exist_ok=True)
+                side.write_text(body, encoding="utf-8")
+                changed.append("340b/districts.json")
         if new != text:
             p.write_text(new, encoding="utf-8")
             changed.append(str(p.relative_to(ROOT)))
@@ -712,6 +761,18 @@ def main():
     }
     if before != after:
         changed.append("status/index.html, changelog/index.html, sitemap.xml")
+
+    import subprocess
+    payload_script = ROOT / "scripts" / "write_engine_payload.mjs"
+    before_cores = (ROOT / "netlify" / "functions" / "cores.json").read_text(encoding="utf-8") if (ROOT / "netlify" / "functions" / "cores.json").exists() else ""
+    before_flags = (ROOT / "netlify" / "functions" / "tool-flags.json").read_text(encoding="utf-8") if (ROOT / "netlify" / "functions" / "tool-flags.json").exists() else ""
+    subprocess.check_call(["node", str(payload_script)])
+    after_cores = (ROOT / "netlify" / "functions" / "cores.json").read_text(encoding="utf-8")
+    after_flags = (ROOT / "netlify" / "functions" / "tool-flags.json").read_text(encoding="utf-8")
+    if before_cores != after_cores:
+        changed.append("netlify/functions/cores.json")
+    if before_flags != after_flags:
+        changed.append("netlify/functions/tool-flags.json")
 
     print("inject_data:", ("updated " + ", ".join(changed)) if changed else "everything in sync")
 

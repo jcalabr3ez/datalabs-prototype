@@ -6,6 +6,7 @@ import re
 import time
 import urllib.error
 import urllib.request
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -307,7 +308,24 @@ def snap_pack(values, us_val, round_to=None, higher_is_better=True):
     return out
 
 
-REVISED = "Aug 19, 2026"
+def revised_today(when=None):
+    """Ledger page.revised stamp: 'Mon D, YYYY' from the run date, not a frozen day."""
+    when = when or date.today()
+    return f"{MONTH_ABBR[when.month]} {when.day}, {when.year}"
+
+
+def paper_today_label(when=None):
+    """Status-page prose date: 'Month D, YYYY'."""
+    when = when or date.today()
+    months = (
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December",
+    )
+    return f"{months[when.month - 1]} {when.day}, {when.year}"
+
+
+# Evaluated at import so a refresh job that imports this module stamps today.
+REVISED = revised_today()
 
 
 def base_ledger(app, status, as_of, vintage_note, extra):

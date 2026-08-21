@@ -606,7 +606,10 @@ if 'id="proofFind"' not in bps_html or 'id="proofFindList"' not in bps_html:
     fail("DL-34 school lookup is missing the typeahead list")
 else:
     ok("DL-34 school lookup has a typeahead list")
-if "function findHitsFor" not in bps_html or "find-pick" not in bps_html:
+runtime = (ROOT / "assets/suite-runtime.js").read_text(encoding="utf-8")
+if "suite-runtime.js" not in bps_html:
+    fail("DL-34 school lookup is missing the shared suite runtime")
+elif "function findHitsFor" not in runtime or "find-pick" not in runtime:
     fail("DL-34 school lookup cannot resolve a short name to a pick list")
 else:
     ok("DL-34 school lookup resolves short names")

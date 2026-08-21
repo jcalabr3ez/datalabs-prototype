@@ -1,7 +1,9 @@
-# Golden-question eval against the LIVE site's ask endpoint. The Anthropic
-# key stays in Netlify, where it already lives; GitHub holds no secrets.
-# Defaults to the public site. Override with a SITE_URL repo variable or
-# the workflow_dispatch input. Catches prompt regressions before users do.
+# Golden-question eval. Prefer an in-process run against this checkout
+# when ANTHROPIC_API_KEY is set (that tests the PR's ask.js). Otherwise
+# POST to a live endpoint: the Netlify deploy preview on pull_request,
+# or SITE_URL / production on schedule and workflow_dispatch.
+# GitHub holds the optional key; Netlify still holds the production key.
+# A scheduled run must not skip a password gate.
 name: Engine eval
 
 on:
@@ -22,7 +24,16 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - name: Run golden questions against the live endpoint
+      - name: Run golden questions
         env:
-          SITE_URL: ${{ github.event.inputs.site_url || vars.SITE_URL || 'https://datalabsai.netlify.app' }}
-        run: node scripts/eval_engine.mjs
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          EVAL_STRICT: ${{ github.event_name == 'schedule' && '1' || '0' }}
+          SITE_URL: ${{ github.event_name == 'pull_request' && format('https://deploy-preview-{0}--datalabsai.netlify.app', github.event.number) || github.event.inputs.site_url || vars.SITE_URL || 'https://datalabsai.netlify.app' }}
+        run: |
+          if [ -n "$ANTHROPIC_API_KEY" ]; then
+            echo "eval target: in-process handler (PR checkout)"
+            unset SITE_URL
+          else
+            echo "eval target: $SITE_URL"
+          fi
+          node scripts/eval_engine.mjs

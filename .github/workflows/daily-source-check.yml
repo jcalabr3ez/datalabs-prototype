@@ -1,0 +1,26 @@
+# Daily probe of every live source against the ledgers.
+# Does not write ledgers. Does not invent a second refresh.
+# Vintage compare is check_latest_release.py. Age gate is check_freshness.py.
+# A red run means a publisher file is newer than the ledger, or a file URL
+# in the register is gone. Merge the job that already owns that tool.
+name: Daily source check
+
+on:
+  schedule:
+    - cron: "23 10 * * *" # every day, 10:23 UTC
+  workflow_dispatch: {}
+
+jobs:
+  sources:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Ledger freshness vs publisher cadence
+        run: python3 scripts/check_freshness.py
+      - name: Publisher files vs ledger vintages, and every register URL
+        env:
+          DATALABS_CHECK_REGISTER: "1"
+        run: python3 scripts/check_latest_release.py

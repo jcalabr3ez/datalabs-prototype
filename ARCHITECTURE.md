@@ -258,6 +258,12 @@ CI on every PR (`checks.yml`):
 - Public question matches the hero number (`check_answers.py`)
 - Engine goldens and payload shape
 - Chart zero-baseline rules
+- High-cadence files versus ledger vintages, plus every live register URL
+
+A daily workflow (`daily-source-check.yml`) runs the same freshness and
+file probes every day, and walks every live register URL. It does not
+write ledgers. A red run means merge the refresh job that already owns
+that tool.
 
 A second workflow (`eval.yml`) asks the live production engine the golden
 questions. The key stays in Netlify.

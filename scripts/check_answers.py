@@ -370,6 +370,15 @@ if "defaultOpenId" not in front or "dl-area" not in front:
     fail("landing does not leave one catalog topic open")
 else:
     ok("landing leaves one catalog topic open")
+daily_wf = (ROOT / ".github/workflows/daily-source-check.yml").read_text(encoding="utf-8")
+if (
+    "23 10 * * *" not in daily_wf
+    or "check_latest_release.py" not in daily_wf
+    or "DATALABS_CHECK_REGISTER" not in daily_wf
+):
+    fail("daily source check is missing or is not daily")
+else:
+    ok("daily source check probes files every day")
 widget = (ROOT / "assets/ask-widget.js").read_text(encoding="utf-8")
 if "Looking up" in widget:
     fail("Ask still says Looking up while it works")

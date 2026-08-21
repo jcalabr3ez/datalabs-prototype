@@ -51,6 +51,11 @@ block and `netlify/functions/catalog.json`. Do not hand-edit those copies.
   invent figures. The five flagships stay frozen. 340B (DL-11) rebuilds
   from a local OPAIS Covered Entity Daily Export JSON plus CMS HCRIS and
   the Census SLDL-ZCTA file; see `scripts/build_dl11.py`.
+- **Daily source check:** `.github/workflows/daily-source-check.yml`
+  probes every live register URL and compares high-cadence publisher
+  files to the ledger vintages. It does not write ledgers. Do not invent
+  a second refresh when it fails; run the job that already owns that
+  tool.
 
 ## House style
 

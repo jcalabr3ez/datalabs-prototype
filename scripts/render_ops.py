@@ -63,6 +63,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
+        "title": "Every source is checked every day",
+        "body": (
+            "A daily GitHub Action now probes every live source URL and "
+            "compares high-cadence publisher files to the ledger vintages. "
+            "It does not write ledgers. When a file is newer than the "
+            "ledger, merge the refresh job that already owns that tool."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
         "title": "Ask names the steps while it works",
         "body": (
             "While a question is in flight, Ask no longer says Looking "

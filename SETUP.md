@@ -260,10 +260,19 @@ point it at another host, add a PUBLIC repository variable SITE_URL
     DL-05 board side still has no fetch. PERAC's Investment Report is a
     PDF. Follow scripts/dl05-research-pass.md when PERAC posts a new
     year. Do not invent a second retiree fetch.
+    daily-source-check.yml
+                       Daily. Probes every live source URL and compares
+                       high-cadence publisher files to the ledger vintages.
+                       Fails when a reachable file is newer than the ledger
+                       or a register file URL is gone. Does not write
+                       ledgers. The job that already owns that tool still
+                       opens the refresh PR. First run: Actions tab >
+                       Daily source check > Run workflow.
     checks.yml         Weekly and on every PR. Fails when a ledger ages past
                        its publisher cadence, when a generated page block is
                        out of sync with its canonical ledger, or when the
-                       engine manifests do not load.
+                       engine manifests do not load. Also runs the daily
+                       source probes so a PR cannot hide a stale file.
     eval.yml           Weekly. POSTs golden questions to the LIVE site's ask
                        endpoint and asserts each routes to the right tool
                        with a cited, linked answer. The key stays in

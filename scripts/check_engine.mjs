@@ -68,6 +68,7 @@ const GOLDEN_HITS = [
   ["What is real GDP in the United States?", "DL-15"],
   ["How many housing units were authorized in Massachusetts?", "DL-16"],
   ["How many housing units were authorized in the United States?", "DL-16"],
+  ["Compare the housing units permitted in north east states", "DL-16"],
   ["What was domestic migration in Massachusetts?", "DL-17"],
   ["Which state gained the most people from domestic migration?", "DL-17"],
   ["What is the cost of living in Massachusetts compared to the US?", "DL-19"],
@@ -239,21 +240,59 @@ for (const t of tools) {
 const bostonWeather = ask.selectDatasets("What will the weather be in Boston tomorrow?", []);
 check(bostonWeather.hits.length === 0, "Boston weather is a no-hit question");
 check(!!bostonWeather.cores["DL-01"] && !!bostonWeather.cores["DL-05"],
-  "Boston weather still ships the flagship cores");
+  "Boston weather still ships United States and Massachusetts cores");
+check(!bostonWeather.cores["DL-02"], "Boston weather drops the Florida insurance core");
 
 const maSchools = ask.selectDatasets("How many students are enrolled in Massachusetts public schools?", []);
 check(maSchools.hits.includes("DL-06"), "MA schools question hits DL-06");
 check(!!maSchools.cores["DL-06"], "MA schools question keeps the DL-06 core");
-check(!!maSchools.cores["DL-01"], "MA schools question keeps flagship DL-01");
+check(!maSchools.cores["DL-01"], "MA schools question drops the wealth-tax core");
 check(!maSchools.cores["DL-14"], "MA schools question drops the unemployment core");
 check(!maSchools.cores["DL-31"], "MA schools question drops the imprisonment core");
 
 const wyLfpr = ask.selectDatasets("What is the labor force participation rate in WY?", []);
 check(wyLfpr.hits.includes("DL-14"), "WY LFPR hits DL-14");
 check(!!wyLfpr.cores["DL-14"], "WY LFPR keeps the DL-14 core");
+check(!wyLfpr.cores["DL-01"], "WY LFPR drops the wealth-tax core");
+check(!wyLfpr.cores["DL-03"], "WY LFPR drops the MBTA core");
 check(!wyLfpr.cores["DL-06"], "WY LFPR drops the Massachusetts schools core");
 check(!wyLfpr.cores["DL-25"], "WY LFPR drops the town-profile core");
 check(!wyLfpr.cores["DL-34"], "WY LFPR drops the Boston schools core");
+
+const maHousing = ask.selectDatasets("How many housing units were authorized in Massachusetts?", []);
+check(maHousing.hits.includes("DL-16"), "MA housing units question hits DL-16");
+check(!!maHousing.cores["DL-16"], "MA housing units question keeps the housing core");
+check(!maHousing.cores["DL-01"], "MA housing units question drops the wealth-tax core");
+check(!maHousing.cores["DL-14"], "MA housing units question drops the unemployment core");
+check(!maHousing.cores["DL-06"], "MA housing units question drops the schools core");
+
+const neHousing = ask.selectDatasets("Compare the housing units permitted in north east states", []);
+check(neHousing.hits.includes("DL-16"), "Northeast housing compare hits DL-16");
+check(!!neHousing.cores["DL-16"], "Northeast housing compare keeps the housing core");
+check(!neHousing.cores["DL-01"], "Northeast housing compare drops the wealth-tax core");
+check(!neHousing.cores["DL-02"], "Northeast housing compare drops the Florida insurance core");
+check(!neHousing.cores["DL-14"], "Northeast housing compare drops the unemployment core");
+check(!neHousing.cores["DL-31"], "Northeast housing compare drops the imprisonment core");
+check(Object.keys(neHousing.cores).length === 1,
+  "Northeast housing compare ships only DL-16 (" + Object.keys(neHousing.cores).join(",") + ")");
+check(neHousing.region && neHousing.region.id === "northeast",
+  "Northeast housing compare attaches the Census Northeast roster");
+check(neHousing.region && neHousing.region.tool_id === "DL-16" && (neHousing.region.rows || []).length === 9,
+  "Northeast housing compare ships the nine published Northeast permit rows");
+const neNy = (neHousing.region && neHousing.region.rows || []).find(function (r) { return r.st === "NY"; });
+const dl16Ny = ((tools.find(function (t) { return t.id === "DL-16"; }).modelSlice(
+  tools.find(function (t) { return t.id === "DL-16"; }).dataset
+).rows || []).find(function (r) { return r.st === "NY"; }));
+check(neNy && dl16Ny && neNy.v === dl16Ny.v,
+  "Northeast housing compare keeps New York's published permit count");
+check(!ask.questionRegion("How many housing units were authorized in North Carolina?"),
+  "North Carolina is not read as Census Northeast");
+
+const wealthTax = ask.selectDatasets("Which states are considering a wealth tax?", []);
+check(wealthTax.hits.includes("DL-01"), "wealth-tax question hits DL-01");
+check(!!wealthTax.cores["DL-01"], "wealth-tax question keeps the wealth-tax core");
+check(!wealthTax.cores["DL-16"], "wealth-tax question drops the housing core");
+check(!wealthTax.cores["DL-03"], "wealth-tax question drops the MBTA core");
 
 const dl01CoreObj = tools.find(function (t) { return t.id === "DL-01"; }).coreSlice(
   tools.find(function (t) { return t.id === "DL-01"; }).dataset

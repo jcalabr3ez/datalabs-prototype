@@ -8,11 +8,15 @@
 // the decision. Every tool can ship a small coreSlice; a trigger hit
 // upgrades that tool to a slim modelSlice (51-state rows and district
 // summaries, not ZIP files or raw state cubes). Questions that name a
-// place or a vertical drop cores that cannot apply. The five flagships
-// and every trigger hit still ship. Prompt caching covers the static
-// rules and cores, then the bundled catalog, so a hit pattern never
-// invalidates the cached prefix. The visitor's recent exchanges ride along,
-// and no free-form model text is ever parsed.
+// place, a Census region, or a vertical drop cores that cannot apply.
+// Housing questions include housing units and units permitted, not only
+// the bigram housing permit. A named Census region also ships those
+// published state rows. Trigger hits always ship. Flagships do not ride
+// along unless the place or topic matches, or the question has no
+// signal. Prompt caching covers the static rules and cores, then the
+// bundled catalog, so a hit pattern never invalidates the cached prefix.
+// The visitor's recent exchanges ride along, and no free-form model
+// text is ever parsed.
 // Holds the Anthropic API key server-side (env var ANTHROPIC_API_KEY).
 
 const BUNDLED_CATALOG = require('./catalog.json');
@@ -48,8 +52,6 @@ function toolsMatching(text) {
   });
 }
 
-var FLAGSHIP = { 'DL-01': 1, 'DL-02': 1, 'DL-03': 1, 'DL-04': 1, 'DL-05': 1 };
-
 var TOOL_META = {};
 (BUNDLED_CATALOG || []).forEach(function (row) {
   if (row && row.id && String(row.id).indexOf('DL-') === 0) {
@@ -77,7 +79,7 @@ var VERTICALS = [
   { group: 'Healthcare', re: /\bhospital\b|\bmedicaid\b|\bhealthcare\b|\bhealth care\b|\bout-of-pocket\b|\bmhis\b|\bunderinsured\b/ },
   { group: '340B', re: /\b340b\b/ },
   { group: 'Economy & Jobs', re: /\bunemployment\b|\bgdp\b|\bbusiness application\b|\bbusiness formation\b|\bmigration\b|\bcost of living\b|\blabor force\b|\blabor-force\b|\bjobless\b|\bui claims\b|\bparticipation rate\b/ },
-  { group: 'Housing', re: /\bhousing permit\b|\bbuilding permit\b|\bcase-shiller\b|\bhouse price\b/ },
+  { group: 'Housing', re: /\bhousing permit|\bbuilding permit|\bhousing units\b|\bunits authorized\b|\bunits permitted\b|\bpermit-issuing\b|\bhousing production\b|\bcase-shiller\b|\bcase shiller\b|\bhouse price\b/ },
   { group: 'Taxation', re: /\btaxpayer\b|\bagi\b|\btax collection\b|\bwealth tax\b|\bincome tax\b|\bsurtax\b/ },
   { group: 'Transportation & Infrastructure', re: /\btransit\b|\bridership\b|\bvmt\b|\bvehicle-miles\b|\bmbta\b|\bthe t\b/ },
   { group: 'Energy', re: /\belectricity\b|\bkilowatthour\b|\bkwh\b|\bemissions\b|\bco2\b/ },
@@ -87,6 +89,24 @@ var VERTICALS = [
   { group: 'Public Pensions', re: /\bpension\b|\bfunded ratio\b|\bperac\b|\bretiree\b/ }
 ];
 
+// Same Census region lists as the fifty-state page chips in suite-runtime.js.
+// "north east" is the nine-state Northeast, not New England.
+var CENSUS_REGIONS = [
+  { id: 'northeast', label: 'Census Northeast', re: /\bnorth[\s-]?east\b/, sts: ['CT', 'ME', 'MA', 'NH', 'RI', 'VT', 'NJ', 'NY', 'PA'] },
+  { id: 'new_england', label: 'New England', re: /\bnew england\b/, sts: ['CT', 'ME', 'MA', 'NH', 'RI', 'VT'] },
+  { id: 'midwest', label: 'Census Midwest', re: /\bmid[\s-]?west\b/, sts: ['IL', 'IN', 'MI', 'OH', 'WI', 'IA', 'KS', 'MN', 'MO', 'NE', 'ND', 'SD'] },
+  { id: 'south', label: 'Census South', re: /\bthe south\b|\bsouthern states\b|\bcensus south\b/, sts: ['DE', 'FL', 'GA', 'MD', 'NC', 'SC', 'VA', 'DC', 'WV', 'AL', 'KY', 'MS', 'TN', 'AR', 'LA', 'OK', 'TX'] },
+  { id: 'west', label: 'Census West', re: /\bthe west\b|\bwestern states\b|\bcensus west\b/, sts: ['AZ', 'CO', 'ID', 'MT', 'NV', 'NM', 'UT', 'WY', 'AK', 'CA', 'HI', 'OR', 'WA'] }
+];
+
+function questionRegion(blob) {
+  var t = String(blob || '').toLowerCase();
+  for (var i = 0; i < CENSUS_REGIONS.length; i++) {
+    if (CENSUS_REGIONS[i].re.test(t)) return CENSUS_REGIONS[i];
+  }
+  return null;
+}
+
 function questionPlace(blob) {
   var q = String(blob || '');
   var t = q.toLowerCase();
@@ -94,6 +114,8 @@ function questionPlace(blob) {
   var ma = /\bmassachusetts\b|\bcommonwealth\b|\bthe t\b|\bmbta\b/.test(t);
   var boston = /\bboston\b/.test(t);
   var us = /\bunited states\b|\bu\.s\.a?\b|\bnational\b|\bfifty states\b|\bwhich state\b|\bevery state\b|\ball 50\b|\ball fifty\b/.test(t);
+  var region = questionRegion(t);
+  if (region) us = true;
   var other = false;
   STATE_NAMES.forEach(function (name) {
     if (name === 'florida' || name === 'massachusetts') return;
@@ -109,7 +131,8 @@ function questionPlace(blob) {
   if (boston) ma = true;
   return {
     fl: fl, ma: ma, boston: boston, us: us, other: other,
-    any: !!(fl || ma || boston || us || other)
+    any: !!(fl || ma || boston || us || other),
+    region: region
   };
 }
 
@@ -123,7 +146,7 @@ function questionVerticals(blob) {
 }
 
 function keepCore(id, place, groups, hitSet) {
-  if (hitSet[id] || FLAGSHIP[id]) return true;
+  if (hitSet[id]) return true;
   var meta = TOOL_META[id] || {};
   if (groups.length && groups.indexOf(meta.group) < 0) return false;
   if (place.any) {
@@ -132,6 +155,27 @@ function keepCore(id, place, groups, hitSet) {
     if (meta.g === 'MA' && !place.ma && !place.boston) return false;
   }
   return true;
+}
+
+function regionFocus(region, hits) {
+  if (!region) return null;
+  var out = { id: region.id, label: region.label, states: region.sts };
+  for (var i = 0; i < hits.length; i++) {
+    var t = hits[i];
+    var slice = t.modelSlice();
+    var rows = (slice.rows || []).filter(function (r) {
+      return r && region.sts.indexOf(r.st) >= 0;
+    });
+    if (!rows.length) continue;
+    out.tool_id = t.id;
+    out.metric_label = slice.metric_label || t.label;
+    out.as_of = slice.data_month_label || slice.as_of;
+    out.rows = rows.map(function (r) {
+      return { st: r.st, name: r.name, v: r.v, rank: r.rank, yoy_pct: r.yoy_pct };
+    });
+    break;
+  }
+  return out;
 }
 
 function selectDatasets(question, history) {
@@ -147,7 +191,12 @@ function selectDatasets(question, history) {
     if (keepCore(t.id, place, groups, hitSet)) cores[t.id] = t.coreSlice();
   });
   hits.forEach(function (t) { full[t.id] = t.modelSlice(); });
-  return { cores: cores, full: full, hits: hits.map(function (t) { return t.id; }) };
+  return {
+    cores: cores,
+    full: full,
+    hits: hits.map(function (t) { return t.id; }),
+    region: regionFocus(place.region, hits)
+  };
 }
 
 // Sonnet 5: adaptive thinking is ON when the thinking param is omitted, and
@@ -220,7 +269,7 @@ const ENGINE_SCHEMA = {
 
 // ---------- prompt ----------
 
-const ENGINE_RULES = 'You are the engine behind Pioneer Institute DataLabs\' question box. You receive a CATALOG of native DataLabs applications (ids DL-01 through DL-34), DATASETS_CORE (the answering core of every AI-enabled tool), optional DATASETS_FULL (the complete ledger for the tools most likely to answer; when an id appears in both, prefer FULL), and a visitor question, possibly with recent exchanges for context.\n\nDecide exactly one of:\n- answer: one of the DATASETS answers the question from its own data. Set tool_id and answer from ONLY that dataset, never outside knowledge. An exclusion removes ONLY exactly what it names; never stretch it to a related topic the same scope lists as covered (for example, a dataset that covers farebox recovery and cost per trip still answers those even though it excludes the fare prices riders pay). A plain current-fact lookup that a dataset holds (for example one state\'s current top income tax rate) is an answer, not a route.\n- route: no dataset covers it but a different catalog application covers the topic. Fill matches with 1 to 3 DL-xx ids, best first; leave dashboards empty.\n- none: DataLabs does not cover it (including everything every dataset excludes, like personal advice or predictions). Write one or two honest sentences in note and offer in followups the two nearest questions the datasets CAN answer.\n\nPrefer answer over route: whenever a dataset covers the question, choose answer for that dataset; only choose route when no dataset covers the topic but a catalog application does.\n\nWhen decision is answer: every figure cites its source as the answering tool\'s rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. Set chart and view only as the answering tool\'s rules describe; when the answering tool has no charts or no views, set them to none. Also list up to 2 OTHER relevant tools in see_also (never the answering tool itself). Never improvise or estimate beyond the dataset.\n\nWhere a tool\'s rules say to set answerable to false, that means decision none: put the honest sentences in note and the offered questions in followups.\n\nNever invent tool ids; use DL-xx ids exactly as they appear. Topic headings are not tools. Never state statistics in reasons. No em dashes anywhere; use commas, colons, or middots.\n\nDataset scopes:\n' + TOOLS.map(function (t) { return '- ' + t.id + ': ' + t.scope; }).join('\n') + '\n\nPer-tool answer rules:\n\n' + TOOLS.map(function (t) { return t.rules; }).join('\n\n');
+const ENGINE_RULES = 'You are the engine behind Pioneer Institute DataLabs\' question box. You receive a CATALOG of native DataLabs applications (ids DL-01 through DL-34), DATASETS_CORE (the answering core of every AI-enabled tool), optional DATASETS_FULL (the complete ledger for the tools most likely to answer; when an id appears in both, prefer FULL), and a visitor question, possibly with recent exchanges for context.\n\nDecide exactly one of:\n- answer: one of the DATASETS answers the question from its own data. Set tool_id and answer from ONLY that dataset, never outside knowledge. An exclusion removes ONLY exactly what it names; never stretch it to a related topic the same scope lists as covered (for example, a dataset that covers farebox recovery and cost per trip still answers those even though it excludes the fare prices riders pay). A plain current-fact lookup that a dataset holds (for example one state\'s current top income tax rate) is an answer, not a route.\n- route: no dataset covers it but a different catalog application covers the topic. Fill matches with 1 to 3 DL-xx ids, best first; leave dashboards empty.\n- none: DataLabs does not cover it (including everything every dataset excludes, like personal advice or predictions). Write one or two honest sentences in note and offer in followups the two nearest questions the datasets CAN answer.\n\nPrefer answer over route: whenever a dataset covers the question, choose answer for that dataset; only choose route when no dataset covers the topic but a catalog application does.\n\nWhen a CENSUS_REGION block is present, compare those published state rows. Do not invent a regional total. Set highlight to null unless the question also names one state.\n\nWhen decision is answer: every figure cites its source as the answering tool\'s rules specify. Plain language, no bullet points, no markdown. detail must add substance beyond the headline, never restate it. Set chart and view only as the answering tool\'s rules describe; when the answering tool has no charts or no views, set them to none. Also list up to 2 OTHER relevant tools in see_also (never the answering tool itself). Never improvise or estimate beyond the dataset.\n\nWhere a tool\'s rules say to set answerable to false, that means decision none: put the honest sentences in note and the offered questions in followups.\n\nNever invent tool ids; use DL-xx ids exactly as they appear. Topic headings are not tools. Never state statistics in reasons. No em dashes anywhere; use commas, colons, or middots.\n\nDataset scopes:\n' + TOOLS.map(function (t) { return '- ' + t.id + ': ' + t.scope; }).join('\n') + '\n\nPer-tool answer rules:\n\n' + TOOLS.map(function (t) { return t.rules; }).join('\n\n');
 
 // ---------- model call ----------
 
@@ -322,12 +371,19 @@ exports.handler = async function (event) {
     // ledgers for trigger hits last so a hit pattern never invalidates the
     // cached prefix. This is how 20 tools stay one call without a router.
     const selected = selectDatasets(question, history);
-    const out = await callModel(ANSWER_MODEL, [
+    const systemBlocks = [
       { type: 'text', text: ENGINE_RULES },
       { type: 'text', text: 'DATASETS_CORE:\n' + JSON.stringify(selected.cores), cache_control: { type: 'ephemeral' } },
       { type: 'text', text: 'CATALOG:\n' + JSON.stringify(catalog), cache_control: { type: 'ephemeral' } },
       { type: 'text', text: 'DATASETS_FULL (prefer over CORE for the same id):\n' + JSON.stringify(selected.full) }
-    ], messages, ENGINE_SCHEMA, 10000, ANSWER_EFFORT);
+    ];
+    if (selected.region) {
+      systemBlocks.push({
+        type: 'text',
+        text: 'CENSUS_REGION (published state rows for the named region; do not invent a regional total):\n' + JSON.stringify(selected.region)
+      });
+    }
+    const out = await callModel(ANSWER_MODEL, systemBlocks, messages, ENGINE_SCHEMA, 10000, ANSWER_EFFORT);
 
     const catalogIds = new Set();
     (Array.isArray(catalog) ? catalog : []).forEach(function (t) { if (t && t.id) catalogIds.add(t.id); });
@@ -346,6 +402,14 @@ exports.handler = async function (event) {
       parsed.highlight = (hl && Object.prototype.hasOwnProperty.call(valid, hl)) ? hl : null;
       parsed.link = tool.link(parsed);
       parsed.src = tool.src(null, parsed);
+      var regionId = selected.region && selected.region.id;
+      if (regionId && /^(northeast|midwest|south|west)$/.test(regionId) && parsed.link) {
+        var parts = String(parsed.link).split('#');
+        var path = parts[0];
+        var hash = parts[1] ? '#' + parts[1] : '';
+        var sep = path.indexOf('?') >= 0 ? '&' : '?';
+        parsed.link = path + sep + 'region=' + regionId + hash;
+      }
       // Cross-tool pointers, validated against the catalog.
       const seeAlso = (out.see_also || [])
         .filter(function (s) { return s && s.id !== tool.id && catalogIds.has(s.id); })
@@ -440,3 +504,4 @@ exports.selectDatasets = selectDatasets;
 exports.toolsMatching = toolsMatching;
 exports.matchesTrigger = matchesTrigger;
 exports.questionBlob = questionBlob;
+exports.questionRegion = questionRegion;

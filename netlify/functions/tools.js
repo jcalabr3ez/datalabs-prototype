@@ -17,7 +17,8 @@
 //   dataset       lazy getter over the ledger JSON (not parsed at load)
 //   coreSlice(d)  the answering core (scope, derived, latest figures).
 //                 Keep this small. Place and vertical filters drop cores
-//                 that cannot apply; flagships and hits still ship.
+//                 that cannot apply. Hits still ship. Flagships ship
+//                 only when the place or topic matches.
 //   modelSlice(d) the full subset the model sees when this tool is a hit
 //   charts        pre-built chart kinds the model may SELECT, or null
 //   views         page views the model may SELECT, or null
@@ -804,7 +805,7 @@ const TOOLS = [
       'units authorized', 'housing production', 'permit-issuing',
       'case-shiller', 'case shiller', 'boston house price'
     ],
-    extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. The Case-Shiller Boston MSA index sits in derived.secondary.case_shiller_boston (FRED BOXRSA). Boston is the only Massachusetts city in that series. FHFA has no U.S. row in that state file.'
+    extra: 'FHFA house-price annual change sits in derived.secondary.fhfa_hpi_annual_change_2025. The Case-Shiller Boston MSA index sits in derived.secondary.case_shiller_boston (FRED BOXRSA). Boston is the only Massachusetts city in that series. FHFA has no U.S. row in that state file. Census Northeast on the page filter is CT, ME, MA, NH, RI, VT, NJ, NY, PA. Compare those published rows. Do not invent a Northeast total.'
   }),
   namesakeCore(suiteTool({
     id: 'DL-17',

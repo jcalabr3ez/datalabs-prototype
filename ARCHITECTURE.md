@@ -40,8 +40,8 @@ function.
 flowchart TB
   Door["index.html · front door"]
   Door --> AskBox[Ask box in the Pioneer-blue masthead]
-  Door --> Releases[New Releases tiles]
   Door --> Catalog[Catalog: four Pioneer verticals]
+  Door --> Releases[New Releases tiles]
   Door --> About[About]
   Catalog --> Flagships
   Catalog --> Suite
@@ -61,8 +61,10 @@ flowchart TB
 ```
 
 The four catalog verticals are Education, Healthcare, Economic Opportunity, and
-American Citizenship. Each catalog row is a tool: name, coverage line, place,
-and data vintage.
+American Citizenship. They sit on the first screen under Ask, with application
+counts. One topic stays open: Education, or the last one you opened. New
+releases sit after the catalog. Each catalog row is a tool: name, coverage
+line, place, and data vintage.
 
 A live fifty-state tool opens on one public question, one large number, and a
 matching Figure 1 (usually the 50-state map). A Place control rewrites that

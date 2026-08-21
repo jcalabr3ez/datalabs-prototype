@@ -63,6 +63,16 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
+        "title": "Catalog sits under Ask",
+        "body": (
+            "The four Pioneer topics now sit on the first screen under "
+            "Ask, with application counts. New releases no longer sit "
+            "between Ask and the catalog. The heading is Catalog. One "
+            "topic stays open: Education, or the last one you opened."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
         "title": "Ask skips thinking on a clear hit and returns before the log",
         "body": (
             "A question that matches one tool no longer waits on Sonnet "

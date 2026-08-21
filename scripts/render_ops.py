@@ -63,6 +63,17 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
+        "title": "Ask skips thinking on a clear hit and returns before the log",
+        "body": (
+            "A question that matches one tool no longer waits on Sonnet "
+            "thinking. Weather and other no-hit questions still think. "
+            "The answer returns before the question log write. "
+            "DATALABS_ASK_THINKING=1 turns thinking back on for every "
+            "question."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
         "title": "Ask can compare Northeast housing permits",
         "body": (
             "A question about housing units permitted in the Northeast "

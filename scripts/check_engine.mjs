@@ -288,6 +288,15 @@ check(neNy && dl16Ny && neNy.v === dl16Ny.v,
 check(!ask.questionRegion("How many housing units were authorized in North Carolina?"),
   "North Carolina is not read as Census Northeast");
 
+check(!ask.useThinking(ask.selectDatasets("How many housing units were authorized in Massachusetts?", [])),
+  "a single housing hit skips thinking");
+check(!ask.useThinking(ask.selectDatasets("Which states are considering a wealth tax?", [])),
+  "a single wealth-tax hit skips thinking");
+check(!ask.useThinking(ask.selectDatasets("Compare the housing units permitted in north east states", [])),
+  "Northeast housing compare skips thinking");
+check(ask.useThinking(ask.selectDatasets("What will the weather be tomorrow?", [])),
+  "a no-hit question keeps thinking");
+
 const wealthTax = ask.selectDatasets("Which states are considering a wealth tax?", []);
 check(wealthTax.hits.includes("DL-01"), "wealth-tax question hits DL-01");
 check(!!wealthTax.cores["DL-01"], "wealth-tax question keeps the wealth-tax core");

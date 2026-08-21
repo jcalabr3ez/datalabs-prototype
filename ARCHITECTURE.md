@@ -172,8 +172,10 @@ sequenceDiagram
 JSON plus one entry here. `ask.js` iterates the list and does not take
 per-tool edits.
 
-- **coreSlice**: always sent. Scope, latest, slim `derived`. Small on purpose.
-  At 30 tools every core still ships, so a thin trigger list cannot hide a tool.
+- **coreSlice**: sent when the place or topic matches, and on every
+  trigger hit. Scope, latest, slim `derived`. Small on purpose. A
+  question with no signal still ships every core, so a thin trigger
+  list cannot hide a tool. Flagships do not ride along on every question.
 - **modelSlice**: full answering subset when a trigger phrase hits (for
   example "taxpayer returns" or "state tax").
 - **decision**: `answer` (cite this ledger), `route` (send them to another

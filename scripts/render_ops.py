@@ -67,10 +67,12 @@ CHANGELOG = [
         "body": (
             "A question about housing units permitted in the Northeast "
             "now counts as Housing and ships the nine Census Northeast "
-            "state rows from the Housing Permits ledger. It no longer "
-            "loads every unrelated core. Ask still does not invent a "
-            "regional total. The Open link lands on the Northeast chip "
-            "already on that page."
+            "state rows from the Housing Permits ledger. Ask no longer "
+            "sends the five flagships on every question: it keeps the "
+            "tools the place or topic matches, plus every trigger hit. "
+            "A question with no signal still ships every core. Ask "
+            "still does not invent a regional total. The Open link "
+            "lands on the Northeast chip already on that page."
         ),
     },
     {

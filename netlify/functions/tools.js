@@ -17,7 +17,8 @@
 //   dataset       lazy getter over the ledger JSON (not parsed at load)
 //   coreSlice(d)  the answering core (scope, derived, latest figures).
 //                 Keep this small. Place and vertical filters drop cores
-//                 that cannot apply; flagships and hits still ship.
+//                 that cannot apply. Hits still ship. Flagships ship
+//                 only when the place or topic matches.
 //   modelSlice(d) the full subset the model sees when this tool is a hit
 //   charts        pre-built chart kinds the model may SELECT, or null
 //   views         page views the model may SELECT, or null

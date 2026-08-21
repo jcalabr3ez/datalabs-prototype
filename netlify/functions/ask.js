@@ -11,8 +11,9 @@
 // place, a Census region, or a vertical drop cores that cannot apply.
 // Housing questions include housing units and units permitted, not only
 // the bigram housing permit. A named Census region also ships those
-// published state rows. The five flagships and every trigger hit still
-// ship. Prompt caching covers the static rules and cores, then the
+// published state rows. Trigger hits always ship. Flagships do not ride
+// along unless the place or topic matches, or the question has no
+// signal. Prompt caching covers the static rules and cores, then the
 // bundled catalog, so a hit pattern never invalidates the cached prefix.
 // The visitor's recent exchanges ride along, and no free-form model
 // text is ever parsed.
@@ -50,8 +51,6 @@ function toolsMatching(text) {
     return (t.triggers || []).some(function (tr) { return matchesTrigger(text, tr); });
   });
 }
-
-var FLAGSHIP = { 'DL-01': 1, 'DL-02': 1, 'DL-03': 1, 'DL-04': 1, 'DL-05': 1 };
 
 var TOOL_META = {};
 (BUNDLED_CATALOG || []).forEach(function (row) {
@@ -147,7 +146,7 @@ function questionVerticals(blob) {
 }
 
 function keepCore(id, place, groups, hitSet) {
-  if (hitSet[id] || FLAGSHIP[id]) return true;
+  if (hitSet[id]) return true;
   var meta = TOOL_META[id] || {};
   if (groups.length && groups.indexOf(meta.group) < 0) return false;
   if (place.any) {

@@ -63,6 +63,18 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 21, 2026",
+        "title": "Ask no longer upgrades on bare tax, Florida, or insurance",
+        "body": (
+            "A question that only says tax, Florida, or insurance no "
+            "longer ships the full wealth-tax or homeowners ledger. "
+            "Those words now have to sit in a phrase the page actually "
+            "covers. Retail electricity and state school-score cores "
+            "drop repeated state rows so the next companion series has "
+            "room under the 50 KB cap."
+        ),
+    },
+    {
+        "date": "August 21, 2026",
         "title": "Shared suite runtime, slimmer pages, and self-hosted fonts",
         "body": (
             "Suite pages load one shared chart runtime instead of "

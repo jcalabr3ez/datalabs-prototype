@@ -123,6 +123,7 @@ const GOLDEN_HITS = [
 ];
 
 const CORE_BUDGET = 50000; // bytes of JSON per tool; twenty cores must stay well under context
+const CORE_HEADROOM = 38000; // DL-04 and DL-07 must leave room for the next companion series
 const CORES_PROJECTED_BUDGET = 500000; // 20 * average core, in bytes
 
 let failures = 0;
@@ -147,8 +148,30 @@ for (const t of tools) {
   check(core.length > 200, t.id + " coreSlice is non-empty (" + core.length + " B)");
   check(full.length > 200, t.id + " modelSlice is non-empty (" + full.length + " B)");
   check(core.length <= CORE_BUDGET, t.id + " coreSlice " + core.length + " B is under " + CORE_BUDGET);
+  if (t.id === "DL-04" || t.id === "DL-07") {
+    check(core.length <= CORE_HEADROOM, t.id + " coreSlice " + core.length + " B leaves headroom under " + CORE_HEADROOM);
+  }
   check(core.length <= full.length, t.id + " coreSlice (" + core.length + ") <= modelSlice (" + full.length + ")");
 }
+
+const dl04 = tools.find(function (t) { return t.id === "DL-04"; });
+const dl04Core = dl04.coreSlice(dl04.dataset);
+check(dl04Core.latest_by_st && dl04Core.latest_by_st.HI && dl04Core.latest_by_st.HI.v != null,
+  "DL-04 coreSlice has Hawaii all-sector price in latest_by_st");
+check(dl04Core.residential_by_st && dl04Core.residential_by_st.MA && dl04Core.residential_by_st.MA.v != null,
+  "DL-04 coreSlice has Massachusetts residential price in residential_by_st");
+check(!dl04Core.latest_states && !dl04Core.residential_states,
+  "DL-04 coreSlice dropped the full latest_states and residential_states rows");
+
+const dl07 = tools.find(function (t) { return t.id === "DL-07"; });
+const naepCore = ((((dl07.coreSlice(dl07.dataset).derived || {}).secondary || {}).naep_2024 || {}).series || {}).read4 || {};
+check(naepCore.by_st && naepCore.by_st.WY && naepCore.by_st.WY.v != null,
+  "DL-07 coreSlice has Wyoming NAEP grade 4 reading in by_st");
+check(!naepCore.rows, "DL-07 coreSlice drops naep series.rows");
+const naepChange = (((((dl07.coreSlice(dl07.dataset).derived || {}).secondary || {}).naep_2024 || {}).history || {}).read4 || {}).change_2019_2024 || {};
+check(naepChange.by_st && naepChange.by_st.LA && naepChange.by_st.LA.v != null,
+  "DL-07 coreSlice keeps 2019-to-2024 NAEP change in by_st");
+check(!naepChange.rows, "DL-07 coreSlice drops naep history change rows");
 
 const dl15 = tools.find(function (t) { return t.id === "DL-15"; });
 const pcpiCore = ((((dl15.coreSlice(dl15.dataset).derived || {}).secondary || {}).personal_income_2025 || {}).per_capita || {});
@@ -215,6 +238,28 @@ for (const t of tools) {
 
 check(!ask.matchesTrigger("stable", "t"), "single-letter trigger would be whole-word only");
 check(ask.matchesTrigger("is the t back", "the t"), "'the t' matches the ridership golden");
+
+const BARE_COLLISIONS = [
+  ["Insurance costs in Texas", "DL-02"],
+  ["What does auto insurance cost in Texas?", "DL-02"],
+  ["taxpayers leaving Massachusetts", "DL-01"],
+  ["Where did Massachusetts taxpayers move, and how many went to Florida?", "DL-01"],
+  ["Where did Massachusetts taxpayers move, and how many went to Florida?", "DL-02"],
+  ["How many UI initial claims did Massachusetts file last week?", "DL-02"],
+  ["What is the unemployment insurance claims count in Massachusetts?", "DL-02"],
+  ["What is Boston median household income?", "DL-04"],
+];
+for (const [q, tool] of BARE_COLLISIONS) {
+  const hits = ask.toolsMatching(q).map(function (t) { return t.id; });
+  check(!hits.includes(tool), "bare token does not upgrade " + tool + " for: " + q + "  (hits: " + hits.join(",") + ")");
+}
+
+const dl01 = tools.find(function (t) { return t.id === "DL-01"; });
+const dl02 = tools.find(function (t) { return t.id === "DL-02"; });
+["tax", "florida", "insurance"].forEach(function (token) {
+  check(!(dl01.triggers || []).includes(token), "DL-01 dropped bare trigger " + token);
+  check(!(dl02.triggers || []).includes(token), "DL-02 dropped bare trigger " + token);
+});
 
 const catalog = require("../catalog.json");
 function catalogAiIds(node, ids) {

@@ -21,4 +21,8 @@
 .ask-resp .fups{margin-top:10px;font:13px/1.45 var(--sans)}
 .ask-resp .fups a{color:var(--navy);margin-right:12px}
 .ask-resp .load,.ask-resp .noans{font:15px/1.5 var(--sans);color:var(--ink)}
+.ask-resp .load{text-align:center;padding:16px 0 12px}
+.ask-resp .load-k::after{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;border:2px solid var(--navy);border-top-color:transparent;margin-left:10px;vertical-align:middle;animation:askspin .8s linear infinite}
+.ask-resp .slow{font:12px/1.4 var(--sans);color:var(--faint);margin-top:8px}
+@keyframes askspin{to{transform:rotate(360deg)}}
 body.ai-off .ask-starters{display:none}

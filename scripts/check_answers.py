@@ -370,6 +370,15 @@ if "defaultOpenId" not in front or "dl-area" not in front:
     fail("landing does not leave one catalog topic open")
 else:
     ok("landing leaves one catalog topic open")
+widget = (ROOT / "assets/ask-widget.js").read_text(encoding="utf-8")
+if "Looking up" in widget:
+    fail("Ask still says Looking up while it works")
+elif "Matching your question to the catalog" not in widget:
+    fail("Ask is missing the catalog-match wait line")
+elif "Reading the published ledgers that apply" not in widget:
+    fail("Ask is missing the ledger-read wait line")
+else:
+    ok("Ask names the lookup steps while it works")
 for rel in (
     "florida-insurance/index.html",
     "mbta/index.html",

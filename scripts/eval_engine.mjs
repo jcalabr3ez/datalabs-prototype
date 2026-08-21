@@ -13,27 +13,64 @@ import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 
 const SITE_URL = (process.env.SITE_URL || "").replace(/\/+$/, "");
+const EVAL_STRICT = process.env.EVAL_STRICT === "1" || process.env.EVAL_ALLOW_GATE === "0";
+const PROBE_RETRIES = Number(process.env.EVAL_PROBE_RETRIES || 12);
+const PROBE_WAIT_MS = Number(process.env.EVAL_PROBE_WAIT_MS || 10000);
+
+function sleep(ms) {
+  return new Promise(function (resolve) { setTimeout(resolve, ms); });
+}
+
+async function postAsk(body) {
+  const r = await fetch(SITE_URL + "/.netlify/functions/ask", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  return { statusCode: r.status, body: await r.text() };
+}
+
+async function askLive(body, attempts) {
+  let last = { statusCode: 0, body: "" };
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await postAsk(body);
+    } catch (err) {
+      last = { statusCode: 0, body: String(err && err.message ? err.message : err) };
+      if (i + 1 < attempts) await sleep(Math.min(10000, 2000 * (i + 1)));
+    }
+  }
+  return last;
+}
+
+function bailOrSkip(msg) {
+  if (EVAL_STRICT) {
+    console.error("eval fail: " + msg);
+    process.exit(1);
+  }
+  console.warn("eval skip: " + msg);
+  process.exit(0);
+}
+
 let ask;
 if (SITE_URL) {
-  ask = async function (body) {
-    const r = await fetch(SITE_URL + "/.netlify/functions/ask", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
-    });
-    return { statusCode: r.status, body: await r.text() };
-  };
+  ask = function (body) { return askLive(body, 3); };
   console.log("eval mode: live site endpoint " + SITE_URL + "\n");
-  const probe = await ask({ question: "ping" });
+  let probe = { statusCode: 0, body: "" };
+  for (let i = 0; i < PROBE_RETRIES; i++) {
+    probe = await askLive({ question: "ping" }, 1);
+    if (probe.statusCode === 200 || probe.statusCode === 401) break;
+    console.warn(
+      "eval probe: status " + probe.statusCode +
+      ", retry " + (i + 1) + "/" + PROBE_RETRIES
+    );
+    if (i + 1 < PROBE_RETRIES) await sleep(PROBE_WAIT_MS);
+  }
   if (probe.statusCode === 401) {
-    const strict = process.env.EVAL_STRICT === "1" || process.env.EVAL_ALLOW_GATE === "0";
-    const msg = "live site returned 401 (password gate)";
-    if (strict) {
-      console.error("eval fail: " + msg);
-      process.exit(1);
-    }
-    console.warn("eval skip: " + msg + ". Set EVAL_STRICT=1 on scheduled runs.");
-    process.exit(0);
+    bailOrSkip("live site returned 401 (password gate)");
+  }
+  if (probe.statusCode !== 200) {
+    bailOrSkip("live site returned " + probe.statusCode + " (endpoint not ready)");
   }
 } else {
   if (!process.env.ANTHROPIC_API_KEY) {

@@ -1,0 +1,61 @@
+# One daily platform file pass. Opens one PR. Never pushes to main.
+# Editorial half (wealth-tax bills, Florida register) is the Cursor
+# Automation in scripts/daily_platform_pass.md. This Action is the
+# public-file half of that same job.
+# After that Automation is the only clock, delete the older refresh
+# workflows listed in scripts/daily_platform_pass.md.
+name: Daily platform
+
+on:
+  schedule:
+    - cron: "23 10 * * *" # every day, 10:23 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  platform:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install spreadsheet readers
+        run: python3 -m pip install --quiet -r requirements.txt
+      - name: Refresh every public-file ledger
+        run: python3 scripts/daily_platform.py
+      - name: Freshness report
+        run: python3 scripts/check_freshness.py || true
+      - name: Publisher files and every register URL
+        env:
+          DATALABS_CHECK_REGISTER: "1"
+        run: python3 scripts/check_latest_release.py || true
+      - name: Open pull request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/daily-platform
+          title: "Platform daily: public-file ledgers"
+          commit-message: "Platform daily: public-file ledgers"
+          body: |
+            One daily platform pass, file half.
+
+            - MBTA ridership, service, reliability (DL-03)
+            - CTHRU retirees and name search (DL-05)
+            - Suite DL-06 to DL-34 (refresh_suite.py)
+            - Electricity (DL-04) in October only
+
+            Does not invent figures. Does not merge.
+
+            Wealth-tax bills and the Florida register are the other
+            half of this same job: follow
+            scripts/daily_platform_pass.md (Cursor Automation).
+            Do not open a second refresh next to this one.
+
+            Review the ledger diffs before merging. A new month
+            extends a series. A change to a historical cell is a
+            publisher revision.
+          delete-branch: true

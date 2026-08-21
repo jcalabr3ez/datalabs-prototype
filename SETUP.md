@@ -233,87 +233,58 @@ secrets. The Monday eval defaults to https://datalabsai.netlify.app. To
 point it at another host, add a PUBLIC repository variable SITE_URL
 (Settings > Secrets and variables > Actions > Variables).
 
-    dl03-refresh.yml   Monthly. Refetches MBTA ridership from the FTA NTD
-                       API, recomputes the ledger, and opens a PULL REQUEST.
-                       Review the diff (historical revisions show up there),
-                       merge, and the deploy carries the new data. First
-                       run: Actions tab > DL-03 monthly refresh > Run
-                       workflow.
-    dl04-refresh.yml   Yearly, mid-October. Rebuilds retail electricity
-                       prices from EIA Form EIA-861 (checked against
-                       Electric Power Annual table 2.10), generation,
-                       capacity, and Census population, then opens a
-                       PULL REQUEST. First run: Actions tab > DL-04
-                       yearly refresh > Run workflow.
-    dl05-refresh.yml   Monthly. Refetches State and Teacher retiree
-                       payroll and the last-name search index from the
-                       CTHRU Socrata API (dataset pni4-392n), then opens
-                       a PULL REQUEST. Board funded ratios and returns
-                       are not in this job. First run: Actions tab >
-                       DL-05 monthly CTHRU refresh > Run workflow.
-    suite-refresh.yml  Monthly, 12th. Rebuilds every suite ledger that
-                       has a live public-file builder, keeps 340B if the
-                       local OPAIS extract is missing, restubs Patents,
-                       re-renders pages, and opens a PULL
-                       REQUEST. First run: Actions tab > Suite monthly
-                       refresh > Run workflow.
-    DL-05 board side still has no fetch. PERAC's Investment Report is a
-    PDF. Follow scripts/dl05-research-pass.md when PERAC posts a new
-    year. Do not invent a second retiree fetch.
-    checks.yml         Weekly and on every PR. Fails when a ledger ages past
-                       its publisher cadence, when a generated page block is
-                       out of sync with its canonical ledger, or when the
-                       engine manifests do not load.
+    daily-platform.yml Daily file half of the one platform job. Runs
+                       scripts/daily_platform.py (MBTA, CTHRU retirees,
+                       suite, electricity in October), probes every
+                       register URL, and opens one PR on
+                       auto/daily-platform. First run: Actions tab >
+                       Daily platform > Run workflow.
+    daily_platform_pass.md
+                       The same job's editorial half: Cursor Automation
+                       that also rechecks the wealth-tax atlas (bills,
+                       hearings, dockets) and the Florida register.
+                       Paste the prompt in that file. One Automation.
+                       After it is the only clock, delete
+                       dl03-refresh.yml, dl04-refresh.yml,
+                       dl05-refresh.yml, suite-refresh.yml, and the
+                       Monday DL-01 / 17th DL-02 Automations.
+    The older monthly and yearly refresh yml files are deprecated
+    clocks. Do not add work to them.
+    checks.yml         On every PR. Fails on house style, a ledger older
+                       than its cadence, generated blocks out of sync, or
+                       an engine that does not load. A newer publisher
+                       file is a report, not a fail. The daily job opens
+                       that catch-up PR.
     eval.yml           Weekly. POSTs golden questions to the LIVE site's ask
                        endpoint and asserts each routes to the right tool
                        with a cited, linked answer. The key stays in
                        Netlify. Defaults to https://datalabsai.netlify.app.
                        This is the regression net for prompt edits.
 
-    The DL-01 research pass is editorial (hearings, ballots, dockets,
-    citations). It is deliberately NOT a GitHub Actions scraper. Schedule
-    it as a Cursor Automation that follows scripts/dl01-research-pass.md,
-    opens a draft pull request, and never merges. The checks workflow's
-    45-day freshness gate is only the backstop; the weekly pass rechecks
-    every register source, not just the ones that are due.
+    The wealth-tax atlas and Florida register are editorial (hearings,
+    ballots, dockets, Citizens PDFs). They are deliberately not a
+    GitHub Actions scraper. They belong in the same daily Cursor
+    Automation as the file half. Follow scripts/daily_platform_pass.md.
 
-    Create the Automation (paid Cursor plan; billed as cloud-agent usage):
+    Create the one Automation (paid Cursor plan; billed as cloud-agent
+    usage):
 
     1. Open cursor.com/automations/new (or Agents Window > Automations,
        or type /automate in a local Agent chat).
-    2. Trigger: Scheduled. Cron:
-           CRON_TZ=America/New_York 0 9 * * 1
-       That is Monday 9:00 AM Eastern, including DST. If the UI rejects
-       CRON_TZ, crons are UTC: use 0 13 * * 1 during EDT and 0 14 * * 1
-       during EST. Confirm the first fire time. Runs may be late, never
-       early.
-    3. Repository: attach jcalabr3ez/datalabs-prototype, branch main.
-       Scheduled triggers default to no repository; without a repo the
-       agent cannot edit code or open a PR.
-    4. Model: pick the most capable model. Automations always get max
-       context.
-    5. Tools: Pull request creation on, Memories on, Computer use on.
-    6. Paste the prompt from the top of scripts/dl01-research-pass.md.
-    7. Save and activate. The next Monday run should open a draft PR.
-       Review the changelog, then merge to main to deploy.
-
-    A human can still run the same pass on demand by pasting that prompt
-    into a Cloud Agent. Either way: do not push main; merge the PR.
-
-    The DL-02 research pass is the same idea on a monthly clock. It
-    follows scripts/dl02-research-pass.md (full Florida register, not
-    Citizens-only). Create a second Automation:
-
-    1. Name: DL-02 monthly full research pass
-    2. Cron: CRON_TZ=America/New_York 0 10 17 * *
-       That is the 17th at 10:00 AM Eastern, one hour after the weekly
-       DL-01 pass. First fire: Monday, August 17, 2026. Later months
-       fire on the 17th even when that day is not a Monday. UTC
-       fallback: 0 14 17 * * during EDT, 0 15 17 * * during EST.
-    3. Same repo (main), most capable model, PR / Memories / Computer
-       use on.
-    4. Paste the prompt from the top of scripts/dl02-research-pass.md.
-    5. Save and activate. Review the draft PR; merge to deploy.
+    2. Name: Platform daily pass
+    3. Trigger: Scheduled. Cron:
+           CRON_TZ=America/New_York 0 9 * * *
+       That is 9:00 AM Eastern every day, including DST. If the UI
+       rejects CRON_TZ, crons are UTC: use 0 13 * * * during EDT and
+       0 14 * * * during EST. Confirm the first fire time. Runs may
+       be late, never early.
+    4. Repository: attach jcalabr3ez/datalabs-prototype, branch main.
+    5. Model: pick the most capable model. Tools: Pull request
+       creation on, Memories on, Computer use on.
+    6. Paste the prompt from scripts/daily_platform_pass.md.
+    7. Save and activate. Review the one draft PR; merge to deploy.
+       Then turn off the Monday DL-01 and 17th DL-02 Automations and
+       delete the deprecated refresh yml files.
 
 Nothing in the automation pushes to main; refreshes land as pull requests a
 person reviews. Merging to main is what deploys.

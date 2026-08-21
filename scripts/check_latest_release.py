@@ -12,8 +12,10 @@ from __future__ import annotations
 import csv
 import io
 import json
+import os
 import re
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -29,6 +31,7 @@ from suite_common import (  # noqa: E402
     fetch,
     fetch_text,
     ledger_path,
+    load_apps,
 )
 
 TODAY = date.today().isoformat()
@@ -406,6 +409,100 @@ def probe_ntd_mbta():
     return probe_ntd("DL-03", ntd_id="10003")
 
 
+FILE_SUFFIXES = (".csv", ".txt", ".json", ".xlsx", ".xls", ".zip", ".pdf", ".xml")
+
+
+def looks_like_file(url):
+    path = urllib.parse.urlparse(url).path.lower()
+    return path.endswith(FILE_SUFFIXES) or "/resource/" in path or "/download" in path
+
+
+def http_probe(url, timeout=20):
+    """HEAD, then GET if the host rejects HEAD. Does not parse vintage."""
+    req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": UA})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return int(getattr(resp, "status", 200) or 200), None
+    except urllib.error.HTTPError as exc:
+        if int(exc.code) in (403, 405, 501):
+            try:
+                return _http_status(url, timeout=timeout), None
+            except Exception as e:
+                return None, type(e).__name__
+        return int(exc.code), None
+    except Exception as e:
+        return None, type(e).__name__
+
+
+def iter_register():
+    """Every live source URL on the platform. Deduped by tool + source id."""
+    seen = set()
+    for app in load_apps():
+        if app.get("wave") == "build":
+            continue
+        tid = app.get("id") or ""
+        for src in app.get("sources") or []:
+            url = (src.get("url") or "").strip()
+            if not url.startswith("http"):
+                continue
+            key = (tid, src.get("id") or url)
+            if key in seen:
+                continue
+            seen.add(key)
+            yield tid, src.get("id") or "", src.get("name") or url, url
+    for tid in ("DL-01", "DL-02", "DL-03", "DL-04", "DL-05"):
+        led = load_ledger(tid)
+        smap = led.get("source_id_map") or {}
+        if not isinstance(smap, dict):
+            continue
+        for sid, rec in smap.items():
+            if not isinstance(rec, dict):
+                continue
+            url = (rec.get("url") or "").strip()
+            if not url.startswith("http"):
+                continue
+            key = (tid, sid)
+            if key in seen:
+                continue
+            seen.add(key)
+            yield tid, sid, rec.get("label") or rec.get("name") or sid, url
+
+
+def probe_register():
+    """Reachability for every register URL. Does not invent a vintage."""
+    rows = []
+    for tid, sid, name, url in iter_register():
+        code, err = http_probe(url)
+        if err:
+            status = "probe-failed"
+            file_s = f"err:{err}"
+            note = "register URL; no vintage parsed"
+        elif code in (200, 204, 301, 302, 303, 307, 308):
+            status = "reachable"
+            file_s = f"HTTP {code}"
+            note = "register URL; no vintage parsed"
+        elif code in (404, 410):
+            status = "missing"
+            file_s = f"HTTP {code}"
+            note = "register URL is gone"
+        else:
+            status = "probe-failed"
+            file_s = f"HTTP {code}"
+            note = "register URL; host did not return the file"
+        rows.append({
+            "tool": tid,
+            "source": f"{sid} {name}".strip() if sid else name,
+            "ledger": "",
+            "file": file_s,
+            "status": status,
+            "note": note,
+            "url": url,
+            "file_like": looks_like_file(url),
+        })
+        time.sleep(0.12)
+    return rows
+
+
 def main():
     results = []
     for fn in (
@@ -429,19 +526,36 @@ def main():
         if rec.get("note"):
             print(f"{'':14}  {'':8}  {rec['note']}")
 
+    register = []
+    if os.environ.get("DATALABS_CHECK_REGISTER") == "1":
+        print("\nREGISTER (every live source URL; reachability only):")
+        register = probe_register()
+        for rec in register:
+            print(f"{rec['status']:14}  {rec['tool']:8}  {rec['file']:12}  {rec['source']}")
+        results.extend(register)
+
     behind = [r for r in results if r["status"] == "behind"]
     failed = [r for r in results if r["status"] == "probe-failed"]
+    missing = [r for r in register if r["status"] == "missing" and r.get("file_like")]
     print()
-    print(f"probed {len(results)} sources on {TODAY}  UA={UA}")
-    print(f"current {sum(1 for r in results if r['status']=='current')}  "
-          f"behind {len(behind)}  probe-failed {len(failed)}  "
-          f"other {len(results) - len(behind) - len(failed) - sum(1 for r in results if r['status']=='current')}")
+    print(f"probed {len(results)} rows on {TODAY}  UA={UA}")
+    print(f"vintage current {sum(1 for r in results if r['status']=='current')}  "
+          f"behind {len(behind)}  reachable {sum(1 for r in register if r['status']=='reachable')}  "
+          f"missing {sum(1 for r in register if r['status']=='missing')}  "
+          f"probe-failed {len(failed)}")
     if behind:
         print("\nBEHIND (file newer than ledger):")
         for r in behind:
             print(f" - {r['tool']} {r['source']}: ledger {r['ledger']}  file {r['file']}")
+    if missing:
+        print("\nMISSING (register file URL is gone):")
+        for r in missing:
+            print(f" - {r['tool']} {r['source']}: {r.get('url')}")
+    if behind or missing:
         sys.exit(1)
     print("\nno reachable high-cadence file is newer than its ledger")
+    if register:
+        print("every live register file URL still responds")
 
 
 if __name__ == "__main__":

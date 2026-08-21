@@ -1,3 +1,6 @@
+# DEPRECATED clock. The one daily job is daily-platform.yml plus
+# scripts/daily_platform_pass.md. Delete this file after that job is
+# the only clock. Do not add work here.
 # Monthly DL-05 refresh: State and Teacher retiree payroll and the
 # last-name search index from the live CTHRU Socrata API (pni4-392n).
 # Opens a pull request; never pushes to main (a push deploys the site).

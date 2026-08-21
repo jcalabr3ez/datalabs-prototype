@@ -2,7 +2,8 @@
 """Fail when the public question and hero number are different metrics,
 or when jump nav points at missing insight figures.
 
-Does not invent figures. Skips the tax atlas (DL-01) and Florida insurance (DL-02).
+Does not invent figures. Skips the tax atlas (DL-01) jump-href scan.
+Florida insurance (DL-02) has its own hero, figure, and PIF-pin checks below.
 """
 from __future__ import annotations
 
@@ -476,7 +477,7 @@ if "florida-miami-change" in fl_html:
     fail("florida-insurance strip still leads with the Miami-Dade $48 change")
 else:
     ok("florida-insurance strip dropped the $48 change")
-cit_fig = fl_html.find("Homes insured by Citizens")
+cit_fig = fl_html.find("Policies in force at Citizens")
 cty_fig = fl_html.find("County premiums the state publishes twice a year")
 if cit_fig < 0 or cty_fig < 0 or cit_fig > cty_fig:
     fail("florida-insurance Figure 1 is not the Citizens series")
@@ -486,6 +487,80 @@ if "help you" in fl_html or "your county" in fl_html.lower() or "Both facts are 
     fail("florida-insurance still uses sales voice above the figures")
 else:
     ok("florida-insurance dropped the sales voice")
+if "How many homes does Citizens still insure" in fl_html:
+    fail("florida-insurance still calls Citizens policies homes")
+else:
+    ok("florida-insurance says policies, not homes")
+
+# Pin the live Citizens vintage so a silent ledger or page drift fails CI.
+# Update this pin only after a two-path check of a newer month-end PIF page.
+PINNED_PIF = {
+    "month": "2026-07",
+    "policies": 278196,
+    "url_slug": "20260731-policies-in-force",
+    "personal_residential": 273822,
+    "commercial": 4374,
+}
+fl_ledger = json.loads((ROOT / "netlify/functions/dl02-answers.json").read_text(encoding="utf-8"))
+latest_pif = (fl_ledger.get("citizens_policies_monthly") or [{}])[-1]
+key = fl_ledger.get("citizens_key_facts") or {}
+latest_key = key.get("latest") or {}
+book = ((fl_ledger.get("sourced_facts") or {}).get("citizens_july_2026_book") or {})
+if latest_pif.get("m") != PINNED_PIF["month"] or latest_pif.get("v") != PINNED_PIF["policies"]:
+    fail(
+        "DL-02 latest PIF is not the pinned July 31, 2026 vintage of 278,196; "
+        "update PINNED_PIF in check_answers.py after a two-path check of the new Citizens page"
+    )
+else:
+    ok("DL-02 latest PIF matches the pinned July 31, 2026 vintage")
+if PINNED_PIF["url_slug"] not in fl_html:
+    fail("florida-insurance is missing the pinned July 31, 2026 Citizens PIF URL")
+else:
+    ok("florida-insurance cites the pinned July 31, 2026 Citizens PIF URL")
+pif_fmt = f"{PINNED_PIF['policies']:,}"
+if pif_fmt not in fl_html:
+    fail(f"florida-insurance is missing the pinned PIF count {pif_fmt}")
+else:
+    ok("florida-insurance prints the pinned PIF count")
+if book.get("policies") != PINNED_PIF["policies"] or PINNED_PIF["url_slug"] not in str(book.get("source") or ""):
+    fail("DL-02 sourced_facts.citizens_july_2026_book does not match the pinned vintage")
+else:
+    ok("DL-02 sourced_facts book matches the pinned vintage")
+if (
+    latest_key.get("policies") != PINNED_PIF["policies"]
+    or latest_key.get("personal_residential") != PINNED_PIF["personal_residential"]
+    or latest_key.get("commercial") != PINNED_PIF["commercial"]
+):
+    fail("DL-02 citizens_key_facts.latest does not match the pinned personal/commercial split")
+else:
+    ok("DL-02 key facts keep the personal/commercial split")
+strip = re.search(
+    r'<div class="place-strip" id="placeStrip">(.*?)</div>\s*<p class="answer-ctx"',
+    fl_html,
+    re.S,
+)
+strip_html = strip.group(1) if strip else ""
+for needle in ("March 31, 2026", "July 31, 2026", "Sept. 30, 2023"):
+    if needle not in strip_html:
+        fail(f"florida-insurance place-strip is missing the dated label {needle}")
+    else:
+        ok(f"florida-insurance place-strip dates {needle}")
+grades_note = fl_html.find("How to read these grades")
+chips = fl_html.find('class="rc-strip"')
+if grades_note < 0 or chips < 0 or grades_note > chips:
+    fail("florida-insurance report-card judgment note is not above the grade chips")
+else:
+    ok("florida-insurance report-card judgment note sits above the chips")
+answer_html = fl_html[fl_html.find('id="answer"'):fl_html.find('id="view-home"')]
+for slug, label in (
+    ("20260731-policies-in-force", "July 31, 2026 Citizens PIF page"),
+    ("20230930-policies-in-force", "Sept. 30, 2023 Citizens PIF page"),
+    ("july-2026-isu-report.pdf", "July 1, 2026 OIR Stability Report"),
+):
+    if slug not in answer_html:
+        fail(f"florida-insurance finding is missing a link to the {label}")
+    else:
+        ok(f"florida-insurance finding links the {label}")
 
 atlas_cap = (ROOT / "netlify/functions/dl01-answers.json")
 cap = json.loads(atlas_cap.read_text(encoding="utf-8")).get("captions", {})

@@ -62,6 +62,23 @@ FLAGSHIPS = [
 CHANGELOG = [
     {
         "date": "August 20, 2026",
+        "title": "Florida Homeowners Insurance says policies, not homes",
+        "body": (
+            "The finding, Figure 1, Ask chips, and citation now call "
+            "the Citizens count policies in force. The July 31, 2026 "
+            "total of 278,196 is 273,822 personal residential and "
+            "4,374 commercial. The place strip now dates the "
+            "Miami-Dade average (March 31, 2026), the change from "
+            "peak (July 31, 2026), and the peak (Sept. 30, 2023). "
+            "Report-card grades are still Pioneer judgments; that "
+            "sentence now sits above the grade chips. CI locks the "
+            "July 31 vintage and URL. The finding links the July 31 "
+            "and Sept. 30 Citizens pages and the July 1 OIR "
+            "Stability Report."
+        ),
+    },
+    {
+        "date": "August 20, 2026",
         "title": "Landing drops the public-record credo",
         "body": (
             "The front-door footer no longer prints Every figure "

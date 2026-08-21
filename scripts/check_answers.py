@@ -349,6 +349,27 @@ if "async function ask()" in front:
     fail("landing still has its own ask() client")
 else:
     ok("landing no longer duplicates ask()")
+if "Every application" in front:
+    fail("landing still says Every application")
+elif "<h2>Catalog</h2>" not in front:
+    fail("landing is missing the Catalog heading")
+else:
+    ok("landing catalog is headed Catalog")
+dir_i = front.find('id="directory"')
+ans_i = front.find('id="answers"')
+ask_i = front.find('id="ask"')
+if ask_i < 0 or dir_i < 0 or ans_i < 0 or not (ask_i < dir_i < ans_i):
+    fail("catalog is not on the first screen under Ask")
+else:
+    ok("catalog sits under Ask, before New releases")
+if 'id="topicJump"' not in front:
+    fail("landing is missing the topic jump")
+else:
+    ok("landing has the four-topic jump")
+if "defaultOpenId" not in front or "dl-area" not in front:
+    fail("landing does not leave one catalog topic open")
+else:
+    ok("landing leaves one catalog topic open")
 for rel in (
     "florida-insurance/index.html",
     "mbta/index.html",

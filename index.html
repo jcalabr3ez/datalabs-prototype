@@ -116,6 +116,15 @@
   .sec h2 { font-family:var(--serif); font-weight:700; font-size:clamp(26px,3.6vw,36px); letter-spacing:-.02em; margin-top:0; color:var(--ink); }
   .sec .sub { margin-top:10px; color:var(--grey); font-size:14.5px; max-width:600px; }
 
+  .topicjump { display:flex; flex-wrap:wrap; gap:8px 20px; margin-top:16px; }
+  .topicjump a { color:var(--navy); font-size:14px; font-weight:600; text-decoration:none;
+    border-bottom:1px solid transparent; padding-bottom:2px; }
+  .topicjump a:hover { color:var(--ink); border-bottom-color:var(--navy); text-decoration:none; }
+  .topicjump a.on { color:var(--ink); border-bottom-color:var(--ink); }
+  .topicjump span { font-family:var(--mono); font-size:11px; color:var(--faint);
+    margin-left:6px; font-weight:600; font-variant-numeric:tabular-nums; }
+  .topicjump a.on span { color:var(--navy); }
+
   /* New Releases: two tiles on the same dark field as the header */
   .desk { margin-top:22px; display:grid; grid-template-columns:1fr 1fr; gap:18px; }
   .lead { display:flex; flex-direction:column; min-height:100%;
@@ -274,13 +283,9 @@
   </div>
   <div class="resp frame" id="resp" aria-live="polite"></div>
 
-  <section class="sec frame" id="answers">
-    <h2 id="ansH2">New releases</h2>
-    <div id="deskList"></div>
-  </section>
-
   <section class="sec frame dir-sec" id="directory">
-    <h2>Every application</h2>
+    <h2>Catalog</h2>
+    <nav class="topicjump" id="topicJump" aria-label="Catalog by topic"></nav>
     <div class="cabtop">
       <div class="srchwrap">
         <input id="srch" class="srch" type="search" placeholder="Search by name or topic" aria-label="Search the catalog" autocomplete="off">
@@ -291,6 +296,11 @@
     <div class="rcount" id="rcount"></div>
     <div class="cab" id="dirList"></div>
     <div class="noresult" id="noresult" hidden>Nothing matches that. Try a different word or clear the filters.</div>
+  </section>
+
+  <section class="sec frame" id="answers">
+    <h2 id="ansH2">New releases</h2>
+    <div id="deskList"></div>
   </section>
 
   <section class="sec about-sec" id="about">
@@ -441,6 +451,19 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
     { id:'economic',    name:'Economic Opportunity', topics:['economy-jobs','transportation-infrastructure','taxation','energy','housing'] },
     { id:'citizenship', name:'American Citizenship',  topics:['state-government-spending','your-city-town','crime-justice','public-pensions'] }
   ];
+  function areaRows(a){
+    var rows=[];
+    a.topics.forEach(function(id){ if(byId[id]) rows=rows.concat(byId[id].rows); });
+    return rows;
+  }
+  function defaultOpenId(){
+    try {
+      var last=sessionStorage.getItem('dl-area');
+      if(last && AREAS.some(function(a){ return a.id===last; })) return last;
+    } catch(e){}
+    return 'education';
+  }
+  var openId=defaultOpenId();
   function rowHtml(r, topicName){
     var ext = r.u && r.u.charAt(0)!=='/' ? ' target="_blank" rel="noopener"' : '';
     var flag = r.st==='build' ? 'In build' : (r.st==='dash' ? 'Tableau' : '');
@@ -467,16 +490,23 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
   }
   function areaHtml(a){
     var ids = a.topics.filter(function(id){ return byId[id]; });
-    var rows = [];
-    ids.forEach(function(id){ rows = rows.concat(byId[id].rows); });
+    var rows = areaRows(a);
     rows.sort(byCatalog);
     var anchors = ids.map(function(id){ return '<span id="dir-'+esc(id)+'"></span>'; }).join('');
-    return '<details class="area" id="area-'+esc(a.id)+'">' +
+    return '<details class="area" id="area-'+esc(a.id)+'"'+(a.id===openId?' open':'')+'>' +
       anchors +
       '<summary class="areahead"><span class="anm">'+esc(a.name)+'<span class="achevron" aria-hidden="true"></span></span><span class="asum" data-asum></span></summary>' +
       topicHtml({ id:a.id+'-apps', name:a.name, rows:rows }, true) + '</details>';
   }
   document.getElementById('dirList').innerHTML = AREAS.map(areaHtml).join('');
+  var jump=document.getElementById('topicJump');
+  if(jump){
+    jump.innerHTML = AREAS.map(function(a){
+      var n=areaRows(a).length;
+      return '<a href="#area-'+esc(a.id)+'" data-area="'+esc(a.id)+'"'+(a.id===openId?' class="on"':'')+'>'+
+        esc(a.name)+'<span>'+n+'</span></a>';
+    }).join('');
+  }
 
   var geoOrder=['Boston','MA','US','FL'];
   function gcount(g){ var n=0; sections.forEach(function(s){s.rows.forEach(function(r){
@@ -517,6 +547,23 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
     count.textContent = matched+(matched===1?' application':' applications')+' in '+vareas+(vareas===1?' vertical':' verticals');
     none.hidden = matched>0;
   }
+  function markJump(id){
+    if(!jump) return;
+    [].slice.call(jump.querySelectorAll('a')).forEach(function(a){
+      a.classList.toggle('on', a.getAttribute('data-area')===id);
+    });
+  }
+  function showArea(id, scroll){
+    areas.forEach(function(area){
+      area.open = area.id === 'area-'+id;
+    });
+    markJump(id);
+    try { sessionStorage.setItem('dl-area', id); } catch(e){}
+    if(scroll){
+      var el=document.getElementById('area-'+id) || document.getElementById('directory');
+      if(el) el.scrollIntoView({block:'start'});
+    }
+  }
   function openFromHash(){
     var h=(location.hash||'').replace(/^#/,'');
     if(!h) return;
@@ -524,7 +571,10 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
     if(!el) return;
     var area=el.closest ? el.closest('details.area') : null;
     if(!area && el.classList && el.classList.contains('area')) area=el;
-    if(area) area.open=true;
+    if(area){
+      var id=area.id.replace(/^area-/,'');
+      showArea(id, false);
+    }
   }
   function chrome(){ srchX.hidden = !srchEl.value; }
   srchEl.addEventListener('input',function(){ apply(); chrome(); });
@@ -532,6 +582,25 @@ document.body.classList.toggle('ai-on', AI_ENABLED);
   [].slice.call(document.querySelectorAll('.chip')).forEach(function(b){b.addEventListener('click',function(){
     [].slice.call(document.querySelectorAll('.chip')).forEach(function(x){x.classList.toggle('on',x===b);});
     fg=b.dataset.g; apply();});});
+  if(jump){
+    jump.addEventListener('click', function(e){
+      var a=e.target.closest ? e.target.closest('a[data-area]') : null;
+      if(!a) return;
+      e.preventDefault();
+      var id=a.getAttribute('data-area');
+      showArea(id, true);
+      if(history.replaceState) history.replaceState(null,'',location.pathname+location.search+'#area-'+id);
+    });
+  }
+  areas.forEach(function(area){
+    area.addEventListener('toggle', function(){
+      if(area.open){
+        showArea(area.id.replace(/^area-/,''), false);
+        return;
+      }
+      if(!areas.some(function(a){ return a.open; })) area.open = true;
+    });
+  });
   apply();
   openFromHash();
   window.addEventListener('hashchange', openFromHash);
